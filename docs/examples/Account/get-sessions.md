@@ -1,9 +1,9 @@
-# Auth Examples
+# Account Examples
 
-## Oauth
+## GetSessions
 
 ```go
-    package appwrite-oauth
+    package appwrite-getsessions
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Account service passing Client
+        var srv := appwrite.Account{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call GetSessions method and handle results
+        var res, err := srv.GetSessions()
         if err != nil {
             panic(err)
         }

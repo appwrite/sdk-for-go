@@ -1,9 +1,9 @@
 # Auth Examples
 
-## Oauth
+## ConfirmResend
 
 ```go
-    package appwrite-oauth
+    package appwrite-confirmresend
 
     import (
         "fmt"
@@ -24,8 +24,8 @@
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call ConfirmResend method and handle results
+        var res, err := srv.ConfirmResend("https://example.com")
         if err != nil {
             panic(err)
         }

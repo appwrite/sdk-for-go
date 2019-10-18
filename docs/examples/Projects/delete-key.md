@@ -1,9 +1,9 @@
-# Auth Examples
+# Projects Examples
 
-## Oauth
+## DeleteKey
 
 ```go
-    package appwrite-oauth
+    package appwrite-deletekey
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Projects service passing Client
+        var srv := appwrite.Projects{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call DeleteKey method and handle results
+        var res, err := srv.DeleteKey("[PROJECT_ID]", "[KEY_ID]")
         if err != nil {
             panic(err)
         }

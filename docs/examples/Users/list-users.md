@@ -1,9 +1,9 @@
-# Auth Examples
+# Users Examples
 
-## Oauth
+## ListUsers
 
 ```go
-    package appwrite-oauth
+    package appwrite-listusers
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Users service passing Client
+        var srv := appwrite.Users{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call ListUsers method and handle results
+        var res, err := srv.ListUsers()
         if err != nil {
             panic(err)
         }

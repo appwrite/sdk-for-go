@@ -1,9 +1,9 @@
-# Auth Examples
+# Projects Examples
 
-## Oauth
+## ListProjects
 
 ```go
-    package appwrite-oauth
+    package appwrite-listprojects
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Projects service passing Client
+        var srv := appwrite.Projects{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call ListProjects method and handle results
+        var res, err := srv.ListProjects()
         if err != nil {
             panic(err)
         }

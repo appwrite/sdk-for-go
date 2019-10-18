@@ -1,9 +1,9 @@
-# Auth Examples
+# Projects Examples
 
-## Oauth
+## GetWebhook
 
 ```go
-    package appwrite-oauth
+    package appwrite-getwebhook
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Projects service passing Client
+        var srv := appwrite.Projects{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call GetWebhook method and handle results
+        var res, err := srv.GetWebhook("[PROJECT_ID]", "[WEBHOOK_ID]")
         if err != nil {
             panic(err)
         }

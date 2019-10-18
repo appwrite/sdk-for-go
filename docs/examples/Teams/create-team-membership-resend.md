@@ -1,9 +1,9 @@
-# Auth Examples
+# Teams Examples
 
-## Oauth
+## CreateTeamMembershipResend
 
 ```go
-    package appwrite-oauth
+    package appwrite-createteammembershipresend
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Teams service passing Client
+        var srv := appwrite.Teams{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call CreateTeamMembershipResend method and handle results
+        var res, err := srv.CreateTeamMembershipResend("[TEAM_ID]", "[INVITE_ID]", "https://example.com")
         if err != nil {
             panic(err)
         }

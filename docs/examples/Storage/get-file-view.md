@@ -1,9 +1,9 @@
-# Auth Examples
+# Storage Examples
 
-## Oauth
+## GetFileView
 
 ```go
-    package appwrite-oauth
+    package appwrite-getfileview
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Storage service passing Client
+        var srv := appwrite.Storage{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call GetFileView method and handle results
+        var res, err := srv.GetFileView("[FILE_ID]")
         if err != nil {
             panic(err)
         }

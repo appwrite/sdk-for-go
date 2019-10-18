@@ -1,9 +1,9 @@
 # Auth Examples
 
-## Oauth
+## LogoutBySession
 
 ```go
-    package appwrite-oauth
+    package appwrite-logoutbysession
 
     import (
         "fmt"
@@ -24,8 +24,8 @@
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call LogoutBySession method and handle results
+        var res, err := srv.LogoutBySession("[ID]")
         if err != nil {
             panic(err)
         }

@@ -1,9 +1,9 @@
-# Auth Examples
+# Users Examples
 
-## Oauth
+## CreateUser
 
 ```go
-    package appwrite-oauth
+    package appwrite-createuser
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Users service passing Client
+        var srv := appwrite.Users{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call CreateUser method and handle results
+        var res, err := srv.CreateUser("email@example.com", "password")
         if err != nil {
             panic(err)
         }

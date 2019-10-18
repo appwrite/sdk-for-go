@@ -1,9 +1,9 @@
-# Auth Examples
+# Teams Examples
 
-## Oauth
+## UpdateTeam
 
 ```go
-    package appwrite-oauth
+    package appwrite-updateteam
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Teams service passing Client
+        var srv := appwrite.Teams{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call UpdateTeam method and handle results
+        var res, err := srv.UpdateTeam("[TEAM_ID]", "[NAME]")
         if err != nil {
             panic(err)
         }

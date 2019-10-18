@@ -1,9 +1,9 @@
-# Auth Examples
+# Users Examples
 
-## Oauth
+## DeleteUserSession
 
 ```go
-    package appwrite-oauth
+    package appwrite-deleteusersession
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Users service passing Client
+        var srv := appwrite.Users{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call DeleteUserSession method and handle results
+        var res, err := srv.DeleteUserSession("[USER_ID]", "[SESSION_ID]")
         if err != nil {
             panic(err)
         }

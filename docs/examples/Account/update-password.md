@@ -1,9 +1,9 @@
-# Auth Examples
+# Account Examples
 
-## Oauth
+## UpdatePassword
 
 ```go
-    package appwrite-oauth
+    package appwrite-updatepassword
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Account service passing Client
+        var srv := appwrite.Account{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call UpdatePassword method and handle results
+        var res, err := srv.UpdatePassword("password", "password")
         if err != nil {
             panic(err)
         }

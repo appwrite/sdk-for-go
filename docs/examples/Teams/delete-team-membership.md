@@ -1,9 +1,9 @@
-# Auth Examples
+# Teams Examples
 
-## Oauth
+## DeleteTeamMembership
 
 ```go
-    package appwrite-oauth
+    package appwrite-deleteteammembership
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Teams service passing Client
+        var srv := appwrite.Teams{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call DeleteTeamMembership method and handle results
+        var res, err := srv.DeleteTeamMembership("[TEAM_ID]", "[INVITE_ID]")
         if err != nil {
             panic(err)
         }

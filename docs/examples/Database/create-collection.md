@@ -1,9 +1,9 @@
-# Auth Examples
+# Database Examples
 
-## Oauth
+## CreateCollection
 
 ```go
-    package appwrite-oauth
+    package appwrite-createcollection
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Database service passing Client
+        var srv := appwrite.Database{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call CreateCollection method and handle results
+        var res, err := srv.CreateCollection("[NAME]", [], [], [])
         if err != nil {
             panic(err)
         }

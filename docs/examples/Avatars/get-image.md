@@ -1,9 +1,9 @@
-# Auth Examples
+# Avatars Examples
 
-## Oauth
+## GetImage
 
 ```go
-    package appwrite-oauth
+    package appwrite-getimage
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Avatars service passing Client
+        var srv := appwrite.Avatars{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call GetImage method and handle results
+        var res, err := srv.GetImage("https://example.com")
         if err != nil {
             panic(err)
         }

@@ -1,9 +1,9 @@
-# Auth Examples
+# Database Examples
 
-## Oauth
+## DeleteDocument
 
 ```go
-    package appwrite-oauth
+    package appwrite-deletedocument
 
     import (
         "fmt"
@@ -19,13 +19,13 @@
         clt.SetProject("")
         clt.SetKey("")
 
-        // Create a new Auth service passing Client
-        var srv := appwrite.Auth{
+        // Create a new Database service passing Client
+        var srv := appwrite.Database{
             client: &clt
         }
 
-        // Call Oauth method and handle results
-        var res, err := srv.Oauth("bitbucket", "https://example.com", "https://example.com")
+        // Call DeleteDocument method and handle results
+        var res, err := srv.DeleteDocument("[COLLECTION_ID]", "[DOCUMENT_ID]")
         if err != nil {
             panic(err)
         }
