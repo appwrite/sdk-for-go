@@ -1,35 +1,25 @@
-# Database Examples
+package main
 
-## CreateCollection
+import (
+    "fmt"
+    "github.com/appwrite/sdk-for-go"
+)
 
-```go
-    package appwrite-createcollection
+func main() {
+    var client := appwrite.Client{}
 
-    import (
-        "fmt"
-        "os"
-        "github.com/appwrite/sdk-for-go"
-    )
+    client.SetProject("5df5acd0d48c2") // Your project ID
+    client.SetKey("919c2d18fb5d4...a2ae413da83346ad2") // Your secret API key
 
-    func main() {
-        // Create a Client
-        var clt := appwrite.Client{}
-
-        // Set Client required headers
-        clt.SetProject("")
-        clt.SetKey("")
-
-        // Create a new Database service passing Client
-        var srv := appwrite.Database{
-            client: &clt
-        }
-
-        // Call CreateCollection method and handle results
-        var res, err := srv.CreateCollection("[NAME]", [], [], [])
-        if err != nil {
-            panic(err)
-        }
-
-        fmt.Println(res)
+    var service := appwrite.Database{
+        client: &client
     }
-```
+
+    var response, error := service.CreateCollection("[NAME]", [], [], [])
+
+    if error != nil {
+        panic(error)
+    }
+
+    fmt.Println(response)
+}

@@ -15,7 +15,7 @@ func main() {
         client: &client
     }
 
-    var response, error := service.GetCountriesEU()
+    var response, error := service.Get()
 
     if error != nil {
         panic(error)

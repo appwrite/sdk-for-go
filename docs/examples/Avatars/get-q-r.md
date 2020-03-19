@@ -1,35 +1,25 @@
-# Avatars Examples
+package main
 
-## GetQR
+import (
+    "fmt"
+    "github.com/appwrite/sdk-for-go"
+)
 
-```go
-    package appwrite-getqr
+func main() {
+    var client := appwrite.Client{}
 
-    import (
-        "fmt"
-        "os"
-        "github.com/appwrite/sdk-for-go"
-    )
+    client.SetProject("5df5acd0d48c2") // Your project ID
+    client.SetKey("919c2d18fb5d4...a2ae413da83346ad2") // Your secret API key
 
-    func main() {
-        // Create a Client
-        var clt := appwrite.Client{}
-
-        // Set Client required headers
-        clt.SetProject("")
-        clt.SetKey("")
-
-        // Create a new Avatars service passing Client
-        var srv := appwrite.Avatars{
-            client: &clt
-        }
-
-        // Call GetQR method and handle results
-        var res, err := srv.GetQR("[TEXT]")
-        if err != nil {
-            panic(err)
-        }
-
-        fmt.Println(res)
+    var service := appwrite.Avatars{
+        client: &client
     }
-```
+
+    var response, error := service.GetQR("[TEXT]", 0, 0, 0)
+
+    if error != nil {
+        panic(error)
+    }
+
+    fmt.Println(response)
+}
