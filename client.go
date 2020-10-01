@@ -96,7 +96,7 @@ func (clt *Client) Call(method string, path string, headers map[string]interface
 		req.URL.RawQuery = q.Encode()
 	}
 
-	// Make request
+	// Make requests
 	response, err := clt.client.Do(req)
 	if err != nil {
 		return nil, err
