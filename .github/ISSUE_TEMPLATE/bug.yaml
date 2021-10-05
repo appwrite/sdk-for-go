@@ -31,12 +31,18 @@ body:
       label: "👎 Actual Behavior"
       description: "What did actually happen? Add screenshots, if applicable."
       placeholder: "It actually ..."
-  - type: input
+  - type: dropdown
     id: appwrite-version
     attributes:
-      label: "🎲 Appwrite Go SDK Version"
+      label: "🎲 Appwrite version"
       description: "What version of Appwrite are you running?"
-      placeholder: "1.0.0"
+      options:
+        - Version 0.10.x
+        - Version 0.9.x
+        - Version 0.8.x
+        - Version 0.7.x
+        - Version 0.6.x
+        - Different version (specify in environment)
     validations:
       required: true
   - type: dropdown
