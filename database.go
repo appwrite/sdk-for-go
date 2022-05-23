@@ -265,7 +265,7 @@ func (srv *Database) CreateIpAttribute(CollectionId string, key string, required
 		params["default"] = xdefault.Value
 	}
 	if isArray.Specified {
-		params["array"] = isArray
+		params["array"] = isArray.Value
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -351,7 +351,7 @@ func (srv *Database) CreateBooleanAttribute(CollectionId string, key string, req
 		params["default"] = xdefault.Value
 	}
 	if isArray.Specified {
-		params["array"] = isArray
+		params["array"] = isArray.Value
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
