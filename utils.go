@@ -51,7 +51,7 @@ func contains[T comparable](s []T, element T) bool {
 	return result
 }
 
-type Xdefault struct {
-	Value     string
+type Optional[T any] struct {
+	Value     T
 	Specified bool
 }

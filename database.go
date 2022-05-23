@@ -2,6 +2,8 @@ package appwrite
 
 import (
 	"fmt"
+	"reflect"
+	"regexp"
 	"strings"
 )
 
@@ -172,7 +174,7 @@ func (srv *Database) DeleteDocument(CollectionId string, DocumentId string) (map
 	return srv.client.Call("DELETE", path, nil, params)
 }
 
-func (srv *Database) CreateStringAttribute(CollectionId string, key string, size int, required bool, xdefault Xdefault, isArray bool) (map[string]interface{}, error) {
+func (srv *Database) CreateStringAttribute(CollectionId string, key string, size int, required bool, xdefault Optional[string], isArray Optional[bool]) (map[string]interface{}, error) {
 	Type := "string"
 	path := "/database/collections/{collectionId}/attributes/{type}"
 	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
@@ -182,10 +184,13 @@ func (srv *Database) CreateStringAttribute(CollectionId string, key string, size
 		"key":      key,
 		"required": required,
 		"size":     size,
-		"array":    isArray,
 	}
+	// optionals
 	if xdefault.Specified {
 		params["default"] = xdefault.Value
+	}
+	if isArray.Specified {
+		params["array"] = isArray.Value
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -193,7 +198,7 @@ func (srv *Database) CreateStringAttribute(CollectionId string, key string, size
 	return srv.client.Call("POST", path, headers, params)
 }
 
-func (srv *Database) CreateEmailAttribute(CollectionId string, key string, required bool, xdefault Xdefault, isArray bool) (map[string]interface{}, error) {
+func (srv *Database) CreateEmailAttribute(CollectionId string, key string, required bool, xdefault Optional[string], isArray Optional[bool]) (map[string]interface{}, error) {
 	Type := "email"
 	path := "/database/collections/{collectionId}/attributes/{type}"
 	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
@@ -203,10 +208,13 @@ func (srv *Database) CreateEmailAttribute(CollectionId string, key string, requi
 		"key":      key,
 		"required": required,
 	}
+	// optionals
 	if xdefault.Specified {
 		params["default"] = xdefault.Value
 	}
-	params["array"] = isArray
+	if isArray.Specified {
+		params["arrray"] = isArray.Value
+	}
 
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -214,7 +222,7 @@ func (srv *Database) CreateEmailAttribute(CollectionId string, key string, requi
 	return srv.client.Call("POST", path, headers, params)
 }
 
-func (srv *Database) CreateEnumAttribute(CollectionId string, key string, elements []string, required bool, xdefault Xdefault, isArray bool) (map[string]interface{}, error) {
+func (srv *Database) CreateEnumAttribute(CollectionId string, key string, elements []string, required bool, xdefault, isArray Optional[string]) (map[string]interface{}, error) {
 	Type := "enum"
 	path := "/database/collections/{collectionId}/attributes/{type}"
 	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
@@ -225,6 +233,7 @@ func (srv *Database) CreateEnumAttribute(CollectionId string, key string, elemen
 		"required": required,
 		"elements": elements,
 	}
+	// optionals
 	if xdefault.Specified {
 		if contains(elements, xdefault.Value) {
 			params["default"] = xdefault.Value
@@ -233,15 +242,16 @@ func (srv *Database) CreateEnumAttribute(CollectionId string, key string, elemen
 			return nil, nil
 		}
 	}
-	params["array"] = isArray
-
+	if isArray.Specified {
+		params["array"] = isArray.Value
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
 	return srv.client.Call("POST", path, headers, params)
 }
 
-func (srv *Database) CreateIpAttribute(CollectionId string, key string, required bool, xdefault Xdefault, isArray bool) (map[string]interface{}, error) {
+func (srv *Database) CreateIpAttribute(CollectionId string, key string, required bool, xdefault, isArray Optional[bool]) (map[string]interface{}, error) {
 	Type := "ip"
 	path := "/database/collections/{collectionId}/attributes/{type}"
 	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
@@ -254,7 +264,9 @@ func (srv *Database) CreateIpAttribute(CollectionId string, key string, required
 	if xdefault.Specified {
 		params["default"] = xdefault.Value
 	}
-	params["array"] = isArray
+	if isArray.Specified {
+		params["array"] = isArray
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -262,8 +274,71 @@ func (srv *Database) CreateIpAttribute(CollectionId string, key string, required
 }
 
 // Url Layout url://something
-func (srv *Database) CreateUrlAttribute(CollectionId string, key string, required bool, xdefault Xdefault, isArray bool) (map[string]interface{}, error) {
+func (srv *Database) CreateUrlAttribute(CollectionId string, key string, required bool, xdefault Optional[string], isArray Optional[bool]) (map[string]interface{}, error) {
 	Type := "url"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	// optionals
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	if isArray.Specified {
+		params["array"] = isArray.Value
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+func (srv *Database) CreateIntegerAttribute(CollectionId string, key string, required bool, min, max, xdefault Optional[int], isArray Optional[bool]) (map[string]interface{}, error) {
+	return createNumAttribute(srv, CollectionId, key, required, isArray, min, max, xdefault)
+}
+
+func (srv *Database) CreateFloatAttribute(CollectionId string, key string, required bool, min, max, xdefault Optional[float64], isArray Optional[bool]) (map[string]interface{}, error) {
+	return createNumAttribute(srv, CollectionId, key, required, isArray, min, max, xdefault)
+}
+
+func createNumAttribute[T any](srv *Database, CollectionId string, key string, required bool, isArray Optional[bool], min, max, xdefault Optional[T]) (map[string]interface{}, error) {
+	reg, _ := regexp.Compile(`\D+`)
+	Type := reg.FindString(reflect.TypeOf(min.Value).String())
+	if Type == "int" {
+		Type = "integer"
+	}
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	// optionals
+	if min.Specified {
+		params["min"] = min.Value
+	}
+	if max.Specified {
+		params["max"] = max.Value
+	}
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	if isArray.Specified {
+		params["array"] = isArray.Value
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+func (srv *Database) CreateBooleanAttribute(CollectionId string, key string, required bool, isArray, xdefault Optional[bool]) (map[string]interface{}, error) {
+	Type := "boolean"
 	path := "/database/collections/{collectionId}/attributes/{type}"
 	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
 	path = r.Replace(path)
@@ -275,9 +350,12 @@ func (srv *Database) CreateUrlAttribute(CollectionId string, key string, require
 	if xdefault.Specified {
 		params["default"] = xdefault.Value
 	}
-	params["array"] = isArray
+	if isArray.Specified {
+		params["array"] = isArray
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
 	return srv.client.Call("POST", path, headers, params)
+
 }
