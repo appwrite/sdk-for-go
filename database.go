@@ -171,9 +171,8 @@ func (srv *Database) DeleteDocument(CollectionId string, DocumentId string) (map
 	return srv.client.Call("DELETE", path, nil, params)
 }
 
-func (srv *Database) CreateStringAttribute(CollectionId string, key string, size int, required bool, xdefault interface{}, isArray bool) (map[string]interface{}, error) {
+func (srv *Database) CreateStringAttribute(CollectionId string, key string, size int, required bool, xdefault string, isArray bool) (map[string]interface{}, error) {
 	Type := "string"
-
 	path := "/database/collections/{collectionId}/attributes/{type}"
 	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
 	path = r.Replace(path)
@@ -184,9 +183,30 @@ func (srv *Database) CreateStringAttribute(CollectionId string, key string, size
 		"size":     size,
 		"array":    isArray,
 	}
-
-	if xdefault != nil {
+	if xdefault != "" {
 		params["default"] = xdefault
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+func (srv *Database) CreateEmailAttribute(CollectionId string, key string, required bool, xdefault string, isArray bool) (map[string]interface{}, error) {
+	Type := "email"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	if xdefault != "" {
+		params["default"] = xdefault
+	}
+	if isArray {
+		params["array"] = isArray
 	}
 
 	headers := map[string]interface{}{
