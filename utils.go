@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 // ToString changes arg to string
@@ -28,6 +29,9 @@ func ToString(arg interface{}) string {
 		return strconv.FormatFloat(v, 'f', -1, 64)
 	case fmt.Stringer:
 		return v.String()
+	case []string:
+		joined_string := strings.Join(v, `","`)
+		return "[" + joined_string + "]"
 	case reflect.Value:
 		return ToString(v.Interface())
 	default:
