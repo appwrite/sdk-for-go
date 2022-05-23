@@ -59,31 +59,30 @@ func (clt *Client) Call(method string, path string, headers map[string]interface
 		// Allow self signed requests
 	}
 
+	isGet := strings.ToUpper(method) == "GET"
+
 	urlPath := clt.endpoint + path
 
 	var http_req *http.Request
 	var reqBody []byte
-	switch strings.ToUpper(method) {
-	case "GET":
-
+	if isGet {
 		http_req, _ = http.NewRequest(strings.ToUpper(method), urlPath, strings.NewReader(string(reqBody)))
 		q := http_req.URL.Query()
 		for key, val := range params {
 			q.Add(key, ToString(val))
 		}
 		http_req.URL.RawQuery = q.Encode()
-
-	default:
+	} else {
 		reqBody, _ = json.Marshal(params)
 		http_req, _ = http.NewRequest(strings.ToUpper(method), urlPath, strings.NewReader(string(reqBody)))
 	}
 
-	// set general headers
+	// set client headers
 	for key, val := range clt.headers {
 		http_req.Header.Set(key, val)
 	}
 
-	// set specific headers
+	// set custom headers
 	for key, val := range headers {
 		http_req.Header.Set(key, ToString(val))
 	}
@@ -103,43 +102,4 @@ func (clt *Client) Call(method string, path string, headers map[string]interface
 	var jsonResp map[string]interface{}
 	json.Unmarshal(respData, &jsonResp)
 	return jsonResp, nil
-
-	/*
-		urlPath := clt.endpoint + path
-		isGet := strings.ToUpper(method) == "GET"
-
-		var _reqBody []byte
-		if !isGet {
-			jsonOb, _ := json.Marshal(params)
-			_reqBody = (jsonOb)
-
-		}
-		fmt.Println(string(_reqBody))
-		reqBody := strings.NewReader(string(_reqBody))
-
-		// Create and modify HTTP request before sending
-		req, err := http.NewRequest(method, urlPath, reqBody)
-		if err != nil {
-			return nil, err
-		}
-
-		// Set Client headers
-		for key, val := range clt.headers {
-			req.Header.Set(key, val)
-		}
-
-		// Set Custom headers
-		for key, val := range headers {
-			req.Header.Set(key, ToString(val))
-		}
-
-		if isGet {
-			q := req.URL.Query()
-			for key, val := range params {
-				q.Add(key, ToString(val))
-			}
-			req.URL.RawQuery = q.Encode()
-		}
-	*/
-	// Make request
 }
