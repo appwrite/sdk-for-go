@@ -206,9 +206,7 @@ func (srv *Database) CreateEmailAttribute(CollectionId string, key string, requi
 	if xdefault.Specified {
 		params["default"] = xdefault.Value
 	}
-	if isArray {
-		params["array"] = isArray
-	}
+	params["array"] = isArray
 
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -229,15 +227,55 @@ func (srv *Database) CreateEnumAttribute(CollectionId string, key string, elemen
 	}
 	if xdefault.Specified {
 		if contains(elements, xdefault.Value) {
-			params["default"] = xdefault
-		} else if xdefault.Value != "" {
+			params["default"] = xdefault.Value
+		} else {
 			fmt.Println("❌ The default value is not contained in the array of elementes")
 			return nil, nil
 		}
 	}
-	if isArray {
-		params["array"] = isArray
+	params["array"] = isArray
+
+	headers := map[string]interface{}{
+		"content-type": "application/json",
 	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+func (srv *Database) CreateIpAttribute(CollectionId string, key string, required bool, xdefault Xdefault, isArray bool) (map[string]interface{}, error) {
+	Type := "ip"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	params["array"] = isArray
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+// Url Layout url://something
+func (srv *Database) CreateUrlAttribute(CollectionId string, key string, required bool, xdefault Xdefault, isArray bool) (map[string]interface{}, error) {
+	Type := "url"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	params["array"] = isArray
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
