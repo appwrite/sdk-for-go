@@ -38,3 +38,20 @@ func ToString(arg interface{}) string {
 		return ""
 	}
 }
+
+// returns if an element is contained in an array s
+func contains[T comparable](s []T, element T) bool {
+	var result bool = false
+	for _, el := range s {
+		if el == element {
+			result = true
+			break
+		}
+	}
+	return result
+}
+
+type Xdefault struct {
+	Value     string
+	Specified bool
+}
