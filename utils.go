@@ -41,14 +41,12 @@ func ToString(arg interface{}) string {
 
 // returns if an element is contained in an array s
 func contains[T comparable](s []T, element T) bool {
-	var result bool = false
 	for _, el := range s {
 		if el == element {
-			result = true
-			break
+			return true
 		}
 	}
-	return result
+	return false
 }
 
 type Optional[T any] struct {
