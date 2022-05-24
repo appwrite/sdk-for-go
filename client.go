@@ -2,9 +2,8 @@ package appwrite
 
 import (
 	"encoding/json"
-  	"io/ioutil"
+	"io/ioutil"
 	"net/http"
-	"net/url"
 	"strings"
 )
 
@@ -60,58 +59,47 @@ func (clt *Client) Call(method string, path string, headers map[string]interface
 		// Allow self signed requests
 	}
 
-	urlPath := clt.endpoint + path
 	isGet := strings.ToUpper(method) == "GET"
 
-	var reqBody *strings.Reader
-	if !isGet {
-		frm := url.Values{}
-		for key, val := range params {
-			frm.Add(key, ToString(val))
-		}
-		reqBody = strings.NewReader(frm.Encode())
-	}
+	urlPath := clt.endpoint + path
 
-	// Create and modify HTTP request before sending
-	req, err := http.NewRequest(method, urlPath, reqBody)
-	if err != nil {
-		return nil, err
-	}
-
-	// Set Client headers
-	for key, val := range clt.headers {
-		req.Header.Set(key, ToString(val))
-	}
-
-	// Set Custom headers
-	for key, val := range headers {
-		req.Header.Set(key, ToString(val))
-	}
-
+	var http_req *http.Request
+	var reqBody []byte
 	if isGet {
-		q := req.URL.Query()
+		http_req, _ = http.NewRequest(strings.ToUpper(method), urlPath, strings.NewReader(string(reqBody)))
+		q := http_req.URL.Query()
 		for key, val := range params {
 			q.Add(key, ToString(val))
 		}
-		req.URL.RawQuery = q.Encode()
+		http_req.URL.RawQuery = q.Encode()
+	} else {
+		reqBody, _ = json.Marshal(params)
+		http_req, _ = http.NewRequest(strings.ToUpper(method), urlPath, strings.NewReader(string(reqBody)))
 	}
 
-	// Make request
-	response, err := clt.client.Do(req)
+	// set client headers
+	for key, val := range clt.headers {
+		http_req.Header.Set(key, val)
+	}
+
+	// set custom headers
+	for key, val := range headers {
+		http_req.Header.Set(key, ToString(val))
+	}
+
+	// submit the request
+	resp, err := clt.client.Do(http_req)
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
-	// Handle response
-	defer response.Body.Close()
- 
-	responseData, err := ioutil.ReadAll(response.Body)
+	// read the response data
+	respData, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
-
-	var jsonResponse map[string]interface{}
-	json.Unmarshal(responseData, &jsonResponse)
-
-	return jsonResponse, nil
+	var jsonResp map[string]interface{}
+	json.Unmarshal(respData, &jsonResp)
+	return jsonResp, nil
 }

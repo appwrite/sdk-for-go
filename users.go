@@ -9,12 +9,12 @@ type Users struct {
 	client Client
 }
 
-func NewUsers(clt Client) Users {  
-    service := Users{
+func NewUsers(clt Client) Users {
+	service := Users{
 		client: clt,
 	}
 
-    return service
+	return service
 }
 
 // List get a list of all the project users. You can use the query params to
@@ -23,9 +23,9 @@ func (srv *Users) List(Search string, Limit int, Offset int, OrderType string) (
 	path := "/users"
 
 	params := map[string]interface{}{
-		"search": Search,
-		"limit": Limit,
-		"offset": Offset,
+		"search":    Search,
+		"limit":     Limit,
+		"offset":    Offset,
 		"orderType": OrderType,
 	}
 
@@ -37,9 +37,9 @@ func (srv *Users) Create(Email string, Password string, Name string) (map[string
 	path := "/users"
 
 	params := map[string]interface{}{
-		"email": Email,
+		"email":    Email,
 		"password": Password,
-		"name": Name,
+		"name":     Name,
 	}
 
 	return srv.client.Call("POST", path, nil, params)
@@ -50,8 +50,7 @@ func (srv *Users) Get(UserId string) (map[string]interface{}, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}")
 
-	params := map[string]interface{}{
-	}
+	params := map[string]interface{}{}
 
 	return srv.client.Call("GET", path, nil, params)
 }
@@ -61,8 +60,7 @@ func (srv *Users) GetLogs(UserId string) (map[string]interface{}, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/logs")
 
-	params := map[string]interface{}{
-	}
+	params := map[string]interface{}{}
 
 	return srv.client.Call("GET", path, nil, params)
 }
@@ -72,15 +70,14 @@ func (srv *Users) GetPrefs(UserId string) (map[string]interface{}, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/prefs")
 
-	params := map[string]interface{}{
-	}
+	params := map[string]interface{}{}
 
 	return srv.client.Call("GET", path, nil, params)
 }
 
 // UpdatePrefs update user preferences by its unique ID. You can pass only the
 // specific settings you wish to update.
-func (srv *Users) UpdatePrefs(UserId string, Prefs object) (map[string]interface{}, error) {
+func (srv *Users) UpdatePrefs(UserId string, Prefs []interface{}) (map[string]interface{}, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/prefs")
 
@@ -96,8 +93,7 @@ func (srv *Users) GetSessions(UserId string) (map[string]interface{}, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/sessions")
 
-	params := map[string]interface{}{
-	}
+	params := map[string]interface{}{}
 
 	return srv.client.Call("GET", path, nil, params)
 }
@@ -107,8 +103,7 @@ func (srv *Users) DeleteSessions(UserId string) (map[string]interface{}, error) 
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/sessions")
 
-	params := map[string]interface{}{
-	}
+	params := map[string]interface{}{}
 
 	return srv.client.Call("DELETE", path, nil, params)
 }

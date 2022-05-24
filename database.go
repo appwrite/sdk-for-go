@@ -1,6 +1,9 @@
 package appwrite
 
 import (
+	"fmt"
+	"reflect"
+	"regexp"
 	"strings"
 )
 
@@ -9,12 +12,12 @@ type Database struct {
 	client Client
 }
 
-func NewDatabase(clt Client) Database {  
-    service := Database{
+func NewDatabase(clt Client) Database {
+	service := Database{
 		client: clt,
 	}
 
-    return service
+	return service
 }
 
 // ListCollections get a list of all the user collections. You can use the
@@ -25,27 +28,36 @@ func (srv *Database) ListCollections(Search string, Limit int, Offset int, Order
 	path := "/database/collections"
 
 	params := map[string]interface{}{
-		"search": Search,
-		"limit": Limit,
-		"offset": Offset,
+		"search":    Search,
+		"limit":     Limit,
+		"offset":    Offset,
 		"orderType": OrderType,
 	}
 
-	return srv.client.Call("GET", path, nil, params)
+	header := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	return srv.client.Call("GET", path, header, params)
 }
 
 // CreateCollection create a new Collection.
-func (srv *Database) CreateCollection(Name string, Read []interface{}, Write []interface{}, Rules []interface{}) (map[string]interface{}, error) {
+func (srv *Database) CreateCollection(CollectionId string, Name string, Permission string, Read []string, Write []string) (map[string]interface{}, error) {
 	path := "/database/collections"
 
 	params := map[string]interface{}{
-		"name": Name,
-		"read": Read,
-		"write": Write,
-		"rules": Rules,
+		"collectionId": CollectionId,
+		"name":         Name,
+		"read":         Read,
+		"write":        Write,
+		"permission":   Permission,
 	}
 
-	return srv.client.Call("POST", path, nil, params)
+	header := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	return srv.client.Call("POST", path, header, params)
 }
 
 // GetCollection get collection by its unique ID. This endpoint response
@@ -54,8 +66,7 @@ func (srv *Database) GetCollection(CollectionId string) (map[string]interface{},
 	r := strings.NewReplacer("{collectionId}", CollectionId)
 	path := r.Replace("/database/collections/{collectionId}")
 
-	params := map[string]interface{}{
-	}
+	params := map[string]interface{}{}
 
 	return srv.client.Call("GET", path, nil, params)
 }
@@ -66,8 +77,8 @@ func (srv *Database) UpdateCollection(CollectionId string, Name string, Read []i
 	path := r.Replace("/database/collections/{collectionId}")
 
 	params := map[string]interface{}{
-		"name": Name,
-		"read": Read,
+		"name":  Name,
+		"read":  Read,
 		"write": Write,
 		"rules": Rules,
 	}
@@ -81,8 +92,7 @@ func (srv *Database) DeleteCollection(CollectionId string) (map[string]interface
 	r := strings.NewReplacer("{collectionId}", CollectionId)
 	path := r.Replace("/database/collections/{collectionId}")
 
-	params := map[string]interface{}{
-	}
+	params := map[string]interface{}{}
 
 	return srv.client.Call("DELETE", path, nil, params)
 }
@@ -96,31 +106,31 @@ func (srv *Database) ListDocuments(CollectionId string, Filters []interface{}, O
 	path := r.Replace("/database/collections/{collectionId}/documents")
 
 	params := map[string]interface{}{
-		"filters": Filters,
-		"offset": Offset,
-		"limit": Limit,
+		"filters":     Filters,
+		"offset":      Offset,
+		"limit":       Limit,
 		"order-field": OrderField,
-		"order-type": OrderType,
-		"order-cast": OrderCast,
-		"search": Search,
-		"first": First,
-		"last": Last,
+		"order-type":  OrderType,
+		"order-cast":  OrderCast,
+		"search":      Search,
+		"first":       First,
+		"last":        Last,
 	}
 
 	return srv.client.Call("GET", path, nil, params)
 }
 
 // CreateDocument create a new Document.
-func (srv *Database) CreateDocument(CollectionId string, Data object, Read []interface{}, Write []interface{}, ParentDocument string, ParentProperty string, ParentPropertyType string) (map[string]interface{}, error) {
+func (srv *Database) CreateDocument(CollectionId string, Data interface{}, Read []interface{}, Write []interface{}, ParentDocument string, ParentProperty string, ParentPropertyType string) (map[string]interface{}, error) {
 	r := strings.NewReplacer("{collectionId}", CollectionId)
 	path := r.Replace("/database/collections/{collectionId}/documents")
 
 	params := map[string]interface{}{
-		"data": Data,
-		"read": Read,
-		"write": Write,
-		"parentDocument": ParentDocument,
-		"parentProperty": ParentProperty,
+		"data":               Data,
+		"read":               Read,
+		"write":              Write,
+		"parentDocument":     ParentDocument,
+		"parentProperty":     ParentProperty,
 		"parentPropertyType": ParentPropertyType,
 	}
 
@@ -133,20 +143,19 @@ func (srv *Database) GetDocument(CollectionId string, DocumentId string) (map[st
 	r := strings.NewReplacer("{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/database/collections/{collectionId}/documents/{documentId}")
 
-	params := map[string]interface{}{
-	}
+	params := map[string]interface{}{}
 
 	return srv.client.Call("GET", path, nil, params)
 }
 
 // UpdateDocument
-func (srv *Database) UpdateDocument(CollectionId string, DocumentId string, Data object, Read []interface{}, Write []interface{}) (map[string]interface{}, error) {
+func (srv *Database) UpdateDocument(CollectionId string, DocumentId string, Data interface{}, Read []interface{}, Write []interface{}) (map[string]interface{}, error) {
 	r := strings.NewReplacer("{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/database/collections/{collectionId}/documents/{documentId}")
 
 	params := map[string]interface{}{
-		"data": Data,
-		"read": Read,
+		"data":  Data,
+		"read":  Read,
 		"write": Write,
 	}
 
@@ -160,8 +169,193 @@ func (srv *Database) DeleteDocument(CollectionId string, DocumentId string) (map
 	r := strings.NewReplacer("{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/database/collections/{collectionId}/documents/{documentId}")
 
-	params := map[string]interface{}{
-	}
+	params := map[string]interface{}{}
 
 	return srv.client.Call("DELETE", path, nil, params)
+}
+
+func (srv *Database) CreateStringAttribute(CollectionId string, key string, size int, required bool, xdefault Optional[string], isArray Optional[bool]) (map[string]interface{}, error) {
+	Type := "string"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+		"size":     size,
+	}
+	// optionals
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	if isArray.Specified {
+		params["array"] = isArray.Value
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+func (srv *Database) CreateEmailAttribute(CollectionId string, key string, required bool, xdefault Optional[string], isArray Optional[bool]) (map[string]interface{}, error) {
+	Type := "email"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	// optionals
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	if isArray.Specified {
+		params["arrray"] = isArray.Value
+	}
+
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+func (srv *Database) CreateEnumAttribute(CollectionId string, key string, elements []string, required bool, xdefault, isArray Optional[string]) (map[string]interface{}, error) {
+	Type := "enum"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+		"elements": elements,
+	}
+	// optionals
+	if xdefault.Specified {
+		if contains(elements, xdefault.Value) {
+			params["default"] = xdefault.Value
+		} else {
+			fmt.Println("❌ The default value is not contained in the array of elementes")
+			return nil, nil
+		}
+	}
+	if isArray.Specified {
+		params["array"] = isArray.Value
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+func (srv *Database) CreateIpAttribute(CollectionId string, key string, required bool, xdefault, isArray Optional[bool]) (map[string]interface{}, error) {
+	Type := "ip"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	if isArray.Specified {
+		params["array"] = isArray.Value
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+// Url Layout url://something
+func (srv *Database) CreateUrlAttribute(CollectionId string, key string, required bool, xdefault Optional[string], isArray Optional[bool]) (map[string]interface{}, error) {
+	Type := "url"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	// optionals
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	if isArray.Specified {
+		params["array"] = isArray.Value
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+func (srv *Database) CreateIntegerAttribute(CollectionId string, key string, required bool, min, max, xdefault Optional[int], isArray Optional[bool]) (map[string]interface{}, error) {
+	return createNumAttribute(srv, CollectionId, key, required, isArray, min, max, xdefault)
+}
+
+func (srv *Database) CreateFloatAttribute(CollectionId string, key string, required bool, min, max, xdefault Optional[float64], isArray Optional[bool]) (map[string]interface{}, error) {
+	return createNumAttribute(srv, CollectionId, key, required, isArray, min, max, xdefault)
+}
+
+func createNumAttribute[T any](srv *Database, CollectionId string, key string, required bool, isArray Optional[bool], min, max, xdefault Optional[T]) (map[string]interface{}, error) {
+	reg, _ := regexp.Compile(`\D+`)
+	Type := reg.FindString(reflect.TypeOf(min.Value).String())
+	if Type == "int" {
+		Type = "integer"
+	}
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	// optionals
+	if min.Specified {
+		params["min"] = min.Value
+	}
+	if max.Specified {
+		params["max"] = max.Value
+	}
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	if isArray.Specified {
+		params["array"] = isArray.Value
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+}
+
+func (srv *Database) CreateBooleanAttribute(CollectionId string, key string, required bool, isArray, xdefault Optional[bool]) (map[string]interface{}, error) {
+	Type := "boolean"
+	path := "/database/collections/{collectionId}/attributes/{type}"
+	r := strings.NewReplacer("{collectionId}", CollectionId, "{type}", Type)
+	path = r.Replace(path)
+
+	params := map[string]interface{}{
+		"key":      key,
+		"required": required,
+	}
+	if xdefault.Specified {
+		params["default"] = xdefault.Value
+	}
+	if isArray.Specified {
+		params["array"] = isArray.Value
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+	return srv.client.Call("POST", path, headers, params)
+
 }
