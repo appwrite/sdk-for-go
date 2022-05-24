@@ -35,6 +35,7 @@ func ToString(arg interface{}) string {
 	case reflect.Value:
 		return ToString(v.Interface())
 	default:
+		fmt.Println("⚠️ : Warning in utils ToString method: argument type is unknown returning empty string")
 		return ""
 	}
 }
