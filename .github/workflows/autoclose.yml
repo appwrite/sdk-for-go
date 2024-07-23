@@ -12,7 +12,7 @@ jobs:
       - name: Check if user is organization member and close PR if not
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_AUTO_CLOSE_PR_TOKEN }}
           script: |
             const org = 'Appwrite'; 
 
