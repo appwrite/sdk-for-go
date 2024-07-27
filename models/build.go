@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Build Model
 type Build struct {
@@ -27,4 +31,24 @@ type Build struct {
     // The code size in bytes.
     Size int `json:"size"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Build) New(data []byte) *Build {
+    model.data = data
+    return &model
+}
+
+func (model *Build) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

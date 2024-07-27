@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Phone Model
 type Phone struct {
@@ -10,4 +14,24 @@ type Phone struct {
     // Country name.
     CountryName string `json:"countryName"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Phone) New(data []byte) *Phone {
+    model.data = data
+    return &model
+}
+
+func (model *Phone) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

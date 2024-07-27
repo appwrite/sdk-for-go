@@ -13,15 +13,14 @@ type Teams struct {
 	client client.Client
 }
 
-func NewTeams(clt client.Client) *Teams {
+func New(clt client.Client) *Teams {
 	return &Teams{
 		client: clt,
 	}
 }
 
-
 type ListOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -33,13 +32,13 @@ func (options ListOptions) New() *ListOptions {
 	return &options
 }
 type ListOption func(*ListOptions)
-func WithListQueries(v []interface{}) ListOption {
+func (srv *Teams) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListSearch(v string) ListOption {
+func (srv *Teams) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -69,14 +68,19 @@ func (srv *Teams) List(optionalSetters ...ListOption)(*models.TeamList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.TeamList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.TeamList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.TeamList
 	parsed, ok := resp.Result.(models.TeamList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -84,9 +88,8 @@ func (srv *Teams) List(optionalSetters ...ListOption)(*models.TeamList, error) {
 	return &parsed, nil
 
 }
-
 type CreateOptions struct {
-	Roles []interface{}
+	Roles []string
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
@@ -96,7 +99,7 @@ func (options CreateOptions) New() *CreateOptions {
 	return &options
 }
 type CreateOption func(*CreateOptions)
-func WithCreateRoles(v []interface{}) CreateOption {
+func (srv *Teams) WithCreateRoles(v []string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Roles = v
 		o.enabledSetters["Roles"] = true
@@ -126,14 +129,19 @@ func (srv *Teams) Create(TeamId string, Name string, optionalSetters ...CreateOp
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Team
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Team{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Team
 	parsed, ok := resp.Result.(models.Team)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -157,14 +165,19 @@ func (srv *Teams) Get(TeamId string)(*models.Team, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Team
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Team{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Team
 	parsed, ok := resp.Result.(models.Team)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -188,14 +201,19 @@ func (srv *Teams) UpdateName(TeamId string, Name string)(*models.Team, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Team
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Team{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Team
 	parsed, ok := resp.Result.(models.Team)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -219,14 +237,18 @@ func (srv *Teams) Delete(TeamId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -234,9 +256,8 @@ func (srv *Teams) Delete(TeamId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-
 type ListMembershipsOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -248,13 +269,13 @@ func (options ListMembershipsOptions) New() *ListMembershipsOptions {
 	return &options
 }
 type ListMembershipsOption func(*ListMembershipsOptions)
-func WithListMembershipsQueries(v []interface{}) ListMembershipsOption {
+func (srv *Teams) WithListMembershipsQueries(v []string) ListMembershipsOption {
 	return func(o *ListMembershipsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListMembershipsSearch(v string) ListMembershipsOption {
+func (srv *Teams) WithListMembershipsSearch(v string) ListMembershipsOption {
 	return func(o *ListMembershipsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -286,14 +307,19 @@ func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembersh
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.MembershipList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MembershipList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.MembershipList
 	parsed, ok := resp.Result.(models.MembershipList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -301,7 +327,6 @@ func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembersh
 	return &parsed, nil
 
 }
-
 type CreateMembershipOptions struct {
 	Email string
 	UserId string
@@ -321,31 +346,31 @@ func (options CreateMembershipOptions) New() *CreateMembershipOptions {
 	return &options
 }
 type CreateMembershipOption func(*CreateMembershipOptions)
-func WithCreateMembershipEmail(v string) CreateMembershipOption {
+func (srv *Teams) WithCreateMembershipEmail(v string) CreateMembershipOption {
 	return func(o *CreateMembershipOptions) {
 		o.Email = v
 		o.enabledSetters["Email"] = true
 	}
 }
-func WithCreateMembershipUserId(v string) CreateMembershipOption {
+func (srv *Teams) WithCreateMembershipUserId(v string) CreateMembershipOption {
 	return func(o *CreateMembershipOptions) {
 		o.UserId = v
 		o.enabledSetters["UserId"] = true
 	}
 }
-func WithCreateMembershipPhone(v string) CreateMembershipOption {
+func (srv *Teams) WithCreateMembershipPhone(v string) CreateMembershipOption {
 	return func(o *CreateMembershipOptions) {
 		o.Phone = v
 		o.enabledSetters["Phone"] = true
 	}
 }
-func WithCreateMembershipUrl(v string) CreateMembershipOption {
+func (srv *Teams) WithCreateMembershipUrl(v string) CreateMembershipOption {
 	return func(o *CreateMembershipOptions) {
 		o.Url = v
 		o.enabledSetters["Url"] = true
 	}
 }
-func WithCreateMembershipName(v string) CreateMembershipOption {
+func (srv *Teams) WithCreateMembershipName(v string) CreateMembershipOption {
 	return func(o *CreateMembershipOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -372,7 +397,7 @@ func WithCreateMembershipName(v string) CreateMembershipOption {
 // Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
 // Appwrite will accept the only redirect URLs under the domains you have
 // added as a platform on the Appwrite Console.
-func (srv *Teams) CreateMembership(TeamId string, Roles []interface{}, optionalSetters ...CreateMembershipOption)(*models.Membership, error) {
+func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetters ...CreateMembershipOption)(*models.Membership, error) {
 	r := strings.NewReplacer("{teamId}", TeamId)
 	path := r.Replace("/teams/{teamId}/memberships")
 	options := CreateMembershipOptions{}.New()
@@ -405,14 +430,19 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []interface{}, optionalS
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Membership
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Membership{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Membership
 	parsed, ok := resp.Result.(models.Membership)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -437,14 +467,19 @@ func (srv *Teams) GetMembership(TeamId string, MembershipId string)(*models.Memb
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Membership
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Membership{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Membership
 	parsed, ok := resp.Result.(models.Membership)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -456,7 +491,7 @@ func (srv *Teams) GetMembership(TeamId string, MembershipId string)(*models.Memb
 // UpdateMembership modify the roles of a team member. Only team members with
 // the owner role have access to this endpoint. Learn more about [roles and
 // permissions](https://appwrite.io/docs/permissions).
-func (srv *Teams) UpdateMembership(TeamId string, MembershipId string, Roles []interface{})(*models.Membership, error) {
+func (srv *Teams) UpdateMembership(TeamId string, MembershipId string, Roles []string)(*models.Membership, error) {
 	r := strings.NewReplacer("{teamId}", TeamId, "{membershipId}", MembershipId)
 	path := r.Replace("/teams/{teamId}/memberships/{membershipId}")
 	params := map[string]interface{}{}
@@ -471,14 +506,19 @@ func (srv *Teams) UpdateMembership(TeamId string, MembershipId string, Roles []i
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Membership
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Membership{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Membership
 	parsed, ok := resp.Result.(models.Membership)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -504,14 +544,18 @@ func (srv *Teams) DeleteMembership(TeamId string, MembershipId string)(*interfac
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -542,14 +586,19 @@ func (srv *Teams) UpdateMembershipStatus(TeamId string, MembershipId string, Use
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Membership
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Membership{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Membership
 	parsed, ok := resp.Result.(models.Membership)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -575,14 +624,19 @@ func (srv *Teams) GetPrefs(TeamId string)(*models.Preferences, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Preferences
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Preferences{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Preferences
 	parsed, ok := resp.Result.(models.Preferences)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -608,14 +662,19 @@ func (srv *Teams) UpdatePrefs(TeamId string, Prefs interface{})(*models.Preferen
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Preferences
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Preferences{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Preferences
 	parsed, ok := resp.Result.(models.Preferences)
 	if !ok {
 		return nil, errors.New("unexpected response type")

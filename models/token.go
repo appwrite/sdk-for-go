@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Token Model
 type Token struct {
@@ -19,4 +23,24 @@ type Token struct {
     // in the external resource such as email.
     Phrase string `json:"phrase"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Token) New(data []byte) *Token {
+    model.data = data
+    return &model
+}
+
+func (model *Token) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

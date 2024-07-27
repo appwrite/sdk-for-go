@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Bucket Model
 type Bucket struct {
@@ -11,7 +15,7 @@ type Bucket struct {
     UpdatedAt string `json:"$updatedAt"`
     // Bucket permissions. [Learn more about
     // permissions](https://appwrite.io/docs/permissions).
-    Permissions []interface{} `json:"$permissions"`
+    Permissions []string `json:"$permissions"`
     // Whether file-level security is enabled. [Learn more about
     // permissions](https://appwrite.io/docs/permissions).
     FileSecurity bool `json:"fileSecurity"`
@@ -22,7 +26,7 @@ type Bucket struct {
     // Maximum file size supported.
     MaximumFileSize int `json:"maximumFileSize"`
     // Allowed file extensions.
-    AllowedFileExtensions []interface{} `json:"allowedFileExtensions"`
+    AllowedFileExtensions []string `json:"allowedFileExtensions"`
     // Compression algorithm choosen for compression. Will be one of none,
     // [gzip](https://en.wikipedia.org/wiki/Gzip), or
     // [zstd](https://en.wikipedia.org/wiki/Zstd).
@@ -32,4 +36,24 @@ type Bucket struct {
     // Virus scanning is enabled.
     Antivirus bool `json:"antivirus"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Bucket) New(data []byte) *Bucket {
+    model.data = data
+    return &model
+}
+
+func (model *Bucket) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

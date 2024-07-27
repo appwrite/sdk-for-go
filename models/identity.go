@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Identity Model
 type Identity struct {
@@ -24,4 +28,24 @@ type Identity struct {
     // Identity Provider Refresh Token.
     ProviderRefreshToken string `json:"providerRefreshToken"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Identity) New(data []byte) *Identity {
+    model.data = data
+    return &model
+}
+
+func (model *Identity) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

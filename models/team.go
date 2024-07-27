@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Team Model
 type Team struct {
@@ -14,6 +18,26 @@ type Team struct {
     // Total number of team members.
     Total int `json:"total"`
     // Team preferences as a key-value object
-    Prefs interface{} `json:"prefs"`
+    Prefs Preferences `json:"prefs"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Team) New(data []byte) *Team {
+    model.data = data
+    return &model
+}
+
+func (model *Team) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

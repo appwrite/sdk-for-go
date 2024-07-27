@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Runtime Model
 type Runtime struct {
@@ -16,6 +20,26 @@ type Runtime struct {
     // Name of the logo image.
     Logo string `json:"logo"`
     // List of supported architectures.
-    Supports []interface{} `json:"supports"`
+    Supports []string `json:"supports"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Runtime) New(data []byte) *Runtime {
+    model.data = data
+    return &model
+}
+
+func (model *Runtime) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

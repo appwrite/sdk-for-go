@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Target Model
 type Target struct {
@@ -21,4 +25,24 @@ type Target struct {
     // The target identifier.
     Identifier string `json:"identifier"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Target) New(data []byte) *Target {
+    model.data = data
+    return &model
+}
+
+func (model *Target) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

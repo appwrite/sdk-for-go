@@ -14,15 +14,14 @@ type Functions struct {
 	client client.Client
 }
 
-func NewFunctions(clt client.Client) *Functions {
+func New(clt client.Client) *Functions {
 	return &Functions{
 		client: clt,
 	}
 }
 
-
 type ListOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -34,13 +33,13 @@ func (options ListOptions) New() *ListOptions {
 	return &options
 }
 type ListOption func(*ListOptions)
-func WithListQueries(v []interface{}) ListOption {
+func (srv *Functions) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListSearch(v string) ListOption {
+func (srv *Functions) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -70,14 +69,19 @@ func (srv *Functions) List(optionalSetters ...ListOption)(*models.FunctionList, 
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.FunctionList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.FunctionList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.FunctionList
 	parsed, ok := resp.Result.(models.FunctionList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -85,17 +89,16 @@ func (srv *Functions) List(optionalSetters ...ListOption)(*models.FunctionList, 
 	return &parsed, nil
 
 }
-
 type CreateOptions struct {
-	Execute []interface{}
-	Events []interface{}
+	Execute []string
+	Events []string
 	Schedule string
 	Timeout int
 	Enabled bool
 	Logging bool
 	Entrypoint string
 	Commands string
-	Scopes []interface{}
+	Scopes []string
 	InstallationId string
 	ProviderRepositoryId string
 	ProviderBranch string
@@ -131,109 +134,109 @@ func (options CreateOptions) New() *CreateOptions {
 	return &options
 }
 type CreateOption func(*CreateOptions)
-func WithCreateExecute(v []interface{}) CreateOption {
+func (srv *Functions) WithCreateExecute(v []string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Execute = v
 		o.enabledSetters["Execute"] = true
 	}
 }
-func WithCreateEvents(v []interface{}) CreateOption {
+func (srv *Functions) WithCreateEvents(v []string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Events = v
 		o.enabledSetters["Events"] = true
 	}
 }
-func WithCreateSchedule(v string) CreateOption {
+func (srv *Functions) WithCreateSchedule(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Schedule = v
 		o.enabledSetters["Schedule"] = true
 	}
 }
-func WithCreateTimeout(v int) CreateOption {
+func (srv *Functions) WithCreateTimeout(v int) CreateOption {
 	return func(o *CreateOptions) {
 		o.Timeout = v
 		o.enabledSetters["Timeout"] = true
 	}
 }
-func WithCreateEnabled(v bool) CreateOption {
+func (srv *Functions) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithCreateLogging(v bool) CreateOption {
+func (srv *Functions) WithCreateLogging(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Logging = v
 		o.enabledSetters["Logging"] = true
 	}
 }
-func WithCreateEntrypoint(v string) CreateOption {
+func (srv *Functions) WithCreateEntrypoint(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Entrypoint = v
 		o.enabledSetters["Entrypoint"] = true
 	}
 }
-func WithCreateCommands(v string) CreateOption {
+func (srv *Functions) WithCreateCommands(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Commands = v
 		o.enabledSetters["Commands"] = true
 	}
 }
-func WithCreateScopes(v []interface{}) CreateOption {
+func (srv *Functions) WithCreateScopes(v []string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Scopes = v
 		o.enabledSetters["Scopes"] = true
 	}
 }
-func WithCreateInstallationId(v string) CreateOption {
+func (srv *Functions) WithCreateInstallationId(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.InstallationId = v
 		o.enabledSetters["InstallationId"] = true
 	}
 }
-func WithCreateProviderRepositoryId(v string) CreateOption {
+func (srv *Functions) WithCreateProviderRepositoryId(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.ProviderRepositoryId = v
 		o.enabledSetters["ProviderRepositoryId"] = true
 	}
 }
-func WithCreateProviderBranch(v string) CreateOption {
+func (srv *Functions) WithCreateProviderBranch(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.ProviderBranch = v
 		o.enabledSetters["ProviderBranch"] = true
 	}
 }
-func WithCreateProviderSilentMode(v bool) CreateOption {
+func (srv *Functions) WithCreateProviderSilentMode(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.ProviderSilentMode = v
 		o.enabledSetters["ProviderSilentMode"] = true
 	}
 }
-func WithCreateProviderRootDirectory(v string) CreateOption {
+func (srv *Functions) WithCreateProviderRootDirectory(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.ProviderRootDirectory = v
 		o.enabledSetters["ProviderRootDirectory"] = true
 	}
 }
-func WithCreateTemplateRepository(v string) CreateOption {
+func (srv *Functions) WithCreateTemplateRepository(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.TemplateRepository = v
 		o.enabledSetters["TemplateRepository"] = true
 	}
 }
-func WithCreateTemplateOwner(v string) CreateOption {
+func (srv *Functions) WithCreateTemplateOwner(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.TemplateOwner = v
 		o.enabledSetters["TemplateOwner"] = true
 	}
 }
-func WithCreateTemplateRootDirectory(v string) CreateOption {
+func (srv *Functions) WithCreateTemplateRootDirectory(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.TemplateRootDirectory = v
 		o.enabledSetters["TemplateRootDirectory"] = true
 	}
 }
-func WithCreateTemplateBranch(v string) CreateOption {
+func (srv *Functions) WithCreateTemplateBranch(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.TemplateBranch = v
 		o.enabledSetters["TemplateBranch"] = true
@@ -316,14 +319,19 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Function
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Function{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Function
 	parsed, ok := resp.Result.(models.Function)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -345,14 +353,19 @@ func (srv *Functions) ListRuntimes()(*models.RuntimeList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.RuntimeList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.RuntimeList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.RuntimeList
 	parsed, ok := resp.Result.(models.RuntimeList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -375,14 +388,19 @@ func (srv *Functions) Get(FunctionId string)(*models.Function, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Function
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Function{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Function
 	parsed, ok := resp.Result.(models.Function)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -390,18 +408,17 @@ func (srv *Functions) Get(FunctionId string)(*models.Function, error) {
 	return &parsed, nil
 
 }
-
 type UpdateOptions struct {
 	Runtime string
-	Execute []interface{}
-	Events []interface{}
+	Execute []string
+	Events []string
 	Schedule string
 	Timeout int
 	Enabled bool
 	Logging bool
 	Entrypoint string
 	Commands string
-	Scopes []interface{}
+	Scopes []string
 	InstallationId string
 	ProviderRepositoryId string
 	ProviderBranch string
@@ -430,91 +447,91 @@ func (options UpdateOptions) New() *UpdateOptions {
 	return &options
 }
 type UpdateOption func(*UpdateOptions)
-func WithUpdateRuntime(v string) UpdateOption {
+func (srv *Functions) WithUpdateRuntime(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Runtime = v
 		o.enabledSetters["Runtime"] = true
 	}
 }
-func WithUpdateExecute(v []interface{}) UpdateOption {
+func (srv *Functions) WithUpdateExecute(v []string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Execute = v
 		o.enabledSetters["Execute"] = true
 	}
 }
-func WithUpdateEvents(v []interface{}) UpdateOption {
+func (srv *Functions) WithUpdateEvents(v []string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Events = v
 		o.enabledSetters["Events"] = true
 	}
 }
-func WithUpdateSchedule(v string) UpdateOption {
+func (srv *Functions) WithUpdateSchedule(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Schedule = v
 		o.enabledSetters["Schedule"] = true
 	}
 }
-func WithUpdateTimeout(v int) UpdateOption {
+func (srv *Functions) WithUpdateTimeout(v int) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Timeout = v
 		o.enabledSetters["Timeout"] = true
 	}
 }
-func WithUpdateEnabled(v bool) UpdateOption {
+func (srv *Functions) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateLogging(v bool) UpdateOption {
+func (srv *Functions) WithUpdateLogging(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Logging = v
 		o.enabledSetters["Logging"] = true
 	}
 }
-func WithUpdateEntrypoint(v string) UpdateOption {
+func (srv *Functions) WithUpdateEntrypoint(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Entrypoint = v
 		o.enabledSetters["Entrypoint"] = true
 	}
 }
-func WithUpdateCommands(v string) UpdateOption {
+func (srv *Functions) WithUpdateCommands(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Commands = v
 		o.enabledSetters["Commands"] = true
 	}
 }
-func WithUpdateScopes(v []interface{}) UpdateOption {
+func (srv *Functions) WithUpdateScopes(v []string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Scopes = v
 		o.enabledSetters["Scopes"] = true
 	}
 }
-func WithUpdateInstallationId(v string) UpdateOption {
+func (srv *Functions) WithUpdateInstallationId(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.InstallationId = v
 		o.enabledSetters["InstallationId"] = true
 	}
 }
-func WithUpdateProviderRepositoryId(v string) UpdateOption {
+func (srv *Functions) WithUpdateProviderRepositoryId(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.ProviderRepositoryId = v
 		o.enabledSetters["ProviderRepositoryId"] = true
 	}
 }
-func WithUpdateProviderBranch(v string) UpdateOption {
+func (srv *Functions) WithUpdateProviderBranch(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.ProviderBranch = v
 		o.enabledSetters["ProviderBranch"] = true
 	}
 }
-func WithUpdateProviderSilentMode(v bool) UpdateOption {
+func (srv *Functions) WithUpdateProviderSilentMode(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.ProviderSilentMode = v
 		o.enabledSetters["ProviderSilentMode"] = true
 	}
 }
-func WithUpdateProviderRootDirectory(v string) UpdateOption {
+func (srv *Functions) WithUpdateProviderRootDirectory(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.ProviderRootDirectory = v
 		o.enabledSetters["ProviderRootDirectory"] = true
@@ -585,14 +602,19 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Function
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Function{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Function
 	parsed, ok := resp.Result.(models.Function)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -615,14 +637,18 @@ func (srv *Functions) Delete(FunctionId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -630,9 +656,8 @@ func (srv *Functions) Delete(FunctionId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-
 type ListDeploymentsOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -644,13 +669,13 @@ func (options ListDeploymentsOptions) New() *ListDeploymentsOptions {
 	return &options
 }
 type ListDeploymentsOption func(*ListDeploymentsOptions)
-func WithListDeploymentsQueries(v []interface{}) ListDeploymentsOption {
+func (srv *Functions) WithListDeploymentsQueries(v []string) ListDeploymentsOption {
 	return func(o *ListDeploymentsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListDeploymentsSearch(v string) ListDeploymentsOption {
+func (srv *Functions) WithListDeploymentsSearch(v string) ListDeploymentsOption {
 	return func(o *ListDeploymentsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -682,14 +707,19 @@ func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...List
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.DeploymentList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DeploymentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.DeploymentList
 	parsed, ok := resp.Result.(models.DeploymentList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -697,7 +727,6 @@ func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...List
 	return &parsed, nil
 
 }
-
 type CreateDeploymentOptions struct {
 	Entrypoint string
 	Commands string
@@ -711,13 +740,13 @@ func (options CreateDeploymentOptions) New() *CreateDeploymentOptions {
 	return &options
 }
 type CreateDeploymentOption func(*CreateDeploymentOptions)
-func WithCreateDeploymentEntrypoint(v string) CreateDeploymentOption {
+func (srv *Functions) WithCreateDeploymentEntrypoint(v string) CreateDeploymentOption {
 	return func(o *CreateDeploymentOptions) {
 		o.Entrypoint = v
 		o.enabledSetters["Entrypoint"] = true
 	}
 }
-func WithCreateDeploymentCommands(v string) CreateDeploymentOption {
+func (srv *Functions) WithCreateDeploymentCommands(v string) CreateDeploymentOption {
 	return func(o *CreateDeploymentOptions) {
 		o.Commands = v
 		o.enabledSetters["Commands"] = true
@@ -795,14 +824,19 @@ func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)(*mod
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Deployment
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Deployment{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Deployment
 	parsed, ok := resp.Result.(models.Deployment)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -828,14 +862,19 @@ func (srv *Functions) UpdateDeployment(FunctionId string, DeploymentId string)(*
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Function
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Function{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Function
 	parsed, ok := resp.Result.(models.Function)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -859,14 +898,18 @@ func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string)(*
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -874,7 +917,6 @@ func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string)(*
 	return &parsed, nil
 
 }
-
 type CreateBuildOptions struct {
 	BuildId string
 	enabledSetters map[string]bool
@@ -886,7 +928,7 @@ func (options CreateBuildOptions) New() *CreateBuildOptions {
 	return &options
 }
 type CreateBuildOption func(*CreateBuildOptions)
-func WithCreateBuildBuildId(v string) CreateBuildOption {
+func (srv *Functions) WithCreateBuildBuildId(v string) CreateBuildOption {
 	return func(o *CreateBuildOptions) {
 		o.BuildId = v
 		o.enabledSetters["BuildId"] = true
@@ -915,14 +957,18 @@ func (srv *Functions) CreateBuild(FunctionId string, DeploymentId string, option
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -946,14 +992,19 @@ func (srv *Functions) UpdateDeploymentBuild(FunctionId string, DeploymentId stri
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Build
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Build{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Build
 	parsed, ok := resp.Result.(models.Build)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -978,14 +1029,18 @@ func (srv *Functions) DownloadDeployment(FunctionId string, DeploymentId string)
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -993,9 +1048,8 @@ func (srv *Functions) DownloadDeployment(FunctionId string, DeploymentId string)
 	return &parsed, nil
 
 }
-
 type ListExecutionsOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -1007,13 +1061,13 @@ func (options ListExecutionsOptions) New() *ListExecutionsOptions {
 	return &options
 }
 type ListExecutionsOption func(*ListExecutionsOptions)
-func WithListExecutionsQueries(v []interface{}) ListExecutionsOption {
+func (srv *Functions) WithListExecutionsQueries(v []string) ListExecutionsOption {
 	return func(o *ListExecutionsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListExecutionsSearch(v string) ListExecutionsOption {
+func (srv *Functions) WithListExecutionsSearch(v string) ListExecutionsOption {
 	return func(o *ListExecutionsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -1045,14 +1099,19 @@ func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListE
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.ExecutionList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ExecutionList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.ExecutionList
 	parsed, ok := resp.Result.(models.ExecutionList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1060,7 +1119,6 @@ func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListE
 	return &parsed, nil
 
 }
-
 type CreateExecutionOptions struct {
 	Body string
 	Async bool
@@ -1082,37 +1140,37 @@ func (options CreateExecutionOptions) New() *CreateExecutionOptions {
 	return &options
 }
 type CreateExecutionOption func(*CreateExecutionOptions)
-func WithCreateExecutionBody(v string) CreateExecutionOption {
+func (srv *Functions) WithCreateExecutionBody(v string) CreateExecutionOption {
 	return func(o *CreateExecutionOptions) {
 		o.Body = v
 		o.enabledSetters["Body"] = true
 	}
 }
-func WithCreateExecutionAsync(v bool) CreateExecutionOption {
+func (srv *Functions) WithCreateExecutionAsync(v bool) CreateExecutionOption {
 	return func(o *CreateExecutionOptions) {
 		o.Async = v
 		o.enabledSetters["Async"] = true
 	}
 }
-func WithCreateExecutionPath(v string) CreateExecutionOption {
+func (srv *Functions) WithCreateExecutionPath(v string) CreateExecutionOption {
 	return func(o *CreateExecutionOptions) {
 		o.Path = v
 		o.enabledSetters["Path"] = true
 	}
 }
-func WithCreateExecutionMethod(v string) CreateExecutionOption {
+func (srv *Functions) WithCreateExecutionMethod(v string) CreateExecutionOption {
 	return func(o *CreateExecutionOptions) {
 		o.Method = v
 		o.enabledSetters["Method"] = true
 	}
 }
-func WithCreateExecutionHeaders(v interface{}) CreateExecutionOption {
+func (srv *Functions) WithCreateExecutionHeaders(v interface{}) CreateExecutionOption {
 	return func(o *CreateExecutionOptions) {
 		o.Headers = v
 		o.enabledSetters["Headers"] = true
 	}
 }
-func WithCreateExecutionScheduledAt(v string) CreateExecutionOption {
+func (srv *Functions) WithCreateExecutionScheduledAt(v string) CreateExecutionOption {
 	return func(o *CreateExecutionOptions) {
 		o.ScheduledAt = v
 		o.enabledSetters["ScheduledAt"] = true
@@ -1158,14 +1216,19 @@ func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...Crea
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Execution
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Execution{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Execution
 	parsed, ok := resp.Result.(models.Execution)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1189,14 +1252,19 @@ func (srv *Functions) GetExecution(FunctionId string, ExecutionId string)(*model
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Execution
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Execution{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Execution
 	parsed, ok := resp.Result.(models.Execution)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1220,14 +1288,18 @@ func (srv *Functions) DeleteExecution(FunctionId string, ExecutionId string)(*in
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1250,14 +1322,19 @@ func (srv *Functions) ListVariables(FunctionId string)(*models.VariableList, err
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.VariableList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.VariableList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.VariableList
 	parsed, ok := resp.Result.(models.VariableList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1283,14 +1360,19 @@ func (srv *Functions) CreateVariable(FunctionId string, Key string, Value string
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Variable
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Variable{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Variable
 	parsed, ok := resp.Result.(models.Variable)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1314,14 +1396,19 @@ func (srv *Functions) GetVariable(FunctionId string, VariableId string)(*models.
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Variable
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Variable{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Variable
 	parsed, ok := resp.Result.(models.Variable)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1329,7 +1416,6 @@ func (srv *Functions) GetVariable(FunctionId string, VariableId string)(*models.
 	return &parsed, nil
 
 }
-
 type UpdateVariableOptions struct {
 	Value string
 	enabledSetters map[string]bool
@@ -1341,7 +1427,7 @@ func (options UpdateVariableOptions) New() *UpdateVariableOptions {
 	return &options
 }
 type UpdateVariableOption func(*UpdateVariableOptions)
-func WithUpdateVariableValue(v string) UpdateVariableOption {
+func (srv *Functions) WithUpdateVariableValue(v string) UpdateVariableOption {
 	return func(o *UpdateVariableOptions) {
 		o.Value = v
 		o.enabledSetters["Value"] = true
@@ -1371,14 +1457,19 @@ func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, Key s
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Variable
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Variable{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Variable
 	parsed, ok := resp.Result.(models.Variable)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1402,14 +1493,18 @@ func (srv *Functions) DeleteVariable(FunctionId string, VariableId string)(*inte
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")

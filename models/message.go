@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Message Model
 type Message struct {
@@ -12,17 +16,17 @@ type Message struct {
     // Message provider type.
     ProviderType string `json:"providerType"`
     // Topic IDs set as recipients.
-    Topics []interface{} `json:"topics"`
+    Topics []string `json:"topics"`
     // User IDs set as recipients.
-    Users []interface{} `json:"users"`
+    Users []string `json:"users"`
     // Target IDs set as recipients.
-    Targets []interface{} `json:"targets"`
+    Targets []string `json:"targets"`
     // The scheduled time for message.
     ScheduledAt string `json:"scheduledAt"`
     // The time when the message was delivered.
     DeliveredAt string `json:"deliveredAt"`
     // Delivery errors if any.
-    DeliveryErrors []interface{} `json:"deliveryErrors"`
+    DeliveryErrors []string `json:"deliveryErrors"`
     // Number of recipients the message was delivered to.
     DeliveredTotal int `json:"deliveredTotal"`
     // Data of the message.
@@ -30,4 +34,24 @@ type Message struct {
     // Status of delivery.
     Status string `json:"status"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Message) New(data []byte) *Message {
+    model.data = data
+    return &model
+}
+
+func (model *Message) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

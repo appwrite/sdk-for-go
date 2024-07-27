@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Session Model
 type Session struct {
@@ -58,7 +62,7 @@ type Session struct {
     // Returns true if this the current user session.
     Current bool `json:"current"`
     // Returns a list of active session factors.
-    Factors []interface{} `json:"factors"`
+    Factors []string `json:"factors"`
     // Secret used to authenticate the user. Only included if the request was made
     // with an API key
     Secret string `json:"secret"`
@@ -66,4 +70,24 @@ type Session struct {
     // MFA challenge.
     MfaUpdatedAt string `json:"mfaUpdatedAt"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Session) New(data []byte) *Session {
+    model.data = data
+    return &model
+}
+
+func (model *Session) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

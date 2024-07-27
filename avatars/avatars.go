@@ -12,12 +12,11 @@ type Avatars struct {
 	client client.Client
 }
 
-func NewAvatars(clt client.Client) *Avatars {
+func New(clt client.Client) *Avatars {
 	return &Avatars{
 		client: clt,
 	}
 }
-
 
 type GetBrowserOptions struct {
 	Width int
@@ -34,19 +33,19 @@ func (options GetBrowserOptions) New() *GetBrowserOptions {
 	return &options
 }
 type GetBrowserOption func(*GetBrowserOptions)
-func WithGetBrowserWidth(v int) GetBrowserOption {
+func (srv *Avatars) WithGetBrowserWidth(v int) GetBrowserOption {
 	return func(o *GetBrowserOptions) {
 		o.Width = v
 		o.enabledSetters["Width"] = true
 	}
 }
-func WithGetBrowserHeight(v int) GetBrowserOption {
+func (srv *Avatars) WithGetBrowserHeight(v int) GetBrowserOption {
 	return func(o *GetBrowserOptions) {
 		o.Height = v
 		o.enabledSetters["Height"] = true
 	}
 }
-func WithGetBrowserQuality(v int) GetBrowserOption {
+func (srv *Avatars) WithGetBrowserQuality(v int) GetBrowserOption {
 	return func(o *GetBrowserOptions) {
 		o.Quality = v
 		o.enabledSetters["Quality"] = true
@@ -90,14 +89,18 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -105,7 +108,6 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 	return &parsed, nil
 
 }
-
 type GetCreditCardOptions struct {
 	Width int
 	Height int
@@ -121,19 +123,19 @@ func (options GetCreditCardOptions) New() *GetCreditCardOptions {
 	return &options
 }
 type GetCreditCardOption func(*GetCreditCardOptions)
-func WithGetCreditCardWidth(v int) GetCreditCardOption {
+func (srv *Avatars) WithGetCreditCardWidth(v int) GetCreditCardOption {
 	return func(o *GetCreditCardOptions) {
 		o.Width = v
 		o.enabledSetters["Width"] = true
 	}
 }
-func WithGetCreditCardHeight(v int) GetCreditCardOption {
+func (srv *Avatars) WithGetCreditCardHeight(v int) GetCreditCardOption {
 	return func(o *GetCreditCardOptions) {
 		o.Height = v
 		o.enabledSetters["Height"] = true
 	}
 }
-func WithGetCreditCardQuality(v int) GetCreditCardOption {
+func (srv *Avatars) WithGetCreditCardQuality(v int) GetCreditCardOption {
 	return func(o *GetCreditCardOptions) {
 		o.Quality = v
 		o.enabledSetters["Quality"] = true
@@ -174,14 +176,18 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -192,6 +198,8 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 	
 // GetFavicon use this endpoint to fetch the favorite icon (AKA favicon) of
 // any remote website URL.
+// 
+// This endpoint does not follow HTTP redirects.
 func (srv *Avatars) GetFavicon(Url string)(*[]byte, error) {
 	path := "/avatars/favicon"
 	params := map[string]interface{}{}
@@ -204,14 +212,18 @@ func (srv *Avatars) GetFavicon(Url string)(*[]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -219,7 +231,6 @@ func (srv *Avatars) GetFavicon(Url string)(*[]byte, error) {
 	return &parsed, nil
 
 }
-
 type GetFlagOptions struct {
 	Width int
 	Height int
@@ -235,19 +246,19 @@ func (options GetFlagOptions) New() *GetFlagOptions {
 	return &options
 }
 type GetFlagOption func(*GetFlagOptions)
-func WithGetFlagWidth(v int) GetFlagOption {
+func (srv *Avatars) WithGetFlagWidth(v int) GetFlagOption {
 	return func(o *GetFlagOptions) {
 		o.Width = v
 		o.enabledSetters["Width"] = true
 	}
 }
-func WithGetFlagHeight(v int) GetFlagOption {
+func (srv *Avatars) WithGetFlagHeight(v int) GetFlagOption {
 	return func(o *GetFlagOptions) {
 		o.Height = v
 		o.enabledSetters["Height"] = true
 	}
 }
-func WithGetFlagQuality(v int) GetFlagOption {
+func (srv *Avatars) WithGetFlagQuality(v int) GetFlagOption {
 	return func(o *GetFlagOptions) {
 		o.Quality = v
 		o.enabledSetters["Quality"] = true
@@ -290,14 +301,18 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption)(*[]by
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -305,7 +320,6 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption)(*[]by
 	return &parsed, nil
 
 }
-
 type GetImageOptions struct {
 	Width int
 	Height int
@@ -319,13 +333,13 @@ func (options GetImageOptions) New() *GetImageOptions {
 	return &options
 }
 type GetImageOption func(*GetImageOptions)
-func WithGetImageWidth(v int) GetImageOption {
+func (srv *Avatars) WithGetImageWidth(v int) GetImageOption {
 	return func(o *GetImageOptions) {
 		o.Width = v
 		o.enabledSetters["Width"] = true
 	}
 }
-func WithGetImageHeight(v int) GetImageOption {
+func (srv *Avatars) WithGetImageHeight(v int) GetImageOption {
 	return func(o *GetImageOptions) {
 		o.Height = v
 		o.enabledSetters["Height"] = true
@@ -341,6 +355,8 @@ func WithGetImageHeight(v int) GetImageOption {
 // with preserved aspect ratio. If both dimensions are 0, the API provides an
 // image at source quality. If dimensions are not specified, the default size
 // of image returned is 400x400px.
+// 
+// This endpoint does not follow HTTP redirects.
 func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption)(*[]byte, error) {
 	path := "/avatars/image"
 	options := GetImageOptions{}.New()
@@ -363,14 +379,18 @@ func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption)(*[]b
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -378,7 +398,6 @@ func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption)(*[]b
 	return &parsed, nil
 
 }
-
 type GetInitialsOptions struct {
 	Name string
 	Width int
@@ -396,25 +415,25 @@ func (options GetInitialsOptions) New() *GetInitialsOptions {
 	return &options
 }
 type GetInitialsOption func(*GetInitialsOptions)
-func WithGetInitialsName(v string) GetInitialsOption {
+func (srv *Avatars) WithGetInitialsName(v string) GetInitialsOption {
 	return func(o *GetInitialsOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithGetInitialsWidth(v int) GetInitialsOption {
+func (srv *Avatars) WithGetInitialsWidth(v int) GetInitialsOption {
 	return func(o *GetInitialsOptions) {
 		o.Width = v
 		o.enabledSetters["Width"] = true
 	}
 }
-func WithGetInitialsHeight(v int) GetInitialsOption {
+func (srv *Avatars) WithGetInitialsHeight(v int) GetInitialsOption {
 	return func(o *GetInitialsOptions) {
 		o.Height = v
 		o.enabledSetters["Height"] = true
 	}
 }
-func WithGetInitialsBackground(v string) GetInitialsOption {
+func (srv *Avatars) WithGetInitialsBackground(v string) GetInitialsOption {
 	return func(o *GetInitialsOptions) {
 		o.Background = v
 		o.enabledSetters["Background"] = true
@@ -463,14 +482,18 @@ func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption)(*[]byte, e
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -478,7 +501,6 @@ func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption)(*[]byte, e
 	return &parsed, nil
 
 }
-
 type GetQROptions struct {
 	Size int
 	Margin int
@@ -494,19 +516,19 @@ func (options GetQROptions) New() *GetQROptions {
 	return &options
 }
 type GetQROption func(*GetQROptions)
-func WithGetQRSize(v int) GetQROption {
+func (srv *Avatars) WithGetQRSize(v int) GetQROption {
 	return func(o *GetQROptions) {
 		o.Size = v
 		o.enabledSetters["Size"] = true
 	}
 }
-func WithGetQRMargin(v int) GetQROption {
+func (srv *Avatars) WithGetQRMargin(v int) GetQROption {
 	return func(o *GetQROptions) {
 		o.Margin = v
 		o.enabledSetters["Margin"] = true
 	}
 }
-func WithGetQRDownload(v bool) GetQROption {
+func (srv *Avatars) WithGetQRDownload(v bool) GetQROption {
 	return func(o *GetQROptions) {
 		o.Download = v
 		o.enabledSetters["Download"] = true
@@ -540,14 +562,18 @@ func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption)(*[]byte, 
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")

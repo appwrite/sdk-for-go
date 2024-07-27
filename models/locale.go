@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Locale Model
 type Locale struct {
@@ -22,4 +26,24 @@ type Locale struct {
     // three-character format
     Currency string `json:"currency"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Locale) New(data []byte) *Locale {
+    model.data = data
+    return &model
+}
+
+func (model *Locale) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

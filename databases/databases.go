@@ -13,15 +13,14 @@ type Databases struct {
 	client client.Client
 }
 
-func NewDatabases(clt client.Client) *Databases {
+func New(clt client.Client) *Databases {
 	return &Databases{
 		client: clt,
 	}
 }
 
-
 type ListOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -33,13 +32,13 @@ func (options ListOptions) New() *ListOptions {
 	return &options
 }
 type ListOption func(*ListOptions)
-func WithListQueries(v []interface{}) ListOption {
+func (srv *Databases) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListSearch(v string) ListOption {
+func (srv *Databases) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -69,14 +68,19 @@ func (srv *Databases) List(optionalSetters ...ListOption)(*models.DatabaseList, 
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.DatabaseList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DatabaseList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.DatabaseList
 	parsed, ok := resp.Result.(models.DatabaseList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -84,7 +88,6 @@ func (srv *Databases) List(optionalSetters ...ListOption)(*models.DatabaseList, 
 	return &parsed, nil
 
 }
-
 type CreateOptions struct {
 	Enabled bool
 	enabledSetters map[string]bool
@@ -96,7 +99,7 @@ func (options CreateOptions) New() *CreateOptions {
 	return &options
 }
 type CreateOption func(*CreateOptions)
-func WithCreateEnabled(v bool) CreateOption {
+func (srv *Databases) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -124,14 +127,19 @@ func (srv *Databases) Create(DatabaseId string, Name string, optionalSetters ...
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Database
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Database{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Database
 	parsed, ok := resp.Result.(models.Database)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -155,14 +163,19 @@ func (srv *Databases) Get(DatabaseId string)(*models.Database, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Database
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Database{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Database
 	parsed, ok := resp.Result.(models.Database)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -170,7 +183,6 @@ func (srv *Databases) Get(DatabaseId string)(*models.Database, error) {
 	return &parsed, nil
 
 }
-
 type UpdateOptions struct {
 	Enabled bool
 	enabledSetters map[string]bool
@@ -182,7 +194,7 @@ func (options UpdateOptions) New() *UpdateOptions {
 	return &options
 }
 type UpdateOption func(*UpdateOptions)
-func WithUpdateEnabled(v bool) UpdateOption {
+func (srv *Databases) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -211,14 +223,19 @@ func (srv *Databases) Update(DatabaseId string, Name string, optionalSetters ...
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Database
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Database{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Database
 	parsed, ok := resp.Result.(models.Database)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -242,14 +259,18 @@ func (srv *Databases) Delete(DatabaseId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -257,9 +278,8 @@ func (srv *Databases) Delete(DatabaseId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-
 type ListCollectionsOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -271,13 +291,13 @@ func (options ListCollectionsOptions) New() *ListCollectionsOptions {
 	return &options
 }
 type ListCollectionsOption func(*ListCollectionsOptions)
-func WithListCollectionsQueries(v []interface{}) ListCollectionsOption {
+func (srv *Databases) WithListCollectionsQueries(v []string) ListCollectionsOption {
 	return func(o *ListCollectionsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListCollectionsSearch(v string) ListCollectionsOption {
+func (srv *Databases) WithListCollectionsSearch(v string) ListCollectionsOption {
 	return func(o *ListCollectionsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -309,14 +329,19 @@ func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...List
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.CollectionList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.CollectionList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.CollectionList
 	parsed, ok := resp.Result.(models.CollectionList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -324,9 +349,8 @@ func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...List
 	return &parsed, nil
 
 }
-
 type CreateCollectionOptions struct {
-	Permissions []interface{}
+	Permissions []string
 	DocumentSecurity bool
 	Enabled bool
 	enabledSetters map[string]bool
@@ -340,19 +364,19 @@ func (options CreateCollectionOptions) New() *CreateCollectionOptions {
 	return &options
 }
 type CreateCollectionOption func(*CreateCollectionOptions)
-func WithCreateCollectionPermissions(v []interface{}) CreateCollectionOption {
+func (srv *Databases) WithCreateCollectionPermissions(v []string) CreateCollectionOption {
 	return func(o *CreateCollectionOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-func WithCreateCollectionDocumentSecurity(v bool) CreateCollectionOption {
+func (srv *Databases) WithCreateCollectionDocumentSecurity(v bool) CreateCollectionOption {
 	return func(o *CreateCollectionOptions) {
 		o.DocumentSecurity = v
 		o.enabledSetters["DocumentSecurity"] = true
 	}
 }
-func WithCreateCollectionEnabled(v bool) CreateCollectionOption {
+func (srv *Databases) WithCreateCollectionEnabled(v bool) CreateCollectionOption {
 	return func(o *CreateCollectionOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -391,14 +415,19 @@ func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, N
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Collection
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Collection{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Collection
 	parsed, ok := resp.Result.(models.Collection)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -423,14 +452,19 @@ func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)(*mod
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Collection
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Collection{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Collection
 	parsed, ok := resp.Result.(models.Collection)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -438,9 +472,8 @@ func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)(*mod
 	return &parsed, nil
 
 }
-
 type UpdateCollectionOptions struct {
-	Permissions []interface{}
+	Permissions []string
 	DocumentSecurity bool
 	Enabled bool
 	enabledSetters map[string]bool
@@ -454,19 +487,19 @@ func (options UpdateCollectionOptions) New() *UpdateCollectionOptions {
 	return &options
 }
 type UpdateCollectionOption func(*UpdateCollectionOptions)
-func WithUpdateCollectionPermissions(v []interface{}) UpdateCollectionOption {
+func (srv *Databases) WithUpdateCollectionPermissions(v []string) UpdateCollectionOption {
 	return func(o *UpdateCollectionOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-func WithUpdateCollectionDocumentSecurity(v bool) UpdateCollectionOption {
+func (srv *Databases) WithUpdateCollectionDocumentSecurity(v bool) UpdateCollectionOption {
 	return func(o *UpdateCollectionOptions) {
 		o.DocumentSecurity = v
 		o.enabledSetters["DocumentSecurity"] = true
 	}
 }
-func WithUpdateCollectionEnabled(v bool) UpdateCollectionOption {
+func (srv *Databases) WithUpdateCollectionEnabled(v bool) UpdateCollectionOption {
 	return func(o *UpdateCollectionOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -502,14 +535,19 @@ func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, N
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Collection
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Collection{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Collection
 	parsed, ok := resp.Result.(models.Collection)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -534,14 +572,18 @@ func (srv *Databases) DeleteCollection(DatabaseId string, CollectionId string)(*
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -549,9 +591,8 @@ func (srv *Databases) DeleteCollection(DatabaseId string, CollectionId string)(*
 	return &parsed, nil
 
 }
-
 type ListAttributesOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListAttributesOptions) New() *ListAttributesOptions {
@@ -561,7 +602,7 @@ func (options ListAttributesOptions) New() *ListAttributesOptions {
 	return &options
 }
 type ListAttributesOption func(*ListAttributesOptions)
-func WithListAttributesQueries(v []interface{}) ListAttributesOption {
+func (srv *Databases) WithListAttributesQueries(v []string) ListAttributesOption {
 	return func(o *ListAttributesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -590,14 +631,19 @@ func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string, opt
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeList
 	parsed, ok := resp.Result.(models.AttributeList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -605,7 +651,6 @@ func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string, opt
 	return &parsed, nil
 
 }
-
 type CreateBooleanAttributeOptions struct {
 	Default bool
 	Array bool
@@ -619,13 +664,13 @@ func (options CreateBooleanAttributeOptions) New() *CreateBooleanAttributeOption
 	return &options
 }
 type CreateBooleanAttributeOption func(*CreateBooleanAttributeOptions)
-func WithCreateBooleanAttributeDefault(v bool) CreateBooleanAttributeOption {
+func (srv *Databases) WithCreateBooleanAttributeDefault(v bool) CreateBooleanAttributeOption {
 	return func(o *CreateBooleanAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func WithCreateBooleanAttributeArray(v bool) CreateBooleanAttributeOption {
+func (srv *Databases) WithCreateBooleanAttributeArray(v bool) CreateBooleanAttributeOption {
 	return func(o *CreateBooleanAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -659,14 +704,19 @@ func (srv *Databases) CreateBooleanAttribute(DatabaseId string, CollectionId str
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeBoolean
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeBoolean{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeBoolean
 	parsed, ok := resp.Result.(models.AttributeBoolean)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -694,14 +744,19 @@ func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId str
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeBoolean
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeBoolean{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeBoolean
 	parsed, ok := resp.Result.(models.AttributeBoolean)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -709,7 +764,6 @@ func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId str
 	return &parsed, nil
 
 }
-
 type CreateDatetimeAttributeOptions struct {
 	Default string
 	Array bool
@@ -723,13 +777,13 @@ func (options CreateDatetimeAttributeOptions) New() *CreateDatetimeAttributeOpti
 	return &options
 }
 type CreateDatetimeAttributeOption func(*CreateDatetimeAttributeOptions)
-func WithCreateDatetimeAttributeDefault(v string) CreateDatetimeAttributeOption {
+func (srv *Databases) WithCreateDatetimeAttributeDefault(v string) CreateDatetimeAttributeOption {
 	return func(o *CreateDatetimeAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func WithCreateDatetimeAttributeArray(v bool) CreateDatetimeAttributeOption {
+func (srv *Databases) WithCreateDatetimeAttributeArray(v bool) CreateDatetimeAttributeOption {
 	return func(o *CreateDatetimeAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -764,14 +818,19 @@ func (srv *Databases) CreateDatetimeAttribute(DatabaseId string, CollectionId st
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeDatetime
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeDatetime{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeDatetime
 	parsed, ok := resp.Result.(models.AttributeDatetime)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -799,14 +858,19 @@ func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId st
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeDatetime
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeDatetime{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeDatetime
 	parsed, ok := resp.Result.(models.AttributeDatetime)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -814,7 +878,6 @@ func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId st
 	return &parsed, nil
 
 }
-
 type CreateEmailAttributeOptions struct {
 	Default string
 	Array bool
@@ -828,13 +891,13 @@ func (options CreateEmailAttributeOptions) New() *CreateEmailAttributeOptions {
 	return &options
 }
 type CreateEmailAttributeOption func(*CreateEmailAttributeOptions)
-func WithCreateEmailAttributeDefault(v string) CreateEmailAttributeOption {
+func (srv *Databases) WithCreateEmailAttributeDefault(v string) CreateEmailAttributeOption {
 	return func(o *CreateEmailAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func WithCreateEmailAttributeArray(v bool) CreateEmailAttributeOption {
+func (srv *Databases) WithCreateEmailAttributeArray(v bool) CreateEmailAttributeOption {
 	return func(o *CreateEmailAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -868,14 +931,19 @@ func (srv *Databases) CreateEmailAttribute(DatabaseId string, CollectionId strin
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeEmail
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeEmail{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeEmail
 	parsed, ok := resp.Result.(models.AttributeEmail)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -903,14 +971,19 @@ func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId strin
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeEmail
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeEmail{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeEmail
 	parsed, ok := resp.Result.(models.AttributeEmail)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -918,7 +991,6 @@ func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId strin
 	return &parsed, nil
 
 }
-
 type CreateEnumAttributeOptions struct {
 	Default string
 	Array bool
@@ -932,13 +1004,13 @@ func (options CreateEnumAttributeOptions) New() *CreateEnumAttributeOptions {
 	return &options
 }
 type CreateEnumAttributeOption func(*CreateEnumAttributeOptions)
-func WithCreateEnumAttributeDefault(v string) CreateEnumAttributeOption {
+func (srv *Databases) WithCreateEnumAttributeDefault(v string) CreateEnumAttributeOption {
 	return func(o *CreateEnumAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func WithCreateEnumAttributeArray(v bool) CreateEnumAttributeOption {
+func (srv *Databases) WithCreateEnumAttributeArray(v bool) CreateEnumAttributeOption {
 	return func(o *CreateEnumAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -947,7 +1019,7 @@ func WithCreateEnumAttributeArray(v bool) CreateEnumAttributeOption {
 											
 // CreateEnumAttribute create an enumeration attribute. The `elements` param
 // acts as a white-list of accepted values for this attribute.
-func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []interface{}, Required bool, optionalSetters ...CreateEnumAttributeOption)(*models.AttributeEnum, error) {
+func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []string, Required bool, optionalSetters ...CreateEnumAttributeOption)(*models.AttributeEnum, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/enum")
 	options := CreateEnumAttributeOptions{}.New()
@@ -974,14 +1046,19 @@ func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeEnum
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeEnum{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeEnum
 	parsed, ok := resp.Result.(models.AttributeEnum)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -992,7 +1069,7 @@ func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string
 											
 // UpdateEnumAttribute update an enum attribute. Changing the `default` value
 // will not update already existing documents.
-func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []interface{}, Required bool, Default string)(*models.AttributeEnum, error) {
+func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []string, Required bool, Default string)(*models.AttributeEnum, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}")
 	params := map[string]interface{}{}
@@ -1010,14 +1087,19 @@ func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeEnum
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeEnum{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeEnum
 	parsed, ok := resp.Result.(models.AttributeEnum)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1025,7 +1107,6 @@ func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string
 	return &parsed, nil
 
 }
-
 type CreateFloatAttributeOptions struct {
 	Min float64
 	Max float64
@@ -1043,25 +1124,25 @@ func (options CreateFloatAttributeOptions) New() *CreateFloatAttributeOptions {
 	return &options
 }
 type CreateFloatAttributeOption func(*CreateFloatAttributeOptions)
-func WithCreateFloatAttributeMin(v float64) CreateFloatAttributeOption {
+func (srv *Databases) WithCreateFloatAttributeMin(v float64) CreateFloatAttributeOption {
 	return func(o *CreateFloatAttributeOptions) {
 		o.Min = v
 		o.enabledSetters["Min"] = true
 	}
 }
-func WithCreateFloatAttributeMax(v float64) CreateFloatAttributeOption {
+func (srv *Databases) WithCreateFloatAttributeMax(v float64) CreateFloatAttributeOption {
 	return func(o *CreateFloatAttributeOptions) {
 		o.Max = v
 		o.enabledSetters["Max"] = true
 	}
 }
-func WithCreateFloatAttributeDefault(v float64) CreateFloatAttributeOption {
+func (srv *Databases) WithCreateFloatAttributeDefault(v float64) CreateFloatAttributeOption {
 	return func(o *CreateFloatAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func WithCreateFloatAttributeArray(v bool) CreateFloatAttributeOption {
+func (srv *Databases) WithCreateFloatAttributeArray(v bool) CreateFloatAttributeOption {
 	return func(o *CreateFloatAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -1102,14 +1183,19 @@ func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId strin
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeFloat
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeFloat{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeFloat
 	parsed, ok := resp.Result.(models.AttributeFloat)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1139,14 +1225,19 @@ func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId strin
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeFloat
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeFloat{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeFloat
 	parsed, ok := resp.Result.(models.AttributeFloat)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1154,7 +1245,6 @@ func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId strin
 	return &parsed, nil
 
 }
-
 type CreateIntegerAttributeOptions struct {
 	Min int
 	Max int
@@ -1172,25 +1262,25 @@ func (options CreateIntegerAttributeOptions) New() *CreateIntegerAttributeOption
 	return &options
 }
 type CreateIntegerAttributeOption func(*CreateIntegerAttributeOptions)
-func WithCreateIntegerAttributeMin(v int) CreateIntegerAttributeOption {
+func (srv *Databases) WithCreateIntegerAttributeMin(v int) CreateIntegerAttributeOption {
 	return func(o *CreateIntegerAttributeOptions) {
 		o.Min = v
 		o.enabledSetters["Min"] = true
 	}
 }
-func WithCreateIntegerAttributeMax(v int) CreateIntegerAttributeOption {
+func (srv *Databases) WithCreateIntegerAttributeMax(v int) CreateIntegerAttributeOption {
 	return func(o *CreateIntegerAttributeOptions) {
 		o.Max = v
 		o.enabledSetters["Max"] = true
 	}
 }
-func WithCreateIntegerAttributeDefault(v int) CreateIntegerAttributeOption {
+func (srv *Databases) WithCreateIntegerAttributeDefault(v int) CreateIntegerAttributeOption {
 	return func(o *CreateIntegerAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func WithCreateIntegerAttributeArray(v bool) CreateIntegerAttributeOption {
+func (srv *Databases) WithCreateIntegerAttributeArray(v bool) CreateIntegerAttributeOption {
 	return func(o *CreateIntegerAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -1231,14 +1321,19 @@ func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId str
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeInteger
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeInteger{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeInteger
 	parsed, ok := resp.Result.(models.AttributeInteger)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1268,14 +1363,19 @@ func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId str
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeInteger
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeInteger{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeInteger
 	parsed, ok := resp.Result.(models.AttributeInteger)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1283,7 +1383,6 @@ func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId str
 	return &parsed, nil
 
 }
-
 type CreateIpAttributeOptions struct {
 	Default string
 	Array bool
@@ -1297,13 +1396,13 @@ func (options CreateIpAttributeOptions) New() *CreateIpAttributeOptions {
 	return &options
 }
 type CreateIpAttributeOption func(*CreateIpAttributeOptions)
-func WithCreateIpAttributeDefault(v string) CreateIpAttributeOption {
+func (srv *Databases) WithCreateIpAttributeDefault(v string) CreateIpAttributeOption {
 	return func(o *CreateIpAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func WithCreateIpAttributeArray(v bool) CreateIpAttributeOption {
+func (srv *Databases) WithCreateIpAttributeArray(v bool) CreateIpAttributeOption {
 	return func(o *CreateIpAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -1337,14 +1436,19 @@ func (srv *Databases) CreateIpAttribute(DatabaseId string, CollectionId string, 
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeIp
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeIp{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeIp
 	parsed, ok := resp.Result.(models.AttributeIp)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1372,14 +1476,19 @@ func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, 
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeIp
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeIp{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeIp
 	parsed, ok := resp.Result.(models.AttributeIp)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1387,7 +1496,6 @@ func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, 
 	return &parsed, nil
 
 }
-
 type CreateRelationshipAttributeOptions struct {
 	TwoWay bool
 	Key string
@@ -1405,25 +1513,25 @@ func (options CreateRelationshipAttributeOptions) New() *CreateRelationshipAttri
 	return &options
 }
 type CreateRelationshipAttributeOption func(*CreateRelationshipAttributeOptions)
-func WithCreateRelationshipAttributeTwoWay(v bool) CreateRelationshipAttributeOption {
+func (srv *Databases) WithCreateRelationshipAttributeTwoWay(v bool) CreateRelationshipAttributeOption {
 	return func(o *CreateRelationshipAttributeOptions) {
 		o.TwoWay = v
 		o.enabledSetters["TwoWay"] = true
 	}
 }
-func WithCreateRelationshipAttributeKey(v string) CreateRelationshipAttributeOption {
+func (srv *Databases) WithCreateRelationshipAttributeKey(v string) CreateRelationshipAttributeOption {
 	return func(o *CreateRelationshipAttributeOptions) {
 		o.Key = v
 		o.enabledSetters["Key"] = true
 	}
 }
-func WithCreateRelationshipAttributeTwoWayKey(v string) CreateRelationshipAttributeOption {
+func (srv *Databases) WithCreateRelationshipAttributeTwoWayKey(v string) CreateRelationshipAttributeOption {
 	return func(o *CreateRelationshipAttributeOptions) {
 		o.TwoWayKey = v
 		o.enabledSetters["TwoWayKey"] = true
 	}
 }
-func WithCreateRelationshipAttributeOnDelete(v string) CreateRelationshipAttributeOption {
+func (srv *Databases) WithCreateRelationshipAttributeOnDelete(v string) CreateRelationshipAttributeOption {
 	return func(o *CreateRelationshipAttributeOptions) {
 		o.OnDelete = v
 		o.enabledSetters["OnDelete"] = true
@@ -1465,14 +1573,19 @@ func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionI
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeRelationship
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeRelationship{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeRelationship
 	parsed, ok := resp.Result.(models.AttributeRelationship)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1480,7 +1593,6 @@ func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionI
 	return &parsed, nil
 
 }
-
 type CreateStringAttributeOptions struct {
 	Default string
 	Array bool
@@ -1496,19 +1608,19 @@ func (options CreateStringAttributeOptions) New() *CreateStringAttributeOptions 
 	return &options
 }
 type CreateStringAttributeOption func(*CreateStringAttributeOptions)
-func WithCreateStringAttributeDefault(v string) CreateStringAttributeOption {
+func (srv *Databases) WithCreateStringAttributeDefault(v string) CreateStringAttributeOption {
 	return func(o *CreateStringAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func WithCreateStringAttributeArray(v bool) CreateStringAttributeOption {
+func (srv *Databases) WithCreateStringAttributeArray(v bool) CreateStringAttributeOption {
 	return func(o *CreateStringAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
 	}
 }
-func WithCreateStringAttributeEncrypt(v bool) CreateStringAttributeOption {
+func (srv *Databases) WithCreateStringAttributeEncrypt(v bool) CreateStringAttributeOption {
 	return func(o *CreateStringAttributeOptions) {
 		o.Encrypt = v
 		o.enabledSetters["Encrypt"] = true
@@ -1546,14 +1658,19 @@ func (srv *Databases) CreateStringAttribute(DatabaseId string, CollectionId stri
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeString
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeString{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeString
 	parsed, ok := resp.Result.(models.AttributeString)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1581,14 +1698,19 @@ func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId stri
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeString
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeString{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeString
 	parsed, ok := resp.Result.(models.AttributeString)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1596,7 +1718,6 @@ func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId stri
 	return &parsed, nil
 
 }
-
 type CreateUrlAttributeOptions struct {
 	Default string
 	Array bool
@@ -1610,13 +1731,13 @@ func (options CreateUrlAttributeOptions) New() *CreateUrlAttributeOptions {
 	return &options
 }
 type CreateUrlAttributeOption func(*CreateUrlAttributeOptions)
-func WithCreateUrlAttributeDefault(v string) CreateUrlAttributeOption {
+func (srv *Databases) WithCreateUrlAttributeDefault(v string) CreateUrlAttributeOption {
 	return func(o *CreateUrlAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func WithCreateUrlAttributeArray(v bool) CreateUrlAttributeOption {
+func (srv *Databases) WithCreateUrlAttributeArray(v bool) CreateUrlAttributeOption {
 	return func(o *CreateUrlAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -1650,14 +1771,19 @@ func (srv *Databases) CreateUrlAttribute(DatabaseId string, CollectionId string,
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeUrl
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeUrl{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeUrl
 	parsed, ok := resp.Result.(models.AttributeUrl)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1685,14 +1811,19 @@ func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string,
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeUrl
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeUrl{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeUrl
 	parsed, ok := resp.Result.(models.AttributeUrl)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1717,14 +1848,18 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1749,14 +1884,18 @@ func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Ke
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1764,7 +1903,6 @@ func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Ke
 	return &parsed, nil
 
 }
-
 type UpdateRelationshipAttributeOptions struct {
 	OnDelete string
 	enabledSetters map[string]bool
@@ -1776,7 +1914,7 @@ func (options UpdateRelationshipAttributeOptions) New() *UpdateRelationshipAttri
 	return &options
 }
 type UpdateRelationshipAttributeOption func(*UpdateRelationshipAttributeOptions)
-func WithUpdateRelationshipAttributeOnDelete(v string) UpdateRelationshipAttributeOption {
+func (srv *Databases) WithUpdateRelationshipAttributeOnDelete(v string) UpdateRelationshipAttributeOption {
 	return func(o *UpdateRelationshipAttributeOptions) {
 		o.OnDelete = v
 		o.enabledSetters["OnDelete"] = true
@@ -1808,14 +1946,19 @@ func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionI
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.AttributeRelationship
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeRelationship{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.AttributeRelationship
 	parsed, ok := resp.Result.(models.AttributeRelationship)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1823,9 +1966,8 @@ func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionI
 	return &parsed, nil
 
 }
-
 type ListDocumentsOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListDocumentsOptions) New() *ListDocumentsOptions {
@@ -1835,7 +1977,7 @@ func (options ListDocumentsOptions) New() *ListDocumentsOptions {
 	return &options
 }
 type ListDocumentsOption func(*ListDocumentsOptions)
-func WithListDocumentsQueries(v []interface{}) ListDocumentsOption {
+func (srv *Databases) WithListDocumentsQueries(v []string) ListDocumentsOption {
 	return func(o *ListDocumentsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -1865,14 +2007,19 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.DocumentList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DocumentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.DocumentList
 	parsed, ok := resp.Result.(models.DocumentList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1880,9 +2027,8 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 	return &parsed, nil
 
 }
-
 type CreateDocumentOptions struct {
-	Permissions []interface{}
+	Permissions []string
 	enabledSetters map[string]bool
 }
 func (options CreateDocumentOptions) New() *CreateDocumentOptions {
@@ -1892,7 +2038,7 @@ func (options CreateDocumentOptions) New() *CreateDocumentOptions {
 	return &options
 }
 type CreateDocumentOption func(*CreateDocumentOptions)
-func WithCreateDocumentPermissions(v []interface{}) CreateDocumentOption {
+func (srv *Databases) WithCreateDocumentPermissions(v []string) CreateDocumentOption {
 	return func(o *CreateDocumentOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
@@ -1926,14 +2072,19 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Document
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Document{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Document
 	parsed, ok := resp.Result.(models.Document)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1941,9 +2092,8 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 	return &parsed, nil
 
 }
-
 type GetDocumentOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options GetDocumentOptions) New() *GetDocumentOptions {
@@ -1953,7 +2103,7 @@ func (options GetDocumentOptions) New() *GetDocumentOptions {
 	return &options
 }
 type GetDocumentOption func(*GetDocumentOptions)
-func WithGetDocumentQueries(v []interface{}) GetDocumentOption {
+func (srv *Databases) WithGetDocumentQueries(v []string) GetDocumentOption {
 	return func(o *GetDocumentOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -1984,14 +2134,19 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Document
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Document{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Document
 	parsed, ok := resp.Result.(models.Document)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1999,10 +2154,9 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 	return &parsed, nil
 
 }
-
 type UpdateDocumentOptions struct {
 	Data interface{}
-	Permissions []interface{}
+	Permissions []string
 	enabledSetters map[string]bool
 }
 func (options UpdateDocumentOptions) New() *UpdateDocumentOptions {
@@ -2013,13 +2167,13 @@ func (options UpdateDocumentOptions) New() *UpdateDocumentOptions {
 	return &options
 }
 type UpdateDocumentOption func(*UpdateDocumentOptions)
-func WithUpdateDocumentData(v interface{}) UpdateDocumentOption {
+func (srv *Databases) WithUpdateDocumentData(v interface{}) UpdateDocumentOption {
 	return func(o *UpdateDocumentOptions) {
 		o.Data = v
 		o.enabledSetters["Data"] = true
 	}
 }
-func WithUpdateDocumentPermissions(v []interface{}) UpdateDocumentOption {
+func (srv *Databases) WithUpdateDocumentPermissions(v []string) UpdateDocumentOption {
 	return func(o *UpdateDocumentOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
@@ -2053,14 +2207,19 @@ func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, Doc
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Document
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Document{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Document
 	parsed, ok := resp.Result.(models.Document)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2085,14 +2244,18 @@ func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, Doc
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2100,9 +2263,8 @@ func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, Doc
 	return &parsed, nil
 
 }
-
 type ListIndexesOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListIndexesOptions) New() *ListIndexesOptions {
@@ -2112,7 +2274,7 @@ func (options ListIndexesOptions) New() *ListIndexesOptions {
 	return &options
 }
 type ListIndexesOption func(*ListIndexesOptions)
-func WithListIndexesQueries(v []interface{}) ListIndexesOption {
+func (srv *Databases) WithListIndexesQueries(v []string) ListIndexesOption {
 	return func(o *ListIndexesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -2141,14 +2303,19 @@ func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string, option
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.IndexList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.IndexList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.IndexList
 	parsed, ok := resp.Result.(models.IndexList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2156,9 +2323,8 @@ func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string, option
 	return &parsed, nil
 
 }
-
 type CreateIndexOptions struct {
-	Orders []interface{}
+	Orders []string
 	enabledSetters map[string]bool
 }
 func (options CreateIndexOptions) New() *CreateIndexOptions {
@@ -2168,7 +2334,7 @@ func (options CreateIndexOptions) New() *CreateIndexOptions {
 	return &options
 }
 type CreateIndexOption func(*CreateIndexOptions)
-func WithCreateIndexOrders(v []interface{}) CreateIndexOption {
+func (srv *Databases) WithCreateIndexOrders(v []string) CreateIndexOption {
 	return func(o *CreateIndexOptions) {
 		o.Orders = v
 		o.enabledSetters["Orders"] = true
@@ -2178,7 +2344,7 @@ func WithCreateIndexOrders(v []interface{}) CreateIndexOption {
 // CreateIndex creates an index on the attributes listed. Your index should
 // include all the attributes you will query in a single request.
 // Attributes can be `key`, `fulltext`, and `unique`.
-func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key string, Type string, Attributes []interface{}, optionalSetters ...CreateIndexOption)(*models.Index, error) {
+func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key string, Type string, Attributes []string, optionalSetters ...CreateIndexOption)(*models.Index, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes")
 	options := CreateIndexOptions{}.New()
@@ -2202,14 +2368,19 @@ func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key st
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Index
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Index{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Index
 	parsed, ok := resp.Result.(models.Index)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2234,14 +2405,19 @@ func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key strin
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Index
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Index{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Index
 	parsed, ok := resp.Result.(models.Index)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2266,14 +2442,18 @@ func (srv *Databases) DeleteIndex(DatabaseId string, CollectionId string, Key st
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")

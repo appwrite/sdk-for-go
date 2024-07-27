@@ -1,12 +1,12 @@
 # Appwrite Go SDK
 
 ![License](https://img.shields.io/github/license/appwrite/sdk-for-go.svg?style=flat-square)
-![Version](https://img.shields.io/badge/api%20version-1.5.7-blue.svg?style=flat-square)
+![Version](https://img.shields.io/badge/api%20version-1.6.0-blue.svg?style=flat-square)
 [![Build Status](https://img.shields.io/travis/com/appwrite/sdk-generator?style=flat-square)](https://travis-ci.com/appwrite/sdk-generator)
 [![Twitter Account](https://img.shields.io/twitter/follow/appwrite?color=00acee&label=twitter&style=flat-square)](https://twitter.com/appwrite)
 [![Discord](https://img.shields.io/discord/564160730845151244?label=discord&style=flat-square)](https://appwrite.io/discord)
 
-**This SDK is compatible with Appwrite server version 1.6.x. For older versions, please check [previous releases](https://github.com/appwrite/sdk-for-go/releases).**
+**This SDK is compatible with Appwrite server version latest. For older versions, please check [previous releases](https://github.com/appwrite/sdk-for-go/releases).**
 
 Appwrite is an open-source backend as a service server that abstract and simplify complex and repetitive development tasks behind a very simple to use REST API. Appwrite aims to help you develop your apps faster and in a more secure way. Use the Go SDK to integrate your app with the Appwrite server to easily start interacting with all of Appwrite backend APIs and tools. For full API documentation and tutorials go to [https://appwrite.io/docs](https://appwrite.io/docs)
 
@@ -44,32 +44,32 @@ import (
 	"os"
 	"time"
 
-	"github.com/appwrite/sdk-for-go/sdk-for-go"
+	"github.com/appwrite/sdk-for-go/appwrite"
+	"github.com/appwrite/sdk-for-go/id"
 )
 
 func main() {
-	client := sdk-for-go.NewClient(10 * time.Second)
-	client.SetEndpoint(os.Getenv("YOUR_ENDPOINT"))
-	client.SetProject(os.Getenv("YOUR_PROJECT_ID"))
-	client.SetKey(os.Getenv("YOUR_KEY"))
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint(os.Getenv("YOUR_ENDPOINT")),
+		appwrite.WithProject(os.Getenv("YOUR_PROJECT_ID")),
+		appwrite.WithKey(os.Getenv("YOUR_KEY")),
+	)
 
-	db := sdk-for-go.NewDatabase(client)
+	databases := appwrite.NewDatabase(client)
+
 	data := map[string]string{
 		"hello": "world",
 	}
-	var EmptyArray = []interface{}{}
-	doc, err := db.CreateDocument(
+	doc, err := databases.CreateDocument(
+		os.Getenv("DATABASE_ID"),
 		os.Getenv("COLLECTION_ID"),
+		id.Unique(),
 		data,
-		EmptyArray,
-		EmptyArray,
-		"",
-		"",
-		"",
 	)
 	if err != nil {
 		log.Printf("Error creating document: %v", err)
 	}
+
 	log.Printf("Created document: %v", doc)
 }
 ```

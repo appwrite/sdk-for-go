@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // AttributeInteger Model
 type AttributeInteger struct {
@@ -25,4 +29,24 @@ type AttributeInteger struct {
     // is required.
     Default int `json:"xdefault"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model AttributeInteger) New(data []byte) *AttributeInteger {
+    model.data = data
+    return &model
+}
+
+func (model *AttributeInteger) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

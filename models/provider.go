@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Provider Model
 type Provider struct {
@@ -22,4 +26,24 @@ type Provider struct {
     // Provider options.
     Options interface{} `json:"options"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Provider) New(data []byte) *Provider {
+    model.data = data
+    return &model
+}
+
+func (model *Provider) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

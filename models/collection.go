@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Collection Model
 type Collection struct {
@@ -11,7 +15,7 @@ type Collection struct {
     UpdatedAt string `json:"$updatedAt"`
     // Collection permissions. [Learn more about
     // permissions](https://appwrite.io/docs/permissions).
-    Permissions []interface{} `json:"$permissions"`
+    Permissions []string `json:"$permissions"`
     // Database ID.
     DatabaseId string `json:"databaseId"`
     // Collection name.
@@ -24,8 +28,28 @@ type Collection struct {
     // permissions](https://appwrite.io/docs/permissions).
     DocumentSecurity bool `json:"documentSecurity"`
     // Collection attributes.
-    Attributes []interface{} `json:"attributes"`
+    Attributes []string `json:"attributes"`
     // Collection indexes.
-    Indexes []interface{} `json:"indexes"`
+    Indexes []Index `json:"indexes"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Collection) New(data []byte) *Collection {
+    model.data = data
+    return &model
+}
+
+func (model *Collection) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

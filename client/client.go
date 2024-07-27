@@ -18,6 +18,7 @@ import (
 	"strings"
 	"time"
 	"runtime"
+
 	"github.com/appwrite/sdk-for-go/file"
 )
 
@@ -56,42 +57,52 @@ func (ce *AppwriteError) GetStatusCode() int {
 
 // Client is the client struct to access Appwrite  services
 type Client struct {
-	client     *http.Client
-	headers    map[string]string
-	endpoint   string
-	timeout    time.Duration
-	selfSigned bool
-	chunkSize  int64
+	Client     *http.Client
+	Headers    map[string]string
+	Endpoint   string
+	Timeout    time.Duration
+	SelfSigned bool
+	ChunkSize  int64
 }
 
-// NewClient initializes a new Appwrite client with a given timeout
-func NewClient() Client {
+// Initialize a new Appwrite client with a given timeout
+func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.5.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/4.0.1 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/4.0.2 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "4.0.1",
+		"x-sdk-version": "4.0.2",
 	}
-	httpClient, err := getDefaultClient(defaultTimeout)
+	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
 		panic(err)
 	}
-	return Client{
-		endpoint:  "https://cloud.appwrite.io/v1",
-		client:    httpClient,
-		timeout:   defaultTimeout,
-		headers:   headers,
-		chunkSize: defaultChunkSize,
+
+	client := Client{
+		Endpoint:  "https://cloud.appwrite.io/v1",
+		Client:    httpClient,
+		Timeout:   defaultTimeout,
+		Headers:   headers,
+		ChunkSize: defaultChunkSize,
 	}
+
+	for _, opt := range optionalSetters {
+		err = opt(&client)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	return client
 }
 
-func (clt *Client) String() string {
-	return fmt.Sprintf("%s\n%s\n%v", clt.endpoint, clt.headers, clt.timeout)
+func (client *Client) String() string {
+	return fmt.Sprintf("%s\n%s\n%v", client.Endpoint, client.Headers, client.Timeout)
 }
 
-func getDefaultClient(timeout time.Duration) (*http.Client, error) {
+func GetDefaultClient(timeout time.Duration) (*http.Client, error) {
 	jar, err := cookiejar.New(nil)
 	if err != nil {
 		return nil, err
@@ -102,63 +113,11 @@ func getDefaultClient(timeout time.Duration) (*http.Client, error) {
 	}, nil
 }
 
-func (clt *Client) SetTimeout(timeout time.Duration) error {
-	clt.timeout = timeout
-	httpClient, err := getDefaultClient(timeout)
-	if err != nil {
-		return err
-	}
-	clt.client = httpClient
-	return nil
-}
-
-// SetEndpoint sets the default endpoint to which the Client connects to
-func (clt *Client) SetEndpoint(endpoint string) {
-	clt.endpoint = endpoint
-}
-
-// SetSelfSigned sets the condition that specify if the Client should allow connections to a server using a self-signed certificate
-func (clt *Client) SetSelfSigned(status bool) {
-	clt.selfSigned = status
-}
-
-// SetChunkSize sets the chunk size for file upload
-func (clt *Client) SetChunkSize(size int64) {
-	clt.chunkSize = size
-}
+type ClientOption func(*Client) error
 
 // AddHeader add a new custom header that the Client should send on each request
-func (clt *Client) AddHeader(key string, value string) {
-	clt.headers[key] = value
-}
-
-// Your project ID
-func (clt *Client) SetProject(value string) {
-	clt.headers["X-Appwrite-Project"] = value
-}
-
-// Your secret API key
-func (clt *Client) SetKey(value string) {
-	clt.headers["X-Appwrite-Key"] = value
-}
-
-// Your secret JSON Web Token
-func (clt *Client) SetJWT(value string) {
-	clt.headers["X-Appwrite-JWT"] = value
-}
-
-func (clt *Client) SetLocale(value string) {
-	clt.headers["X-Appwrite-Locale"] = value
-}
-
-// The user session to authenticate with
-func (clt *Client) SetSession(value string) {
-	clt.headers["X-Appwrite-Session"] = value
-}
-
-// The user agent string of the client that made the request
-func (clt *Client) SetForwardedUserAgent(value string) {
-	clt.headers["X-Forwarded-User-Agent"] = value
+func (client *Client) AddHeader(key string, value string) {
+	client.Headers[key] = value
 }
 
 func isFileUpload(headers map[string]interface{}) bool {
@@ -169,7 +128,7 @@ func isFileUpload(headers map[string]interface{}) bool {
 	return false
 }
 
-func (clt *Client) FileUpload(url string, headers map[string]interface{}, params map[string]interface{}, paramName string, uploadId string) (*ClientResponse, error) {
+func (client *Client) FileUpload(url string, headers map[string]interface{}, params map[string]interface{}, paramName string, uploadId string) (*ClientResponse, error) {
 	inputFile, ok := params[paramName].(file.InputFile)
 	if !ok {
 		msg := fmt.Sprintf("invalid input file. params[%s] must be of type file.InputFile", paramName)
@@ -187,23 +146,23 @@ func (clt *Client) FileUpload(url string, headers map[string]interface{}, params
 		return nil, err
 	}
 
-	inputFile.Data = make([]byte, clt.chunkSize)
+	inputFile.Data = make([]byte, client.ChunkSize)
 
 	var result *ClientResponse
 
-	numChunks := fileInfo.Size() / clt.chunkSize
-	if fileInfo.Size()%clt.chunkSize != 0 {
+	numChunks := fileInfo.Size() / client.ChunkSize
+	if fileInfo.Size()%client.ChunkSize != 0 {
 		numChunks++
 	}
 	var currentChunk int64 = 0
 	if uploadId != "" && uploadId != "unique()" {
-		resp, err := clt.Call("GET", url+"/"+uploadId, nil, nil)
+		resp, err := client.Call("GET", url+"/"+uploadId, nil, nil)
 		if err == nil {
 			currentChunk = int64(resp.Result.(map[string]interface{})["chunksUploaded"].(float64))
 		}
 	}
 	for i := currentChunk; i < numChunks; i++ {
-		chunkSize := clt.chunkSize
+		chunkSize := client.ChunkSize
 		offset := int64(i) * chunkSize
 		if i == numChunks-1 {
 			chunkSize = fileInfo.Size() - offset
@@ -219,12 +178,12 @@ func (clt *Client) FileUpload(url string, headers map[string]interface{}, params
 		}
 		totalSize := fileInfo.Size()
 		start := offset
-		end := offset + clt.chunkSize - 1
+		end := offset + client.ChunkSize - 1
 		if end >= totalSize {
 			end = totalSize - 1
 		}
 		headers["content-range"] = fmt.Sprintf("bytes %d-%d/%d", start, end, totalSize)
-		result, err = clt.Call("POST", url, headers, params)
+		result, err = client.Call("POST", url, headers, params)
 		if err != nil {
 			return nil, err
 		}
@@ -241,21 +200,21 @@ func (clt *Client) FileUpload(url string, headers map[string]interface{}, params
 }
 
 // Call an API using Client
-func (clt *Client) Call(method string, path string, headers map[string]interface{}, params map[string]interface{}) (*ClientResponse, error) {
-	if clt.client == nil {
+func (client *Client) Call(method string, path string, headers map[string]interface{}, params map[string]interface{}) (*ClientResponse, error) {
+	if client.Client == nil {
 		// Create HTTP client
-		httpClient, err := getDefaultClient(clt.timeout)
+		httpClient, err := GetDefaultClient(client.Timeout)
 		if err != nil {
 			panic(err)
 		}
-		clt.client = httpClient
+		client.Client = httpClient
 	}
 
-	if clt.selfSigned {
+	if client.SelfSigned {
 		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	}
 
-	urlPath := clt.endpoint + path
+	urlPath := client.Endpoint + path
 	isGet := strings.ToUpper(method) == "GET"
 	isPost := strings.ToUpper(method) == "POST"
 	isJsonRequest := headers["content-type"] == "application/json"
@@ -357,12 +316,12 @@ func (clt *Client) Call(method string, path string, headers map[string]interface
 	}
 
 	// Set Client headers
-	for key, val := range clt.headers {
+	for key, val := range client.Headers {
 		req.Header.Set(key, toString(val))
 	}
 
 	// Make request
-	resp, err := clt.client.Do(req)
+	resp, err := client.Client.Do(req)
 	if err != nil {
 		return nil, err
 	}

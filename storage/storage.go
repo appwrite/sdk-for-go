@@ -14,15 +14,14 @@ type Storage struct {
 	client client.Client
 }
 
-func NewStorage(clt client.Client) *Storage {
+func New(clt client.Client) *Storage {
 	return &Storage{
 		client: clt,
 	}
 }
 
-
 type ListBucketsOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -34,13 +33,13 @@ func (options ListBucketsOptions) New() *ListBucketsOptions {
 	return &options
 }
 type ListBucketsOption func(*ListBucketsOptions)
-func WithListBucketsQueries(v []interface{}) ListBucketsOption {
+func (srv *Storage) WithListBucketsQueries(v []string) ListBucketsOption {
 	return func(o *ListBucketsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListBucketsSearch(v string) ListBucketsOption {
+func (srv *Storage) WithListBucketsSearch(v string) ListBucketsOption {
 	return func(o *ListBucketsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -70,14 +69,19 @@ func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption)(*models.Bu
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.BucketList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.BucketList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.BucketList
 	parsed, ok := resp.Result.(models.BucketList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -85,13 +89,12 @@ func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption)(*models.Bu
 	return &parsed, nil
 
 }
-
 type CreateBucketOptions struct {
-	Permissions []interface{}
+	Permissions []string
 	FileSecurity bool
 	Enabled bool
 	MaximumFileSize int
-	AllowedFileExtensions []interface{}
+	AllowedFileExtensions []string
 	Compression string
 	Encryption bool
 	Antivirus bool
@@ -111,49 +114,49 @@ func (options CreateBucketOptions) New() *CreateBucketOptions {
 	return &options
 }
 type CreateBucketOption func(*CreateBucketOptions)
-func WithCreateBucketPermissions(v []interface{}) CreateBucketOption {
+func (srv *Storage) WithCreateBucketPermissions(v []string) CreateBucketOption {
 	return func(o *CreateBucketOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-func WithCreateBucketFileSecurity(v bool) CreateBucketOption {
+func (srv *Storage) WithCreateBucketFileSecurity(v bool) CreateBucketOption {
 	return func(o *CreateBucketOptions) {
 		o.FileSecurity = v
 		o.enabledSetters["FileSecurity"] = true
 	}
 }
-func WithCreateBucketEnabled(v bool) CreateBucketOption {
+func (srv *Storage) WithCreateBucketEnabled(v bool) CreateBucketOption {
 	return func(o *CreateBucketOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithCreateBucketMaximumFileSize(v int) CreateBucketOption {
+func (srv *Storage) WithCreateBucketMaximumFileSize(v int) CreateBucketOption {
 	return func(o *CreateBucketOptions) {
 		o.MaximumFileSize = v
 		o.enabledSetters["MaximumFileSize"] = true
 	}
 }
-func WithCreateBucketAllowedFileExtensions(v []interface{}) CreateBucketOption {
+func (srv *Storage) WithCreateBucketAllowedFileExtensions(v []string) CreateBucketOption {
 	return func(o *CreateBucketOptions) {
 		o.AllowedFileExtensions = v
 		o.enabledSetters["AllowedFileExtensions"] = true
 	}
 }
-func WithCreateBucketCompression(v string) CreateBucketOption {
+func (srv *Storage) WithCreateBucketCompression(v string) CreateBucketOption {
 	return func(o *CreateBucketOptions) {
 		o.Compression = v
 		o.enabledSetters["Compression"] = true
 	}
 }
-func WithCreateBucketEncryption(v bool) CreateBucketOption {
+func (srv *Storage) WithCreateBucketEncryption(v bool) CreateBucketOption {
 	return func(o *CreateBucketOptions) {
 		o.Encryption = v
 		o.enabledSetters["Encryption"] = true
 	}
 }
-func WithCreateBucketAntivirus(v bool) CreateBucketOption {
+func (srv *Storage) WithCreateBucketAntivirus(v bool) CreateBucketOption {
 	return func(o *CreateBucketOptions) {
 		o.Antivirus = v
 		o.enabledSetters["Antivirus"] = true
@@ -202,14 +205,19 @@ func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters .
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Bucket
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Bucket{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Bucket
 	parsed, ok := resp.Result.(models.Bucket)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -233,14 +241,19 @@ func (srv *Storage) GetBucket(BucketId string)(*models.Bucket, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Bucket
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Bucket{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Bucket
 	parsed, ok := resp.Result.(models.Bucket)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -248,13 +261,12 @@ func (srv *Storage) GetBucket(BucketId string)(*models.Bucket, error) {
 	return &parsed, nil
 
 }
-
 type UpdateBucketOptions struct {
-	Permissions []interface{}
+	Permissions []string
 	FileSecurity bool
 	Enabled bool
 	MaximumFileSize int
-	AllowedFileExtensions []interface{}
+	AllowedFileExtensions []string
 	Compression string
 	Encryption bool
 	Antivirus bool
@@ -274,49 +286,49 @@ func (options UpdateBucketOptions) New() *UpdateBucketOptions {
 	return &options
 }
 type UpdateBucketOption func(*UpdateBucketOptions)
-func WithUpdateBucketPermissions(v []interface{}) UpdateBucketOption {
+func (srv *Storage) WithUpdateBucketPermissions(v []string) UpdateBucketOption {
 	return func(o *UpdateBucketOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-func WithUpdateBucketFileSecurity(v bool) UpdateBucketOption {
+func (srv *Storage) WithUpdateBucketFileSecurity(v bool) UpdateBucketOption {
 	return func(o *UpdateBucketOptions) {
 		o.FileSecurity = v
 		o.enabledSetters["FileSecurity"] = true
 	}
 }
-func WithUpdateBucketEnabled(v bool) UpdateBucketOption {
+func (srv *Storage) WithUpdateBucketEnabled(v bool) UpdateBucketOption {
 	return func(o *UpdateBucketOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateBucketMaximumFileSize(v int) UpdateBucketOption {
+func (srv *Storage) WithUpdateBucketMaximumFileSize(v int) UpdateBucketOption {
 	return func(o *UpdateBucketOptions) {
 		o.MaximumFileSize = v
 		o.enabledSetters["MaximumFileSize"] = true
 	}
 }
-func WithUpdateBucketAllowedFileExtensions(v []interface{}) UpdateBucketOption {
+func (srv *Storage) WithUpdateBucketAllowedFileExtensions(v []string) UpdateBucketOption {
 	return func(o *UpdateBucketOptions) {
 		o.AllowedFileExtensions = v
 		o.enabledSetters["AllowedFileExtensions"] = true
 	}
 }
-func WithUpdateBucketCompression(v string) UpdateBucketOption {
+func (srv *Storage) WithUpdateBucketCompression(v string) UpdateBucketOption {
 	return func(o *UpdateBucketOptions) {
 		o.Compression = v
 		o.enabledSetters["Compression"] = true
 	}
 }
-func WithUpdateBucketEncryption(v bool) UpdateBucketOption {
+func (srv *Storage) WithUpdateBucketEncryption(v bool) UpdateBucketOption {
 	return func(o *UpdateBucketOptions) {
 		o.Encryption = v
 		o.enabledSetters["Encryption"] = true
 	}
 }
-func WithUpdateBucketAntivirus(v bool) UpdateBucketOption {
+func (srv *Storage) WithUpdateBucketAntivirus(v bool) UpdateBucketOption {
 	return func(o *UpdateBucketOptions) {
 		o.Antivirus = v
 		o.enabledSetters["Antivirus"] = true
@@ -366,14 +378,19 @@ func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters .
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Bucket
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Bucket{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Bucket
 	parsed, ok := resp.Result.(models.Bucket)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -396,14 +413,18 @@ func (srv *Storage) DeleteBucket(BucketId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -411,9 +432,8 @@ func (srv *Storage) DeleteBucket(BucketId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-
 type ListFilesOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -425,13 +445,13 @@ func (options ListFilesOptions) New() *ListFilesOptions {
 	return &options
 }
 type ListFilesOption func(*ListFilesOptions)
-func WithListFilesQueries(v []interface{}) ListFilesOption {
+func (srv *Storage) WithListFilesQueries(v []string) ListFilesOption {
 	return func(o *ListFilesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListFilesSearch(v string) ListFilesOption {
+func (srv *Storage) WithListFilesSearch(v string) ListFilesOption {
 	return func(o *ListFilesOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -463,14 +483,19 @@ func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOptio
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.FileList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.FileList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.FileList
 	parsed, ok := resp.Result.(models.FileList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -478,9 +503,8 @@ func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOptio
 	return &parsed, nil
 
 }
-
 type CreateFileOptions struct {
-	Permissions []interface{}
+	Permissions []string
 	enabledSetters map[string]bool
 }
 func (options CreateFileOptions) New() *CreateFileOptions {
@@ -490,7 +514,7 @@ func (options CreateFileOptions) New() *CreateFileOptions {
 	return &options
 }
 type CreateFileOption func(*CreateFileOptions)
-func WithCreateFilePermissions(v []interface{}) CreateFileOption {
+func (srv *Storage) WithCreateFilePermissions(v []string) CreateFileOption {
 	return func(o *CreateFileOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
@@ -573,14 +597,19 @@ func (srv *Storage) GetFile(BucketId string, FileId string)(*models.File, error)
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.File
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.File{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.File
 	parsed, ok := resp.Result.(models.File)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -588,10 +617,9 @@ func (srv *Storage) GetFile(BucketId string, FileId string)(*models.File, error)
 	return &parsed, nil
 
 }
-
 type UpdateFileOptions struct {
 	Name string
-	Permissions []interface{}
+	Permissions []string
 	enabledSetters map[string]bool
 }
 func (options UpdateFileOptions) New() *UpdateFileOptions {
@@ -602,13 +630,13 @@ func (options UpdateFileOptions) New() *UpdateFileOptions {
 	return &options
 }
 type UpdateFileOption func(*UpdateFileOptions)
-func WithUpdateFileName(v string) UpdateFileOption {
+func (srv *Storage) WithUpdateFileName(v string) UpdateFileOption {
 	return func(o *UpdateFileOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateFilePermissions(v []interface{}) UpdateFileOption {
+func (srv *Storage) WithUpdateFilePermissions(v []string) UpdateFileOption {
 	return func(o *UpdateFileOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
@@ -641,14 +669,19 @@ func (srv *Storage) UpdateFile(BucketId string, FileId string, optionalSetters .
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.File
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.File{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.File
 	parsed, ok := resp.Result.(models.File)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -673,14 +706,18 @@ func (srv *Storage) DeleteFile(BucketId string, FileId string)(*interface{}, err
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -706,14 +743,18 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string)(*[]byte, err
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -721,7 +762,6 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string)(*[]byte, err
 	return &parsed, nil
 
 }
-
 type GetFilePreviewOptions struct {
 	Width int
 	Height int
@@ -753,67 +793,67 @@ func (options GetFilePreviewOptions) New() *GetFilePreviewOptions {
 	return &options
 }
 type GetFilePreviewOption func(*GetFilePreviewOptions)
-func WithGetFilePreviewWidth(v int) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewWidth(v int) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.Width = v
 		o.enabledSetters["Width"] = true
 	}
 }
-func WithGetFilePreviewHeight(v int) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewHeight(v int) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.Height = v
 		o.enabledSetters["Height"] = true
 	}
 }
-func WithGetFilePreviewGravity(v string) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewGravity(v string) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.Gravity = v
 		o.enabledSetters["Gravity"] = true
 	}
 }
-func WithGetFilePreviewQuality(v int) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewQuality(v int) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.Quality = v
 		o.enabledSetters["Quality"] = true
 	}
 }
-func WithGetFilePreviewBorderWidth(v int) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewBorderWidth(v int) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.BorderWidth = v
 		o.enabledSetters["BorderWidth"] = true
 	}
 }
-func WithGetFilePreviewBorderColor(v string) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewBorderColor(v string) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.BorderColor = v
 		o.enabledSetters["BorderColor"] = true
 	}
 }
-func WithGetFilePreviewBorderRadius(v int) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewBorderRadius(v int) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.BorderRadius = v
 		o.enabledSetters["BorderRadius"] = true
 	}
 }
-func WithGetFilePreviewOpacity(v float64) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewOpacity(v float64) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.Opacity = v
 		o.enabledSetters["Opacity"] = true
 	}
 }
-func WithGetFilePreviewRotation(v int) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewRotation(v int) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.Rotation = v
 		o.enabledSetters["Rotation"] = true
 	}
 }
-func WithGetFilePreviewBackground(v string) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewBackground(v string) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.Background = v
 		o.enabledSetters["Background"] = true
 	}
 }
-func WithGetFilePreviewOutput(v string) GetFilePreviewOption {
+func (srv *Storage) WithGetFilePreviewOutput(v string) GetFilePreviewOption {
 	return func(o *GetFilePreviewOptions) {
 		o.Output = v
 		o.enabledSetters["Output"] = true
@@ -876,14 +916,18 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -909,14 +953,18 @@ func (srv *Storage) GetFileView(BucketId string, FileId string)(*[]byte, error) 
 	if err != nil {
 		return nil, err
 	}
-	var parsed []byte
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed []byte
 	parsed, ok := resp.Result.([]byte)
 	if !ok {
 		return nil, errors.New("unexpected response type")

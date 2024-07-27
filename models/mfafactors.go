@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // MFAFactors Model
 type MfaFactors struct {
@@ -12,4 +16,24 @@ type MfaFactors struct {
     // Can recovery code be used for MFA challenge for this account.
     RecoveryCode bool `json:"recoveryCode"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model MfaFactors) New(data []byte) *MfaFactors {
+    model.data = data
+    return &model
+}
+
+func (model *MfaFactors) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

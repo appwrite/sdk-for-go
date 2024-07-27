@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // AlgoScryptModified Model
 type AlgoScryptModified struct {
@@ -12,4 +16,24 @@ type AlgoScryptModified struct {
     // Key used to compute hash.
     SignerKey string `json:"signerKey"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model AlgoScryptModified) New(data []byte) *AlgoScryptModified {
+    model.data = data
+    return &model
+}
+
+func (model *AlgoScryptModified) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

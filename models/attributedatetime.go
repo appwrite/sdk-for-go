@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // AttributeDatetime Model
 type AttributeDatetime struct {
@@ -22,4 +26,24 @@ type AttributeDatetime struct {
     // Default value for attribute when not provided. Only null is optional
     Default string `json:"xdefault"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model AttributeDatetime) New(data []byte) *AttributeDatetime {
+    model.data = data
+    return &model
+}
+
+func (model *AttributeDatetime) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

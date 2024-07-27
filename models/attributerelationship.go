@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // AttributeRelationship Model
 type AttributeRelationship struct {
@@ -30,4 +34,24 @@ type AttributeRelationship struct {
     // Whether this is the parent or child side of the relationship
     Side string `json:"side"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model AttributeRelationship) New(data []byte) *AttributeRelationship {
+    model.data = data
+    return &model
+}
+
+func (model *AttributeRelationship) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

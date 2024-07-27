@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Document Model
 type Document struct {
@@ -15,8 +19,27 @@ type Document struct {
     UpdatedAt string `json:"$updatedAt"`
     // Document permissions. [Learn more about
     // permissions](https://appwrite.io/docs/permissions).
-    Permissions []interface{} `json:"$permissions"`
+    Permissions []string `json:"$permissions"`
 
-    // Additional properties
-    data interface{}
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Document) New(data []byte) *Document {
+    model.data = data
+    return &model
+}
+
+// Use this method to get response in desired type
+func (model *Document) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

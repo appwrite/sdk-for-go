@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Membership Model
 type Membership struct {
@@ -31,6 +35,26 @@ type Membership struct {
     // false otherwise.
     Mfa bool `json:"mfa"`
     // User list of roles
-    Roles []interface{} `json:"roles"`
+    Roles []string `json:"roles"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Membership) New(data []byte) *Membership {
+    model.data = data
+    return &model
+}
+
+func (model *Membership) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

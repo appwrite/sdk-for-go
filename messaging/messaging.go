@@ -13,15 +13,14 @@ type Messaging struct {
 	client client.Client
 }
 
-func NewMessaging(clt client.Client) *Messaging {
+func New(clt client.Client) *Messaging {
 	return &Messaging{
 		client: clt,
 	}
 }
 
-
 type ListMessagesOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -33,13 +32,13 @@ func (options ListMessagesOptions) New() *ListMessagesOptions {
 	return &options
 }
 type ListMessagesOption func(*ListMessagesOptions)
-func WithListMessagesQueries(v []interface{}) ListMessagesOption {
+func (srv *Messaging) WithListMessagesQueries(v []string) ListMessagesOption {
 	return func(o *ListMessagesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListMessagesSearch(v string) ListMessagesOption {
+func (srv *Messaging) WithListMessagesSearch(v string) ListMessagesOption {
 	return func(o *ListMessagesOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -68,14 +67,19 @@ func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*model
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.MessageList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MessageList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.MessageList
 	parsed, ok := resp.Result.(models.MessageList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -83,14 +87,13 @@ func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*model
 	return &parsed, nil
 
 }
-
 type CreateEmailOptions struct {
-	Topics []interface{}
-	Users []interface{}
-	Targets []interface{}
-	Cc []interface{}
-	Bcc []interface{}
-	Attachments []interface{}
+	Topics []string
+	Users []string
+	Targets []string
+	Cc []string
+	Bcc []string
+	Attachments []string
 	Draft bool
 	Html bool
 	ScheduledAt string
@@ -111,55 +114,55 @@ func (options CreateEmailOptions) New() *CreateEmailOptions {
 	return &options
 }
 type CreateEmailOption func(*CreateEmailOptions)
-func WithCreateEmailTopics(v []interface{}) CreateEmailOption {
+func (srv *Messaging) WithCreateEmailTopics(v []string) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Topics = v
 		o.enabledSetters["Topics"] = true
 	}
 }
-func WithCreateEmailUsers(v []interface{}) CreateEmailOption {
+func (srv *Messaging) WithCreateEmailUsers(v []string) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Users = v
 		o.enabledSetters["Users"] = true
 	}
 }
-func WithCreateEmailTargets(v []interface{}) CreateEmailOption {
+func (srv *Messaging) WithCreateEmailTargets(v []string) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Targets = v
 		o.enabledSetters["Targets"] = true
 	}
 }
-func WithCreateEmailCc(v []interface{}) CreateEmailOption {
+func (srv *Messaging) WithCreateEmailCc(v []string) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Cc = v
 		o.enabledSetters["Cc"] = true
 	}
 }
-func WithCreateEmailBcc(v []interface{}) CreateEmailOption {
+func (srv *Messaging) WithCreateEmailBcc(v []string) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Bcc = v
 		o.enabledSetters["Bcc"] = true
 	}
 }
-func WithCreateEmailAttachments(v []interface{}) CreateEmailOption {
+func (srv *Messaging) WithCreateEmailAttachments(v []string) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Attachments = v
 		o.enabledSetters["Attachments"] = true
 	}
 }
-func WithCreateEmailDraft(v bool) CreateEmailOption {
+func (srv *Messaging) WithCreateEmailDraft(v bool) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Draft = v
 		o.enabledSetters["Draft"] = true
 	}
 }
-func WithCreateEmailHtml(v bool) CreateEmailOption {
+func (srv *Messaging) WithCreateEmailHtml(v bool) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Html = v
 		o.enabledSetters["Html"] = true
 	}
 }
-func WithCreateEmailScheduledAt(v string) CreateEmailOption {
+func (srv *Messaging) WithCreateEmailScheduledAt(v string) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.ScheduledAt = v
 		o.enabledSetters["ScheduledAt"] = true
@@ -212,14 +215,19 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Message
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Message{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Message
 	parsed, ok := resp.Result.(models.Message)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -227,19 +235,18 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 	return &parsed, nil
 
 }
-
 type UpdateEmailOptions struct {
-	Topics []interface{}
-	Users []interface{}
-	Targets []interface{}
+	Topics []string
+	Users []string
+	Targets []string
 	Subject string
 	Content string
 	Draft bool
 	Html bool
-	Cc []interface{}
-	Bcc []interface{}
+	Cc []string
+	Bcc []string
 	ScheduledAt string
-	Attachments []interface{}
+	Attachments []string
 	enabledSetters map[string]bool
 }
 func (options UpdateEmailOptions) New() *UpdateEmailOptions {
@@ -259,67 +266,67 @@ func (options UpdateEmailOptions) New() *UpdateEmailOptions {
 	return &options
 }
 type UpdateEmailOption func(*UpdateEmailOptions)
-func WithUpdateEmailTopics(v []interface{}) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailTopics(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Topics = v
 		o.enabledSetters["Topics"] = true
 	}
 }
-func WithUpdateEmailUsers(v []interface{}) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailUsers(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Users = v
 		o.enabledSetters["Users"] = true
 	}
 }
-func WithUpdateEmailTargets(v []interface{}) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailTargets(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Targets = v
 		o.enabledSetters["Targets"] = true
 	}
 }
-func WithUpdateEmailSubject(v string) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailSubject(v string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Subject = v
 		o.enabledSetters["Subject"] = true
 	}
 }
-func WithUpdateEmailContent(v string) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailContent(v string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Content = v
 		o.enabledSetters["Content"] = true
 	}
 }
-func WithUpdateEmailDraft(v bool) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailDraft(v bool) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Draft = v
 		o.enabledSetters["Draft"] = true
 	}
 }
-func WithUpdateEmailHtml(v bool) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailHtml(v bool) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Html = v
 		o.enabledSetters["Html"] = true
 	}
 }
-func WithUpdateEmailCc(v []interface{}) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailCc(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Cc = v
 		o.enabledSetters["Cc"] = true
 	}
 }
-func WithUpdateEmailBcc(v []interface{}) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailBcc(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Bcc = v
 		o.enabledSetters["Bcc"] = true
 	}
 }
-func WithUpdateEmailScheduledAt(v string) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailScheduledAt(v string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.ScheduledAt = v
 		o.enabledSetters["ScheduledAt"] = true
 	}
 }
-func WithUpdateEmailAttachments(v []interface{}) UpdateEmailOption {
+func (srv *Messaging) WithUpdateEmailAttachments(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Attachments = v
 		o.enabledSetters["Attachments"] = true
@@ -377,14 +384,19 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Message
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Message{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Message
 	parsed, ok := resp.Result.(models.Message)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -392,11 +404,10 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 	return &parsed, nil
 
 }
-
 type CreatePushOptions struct {
-	Topics []interface{}
-	Users []interface{}
-	Targets []interface{}
+	Topics []string
+	Users []string
+	Targets []string
 	Data interface{}
 	Action string
 	Image string
@@ -428,79 +439,79 @@ func (options CreatePushOptions) New() *CreatePushOptions {
 	return &options
 }
 type CreatePushOption func(*CreatePushOptions)
-func WithCreatePushTopics(v []interface{}) CreatePushOption {
+func (srv *Messaging) WithCreatePushTopics(v []string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Topics = v
 		o.enabledSetters["Topics"] = true
 	}
 }
-func WithCreatePushUsers(v []interface{}) CreatePushOption {
+func (srv *Messaging) WithCreatePushUsers(v []string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Users = v
 		o.enabledSetters["Users"] = true
 	}
 }
-func WithCreatePushTargets(v []interface{}) CreatePushOption {
+func (srv *Messaging) WithCreatePushTargets(v []string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Targets = v
 		o.enabledSetters["Targets"] = true
 	}
 }
-func WithCreatePushData(v interface{}) CreatePushOption {
+func (srv *Messaging) WithCreatePushData(v interface{}) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Data = v
 		o.enabledSetters["Data"] = true
 	}
 }
-func WithCreatePushAction(v string) CreatePushOption {
+func (srv *Messaging) WithCreatePushAction(v string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Action = v
 		o.enabledSetters["Action"] = true
 	}
 }
-func WithCreatePushImage(v string) CreatePushOption {
+func (srv *Messaging) WithCreatePushImage(v string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Image = v
 		o.enabledSetters["Image"] = true
 	}
 }
-func WithCreatePushIcon(v string) CreatePushOption {
+func (srv *Messaging) WithCreatePushIcon(v string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Icon = v
 		o.enabledSetters["Icon"] = true
 	}
 }
-func WithCreatePushSound(v string) CreatePushOption {
+func (srv *Messaging) WithCreatePushSound(v string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Sound = v
 		o.enabledSetters["Sound"] = true
 	}
 }
-func WithCreatePushColor(v string) CreatePushOption {
+func (srv *Messaging) WithCreatePushColor(v string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Color = v
 		o.enabledSetters["Color"] = true
 	}
 }
-func WithCreatePushTag(v string) CreatePushOption {
+func (srv *Messaging) WithCreatePushTag(v string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Tag = v
 		o.enabledSetters["Tag"] = true
 	}
 }
-func WithCreatePushBadge(v string) CreatePushOption {
+func (srv *Messaging) WithCreatePushBadge(v string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Badge = v
 		o.enabledSetters["Badge"] = true
 	}
 }
-func WithCreatePushDraft(v bool) CreatePushOption {
+func (srv *Messaging) WithCreatePushDraft(v bool) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Draft = v
 		o.enabledSetters["Draft"] = true
 	}
 }
-func WithCreatePushScheduledAt(v string) CreatePushOption {
+func (srv *Messaging) WithCreatePushScheduledAt(v string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.ScheduledAt = v
 		o.enabledSetters["ScheduledAt"] = true
@@ -565,14 +576,19 @@ func (srv *Messaging) CreatePush(MessageId string, Title string, Body string, op
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Message
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Message{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Message
 	parsed, ok := resp.Result.(models.Message)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -580,11 +596,10 @@ func (srv *Messaging) CreatePush(MessageId string, Title string, Body string, op
 	return &parsed, nil
 
 }
-
 type UpdatePushOptions struct {
-	Topics []interface{}
-	Users []interface{}
-	Targets []interface{}
+	Topics []string
+	Users []string
+	Targets []string
 	Title string
 	Body string
 	Data interface{}
@@ -620,91 +635,91 @@ func (options UpdatePushOptions) New() *UpdatePushOptions {
 	return &options
 }
 type UpdatePushOption func(*UpdatePushOptions)
-func WithUpdatePushTopics(v []interface{}) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushTopics(v []string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Topics = v
 		o.enabledSetters["Topics"] = true
 	}
 }
-func WithUpdatePushUsers(v []interface{}) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushUsers(v []string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Users = v
 		o.enabledSetters["Users"] = true
 	}
 }
-func WithUpdatePushTargets(v []interface{}) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushTargets(v []string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Targets = v
 		o.enabledSetters["Targets"] = true
 	}
 }
-func WithUpdatePushTitle(v string) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushTitle(v string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Title = v
 		o.enabledSetters["Title"] = true
 	}
 }
-func WithUpdatePushBody(v string) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushBody(v string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Body = v
 		o.enabledSetters["Body"] = true
 	}
 }
-func WithUpdatePushData(v interface{}) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushData(v interface{}) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Data = v
 		o.enabledSetters["Data"] = true
 	}
 }
-func WithUpdatePushAction(v string) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushAction(v string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Action = v
 		o.enabledSetters["Action"] = true
 	}
 }
-func WithUpdatePushImage(v string) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushImage(v string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Image = v
 		o.enabledSetters["Image"] = true
 	}
 }
-func WithUpdatePushIcon(v string) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushIcon(v string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Icon = v
 		o.enabledSetters["Icon"] = true
 	}
 }
-func WithUpdatePushSound(v string) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushSound(v string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Sound = v
 		o.enabledSetters["Sound"] = true
 	}
 }
-func WithUpdatePushColor(v string) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushColor(v string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Color = v
 		o.enabledSetters["Color"] = true
 	}
 }
-func WithUpdatePushTag(v string) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushTag(v string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Tag = v
 		o.enabledSetters["Tag"] = true
 	}
 }
-func WithUpdatePushBadge(v int) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushBadge(v int) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Badge = v
 		o.enabledSetters["Badge"] = true
 	}
 }
-func WithUpdatePushDraft(v bool) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushDraft(v bool) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Draft = v
 		o.enabledSetters["Draft"] = true
 	}
 }
-func WithUpdatePushScheduledAt(v string) UpdatePushOption {
+func (srv *Messaging) WithUpdatePushScheduledAt(v string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.ScheduledAt = v
 		o.enabledSetters["ScheduledAt"] = true
@@ -774,14 +789,19 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Message
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Message{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Message
 	parsed, ok := resp.Result.(models.Message)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -789,11 +809,10 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 	return &parsed, nil
 
 }
-
 type CreateSmsOptions struct {
-	Topics []interface{}
-	Users []interface{}
-	Targets []interface{}
+	Topics []string
+	Users []string
+	Targets []string
 	Draft bool
 	ScheduledAt string
 	enabledSetters map[string]bool
@@ -809,31 +828,31 @@ func (options CreateSmsOptions) New() *CreateSmsOptions {
 	return &options
 }
 type CreateSmsOption func(*CreateSmsOptions)
-func WithCreateSmsTopics(v []interface{}) CreateSmsOption {
+func (srv *Messaging) WithCreateSmsTopics(v []string) CreateSmsOption {
 	return func(o *CreateSmsOptions) {
 		o.Topics = v
 		o.enabledSetters["Topics"] = true
 	}
 }
-func WithCreateSmsUsers(v []interface{}) CreateSmsOption {
+func (srv *Messaging) WithCreateSmsUsers(v []string) CreateSmsOption {
 	return func(o *CreateSmsOptions) {
 		o.Users = v
 		o.enabledSetters["Users"] = true
 	}
 }
-func WithCreateSmsTargets(v []interface{}) CreateSmsOption {
+func (srv *Messaging) WithCreateSmsTargets(v []string) CreateSmsOption {
 	return func(o *CreateSmsOptions) {
 		o.Targets = v
 		o.enabledSetters["Targets"] = true
 	}
 }
-func WithCreateSmsDraft(v bool) CreateSmsOption {
+func (srv *Messaging) WithCreateSmsDraft(v bool) CreateSmsOption {
 	return func(o *CreateSmsOptions) {
 		o.Draft = v
 		o.enabledSetters["Draft"] = true
 	}
 }
-func WithCreateSmsScheduledAt(v string) CreateSmsOption {
+func (srv *Messaging) WithCreateSmsScheduledAt(v string) CreateSmsOption {
 	return func(o *CreateSmsOptions) {
 		o.ScheduledAt = v
 		o.enabledSetters["ScheduledAt"] = true
@@ -873,14 +892,19 @@ func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetter
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Message
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Message{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Message
 	parsed, ok := resp.Result.(models.Message)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -888,11 +912,10 @@ func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetter
 	return &parsed, nil
 
 }
-
 type UpdateSmsOptions struct {
-	Topics []interface{}
-	Users []interface{}
-	Targets []interface{}
+	Topics []string
+	Users []string
+	Targets []string
 	Content string
 	Draft bool
 	ScheduledAt string
@@ -910,37 +933,37 @@ func (options UpdateSmsOptions) New() *UpdateSmsOptions {
 	return &options
 }
 type UpdateSmsOption func(*UpdateSmsOptions)
-func WithUpdateSmsTopics(v []interface{}) UpdateSmsOption {
+func (srv *Messaging) WithUpdateSmsTopics(v []string) UpdateSmsOption {
 	return func(o *UpdateSmsOptions) {
 		o.Topics = v
 		o.enabledSetters["Topics"] = true
 	}
 }
-func WithUpdateSmsUsers(v []interface{}) UpdateSmsOption {
+func (srv *Messaging) WithUpdateSmsUsers(v []string) UpdateSmsOption {
 	return func(o *UpdateSmsOptions) {
 		o.Users = v
 		o.enabledSetters["Users"] = true
 	}
 }
-func WithUpdateSmsTargets(v []interface{}) UpdateSmsOption {
+func (srv *Messaging) WithUpdateSmsTargets(v []string) UpdateSmsOption {
 	return func(o *UpdateSmsOptions) {
 		o.Targets = v
 		o.enabledSetters["Targets"] = true
 	}
 }
-func WithUpdateSmsContent(v string) UpdateSmsOption {
+func (srv *Messaging) WithUpdateSmsContent(v string) UpdateSmsOption {
 	return func(o *UpdateSmsOptions) {
 		o.Content = v
 		o.enabledSetters["Content"] = true
 	}
 }
-func WithUpdateSmsDraft(v bool) UpdateSmsOption {
+func (srv *Messaging) WithUpdateSmsDraft(v bool) UpdateSmsOption {
 	return func(o *UpdateSmsOptions) {
 		o.Draft = v
 		o.enabledSetters["Draft"] = true
 	}
 }
-func WithUpdateSmsScheduledAt(v string) UpdateSmsOption {
+func (srv *Messaging) WithUpdateSmsScheduledAt(v string) UpdateSmsOption {
 	return func(o *UpdateSmsOptions) {
 		o.ScheduledAt = v
 		o.enabledSetters["ScheduledAt"] = true
@@ -983,14 +1006,19 @@ func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOp
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Message
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Message{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Message
 	parsed, ok := resp.Result.(models.Message)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1013,14 +1041,19 @@ func (srv *Messaging) GetMessage(MessageId string)(*models.Message, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Message
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Message{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Message
 	parsed, ok := resp.Result.(models.Message)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1044,14 +1077,18 @@ func (srv *Messaging) Delete(MessageId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1059,9 +1096,8 @@ func (srv *Messaging) Delete(MessageId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-
 type ListMessageLogsOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListMessageLogsOptions) New() *ListMessageLogsOptions {
@@ -1071,7 +1107,7 @@ func (options ListMessageLogsOptions) New() *ListMessageLogsOptions {
 	return &options
 }
 type ListMessageLogsOption func(*ListMessageLogsOptions)
-func WithListMessageLogsQueries(v []interface{}) ListMessageLogsOption {
+func (srv *Messaging) WithListMessageLogsQueries(v []string) ListMessageLogsOption {
 	return func(o *ListMessageLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -1099,14 +1135,19 @@ func (srv *Messaging) ListMessageLogs(MessageId string, optionalSetters ...ListM
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.LogList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.LogList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.LogList
 	parsed, ok := resp.Result.(models.LogList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1114,9 +1155,8 @@ func (srv *Messaging) ListMessageLogs(MessageId string, optionalSetters ...ListM
 	return &parsed, nil
 
 }
-
 type ListTargetsOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListTargetsOptions) New() *ListTargetsOptions {
@@ -1126,7 +1166,7 @@ func (options ListTargetsOptions) New() *ListTargetsOptions {
 	return &options
 }
 type ListTargetsOption func(*ListTargetsOptions)
-func WithListTargetsQueries(v []interface{}) ListTargetsOption {
+func (srv *Messaging) WithListTargetsQueries(v []string) ListTargetsOption {
 	return func(o *ListTargetsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -1154,14 +1194,19 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.TargetList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.TargetList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.TargetList
 	parsed, ok := resp.Result.(models.TargetList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1169,9 +1214,8 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 	return &parsed, nil
 
 }
-
 type ListProvidersOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -1183,13 +1227,13 @@ func (options ListProvidersOptions) New() *ListProvidersOptions {
 	return &options
 }
 type ListProvidersOption func(*ListProvidersOptions)
-func WithListProvidersQueries(v []interface{}) ListProvidersOption {
+func (srv *Messaging) WithListProvidersQueries(v []string) ListProvidersOption {
 	return func(o *ListProvidersOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListProvidersSearch(v string) ListProvidersOption {
+func (srv *Messaging) WithListProvidersSearch(v string) ListProvidersOption {
 	return func(o *ListProvidersOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -1219,14 +1263,19 @@ func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*mod
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.ProviderList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ProviderList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.ProviderList
 	parsed, ok := resp.Result.(models.ProviderList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1234,7 +1283,6 @@ func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*mod
 	return &parsed, nil
 
 }
-
 type CreateApnsProviderOptions struct {
 	AuthKey string
 	AuthKeyId string
@@ -1256,37 +1304,37 @@ func (options CreateApnsProviderOptions) New() *CreateApnsProviderOptions {
 	return &options
 }
 type CreateApnsProviderOption func(*CreateApnsProviderOptions)
-func WithCreateApnsProviderAuthKey(v string) CreateApnsProviderOption {
+func (srv *Messaging) WithCreateApnsProviderAuthKey(v string) CreateApnsProviderOption {
 	return func(o *CreateApnsProviderOptions) {
 		o.AuthKey = v
 		o.enabledSetters["AuthKey"] = true
 	}
 }
-func WithCreateApnsProviderAuthKeyId(v string) CreateApnsProviderOption {
+func (srv *Messaging) WithCreateApnsProviderAuthKeyId(v string) CreateApnsProviderOption {
 	return func(o *CreateApnsProviderOptions) {
 		o.AuthKeyId = v
 		o.enabledSetters["AuthKeyId"] = true
 	}
 }
-func WithCreateApnsProviderTeamId(v string) CreateApnsProviderOption {
+func (srv *Messaging) WithCreateApnsProviderTeamId(v string) CreateApnsProviderOption {
 	return func(o *CreateApnsProviderOptions) {
 		o.TeamId = v
 		o.enabledSetters["TeamId"] = true
 	}
 }
-func WithCreateApnsProviderBundleId(v string) CreateApnsProviderOption {
+func (srv *Messaging) WithCreateApnsProviderBundleId(v string) CreateApnsProviderOption {
 	return func(o *CreateApnsProviderOptions) {
 		o.BundleId = v
 		o.enabledSetters["BundleId"] = true
 	}
 }
-func WithCreateApnsProviderSandbox(v bool) CreateApnsProviderOption {
+func (srv *Messaging) WithCreateApnsProviderSandbox(v bool) CreateApnsProviderOption {
 	return func(o *CreateApnsProviderOptions) {
 		o.Sandbox = v
 		o.enabledSetters["Sandbox"] = true
 	}
 }
-func WithCreateApnsProviderEnabled(v bool) CreateApnsProviderOption {
+func (srv *Messaging) WithCreateApnsProviderEnabled(v bool) CreateApnsProviderOption {
 	return func(o *CreateApnsProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -1329,14 +1377,19 @@ func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optiona
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1344,7 +1397,6 @@ func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optiona
 	return &parsed, nil
 
 }
-
 type UpdateApnsProviderOptions struct {
 	Name string
 	Enabled bool
@@ -1368,43 +1420,43 @@ func (options UpdateApnsProviderOptions) New() *UpdateApnsProviderOptions {
 	return &options
 }
 type UpdateApnsProviderOption func(*UpdateApnsProviderOptions)
-func WithUpdateApnsProviderName(v string) UpdateApnsProviderOption {
+func (srv *Messaging) WithUpdateApnsProviderName(v string) UpdateApnsProviderOption {
 	return func(o *UpdateApnsProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateApnsProviderEnabled(v bool) UpdateApnsProviderOption {
+func (srv *Messaging) WithUpdateApnsProviderEnabled(v bool) UpdateApnsProviderOption {
 	return func(o *UpdateApnsProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateApnsProviderAuthKey(v string) UpdateApnsProviderOption {
+func (srv *Messaging) WithUpdateApnsProviderAuthKey(v string) UpdateApnsProviderOption {
 	return func(o *UpdateApnsProviderOptions) {
 		o.AuthKey = v
 		o.enabledSetters["AuthKey"] = true
 	}
 }
-func WithUpdateApnsProviderAuthKeyId(v string) UpdateApnsProviderOption {
+func (srv *Messaging) WithUpdateApnsProviderAuthKeyId(v string) UpdateApnsProviderOption {
 	return func(o *UpdateApnsProviderOptions) {
 		o.AuthKeyId = v
 		o.enabledSetters["AuthKeyId"] = true
 	}
 }
-func WithUpdateApnsProviderTeamId(v string) UpdateApnsProviderOption {
+func (srv *Messaging) WithUpdateApnsProviderTeamId(v string) UpdateApnsProviderOption {
 	return func(o *UpdateApnsProviderOptions) {
 		o.TeamId = v
 		o.enabledSetters["TeamId"] = true
 	}
 }
-func WithUpdateApnsProviderBundleId(v string) UpdateApnsProviderOption {
+func (srv *Messaging) WithUpdateApnsProviderBundleId(v string) UpdateApnsProviderOption {
 	return func(o *UpdateApnsProviderOptions) {
 		o.BundleId = v
 		o.enabledSetters["BundleId"] = true
 	}
 }
-func WithUpdateApnsProviderSandbox(v bool) UpdateApnsProviderOption {
+func (srv *Messaging) WithUpdateApnsProviderSandbox(v bool) UpdateApnsProviderOption {
 	return func(o *UpdateApnsProviderOptions) {
 		o.Sandbox = v
 		o.enabledSetters["Sandbox"] = true
@@ -1451,14 +1503,19 @@ func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...U
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1466,7 +1523,6 @@ func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...U
 	return &parsed, nil
 
 }
-
 type CreateFcmProviderOptions struct {
 	ServiceAccountJSON interface{}
 	Enabled bool
@@ -1480,13 +1536,13 @@ func (options CreateFcmProviderOptions) New() *CreateFcmProviderOptions {
 	return &options
 }
 type CreateFcmProviderOption func(*CreateFcmProviderOptions)
-func WithCreateFcmProviderServiceAccountJSON(v interface{}) CreateFcmProviderOption {
+func (srv *Messaging) WithCreateFcmProviderServiceAccountJSON(v interface{}) CreateFcmProviderOption {
 	return func(o *CreateFcmProviderOptions) {
 		o.ServiceAccountJSON = v
 		o.enabledSetters["ServiceAccountJSON"] = true
 	}
 }
-func WithCreateFcmProviderEnabled(v bool) CreateFcmProviderOption {
+func (srv *Messaging) WithCreateFcmProviderEnabled(v bool) CreateFcmProviderOption {
 	return func(o *CreateFcmProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -1517,14 +1573,19 @@ func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optional
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1532,7 +1593,6 @@ func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optional
 	return &parsed, nil
 
 }
-
 type UpdateFcmProviderOptions struct {
 	Name string
 	Enabled bool
@@ -1548,19 +1608,19 @@ func (options UpdateFcmProviderOptions) New() *UpdateFcmProviderOptions {
 	return &options
 }
 type UpdateFcmProviderOption func(*UpdateFcmProviderOptions)
-func WithUpdateFcmProviderName(v string) UpdateFcmProviderOption {
+func (srv *Messaging) WithUpdateFcmProviderName(v string) UpdateFcmProviderOption {
 	return func(o *UpdateFcmProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateFcmProviderEnabled(v bool) UpdateFcmProviderOption {
+func (srv *Messaging) WithUpdateFcmProviderEnabled(v bool) UpdateFcmProviderOption {
 	return func(o *UpdateFcmProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateFcmProviderServiceAccountJSON(v interface{}) UpdateFcmProviderOption {
+func (srv *Messaging) WithUpdateFcmProviderServiceAccountJSON(v interface{}) UpdateFcmProviderOption {
 	return func(o *UpdateFcmProviderOptions) {
 		o.ServiceAccountJSON = v
 		o.enabledSetters["ServiceAccountJSON"] = true
@@ -1595,14 +1655,19 @@ func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...Up
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1610,7 +1675,6 @@ func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...Up
 	return &parsed, nil
 
 }
-
 type CreateMailgunProviderOptions struct {
 	ApiKey string
 	Domain string
@@ -1636,49 +1700,49 @@ func (options CreateMailgunProviderOptions) New() *CreateMailgunProviderOptions 
 	return &options
 }
 type CreateMailgunProviderOption func(*CreateMailgunProviderOptions)
-func WithCreateMailgunProviderApiKey(v string) CreateMailgunProviderOption {
+func (srv *Messaging) WithCreateMailgunProviderApiKey(v string) CreateMailgunProviderOption {
 	return func(o *CreateMailgunProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithCreateMailgunProviderDomain(v string) CreateMailgunProviderOption {
+func (srv *Messaging) WithCreateMailgunProviderDomain(v string) CreateMailgunProviderOption {
 	return func(o *CreateMailgunProviderOptions) {
 		o.Domain = v
 		o.enabledSetters["Domain"] = true
 	}
 }
-func WithCreateMailgunProviderIsEuRegion(v bool) CreateMailgunProviderOption {
+func (srv *Messaging) WithCreateMailgunProviderIsEuRegion(v bool) CreateMailgunProviderOption {
 	return func(o *CreateMailgunProviderOptions) {
 		o.IsEuRegion = v
 		o.enabledSetters["IsEuRegion"] = true
 	}
 }
-func WithCreateMailgunProviderFromName(v string) CreateMailgunProviderOption {
+func (srv *Messaging) WithCreateMailgunProviderFromName(v string) CreateMailgunProviderOption {
 	return func(o *CreateMailgunProviderOptions) {
 		o.FromName = v
 		o.enabledSetters["FromName"] = true
 	}
 }
-func WithCreateMailgunProviderFromEmail(v string) CreateMailgunProviderOption {
+func (srv *Messaging) WithCreateMailgunProviderFromEmail(v string) CreateMailgunProviderOption {
 	return func(o *CreateMailgunProviderOptions) {
 		o.FromEmail = v
 		o.enabledSetters["FromEmail"] = true
 	}
 }
-func WithCreateMailgunProviderReplyToName(v string) CreateMailgunProviderOption {
+func (srv *Messaging) WithCreateMailgunProviderReplyToName(v string) CreateMailgunProviderOption {
 	return func(o *CreateMailgunProviderOptions) {
 		o.ReplyToName = v
 		o.enabledSetters["ReplyToName"] = true
 	}
 }
-func WithCreateMailgunProviderReplyToEmail(v string) CreateMailgunProviderOption {
+func (srv *Messaging) WithCreateMailgunProviderReplyToEmail(v string) CreateMailgunProviderOption {
 	return func(o *CreateMailgunProviderOptions) {
 		o.ReplyToEmail = v
 		o.enabledSetters["ReplyToEmail"] = true
 	}
 }
-func WithCreateMailgunProviderEnabled(v bool) CreateMailgunProviderOption {
+func (srv *Messaging) WithCreateMailgunProviderEnabled(v bool) CreateMailgunProviderOption {
 	return func(o *CreateMailgunProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -1727,14 +1791,19 @@ func (srv *Messaging) CreateMailgunProvider(ProviderId string, Name string, opti
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1742,7 +1811,6 @@ func (srv *Messaging) CreateMailgunProvider(ProviderId string, Name string, opti
 	return &parsed, nil
 
 }
-
 type UpdateMailgunProviderOptions struct {
 	Name string
 	ApiKey string
@@ -1770,55 +1838,55 @@ func (options UpdateMailgunProviderOptions) New() *UpdateMailgunProviderOptions 
 	return &options
 }
 type UpdateMailgunProviderOption func(*UpdateMailgunProviderOptions)
-func WithUpdateMailgunProviderName(v string) UpdateMailgunProviderOption {
+func (srv *Messaging) WithUpdateMailgunProviderName(v string) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateMailgunProviderApiKey(v string) UpdateMailgunProviderOption {
+func (srv *Messaging) WithUpdateMailgunProviderApiKey(v string) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithUpdateMailgunProviderDomain(v string) UpdateMailgunProviderOption {
+func (srv *Messaging) WithUpdateMailgunProviderDomain(v string) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.Domain = v
 		o.enabledSetters["Domain"] = true
 	}
 }
-func WithUpdateMailgunProviderIsEuRegion(v bool) UpdateMailgunProviderOption {
+func (srv *Messaging) WithUpdateMailgunProviderIsEuRegion(v bool) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.IsEuRegion = v
 		o.enabledSetters["IsEuRegion"] = true
 	}
 }
-func WithUpdateMailgunProviderEnabled(v bool) UpdateMailgunProviderOption {
+func (srv *Messaging) WithUpdateMailgunProviderEnabled(v bool) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateMailgunProviderFromName(v string) UpdateMailgunProviderOption {
+func (srv *Messaging) WithUpdateMailgunProviderFromName(v string) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.FromName = v
 		o.enabledSetters["FromName"] = true
 	}
 }
-func WithUpdateMailgunProviderFromEmail(v string) UpdateMailgunProviderOption {
+func (srv *Messaging) WithUpdateMailgunProviderFromEmail(v string) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.FromEmail = v
 		o.enabledSetters["FromEmail"] = true
 	}
 }
-func WithUpdateMailgunProviderReplyToName(v string) UpdateMailgunProviderOption {
+func (srv *Messaging) WithUpdateMailgunProviderReplyToName(v string) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.ReplyToName = v
 		o.enabledSetters["ReplyToName"] = true
 	}
 }
-func WithUpdateMailgunProviderReplyToEmail(v string) UpdateMailgunProviderOption {
+func (srv *Messaging) WithUpdateMailgunProviderReplyToEmail(v string) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.ReplyToEmail = v
 		o.enabledSetters["ReplyToEmail"] = true
@@ -1870,14 +1938,19 @@ func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters .
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1885,7 +1958,6 @@ func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters .
 	return &parsed, nil
 
 }
-
 type CreateMsg91ProviderOptions struct {
 	TemplateId string
 	SenderId string
@@ -1903,25 +1975,25 @@ func (options CreateMsg91ProviderOptions) New() *CreateMsg91ProviderOptions {
 	return &options
 }
 type CreateMsg91ProviderOption func(*CreateMsg91ProviderOptions)
-func WithCreateMsg91ProviderTemplateId(v string) CreateMsg91ProviderOption {
+func (srv *Messaging) WithCreateMsg91ProviderTemplateId(v string) CreateMsg91ProviderOption {
 	return func(o *CreateMsg91ProviderOptions) {
 		o.TemplateId = v
 		o.enabledSetters["TemplateId"] = true
 	}
 }
-func WithCreateMsg91ProviderSenderId(v string) CreateMsg91ProviderOption {
+func (srv *Messaging) WithCreateMsg91ProviderSenderId(v string) CreateMsg91ProviderOption {
 	return func(o *CreateMsg91ProviderOptions) {
 		o.SenderId = v
 		o.enabledSetters["SenderId"] = true
 	}
 }
-func WithCreateMsg91ProviderAuthKey(v string) CreateMsg91ProviderOption {
+func (srv *Messaging) WithCreateMsg91ProviderAuthKey(v string) CreateMsg91ProviderOption {
 	return func(o *CreateMsg91ProviderOptions) {
 		o.AuthKey = v
 		o.enabledSetters["AuthKey"] = true
 	}
 }
-func WithCreateMsg91ProviderEnabled(v bool) CreateMsg91ProviderOption {
+func (srv *Messaging) WithCreateMsg91ProviderEnabled(v bool) CreateMsg91ProviderOption {
 	return func(o *CreateMsg91ProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -1958,14 +2030,19 @@ func (srv *Messaging) CreateMsg91Provider(ProviderId string, Name string, option
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1973,7 +2050,6 @@ func (srv *Messaging) CreateMsg91Provider(ProviderId string, Name string, option
 	return &parsed, nil
 
 }
-
 type UpdateMsg91ProviderOptions struct {
 	Name string
 	Enabled bool
@@ -1993,31 +2069,31 @@ func (options UpdateMsg91ProviderOptions) New() *UpdateMsg91ProviderOptions {
 	return &options
 }
 type UpdateMsg91ProviderOption func(*UpdateMsg91ProviderOptions)
-func WithUpdateMsg91ProviderName(v string) UpdateMsg91ProviderOption {
+func (srv *Messaging) WithUpdateMsg91ProviderName(v string) UpdateMsg91ProviderOption {
 	return func(o *UpdateMsg91ProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateMsg91ProviderEnabled(v bool) UpdateMsg91ProviderOption {
+func (srv *Messaging) WithUpdateMsg91ProviderEnabled(v bool) UpdateMsg91ProviderOption {
 	return func(o *UpdateMsg91ProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateMsg91ProviderTemplateId(v string) UpdateMsg91ProviderOption {
+func (srv *Messaging) WithUpdateMsg91ProviderTemplateId(v string) UpdateMsg91ProviderOption {
 	return func(o *UpdateMsg91ProviderOptions) {
 		o.TemplateId = v
 		o.enabledSetters["TemplateId"] = true
 	}
 }
-func WithUpdateMsg91ProviderSenderId(v string) UpdateMsg91ProviderOption {
+func (srv *Messaging) WithUpdateMsg91ProviderSenderId(v string) UpdateMsg91ProviderOption {
 	return func(o *UpdateMsg91ProviderOptions) {
 		o.SenderId = v
 		o.enabledSetters["SenderId"] = true
 	}
 }
-func WithUpdateMsg91ProviderAuthKey(v string) UpdateMsg91ProviderOption {
+func (srv *Messaging) WithUpdateMsg91ProviderAuthKey(v string) UpdateMsg91ProviderOption {
 	return func(o *UpdateMsg91ProviderOptions) {
 		o.AuthKey = v
 		o.enabledSetters["AuthKey"] = true
@@ -2057,14 +2133,19 @@ func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2072,7 +2153,6 @@ func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...
 	return &parsed, nil
 
 }
-
 type CreateSendgridProviderOptions struct {
 	ApiKey string
 	FromName string
@@ -2094,37 +2174,37 @@ func (options CreateSendgridProviderOptions) New() *CreateSendgridProviderOption
 	return &options
 }
 type CreateSendgridProviderOption func(*CreateSendgridProviderOptions)
-func WithCreateSendgridProviderApiKey(v string) CreateSendgridProviderOption {
+func (srv *Messaging) WithCreateSendgridProviderApiKey(v string) CreateSendgridProviderOption {
 	return func(o *CreateSendgridProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithCreateSendgridProviderFromName(v string) CreateSendgridProviderOption {
+func (srv *Messaging) WithCreateSendgridProviderFromName(v string) CreateSendgridProviderOption {
 	return func(o *CreateSendgridProviderOptions) {
 		o.FromName = v
 		o.enabledSetters["FromName"] = true
 	}
 }
-func WithCreateSendgridProviderFromEmail(v string) CreateSendgridProviderOption {
+func (srv *Messaging) WithCreateSendgridProviderFromEmail(v string) CreateSendgridProviderOption {
 	return func(o *CreateSendgridProviderOptions) {
 		o.FromEmail = v
 		o.enabledSetters["FromEmail"] = true
 	}
 }
-func WithCreateSendgridProviderReplyToName(v string) CreateSendgridProviderOption {
+func (srv *Messaging) WithCreateSendgridProviderReplyToName(v string) CreateSendgridProviderOption {
 	return func(o *CreateSendgridProviderOptions) {
 		o.ReplyToName = v
 		o.enabledSetters["ReplyToName"] = true
 	}
 }
-func WithCreateSendgridProviderReplyToEmail(v string) CreateSendgridProviderOption {
+func (srv *Messaging) WithCreateSendgridProviderReplyToEmail(v string) CreateSendgridProviderOption {
 	return func(o *CreateSendgridProviderOptions) {
 		o.ReplyToEmail = v
 		o.enabledSetters["ReplyToEmail"] = true
 	}
 }
-func WithCreateSendgridProviderEnabled(v bool) CreateSendgridProviderOption {
+func (srv *Messaging) WithCreateSendgridProviderEnabled(v bool) CreateSendgridProviderOption {
 	return func(o *CreateSendgridProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -2167,14 +2247,19 @@ func (srv *Messaging) CreateSendgridProvider(ProviderId string, Name string, opt
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2182,7 +2267,6 @@ func (srv *Messaging) CreateSendgridProvider(ProviderId string, Name string, opt
 	return &parsed, nil
 
 }
-
 type UpdateSendgridProviderOptions struct {
 	Name string
 	Enabled bool
@@ -2206,43 +2290,43 @@ func (options UpdateSendgridProviderOptions) New() *UpdateSendgridProviderOption
 	return &options
 }
 type UpdateSendgridProviderOption func(*UpdateSendgridProviderOptions)
-func WithUpdateSendgridProviderName(v string) UpdateSendgridProviderOption {
+func (srv *Messaging) WithUpdateSendgridProviderName(v string) UpdateSendgridProviderOption {
 	return func(o *UpdateSendgridProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateSendgridProviderEnabled(v bool) UpdateSendgridProviderOption {
+func (srv *Messaging) WithUpdateSendgridProviderEnabled(v bool) UpdateSendgridProviderOption {
 	return func(o *UpdateSendgridProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateSendgridProviderApiKey(v string) UpdateSendgridProviderOption {
+func (srv *Messaging) WithUpdateSendgridProviderApiKey(v string) UpdateSendgridProviderOption {
 	return func(o *UpdateSendgridProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithUpdateSendgridProviderFromName(v string) UpdateSendgridProviderOption {
+func (srv *Messaging) WithUpdateSendgridProviderFromName(v string) UpdateSendgridProviderOption {
 	return func(o *UpdateSendgridProviderOptions) {
 		o.FromName = v
 		o.enabledSetters["FromName"] = true
 	}
 }
-func WithUpdateSendgridProviderFromEmail(v string) UpdateSendgridProviderOption {
+func (srv *Messaging) WithUpdateSendgridProviderFromEmail(v string) UpdateSendgridProviderOption {
 	return func(o *UpdateSendgridProviderOptions) {
 		o.FromEmail = v
 		o.enabledSetters["FromEmail"] = true
 	}
 }
-func WithUpdateSendgridProviderReplyToName(v string) UpdateSendgridProviderOption {
+func (srv *Messaging) WithUpdateSendgridProviderReplyToName(v string) UpdateSendgridProviderOption {
 	return func(o *UpdateSendgridProviderOptions) {
 		o.ReplyToName = v
 		o.enabledSetters["ReplyToName"] = true
 	}
 }
-func WithUpdateSendgridProviderReplyToEmail(v string) UpdateSendgridProviderOption {
+func (srv *Messaging) WithUpdateSendgridProviderReplyToEmail(v string) UpdateSendgridProviderOption {
 	return func(o *UpdateSendgridProviderOptions) {
 		o.ReplyToEmail = v
 		o.enabledSetters["ReplyToEmail"] = true
@@ -2288,14 +2372,19 @@ func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters 
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2303,7 +2392,6 @@ func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters 
 	return &parsed, nil
 
 }
-
 type CreateSmtpProviderOptions struct {
 	Port int
 	Username string
@@ -2335,67 +2423,67 @@ func (options CreateSmtpProviderOptions) New() *CreateSmtpProviderOptions {
 	return &options
 }
 type CreateSmtpProviderOption func(*CreateSmtpProviderOptions)
-func WithCreateSmtpProviderPort(v int) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderPort(v int) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.Port = v
 		o.enabledSetters["Port"] = true
 	}
 }
-func WithCreateSmtpProviderUsername(v string) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderUsername(v string) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.Username = v
 		o.enabledSetters["Username"] = true
 	}
 }
-func WithCreateSmtpProviderPassword(v string) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderPassword(v string) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.Password = v
 		o.enabledSetters["Password"] = true
 	}
 }
-func WithCreateSmtpProviderEncryption(v string) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderEncryption(v string) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.Encryption = v
 		o.enabledSetters["Encryption"] = true
 	}
 }
-func WithCreateSmtpProviderAutoTLS(v bool) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderAutoTLS(v bool) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.AutoTLS = v
 		o.enabledSetters["AutoTLS"] = true
 	}
 }
-func WithCreateSmtpProviderMailer(v string) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderMailer(v string) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.Mailer = v
 		o.enabledSetters["Mailer"] = true
 	}
 }
-func WithCreateSmtpProviderFromName(v string) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderFromName(v string) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.FromName = v
 		o.enabledSetters["FromName"] = true
 	}
 }
-func WithCreateSmtpProviderFromEmail(v string) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderFromEmail(v string) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.FromEmail = v
 		o.enabledSetters["FromEmail"] = true
 	}
 }
-func WithCreateSmtpProviderReplyToName(v string) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderReplyToName(v string) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.ReplyToName = v
 		o.enabledSetters["ReplyToName"] = true
 	}
 }
-func WithCreateSmtpProviderReplyToEmail(v string) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderReplyToEmail(v string) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.ReplyToEmail = v
 		o.enabledSetters["ReplyToEmail"] = true
 	}
 }
-func WithCreateSmtpProviderEnabled(v bool) CreateSmtpProviderOption {
+func (srv *Messaging) WithCreateSmtpProviderEnabled(v bool) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -2454,14 +2542,19 @@ func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host st
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2469,7 +2562,6 @@ func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host st
 	return &parsed, nil
 
 }
-
 type UpdateSmtpProviderOptions struct {
 	Name string
 	Host string
@@ -2505,79 +2597,79 @@ func (options UpdateSmtpProviderOptions) New() *UpdateSmtpProviderOptions {
 	return &options
 }
 type UpdateSmtpProviderOption func(*UpdateSmtpProviderOptions)
-func WithUpdateSmtpProviderName(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderName(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateSmtpProviderHost(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderHost(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.Host = v
 		o.enabledSetters["Host"] = true
 	}
 }
-func WithUpdateSmtpProviderPort(v int) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderPort(v int) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.Port = v
 		o.enabledSetters["Port"] = true
 	}
 }
-func WithUpdateSmtpProviderUsername(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderUsername(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.Username = v
 		o.enabledSetters["Username"] = true
 	}
 }
-func WithUpdateSmtpProviderPassword(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderPassword(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.Password = v
 		o.enabledSetters["Password"] = true
 	}
 }
-func WithUpdateSmtpProviderEncryption(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderEncryption(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.Encryption = v
 		o.enabledSetters["Encryption"] = true
 	}
 }
-func WithUpdateSmtpProviderAutoTLS(v bool) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderAutoTLS(v bool) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.AutoTLS = v
 		o.enabledSetters["AutoTLS"] = true
 	}
 }
-func WithUpdateSmtpProviderMailer(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderMailer(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.Mailer = v
 		o.enabledSetters["Mailer"] = true
 	}
 }
-func WithUpdateSmtpProviderFromName(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderFromName(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.FromName = v
 		o.enabledSetters["FromName"] = true
 	}
 }
-func WithUpdateSmtpProviderFromEmail(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderFromEmail(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.FromEmail = v
 		o.enabledSetters["FromEmail"] = true
 	}
 }
-func WithUpdateSmtpProviderReplyToName(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderReplyToName(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.ReplyToName = v
 		o.enabledSetters["ReplyToName"] = true
 	}
 }
-func WithUpdateSmtpProviderReplyToEmail(v string) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderReplyToEmail(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.ReplyToEmail = v
 		o.enabledSetters["ReplyToEmail"] = true
 	}
 }
-func WithUpdateSmtpProviderEnabled(v bool) UpdateSmtpProviderOption {
+func (srv *Messaging) WithUpdateSmtpProviderEnabled(v bool) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -2641,14 +2733,19 @@ func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...U
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2656,7 +2753,6 @@ func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...U
 	return &parsed, nil
 
 }
-
 type CreateTelesignProviderOptions struct {
 	From string
 	CustomerId string
@@ -2674,25 +2770,25 @@ func (options CreateTelesignProviderOptions) New() *CreateTelesignProviderOption
 	return &options
 }
 type CreateTelesignProviderOption func(*CreateTelesignProviderOptions)
-func WithCreateTelesignProviderFrom(v string) CreateTelesignProviderOption {
+func (srv *Messaging) WithCreateTelesignProviderFrom(v string) CreateTelesignProviderOption {
 	return func(o *CreateTelesignProviderOptions) {
 		o.From = v
 		o.enabledSetters["From"] = true
 	}
 }
-func WithCreateTelesignProviderCustomerId(v string) CreateTelesignProviderOption {
+func (srv *Messaging) WithCreateTelesignProviderCustomerId(v string) CreateTelesignProviderOption {
 	return func(o *CreateTelesignProviderOptions) {
 		o.CustomerId = v
 		o.enabledSetters["CustomerId"] = true
 	}
 }
-func WithCreateTelesignProviderApiKey(v string) CreateTelesignProviderOption {
+func (srv *Messaging) WithCreateTelesignProviderApiKey(v string) CreateTelesignProviderOption {
 	return func(o *CreateTelesignProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithCreateTelesignProviderEnabled(v bool) CreateTelesignProviderOption {
+func (srv *Messaging) WithCreateTelesignProviderEnabled(v bool) CreateTelesignProviderOption {
 	return func(o *CreateTelesignProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -2729,14 +2825,19 @@ func (srv *Messaging) CreateTelesignProvider(ProviderId string, Name string, opt
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2744,7 +2845,6 @@ func (srv *Messaging) CreateTelesignProvider(ProviderId string, Name string, opt
 	return &parsed, nil
 
 }
-
 type UpdateTelesignProviderOptions struct {
 	Name string
 	Enabled bool
@@ -2764,31 +2864,31 @@ func (options UpdateTelesignProviderOptions) New() *UpdateTelesignProviderOption
 	return &options
 }
 type UpdateTelesignProviderOption func(*UpdateTelesignProviderOptions)
-func WithUpdateTelesignProviderName(v string) UpdateTelesignProviderOption {
+func (srv *Messaging) WithUpdateTelesignProviderName(v string) UpdateTelesignProviderOption {
 	return func(o *UpdateTelesignProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateTelesignProviderEnabled(v bool) UpdateTelesignProviderOption {
+func (srv *Messaging) WithUpdateTelesignProviderEnabled(v bool) UpdateTelesignProviderOption {
 	return func(o *UpdateTelesignProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateTelesignProviderCustomerId(v string) UpdateTelesignProviderOption {
+func (srv *Messaging) WithUpdateTelesignProviderCustomerId(v string) UpdateTelesignProviderOption {
 	return func(o *UpdateTelesignProviderOptions) {
 		o.CustomerId = v
 		o.enabledSetters["CustomerId"] = true
 	}
 }
-func WithUpdateTelesignProviderApiKey(v string) UpdateTelesignProviderOption {
+func (srv *Messaging) WithUpdateTelesignProviderApiKey(v string) UpdateTelesignProviderOption {
 	return func(o *UpdateTelesignProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithUpdateTelesignProviderFrom(v string) UpdateTelesignProviderOption {
+func (srv *Messaging) WithUpdateTelesignProviderFrom(v string) UpdateTelesignProviderOption {
 	return func(o *UpdateTelesignProviderOptions) {
 		o.From = v
 		o.enabledSetters["From"] = true
@@ -2828,14 +2928,19 @@ func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters 
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2843,7 +2948,6 @@ func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters 
 	return &parsed, nil
 
 }
-
 type CreateTextmagicProviderOptions struct {
 	From string
 	Username string
@@ -2861,25 +2965,25 @@ func (options CreateTextmagicProviderOptions) New() *CreateTextmagicProviderOpti
 	return &options
 }
 type CreateTextmagicProviderOption func(*CreateTextmagicProviderOptions)
-func WithCreateTextmagicProviderFrom(v string) CreateTextmagicProviderOption {
+func (srv *Messaging) WithCreateTextmagicProviderFrom(v string) CreateTextmagicProviderOption {
 	return func(o *CreateTextmagicProviderOptions) {
 		o.From = v
 		o.enabledSetters["From"] = true
 	}
 }
-func WithCreateTextmagicProviderUsername(v string) CreateTextmagicProviderOption {
+func (srv *Messaging) WithCreateTextmagicProviderUsername(v string) CreateTextmagicProviderOption {
 	return func(o *CreateTextmagicProviderOptions) {
 		o.Username = v
 		o.enabledSetters["Username"] = true
 	}
 }
-func WithCreateTextmagicProviderApiKey(v string) CreateTextmagicProviderOption {
+func (srv *Messaging) WithCreateTextmagicProviderApiKey(v string) CreateTextmagicProviderOption {
 	return func(o *CreateTextmagicProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithCreateTextmagicProviderEnabled(v bool) CreateTextmagicProviderOption {
+func (srv *Messaging) WithCreateTextmagicProviderEnabled(v bool) CreateTextmagicProviderOption {
 	return func(o *CreateTextmagicProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -2916,14 +3020,19 @@ func (srv *Messaging) CreateTextmagicProvider(ProviderId string, Name string, op
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -2931,7 +3040,6 @@ func (srv *Messaging) CreateTextmagicProvider(ProviderId string, Name string, op
 	return &parsed, nil
 
 }
-
 type UpdateTextmagicProviderOptions struct {
 	Name string
 	Enabled bool
@@ -2951,31 +3059,31 @@ func (options UpdateTextmagicProviderOptions) New() *UpdateTextmagicProviderOpti
 	return &options
 }
 type UpdateTextmagicProviderOption func(*UpdateTextmagicProviderOptions)
-func WithUpdateTextmagicProviderName(v string) UpdateTextmagicProviderOption {
+func (srv *Messaging) WithUpdateTextmagicProviderName(v string) UpdateTextmagicProviderOption {
 	return func(o *UpdateTextmagicProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateTextmagicProviderEnabled(v bool) UpdateTextmagicProviderOption {
+func (srv *Messaging) WithUpdateTextmagicProviderEnabled(v bool) UpdateTextmagicProviderOption {
 	return func(o *UpdateTextmagicProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateTextmagicProviderUsername(v string) UpdateTextmagicProviderOption {
+func (srv *Messaging) WithUpdateTextmagicProviderUsername(v string) UpdateTextmagicProviderOption {
 	return func(o *UpdateTextmagicProviderOptions) {
 		o.Username = v
 		o.enabledSetters["Username"] = true
 	}
 }
-func WithUpdateTextmagicProviderApiKey(v string) UpdateTextmagicProviderOption {
+func (srv *Messaging) WithUpdateTextmagicProviderApiKey(v string) UpdateTextmagicProviderOption {
 	return func(o *UpdateTextmagicProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithUpdateTextmagicProviderFrom(v string) UpdateTextmagicProviderOption {
+func (srv *Messaging) WithUpdateTextmagicProviderFrom(v string) UpdateTextmagicProviderOption {
 	return func(o *UpdateTextmagicProviderOptions) {
 		o.From = v
 		o.enabledSetters["From"] = true
@@ -3015,14 +3123,19 @@ func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3030,7 +3143,6 @@ func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters
 	return &parsed, nil
 
 }
-
 type CreateTwilioProviderOptions struct {
 	From string
 	AccountSid string
@@ -3048,25 +3160,25 @@ func (options CreateTwilioProviderOptions) New() *CreateTwilioProviderOptions {
 	return &options
 }
 type CreateTwilioProviderOption func(*CreateTwilioProviderOptions)
-func WithCreateTwilioProviderFrom(v string) CreateTwilioProviderOption {
+func (srv *Messaging) WithCreateTwilioProviderFrom(v string) CreateTwilioProviderOption {
 	return func(o *CreateTwilioProviderOptions) {
 		o.From = v
 		o.enabledSetters["From"] = true
 	}
 }
-func WithCreateTwilioProviderAccountSid(v string) CreateTwilioProviderOption {
+func (srv *Messaging) WithCreateTwilioProviderAccountSid(v string) CreateTwilioProviderOption {
 	return func(o *CreateTwilioProviderOptions) {
 		o.AccountSid = v
 		o.enabledSetters["AccountSid"] = true
 	}
 }
-func WithCreateTwilioProviderAuthToken(v string) CreateTwilioProviderOption {
+func (srv *Messaging) WithCreateTwilioProviderAuthToken(v string) CreateTwilioProviderOption {
 	return func(o *CreateTwilioProviderOptions) {
 		o.AuthToken = v
 		o.enabledSetters["AuthToken"] = true
 	}
 }
-func WithCreateTwilioProviderEnabled(v bool) CreateTwilioProviderOption {
+func (srv *Messaging) WithCreateTwilioProviderEnabled(v bool) CreateTwilioProviderOption {
 	return func(o *CreateTwilioProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -3103,14 +3215,19 @@ func (srv *Messaging) CreateTwilioProvider(ProviderId string, Name string, optio
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3118,7 +3235,6 @@ func (srv *Messaging) CreateTwilioProvider(ProviderId string, Name string, optio
 	return &parsed, nil
 
 }
-
 type UpdateTwilioProviderOptions struct {
 	Name string
 	Enabled bool
@@ -3138,31 +3254,31 @@ func (options UpdateTwilioProviderOptions) New() *UpdateTwilioProviderOptions {
 	return &options
 }
 type UpdateTwilioProviderOption func(*UpdateTwilioProviderOptions)
-func WithUpdateTwilioProviderName(v string) UpdateTwilioProviderOption {
+func (srv *Messaging) WithUpdateTwilioProviderName(v string) UpdateTwilioProviderOption {
 	return func(o *UpdateTwilioProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateTwilioProviderEnabled(v bool) UpdateTwilioProviderOption {
+func (srv *Messaging) WithUpdateTwilioProviderEnabled(v bool) UpdateTwilioProviderOption {
 	return func(o *UpdateTwilioProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateTwilioProviderAccountSid(v string) UpdateTwilioProviderOption {
+func (srv *Messaging) WithUpdateTwilioProviderAccountSid(v string) UpdateTwilioProviderOption {
 	return func(o *UpdateTwilioProviderOptions) {
 		o.AccountSid = v
 		o.enabledSetters["AccountSid"] = true
 	}
 }
-func WithUpdateTwilioProviderAuthToken(v string) UpdateTwilioProviderOption {
+func (srv *Messaging) WithUpdateTwilioProviderAuthToken(v string) UpdateTwilioProviderOption {
 	return func(o *UpdateTwilioProviderOptions) {
 		o.AuthToken = v
 		o.enabledSetters["AuthToken"] = true
 	}
 }
-func WithUpdateTwilioProviderFrom(v string) UpdateTwilioProviderOption {
+func (srv *Messaging) WithUpdateTwilioProviderFrom(v string) UpdateTwilioProviderOption {
 	return func(o *UpdateTwilioProviderOptions) {
 		o.From = v
 		o.enabledSetters["From"] = true
@@ -3202,14 +3318,19 @@ func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ..
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3217,7 +3338,6 @@ func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ..
 	return &parsed, nil
 
 }
-
 type CreateVonageProviderOptions struct {
 	From string
 	ApiKey string
@@ -3235,25 +3355,25 @@ func (options CreateVonageProviderOptions) New() *CreateVonageProviderOptions {
 	return &options
 }
 type CreateVonageProviderOption func(*CreateVonageProviderOptions)
-func WithCreateVonageProviderFrom(v string) CreateVonageProviderOption {
+func (srv *Messaging) WithCreateVonageProviderFrom(v string) CreateVonageProviderOption {
 	return func(o *CreateVonageProviderOptions) {
 		o.From = v
 		o.enabledSetters["From"] = true
 	}
 }
-func WithCreateVonageProviderApiKey(v string) CreateVonageProviderOption {
+func (srv *Messaging) WithCreateVonageProviderApiKey(v string) CreateVonageProviderOption {
 	return func(o *CreateVonageProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithCreateVonageProviderApiSecret(v string) CreateVonageProviderOption {
+func (srv *Messaging) WithCreateVonageProviderApiSecret(v string) CreateVonageProviderOption {
 	return func(o *CreateVonageProviderOptions) {
 		o.ApiSecret = v
 		o.enabledSetters["ApiSecret"] = true
 	}
 }
-func WithCreateVonageProviderEnabled(v bool) CreateVonageProviderOption {
+func (srv *Messaging) WithCreateVonageProviderEnabled(v bool) CreateVonageProviderOption {
 	return func(o *CreateVonageProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -3290,14 +3410,19 @@ func (srv *Messaging) CreateVonageProvider(ProviderId string, Name string, optio
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3305,7 +3430,6 @@ func (srv *Messaging) CreateVonageProvider(ProviderId string, Name string, optio
 	return &parsed, nil
 
 }
-
 type UpdateVonageProviderOptions struct {
 	Name string
 	Enabled bool
@@ -3325,31 +3449,31 @@ func (options UpdateVonageProviderOptions) New() *UpdateVonageProviderOptions {
 	return &options
 }
 type UpdateVonageProviderOption func(*UpdateVonageProviderOptions)
-func WithUpdateVonageProviderName(v string) UpdateVonageProviderOption {
+func (srv *Messaging) WithUpdateVonageProviderName(v string) UpdateVonageProviderOption {
 	return func(o *UpdateVonageProviderOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateVonageProviderEnabled(v bool) UpdateVonageProviderOption {
+func (srv *Messaging) WithUpdateVonageProviderEnabled(v bool) UpdateVonageProviderOption {
 	return func(o *UpdateVonageProviderOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func WithUpdateVonageProviderApiKey(v string) UpdateVonageProviderOption {
+func (srv *Messaging) WithUpdateVonageProviderApiKey(v string) UpdateVonageProviderOption {
 	return func(o *UpdateVonageProviderOptions) {
 		o.ApiKey = v
 		o.enabledSetters["ApiKey"] = true
 	}
 }
-func WithUpdateVonageProviderApiSecret(v string) UpdateVonageProviderOption {
+func (srv *Messaging) WithUpdateVonageProviderApiSecret(v string) UpdateVonageProviderOption {
 	return func(o *UpdateVonageProviderOptions) {
 		o.ApiSecret = v
 		o.enabledSetters["ApiSecret"] = true
 	}
 }
-func WithUpdateVonageProviderFrom(v string) UpdateVonageProviderOption {
+func (srv *Messaging) WithUpdateVonageProviderFrom(v string) UpdateVonageProviderOption {
 	return func(o *UpdateVonageProviderOptions) {
 		o.From = v
 		o.enabledSetters["From"] = true
@@ -3389,14 +3513,19 @@ func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ..
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3419,14 +3548,19 @@ func (srv *Messaging) GetProvider(ProviderId string)(*models.Provider, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Provider
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Provider
 	parsed, ok := resp.Result.(models.Provider)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3449,14 +3583,18 @@ func (srv *Messaging) DeleteProvider(ProviderId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3464,9 +3602,8 @@ func (srv *Messaging) DeleteProvider(ProviderId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-
 type ListProviderLogsOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListProviderLogsOptions) New() *ListProviderLogsOptions {
@@ -3476,7 +3613,7 @@ func (options ListProviderLogsOptions) New() *ListProviderLogsOptions {
 	return &options
 }
 type ListProviderLogsOption func(*ListProviderLogsOptions)
-func WithListProviderLogsQueries(v []interface{}) ListProviderLogsOption {
+func (srv *Messaging) WithListProviderLogsQueries(v []string) ListProviderLogsOption {
 	return func(o *ListProviderLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -3504,14 +3641,19 @@ func (srv *Messaging) ListProviderLogs(ProviderId string, optionalSetters ...Lis
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.LogList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.LogList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.LogList
 	parsed, ok := resp.Result.(models.LogList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3519,9 +3661,8 @@ func (srv *Messaging) ListProviderLogs(ProviderId string, optionalSetters ...Lis
 	return &parsed, nil
 
 }
-
 type ListSubscriberLogsOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListSubscriberLogsOptions) New() *ListSubscriberLogsOptions {
@@ -3531,7 +3672,7 @@ func (options ListSubscriberLogsOptions) New() *ListSubscriberLogsOptions {
 	return &options
 }
 type ListSubscriberLogsOption func(*ListSubscriberLogsOptions)
-func WithListSubscriberLogsQueries(v []interface{}) ListSubscriberLogsOption {
+func (srv *Messaging) WithListSubscriberLogsQueries(v []string) ListSubscriberLogsOption {
 	return func(o *ListSubscriberLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -3560,14 +3701,19 @@ func (srv *Messaging) ListSubscriberLogs(SubscriberId string, optionalSetters ..
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.LogList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.LogList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.LogList
 	parsed, ok := resp.Result.(models.LogList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3575,9 +3721,8 @@ func (srv *Messaging) ListSubscriberLogs(SubscriberId string, optionalSetters ..
 	return &parsed, nil
 
 }
-
 type ListTopicsOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -3589,13 +3734,13 @@ func (options ListTopicsOptions) New() *ListTopicsOptions {
 	return &options
 }
 type ListTopicsOption func(*ListTopicsOptions)
-func WithListTopicsQueries(v []interface{}) ListTopicsOption {
+func (srv *Messaging) WithListTopicsQueries(v []string) ListTopicsOption {
 	return func(o *ListTopicsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListTopicsSearch(v string) ListTopicsOption {
+func (srv *Messaging) WithListTopicsSearch(v string) ListTopicsOption {
 	return func(o *ListTopicsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -3624,14 +3769,19 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.To
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.TopicList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.TopicList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.TopicList
 	parsed, ok := resp.Result.(models.TopicList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3639,9 +3789,8 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.To
 	return &parsed, nil
 
 }
-
 type CreateTopicOptions struct {
-	Subscribe []interface{}
+	Subscribe []string
 	enabledSetters map[string]bool
 }
 func (options CreateTopicOptions) New() *CreateTopicOptions {
@@ -3651,7 +3800,7 @@ func (options CreateTopicOptions) New() *CreateTopicOptions {
 	return &options
 }
 type CreateTopicOption func(*CreateTopicOptions)
-func WithCreateTopicSubscribe(v []interface{}) CreateTopicOption {
+func (srv *Messaging) WithCreateTopicSubscribe(v []string) CreateTopicOption {
 	return func(o *CreateTopicOptions) {
 		o.Subscribe = v
 		o.enabledSetters["Subscribe"] = true
@@ -3679,14 +3828,19 @@ func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters .
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Topic
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Topic{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Topic
 	parsed, ok := resp.Result.(models.Topic)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3709,14 +3863,19 @@ func (srv *Messaging) GetTopic(TopicId string)(*models.Topic, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Topic
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Topic{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Topic
 	parsed, ok := resp.Result.(models.Topic)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3724,10 +3883,9 @@ func (srv *Messaging) GetTopic(TopicId string)(*models.Topic, error) {
 	return &parsed, nil
 
 }
-
 type UpdateTopicOptions struct {
 	Name string
-	Subscribe []interface{}
+	Subscribe []string
 	enabledSetters map[string]bool
 }
 func (options UpdateTopicOptions) New() *UpdateTopicOptions {
@@ -3738,13 +3896,13 @@ func (options UpdateTopicOptions) New() *UpdateTopicOptions {
 	return &options
 }
 type UpdateTopicOption func(*UpdateTopicOptions)
-func WithUpdateTopicName(v string) UpdateTopicOption {
+func (srv *Messaging) WithUpdateTopicName(v string) UpdateTopicOption {
 	return func(o *UpdateTopicOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithUpdateTopicSubscribe(v []interface{}) UpdateTopicOption {
+func (srv *Messaging) WithUpdateTopicSubscribe(v []string) UpdateTopicOption {
 	return func(o *UpdateTopicOptions) {
 		o.Subscribe = v
 		o.enabledSetters["Subscribe"] = true
@@ -3775,14 +3933,19 @@ func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopic
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Topic
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Topic{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Topic
 	parsed, ok := resp.Result.(models.Topic)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3805,14 +3968,18 @@ func (srv *Messaging) DeleteTopic(TopicId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3820,9 +3987,8 @@ func (srv *Messaging) DeleteTopic(TopicId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-
 type ListTopicLogsOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListTopicLogsOptions) New() *ListTopicLogsOptions {
@@ -3832,7 +3998,7 @@ func (options ListTopicLogsOptions) New() *ListTopicLogsOptions {
 	return &options
 }
 type ListTopicLogsOption func(*ListTopicLogsOptions)
-func WithListTopicLogsQueries(v []interface{}) ListTopicLogsOption {
+func (srv *Messaging) WithListTopicLogsQueries(v []string) ListTopicLogsOption {
 	return func(o *ListTopicLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -3860,14 +4026,19 @@ func (srv *Messaging) ListTopicLogs(TopicId string, optionalSetters ...ListTopic
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.LogList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.LogList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.LogList
 	parsed, ok := resp.Result.(models.LogList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3875,9 +4046,8 @@ func (srv *Messaging) ListTopicLogs(TopicId string, optionalSetters ...ListTopic
 	return &parsed, nil
 
 }
-
 type ListSubscribersOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -3889,13 +4059,13 @@ func (options ListSubscribersOptions) New() *ListSubscribersOptions {
 	return &options
 }
 type ListSubscribersOption func(*ListSubscribersOptions)
-func WithListSubscribersQueries(v []interface{}) ListSubscribersOption {
+func (srv *Messaging) WithListSubscribersQueries(v []string) ListSubscribersOption {
 	return func(o *ListSubscribersOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListSubscribersSearch(v string) ListSubscribersOption {
+func (srv *Messaging) WithListSubscribersSearch(v string) ListSubscribersOption {
 	return func(o *ListSubscribersOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -3927,14 +4097,19 @@ func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSub
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.SubscriberList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.SubscriberList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.SubscriberList
 	parsed, ok := resp.Result.(models.SubscriberList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3959,14 +4134,19 @@ func (srv *Messaging) CreateSubscriber(TopicId string, SubscriberId string, Targ
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Subscriber
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Subscriber{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Subscriber
 	parsed, ok := resp.Result.(models.Subscriber)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -3990,14 +4170,19 @@ func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string)(*models
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Subscriber
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Subscriber{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Subscriber
 	parsed, ok := resp.Result.(models.Subscriber)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -4021,14 +4206,18 @@ func (srv *Messaging) DeleteSubscriber(TopicId string, SubscriberId string)(*int
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")

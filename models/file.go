@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // File Model
 type File struct {
@@ -13,7 +17,7 @@ type File struct {
     UpdatedAt string `json:"$updatedAt"`
     // File permissions. [Learn more about
     // permissions](https://appwrite.io/docs/permissions).
-    Permissions []interface{} `json:"$permissions"`
+    Permissions []string `json:"$permissions"`
     // File name.
     Name string `json:"name"`
     // File MD5 signature.
@@ -27,4 +31,24 @@ type File struct {
     // Total number of chunks uploaded
     ChunksUploaded int `json:"chunksUploaded"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model File) New(data []byte) *File {
+    model.data = data
+    return &model
+}
+
+func (model *File) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Subscriber Model
 type Subscriber struct {
@@ -12,7 +16,7 @@ type Subscriber struct {
     // Target ID.
     TargetId string `json:"targetId"`
     // Target.
-    Target interface{} `json:"target"`
+    Target Target `json:"target"`
     // Topic ID.
     UserId string `json:"userId"`
     // User Name.
@@ -23,4 +27,24 @@ type Subscriber struct {
     // `push`.
     ProviderType string `json:"providerType"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Subscriber) New(data []byte) *Subscriber {
+    model.data = data
+    return &model
+}
+
+func (model *Subscriber) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

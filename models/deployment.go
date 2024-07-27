@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Deployment Model
 type Deployment struct {
@@ -51,4 +55,24 @@ type Deployment struct {
     // The branch of the vcs repository
     ProviderBranchUrl string `json:"providerBranchUrl"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Deployment) New(data []byte) *Deployment {
+    model.data = data
+    return &model
+}
+
+func (model *Deployment) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

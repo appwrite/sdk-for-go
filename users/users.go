@@ -13,15 +13,14 @@ type Users struct {
 	client client.Client
 }
 
-func NewUsers(clt client.Client) *Users {
+func New(clt client.Client) *Users {
 	return &Users{
 		client: clt,
 	}
 }
 
-
 type ListOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -33,13 +32,13 @@ func (options ListOptions) New() *ListOptions {
 	return &options
 }
 type ListOption func(*ListOptions)
-func WithListQueries(v []interface{}) ListOption {
+func (srv *Users) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListSearch(v string) ListOption {
+func (srv *Users) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -69,14 +68,19 @@ func (srv *Users) List(optionalSetters ...ListOption)(*models.UserList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.UserList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.UserList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.UserList
 	parsed, ok := resp.Result.(models.UserList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -84,7 +88,6 @@ func (srv *Users) List(optionalSetters ...ListOption)(*models.UserList, error) {
 	return &parsed, nil
 
 }
-
 type CreateOptions struct {
 	Email string
 	Phone string
@@ -102,25 +105,25 @@ func (options CreateOptions) New() *CreateOptions {
 	return &options
 }
 type CreateOption func(*CreateOptions)
-func WithCreateEmail(v string) CreateOption {
+func (srv *Users) WithCreateEmail(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Email = v
 		o.enabledSetters["Email"] = true
 	}
 }
-func WithCreatePhone(v string) CreateOption {
+func (srv *Users) WithCreatePhone(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Phone = v
 		o.enabledSetters["Phone"] = true
 	}
 }
-func WithCreatePassword(v string) CreateOption {
+func (srv *Users) WithCreatePassword(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Password = v
 		o.enabledSetters["Password"] = true
 	}
 }
-func WithCreateName(v string) CreateOption {
+func (srv *Users) WithCreateName(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -156,14 +159,19 @@ func (srv *Users) Create(UserId string, optionalSetters ...CreateOption)(*models
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -171,7 +179,6 @@ func (srv *Users) Create(UserId string, optionalSetters ...CreateOption)(*models
 	return &parsed, nil
 
 }
-
 type CreateArgon2UserOptions struct {
 	Name string
 	enabledSetters map[string]bool
@@ -183,7 +190,7 @@ func (options CreateArgon2UserOptions) New() *CreateArgon2UserOptions {
 	return &options
 }
 type CreateArgon2UserOption func(*CreateArgon2UserOptions)
-func WithCreateArgon2UserName(v string) CreateArgon2UserOption {
+func (srv *Users) WithCreateArgon2UserName(v string) CreateArgon2UserOption {
 	return func(o *CreateArgon2UserOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -215,14 +222,19 @@ func (srv *Users) CreateArgon2User(UserId string, Email string, Password string,
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -230,7 +242,6 @@ func (srv *Users) CreateArgon2User(UserId string, Email string, Password string,
 	return &parsed, nil
 
 }
-
 type CreateBcryptUserOptions struct {
 	Name string
 	enabledSetters map[string]bool
@@ -242,7 +253,7 @@ func (options CreateBcryptUserOptions) New() *CreateBcryptUserOptions {
 	return &options
 }
 type CreateBcryptUserOption func(*CreateBcryptUserOptions)
-func WithCreateBcryptUserName(v string) CreateBcryptUserOption {
+func (srv *Users) WithCreateBcryptUserName(v string) CreateBcryptUserOption {
 	return func(o *CreateBcryptUserOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -274,14 +285,19 @@ func (srv *Users) CreateBcryptUser(UserId string, Email string, Password string,
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -289,9 +305,8 @@ func (srv *Users) CreateBcryptUser(UserId string, Email string, Password string,
 	return &parsed, nil
 
 }
-
 type ListIdentitiesOptions struct {
-	Queries []interface{}
+	Queries []string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -303,13 +318,13 @@ func (options ListIdentitiesOptions) New() *ListIdentitiesOptions {
 	return &options
 }
 type ListIdentitiesOption func(*ListIdentitiesOptions)
-func WithListIdentitiesQueries(v []interface{}) ListIdentitiesOption {
+func (srv *Users) WithListIdentitiesQueries(v []string) ListIdentitiesOption {
 	return func(o *ListIdentitiesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func WithListIdentitiesSearch(v string) ListIdentitiesOption {
+func (srv *Users) WithListIdentitiesSearch(v string) ListIdentitiesOption {
 	return func(o *ListIdentitiesOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -338,14 +353,19 @@ func (srv *Users) ListIdentities(optionalSetters ...ListIdentitiesOption)(*model
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.IdentityList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.IdentityList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.IdentityList
 	parsed, ok := resp.Result.(models.IdentityList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -368,14 +388,18 @@ func (srv *Users) DeleteIdentity(IdentityId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -383,7 +407,6 @@ func (srv *Users) DeleteIdentity(IdentityId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-
 type CreateMD5UserOptions struct {
 	Name string
 	enabledSetters map[string]bool
@@ -395,7 +418,7 @@ func (options CreateMD5UserOptions) New() *CreateMD5UserOptions {
 	return &options
 }
 type CreateMD5UserOption func(*CreateMD5UserOptions)
-func WithCreateMD5UserName(v string) CreateMD5UserOption {
+func (srv *Users) WithCreateMD5UserName(v string) CreateMD5UserOption {
 	return func(o *CreateMD5UserOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -427,14 +450,19 @@ func (srv *Users) CreateMD5User(UserId string, Email string, Password string, op
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -442,7 +470,6 @@ func (srv *Users) CreateMD5User(UserId string, Email string, Password string, op
 	return &parsed, nil
 
 }
-
 type CreatePHPassUserOptions struct {
 	Name string
 	enabledSetters map[string]bool
@@ -454,7 +481,7 @@ func (options CreatePHPassUserOptions) New() *CreatePHPassUserOptions {
 	return &options
 }
 type CreatePHPassUserOption func(*CreatePHPassUserOptions)
-func WithCreatePHPassUserName(v string) CreatePHPassUserOption {
+func (srv *Users) WithCreatePHPassUserName(v string) CreatePHPassUserOption {
 	return func(o *CreatePHPassUserOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -486,14 +513,19 @@ func (srv *Users) CreatePHPassUser(UserId string, Email string, Password string,
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -501,7 +533,6 @@ func (srv *Users) CreatePHPassUser(UserId string, Email string, Password string,
 	return &parsed, nil
 
 }
-
 type CreateScryptUserOptions struct {
 	Name string
 	enabledSetters map[string]bool
@@ -513,7 +544,7 @@ func (options CreateScryptUserOptions) New() *CreateScryptUserOptions {
 	return &options
 }
 type CreateScryptUserOption func(*CreateScryptUserOptions)
-func WithCreateScryptUserName(v string) CreateScryptUserOption {
+func (srv *Users) WithCreateScryptUserName(v string) CreateScryptUserOption {
 	return func(o *CreateScryptUserOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -550,14 +581,19 @@ func (srv *Users) CreateScryptUser(UserId string, Email string, Password string,
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -565,7 +601,6 @@ func (srv *Users) CreateScryptUser(UserId string, Email string, Password string,
 	return &parsed, nil
 
 }
-
 type CreateScryptModifiedUserOptions struct {
 	Name string
 	enabledSetters map[string]bool
@@ -577,7 +612,7 @@ func (options CreateScryptModifiedUserOptions) New() *CreateScryptModifiedUserOp
 	return &options
 }
 type CreateScryptModifiedUserOption func(*CreateScryptModifiedUserOptions)
-func WithCreateScryptModifiedUserName(v string) CreateScryptModifiedUserOption {
+func (srv *Users) WithCreateScryptModifiedUserName(v string) CreateScryptModifiedUserOption {
 	return func(o *CreateScryptModifiedUserOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -614,14 +649,19 @@ func (srv *Users) CreateScryptModifiedUser(UserId string, Email string, Password
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -629,7 +669,6 @@ func (srv *Users) CreateScryptModifiedUser(UserId string, Email string, Password
 	return &parsed, nil
 
 }
-
 type CreateSHAUserOptions struct {
 	PasswordVersion string
 	Name string
@@ -643,13 +682,13 @@ func (options CreateSHAUserOptions) New() *CreateSHAUserOptions {
 	return &options
 }
 type CreateSHAUserOption func(*CreateSHAUserOptions)
-func WithCreateSHAUserPasswordVersion(v string) CreateSHAUserOption {
+func (srv *Users) WithCreateSHAUserPasswordVersion(v string) CreateSHAUserOption {
 	return func(o *CreateSHAUserOptions) {
 		o.PasswordVersion = v
 		o.enabledSetters["PasswordVersion"] = true
 	}
 }
-func WithCreateSHAUserName(v string) CreateSHAUserOption {
+func (srv *Users) WithCreateSHAUserName(v string) CreateSHAUserOption {
 	return func(o *CreateSHAUserOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -684,14 +723,19 @@ func (srv *Users) CreateSHAUser(UserId string, Email string, Password string, op
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -714,14 +758,19 @@ func (srv *Users) Get(UserId string)(*models.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -749,14 +798,18 @@ func (srv *Users) Delete(UserId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -780,14 +833,19 @@ func (srv *Users) UpdateEmail(UserId string, Email string)(*models.User, error) 
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -795,7 +853,6 @@ func (srv *Users) UpdateEmail(UserId string, Email string)(*models.User, error) 
 	return &parsed, nil
 
 }
-
 type CreateJWTOptions struct {
 	SessionId string
 	Duration int
@@ -809,13 +866,13 @@ func (options CreateJWTOptions) New() *CreateJWTOptions {
 	return &options
 }
 type CreateJWTOption func(*CreateJWTOptions)
-func WithCreateJWTSessionId(v string) CreateJWTOption {
+func (srv *Users) WithCreateJWTSessionId(v string) CreateJWTOption {
 	return func(o *CreateJWTOptions) {
 		o.SessionId = v
 		o.enabledSetters["SessionId"] = true
 	}
 }
-func WithCreateJWTDuration(v int) CreateJWTOption {
+func (srv *Users) WithCreateJWTDuration(v int) CreateJWTOption {
 	return func(o *CreateJWTOptions) {
 		o.Duration = v
 		o.enabledSetters["Duration"] = true
@@ -849,14 +906,19 @@ func (srv *Users) CreateJWT(UserId string, optionalSetters ...CreateJWTOption)(*
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Jwt
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Jwt{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Jwt
 	parsed, ok := resp.Result.(models.Jwt)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -871,7 +933,7 @@ func (srv *Users) CreateJWT(UserId string, optionalSetters ...CreateJWTOption)(*
 // user's to share access to a resource, labels can be defined by the
 // developer to grant access without an invitation. See the [Permissions
 // docs](https://appwrite.io/docs/permissions) for more info.
-func (srv *Users) UpdateLabels(UserId string, Labels []interface{})(*models.User, error) {
+func (srv *Users) UpdateLabels(UserId string, Labels []string)(*models.User, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/labels")
 	params := map[string]interface{}{}
@@ -885,14 +947,19 @@ func (srv *Users) UpdateLabels(UserId string, Labels []interface{})(*models.User
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -900,9 +967,8 @@ func (srv *Users) UpdateLabels(UserId string, Labels []interface{})(*models.User
 	return &parsed, nil
 
 }
-
 type ListLogsOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListLogsOptions) New() *ListLogsOptions {
@@ -912,7 +978,7 @@ func (options ListLogsOptions) New() *ListLogsOptions {
 	return &options
 }
 type ListLogsOption func(*ListLogsOptions)
-func WithListLogsQueries(v []interface{}) ListLogsOption {
+func (srv *Users) WithListLogsQueries(v []string) ListLogsOption {
 	return func(o *ListLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -940,14 +1006,19 @@ func (srv *Users) ListLogs(UserId string, optionalSetters ...ListLogsOption)(*mo
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.LogList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.LogList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.LogList
 	parsed, ok := resp.Result.(models.LogList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -970,14 +1041,19 @@ func (srv *Users) ListMemberships(UserId string)(*models.MembershipList, error) 
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.MembershipList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MembershipList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.MembershipList
 	parsed, ok := resp.Result.(models.MembershipList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1001,14 +1077,19 @@ func (srv *Users) UpdateMfa(UserId string, Mfa bool)(*models.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1032,14 +1113,19 @@ func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string)(*models.Use
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1063,14 +1149,19 @@ func (srv *Users) ListMfaFactors(UserId string)(*models.MfaFactors, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.MfaFactors
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MfaFactors{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.MfaFactors
 	parsed, ok := resp.Result.(models.MfaFactors)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1096,14 +1187,19 @@ func (srv *Users) GetMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, e
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.MfaRecoveryCodes
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MfaRecoveryCodes{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.MfaRecoveryCodes
 	parsed, ok := resp.Result.(models.MfaRecoveryCodes)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1130,14 +1226,19 @@ func (srv *Users) UpdateMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.MfaRecoveryCodes
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MfaRecoveryCodes{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.MfaRecoveryCodes
 	parsed, ok := resp.Result.(models.MfaRecoveryCodes)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1163,14 +1264,19 @@ func (srv *Users) CreateMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.MfaRecoveryCodes
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MfaRecoveryCodes{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.MfaRecoveryCodes
 	parsed, ok := resp.Result.(models.MfaRecoveryCodes)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1194,14 +1300,19 @@ func (srv *Users) UpdateName(UserId string, Name string)(*models.User, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1225,14 +1336,19 @@ func (srv *Users) UpdatePassword(UserId string, Password string)(*models.User, e
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1256,14 +1372,19 @@ func (srv *Users) UpdatePhone(UserId string, Number string)(*models.User, error)
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1286,14 +1407,19 @@ func (srv *Users) GetPrefs(UserId string)(*models.Preferences, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Preferences
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Preferences{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Preferences
 	parsed, ok := resp.Result.(models.Preferences)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1319,14 +1445,19 @@ func (srv *Users) UpdatePrefs(UserId string, Prefs interface{})(*models.Preferen
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Preferences
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Preferences{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Preferences
 	parsed, ok := resp.Result.(models.Preferences)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1349,14 +1480,19 @@ func (srv *Users) ListSessions(UserId string)(*models.SessionList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.SessionList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.SessionList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.SessionList
 	parsed, ok := resp.Result.(models.SessionList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1385,14 +1521,19 @@ func (srv *Users) CreateSession(UserId string)(*models.Session, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Session
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Session{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Session
 	parsed, ok := resp.Result.(models.Session)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1415,14 +1556,18 @@ func (srv *Users) DeleteSessions(UserId string)(*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1446,14 +1591,18 @@ func (srv *Users) DeleteSession(UserId string, SessionId string)(*interface{}, e
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1478,14 +1627,19 @@ func (srv *Users) UpdateStatus(UserId string, Status bool)(*models.User, error) 
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1493,9 +1647,8 @@ func (srv *Users) UpdateStatus(UserId string, Status bool)(*models.User, error) 
 	return &parsed, nil
 
 }
-
 type ListTargetsOptions struct {
-	Queries []interface{}
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListTargetsOptions) New() *ListTargetsOptions {
@@ -1505,7 +1658,7 @@ func (options ListTargetsOptions) New() *ListTargetsOptions {
 	return &options
 }
 type ListTargetsOption func(*ListTargetsOptions)
-func WithListTargetsQueries(v []interface{}) ListTargetsOption {
+func (srv *Users) WithListTargetsQueries(v []string) ListTargetsOption {
 	return func(o *ListTargetsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -1533,14 +1686,19 @@ func (srv *Users) ListTargets(UserId string, optionalSetters ...ListTargetsOptio
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.TargetList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.TargetList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.TargetList
 	parsed, ok := resp.Result.(models.TargetList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1548,7 +1706,6 @@ func (srv *Users) ListTargets(UserId string, optionalSetters ...ListTargetsOptio
 	return &parsed, nil
 
 }
-
 type CreateTargetOptions struct {
 	ProviderId string
 	Name string
@@ -1562,13 +1719,13 @@ func (options CreateTargetOptions) New() *CreateTargetOptions {
 	return &options
 }
 type CreateTargetOption func(*CreateTargetOptions)
-func WithCreateTargetProviderId(v string) CreateTargetOption {
+func (srv *Users) WithCreateTargetProviderId(v string) CreateTargetOption {
 	return func(o *CreateTargetOptions) {
 		o.ProviderId = v
 		o.enabledSetters["ProviderId"] = true
 	}
 }
-func WithCreateTargetName(v string) CreateTargetOption {
+func (srv *Users) WithCreateTargetName(v string) CreateTargetOption {
 	return func(o *CreateTargetOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -1602,14 +1759,19 @@ func (srv *Users) CreateTarget(UserId string, TargetId string, ProviderType stri
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Target
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Target{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Target
 	parsed, ok := resp.Result.(models.Target)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1633,14 +1795,19 @@ func (srv *Users) GetTarget(UserId string, TargetId string)(*models.Target, erro
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Target
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Target{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Target
 	parsed, ok := resp.Result.(models.Target)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1648,7 +1815,6 @@ func (srv *Users) GetTarget(UserId string, TargetId string)(*models.Target, erro
 	return &parsed, nil
 
 }
-
 type UpdateTargetOptions struct {
 	Identifier string
 	ProviderId string
@@ -1664,19 +1830,19 @@ func (options UpdateTargetOptions) New() *UpdateTargetOptions {
 	return &options
 }
 type UpdateTargetOption func(*UpdateTargetOptions)
-func WithUpdateTargetIdentifier(v string) UpdateTargetOption {
+func (srv *Users) WithUpdateTargetIdentifier(v string) UpdateTargetOption {
 	return func(o *UpdateTargetOptions) {
 		o.Identifier = v
 		o.enabledSetters["Identifier"] = true
 	}
 }
-func WithUpdateTargetProviderId(v string) UpdateTargetOption {
+func (srv *Users) WithUpdateTargetProviderId(v string) UpdateTargetOption {
 	return func(o *UpdateTargetOptions) {
 		o.ProviderId = v
 		o.enabledSetters["ProviderId"] = true
 	}
 }
-func WithUpdateTargetName(v string) UpdateTargetOption {
+func (srv *Users) WithUpdateTargetName(v string) UpdateTargetOption {
 	return func(o *UpdateTargetOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
@@ -1711,14 +1877,19 @@ func (srv *Users) UpdateTarget(UserId string, TargetId string, optionalSetters .
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Target
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Target{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Target
 	parsed, ok := resp.Result.(models.Target)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1742,14 +1913,18 @@ func (srv *Users) DeleteTarget(UserId string, TargetId string)(*interface{}, err
 	if err != nil {
 		return nil, err
 	}
-	var parsed interface{}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1757,7 +1932,6 @@ func (srv *Users) DeleteTarget(UserId string, TargetId string)(*interface{}, err
 	return &parsed, nil
 
 }
-
 type CreateTokenOptions struct {
 	Length int
 	Expire int
@@ -1771,13 +1945,13 @@ func (options CreateTokenOptions) New() *CreateTokenOptions {
 	return &options
 }
 type CreateTokenOption func(*CreateTokenOptions)
-func WithCreateTokenLength(v int) CreateTokenOption {
+func (srv *Users) WithCreateTokenLength(v int) CreateTokenOption {
 	return func(o *CreateTokenOptions) {
 		o.Length = v
 		o.enabledSetters["Length"] = true
 	}
 }
-func WithCreateTokenExpire(v int) CreateTokenOption {
+func (srv *Users) WithCreateTokenExpire(v int) CreateTokenOption {
 	return func(o *CreateTokenOptions) {
 		o.Expire = v
 		o.enabledSetters["Expire"] = true
@@ -1811,14 +1985,19 @@ func (srv *Users) CreateToken(UserId string, optionalSetters ...CreateTokenOptio
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Token
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Token{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Token
 	parsed, ok := resp.Result.(models.Token)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1843,14 +2022,19 @@ func (srv *Users) UpdateEmailVerification(UserId string, EmailVerification bool)
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1875,14 +2059,19 @@ func (srv *Users) UpdatePhoneVerification(UserId string, PhoneVerification bool)
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.User
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
 	if !ok {
 		return nil, errors.New("unexpected response type")

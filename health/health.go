@@ -13,7 +13,7 @@ type Health struct {
 	client client.Client
 }
 
-func NewHealth(clt client.Client) *Health {
+func New(clt client.Client) *Health {
 	return &Health{
 		client: clt,
 	}
@@ -32,14 +32,19 @@ func (srv *Health) Get()(*models.HealthStatus, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthStatus
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthStatus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthStatus
 	parsed, ok := resp.Result.(models.HealthStatus)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -61,14 +66,19 @@ func (srv *Health) GetAntivirus()(*models.HealthAntivirus, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthAntivirus
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthAntivirus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthAntivirus
 	parsed, ok := resp.Result.(models.HealthAntivirus)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -90,14 +100,19 @@ func (srv *Health) GetCache()(*models.HealthStatus, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthStatus
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthStatus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthStatus
 	parsed, ok := resp.Result.(models.HealthStatus)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -105,7 +120,6 @@ func (srv *Health) GetCache()(*models.HealthStatus, error) {
 	return &parsed, nil
 
 }
-
 type GetCertificateOptions struct {
 	Domain string
 	enabledSetters map[string]bool
@@ -117,7 +131,7 @@ func (options GetCertificateOptions) New() *GetCertificateOptions {
 	return &options
 }
 type GetCertificateOption func(*GetCertificateOptions)
-func WithGetCertificateDomain(v string) GetCertificateOption {
+func (srv *Health) WithGetCertificateDomain(v string) GetCertificateOption {
 	return func(o *GetCertificateOptions) {
 		o.Domain = v
 		o.enabledSetters["Domain"] = true
@@ -143,14 +157,19 @@ func (srv *Health) GetCertificate(optionalSetters ...GetCertificateOption)(*mode
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthCertificate
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthCertificate{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthCertificate
 	parsed, ok := resp.Result.(models.HealthCertificate)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -172,14 +191,19 @@ func (srv *Health) GetDB()(*models.HealthStatus, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthStatus
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthStatus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthStatus
 	parsed, ok := resp.Result.(models.HealthStatus)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -201,14 +225,19 @@ func (srv *Health) GetPubSub()(*models.HealthStatus, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthStatus
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthStatus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthStatus
 	parsed, ok := resp.Result.(models.HealthStatus)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -230,14 +259,19 @@ func (srv *Health) GetQueue()(*models.HealthStatus, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthStatus
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthStatus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthStatus
 	parsed, ok := resp.Result.(models.HealthStatus)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -245,7 +279,6 @@ func (srv *Health) GetQueue()(*models.HealthStatus, error) {
 	return &parsed, nil
 
 }
-
 type GetQueueBuildsOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -257,7 +290,7 @@ func (options GetQueueBuildsOptions) New() *GetQueueBuildsOptions {
 	return &options
 }
 type GetQueueBuildsOption func(*GetQueueBuildsOptions)
-func WithGetQueueBuildsThreshold(v int) GetQueueBuildsOption {
+func (srv *Health) WithGetQueueBuildsThreshold(v int) GetQueueBuildsOption {
 	return func(o *GetQueueBuildsOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -284,14 +317,19 @@ func (srv *Health) GetQueueBuilds(optionalSetters ...GetQueueBuildsOption)(*mode
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -299,7 +337,6 @@ func (srv *Health) GetQueueBuilds(optionalSetters ...GetQueueBuildsOption)(*mode
 	return &parsed, nil
 
 }
-
 type GetQueueCertificatesOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -311,7 +348,7 @@ func (options GetQueueCertificatesOptions) New() *GetQueueCertificatesOptions {
 	return &options
 }
 type GetQueueCertificatesOption func(*GetQueueCertificatesOptions)
-func WithGetQueueCertificatesThreshold(v int) GetQueueCertificatesOption {
+func (srv *Health) WithGetQueueCertificatesThreshold(v int) GetQueueCertificatesOption {
 	return func(o *GetQueueCertificatesOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -339,14 +376,19 @@ func (srv *Health) GetQueueCertificates(optionalSetters ...GetQueueCertificatesO
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -354,7 +396,6 @@ func (srv *Health) GetQueueCertificates(optionalSetters ...GetQueueCertificatesO
 	return &parsed, nil
 
 }
-
 type GetQueueDatabasesOptions struct {
 	Name string
 	Threshold int
@@ -368,13 +409,13 @@ func (options GetQueueDatabasesOptions) New() *GetQueueDatabasesOptions {
 	return &options
 }
 type GetQueueDatabasesOption func(*GetQueueDatabasesOptions)
-func WithGetQueueDatabasesName(v string) GetQueueDatabasesOption {
+func (srv *Health) WithGetQueueDatabasesName(v string) GetQueueDatabasesOption {
 	return func(o *GetQueueDatabasesOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-func WithGetQueueDatabasesThreshold(v int) GetQueueDatabasesOption {
+func (srv *Health) WithGetQueueDatabasesThreshold(v int) GetQueueDatabasesOption {
 	return func(o *GetQueueDatabasesOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -404,14 +445,19 @@ func (srv *Health) GetQueueDatabases(optionalSetters ...GetQueueDatabasesOption)
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -419,7 +465,6 @@ func (srv *Health) GetQueueDatabases(optionalSetters ...GetQueueDatabasesOption)
 	return &parsed, nil
 
 }
-
 type GetQueueDeletesOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -431,7 +476,7 @@ func (options GetQueueDeletesOptions) New() *GetQueueDeletesOptions {
 	return &options
 }
 type GetQueueDeletesOption func(*GetQueueDeletesOptions)
-func WithGetQueueDeletesThreshold(v int) GetQueueDeletesOption {
+func (srv *Health) WithGetQueueDeletesThreshold(v int) GetQueueDeletesOption {
 	return func(o *GetQueueDeletesOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -458,14 +503,19 @@ func (srv *Health) GetQueueDeletes(optionalSetters ...GetQueueDeletesOption)(*mo
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -473,7 +523,6 @@ func (srv *Health) GetQueueDeletes(optionalSetters ...GetQueueDeletesOption)(*mo
 	return &parsed, nil
 
 }
-
 type GetFailedJobsOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -485,7 +534,7 @@ func (options GetFailedJobsOptions) New() *GetFailedJobsOptions {
 	return &options
 }
 type GetFailedJobsOption func(*GetFailedJobsOptions)
-func WithGetFailedJobsThreshold(v int) GetFailedJobsOption {
+func (srv *Health) WithGetFailedJobsThreshold(v int) GetFailedJobsOption {
 	return func(o *GetFailedJobsOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -513,14 +562,19 @@ func (srv *Health) GetFailedJobs(Name string, optionalSetters ...GetFailedJobsOp
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -528,7 +582,6 @@ func (srv *Health) GetFailedJobs(Name string, optionalSetters ...GetFailedJobsOp
 	return &parsed, nil
 
 }
-
 type GetQueueFunctionsOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -540,7 +593,7 @@ func (options GetQueueFunctionsOptions) New() *GetQueueFunctionsOptions {
 	return &options
 }
 type GetQueueFunctionsOption func(*GetQueueFunctionsOptions)
-func WithGetQueueFunctionsThreshold(v int) GetQueueFunctionsOption {
+func (srv *Health) WithGetQueueFunctionsThreshold(v int) GetQueueFunctionsOption {
 	return func(o *GetQueueFunctionsOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -567,14 +620,19 @@ func (srv *Health) GetQueueFunctions(optionalSetters ...GetQueueFunctionsOption)
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -582,7 +640,6 @@ func (srv *Health) GetQueueFunctions(optionalSetters ...GetQueueFunctionsOption)
 	return &parsed, nil
 
 }
-
 type GetQueueLogsOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -594,7 +651,7 @@ func (options GetQueueLogsOptions) New() *GetQueueLogsOptions {
 	return &options
 }
 type GetQueueLogsOption func(*GetQueueLogsOptions)
-func WithGetQueueLogsThreshold(v int) GetQueueLogsOption {
+func (srv *Health) WithGetQueueLogsThreshold(v int) GetQueueLogsOption {
 	return func(o *GetQueueLogsOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -621,14 +678,19 @@ func (srv *Health) GetQueueLogs(optionalSetters ...GetQueueLogsOption)(*models.H
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -636,7 +698,6 @@ func (srv *Health) GetQueueLogs(optionalSetters ...GetQueueLogsOption)(*models.H
 	return &parsed, nil
 
 }
-
 type GetQueueMailsOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -648,7 +709,7 @@ func (options GetQueueMailsOptions) New() *GetQueueMailsOptions {
 	return &options
 }
 type GetQueueMailsOption func(*GetQueueMailsOptions)
-func WithGetQueueMailsThreshold(v int) GetQueueMailsOption {
+func (srv *Health) WithGetQueueMailsThreshold(v int) GetQueueMailsOption {
 	return func(o *GetQueueMailsOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -675,14 +736,19 @@ func (srv *Health) GetQueueMails(optionalSetters ...GetQueueMailsOption)(*models
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -690,7 +756,6 @@ func (srv *Health) GetQueueMails(optionalSetters ...GetQueueMailsOption)(*models
 	return &parsed, nil
 
 }
-
 type GetQueueMessagingOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -702,7 +767,7 @@ func (options GetQueueMessagingOptions) New() *GetQueueMessagingOptions {
 	return &options
 }
 type GetQueueMessagingOption func(*GetQueueMessagingOptions)
-func WithGetQueueMessagingThreshold(v int) GetQueueMessagingOption {
+func (srv *Health) WithGetQueueMessagingThreshold(v int) GetQueueMessagingOption {
 	return func(o *GetQueueMessagingOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -729,14 +794,19 @@ func (srv *Health) GetQueueMessaging(optionalSetters ...GetQueueMessagingOption)
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -744,7 +814,6 @@ func (srv *Health) GetQueueMessaging(optionalSetters ...GetQueueMessagingOption)
 	return &parsed, nil
 
 }
-
 type GetQueueMigrationsOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -756,7 +825,7 @@ func (options GetQueueMigrationsOptions) New() *GetQueueMigrationsOptions {
 	return &options
 }
 type GetQueueMigrationsOption func(*GetQueueMigrationsOptions)
-func WithGetQueueMigrationsThreshold(v int) GetQueueMigrationsOption {
+func (srv *Health) WithGetQueueMigrationsThreshold(v int) GetQueueMigrationsOption {
 	return func(o *GetQueueMigrationsOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -783,14 +852,19 @@ func (srv *Health) GetQueueMigrations(optionalSetters ...GetQueueMigrationsOptio
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -798,7 +872,6 @@ func (srv *Health) GetQueueMigrations(optionalSetters ...GetQueueMigrationsOptio
 	return &parsed, nil
 
 }
-
 type GetQueueUsageOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -810,7 +883,7 @@ func (options GetQueueUsageOptions) New() *GetQueueUsageOptions {
 	return &options
 }
 type GetQueueUsageOption func(*GetQueueUsageOptions)
-func WithGetQueueUsageThreshold(v int) GetQueueUsageOption {
+func (srv *Health) WithGetQueueUsageThreshold(v int) GetQueueUsageOption {
 	return func(o *GetQueueUsageOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -837,14 +910,19 @@ func (srv *Health) GetQueueUsage(optionalSetters ...GetQueueUsageOption)(*models
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -852,7 +930,6 @@ func (srv *Health) GetQueueUsage(optionalSetters ...GetQueueUsageOption)(*models
 	return &parsed, nil
 
 }
-
 type GetQueueUsageDumpOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -864,7 +941,7 @@ func (options GetQueueUsageDumpOptions) New() *GetQueueUsageDumpOptions {
 	return &options
 }
 type GetQueueUsageDumpOption func(*GetQueueUsageDumpOptions)
-func WithGetQueueUsageDumpThreshold(v int) GetQueueUsageDumpOption {
+func (srv *Health) WithGetQueueUsageDumpThreshold(v int) GetQueueUsageDumpOption {
 	return func(o *GetQueueUsageDumpOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -891,14 +968,19 @@ func (srv *Health) GetQueueUsageDump(optionalSetters ...GetQueueUsageDumpOption)
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -906,7 +988,6 @@ func (srv *Health) GetQueueUsageDump(optionalSetters ...GetQueueUsageDumpOption)
 	return &parsed, nil
 
 }
-
 type GetQueueWebhooksOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -918,7 +999,7 @@ func (options GetQueueWebhooksOptions) New() *GetQueueWebhooksOptions {
 	return &options
 }
 type GetQueueWebhooksOption func(*GetQueueWebhooksOptions)
-func WithGetQueueWebhooksThreshold(v int) GetQueueWebhooksOption {
+func (srv *Health) WithGetQueueWebhooksThreshold(v int) GetQueueWebhooksOption {
 	return func(o *GetQueueWebhooksOptions) {
 		o.Threshold = v
 		o.enabledSetters["Threshold"] = true
@@ -945,14 +1026,19 @@ func (srv *Health) GetQueueWebhooks(optionalSetters ...GetQueueWebhooksOption)(*
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthQueue
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthQueue
 	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -974,14 +1060,19 @@ func (srv *Health) GetStorage()(*models.HealthStatus, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthStatus
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthStatus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthStatus
 	parsed, ok := resp.Result.(models.HealthStatus)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1003,14 +1094,19 @@ func (srv *Health) GetStorageLocal()(*models.HealthStatus, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthStatus
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthStatus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthStatus
 	parsed, ok := resp.Result.(models.HealthStatus)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -1037,14 +1133,19 @@ func (srv *Health) GetTime()(*models.HealthTime, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.HealthTime
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthTime{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.HealthTime
 	parsed, ok := resp.Result.(models.HealthTime)
 	if !ok {
 		return nil, errors.New("unexpected response type")

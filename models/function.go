@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Function Model
 type Function struct {
@@ -10,7 +14,7 @@ type Function struct {
     // Function update date in ISO 8601 format.
     UpdatedAt string `json:"$updatedAt"`
     // Execution permissions.
-    Execute []interface{} `json:"execute"`
+    Execute []string `json:"execute"`
     // Function name.
     Name string `json:"name"`
     // Function enabled.
@@ -28,11 +32,11 @@ type Function struct {
     // Function's active deployment ID.
     Deployment string `json:"deployment"`
     // Allowed permission scopes.
-    Scopes []interface{} `json:"scopes"`
+    Scopes []string `json:"scopes"`
     // Function variables.
-    Vars []interface{} `json:"vars"`
+    Vars []Variable `json:"vars"`
     // Function trigger events.
-    Events []interface{} `json:"events"`
+    Events []string `json:"events"`
     // Function execution schedult in CRON format.
     Schedule string `json:"schedule"`
     // Function execution timeout in seconds.
@@ -56,4 +60,24 @@ type Function struct {
     // requests
     ProviderSilentMode bool `json:"providerSilentMode"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Function) New(data []byte) *Function {
+    model.data = data
+    return &model
+}
+
+func (model *Function) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

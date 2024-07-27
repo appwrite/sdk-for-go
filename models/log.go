@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Log Model
 type Log struct {
@@ -48,4 +52,24 @@ type Log struct {
     // Country name.
     CountryName string `json:"countryName"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Log) New(data []byte) *Log {
+    model.data = data
+    return &model
+}
+
+func (model *Log) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

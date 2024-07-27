@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Topic Model
 type Topic struct {
@@ -18,6 +22,26 @@ type Topic struct {
     // Total count of push subscribers subscribed to the topic.
     PushTotal int `json:"pushTotal"`
     // Subscribe permissions.
-    Subscribe []interface{} `json:"subscribe"`
+    Subscribe []string `json:"subscribe"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Topic) New(data []byte) *Topic {
+    model.data = data
+    return &model
+}
+
+func (model *Topic) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

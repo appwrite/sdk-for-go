@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Currency Model
 type Currency struct {
@@ -19,4 +23,24 @@ type Currency struct {
     // Currency plural name
     NamePlural string `json:"namePlural"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Currency) New(data []byte) *Currency {
+    model.data = data
+    return &model
+}
+
+func (model *Currency) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }

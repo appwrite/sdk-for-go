@@ -13,7 +13,7 @@ type Locale struct {
 	client client.Client
 }
 
-func NewLocale(clt client.Client) *Locale {
+func New(clt client.Client) *Locale {
 	return &Locale{
 		client: clt,
 	}
@@ -37,14 +37,19 @@ func (srv *Locale) Get()(*models.Locale, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.Locale
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Locale{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Locale
 	parsed, ok := resp.Result.(models.Locale)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -66,14 +71,19 @@ func (srv *Locale) ListCodes()(*models.LocaleCodeList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.LocaleCodeList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.LocaleCodeList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.LocaleCodeList
 	parsed, ok := resp.Result.(models.LocaleCodeList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -95,14 +105,19 @@ func (srv *Locale) ListContinents()(*models.ContinentList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.ContinentList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ContinentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.ContinentList
 	parsed, ok := resp.Result.(models.ContinentList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -124,14 +139,19 @@ func (srv *Locale) ListCountries()(*models.CountryList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.CountryList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.CountryList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.CountryList
 	parsed, ok := resp.Result.(models.CountryList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -153,14 +173,19 @@ func (srv *Locale) ListCountriesEU()(*models.CountryList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.CountryList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.CountryList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.CountryList
 	parsed, ok := resp.Result.(models.CountryList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -182,14 +207,19 @@ func (srv *Locale) ListCountriesPhones()(*models.PhoneList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.PhoneList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.PhoneList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.PhoneList
 	parsed, ok := resp.Result.(models.PhoneList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -212,14 +242,19 @@ func (srv *Locale) ListCurrencies()(*models.CurrencyList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.CurrencyList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.CurrencyList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.CurrencyList
 	parsed, ok := resp.Result.(models.CurrencyList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
@@ -241,14 +276,19 @@ func (srv *Locale) ListLanguages()(*models.LanguageList, error) {
 	if err != nil {
 		return nil, err
 	}
-	var parsed models.LanguageList
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.LanguageList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.LanguageList
 	parsed, ok := resp.Result.(models.LanguageList)
 	if !ok {
 		return nil, errors.New("unexpected response type")

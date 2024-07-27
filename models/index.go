@@ -1,5 +1,9 @@
 package models
 
+import (
+    "encoding/json"
+    "errors"
+)
 
 // Index Model
 type Index struct {
@@ -14,8 +18,28 @@ type Index struct {
     // an index.
     Error string `json:"xerror"`
     // Index attributes.
-    Attributes []interface{} `json:"attributes"`
+    Attributes []string `json:"attributes"`
     // Index orders.
-    Orders []interface{} `json:"orders"`
+    Orders []string `json:"orders"`
 
+    // Used by Decode() method
+    data []byte
+}
+
+func (model Index) New(data []byte) *Index {
+    model.data = data
+    return &model
+}
+
+func (model *Index) Decode(value interface{}) error {
+    if len(model.data) <= 0 {
+        return errors.New("method Decode() cannot be used on nested struct")
+    }
+
+    err := json.Unmarshal(model.data, value)
+    if err != nil {
+        return err
+    }
+
+    return nil
 }
