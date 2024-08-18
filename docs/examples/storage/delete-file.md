@@ -2,22 +2,20 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/storage"
+    "github.com/appwrite/sdk-for-go"
 )
 
 func main() {
-    client := client.NewClient()
+    var client := appwrite.Client{}
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-    client.SetProject("") // Your project ID
-    client.SetSession("") // The user session to authenticate with
+    client.SetProject("5df5acd0d48c2") // Your project ID
+    client.SetKey("919c2d18fb5d4...a2ae413da83346ad2") // Your secret API key
 
-    service := storage.NewStorage(client)
-    response, error := service.DeleteFile(
-        "<BUCKET_ID>",
-        "<FILE_ID>",
-    )
+    var service := appwrite.Storage{
+        client: &client
+    }
+
+    var response, error := service.DeleteFile("[FILE_ID]")
 
     if error != nil {
         panic(error)

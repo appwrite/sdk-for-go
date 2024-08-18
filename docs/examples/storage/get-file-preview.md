@@ -2,33 +2,20 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/storage"
+    "github.com/appwrite/sdk-for-go"
 )
 
 func main() {
-    client := client.NewClient()
+    var client := appwrite.Client{}
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-    client.SetProject("") // Your project ID
-    client.SetSession("") // The user session to authenticate with
+    client.SetProject("5df5acd0d48c2") // Your project ID
+    client.SetKey("919c2d18fb5d4...a2ae413da83346ad2") // Your secret API key
 
-    service := storage.NewStorage(client)
-    response, error := service.GetFilePreview(
-        "<BUCKET_ID>",
-        "<FILE_ID>",
-        storage.WithGetFilePreviewWidth(0),
-        storage.WithGetFilePreviewHeight(0),
-        storage.WithGetFilePreviewGravity("center"),
-        storage.WithGetFilePreviewQuality(0),
-        storage.WithGetFilePreviewBorderWidth(0),
-        storage.WithGetFilePreviewBorderColor(""),
-        storage.WithGetFilePreviewBorderRadius(0),
-        storage.WithGetFilePreviewOpacity(0),
-        storage.WithGetFilePreviewRotation(-360),
-        storage.WithGetFilePreviewBackground(""),
-        storage.WithGetFilePreviewOutput("jpg"),
-    )
+    var service := appwrite.Storage{
+        client: &client
+    }
+
+    var response, error := service.GetFilePreview("[FILE_ID]", 0, 0, 0, "", "jpg")
 
     if error != nil {
         panic(error)
