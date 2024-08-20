@@ -28,7 +28,7 @@ type Collection struct {
     // permissions](https://appwrite.io/docs/permissions).
     DocumentSecurity bool `json:"documentSecurity"`
     // Collection attributes.
-    Attributes []string `json:"attributes"`
+    Attributes []map[string]any `json:"attributes"`
     // Collection indexes.
     Indexes []Index `json:"indexes"`
 

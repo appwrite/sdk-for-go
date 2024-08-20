@@ -59,6 +59,8 @@ type Function struct {
     // silence mode, no comments will be posted on the repository pull or merge
     // requests
     ProviderSilentMode bool `json:"providerSilentMode"`
+    // Machine specification for builds and executions.
+    Specification string `json:"specification"`
 
     // Used by Decode() method
     data []byte

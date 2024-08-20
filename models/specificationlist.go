@@ -5,23 +5,23 @@ import (
     "errors"
 )
 
-// AttributesList Model
-type AttributeList struct {
-    // Total number of attributes in the given collection.
+// SpecificationsList Model
+type SpecificationList struct {
+    // Total number of specifications documents that matched your query.
     Total int `json:"total"`
-    // List of attributes.
-    Attributes []map[string]any `json:"attributes"`
+    // List of specifications.
+    Specifications []Specification `json:"specifications"`
 
     // Used by Decode() method
     data []byte
 }
 
-func (model AttributeList) New(data []byte) *AttributeList {
+func (model SpecificationList) New(data []byte) *SpecificationList {
     model.data = data
     return &model
 }
 
-func (model *AttributeList) Decode(value interface{}) error {
+func (model *SpecificationList) Decode(value interface{}) error {
     if len(model.data) <= 0 {
         return errors.New("method Decode() cannot be used on nested struct")
     }

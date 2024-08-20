@@ -2,20 +2,23 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/avatars"
 )
 
 func main() {
-    var client := appwrite.Client{}
+    client := client.NewClient()
 
-    client.SetProject("5df5acd0d48c2") // Your project ID
-    client.SetKey("919c2d18fb5d4...a2ae413da83346ad2") // Your secret API key
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("") // Your project ID
+    client.SetSession("") // The user session to authenticate with
 
-    var service := appwrite.Avatars{
-        client: &client
-    }
-
-    var response, error := service.GetImage("https://example.com", 0, 0)
+    service := avatars.NewAvatars(client)
+    response, error := service.GetImage(
+        "https://example.com",
+        avatars.WithGetImageWidth(0),
+        avatars.WithGetImageHeight(0),
+    )
 
     if error != nil {
         panic(error)

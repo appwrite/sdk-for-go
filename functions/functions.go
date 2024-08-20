@@ -1,3 +1,91 @@
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
 package functions
 
 import (
@@ -21,7 +109,15 @@ func New(clt client.Client) *Functions {
 }
 
 type ListOptions struct {
-	Queries []string
+	Queries 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -33,7 +129,15 @@ func (options ListOptions) New() *ListOptions {
 	return &options
 }
 type ListOption func(*ListOptions)
-func (srv *Functions) WithListQueries(v []string) ListOption {
+func (srv *Functions) WithListQueries(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -90,15 +194,39 @@ func (srv *Functions) List(optionalSetters ...ListOption)(*models.FunctionList, 
 
 }
 type CreateOptions struct {
-	Execute []string
-	Events []string
+	Execute 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
+	Events 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
 	Schedule string
 	Timeout int
 	Enabled bool
 	Logging bool
 	Entrypoint string
 	Commands string
-	Scopes []string
+	Scopes 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
 	InstallationId string
 	ProviderRepositoryId string
 	ProviderBranch string
@@ -108,6 +236,7 @@ type CreateOptions struct {
 	TemplateOwner string
 	TemplateRootDirectory string
 	TemplateVersion string
+	Specification string
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
@@ -130,17 +259,34 @@ func (options CreateOptions) New() *CreateOptions {
 		"TemplateOwner": false,
 		"TemplateRootDirectory": false,
 		"TemplateVersion": false,
+		"Specification": false,
 	}
 	return &options
 }
 type CreateOption func(*CreateOptions)
-func (srv *Functions) WithCreateExecute(v []string) CreateOption {
+func (srv *Functions) WithCreateExecute(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Execute = v
 		o.enabledSetters["Execute"] = true
 	}
 }
-func (srv *Functions) WithCreateEvents(v []string) CreateOption {
+func (srv *Functions) WithCreateEvents(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Events = v
 		o.enabledSetters["Events"] = true
@@ -182,7 +328,15 @@ func (srv *Functions) WithCreateCommands(v string) CreateOption {
 		o.enabledSetters["Commands"] = true
 	}
 }
-func (srv *Functions) WithCreateScopes(v []string) CreateOption {
+func (srv *Functions) WithCreateScopes(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Scopes = v
 		o.enabledSetters["Scopes"] = true
@@ -240,6 +394,12 @@ func (srv *Functions) WithCreateTemplateVersion(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.TemplateVersion = v
 		o.enabledSetters["TemplateVersion"] = true
+	}
+}
+func (srv *Functions) WithCreateSpecification(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.Specification = v
+		o.enabledSetters["Specification"] = true
 	}
 }
 							
@@ -311,6 +471,9 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 	if options.enabledSetters["TemplateVersion"] {
 		params["templateVersion"] = options.TemplateVersion
 	}
+	if options.enabledSetters["Specification"] {
+		params["specification"] = options.Specification
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -373,9 +536,58 @@ func (srv *Functions) ListRuntimes()(*models.RuntimeList, error) {
 	return &parsed, nil
 
 }
+
+// ListSpecifications list allowed function specifications for this instance.
+func (srv *Functions) ListSpecifications()(*models.SpecificationList, error) {
+	path := "/functions/specifications"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.SpecificationList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.SpecificationList
+	parsed, ok := resp.Result.(models.SpecificationList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type ListTemplatesOptions struct {
-	Runtimes []string
-	UseCases []string
+	Runtimes 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
+	UseCases 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
 	Limit int
 	Offset int
 	enabledSetters map[string]bool
@@ -390,13 +602,29 @@ func (options ListTemplatesOptions) New() *ListTemplatesOptions {
 	return &options
 }
 type ListTemplatesOption func(*ListTemplatesOptions)
-func (srv *Functions) WithListTemplatesRuntimes(v []string) ListTemplatesOption {
+func (srv *Functions) WithListTemplatesRuntimes(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) ListTemplatesOption {
 	return func(o *ListTemplatesOptions) {
 		o.Runtimes = v
 		o.enabledSetters["Runtimes"] = true
 	}
 }
-func (srv *Functions) WithListTemplatesUseCases(v []string) ListTemplatesOption {
+func (srv *Functions) WithListTemplatesUseCases(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) ListTemplatesOption {
 	return func(o *ListTemplatesOptions) {
 		o.UseCases = v
 		o.enabledSetters["UseCases"] = true
@@ -540,20 +768,45 @@ func (srv *Functions) Get(FunctionId string)(*models.Function, error) {
 }
 type UpdateOptions struct {
 	Runtime string
-	Execute []string
-	Events []string
+	Execute 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
+	Events 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
 	Schedule string
 	Timeout int
 	Enabled bool
 	Logging bool
 	Entrypoint string
 	Commands string
-	Scopes []string
+	Scopes 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
 	InstallationId string
 	ProviderRepositoryId string
 	ProviderBranch string
 	ProviderSilentMode bool
 	ProviderRootDirectory string
+	Specification string
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
@@ -573,6 +826,7 @@ func (options UpdateOptions) New() *UpdateOptions {
 		"ProviderBranch": false,
 		"ProviderSilentMode": false,
 		"ProviderRootDirectory": false,
+		"Specification": false,
 	}
 	return &options
 }
@@ -583,13 +837,29 @@ func (srv *Functions) WithUpdateRuntime(v string) UpdateOption {
 		o.enabledSetters["Runtime"] = true
 	}
 }
-func (srv *Functions) WithUpdateExecute(v []string) UpdateOption {
+func (srv *Functions) WithUpdateExecute(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Execute = v
 		o.enabledSetters["Execute"] = true
 	}
 }
-func (srv *Functions) WithUpdateEvents(v []string) UpdateOption {
+func (srv *Functions) WithUpdateEvents(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Events = v
 		o.enabledSetters["Events"] = true
@@ -631,7 +901,15 @@ func (srv *Functions) WithUpdateCommands(v string) UpdateOption {
 		o.enabledSetters["Commands"] = true
 	}
 }
-func (srv *Functions) WithUpdateScopes(v []string) UpdateOption {
+func (srv *Functions) WithUpdateScopes(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Scopes = v
 		o.enabledSetters["Scopes"] = true
@@ -665,6 +943,12 @@ func (srv *Functions) WithUpdateProviderRootDirectory(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.ProviderRootDirectory = v
 		o.enabledSetters["ProviderRootDirectory"] = true
+	}
+}
+func (srv *Functions) WithUpdateSpecification(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Specification = v
+		o.enabledSetters["Specification"] = true
 	}
 }
 					
@@ -723,6 +1007,9 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	}
 	if options.enabledSetters["ProviderRootDirectory"] {
 		params["providerRootDirectory"] = options.ProviderRootDirectory
+	}
+	if options.enabledSetters["Specification"] {
+		params["specification"] = options.Specification
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -787,7 +1074,15 @@ func (srv *Functions) Delete(FunctionId string)(*interface{}, error) {
 
 }
 type ListDeploymentsOptions struct {
-	Queries []string
+	Queries 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -799,7 +1094,15 @@ func (options ListDeploymentsOptions) New() *ListDeploymentsOptions {
 	return &options
 }
 type ListDeploymentsOption func(*ListDeploymentsOptions)
-func (srv *Functions) WithListDeploymentsQueries(v []string) ListDeploymentsOption {
+func (srv *Functions) WithListDeploymentsQueries(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) ListDeploymentsOption {
 	return func(o *ListDeploymentsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -1179,7 +1482,15 @@ func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId stri
 
 }
 type ListExecutionsOptions struct {
-	Queries []string
+	Queries 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string
 	Search string
 	enabledSetters map[string]bool
 }
@@ -1191,7 +1502,15 @@ func (options ListExecutionsOptions) New() *ListExecutionsOptions {
 	return &options
 }
 type ListExecutionsOption func(*ListExecutionsOptions)
-func (srv *Functions) WithListExecutionsQueries(v []string) ListExecutionsOption {
+func (srv *Functions) WithListExecutionsQueries(v 
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Warning: Undefined array key "description" in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+
+Deprecated: str_contains(): Passing null to parameter #1 ($haystack) of type string is deprecated in /usr/src/code/vendor/appwrite/sdk-generator/src/SDK/Language/Go.php on line 141
+[]string) ListExecutionsOption {
 	return func(o *ListExecutionsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -1339,29 +1658,32 @@ func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...Crea
 		params["scheduledAt"] = options.ScheduledAt
 	}
 	headers := map[string]interface{}{
-		"content-type": "multipart/form-data",
+		"content-type": "application/json",
 	}
 
-
-    uploadId := ""
-
-    resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
-    if err != nil {
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
 		return nil, err
 	}
-	var parsed models.Execution
 	if strings.HasPrefix(resp.Type, "application/json") {
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Execution{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
+	var parsed models.Execution
 	parsed, ok := resp.Result.(models.Execution)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
 	return &parsed, nil
+
 }
 			
 // GetExecution get a function execution log by its unique ID.

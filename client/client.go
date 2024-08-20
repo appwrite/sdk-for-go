@@ -69,11 +69,11 @@ type Client struct {
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.6.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.0.1-rc.2 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.0.1-rc.4 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "0.0.1-rc.2",
+		"x-sdk-version": "0.0.1-rc.4",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
@@ -161,6 +161,34 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 			currentChunk = int64(resp.Result.(map[string]interface{})["chunksUploaded"].(float64))
 		}
 	}
+
+	if fileInfo.Size() <= client.ChunkSize {
+		if uploadId != "" && uploadId != "unique()" {
+			headers["x-appwrite-id"] = uploadId
+		}
+		inputFile.Data = make([]byte, fileInfo.Size())
+		_, err := file.Read(inputFile.Data)
+		if err != nil && err != io.EOF {
+			return nil, err
+		}
+		params[paramName] = inputFile
+
+		result, err = client.Call("POST", url, headers, params)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed map[string]interface{}
+		if strings.HasPrefix(result.Type, "application/json") {
+			err = json.Unmarshal([]byte(result.Result.(string)), &parsed)
+			if err == nil {
+				uploadId, _ = parsed["$id"].(string)
+			}
+		}
+
+		return result, nil
+	}
+
 	for i := currentChunk; i < numChunks; i++ {
 		chunkSize := client.ChunkSize
 		offset := int64(i) * chunkSize

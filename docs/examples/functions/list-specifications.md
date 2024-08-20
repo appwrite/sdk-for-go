@@ -3,7 +3,7 @@ package main
 import (
     "fmt"
     "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/storage"
+    "github.com/appwrite/sdk-for-go/functions"
 )
 
 func main() {
@@ -11,12 +11,10 @@ func main() {
 
     client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
     client.SetProject("") // Your project ID
-    client.SetSession("") // The user session to authenticate with
+    client.SetKey("") // Your secret API key
 
-    service := storage.NewStorage(client)
-    response, error := service.GetFileView(
-        "<BUCKET_ID>",
-        "<FILE_ID>",
+    service := functions.NewFunctions(client)
+    response, error := service.ListSpecifications(
     )
 
     if error != nil {
