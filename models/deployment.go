@@ -23,6 +23,8 @@ type Deployment struct {
     Entrypoint string `json:"entrypoint"`
     // The code size in bytes.
     Size int `json:"size"`
+    // The build output size in bytes.
+    BuildSize int `json:"buildSize"`
     // The current build ID.
     BuildId string `json:"buildId"`
     // Whether the deployment should be automatically activated.
