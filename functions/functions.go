@@ -418,43 +418,6 @@ func (srv *Functions) ListSpecifications()(*models.SpecificationList, error) {
 
 }
 	
-// GetTemplate get a function template using ID. You can use template details
-// in [createFunction](/docs/references/cloud/server-nodejs/functions#create)
-// method.
-func (srv *Functions) GetTemplate(TemplateId string)(*models.TemplateFunction, error) {
-	r := strings.NewReplacer("{templateId}", TemplateId)
-	path := r.Replace("/functions/templates/{templateId}")
-	params := map[string]interface{}{}
-	params["templateId"] = TemplateId
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-	}
-
-	resp, err := srv.client.Call("GET", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
-
-		parsed := models.TemplateFunction{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.TemplateFunction
-	parsed, ok := resp.Result.(models.TemplateFunction)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-	
 // Get get a function by its unique ID.
 func (srv *Functions) Get(FunctionId string)(*models.Function, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
