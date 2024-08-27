@@ -2,20 +2,21 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/teams"
 )
 
 func main() {
-    var client := appwrite.Client{}
+    client := client.NewClient()
 
-    client.SetProject("5df5acd0d48c2") // Your project ID
-    client.SetKey("919c2d18fb5d4...a2ae413da83346ad2") // Your secret API key
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+    client.SetSession("") // The user session to authenticate with
 
-    var service := appwrite.Teams{
-        client: &client
-    }
-
-    var response, error := service.Delete("[TEAM_ID]")
+    service := teams.NewTeams(client)
+    response, error := service.Delete(
+        "<TEAM_ID>",
+    )
 
     if error != nil {
         panic(error)
