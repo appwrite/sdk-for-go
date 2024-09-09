@@ -724,18 +724,42 @@ func (srv *Databases) CreateBooleanAttribute(DatabaseId string, CollectionId str
 	return &parsed, nil
 
 }
-									
+type UpdateBooleanAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateBooleanAttributeOptions) New() *UpdateBooleanAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateBooleanAttributeOption func(*UpdateBooleanAttributeOptions)
+func (srv *Databases) WithUpdateBooleanAttributeNewKey(v string) UpdateBooleanAttributeOption {
+	return func(o *UpdateBooleanAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
 // UpdateBooleanAttribute update a boolean attribute. Changing the `default`
 // value will not update already existing documents.
-func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default bool)(*models.AttributeBoolean, error) {
+func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default bool, optionalSetters ...UpdateBooleanAttributeOption)(*models.AttributeBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/boolean/{key}")
+	options := UpdateBooleanAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -838,18 +862,42 @@ func (srv *Databases) CreateDatetimeAttribute(DatabaseId string, CollectionId st
 	return &parsed, nil
 
 }
-									
+type UpdateDatetimeAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateDatetimeAttributeOptions) New() *UpdateDatetimeAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateDatetimeAttributeOption func(*UpdateDatetimeAttributeOptions)
+func (srv *Databases) WithUpdateDatetimeAttributeNewKey(v string) UpdateDatetimeAttributeOption {
+	return func(o *UpdateDatetimeAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
 // UpdateDatetimeAttribute update a date time attribute. Changing the
 // `default` value will not update already existing documents.
-func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)(*models.AttributeDatetime, error) {
+func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateDatetimeAttributeOption)(*models.AttributeDatetime, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/datetime/{key}")
+	options := UpdateDatetimeAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -951,18 +999,42 @@ func (srv *Databases) CreateEmailAttribute(DatabaseId string, CollectionId strin
 	return &parsed, nil
 
 }
-									
+type UpdateEmailAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateEmailAttributeOptions) New() *UpdateEmailAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateEmailAttributeOption func(*UpdateEmailAttributeOptions)
+func (srv *Databases) WithUpdateEmailAttributeNewKey(v string) UpdateEmailAttributeOption {
+	return func(o *UpdateEmailAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
 // UpdateEmailAttribute update an email attribute. Changing the `default`
 // value will not update already existing documents.
-func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)(*models.AttributeEmail, error) {
+func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateEmailAttributeOption)(*models.AttributeEmail, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/email/{key}")
+	options := UpdateEmailAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -1066,12 +1138,33 @@ func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string
 	return &parsed, nil
 
 }
-											
+type UpdateEnumAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateEnumAttributeOptions) New() *UpdateEnumAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateEnumAttributeOption func(*UpdateEnumAttributeOptions)
+func (srv *Databases) WithUpdateEnumAttributeNewKey(v string) UpdateEnumAttributeOption {
+	return func(o *UpdateEnumAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+													
 // UpdateEnumAttribute update an enum attribute. Changing the `default` value
 // will not update already existing documents.
-func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []string, Required bool, Default string)(*models.AttributeEnum, error) {
+func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []string, Required bool, Default string, optionalSetters ...UpdateEnumAttributeOption)(*models.AttributeEnum, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}")
+	options := UpdateEnumAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
@@ -1079,6 +1172,9 @@ func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string
 	params["elements"] = Elements
 	params["required"] = Required
 	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -1203,12 +1299,33 @@ func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId strin
 	return &parsed, nil
 
 }
-													
+type UpdateFloatAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateFloatAttributeOptions) New() *UpdateFloatAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateFloatAttributeOption func(*UpdateFloatAttributeOptions)
+func (srv *Databases) WithUpdateFloatAttributeNewKey(v string) UpdateFloatAttributeOption {
+	return func(o *UpdateFloatAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+															
 // UpdateFloatAttribute update a float attribute. Changing the `default` value
 // will not update already existing documents.
-func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min float64, Max float64, Default float64)(*models.AttributeFloat, error) {
+func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min float64, Max float64, Default float64, optionalSetters ...UpdateFloatAttributeOption)(*models.AttributeFloat, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}")
+	options := UpdateFloatAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
@@ -1217,6 +1334,9 @@ func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId strin
 	params["min"] = Min
 	params["max"] = Max
 	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -1341,12 +1461,33 @@ func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId str
 	return &parsed, nil
 
 }
-													
+type UpdateIntegerAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateIntegerAttributeOptions) New() *UpdateIntegerAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateIntegerAttributeOption func(*UpdateIntegerAttributeOptions)
+func (srv *Databases) WithUpdateIntegerAttributeNewKey(v string) UpdateIntegerAttributeOption {
+	return func(o *UpdateIntegerAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+															
 // UpdateIntegerAttribute update an integer attribute. Changing the `default`
 // value will not update already existing documents.
-func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min int, Max int, Default int)(*models.AttributeInteger, error) {
+func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min int, Max int, Default int, optionalSetters ...UpdateIntegerAttributeOption)(*models.AttributeInteger, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}")
+	options := UpdateIntegerAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
@@ -1355,6 +1496,9 @@ func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId str
 	params["min"] = Min
 	params["max"] = Max
 	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -1456,18 +1600,42 @@ func (srv *Databases) CreateIpAttribute(DatabaseId string, CollectionId string, 
 	return &parsed, nil
 
 }
-									
+type UpdateIpAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateIpAttributeOptions) New() *UpdateIpAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateIpAttributeOption func(*UpdateIpAttributeOptions)
+func (srv *Databases) WithUpdateIpAttributeNewKey(v string) UpdateIpAttributeOption {
+	return func(o *UpdateIpAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
 // UpdateIpAttribute update an ip attribute. Changing the `default` value will
 // not update already existing documents.
-func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)(*models.AttributeIp, error) {
+func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateIpAttributeOption)(*models.AttributeIp, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/ip/{key}")
+	options := UpdateIpAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -1678,18 +1846,53 @@ func (srv *Databases) CreateStringAttribute(DatabaseId string, CollectionId stri
 	return &parsed, nil
 
 }
-									
+type UpdateStringAttributeOptions struct {
+	Size int
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateStringAttributeOptions) New() *UpdateStringAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Size": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateStringAttributeOption func(*UpdateStringAttributeOptions)
+func (srv *Databases) WithUpdateStringAttributeSize(v int) UpdateStringAttributeOption {
+	return func(o *UpdateStringAttributeOptions) {
+		o.Size = v
+		o.enabledSetters["Size"] = true
+	}
+}
+func (srv *Databases) WithUpdateStringAttributeNewKey(v string) UpdateStringAttributeOption {
+	return func(o *UpdateStringAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
 // UpdateStringAttribute update a string attribute. Changing the `default`
 // value will not update already existing documents.
-func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)(*models.AttributeString, error) {
+func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringAttributeOption)(*models.AttributeString, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/string/{key}")
+	options := UpdateStringAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
+	if options.enabledSetters["Size"] {
+		params["size"] = options.Size
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -1791,18 +1994,42 @@ func (srv *Databases) CreateUrlAttribute(DatabaseId string, CollectionId string,
 	return &parsed, nil
 
 }
-									
+type UpdateUrlAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateUrlAttributeOptions) New() *UpdateUrlAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateUrlAttributeOption func(*UpdateUrlAttributeOptions)
+func (srv *Databases) WithUpdateUrlAttributeNewKey(v string) UpdateUrlAttributeOption {
+	return func(o *UpdateUrlAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
 // UpdateUrlAttribute update an url attribute. Changing the `default` value
 // will not update already existing documents.
-func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string)(*models.AttributeUrl, error) {
+func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateUrlAttributeOption)(*models.AttributeUrl, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/url/{key}")
+	options := UpdateUrlAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -1905,11 +2132,13 @@ func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Ke
 }
 type UpdateRelationshipAttributeOptions struct {
 	OnDelete string
+	NewKey string
 	enabledSetters map[string]bool
 }
 func (options UpdateRelationshipAttributeOptions) New() *UpdateRelationshipAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"OnDelete": false,
+		"NewKey": false,
 	}
 	return &options
 }
@@ -1918,6 +2147,12 @@ func (srv *Databases) WithUpdateRelationshipAttributeOnDelete(v string) UpdateRe
 	return func(o *UpdateRelationshipAttributeOptions) {
 		o.OnDelete = v
 		o.enabledSetters["OnDelete"] = true
+	}
+}
+func (srv *Databases) WithUpdateRelationshipAttributeNewKey(v string) UpdateRelationshipAttributeOption {
+	return func(o *UpdateRelationshipAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
 	}
 }
 							
@@ -1937,6 +2172,9 @@ func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionI
 	params["key"] = Key
 	if options.enabledSetters["OnDelete"] {
 		params["onDelete"] = options.OnDelete
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
