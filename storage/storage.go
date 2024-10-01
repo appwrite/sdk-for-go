@@ -5,7 +5,7 @@ import (
 	"errors"
 	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/models"
-	"github.com/appwrite/sdk-for-go/file"
+	"github.com/appwrite/sdk-for-go/payload"
 	"strings"
 )
 
@@ -70,11 +70,11 @@ func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption)(*models.Bu
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.BucketList{}.New(bytes)
+		parsed := models.BucketList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -206,11 +206,11 @@ func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Bucket{}.New(bytes)
+		parsed := models.Bucket{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -242,11 +242,11 @@ func (srv *Storage) GetBucket(BucketId string)(*models.Bucket, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Bucket{}.New(bytes)
+		parsed := models.Bucket{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -379,11 +379,11 @@ func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Bucket{}.New(bytes)
+		parsed := models.Bucket{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -414,11 +414,11 @@ func (srv *Storage) DeleteBucket(BucketId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -484,11 +484,11 @@ func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOptio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.FileList{}.New(bytes)
+		parsed := models.FileList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -538,7 +538,7 @@ func (srv *Storage) WithCreateFilePermissions(v []string) CreateFileOption {
 // 
 // If you're creating a new file using one of the Appwrite SDKs, all the
 // chunking logic will be managed by the SDK internally.
-func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFile, optionalSetters ...CreateFileOption)(*models.File, error) {
+func (srv *Storage) CreateFile(BucketId string, FileId string, File *payload.Payload, optionalSetters ...CreateFileOption)(*models.File, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId)
 	path := r.Replace("/storage/buckets/{bucketId}/files")
 	options := CreateFileOptions{}.New()
@@ -598,11 +598,11 @@ func (srv *Storage) GetFile(BucketId string, FileId string)(*models.File, error)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.File{}.New(bytes)
+		parsed := models.File{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -670,11 +670,11 @@ func (srv *Storage) UpdateFile(BucketId string, FileId string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.File{}.New(bytes)
+		parsed := models.File{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -707,11 +707,11 @@ func (srv *Storage) DeleteFile(BucketId string, FileId string)(*interface{}, err
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -744,11 +744,11 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string)(*[]byte, err
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -917,11 +917,11 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -954,11 +954,11 @@ func (srv *Storage) GetFileView(BucketId string, FileId string)(*[]byte, error) 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}

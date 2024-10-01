@@ -28,10 +28,10 @@ go get github.com/appwrite/sdk-for-go
 * Then inject these environment variables:
 
   ```bash
-  export YOUR_ENDPOINT=https://appwrite.io/v1  
-  export YOUR_PROJECT_ID=6…8  
-  export YOUR_KEY="7055781…cd95"  
-  export COLLECTION_ID=616a095b20180  
+  export YOUR_ENDPOINT=https://appwrite.io/v1
+  export YOUR_PROJECT_ID=6…8
+  export YOUR_KEY="7055781…cd95"
+  export COLLECTION_ID=616a095b20180
   ```
 
 Create `main.go` file with:
@@ -55,7 +55,7 @@ func main() {
 		appwrite.WithKey(os.Getenv("YOUR_KEY")),
 	)
 
-	databases := appwrite.NewDatabase(client)
+	databases := appwrite.NewDatabases(client)
 
 	data := map[string]string{
 		"hello": "world",
@@ -76,8 +76,8 @@ func main() {
 
 * After that, run the following
 
-  > % go run main.go  
-  > 2021/10/16 03:41:17 Created document: map[$collection:616a095b20180 $id:616a2dbd4df16 $permissions:map[read:[] write:[]] hello:world]  
+  > % go run main.go
+  > 2021/10/16 03:41:17 Created document: map[$collection:616a095b20180 $id:616a2dbd4df16 $permissions:map[read:[] write:[]] hello:world]
 
 
 ## Contribution

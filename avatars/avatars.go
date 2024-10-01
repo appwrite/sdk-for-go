@@ -90,11 +90,11 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -177,11 +177,11 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -213,11 +213,11 @@ func (srv *Avatars) GetFavicon(Url string)(*[]byte, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -302,11 +302,11 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption)(*[]by
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -380,11 +380,11 @@ func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption)(*[]b
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -483,11 +483,11 @@ func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption)(*[]byte, e
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -563,11 +563,11 @@ func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption)(*[]byte, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}

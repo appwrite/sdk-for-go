@@ -33,11 +33,11 @@ func (srv *Health) Get()(*models.HealthStatus, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatus{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -67,11 +67,11 @@ func (srv *Health) GetAntivirus()(*models.HealthAntivirus, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthAntivirus{}.New(bytes)
+		parsed := models.HealthAntivirus{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -101,11 +101,11 @@ func (srv *Health) GetCache()(*models.HealthStatus, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatus{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -158,11 +158,11 @@ func (srv *Health) GetCertificate(optionalSetters ...GetCertificateOption)(*mode
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthCertificate{}.New(bytes)
+		parsed := models.HealthCertificate{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -192,11 +192,11 @@ func (srv *Health) GetDB()(*models.HealthStatus, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatus{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -226,11 +226,11 @@ func (srv *Health) GetPubSub()(*models.HealthStatus, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatus{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -260,11 +260,11 @@ func (srv *Health) GetQueue()(*models.HealthStatus, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatus{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -318,11 +318,11 @@ func (srv *Health) GetQueueBuilds(optionalSetters ...GetQueueBuildsOption)(*mode
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -377,11 +377,11 @@ func (srv *Health) GetQueueCertificates(optionalSetters ...GetQueueCertificatesO
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -446,11 +446,11 @@ func (srv *Health) GetQueueDatabases(optionalSetters ...GetQueueDatabasesOption)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -504,11 +504,11 @@ func (srv *Health) GetQueueDeletes(optionalSetters ...GetQueueDeletesOption)(*mo
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -563,11 +563,11 @@ func (srv *Health) GetFailedJobs(Name string, optionalSetters ...GetFailedJobsOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -621,11 +621,11 @@ func (srv *Health) GetQueueFunctions(optionalSetters ...GetQueueFunctionsOption)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -679,11 +679,11 @@ func (srv *Health) GetQueueLogs(optionalSetters ...GetQueueLogsOption)(*models.H
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -737,11 +737,11 @@ func (srv *Health) GetQueueMails(optionalSetters ...GetQueueMailsOption)(*models
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -795,11 +795,11 @@ func (srv *Health) GetQueueMessaging(optionalSetters ...GetQueueMessagingOption)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -853,11 +853,11 @@ func (srv *Health) GetQueueMigrations(optionalSetters ...GetQueueMigrationsOptio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -911,11 +911,11 @@ func (srv *Health) GetQueueUsage(optionalSetters ...GetQueueUsageOption)(*models
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -969,11 +969,11 @@ func (srv *Health) GetQueueUsageDump(optionalSetters ...GetQueueUsageDumpOption)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1027,11 +1027,11 @@ func (srv *Health) GetQueueWebhooks(optionalSetters ...GetQueueWebhooksOption)(*
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthQueue{}.New(bytes)
+		parsed := models.HealthQueue{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1061,11 +1061,11 @@ func (srv *Health) GetStorage()(*models.HealthStatus, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatus{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1095,11 +1095,11 @@ func (srv *Health) GetStorageLocal()(*models.HealthStatus, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatus{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1134,11 +1134,11 @@ func (srv *Health) GetTime()(*models.HealthTime, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.HealthTime{}.New(bytes)
+		parsed := models.HealthTime{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}

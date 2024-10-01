@@ -2,36 +2,35 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/functions"
+	"github.com/appwrite/sdk-for-go/appwrite"
 )
 
 func main() {
-    client := client.NewClient()
+	client := appwrite.NewClient(
+        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
+        appwrite.WithProject(""), // Your project ID
+        appwrite.WithKey(""), // Your secret API key
+    )
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
-    client.SetKey("<YOUR_API_KEY>") // Your secret API key
-
-    service := functions.NewFunctions(client)
-    response, error := service.Update(
-        "<FUNCTION_ID>",
-        "<NAME>",
-        functions.WithUpdateRuntime("node-14.5"),
+    functions := appwrite.NewFunctions(client)
+    response, error := functions.Update(
+        "{$example}",
+        "{$example}",
+        functions.WithUpdateRuntime("{$example}"),
         functions.WithUpdateExecute(interface{}{"any"}),
         functions.WithUpdateEvents([]interface{}{}),
         functions.WithUpdateSchedule(""),
         functions.WithUpdateTimeout(1),
         functions.WithUpdateEnabled(false),
         functions.WithUpdateLogging(false),
-        functions.WithUpdateEntrypoint("<ENTRYPOINT>"),
-        functions.WithUpdateCommands("<COMMANDS>"),
+        functions.WithUpdateEntrypoint("{$example}"),
+        functions.WithUpdateCommands("{$example}"),
         functions.WithUpdateScopes([]interface{}{}),
-        functions.WithUpdateInstallationId("<INSTALLATION_ID>"),
-        functions.WithUpdateProviderRepositoryId("<PROVIDER_REPOSITORY_ID>"),
-        functions.WithUpdateProviderBranch("<PROVIDER_BRANCH>"),
+        functions.WithUpdateInstallationId("{$example}"),
+        functions.WithUpdateProviderRepositoryId("{$example}"),
+        functions.WithUpdateProviderBranch("{$example}"),
         functions.WithUpdateProviderSilentMode(false),
-        functions.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
+        functions.WithUpdateProviderRootDirectory("{$example}"),
         functions.WithUpdateSpecification(""),
     )
 

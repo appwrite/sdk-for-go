@@ -2,23 +2,22 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/teams"
+	"github.com/appwrite/sdk-for-go/appwrite"
 )
 
 func main() {
-    client := client.NewClient()
+	client := appwrite.NewClient(
+        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
+        appwrite.WithProject(""), // Your project ID
+        appwrite.WithSession(""), // The user session to authenticate with
+    )
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
-    client.SetSession("") // The user session to authenticate with
-
-    service := teams.NewTeams(client)
-    response, error := service.UpdateMembershipStatus(
-        "<TEAM_ID>",
-        "<MEMBERSHIP_ID>",
-        "<USER_ID>",
-        "<SECRET>",
+    teams := appwrite.NewTeams(client)
+    response, error := teams.UpdateMembershipStatus(
+        "{$example}",
+        "{$example}",
+        "{$example}",
+        "{$example}",
     )
 
     if error != nil {

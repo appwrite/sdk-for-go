@@ -2,25 +2,24 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/messaging"
+	"github.com/appwrite/sdk-for-go/appwrite"
 )
 
 func main() {
-    client := client.NewClient()
+	client := appwrite.NewClient(
+        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
+        appwrite.WithProject(""), // Your project ID
+        appwrite.WithKey(""), // Your secret API key
+    )
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
-    client.SetKey("<YOUR_API_KEY>") // Your secret API key
-
-    service := messaging.NewMessaging(client)
-    response, error := service.UpdateTelesignProvider(
-        "<PROVIDER_ID>",
-        messaging.WithUpdateTelesignProviderName("<NAME>"),
+    messaging := appwrite.NewMessaging(client)
+    response, error := messaging.UpdateTelesignProvider(
+        "{$example}",
+        messaging.WithUpdateTelesignProviderName("{$example}"),
         messaging.WithUpdateTelesignProviderEnabled(false),
-        messaging.WithUpdateTelesignProviderCustomerId("<CUSTOMER_ID>"),
-        messaging.WithUpdateTelesignProviderApiKey("<API_KEY>"),
-        messaging.WithUpdateTelesignProviderFrom("<FROM>"),
+        messaging.WithUpdateTelesignProviderCustomerId("{$example}"),
+        messaging.WithUpdateTelesignProviderApiKey("{$example}"),
+        messaging.WithUpdateTelesignProviderFrom("{$example}"),
     )
 
     if error != nil {

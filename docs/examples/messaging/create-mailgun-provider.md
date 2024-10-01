@@ -2,28 +2,27 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/messaging"
+	"github.com/appwrite/sdk-for-go/appwrite"
 )
 
 func main() {
-    client := client.NewClient()
+	client := appwrite.NewClient(
+        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
+        appwrite.WithProject(""), // Your project ID
+        appwrite.WithKey(""), // Your secret API key
+    )
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
-    client.SetKey("<YOUR_API_KEY>") // Your secret API key
-
-    service := messaging.NewMessaging(client)
-    response, error := service.CreateMailgunProvider(
-        "<PROVIDER_ID>",
-        "<NAME>",
-        messaging.WithCreateMailgunProviderApiKey("<API_KEY>"),
-        messaging.WithCreateMailgunProviderDomain("<DOMAIN>"),
+    messaging := appwrite.NewMessaging(client)
+    response, error := messaging.CreateMailgunProvider(
+        "{$example}",
+        "{$example}",
+        messaging.WithCreateMailgunProviderApiKey("{$example}"),
+        messaging.WithCreateMailgunProviderDomain("{$example}"),
         messaging.WithCreateMailgunProviderIsEuRegion(false),
-        messaging.WithCreateMailgunProviderFromName("<FROM_NAME>"),
-        messaging.WithCreateMailgunProviderFromEmail("email@example.com"),
-        messaging.WithCreateMailgunProviderReplyToName("<REPLY_TO_NAME>"),
-        messaging.WithCreateMailgunProviderReplyToEmail("email@example.com"),
+        messaging.WithCreateMailgunProviderFromName("{$example}"),
+        messaging.WithCreateMailgunProviderFromEmail("{$example}"),
+        messaging.WithCreateMailgunProviderReplyToName("{$example}"),
+        messaging.WithCreateMailgunProviderReplyToEmail("{$example}"),
         messaging.WithCreateMailgunProviderEnabled(false),
     )
 

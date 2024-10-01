@@ -38,11 +38,11 @@ func (srv *Locale) Get()(*models.Locale, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Locale{}.New(bytes)
+		parsed := models.Locale{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -72,11 +72,11 @@ func (srv *Locale) ListCodes()(*models.LocaleCodeList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.LocaleCodeList{}.New(bytes)
+		parsed := models.LocaleCodeList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -106,11 +106,11 @@ func (srv *Locale) ListContinents()(*models.ContinentList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.ContinentList{}.New(bytes)
+		parsed := models.ContinentList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -140,11 +140,11 @@ func (srv *Locale) ListCountries()(*models.CountryList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.CountryList{}.New(bytes)
+		parsed := models.CountryList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -174,11 +174,11 @@ func (srv *Locale) ListCountriesEU()(*models.CountryList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.CountryList{}.New(bytes)
+		parsed := models.CountryList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -208,11 +208,11 @@ func (srv *Locale) ListCountriesPhones()(*models.PhoneList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.PhoneList{}.New(bytes)
+		parsed := models.PhoneList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -243,11 +243,11 @@ func (srv *Locale) ListCurrencies()(*models.CurrencyList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.CurrencyList{}.New(bytes)
+		parsed := models.CurrencyList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -277,11 +277,11 @@ func (srv *Locale) ListLanguages()(*models.LanguageList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.LanguageList{}.New(bytes)
+		parsed := models.LanguageList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}

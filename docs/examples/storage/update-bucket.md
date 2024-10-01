@@ -2,27 +2,26 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/storage"
+	"github.com/appwrite/sdk-for-go/appwrite"
 )
 
 func main() {
-    client := client.NewClient()
+	client := appwrite.NewClient(
+        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
+        appwrite.WithProject(""), // Your project ID
+        appwrite.WithKey(""), // Your secret API key
+    )
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
-    client.SetKey("<YOUR_API_KEY>") // Your secret API key
-
-    service := storage.NewStorage(client)
-    response, error := service.UpdateBucket(
-        "<BUCKET_ID>",
-        "<NAME>",
+    storage := appwrite.NewStorage(client)
+    response, error := storage.UpdateBucket(
+        "{$example}",
+        "{$example}",
         storage.WithUpdateBucketPermissions(interface{}{"read("any")"}),
         storage.WithUpdateBucketFileSecurity(false),
         storage.WithUpdateBucketEnabled(false),
         storage.WithUpdateBucketMaximumFileSize(1),
         storage.WithUpdateBucketAllowedFileExtensions([]interface{}{}),
-        storage.WithUpdateBucketCompression("none"),
+        storage.WithUpdateBucketCompression("{$example}"),
         storage.WithUpdateBucketEncryption(false),
         storage.WithUpdateBucketAntivirus(false),
     )

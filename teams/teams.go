@@ -69,11 +69,11 @@ func (srv *Teams) List(optionalSetters ...ListOption)(*models.TeamList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.TeamList{}.New(bytes)
+		parsed := models.TeamList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -130,11 +130,11 @@ func (srv *Teams) Create(TeamId string, Name string, optionalSetters ...CreateOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Team{}.New(bytes)
+		parsed := models.Team{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -166,11 +166,11 @@ func (srv *Teams) Get(TeamId string)(*models.Team, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Team{}.New(bytes)
+		parsed := models.Team{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -202,11 +202,11 @@ func (srv *Teams) UpdateName(TeamId string, Name string)(*models.Team, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Team{}.New(bytes)
+		parsed := models.Team{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -238,11 +238,11 @@ func (srv *Teams) Delete(TeamId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -308,11 +308,11 @@ func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembersh
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.MembershipList{}.New(bytes)
+		parsed := models.MembershipList{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -431,11 +431,11 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetter
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Membership{}.New(bytes)
+		parsed := models.Membership{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -468,11 +468,11 @@ func (srv *Teams) GetMembership(TeamId string, MembershipId string)(*models.Memb
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Membership{}.New(bytes)
+		parsed := models.Membership{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -507,11 +507,11 @@ func (srv *Teams) UpdateMembership(TeamId string, MembershipId string, Roles []s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Membership{}.New(bytes)
+		parsed := models.Membership{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -545,11 +545,11 @@ func (srv *Teams) DeleteMembership(TeamId string, MembershipId string)(*interfac
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytesData, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -587,11 +587,11 @@ func (srv *Teams) UpdateMembershipStatus(TeamId string, MembershipId string, Use
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Membership{}.New(bytes)
+		parsed := models.Membership{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -625,11 +625,11 @@ func (srv *Teams) GetPrefs(TeamId string)(*models.Preferences, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Preferences{}.New(bytes)
+		parsed := models.Preferences{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -663,11 +663,11 @@ func (srv *Teams) UpdatePrefs(TeamId string, Prefs interface{})(*models.Preferen
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytesData := []byte(resp.Result.(string))
 
-		parsed := models.Preferences{}.New(bytes)
+		parsed := models.Preferences{}.New(bytesData)
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytesData, parsed)
 		if err != nil {
 			return nil, err
 		}

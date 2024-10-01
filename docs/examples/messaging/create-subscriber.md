@@ -2,22 +2,21 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/messaging"
+	"github.com/appwrite/sdk-for-go/appwrite"
 )
 
 func main() {
-    client := client.NewClient()
+	client := appwrite.NewClient(
+        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
+        appwrite.WithProject(""), // Your project ID
+        appwrite.WithJWT(""), // Your secret JSON Web Token
+    )
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
-    client.SetJWT("<YOUR_JWT>") // Your secret JSON Web Token
-
-    service := messaging.NewMessaging(client)
-    response, error := service.CreateSubscriber(
-        "<TOPIC_ID>",
-        "<SUBSCRIBER_ID>",
-        "<TARGET_ID>",
+    messaging := appwrite.NewMessaging(client)
+    response, error := messaging.CreateSubscriber(
+        "{$example}",
+        "{$example}",
+        "{$example}",
     )
 
     if error != nil {

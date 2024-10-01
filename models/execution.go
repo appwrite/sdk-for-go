@@ -3,6 +3,7 @@ package models
 import (
     "encoding/json"
     "errors"
+    "github.com/appwrite/sdk-for-go/payload"
 )
 
 // Execution Model
@@ -35,7 +36,7 @@ type Execution struct {
     ResponseStatusCode int `json:"responseStatusCode"`
     // HTTP response body. This will return empty unless execution is created as
     // synchronous.
-    ResponseBody string `json:"responseBody"`
+    ResponseBody *payload.Payload `json:"responseBody"`
     // HTTP response headers as a key-value object. This will return only
     // whitelisted headers. All headers are returned if execution is created as
     // synchronous.
