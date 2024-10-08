@@ -21,6 +21,10 @@ type AttributeRelationship struct {
     Required bool `json:"required"`
     // Is attribute an array?
     Array bool `json:"array"`
+    // Attribute creation date in ISO 8601 format.
+    CreatedAt string `json:"$createdAt"`
+    // Attribute update date in ISO 8601 format.
+    UpdatedAt string `json:"$updatedAt"`
     // The ID of the related collection.
     RelatedCollection string `json:"relatedCollection"`
     // The type of the relationship.
