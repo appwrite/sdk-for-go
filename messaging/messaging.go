@@ -68,11 +68,11 @@ func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*model
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.MessageList{}.New(bytesData)
+		parsed := models.MessageList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -216,11 +216,11 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Message{}.New(bytesData)
+		parsed := models.Message{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -385,11 +385,11 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Message{}.New(bytesData)
+		parsed := models.Message{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -405,6 +405,8 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 
 }
 type CreatePushOptions struct {
+	Title string
+	Body string
 	Topics []string
 	Users []string
 	Targets []string
@@ -415,13 +417,18 @@ type CreatePushOptions struct {
 	Sound string
 	Color string
 	Tag string
-	Badge string
+	Badge int
 	Draft bool
 	ScheduledAt string
+	ContentAvailable bool
+	Critical bool
+	Priority string
 	enabledSetters map[string]bool
 }
 func (options CreatePushOptions) New() *CreatePushOptions {
 	options.enabledSetters = map[string]bool{
+		"Title": false,
+		"Body": false,
 		"Topics": false,
 		"Users": false,
 		"Targets": false,
@@ -435,10 +442,25 @@ func (options CreatePushOptions) New() *CreatePushOptions {
 		"Badge": false,
 		"Draft": false,
 		"ScheduledAt": false,
+		"ContentAvailable": false,
+		"Critical": false,
+		"Priority": false,
 	}
 	return &options
 }
 type CreatePushOption func(*CreatePushOptions)
+func (srv *Messaging) WithCreatePushTitle(v string) CreatePushOption {
+	return func(o *CreatePushOptions) {
+		o.Title = v
+		o.enabledSetters["Title"] = true
+	}
+}
+func (srv *Messaging) WithCreatePushBody(v string) CreatePushOption {
+	return func(o *CreatePushOptions) {
+		o.Body = v
+		o.enabledSetters["Body"] = true
+	}
+}
 func (srv *Messaging) WithCreatePushTopics(v []string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Topics = v
@@ -499,7 +521,7 @@ func (srv *Messaging) WithCreatePushTag(v string) CreatePushOption {
 		o.enabledSetters["Tag"] = true
 	}
 }
-func (srv *Messaging) WithCreatePushBadge(v string) CreatePushOption {
+func (srv *Messaging) WithCreatePushBadge(v int) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Badge = v
 		o.enabledSetters["Badge"] = true
@@ -517,9 +539,27 @@ func (srv *Messaging) WithCreatePushScheduledAt(v string) CreatePushOption {
 		o.enabledSetters["ScheduledAt"] = true
 	}
 }
-							
+func (srv *Messaging) WithCreatePushContentAvailable(v bool) CreatePushOption {
+	return func(o *CreatePushOptions) {
+		o.ContentAvailable = v
+		o.enabledSetters["ContentAvailable"] = true
+	}
+}
+func (srv *Messaging) WithCreatePushCritical(v bool) CreatePushOption {
+	return func(o *CreatePushOptions) {
+		o.Critical = v
+		o.enabledSetters["Critical"] = true
+	}
+}
+func (srv *Messaging) WithCreatePushPriority(v string) CreatePushOption {
+	return func(o *CreatePushOptions) {
+		o.Priority = v
+		o.enabledSetters["Priority"] = true
+	}
+}
+			
 // CreatePush create a new push notification.
-func (srv *Messaging) CreatePush(MessageId string, Title string, Body string, optionalSetters ...CreatePushOption)(*models.Message, error) {
+func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePushOption)(*models.Message, error) {
 	path := "/messaging/messages/push"
 	options := CreatePushOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -527,8 +567,12 @@ func (srv *Messaging) CreatePush(MessageId string, Title string, Body string, op
 	}
 	params := map[string]interface{}{}
 	params["messageId"] = MessageId
-	params["title"] = Title
-	params["body"] = Body
+	if options.enabledSetters["Title"] {
+		params["title"] = options.Title
+	}
+	if options.enabledSetters["Body"] {
+		params["body"] = options.Body
+	}
 	if options.enabledSetters["Topics"] {
 		params["topics"] = options.Topics
 	}
@@ -568,6 +612,15 @@ func (srv *Messaging) CreatePush(MessageId string, Title string, Body string, op
 	if options.enabledSetters["ScheduledAt"] {
 		params["scheduledAt"] = options.ScheduledAt
 	}
+	if options.enabledSetters["ContentAvailable"] {
+		params["contentAvailable"] = options.ContentAvailable
+	}
+	if options.enabledSetters["Critical"] {
+		params["critical"] = options.Critical
+	}
+	if options.enabledSetters["Priority"] {
+		params["priority"] = options.Priority
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -577,11 +630,11 @@ func (srv *Messaging) CreatePush(MessageId string, Title string, Body string, op
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Message{}.New(bytesData)
+		parsed := models.Message{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -612,6 +665,9 @@ type UpdatePushOptions struct {
 	Badge int
 	Draft bool
 	ScheduledAt string
+	ContentAvailable bool
+	Critical bool
+	Priority string
 	enabledSetters map[string]bool
 }
 func (options UpdatePushOptions) New() *UpdatePushOptions {
@@ -631,6 +687,9 @@ func (options UpdatePushOptions) New() *UpdatePushOptions {
 		"Badge": false,
 		"Draft": false,
 		"ScheduledAt": false,
+		"ContentAvailable": false,
+		"Critical": false,
+		"Priority": false,
 	}
 	return &options
 }
@@ -725,6 +784,24 @@ func (srv *Messaging) WithUpdatePushScheduledAt(v string) UpdatePushOption {
 		o.enabledSetters["ScheduledAt"] = true
 	}
 }
+func (srv *Messaging) WithUpdatePushContentAvailable(v bool) UpdatePushOption {
+	return func(o *UpdatePushOptions) {
+		o.ContentAvailable = v
+		o.enabledSetters["ContentAvailable"] = true
+	}
+}
+func (srv *Messaging) WithUpdatePushCritical(v bool) UpdatePushOption {
+	return func(o *UpdatePushOptions) {
+		o.Critical = v
+		o.enabledSetters["Critical"] = true
+	}
+}
+func (srv *Messaging) WithUpdatePushPriority(v string) UpdatePushOption {
+	return func(o *UpdatePushOptions) {
+		o.Priority = v
+		o.enabledSetters["Priority"] = true
+	}
+}
 			
 // UpdatePush update a push notification by its unique ID.
 func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePushOption)(*models.Message, error) {
@@ -781,6 +858,15 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 	if options.enabledSetters["ScheduledAt"] {
 		params["scheduledAt"] = options.ScheduledAt
 	}
+	if options.enabledSetters["ContentAvailable"] {
+		params["contentAvailable"] = options.ContentAvailable
+	}
+	if options.enabledSetters["Critical"] {
+		params["critical"] = options.Critical
+	}
+	if options.enabledSetters["Priority"] {
+		params["priority"] = options.Priority
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -790,11 +876,11 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Message{}.New(bytesData)
+		parsed := models.Message{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -893,11 +979,11 @@ func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetter
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Message{}.New(bytesData)
+		parsed := models.Message{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1007,11 +1093,11 @@ func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Message{}.New(bytesData)
+		parsed := models.Message{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1042,11 +1128,11 @@ func (srv *Messaging) GetMessage(MessageId string)(*models.Message, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Message{}.New(bytesData)
+		parsed := models.Message{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1078,11 +1164,11 @@ func (srv *Messaging) Delete(MessageId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1136,11 +1222,11 @@ func (srv *Messaging) ListMessageLogs(MessageId string, optionalSetters ...ListM
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.LogList{}.New(bytesData)
+		parsed := models.LogList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1195,11 +1281,11 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.TargetList{}.New(bytesData)
+		parsed := models.TargetList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1264,11 +1350,11 @@ func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*mod
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.ProviderList{}.New(bytesData)
+		parsed := models.ProviderList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1378,11 +1464,11 @@ func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optiona
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1504,11 +1590,11 @@ func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...U
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1574,11 +1660,11 @@ func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optional
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1656,11 +1742,11 @@ func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...Up
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1792,11 +1878,11 @@ func (srv *Messaging) CreateMailgunProvider(ProviderId string, Name string, opti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1939,11 +2025,11 @@ func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -2031,11 +2117,11 @@ func (srv *Messaging) CreateMsg91Provider(ProviderId string, Name string, option
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -2134,11 +2220,11 @@ func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -2248,11 +2334,11 @@ func (srv *Messaging) CreateSendgridProvider(ProviderId string, Name string, opt
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -2373,11 +2459,11 @@ func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -2543,11 +2629,11 @@ func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host st
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -2734,11 +2820,11 @@ func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...U
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -2826,11 +2912,11 @@ func (srv *Messaging) CreateTelesignProvider(ProviderId string, Name string, opt
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -2929,11 +3015,11 @@ func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3021,11 +3107,11 @@ func (srv *Messaging) CreateTextmagicProvider(ProviderId string, Name string, op
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3124,11 +3210,11 @@ func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3216,11 +3302,11 @@ func (srv *Messaging) CreateTwilioProvider(ProviderId string, Name string, optio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3319,11 +3405,11 @@ func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ..
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3411,11 +3497,11 @@ func (srv *Messaging) CreateVonageProvider(ProviderId string, Name string, optio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3514,11 +3600,11 @@ func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ..
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3549,11 +3635,11 @@ func (srv *Messaging) GetProvider(ProviderId string)(*models.Provider, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Provider{}.New(bytesData)
+		parsed := models.Provider{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3584,11 +3670,11 @@ func (srv *Messaging) DeleteProvider(ProviderId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3642,11 +3728,11 @@ func (srv *Messaging) ListProviderLogs(ProviderId string, optionalSetters ...Lis
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.LogList{}.New(bytesData)
+		parsed := models.LogList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3702,11 +3788,11 @@ func (srv *Messaging) ListSubscriberLogs(SubscriberId string, optionalSetters ..
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.LogList{}.New(bytesData)
+		parsed := models.LogList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3770,11 +3856,11 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.To
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.TopicList{}.New(bytesData)
+		parsed := models.TopicList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3829,11 +3915,11 @@ func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Topic{}.New(bytesData)
+		parsed := models.Topic{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3864,11 +3950,11 @@ func (srv *Messaging) GetTopic(TopicId string)(*models.Topic, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Topic{}.New(bytesData)
+		parsed := models.Topic{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3934,11 +4020,11 @@ func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopic
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Topic{}.New(bytesData)
+		parsed := models.Topic{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -3969,11 +4055,11 @@ func (srv *Messaging) DeleteTopic(TopicId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -4027,11 +4113,11 @@ func (srv *Messaging) ListTopicLogs(TopicId string, optionalSetters ...ListTopic
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.LogList{}.New(bytesData)
+		parsed := models.LogList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -4098,11 +4184,11 @@ func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSub
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.SubscriberList{}.New(bytesData)
+		parsed := models.SubscriberList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -4135,11 +4221,11 @@ func (srv *Messaging) CreateSubscriber(TopicId string, SubscriberId string, Targ
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Subscriber{}.New(bytesData)
+		parsed := models.Subscriber{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -4171,11 +4257,11 @@ func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string)(*models
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Subscriber{}.New(bytesData)
+		parsed := models.Subscriber{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -4207,11 +4293,11 @@ func (srv *Messaging) DeleteSubscriber(TopicId string, SubscriberId string)(*int
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}

@@ -19,7 +19,7 @@ import (
 	"time"
 	"runtime"
 
-	"github.com/appwrite/sdk-for-go/payload"
+	"github.com/appwrite/sdk-for-go/file"
 )
 
 const (
@@ -69,11 +69,11 @@ type Client struct {
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.6.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.2.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.3.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "0.2.0",
+		"x-sdk-version": "0.3.0",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
@@ -120,7 +120,7 @@ func (client *Client) AddHeader(key string, value string) {
 	client.Headers[key] = value
 }
 
-func isMultipart(headers map[string]interface{}) bool {
+func isFileUpload(headers map[string]interface{}) bool {
 	contentType, ok := headers["content-type"].(string)
 	if ok {
 		return strings.Contains(strings.ToLower(contentType), "multipart/form-data")
@@ -129,13 +129,13 @@ func isMultipart(headers map[string]interface{}) bool {
 }
 
 func (client *Client) FileUpload(url string, headers map[string]interface{}, params map[string]interface{}, paramName string, uploadId string) (*ClientResponse, error) {
-	payload, ok := params[paramName].(*payload.Payload)
+	inputFile, ok := params[paramName].(file.InputFile)
 	if !ok {
-		msg := fmt.Sprintf("invalid input file. params[%s] must be of type payload.Payload", paramName)
+		msg := fmt.Sprintf("invalid input file. params[%s] must be of type file.InputFile", paramName)
 		return nil, errors.New(msg)
 	}
 
-	file, err := os.Open(payload.Path)
+	file, err := os.Open(inputFile.Path)
 	if err != nil {
 		return nil, err
 	}
@@ -146,7 +146,7 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 		return nil, err
 	}
 
-	payload.Data = make([]byte, client.ChunkSize)
+	inputFile.Data = make([]byte, client.ChunkSize)
 
 	var result *ClientResponse
 
@@ -166,12 +166,12 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 		if uploadId != "" && uploadId != "unique()" {
 			headers["x-appwrite-id"] = uploadId
 		}
-		payload.Data = make([]byte, fileInfo.Size())
-		_, err := file.Read(payload.Data)
+		inputFile.Data = make([]byte, fileInfo.Size())
+		_, err := file.Read(inputFile.Data)
 		if err != nil && err != io.EOF {
 			return nil, err
 		}
-		params[paramName] = payload
+		params[paramName] = inputFile
 
 		result, err = client.Call("POST", url, headers, params)
 		if err != nil {
@@ -194,13 +194,13 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 		offset := int64(i) * chunkSize
 		if i == numChunks-1 {
 			chunkSize = fileInfo.Size() - offset
-			payload.Data = make([]byte, chunkSize)
+			inputFile.Data = make([]byte, chunkSize)
 		}
-		_, err := file.ReadAt(payload.Data, offset)
+		_, err := file.ReadAt(inputFile.Data, offset)
 		if err != nil && err != io.EOF {
 			return nil, err
 		}
-		params[paramName] = payload
+		params[paramName] = inputFile
 		if uploadId != "" && uploadId != "unique()" {
 			headers["x-appwrite-id"] = uploadId
 		}
@@ -246,19 +246,18 @@ func (client *Client) Call(method string, path string, headers map[string]interf
 	isGet := strings.ToUpper(method) == "GET"
 	isPost := strings.ToUpper(method) == "POST"
 	isJsonRequest := headers["content-type"] == "application/json"
-	isMultipart := isMultipart(headers)
+	isFileUpload := isFileUpload(headers)
 
 	var req *http.Request
 	var err error
-	if isMultipart {
-		headers["accept"] = "multipart/form-data"
+	if isFileUpload {
 		if !isPost {
 			return nil, errors.New("fileupload needs POST Request")
 		}
 		var body bytes.Buffer
 		writer := multipart.NewWriter(&body)
 		for key, val := range params {
-			if file, ok := val.(*payload.Payload); ok {
+			if file, ok := val.(file.InputFile); ok {
 				fileName := file.Name
 				fileData := file.Data
 				fw, err := writer.CreateFormFile(key, fileName)

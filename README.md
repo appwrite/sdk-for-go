@@ -1,7 +1,7 @@
 # Appwrite Go SDK
 
 ![License](https://img.shields.io/github/license/appwrite/sdk-for-go.svg?style=flat-square)
-![Version](https://img.shields.io/badge/api%20version-1.6.0-blue.svg?style=flat-square)
+![Version](https://img.shields.io/badge/api%20version-1.6.1-blue.svg?style=flat-square)
 [![Build Status](https://img.shields.io/travis/com/appwrite/sdk-generator?style=flat-square)](https://travis-ci.com/appwrite/sdk-generator)
 [![Twitter Account](https://img.shields.io/twitter/follow/appwrite?color=00acee&label=twitter&style=flat-square)](https://twitter.com/appwrite)
 [![Discord](https://img.shields.io/discord/564160730845151244?label=discord&style=flat-square)](https://appwrite.io/discord)
@@ -28,10 +28,10 @@ go get github.com/appwrite/sdk-for-go
 * Then inject these environment variables:
 
   ```bash
-  export YOUR_ENDPOINT=https://appwrite.io/v1
-  export YOUR_PROJECT_ID=6…8
-  export YOUR_KEY="7055781…cd95"
-  export COLLECTION_ID=616a095b20180
+  export YOUR_ENDPOINT=https://appwrite.io/v1  
+  export YOUR_PROJECT_ID=6…8  
+  export YOUR_KEY="7055781…cd95"  
+  export COLLECTION_ID=616a095b20180  
   ```
 
 Create `main.go` file with:
@@ -55,7 +55,7 @@ func main() {
 		appwrite.WithKey(os.Getenv("YOUR_KEY")),
 	)
 
-	databases := appwrite.NewDatabases(client)
+	databases := appwrite.NewDatabase(client)
 
 	data := map[string]string{
 		"hello": "world",
@@ -76,8 +76,8 @@ func main() {
 
 * After that, run the following
 
-  > % go run main.go
-  > 2021/10/16 03:41:17 Created document: map[$collection:616a095b20180 $id:616a2dbd4df16 $permissions:map[read:[] write:[]] hello:world]
+  > % go run main.go  
+  > 2021/10/16 03:41:17 Created document: map[$collection:616a095b20180 $id:616a2dbd4df16 $permissions:map[read:[] write:[]] hello:world]  
 
 
 ## Contribution

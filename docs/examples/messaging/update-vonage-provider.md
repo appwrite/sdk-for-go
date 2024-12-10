@@ -2,24 +2,25 @@ package main
 
 import (
     "fmt"
-	"github.com/appwrite/sdk-for-go/appwrite"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/messaging"
 )
 
 func main() {
-	client := appwrite.NewClient(
-        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
-        appwrite.WithProject(""), // Your project ID
-        appwrite.WithKey(""), // Your secret API key
-    )
+    client := client.NewClient()
 
-    messaging := appwrite.NewMessaging(client)
-    response, error := messaging.UpdateVonageProvider(
-        "{$example}",
-        messaging.WithUpdateVonageProviderName("{$example}"),
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+    client.SetKey("<YOUR_API_KEY>") // Your secret API key
+
+    service := messaging.NewMessaging(client)
+    response, error := service.UpdateVonageProvider(
+        "<PROVIDER_ID>",
+        messaging.WithUpdateVonageProviderName("<NAME>"),
         messaging.WithUpdateVonageProviderEnabled(false),
-        messaging.WithUpdateVonageProviderApiKey("{$example}"),
-        messaging.WithUpdateVonageProviderApiSecret("{$example}"),
-        messaging.WithUpdateVonageProviderFrom("{$example}"),
+        messaging.WithUpdateVonageProviderApiKey("<API_KEY>"),
+        messaging.WithUpdateVonageProviderApiSecret("<API_SECRET>"),
+        messaging.WithUpdateVonageProviderFrom("<FROM>"),
     )
 
     if error != nil {

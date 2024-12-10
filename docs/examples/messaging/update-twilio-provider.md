@@ -2,24 +2,25 @@ package main
 
 import (
     "fmt"
-	"github.com/appwrite/sdk-for-go/appwrite"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/messaging"
 )
 
 func main() {
-	client := appwrite.NewClient(
-        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
-        appwrite.WithProject(""), // Your project ID
-        appwrite.WithKey(""), // Your secret API key
-    )
+    client := client.NewClient()
 
-    messaging := appwrite.NewMessaging(client)
-    response, error := messaging.UpdateTwilioProvider(
-        "{$example}",
-        messaging.WithUpdateTwilioProviderName("{$example}"),
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+    client.SetKey("<YOUR_API_KEY>") // Your secret API key
+
+    service := messaging.NewMessaging(client)
+    response, error := service.UpdateTwilioProvider(
+        "<PROVIDER_ID>",
+        messaging.WithUpdateTwilioProviderName("<NAME>"),
         messaging.WithUpdateTwilioProviderEnabled(false),
-        messaging.WithUpdateTwilioProviderAccountSid("{$example}"),
-        messaging.WithUpdateTwilioProviderAuthToken("{$example}"),
-        messaging.WithUpdateTwilioProviderFrom("{$example}"),
+        messaging.WithUpdateTwilioProviderAccountSid("<ACCOUNT_SID>"),
+        messaging.WithUpdateTwilioProviderAuthToken("<AUTH_TOKEN>"),
+        messaging.WithUpdateTwilioProviderFrom("<FROM>"),
     )
 
     if error != nil {

@@ -2,23 +2,24 @@ package main
 
 import (
     "fmt"
-	"github.com/appwrite/sdk-for-go/appwrite"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/messaging"
 )
 
 func main() {
-	client := appwrite.NewClient(
-        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
-        appwrite.WithProject(""), // Your project ID
-        appwrite.WithKey(""), // Your secret API key
-    )
+    client := client.NewClient()
 
-    messaging := appwrite.NewMessaging(client)
-    response, error := messaging.CreateMsg91Provider(
-        "{$example}",
-        "{$example}",
-        messaging.WithCreateMsg91ProviderTemplateId("{$example}"),
-        messaging.WithCreateMsg91ProviderSenderId("{$example}"),
-        messaging.WithCreateMsg91ProviderAuthKey("{$example}"),
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+    client.SetKey("<YOUR_API_KEY>") // Your secret API key
+
+    service := messaging.NewMessaging(client)
+    response, error := service.CreateMsg91Provider(
+        "<PROVIDER_ID>",
+        "<NAME>",
+        messaging.WithCreateMsg91ProviderTemplateId("<TEMPLATE_ID>"),
+        messaging.WithCreateMsg91ProviderSenderId("<SENDER_ID>"),
+        messaging.WithCreateMsg91ProviderAuthKey("<AUTH_KEY>"),
         messaging.WithCreateMsg91ProviderEnabled(false),
     )
 

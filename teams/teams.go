@@ -69,11 +69,11 @@ func (srv *Teams) List(optionalSetters ...ListOption)(*models.TeamList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.TeamList{}.New(bytesData)
+		parsed := models.TeamList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -130,11 +130,11 @@ func (srv *Teams) Create(TeamId string, Name string, optionalSetters ...CreateOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Team{}.New(bytesData)
+		parsed := models.Team{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -166,11 +166,11 @@ func (srv *Teams) Get(TeamId string)(*models.Team, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Team{}.New(bytesData)
+		parsed := models.Team{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -202,11 +202,11 @@ func (srv *Teams) UpdateName(TeamId string, Name string)(*models.Team, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Team{}.New(bytesData)
+		parsed := models.Team{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -238,11 +238,11 @@ func (srv *Teams) Delete(TeamId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -283,7 +283,8 @@ func (srv *Teams) WithListMembershipsSearch(v string) ListMembershipsOption {
 }
 			
 // ListMemberships use this endpoint to list a team's members using the team's
-// ID. All team members have read access to this endpoint.
+// ID. All team members have read access to this endpoint. Hide sensitive
+// attributes from the response by toggling membership privacy in the Console.
 func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembershipsOption)(*models.MembershipList, error) {
 	r := strings.NewReplacer("{teamId}", TeamId)
 	path := r.Replace("/teams/{teamId}/memberships")
@@ -308,11 +309,11 @@ func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembersh
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.MembershipList{}.New(bytesData)
+		parsed := models.MembershipList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -431,11 +432,11 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetter
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Membership{}.New(bytesData)
+		parsed := models.Membership{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -452,7 +453,8 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetter
 }
 			
 // GetMembership get a team member by the membership unique id. All team
-// members have read access for this resource.
+// members have read access for this resource. Hide sensitive attributes from
+// the response by toggling membership privacy in the Console.
 func (srv *Teams) GetMembership(TeamId string, MembershipId string)(*models.Membership, error) {
 	r := strings.NewReplacer("{teamId}", TeamId, "{membershipId}", MembershipId)
 	path := r.Replace("/teams/{teamId}/memberships/{membershipId}")
@@ -468,11 +470,11 @@ func (srv *Teams) GetMembership(TeamId string, MembershipId string)(*models.Memb
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Membership{}.New(bytesData)
+		parsed := models.Membership{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -507,11 +509,11 @@ func (srv *Teams) UpdateMembership(TeamId string, MembershipId string, Roles []s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Membership{}.New(bytesData)
+		parsed := models.Membership{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -545,11 +547,11 @@ func (srv *Teams) DeleteMembership(TeamId string, MembershipId string)(*interfac
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -587,11 +589,11 @@ func (srv *Teams) UpdateMembershipStatus(TeamId string, MembershipId string, Use
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Membership{}.New(bytesData)
+		parsed := models.Membership{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -625,11 +627,11 @@ func (srv *Teams) GetPrefs(TeamId string)(*models.Preferences, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Preferences{}.New(bytesData)
+		parsed := models.Preferences{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -663,11 +665,11 @@ func (srv *Teams) UpdatePrefs(TeamId string, Prefs interface{})(*models.Preferen
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Preferences{}.New(bytesData)
+		parsed := models.Preferences{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}

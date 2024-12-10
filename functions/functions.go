@@ -5,7 +5,7 @@ import (
 	"errors"
 	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/models"
-	"github.com/appwrite/sdk-for-go/payload"
+	"github.com/appwrite/sdk-for-go/file"
 	"strings"
 )
 
@@ -70,11 +70,11 @@ func (srv *Functions) List(optionalSetters ...ListOption)(*models.FunctionList, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.FunctionList{}.New(bytesData)
+		parsed := models.FunctionList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -331,11 +331,11 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Function{}.New(bytesData)
+		parsed := models.Function{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -365,11 +365,11 @@ func (srv *Functions) ListRuntimes()(*models.RuntimeList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.RuntimeList{}.New(bytesData)
+		parsed := models.RuntimeList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -398,11 +398,11 @@ func (srv *Functions) ListSpecifications()(*models.SpecificationList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.SpecificationList{}.New(bytesData)
+		parsed := models.SpecificationList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -433,11 +433,11 @@ func (srv *Functions) Get(FunctionId string)(*models.Function, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Function{}.New(bytesData)
+		parsed := models.Function{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -658,11 +658,11 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Function{}.New(bytesData)
+		parsed := models.Function{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -693,11 +693,11 @@ func (srv *Functions) Delete(FunctionId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -763,11 +763,11 @@ func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...List
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.DeploymentList{}.New(bytesData)
+		parsed := models.DeploymentList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -819,7 +819,7 @@ func (srv *Functions) WithCreateDeploymentCommands(v string) CreateDeploymentOpt
 // tutorial](https://appwrite.io/docs/functions).
 // 
 // Use the "command" param to set the entrypoint used to execute your code.
-func (srv *Functions) CreateDeployment(FunctionId string, Code *payload.Payload, Activate bool, optionalSetters ...CreateDeploymentOption)(*models.Deployment, error) {
+func (srv *Functions) CreateDeployment(FunctionId string, Code file.InputFile, Activate bool, optionalSetters ...CreateDeploymentOption)(*models.Deployment, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/deployments")
 	options := CreateDeploymentOptions{}.New()
@@ -880,11 +880,11 @@ func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)(*mod
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Deployment{}.New(bytesData)
+		parsed := models.Deployment{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -918,11 +918,11 @@ func (srv *Functions) UpdateDeployment(FunctionId string, DeploymentId string)(*
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Function{}.New(bytesData)
+		parsed := models.Function{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -954,11 +954,11 @@ func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string)(*
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1013,11 +1013,11 @@ func (srv *Functions) CreateBuild(FunctionId string, DeploymentId string, option
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1048,11 +1048,11 @@ func (srv *Functions) UpdateDeploymentBuild(FunctionId string, DeploymentId stri
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Build{}.New(bytesData)
+		parsed := models.Build{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1085,11 +1085,11 @@ func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId stri
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed []byte
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1155,11 +1155,11 @@ func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListE
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.ExecutionList{}.New(bytesData)
+		parsed := models.ExecutionList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1175,7 +1175,7 @@ func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListE
 
 }
 type CreateExecutionOptions struct {
-	Body *payload.Payload
+	Body string
 	Async bool
 	Path string
 	Method string
@@ -1195,7 +1195,7 @@ func (options CreateExecutionOptions) New() *CreateExecutionOptions {
 	return &options
 }
 type CreateExecutionOption func(*CreateExecutionOptions)
-func (srv *Functions) WithCreateExecutionBody(v *payload.Payload) CreateExecutionOption {
+func (srv *Functions) WithCreateExecutionBody(v string) CreateExecutionOption {
 	return func(o *CreateExecutionOptions) {
 		o.Body = v
 		o.enabledSetters["Body"] = true
@@ -1246,7 +1246,7 @@ func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...Crea
 	params := map[string]interface{}{}
 	params["functionId"] = FunctionId
 	if options.enabledSetters["Body"] {
-		params["body"] = string(options.Body.Data)
+		params["body"] = options.Body
 	}
 	if options.enabledSetters["Async"] {
 		params["async"] = options.Async
@@ -1264,7 +1264,7 @@ func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...Crea
 		params["scheduledAt"] = options.ScheduledAt
 	}
 	headers := map[string]interface{}{
-		"content-type": "multipart/form-data",
+		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1272,110 +1272,17 @@ func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...Crea
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Execution{}.New(bytesData)
+		parsed := models.Execution{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
 
 		return parsed, nil
 	}
-	if strings.Contains(resp.Type, "multipart/form-data") {
-		bytesData, ok := resp.Result.([]byte)
-
-		if !ok {
-			return nil, errors.New("unexpected response type")
-		}
-		responseData := string(bytesData)
-
-		matches := regexp.MustCompile("(-+\\w+)--").FindStringSubmatch(responseData)
-
-		if len(matches) != 2 {
-			return nil, errors.New("unexpected response type")
-		}
-
-		parts := strings.Split(responseData, matches[1])
-
-		if len(parts) == 0 {
-			return nil, errors.New("unexpected response type")
-		}
-		execution := make(map[string]string, 10)
-
-		for _, part := range parts {
-			cleanPart := strings.TrimSpace(part)
-			partName := regexp.MustCompile("name=\"?(\\w+)").FindStringSubmatch(cleanPart)
-
-			if len(partName) != 2 {
-				continue
-			}
-
-			name := strings.TrimSpace(partName[1])
-			lines := strings.Split(strings.ReplaceAll(cleanPart, "\r\n", "\n"), "\n")
-
-		Inner:
-			for i, line := range lines[1:] {
-				if line == "" {
-					continue
-				}
-
-				if line == "Content-Type: application/json" {
-					for _, line := range lines[i:] {
-						if line == "" {
-							continue
-						}
-
-						execution[name] = line
-					}
-					continue Inner
-				}
-				execution[name] += line + "\r\n"
-			}
-			execution[name] = strings.TrimSuffix(execution[name],"\r\n")
-		}
-
-		statusCode, err := strconv.Atoi(execution["responseStatusCode"])
-		if err != nil {
-			statusCode = 0
-		}
-
-		duration, err := strconv.ParseFloat(execution["duration"], 64)
-		if err != nil {
-			duration = 0.0
-		}
-
-		var requestHeaders []models.Headers
-		var responseHeaders []models.Headers
-
-		buffer := bytes.NewBuffer([]byte(execution["requestHeaders"]))
-		decoder := json.NewDecoder(buffer)
-		_ = decoder.Decode(&requestHeaders)
-
-		buffer = bytes.NewBuffer([]byte(execution["responseHeaders"]))
-		decoder = json.NewDecoder(buffer)
-		_ = decoder.Decode(&responseHeaders)
-
-		results := models.Execution{
-			FunctionId:         execution["functionId"],
-			Trigger:            execution["trigger"],
-			Status:             execution["status"],
-			RequestMethod:      execution["requestMethod"],
-			RequestPath:        execution["requestPath"],
-			RequestHeaders:     requestHeaders,
-			ResponseStatusCode: statusCode,
-			ResponseBody:       payload.NewPayloadFromString(execution["responseBody"]),
-			ResponseHeaders:    responseHeaders,
-			Logs:               execution["logs"],
-			Errors:             execution["errors"],
-			Duration:           duration,
-			ScheduledAt:        execution["scheduledAt"],
-		}
-
-		return &results, nil
-	}
-
 	var parsed models.Execution
 	parsed, ok := resp.Result.(models.Execution)
 	if !ok {
@@ -1401,11 +1308,11 @@ func (srv *Functions) GetExecution(FunctionId string, ExecutionId string)(*model
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Execution{}.New(bytesData)
+		parsed := models.Execution{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1437,11 +1344,11 @@ func (srv *Functions) DeleteExecution(FunctionId string, ExecutionId string)(*in
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1471,11 +1378,11 @@ func (srv *Functions) ListVariables(FunctionId string)(*models.VariableList, err
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.VariableList{}.New(bytesData)
+		parsed := models.VariableList{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1509,11 +1416,11 @@ func (srv *Functions) CreateVariable(FunctionId string, Key string, Value string
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Variable{}.New(bytesData)
+		parsed := models.Variable{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1545,11 +1452,11 @@ func (srv *Functions) GetVariable(FunctionId string, VariableId string)(*models.
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Variable{}.New(bytesData)
+		parsed := models.Variable{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1606,11 +1513,11 @@ func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, Key s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
-		parsed := models.Variable{}.New(bytesData)
+		parsed := models.Variable{}.New(bytes)
 
-		err = json.Unmarshal(bytesData, parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1642,11 +1549,11 @@ func (srv *Functions) DeleteVariable(FunctionId string, VariableId string)(*inte
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytesData := []byte(resp.Result.(string))
+		bytes := []byte(resp.Result.(string))
 
 		var parsed interface{}
 
-		err = json.Unmarshal(bytesData, &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}

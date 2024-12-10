@@ -2,34 +2,38 @@ package main
 
 import (
     "fmt"
-	"github.com/appwrite/sdk-for-go/appwrite"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/messaging"
 )
 
 func main() {
-	client := appwrite.NewClient(
-        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
-        appwrite.WithProject(""), // Your project ID
-        appwrite.WithKey(""), // Your secret API key
-    )
+    client := client.NewClient()
 
-    messaging := appwrite.NewMessaging(client)
-    response, error := messaging.CreatePush(
-        "{$example}",
-        "{$example}",
-        "{$example}",
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+    client.SetKey("<YOUR_API_KEY>") // Your secret API key
+
+    service := messaging.NewMessaging(client)
+    response, error := service.CreatePush(
+        "<MESSAGE_ID>",
+        messaging.WithCreatePushTitle("<TITLE>"),
+        messaging.WithCreatePushBody("<BODY>"),
         messaging.WithCreatePushTopics([]interface{}{}),
         messaging.WithCreatePushUsers([]interface{}{}),
         messaging.WithCreatePushTargets([]interface{}{}),
         messaging.WithCreatePushData(map[string]interface{}{}),
-        messaging.WithCreatePushAction("{$example}"),
-        messaging.WithCreatePushImage("{$example}"),
-        messaging.WithCreatePushIcon("{$example}"),
-        messaging.WithCreatePushSound("{$example}"),
-        messaging.WithCreatePushColor("{$example}"),
-        messaging.WithCreatePushTag("{$example}"),
-        messaging.WithCreatePushBadge("{$example}"),
+        messaging.WithCreatePushAction("<ACTION>"),
+        messaging.WithCreatePushImage("[ID1:ID2]"),
+        messaging.WithCreatePushIcon("<ICON>"),
+        messaging.WithCreatePushSound("<SOUND>"),
+        messaging.WithCreatePushColor("<COLOR>"),
+        messaging.WithCreatePushTag("<TAG>"),
+        messaging.WithCreatePushBadge(0),
         messaging.WithCreatePushDraft(false),
         messaging.WithCreatePushScheduledAt(""),
+        messaging.WithCreatePushContentAvailable(false),
+        messaging.WithCreatePushCritical(false),
+        messaging.WithCreatePushPriority("normal"),
     )
 
     if error != nil {

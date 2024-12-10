@@ -2,20 +2,21 @@ package main
 
 import (
     "fmt"
-	"github.com/appwrite/sdk-for-go/appwrite"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/account"
 )
 
 func main() {
-	client := appwrite.NewClient(
-        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
-        appwrite.WithProject(""), // Your project ID
-    )
+    client := client.NewClient()
 
-    account := appwrite.NewAccount(client)
-    response, error := account.CreateOAuth2Token(
-        "{$example}",
-        account.WithCreateOAuth2TokenSuccess("{$example}"),
-        account.WithCreateOAuth2TokenFailure("{$example}"),
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+
+    service := account.NewAccount(client)
+    response, error := service.CreateOAuth2Token(
+        "amazon",
+        account.WithCreateOAuth2TokenSuccess("https://example.com"),
+        account.WithCreateOAuth2TokenFailure("https://example.com"),
         account.WithCreateOAuth2TokenScopes([]interface{}{}),
     )
 

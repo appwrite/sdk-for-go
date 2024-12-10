@@ -2,25 +2,26 @@ package main
 
 import (
     "fmt"
-	"github.com/appwrite/sdk-for-go/appwrite"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/teams"
 )
 
 func main() {
-	client := appwrite.NewClient(
-        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
-        appwrite.WithProject(""), // Your project ID
-        appwrite.WithSession(""), // The user session to authenticate with
-    )
+    client := client.NewClient()
 
-    teams := appwrite.NewTeams(client)
-    response, error := teams.CreateMembership(
-        "{$example}",
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+    client.SetSession("") // The user session to authenticate with
+
+    service := teams.NewTeams(client)
+    response, error := service.CreateMembership(
+        "<TEAM_ID>",
         []interface{}{},
-        teams.WithCreateMembershipEmail("{$example}"),
-        teams.WithCreateMembershipUserId("{$example}"),
-        teams.WithCreateMembershipPhone("{$example}"),
-        teams.WithCreateMembershipUrl("{$example}"),
-        teams.WithCreateMembershipName("{$example}"),
+        teams.WithCreateMembershipEmail("email@example.com"),
+        teams.WithCreateMembershipUserId("<USER_ID>"),
+        teams.WithCreateMembershipPhone("+12065550100"),
+        teams.WithCreateMembershipUrl("https://example.com"),
+        teams.WithCreateMembershipName("<NAME>"),
     )
 
     if error != nil {

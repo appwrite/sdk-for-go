@@ -2,23 +2,24 @@ package main
 
 import (
     "fmt"
-	"github.com/appwrite/sdk-for-go/appwrite"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/users"
 )
 
 func main() {
-	client := appwrite.NewClient(
-        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
-        appwrite.WithProject(""), // Your project ID
-        appwrite.WithKey(""), // Your secret API key
-    )
+    client := client.NewClient()
 
-    users := appwrite.NewUsers(client)
-    response, error := users.Create(
-        "{$example}",
-        users.WithCreateEmail("{$example}"),
-        users.WithCreatePhone("{$example}"),
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+    client.SetKey("<YOUR_API_KEY>") // Your secret API key
+
+    service := users.NewUsers(client)
+    response, error := service.Create(
+        "<USER_ID>",
+        users.WithCreateEmail("email@example.com"),
+        users.WithCreatePhone("+12065550100"),
         users.WithCreatePassword(""),
-        users.WithCreateName("{$example}"),
+        users.WithCreateName("<NAME>"),
     )
 
     if error != nil {

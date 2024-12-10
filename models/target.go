@@ -24,6 +24,8 @@ type Target struct {
     ProviderType string `json:"providerType"`
     // The target identifier.
     Identifier string `json:"identifier"`
+    // Is the target expired.
+    Expired bool `json:"expired"`
 
     // Used by Decode() method
     data []byte

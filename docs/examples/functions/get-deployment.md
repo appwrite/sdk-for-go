@@ -2,20 +2,21 @@ package main
 
 import (
     "fmt"
-	"github.com/appwrite/sdk-for-go/appwrite"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/functions"
 )
 
 func main() {
-	client := appwrite.NewClient(
-        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
-        appwrite.WithProject(""), // Your project ID
-        appwrite.WithKey(""), // Your secret API key
-    )
+    client := client.NewClient()
 
-    functions := appwrite.NewFunctions(client)
-    response, error := functions.GetDeployment(
-        "{$example}",
-        "{$example}",
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+    client.SetKey("<YOUR_API_KEY>") // Your secret API key
+
+    service := functions.NewFunctions(client)
+    response, error := service.GetDeployment(
+        "<FUNCTION_ID>",
+        "<DEPLOYMENT_ID>",
     )
 
     if error != nil {

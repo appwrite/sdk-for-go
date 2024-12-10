@@ -37,7 +37,7 @@ type Function struct {
     Vars []Variable `json:"vars"`
     // Function trigger events.
     Events []string `json:"events"`
-    // Function execution schedult in CRON format.
+    // Function execution schedule in CRON format.
     Schedule string `json:"schedule"`
     // Function execution timeout in seconds.
     Timeout int `json:"timeout"`

@@ -2,23 +2,24 @@ package main
 
 import (
     "fmt"
-	"github.com/appwrite/sdk-for-go/appwrite"
+    "github.com/appwrite/sdk-for-go/client"
+    "github.com/appwrite/sdk-for-go/storage"
 )
 
 func main() {
-	client := appwrite.NewClient(
-        appwrite.WithEndpoint("https://cloud.appwrite.io/v1"), // Your API Endpoint
-        appwrite.WithProject(""), // Your project ID
-        appwrite.WithSession(""), // The user session to authenticate with
-    )
+    client := client.NewClient()
 
-    storage := appwrite.NewStorage(client)
-    response, error := storage.GetFilePreview(
-        "{$example}",
-        "{$example}",
+    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
+    client.SetSession("") // The user session to authenticate with
+
+    service := storage.NewStorage(client)
+    response, error := service.GetFilePreview(
+        "<BUCKET_ID>",
+        "<FILE_ID>",
         storage.WithGetFilePreviewWidth(0),
         storage.WithGetFilePreviewHeight(0),
-        storage.WithGetFilePreviewGravity("{$example}"),
+        storage.WithGetFilePreviewGravity("center"),
         storage.WithGetFilePreviewQuality(0),
         storage.WithGetFilePreviewBorderWidth(0),
         storage.WithGetFilePreviewBorderColor(""),
@@ -26,7 +27,7 @@ func main() {
         storage.WithGetFilePreviewOpacity(0),
         storage.WithGetFilePreviewRotation(-360),
         storage.WithGetFilePreviewBackground(""),
-        storage.WithGetFilePreviewOutput("{$example}"),
+        storage.WithGetFilePreviewOutput("jpg"),
     )
 
     if error != nil {
