@@ -21,6 +21,10 @@ type Index struct {
     Attributes []string `json:"attributes"`
     // Index orders.
     Orders []string `json:"orders"`
+    // Index creation date in ISO 8601 format.
+    CreatedAt string `json:"$createdAt"`
+    // Index update date in ISO 8601 format.
+    UpdatedAt string `json:"$updatedAt"`
 
     // Used by Decode() method
     data []byte

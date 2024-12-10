@@ -15,9 +15,11 @@ type Membership struct {
     UpdatedAt string `json:"$updatedAt"`
     // User ID.
     UserId string `json:"userId"`
-    // User name.
+    // User name. Hide this attribute by toggling membership privacy in the
+    // Console.
     UserName string `json:"userName"`
-    // User email address.
+    // User email address. Hide this attribute by toggling membership privacy in
+    // the Console.
     UserEmail string `json:"userEmail"`
     // Team ID.
     TeamId string `json:"teamId"`
@@ -32,7 +34,8 @@ type Membership struct {
     // otherwise.
     Confirm bool `json:"confirm"`
     // Multi factor authentication status, true if the user has MFA enabled or
-    // false otherwise.
+    // false otherwise. Hide this attribute by toggling membership privacy in the
+    // Console.
     Mfa bool `json:"mfa"`
     // User list of roles
     Roles []string `json:"roles"`
