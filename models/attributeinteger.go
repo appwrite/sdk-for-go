@@ -21,6 +21,10 @@ type AttributeInteger struct {
     Required bool `json:"required"`
     // Is attribute an array?
     Array bool `json:"array"`
+    // Attribute creation date in ISO 8601 format.
+    CreatedAt string `json:"$createdAt"`
+    // Attribute update date in ISO 8601 format.
+    UpdatedAt string `json:"$updatedAt"`
     // Minimum value to enforce for new documents.
     Min int `json:"min"`
     // Maximum value to enforce for new documents.

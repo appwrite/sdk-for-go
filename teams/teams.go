@@ -283,7 +283,8 @@ func (srv *Teams) WithListMembershipsSearch(v string) ListMembershipsOption {
 }
 			
 // ListMemberships use this endpoint to list a team's members using the team's
-// ID. All team members have read access to this endpoint.
+// ID. All team members have read access to this endpoint. Hide sensitive
+// attributes from the response by toggling membership privacy in the Console.
 func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembershipsOption)(*models.MembershipList, error) {
 	r := strings.NewReplacer("{teamId}", TeamId)
 	path := r.Replace("/teams/{teamId}/memberships")
@@ -452,7 +453,8 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetter
 }
 			
 // GetMembership get a team member by the membership unique id. All team
-// members have read access for this resource.
+// members have read access for this resource. Hide sensitive attributes from
+// the response by toggling membership privacy in the Console.
 func (srv *Teams) GetMembership(TeamId string, MembershipId string)(*models.Membership, error) {
 	r := strings.NewReplacer("{teamId}", TeamId, "{membershipId}", MembershipId)
 	path := r.Replace("/teams/{teamId}/memberships/{membershipId}")
