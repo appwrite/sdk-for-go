@@ -69,11 +69,11 @@ type Client struct {
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.6.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.3.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.3.1 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "0.3.0",
+		"x-sdk-version": "0.3.1",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
@@ -155,7 +155,7 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 		numChunks++
 	}
 	var currentChunk int64 = 0
-	if uploadId != "" && uploadId != "unique()" {
+	if uploadId != "" {
 		resp, err := client.Call("GET", url+"/"+uploadId, nil, nil)
 		if err == nil {
 			currentChunk = int64(resp.Result.(map[string]interface{})["chunksUploaded"].(float64))
@@ -163,7 +163,7 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 	}
 
 	if fileInfo.Size() <= client.ChunkSize {
-		if uploadId != "" && uploadId != "unique()" {
+		if uploadId != "" {
 			headers["x-appwrite-id"] = uploadId
 		}
 		inputFile.Data = make([]byte, fileInfo.Size())
@@ -201,7 +201,7 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 			return nil, err
 		}
 		params[paramName] = inputFile
-		if uploadId != "" && uploadId != "unique()" {
+		if uploadId != "" {
 			headers["x-appwrite-id"] = uploadId
 		}
 		totalSize := fileInfo.Size()
