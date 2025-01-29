@@ -1056,7 +1056,7 @@ func (srv *Messaging) WithUpdateSmsScheduledAt(v string) UpdateSmsOption {
 	}
 }
 			
-// UpdateSms update an email message by its unique ID.
+// UpdateSms update an SMS message by its unique ID.
 func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOption)(*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", MessageId)
 	path := r.Replace("/messaging/messages/sms/{messageId}")

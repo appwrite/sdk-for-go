@@ -1099,7 +1099,7 @@ func (srv *Users) UpdateMfa(UserId string, Mfa bool)(*models.User, error) {
 }
 			
 // DeleteMfaAuthenticator delete an authenticator app.
-func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string)(*models.User, error) {
+func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string)(*interface{}, error) {
 	r := strings.NewReplacer("{userId}", UserId, "{type}", Type)
 	path := r.Replace("/users/{userId}/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
@@ -1116,17 +1116,16 @@ func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string)(*models.Use
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		parsed := models.User{}.New(bytes)
+		var parsed interface{}
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
-
-		return parsed, nil
+		return &parsed, nil
 	}
-	var parsed models.User
-	parsed, ok := resp.Result.(models.User)
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

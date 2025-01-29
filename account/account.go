@@ -534,7 +534,7 @@ func (srv *Account) CreateMfaChallenge(Factor string)(*models.MfaChallenge, erro
 // password. To begin the flow, use
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method.
-func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string)(*interface{}, error) {
+func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string)(*models.Session, error) {
 	path := "/account/mfa/challenge"
 	params := map[string]interface{}{}
 	params["challengeId"] = ChallengeId
@@ -550,16 +550,17 @@ func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string)(*interfac
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		var parsed interface{}
+		parsed := models.Session{}.New(bytes)
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
-	var parsed interface{}
-	parsed, ok := resp.Result.(interface{})
+	var parsed models.Session
+	parsed, ok := resp.Result.(models.Session)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
