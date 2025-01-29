@@ -73,7 +73,7 @@ func New(optionalSetters ...ClientOption) Client {
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "0.4.0",
+		"x-sdk-version": "0.4.0",=
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
