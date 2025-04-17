@@ -82,7 +82,6 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 		params["quality"] = options.Quality
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -169,7 +168,6 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 		params["quality"] = options.Quality
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -205,7 +203,6 @@ func (srv *Avatars) GetFavicon(Url string)(*[]byte, error) {
 	params := map[string]interface{}{}
 	params["url"] = Url
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -294,7 +291,6 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption)(*[]by
 		params["quality"] = options.Quality
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -372,7 +368,6 @@ func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption)(*[]b
 		params["height"] = options.Height
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -475,7 +470,6 @@ func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption)(*[]byte, e
 		params["background"] = options.Background
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -555,7 +549,6 @@ func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption)(*[]byte, 
 		params["download"] = options.Download
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

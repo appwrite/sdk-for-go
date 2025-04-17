@@ -61,7 +61,6 @@ func (srv *Teams) List(optionalSetters ...ListOption)(*models.TeamList, error) {
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -158,7 +157,6 @@ func (srv *Teams) Get(TeamId string)(*models.Team, error) {
 	params := map[string]interface{}{}
 	params["teamId"] = TeamId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -301,7 +299,6 @@ func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembersh
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -462,7 +459,6 @@ func (srv *Teams) GetMembership(TeamId string, MembershipId string)(*models.Memb
 	params["teamId"] = TeamId
 	params["membershipId"] = MembershipId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -619,7 +615,6 @@ func (srv *Teams) GetPrefs(TeamId string)(*models.Preferences, error) {
 	params := map[string]interface{}{}
 	params["teamId"] = TeamId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

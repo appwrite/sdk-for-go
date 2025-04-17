@@ -61,7 +61,6 @@ func (srv *Databases) List(optionalSetters ...ListOption)(*models.DatabaseList, 
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -156,7 +155,6 @@ func (srv *Databases) Get(DatabaseId string)(*models.Database, error) {
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -322,7 +320,6 @@ func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...List
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -445,7 +442,6 @@ func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)(*mod
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -624,7 +620,6 @@ func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string, opt
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1300,26 +1295,42 @@ func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId strin
 
 }
 type UpdateFloatAttributeOptions struct {
+	Min float64
+	Max float64
 	NewKey string
 	enabledSetters map[string]bool
 }
 func (options UpdateFloatAttributeOptions) New() *UpdateFloatAttributeOptions {
 	options.enabledSetters = map[string]bool{
+		"Min": false,
+		"Max": false,
 		"NewKey": false,
 	}
 	return &options
 }
 type UpdateFloatAttributeOption func(*UpdateFloatAttributeOptions)
+func (srv *Databases) WithUpdateFloatAttributeMin(v float64) UpdateFloatAttributeOption {
+	return func(o *UpdateFloatAttributeOptions) {
+		o.Min = v
+		o.enabledSetters["Min"] = true
+	}
+}
+func (srv *Databases) WithUpdateFloatAttributeMax(v float64) UpdateFloatAttributeOption {
+	return func(o *UpdateFloatAttributeOptions) {
+		o.Max = v
+		o.enabledSetters["Max"] = true
+	}
+}
 func (srv *Databases) WithUpdateFloatAttributeNewKey(v string) UpdateFloatAttributeOption {
 	return func(o *UpdateFloatAttributeOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-															
+											
 // UpdateFloatAttribute update a float attribute. Changing the `default` value
 // will not update already existing documents.
-func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min float64, Max float64, Default float64, optionalSetters ...UpdateFloatAttributeOption)(*models.AttributeFloat, error) {
+func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default float64, optionalSetters ...UpdateFloatAttributeOption)(*models.AttributeFloat, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}")
 	options := UpdateFloatAttributeOptions{}.New()
@@ -1331,9 +1342,13 @@ func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId strin
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	params["required"] = Required
-	params["min"] = Min
-	params["max"] = Max
 	params["default"] = Default
+	if options.enabledSetters["Min"] {
+		params["min"] = options.Min
+	}
+	if options.enabledSetters["Max"] {
+		params["max"] = options.Max
+	}
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
@@ -1462,26 +1477,42 @@ func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId str
 
 }
 type UpdateIntegerAttributeOptions struct {
+	Min int
+	Max int
 	NewKey string
 	enabledSetters map[string]bool
 }
 func (options UpdateIntegerAttributeOptions) New() *UpdateIntegerAttributeOptions {
 	options.enabledSetters = map[string]bool{
+		"Min": false,
+		"Max": false,
 		"NewKey": false,
 	}
 	return &options
 }
 type UpdateIntegerAttributeOption func(*UpdateIntegerAttributeOptions)
+func (srv *Databases) WithUpdateIntegerAttributeMin(v int) UpdateIntegerAttributeOption {
+	return func(o *UpdateIntegerAttributeOptions) {
+		o.Min = v
+		o.enabledSetters["Min"] = true
+	}
+}
+func (srv *Databases) WithUpdateIntegerAttributeMax(v int) UpdateIntegerAttributeOption {
+	return func(o *UpdateIntegerAttributeOptions) {
+		o.Max = v
+		o.enabledSetters["Max"] = true
+	}
+}
 func (srv *Databases) WithUpdateIntegerAttributeNewKey(v string) UpdateIntegerAttributeOption {
 	return func(o *UpdateIntegerAttributeOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-															
+											
 // UpdateIntegerAttribute update an integer attribute. Changing the `default`
 // value will not update already existing documents.
-func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Min int, Max int, Default int, optionalSetters ...UpdateIntegerAttributeOption)(*models.AttributeInteger, error) {
+func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default int, optionalSetters ...UpdateIntegerAttributeOption)(*models.AttributeInteger, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}")
 	options := UpdateIntegerAttributeOptions{}.New()
@@ -1493,9 +1524,13 @@ func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId str
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	params["required"] = Required
-	params["min"] = Min
-	params["max"] = Max
 	params["default"] = Default
+	if options.enabledSetters["Min"] {
+		params["min"] = options.Min
+	}
+	if options.enabledSetters["Max"] {
+		params["max"] = options.Max
+	}
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
@@ -2068,7 +2103,6 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -2238,7 +2272,6 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -2365,7 +2398,6 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -2534,7 +2566,6 @@ func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string, option
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -2636,7 +2667,6 @@ func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key strin
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
