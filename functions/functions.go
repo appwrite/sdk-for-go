@@ -62,7 +62,6 @@ func (srv *Functions) List(optionalSetters ...ListOption)(*models.FunctionList, 
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -357,7 +356,6 @@ func (srv *Functions) ListRuntimes()(*models.RuntimeList, error) {
 	path := "/functions/runtimes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -390,7 +388,6 @@ func (srv *Functions) ListSpecifications()(*models.SpecificationList, error) {
 	path := "/functions/specifications"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -425,7 +422,6 @@ func (srv *Functions) Get(FunctionId string)(*models.Function, error) {
 	params := map[string]interface{}{}
 	params["functionId"] = FunctionId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -755,7 +751,6 @@ func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...List
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -872,7 +867,6 @@ func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)(*mod
 	params["functionId"] = FunctionId
 	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1087,7 +1081,6 @@ func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId stri
 	params["functionId"] = FunctionId
 	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1157,7 +1150,6 @@ func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListE
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1310,7 +1302,6 @@ func (srv *Functions) GetExecution(FunctionId string, ExecutionId string)(*model
 	params["functionId"] = FunctionId
 	params["executionId"] = ExecutionId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1380,7 +1371,6 @@ func (srv *Functions) ListVariables(FunctionId string)(*models.VariableList, err
 	params := map[string]interface{}{}
 	params["functionId"] = FunctionId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1454,7 +1444,6 @@ func (srv *Functions) GetVariable(FunctionId string, VariableId string)(*models.
 	params["functionId"] = FunctionId
 	params["variableId"] = VariableId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

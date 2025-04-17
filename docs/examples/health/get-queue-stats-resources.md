@@ -14,7 +14,8 @@ func main() {
     client.SetKey("<YOUR_API_KEY>") // Your secret API key
 
     service := health.NewHealth(client)
-    response, error := service.GetQueue(
+    response, error := service.GetQueueStatsResources(
+        health.WithGetQueueStatsResourcesThreshold(0),
     )
 
     if error != nil {

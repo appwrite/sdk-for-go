@@ -60,7 +60,6 @@ func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*model
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -333,7 +332,9 @@ func (srv *Messaging) WithUpdateEmailAttachments(v []string) UpdateEmailOption {
 	}
 }
 			
-// UpdateEmail update an email message by its unique ID.
+// UpdateEmail update an email message by its unique ID. This endpoint only
+// works on messages that are in draft status. Messages that are already
+// processing, sent, or failed cannot be updated.
 func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEmailOption)(*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", MessageId)
 	path := r.Replace("/messaging/messages/email/{messageId}")
@@ -803,7 +804,9 @@ func (srv *Messaging) WithUpdatePushPriority(v string) UpdatePushOption {
 	}
 }
 			
-// UpdatePush update a push notification by its unique ID.
+// UpdatePush update a push notification by its unique ID. This endpoint only
+// works on messages that are in draft status. Messages that are already
+// processing, sent, or failed cannot be updated.
 func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePushOption)(*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", MessageId)
 	path := r.Replace("/messaging/messages/push/{messageId}")
@@ -1056,7 +1059,9 @@ func (srv *Messaging) WithUpdateSmsScheduledAt(v string) UpdateSmsOption {
 	}
 }
 			
-// UpdateSms update an SMS message by its unique ID.
+// UpdateSms update an SMS message by its unique ID. This endpoint only works
+// on messages that are in draft status. Messages that are already processing,
+// sent, or failed cannot be updated.
 func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOption)(*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", MessageId)
 	path := r.Replace("/messaging/messages/sms/{messageId}")
@@ -1120,7 +1125,6 @@ func (srv *Messaging) GetMessage(MessageId string)(*models.Message, error) {
 	params := map[string]interface{}{}
 	params["messageId"] = MessageId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1214,7 +1218,6 @@ func (srv *Messaging) ListMessageLogs(MessageId string, optionalSetters ...ListM
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1273,7 +1276,6 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1342,7 +1344,6 @@ func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*mod
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -3627,7 +3628,6 @@ func (srv *Messaging) GetProvider(ProviderId string)(*models.Provider, error) {
 	params := map[string]interface{}{}
 	params["providerId"] = ProviderId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -3720,7 +3720,6 @@ func (srv *Messaging) ListProviderLogs(ProviderId string, optionalSetters ...Lis
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -3780,7 +3779,6 @@ func (srv *Messaging) ListSubscriberLogs(SubscriberId string, optionalSetters ..
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -3848,7 +3846,6 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.To
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -3942,7 +3939,6 @@ func (srv *Messaging) GetTopic(TopicId string)(*models.Topic, error) {
 	params := map[string]interface{}{}
 	params["topicId"] = TopicId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4105,7 +4101,6 @@ func (srv *Messaging) ListTopicLogs(TopicId string, optionalSetters ...ListTopic
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4176,7 +4171,6 @@ func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSub
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4249,7 +4243,6 @@ func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string)(*models
 	params["topicId"] = TopicId
 	params["subscriberId"] = SubscriberId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

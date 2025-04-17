@@ -20,8 +20,8 @@ func main() {
         "",
         false,
         0,
-        0,
-        0,
+        databases.WithUpdateFloatAttributeMin(0),
+        databases.WithUpdateFloatAttributeMax(0),
         databases.WithUpdateFloatAttributeNewKey(""),
     )
 

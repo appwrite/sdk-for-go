@@ -62,7 +62,6 @@ func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption)(*models.Bu
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -234,7 +233,6 @@ func (srv *Storage) GetBucket(BucketId string)(*models.Bucket, error) {
 	params := map[string]interface{}{}
 	params["bucketId"] = BucketId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -476,7 +474,6 @@ func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOptio
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -590,7 +587,6 @@ func (srv *Storage) GetFile(BucketId string, FileId string)(*models.File, error)
 	params["bucketId"] = BucketId
 	params["fileId"] = FileId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -736,7 +732,6 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string)(*[]byte, err
 	params["bucketId"] = BucketId
 	params["fileId"] = FileId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -909,7 +904,6 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 		params["output"] = options.Output
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -946,7 +940,6 @@ func (srv *Storage) GetFileView(BucketId string, FileId string)(*[]byte, error) 
 	params["bucketId"] = BucketId
 	params["fileId"] = FileId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

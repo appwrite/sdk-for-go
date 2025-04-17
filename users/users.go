@@ -61,7 +61,6 @@ func (srv *Users) List(optionalSetters ...ListOption)(*models.UserList, error) {
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -346,7 +345,6 @@ func (srv *Users) ListIdentities(optionalSetters ...ListIdentitiesOption)(*model
 		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -751,7 +749,6 @@ func (srv *Users) Get(UserId string)(*models.User, error) {
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -999,7 +996,6 @@ func (srv *Users) ListLogs(UserId string, optionalSetters ...ListLogsOption)(*mo
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1034,7 +1030,6 @@ func (srv *Users) ListMemberships(UserId string)(*models.MembershipList, error) 
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1141,7 +1136,6 @@ func (srv *Users) ListMfaFactors(UserId string)(*models.MfaFactors, error) {
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1179,7 +1173,6 @@ func (srv *Users) GetMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, e
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1399,7 +1392,6 @@ func (srv *Users) GetPrefs(UserId string)(*models.Preferences, error) {
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1472,7 +1464,6 @@ func (srv *Users) ListSessions(UserId string)(*models.SessionList, error) {
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1678,7 +1669,6 @@ func (srv *Users) ListTargets(UserId string, optionalSetters ...ListTargetsOptio
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1787,7 +1777,6 @@ func (srv *Users) GetTarget(UserId string, TargetId string)(*models.Target, erro
 	params["userId"] = UserId
 	params["targetId"] = TargetId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

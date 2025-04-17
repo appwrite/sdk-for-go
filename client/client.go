@@ -32,6 +32,7 @@ const (
 type AppwriteError struct {
 	statusCode int
 	message    string
+	response   string
 }
 
 // ClientResponse - represents the client response
@@ -55,6 +56,10 @@ func (ce *AppwriteError) GetStatusCode() int {
 	return ce.statusCode
 }
 
+func (ce *AppwriteError) GetResponse() string {
+	return ce.response
+}
+
 // Client is the client struct to access Appwrite  services
 type Client struct {
 	Client     *http.Client
@@ -69,11 +74,11 @@ type Client struct {
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.6.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.4.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.5.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "0.4.0",=
+		"x-sdk-version": "0.5.0",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
@@ -375,6 +380,7 @@ func (client *Client) Call(method string, path string, headers map[string]interf
 			return nil, &AppwriteError{
 				statusCode: resp.StatusCode,
 				message:    message,
+				response:   string(responseData),
 			}
 		}
 		return &ClientResponse{
@@ -390,6 +396,7 @@ func (client *Client) Call(method string, path string, headers map[string]interf
 		return nil, &AppwriteError{
 			statusCode: resp.StatusCode,
 			message:    string(responseData),
+			response:   string(responseData),
 		}
 	}
 	return &ClientResponse{

@@ -25,7 +25,6 @@ func (srv *Account) Get()(*models.User, error) {
 	path := "/account"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -189,7 +188,6 @@ func (srv *Account) ListIdentities(optionalSetters ...ListIdentitiesOption)(*mod
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -319,7 +317,6 @@ func (srv *Account) ListLogs(optionalSetters ...ListLogsOption)(*models.LogList,
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -574,7 +571,6 @@ func (srv *Account) ListMfaFactors()(*models.MfaFactors, error) {
 	path := "/account/mfa/factors"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -610,7 +606,6 @@ func (srv *Account) GetMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -852,7 +847,6 @@ func (srv *Account) GetPrefs()(*models.Preferences, error) {
 	path := "/account/prefs"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1010,7 +1004,6 @@ func (srv *Account) ListSessions()(*models.SessionList, error) {
 	path := "/account/sessions"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1273,7 +1266,6 @@ func (srv *Account) GetSession(SessionId string)(*models.Session, error) {
 	params := map[string]interface{}{}
 	params["sessionId"] = SessionId
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1629,7 +1621,6 @@ func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...Create
 		params["scopes"] = options.Scopes
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

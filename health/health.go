@@ -25,7 +25,6 @@ func (srv *Health) Get()(*models.HealthStatus, error) {
 	path := "/health"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -59,7 +58,6 @@ func (srv *Health) GetAntivirus()(*models.HealthAntivirus, error) {
 	path := "/health/anti-virus"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -93,7 +91,6 @@ func (srv *Health) GetCache()(*models.HealthStatus, error) {
 	path := "/health/cache"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -150,7 +147,6 @@ func (srv *Health) GetCertificate(optionalSetters ...GetCertificateOption)(*mode
 		params["domain"] = options.Domain
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -184,7 +180,6 @@ func (srv *Health) GetDB()(*models.HealthStatus, error) {
 	path := "/health/db"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -218,41 +213,6 @@ func (srv *Health) GetPubSub()(*models.HealthStatus, error) {
 	path := "/health/pubsub"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
-	}
-
-	resp, err := srv.client.Call("GET", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
-
-		parsed := models.HealthStatus{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.HealthStatus
-	parsed, ok := resp.Result.(models.HealthStatus)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
-// GetQueue check the Appwrite queue messaging servers are up and connection
-// is successful.
-func (srv *Health) GetQueue()(*models.HealthStatus, error) {
-	path := "/health/queue"
-	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -310,7 +270,6 @@ func (srv *Health) GetQueueBuilds(optionalSetters ...GetQueueBuildsOption)(*mode
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -369,7 +328,6 @@ func (srv *Health) GetQueueCertificates(optionalSetters ...GetQueueCertificatesO
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -438,7 +396,6 @@ func (srv *Health) GetQueueDatabases(optionalSetters ...GetQueueDatabasesOption)
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -496,7 +453,6 @@ func (srv *Health) GetQueueDeletes(optionalSetters ...GetQueueDeletesOption)(*mo
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -555,7 +511,6 @@ func (srv *Health) GetFailedJobs(Name string, optionalSetters ...GetFailedJobsOp
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -613,7 +568,6 @@ func (srv *Health) GetQueueFunctions(optionalSetters ...GetQueueFunctionsOption)
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -671,7 +625,6 @@ func (srv *Health) GetQueueLogs(optionalSetters ...GetQueueLogsOption)(*models.H
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -729,7 +682,6 @@ func (srv *Health) GetQueueMails(optionalSetters ...GetQueueMailsOption)(*models
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -787,7 +739,6 @@ func (srv *Health) GetQueueMessaging(optionalSetters ...GetQueueMessagingOption)
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -845,7 +796,63 @@ func (srv *Health) GetQueueMigrations(optionalSetters ...GetQueueMigrationsOptio
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.HealthQueue
+	parsed, ok := resp.Result.(models.HealthQueue)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type GetQueueStatsResourcesOptions struct {
+	Threshold int
+	enabledSetters map[string]bool
+}
+func (options GetQueueStatsResourcesOptions) New() *GetQueueStatsResourcesOptions {
+	options.enabledSetters = map[string]bool{
+		"Threshold": false,
+	}
+	return &options
+}
+type GetQueueStatsResourcesOption func(*GetQueueStatsResourcesOptions)
+func (srv *Health) WithGetQueueStatsResourcesThreshold(v int) GetQueueStatsResourcesOption {
+	return func(o *GetQueueStatsResourcesOptions) {
+		o.Threshold = v
+		o.enabledSetters["Threshold"] = true
+	}
+}
+	
+// GetQueueStatsResources get the number of metrics that are waiting to be
+// processed in the Appwrite stats resources queue.
+func (srv *Health) GetQueueStatsResources(optionalSetters ...GetQueueStatsResourcesOption)(*models.HealthQueue, error) {
+	path := "/health/queue/stats-resources"
+	options := GetQueueStatsResourcesOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Threshold"] {
+		params["threshold"] = options.Threshold
+	}
+	headers := map[string]interface{}{
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -893,7 +900,7 @@ func (srv *Health) WithGetQueueUsageThreshold(v int) GetQueueUsageOption {
 // GetQueueUsage get the number of metrics that are waiting to be processed in
 // the Appwrite internal queue server.
 func (srv *Health) GetQueueUsage(optionalSetters ...GetQueueUsageOption)(*models.HealthQueue, error) {
-	path := "/health/queue/usage"
+	path := "/health/queue/stats-usage"
 	options := GetQueueUsageOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -903,65 +910,6 @@ func (srv *Health) GetQueueUsage(optionalSetters ...GetQueueUsageOption)(*models
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
-	}
-
-	resp, err := srv.client.Call("GET", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
-
-		parsed := models.HealthQueue{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.HealthQueue
-	parsed, ok := resp.Result.(models.HealthQueue)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-type GetQueueUsageDumpOptions struct {
-	Threshold int
-	enabledSetters map[string]bool
-}
-func (options GetQueueUsageDumpOptions) New() *GetQueueUsageDumpOptions {
-	options.enabledSetters = map[string]bool{
-		"Threshold": false,
-	}
-	return &options
-}
-type GetQueueUsageDumpOption func(*GetQueueUsageDumpOptions)
-func (srv *Health) WithGetQueueUsageDumpThreshold(v int) GetQueueUsageDumpOption {
-	return func(o *GetQueueUsageDumpOptions) {
-		o.Threshold = v
-		o.enabledSetters["Threshold"] = true
-	}
-}
-	
-// GetQueueUsageDump get the number of projects containing metrics that are
-// waiting to be processed in the Appwrite internal queue server.
-func (srv *Health) GetQueueUsageDump(optionalSetters ...GetQueueUsageDumpOption)(*models.HealthQueue, error) {
-	path := "/health/queue/usage-dump"
-	options := GetQueueUsageDumpOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	if options.enabledSetters["Threshold"] {
-		params["threshold"] = options.Threshold
-	}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1019,7 +967,6 @@ func (srv *Health) GetQueueWebhooks(optionalSetters ...GetQueueWebhooksOption)(*
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1053,7 +1000,6 @@ func (srv *Health) GetStorage()(*models.HealthStatus, error) {
 	path := "/health/storage"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1087,7 +1033,6 @@ func (srv *Health) GetStorageLocal()(*models.HealthStatus, error) {
 	path := "/health/storage/local"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1126,7 +1071,6 @@ func (srv *Health) GetTime()(*models.HealthTime, error) {
 	path := "/health/time"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
-		"content-type": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
