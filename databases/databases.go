@@ -2363,6 +2363,243 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 	return &parsed, nil
 
 }
+					
+// CreateDocuments create new Documents. Before using this route, you should
+// create a new collection resource using either a [server
+// integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
+// API or directly from your database console.
+func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{})(*models.DocumentList, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["documents"] = Documents
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DocumentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DocumentList
+	parsed, ok := resp.Result.(models.DocumentList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpsertDocumentsOptions struct {
+	Documents []interface{}
+	enabledSetters map[string]bool
+}
+func (options UpsertDocumentsOptions) New() *UpsertDocumentsOptions {
+	options.enabledSetters = map[string]bool{
+		"Documents": false,
+	}
+	return &options
+}
+type UpsertDocumentsOption func(*UpsertDocumentsOptions)
+func (srv *Databases) WithUpsertDocumentsDocuments(v []interface{}) UpsertDocumentsOption {
+	return func(o *UpsertDocumentsOptions) {
+		o.Documents = v
+		o.enabledSetters["Documents"] = true
+	}
+}
+					
+// UpsertDocuments create or update Documents. Before using this route, you
+// should create a new collection resource using either a [server
+// integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
+// API or directly from your database console.
+func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, optionalSetters ...UpsertDocumentsOption)(*models.DocumentList, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
+	options := UpsertDocumentsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	if options.enabledSetters["Documents"] {
+		params["documents"] = options.Documents
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DocumentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DocumentList
+	parsed, ok := resp.Result.(models.DocumentList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateDocumentsOptions struct {
+	Data interface{}
+	Queries []string
+	enabledSetters map[string]bool
+}
+func (options UpdateDocumentsOptions) New() *UpdateDocumentsOptions {
+	options.enabledSetters = map[string]bool{
+		"Data": false,
+		"Queries": false,
+	}
+	return &options
+}
+type UpdateDocumentsOption func(*UpdateDocumentsOptions)
+func (srv *Databases) WithUpdateDocumentsData(v interface{}) UpdateDocumentsOption {
+	return func(o *UpdateDocumentsOptions) {
+		o.Data = v
+		o.enabledSetters["Data"] = true
+	}
+}
+func (srv *Databases) WithUpdateDocumentsQueries(v []string) UpdateDocumentsOption {
+	return func(o *UpdateDocumentsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+					
+// UpdateDocuments update all documents that match your queries, if no queries
+// are submitted then all documents are updated. You can pass only specific
+// fields to be updated.
+func (srv *Databases) UpdateDocuments(DatabaseId string, CollectionId string, optionalSetters ...UpdateDocumentsOption)(*models.DocumentList, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
+	options := UpdateDocumentsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	if options.enabledSetters["Data"] {
+		params["data"] = options.Data
+	}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DocumentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DocumentList
+	parsed, ok := resp.Result.(models.DocumentList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type DeleteDocumentsOptions struct {
+	Queries []string
+	enabledSetters map[string]bool
+}
+func (options DeleteDocumentsOptions) New() *DeleteDocumentsOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+	}
+	return &options
+}
+type DeleteDocumentsOption func(*DeleteDocumentsOptions)
+func (srv *Databases) WithDeleteDocumentsQueries(v []string) DeleteDocumentsOption {
+	return func(o *DeleteDocumentsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+					
+// DeleteDocuments bulk delete documents using queries, if no queries are
+// passed then all documents are deleted.
+func (srv *Databases) DeleteDocuments(DatabaseId string, CollectionId string, optionalSetters ...DeleteDocumentsOption)(*models.DocumentList, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
+	options := DeleteDocumentsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DocumentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DocumentList
+	parsed, ok := resp.Result.(models.DocumentList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type GetDocumentOptions struct {
 	Queries []string
 	enabledSetters map[string]bool
