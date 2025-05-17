@@ -18,6 +18,7 @@ func main() {
         "<FUNCTION_ID>",
         "<KEY>",
         "<VALUE>",
+        functions.WithCreateVariableSecret(false),
     )
 
     if error != nil {

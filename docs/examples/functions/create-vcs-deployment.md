@@ -14,9 +14,11 @@ func main() {
     client.SetKey("<YOUR_API_KEY>") // Your secret API key
 
     service := functions.NewFunctions(client)
-    response, error := service.UpdateDeployment(
+    response, error := service.CreateVcsDeployment(
         "<FUNCTION_ID>",
-        "<DEPLOYMENT_ID>",
+        "branch",
+        "<REFERENCE>",
+        functions.WithCreateVcsDeploymentActivate(false),
     )
 
     if error != nil {

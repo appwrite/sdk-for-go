@@ -19,6 +19,7 @@ func main() {
         "<VARIABLE_ID>",
         "<KEY>",
         functions.WithUpdateVariableValue("<VALUE>"),
+        functions.WithUpdateVariableSecret(false),
     )
 
     if error != nil {

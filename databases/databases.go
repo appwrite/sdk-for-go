@@ -2831,11 +2831,13 @@ func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string, option
 }
 type CreateIndexOptions struct {
 	Orders []string
+	Lengths []int
 	enabledSetters map[string]bool
 }
 func (options CreateIndexOptions) New() *CreateIndexOptions {
 	options.enabledSetters = map[string]bool{
 		"Orders": false,
+		"Lengths": false,
 	}
 	return &options
 }
@@ -2844,6 +2846,12 @@ func (srv *Databases) WithCreateIndexOrders(v []string) CreateIndexOption {
 	return func(o *CreateIndexOptions) {
 		o.Orders = v
 		o.enabledSetters["Orders"] = true
+	}
+}
+func (srv *Databases) WithCreateIndexLengths(v []int) CreateIndexOption {
+	return func(o *CreateIndexOptions) {
+		o.Lengths = v
+		o.enabledSetters["Lengths"] = true
 	}
 }
 											
@@ -2865,6 +2873,9 @@ func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key st
 	params["attributes"] = Attributes
 	if options.enabledSetters["Orders"] {
 		params["orders"] = options.Orders
+	}
+	if options.enabledSetters["Lengths"] {
+		params["lengths"] = options.Lengths
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",

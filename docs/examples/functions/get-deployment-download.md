@@ -17,6 +17,7 @@ func main() {
     response, error := service.GetDeploymentDownload(
         "<FUNCTION_ID>",
         "<DEPLOYMENT_ID>",
+        functions.WithGetDeploymentDownloadType("source"),
     )
 
     if error != nil {

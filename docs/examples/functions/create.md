@@ -32,10 +32,6 @@ func main() {
         functions.WithCreateProviderBranch("<PROVIDER_BRANCH>"),
         functions.WithCreateProviderSilentMode(false),
         functions.WithCreateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-        functions.WithCreateTemplateRepository("<TEMPLATE_REPOSITORY>"),
-        functions.WithCreateTemplateOwner("<TEMPLATE_OWNER>"),
-        functions.WithCreateTemplateRootDirectory("<TEMPLATE_ROOT_DIRECTORY>"),
-        functions.WithCreateTemplateVersion("<TEMPLATE_VERSION>"),
         functions.WithCreateSpecification(""),
     )
 

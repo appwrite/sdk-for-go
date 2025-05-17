@@ -17,7 +17,6 @@ func main() {
     response, error := service.ListExecutions(
         "<FUNCTION_ID>",
         functions.WithListExecutionsQueries([]interface{}{}),
-        functions.WithListExecutionsSearch("<SEARCH>"),
     )
 
     if error != nil {

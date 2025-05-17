@@ -22,20 +22,26 @@ type Deployment struct {
     // The entrypoint file to use to execute the deployment code.
     Entrypoint string `json:"entrypoint"`
     // The code size in bytes.
-    Size int `json:"size"`
+    SourceSize int `json:"sourceSize"`
     // The build output size in bytes.
     BuildSize int `json:"buildSize"`
+    // The total size in bytes (source and build output).
+    TotalSize int `json:"totalSize"`
     // The current build ID.
     BuildId string `json:"buildId"`
     // Whether the deployment should be automatically activated.
     Activate bool `json:"activate"`
-    // The deployment status. Possible values are "processing", "building",
-    // "waiting", "ready", and "failed".
+    // Screenshot with light theme preference file ID.
+    ScreenshotLight string `json:"screenshotLight"`
+    // Screenshot with dark theme preference file ID.
+    ScreenshotDark string `json:"screenshotDark"`
+    // The deployment status. Possible values are "waiting", "processing",
+    // "building", "ready", and "failed".
     Status string `json:"status"`
     // The build logs.
     BuildLogs string `json:"buildLogs"`
     // The current build time in seconds.
-    BuildTime int `json:"buildTime"`
+    BuildDuration int `json:"buildDuration"`
     // The name of the vcs provider repository
     ProviderRepositoryName string `json:"providerRepositoryName"`
     // The name of the vcs provider repository owner

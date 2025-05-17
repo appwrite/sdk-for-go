@@ -16,6 +16,8 @@ func main() {
     service := users.NewUsers(client)
     response, error := service.ListMemberships(
         "<USER_ID>",
+        users.WithListMembershipsQueries([]interface{}{}),
+        users.WithListMembershipsSearch("<SEARCH>"),
     )
 
     if error != nil {
