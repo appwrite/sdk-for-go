@@ -1022,13 +1022,48 @@ func (srv *Users) ListLogs(UserId string, optionalSetters ...ListLogsOption)(*mo
 	return &parsed, nil
 
 }
-	
+type ListMembershipsOptions struct {
+	Queries []string
+	Search string
+	enabledSetters map[string]bool
+}
+func (options ListMembershipsOptions) New() *ListMembershipsOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+		"Search": false,
+	}
+	return &options
+}
+type ListMembershipsOption func(*ListMembershipsOptions)
+func (srv *Users) WithListMembershipsQueries(v []string) ListMembershipsOption {
+	return func(o *ListMembershipsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Users) WithListMembershipsSearch(v string) ListMembershipsOption {
+	return func(o *ListMembershipsOptions) {
+		o.Search = v
+		o.enabledSetters["Search"] = true
+	}
+}
+			
 // ListMemberships get the user membership list by its unique ID.
-func (srv *Users) ListMemberships(UserId string)(*models.MembershipList, error) {
+func (srv *Users) ListMemberships(UserId string, optionalSetters ...ListMembershipsOption)(*models.MembershipList, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/memberships")
+	options := ListMembershipsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["userId"] = UserId
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Search"] {
+		params["search"] = options.Search
+	}
 	headers := map[string]interface{}{
 	}
 

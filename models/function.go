@@ -24,13 +24,22 @@ type Function struct {
     // other settings that needs redeploy to be applied. When the value is false,
     // redeploy the function to update it with the latest configuration.
     Live bool `json:"live"`
-    // Whether executions will be logged. When set to false, executions will not
-    // be logged, but will reduce resource used by your Appwrite project.
+    // When disabled, executions will exclude logs and errors, and will be
+    // slightly faster.
     Logging bool `json:"logging"`
-    // Function execution runtime.
+    // Function execution and build runtime.
     Runtime string `json:"runtime"`
     // Function's active deployment ID.
-    Deployment string `json:"deployment"`
+    DeploymentId string `json:"deploymentId"`
+    // Active deployment creation date in ISO 8601 format.
+    DeploymentCreatedAt string `json:"deploymentCreatedAt"`
+    // Function's latest deployment ID.
+    LatestDeploymentId string `json:"latestDeploymentId"`
+    // Latest deployment creation date in ISO 8601 format.
+    LatestDeploymentCreatedAt string `json:"latestDeploymentCreatedAt"`
+    // Status of latest deployment. Possible values are "waiting", "processing",
+    // "building", "ready", and "failed".
+    LatestDeploymentStatus string `json:"latestDeploymentStatus"`
     // Allowed permission scopes.
     Scopes []string `json:"scopes"`
     // Function variables.

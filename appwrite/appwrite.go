@@ -12,8 +12,10 @@ import (
 	"github.com/appwrite/sdk-for-go/health"
 	"github.com/appwrite/sdk-for-go/locale"
 	"github.com/appwrite/sdk-for-go/messaging"
+	"github.com/appwrite/sdk-for-go/sites"
 	"github.com/appwrite/sdk-for-go/storage"
 	"github.com/appwrite/sdk-for-go/teams"
+	"github.com/appwrite/sdk-for-go/tokens"
 	"github.com/appwrite/sdk-for-go/users"
 )
 
@@ -41,11 +43,17 @@ func NewLocale(clt client.Client) *locale.Locale {
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
 }
+func NewSites(clt client.Client) *sites.Sites {
+	return sites.New(clt)
+}
 func NewStorage(clt client.Client) *storage.Storage {
 	return storage.New(clt)
 }
 func NewTeams(clt client.Client) *teams.Teams {
 	return teams.New(clt)
+}
+func NewTokens(clt client.Client) *tokens.Tokens {
+	return tokens.New(clt)
 }
 func NewUsers(clt client.Client) *users.Users {
 	return users.New(clt)

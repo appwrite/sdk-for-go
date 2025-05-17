@@ -19,6 +19,8 @@ type Index struct {
     Error string `json:"xerror"`
     // Index attributes.
     Attributes []string `json:"attributes"`
+    // Index attributes length.
+    Lengths []int `json:"lengths"`
     // Index orders.
     Orders []string `json:"orders"`
     // Index creation date in ISO 8601 format.

@@ -9,7 +9,7 @@ import (
 func main() {
     client := client.NewClient()
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetEndpoint("https://<REGION>.cloud.appwrite.io/v1") // Your API Endpoint
     client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
     client.SetSession("") // The user session to authenticate with
 
@@ -18,7 +18,7 @@ func main() {
         "aa",
         avatars.WithGetBrowserWidth(0),
         avatars.WithGetBrowserHeight(0),
-        avatars.WithGetBrowserQuality(0),
+        avatars.WithGetBrowserQuality(-1),
     )
 
     if error != nil {

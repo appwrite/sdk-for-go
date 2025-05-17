@@ -721,16 +721,40 @@ func (srv *Storage) DeleteFile(BucketId string, FileId string)(*interface{}, err
 	return &parsed, nil
 
 }
-			
+type GetFileDownloadOptions struct {
+	Token string
+	enabledSetters map[string]bool
+}
+func (options GetFileDownloadOptions) New() *GetFileDownloadOptions {
+	options.enabledSetters = map[string]bool{
+		"Token": false,
+	}
+	return &options
+}
+type GetFileDownloadOption func(*GetFileDownloadOptions)
+func (srv *Storage) WithGetFileDownloadToken(v string) GetFileDownloadOption {
+	return func(o *GetFileDownloadOptions) {
+		o.Token = v
+		o.enabledSetters["Token"] = true
+	}
+}
+					
 // GetFileDownload get a file content by its unique ID. The endpoint response
 // return with a 'Content-Disposition: attachment' header that tells the
 // browser to start downloading the file to user downloads directory.
-func (srv *Storage) GetFileDownload(BucketId string, FileId string)(*[]byte, error) {
+func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSetters ...GetFileDownloadOption)(*[]byte, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/download")
+	options := GetFileDownloadOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["bucketId"] = BucketId
 	params["fileId"] = FileId
+	if options.enabledSetters["Token"] {
+		params["token"] = options.Token
+	}
 	headers := map[string]interface{}{
 	}
 
@@ -769,6 +793,7 @@ type GetFilePreviewOptions struct {
 	Rotation int
 	Background string
 	Output string
+	Token string
 	enabledSetters map[string]bool
 }
 func (options GetFilePreviewOptions) New() *GetFilePreviewOptions {
@@ -784,6 +809,7 @@ func (options GetFilePreviewOptions) New() *GetFilePreviewOptions {
 		"Rotation": false,
 		"Background": false,
 		"Output": false,
+		"Token": false,
 	}
 	return &options
 }
@@ -854,6 +880,12 @@ func (srv *Storage) WithGetFilePreviewOutput(v string) GetFilePreviewOption {
 		o.enabledSetters["Output"] = true
 	}
 }
+func (srv *Storage) WithGetFilePreviewToken(v string) GetFilePreviewOption {
+	return func(o *GetFilePreviewOptions) {
+		o.Token = v
+		o.enabledSetters["Token"] = true
+	}
+}
 					
 // GetFilePreview get a file preview image. Currently, this method supports
 // preview for image files (jpg, png, and gif), other supported formats, like
@@ -903,6 +935,9 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 	if options.enabledSetters["Output"] {
 		params["output"] = options.Output
 	}
+	if options.enabledSetters["Token"] {
+		params["token"] = options.Token
+	}
 	headers := map[string]interface{}{
 	}
 
@@ -929,16 +964,40 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 	return &parsed, nil
 
 }
-			
+type GetFileViewOptions struct {
+	Token string
+	enabledSetters map[string]bool
+}
+func (options GetFileViewOptions) New() *GetFileViewOptions {
+	options.enabledSetters = map[string]bool{
+		"Token": false,
+	}
+	return &options
+}
+type GetFileViewOption func(*GetFileViewOptions)
+func (srv *Storage) WithGetFileViewToken(v string) GetFileViewOption {
+	return func(o *GetFileViewOptions) {
+		o.Token = v
+		o.enabledSetters["Token"] = true
+	}
+}
+					
 // GetFileView get a file content by its unique ID. This endpoint is similar
 // to the download method but returns with no  'Content-Disposition:
 // attachment' header.
-func (srv *Storage) GetFileView(BucketId string, FileId string)(*[]byte, error) {
+func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters ...GetFileViewOption)(*[]byte, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/view")
+	options := GetFileViewOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["bucketId"] = BucketId
 	params["fileId"] = FileId
+	if options.enabledSetters["Token"] {
+		params["token"] = options.Token
+	}
 	headers := map[string]interface{}{
 	}
 

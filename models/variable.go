@@ -17,6 +17,9 @@ type Variable struct {
     Key string `json:"key"`
     // Variable value.
     Value string `json:"value"`
+    // Variable secret flag. Secret variables can only be updated or deleted, but
+    // never read.
+    Secret bool `json:"secret"`
     // Service to which the variable belongs. Possible values are "project",
     // "function"
     ResourceType string `json:"resourceType"`
