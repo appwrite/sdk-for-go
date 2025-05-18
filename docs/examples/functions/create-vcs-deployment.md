@@ -9,15 +9,16 @@ import (
 func main() {
     client := client.NewClient()
 
-    client.SetEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
+    client.SetEndpoint("https://<REGION>.cloud.appwrite.io/v1") // Your API Endpoint
     client.SetProject("<YOUR_PROJECT_ID>") // Your project ID
     client.SetKey("<YOUR_API_KEY>") // Your secret API key
 
     service := functions.NewFunctions(client)
-    response, error := service.CreateBuild(
+    response, error := service.CreateVcsDeployment(
         "<FUNCTION_ID>",
-        "<DEPLOYMENT_ID>",
-        functions.WithCreateBuildBuildId("<BUILD_ID>"),
+        "branch",
+        "<REFERENCE>",
+        functions.WithCreateVcsDeploymentActivate(false),
     )
 
     if error != nil {

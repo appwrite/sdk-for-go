@@ -103,10 +103,6 @@ type CreateOptions struct {
 	ProviderBranch string
 	ProviderSilentMode bool
 	ProviderRootDirectory string
-	TemplateRepository string
-	TemplateOwner string
-	TemplateRootDirectory string
-	TemplateVersion string
 	Specification string
 	enabledSetters map[string]bool
 }
@@ -126,10 +122,6 @@ func (options CreateOptions) New() *CreateOptions {
 		"ProviderBranch": false,
 		"ProviderSilentMode": false,
 		"ProviderRootDirectory": false,
-		"TemplateRepository": false,
-		"TemplateOwner": false,
-		"TemplateRootDirectory": false,
-		"TemplateVersion": false,
 		"Specification": false,
 	}
 	return &options
@@ -219,30 +211,6 @@ func (srv *Functions) WithCreateProviderRootDirectory(v string) CreateOption {
 		o.enabledSetters["ProviderRootDirectory"] = true
 	}
 }
-func (srv *Functions) WithCreateTemplateRepository(v string) CreateOption {
-	return func(o *CreateOptions) {
-		o.TemplateRepository = v
-		o.enabledSetters["TemplateRepository"] = true
-	}
-}
-func (srv *Functions) WithCreateTemplateOwner(v string) CreateOption {
-	return func(o *CreateOptions) {
-		o.TemplateOwner = v
-		o.enabledSetters["TemplateOwner"] = true
-	}
-}
-func (srv *Functions) WithCreateTemplateRootDirectory(v string) CreateOption {
-	return func(o *CreateOptions) {
-		o.TemplateRootDirectory = v
-		o.enabledSetters["TemplateRootDirectory"] = true
-	}
-}
-func (srv *Functions) WithCreateTemplateVersion(v string) CreateOption {
-	return func(o *CreateOptions) {
-		o.TemplateVersion = v
-		o.enabledSetters["TemplateVersion"] = true
-	}
-}
 func (srv *Functions) WithCreateSpecification(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Specification = v
@@ -305,18 +273,6 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 	}
 	if options.enabledSetters["ProviderRootDirectory"] {
 		params["providerRootDirectory"] = options.ProviderRootDirectory
-	}
-	if options.enabledSetters["TemplateRepository"] {
-		params["templateRepository"] = options.TemplateRepository
-	}
-	if options.enabledSetters["TemplateOwner"] {
-		params["templateOwner"] = options.TemplateOwner
-	}
-	if options.enabledSetters["TemplateRootDirectory"] {
-		params["templateRootDirectory"] = options.TemplateRootDirectory
-	}
-	if options.enabledSetters["TemplateVersion"] {
-		params["templateVersion"] = options.TemplateVersion
 	}
 	if options.enabledSetters["Specification"] {
 		params["specification"] = options.Specification
@@ -707,6 +663,44 @@ func (srv *Functions) Delete(FunctionId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+			
+// UpdateFunctionDeployment update the function active deployment. Use this
+// endpoint to switch the code deployment that should be used when visitor
+// opens your function.
+func (srv *Functions) UpdateFunctionDeployment(FunctionId string, DeploymentId string)(*models.Function, error) {
+	r := strings.NewReplacer("{functionId}", FunctionId)
+	path := r.Replace("/functions/{functionId}/deployment")
+	params := map[string]interface{}{}
+	params["functionId"] = FunctionId
+	params["deploymentId"] = DeploymentId
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Function{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Function
+	parsed, ok := resp.Result.(models.Function)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type ListDeploymentsOptions struct {
 	Queries []string
 	Search string
@@ -733,7 +727,7 @@ func (srv *Functions) WithListDeploymentsSearch(v string) ListDeploymentsOption 
 	}
 }
 			
-// ListDeployments get a list of all the project's code deployments. You can
+// ListDeployments get a list of all the function's code deployments. You can
 // use the query params to filter your results.
 func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...ListDeploymentsOption)(*models.DeploymentList, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
@@ -858,8 +852,204 @@ func (srv *Functions) CreateDeployment(FunctionId string, Code file.InputFile, A
 	}
 	return &parsed, nil
 }
+type CreateDuplicateDeploymentOptions struct {
+	BuildId string
+	enabledSetters map[string]bool
+}
+func (options CreateDuplicateDeploymentOptions) New() *CreateDuplicateDeploymentOptions {
+	options.enabledSetters = map[string]bool{
+		"BuildId": false,
+	}
+	return &options
+}
+type CreateDuplicateDeploymentOption func(*CreateDuplicateDeploymentOptions)
+func (srv *Functions) WithCreateDuplicateDeploymentBuildId(v string) CreateDuplicateDeploymentOption {
+	return func(o *CreateDuplicateDeploymentOptions) {
+		o.BuildId = v
+		o.enabledSetters["BuildId"] = true
+	}
+}
+					
+// CreateDuplicateDeployment create a new build for an existing function
+// deployment. This endpoint allows you to rebuild a deployment with the
+// updated function configuration, including its entrypoint and build commands
+// if they have been modified. The build process will be queued and executed
+// asynchronously. The original deployment's code will be preserved and used
+// for the new build.
+func (srv *Functions) CreateDuplicateDeployment(FunctionId string, DeploymentId string, optionalSetters ...CreateDuplicateDeploymentOption)(*models.Deployment, error) {
+	r := strings.NewReplacer("{functionId}", FunctionId)
+	path := r.Replace("/functions/{functionId}/deployments/duplicate")
+	options := CreateDuplicateDeploymentOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["functionId"] = FunctionId
+	params["deploymentId"] = DeploymentId
+	if options.enabledSetters["BuildId"] {
+		params["buildId"] = options.BuildId
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Deployment{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Deployment
+	parsed, ok := resp.Result.(models.Deployment)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateTemplateDeploymentOptions struct {
+	Activate bool
+	enabledSetters map[string]bool
+}
+func (options CreateTemplateDeploymentOptions) New() *CreateTemplateDeploymentOptions {
+	options.enabledSetters = map[string]bool{
+		"Activate": false,
+	}
+	return &options
+}
+type CreateTemplateDeploymentOption func(*CreateTemplateDeploymentOptions)
+func (srv *Functions) WithCreateTemplateDeploymentActivate(v bool) CreateTemplateDeploymentOption {
+	return func(o *CreateTemplateDeploymentOptions) {
+		o.Activate = v
+		o.enabledSetters["Activate"] = true
+	}
+}
+											
+// CreateTemplateDeployment create a deployment based on a template.
+// 
+// Use this endpoint with combination of
+// [listTemplates](https://appwrite.io/docs/server/functions#listTemplates) to
+// find the template details.
+func (srv *Functions) CreateTemplateDeployment(FunctionId string, Repository string, Owner string, RootDirectory string, Version string, optionalSetters ...CreateTemplateDeploymentOption)(*models.Deployment, error) {
+	r := strings.NewReplacer("{functionId}", FunctionId)
+	path := r.Replace("/functions/{functionId}/deployments/template")
+	options := CreateTemplateDeploymentOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["functionId"] = FunctionId
+	params["repository"] = Repository
+	params["owner"] = Owner
+	params["rootDirectory"] = RootDirectory
+	params["version"] = Version
+	if options.enabledSetters["Activate"] {
+		params["activate"] = options.Activate
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Deployment{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Deployment
+	parsed, ok := resp.Result.(models.Deployment)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateVcsDeploymentOptions struct {
+	Activate bool
+	enabledSetters map[string]bool
+}
+func (options CreateVcsDeploymentOptions) New() *CreateVcsDeploymentOptions {
+	options.enabledSetters = map[string]bool{
+		"Activate": false,
+	}
+	return &options
+}
+type CreateVcsDeploymentOption func(*CreateVcsDeploymentOptions)
+func (srv *Functions) WithCreateVcsDeploymentActivate(v bool) CreateVcsDeploymentOption {
+	return func(o *CreateVcsDeploymentOptions) {
+		o.Activate = v
+		o.enabledSetters["Activate"] = true
+	}
+}
+							
+// CreateVcsDeployment create a deployment when a function is connected to
+// VCS.
+// 
+// This endpoint lets you create deployment from a branch, commit, or a tag.
+func (srv *Functions) CreateVcsDeployment(FunctionId string, Type string, Reference string, optionalSetters ...CreateVcsDeploymentOption)(*models.Deployment, error) {
+	r := strings.NewReplacer("{functionId}", FunctionId)
+	path := r.Replace("/functions/{functionId}/deployments/vcs")
+	options := CreateVcsDeploymentOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["functionId"] = FunctionId
+	params["type"] = Type
+	params["reference"] = Reference
+	if options.enabledSetters["Activate"] {
+		params["activate"] = options.Activate
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Deployment{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Deployment
+	parsed, ok := resp.Result.(models.Deployment)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 			
-// GetDeployment get a code deployment by its unique ID.
+// GetDeployment get a function deployment by its unique ID.
 func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)(*models.Deployment, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}")
@@ -887,44 +1077,6 @@ func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)(*mod
 	}
 	var parsed models.Deployment
 	parsed, ok := resp.Result.(models.Deployment)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-			
-// UpdateDeployment update the function code deployment ID using the unique
-// function ID. Use this endpoint to switch the code deployment that should be
-// executed by the execution endpoint.
-func (srv *Functions) UpdateDeployment(FunctionId string, DeploymentId string)(*models.Function, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
-	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}")
-	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["deploymentId"] = DeploymentId
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-	}
-
-	resp, err := srv.client.Call("PATCH", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
-
-		parsed := models.Function{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.Function
-	parsed, ok := resp.Result.(models.Function)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -966,120 +1118,41 @@ func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string)(*
 	return &parsed, nil
 
 }
-type CreateBuildOptions struct {
-	BuildId string
+type GetDeploymentDownloadOptions struct {
+	Type string
 	enabledSetters map[string]bool
 }
-func (options CreateBuildOptions) New() *CreateBuildOptions {
+func (options GetDeploymentDownloadOptions) New() *GetDeploymentDownloadOptions {
 	options.enabledSetters = map[string]bool{
-		"BuildId": false,
+		"Type": false,
 	}
 	return &options
 }
-type CreateBuildOption func(*CreateBuildOptions)
-func (srv *Functions) WithCreateBuildBuildId(v string) CreateBuildOption {
-	return func(o *CreateBuildOptions) {
-		o.BuildId = v
-		o.enabledSetters["BuildId"] = true
+type GetDeploymentDownloadOption func(*GetDeploymentDownloadOptions)
+func (srv *Functions) WithGetDeploymentDownloadType(v string) GetDeploymentDownloadOption {
+	return func(o *GetDeploymentDownloadOptions) {
+		o.Type = v
+		o.enabledSetters["Type"] = true
 	}
 }
 					
-// CreateBuild create a new build for an existing function deployment. This
-// endpoint allows you to rebuild a deployment with the updated function
-// configuration, including its entrypoint and build commands if they have
-// been modified The build process will be queued and executed asynchronously.
-// The original deployment's code will be preserved and used for the new
-// build.
-func (srv *Functions) CreateBuild(FunctionId string, DeploymentId string, optionalSetters ...CreateBuildOption)(*interface{}, error) {
+// GetDeploymentDownload get a function deployment content by its unique ID.
+// The endpoint response return with a 'Content-Disposition: attachment'
+// header that tells the browser to start downloading the file to user
+// downloads directory.
+func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption)(*[]byte, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
-	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/build")
-	options := CreateBuildOptions{}.New()
+	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/download")
+	options := GetDeploymentDownloadOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
 	params["functionId"] = FunctionId
 	params["deploymentId"] = DeploymentId
-	if options.enabledSetters["BuildId"] {
-		params["buildId"] = options.BuildId
+	if options.enabledSetters["Type"] {
+		params["type"] = options.Type
 	}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-	}
-
-	resp, err := srv.client.Call("POST", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
-
-		var parsed interface{}
-
-		err = json.Unmarshal(bytes, &parsed)
-		if err != nil {
-			return nil, err
-		}
-		return &parsed, nil
-	}
-	var parsed interface{}
-	parsed, ok := resp.Result.(interface{})
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-			
-// UpdateDeploymentBuild cancel an ongoing function deployment build. If the
-// build is already in progress, it will be stopped and marked as canceled. If
-// the build hasn't started yet, it will be marked as canceled without
-// executing. You cannot cancel builds that have already completed (status
-// 'ready') or failed. The response includes the final build status and
-// details.
-func (srv *Functions) UpdateDeploymentBuild(FunctionId string, DeploymentId string)(*models.Build, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
-	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/build")
-	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["deploymentId"] = DeploymentId
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-	}
-
-	resp, err := srv.client.Call("PATCH", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
-
-		parsed := models.Build{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.Build
-	parsed, ok := resp.Result.(models.Build)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-			
-// GetDeploymentDownload get a Deployment's contents by its unique ID. This
-// endpoint supports range requests for partial or streaming file download.
-func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId string)(*[]byte, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
-	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/download")
-	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
 	}
 
@@ -1106,15 +1179,54 @@ func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId stri
 	return &parsed, nil
 
 }
+			
+// UpdateDeploymentStatus cancel an ongoing function deployment build. If the
+// build is already in progress, it will be stopped and marked as canceled. If
+// the build hasn't started yet, it will be marked as canceled without
+// executing. You cannot cancel builds that have already completed (status
+// 'ready') or failed. The response includes the final build status and
+// details.
+func (srv *Functions) UpdateDeploymentStatus(FunctionId string, DeploymentId string)(*models.Deployment, error) {
+	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
+	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/status")
+	params := map[string]interface{}{}
+	params["functionId"] = FunctionId
+	params["deploymentId"] = DeploymentId
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Deployment{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Deployment
+	parsed, ok := resp.Result.(models.Deployment)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type ListExecutionsOptions struct {
 	Queries []string
-	Search string
 	enabledSetters map[string]bool
 }
 func (options ListExecutionsOptions) New() *ListExecutionsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
-		"Search": false,
 	}
 	return &options
 }
@@ -1123,12 +1235,6 @@ func (srv *Functions) WithListExecutionsQueries(v []string) ListExecutionsOption
 	return func(o *ListExecutionsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
-	}
-}
-func (srv *Functions) WithListExecutionsSearch(v string) ListExecutionsOption {
-	return func(o *ListExecutionsOptions) {
-		o.Search = v
-		o.enabledSetters["Search"] = true
 	}
 }
 			
@@ -1145,9 +1251,6 @@ func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListE
 	params["functionId"] = FunctionId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
-	}
-	if options.enabledSetters["Search"] {
-		params["search"] = options.Search
 	}
 	headers := map[string]interface{}{
 	}
@@ -1397,16 +1500,40 @@ func (srv *Functions) ListVariables(FunctionId string)(*models.VariableList, err
 	return &parsed, nil
 
 }
-					
+type CreateVariableOptions struct {
+	Secret bool
+	enabledSetters map[string]bool
+}
+func (options CreateVariableOptions) New() *CreateVariableOptions {
+	options.enabledSetters = map[string]bool{
+		"Secret": false,
+	}
+	return &options
+}
+type CreateVariableOption func(*CreateVariableOptions)
+func (srv *Functions) WithCreateVariableSecret(v bool) CreateVariableOption {
+	return func(o *CreateVariableOptions) {
+		o.Secret = v
+		o.enabledSetters["Secret"] = true
+	}
+}
+							
 // CreateVariable create a new function environment variable. These variables
 // can be accessed in the function at runtime as environment variables.
-func (srv *Functions) CreateVariable(FunctionId string, Key string, Value string)(*models.Variable, error) {
+func (srv *Functions) CreateVariable(FunctionId string, Key string, Value string, optionalSetters ...CreateVariableOption)(*models.Variable, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/variables")
+	options := CreateVariableOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["functionId"] = FunctionId
 	params["key"] = Key
 	params["value"] = Value
+	if options.enabledSetters["Secret"] {
+		params["secret"] = options.Secret
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -1472,11 +1599,13 @@ func (srv *Functions) GetVariable(FunctionId string, VariableId string)(*models.
 }
 type UpdateVariableOptions struct {
 	Value string
+	Secret bool
 	enabledSetters map[string]bool
 }
 func (options UpdateVariableOptions) New() *UpdateVariableOptions {
 	options.enabledSetters = map[string]bool{
 		"Value": false,
+		"Secret": false,
 	}
 	return &options
 }
@@ -1485,6 +1614,12 @@ func (srv *Functions) WithUpdateVariableValue(v string) UpdateVariableOption {
 	return func(o *UpdateVariableOptions) {
 		o.Value = v
 		o.enabledSetters["Value"] = true
+	}
+}
+func (srv *Functions) WithUpdateVariableSecret(v bool) UpdateVariableOption {
+	return func(o *UpdateVariableOptions) {
+		o.Secret = v
+		o.enabledSetters["Secret"] = true
 	}
 }
 							
@@ -1502,6 +1637,9 @@ func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, Key s
 	params["key"] = Key
 	if options.enabledSetters["Value"] {
 		params["value"] = options.Value
+	}
+	if options.enabledSetters["Secret"] {
+		params["secret"] = options.Secret
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
