@@ -2364,8 +2364,12 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 
 }
 					
-// CreateDocuments create new Documents. Before using this route, you should
-// create a new collection resource using either a [server
+// CreateDocuments **WARNING: Experimental Feature** - This endpoint is
+// experimental and not yet officially supported. It may be subject to
+// breaking changes or removal in future versions.
+// 
+// Create new Documents. Before using this route, you should create a new
+// collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
 func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{})(*models.DocumentList, error) {
@@ -2403,41 +2407,22 @@ func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Do
 	return &parsed, nil
 
 }
-type UpsertDocumentsOptions struct {
-	Documents []interface{}
-	enabledSetters map[string]bool
-}
-func (options UpsertDocumentsOptions) New() *UpsertDocumentsOptions {
-	options.enabledSetters = map[string]bool{
-		"Documents": false,
-	}
-	return &options
-}
-type UpsertDocumentsOption func(*UpsertDocumentsOptions)
-func (srv *Databases) WithUpsertDocumentsDocuments(v []interface{}) UpsertDocumentsOption {
-	return func(o *UpsertDocumentsOptions) {
-		o.Documents = v
-		o.enabledSetters["Documents"] = true
-	}
-}
 					
-// UpsertDocuments create or update Documents. Before using this route, you
-// should create a new collection resource using either a [server
+// UpsertDocuments **WARNING: Experimental Feature** - This endpoint is
+// experimental and not yet officially supported. It may be subject to
+// breaking changes or removal in future versions.
+// 
+// Create or update Documents. Before using this route, you should create a
+// new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
-func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, optionalSetters ...UpsertDocumentsOption)(*models.DocumentList, error) {
+func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, Documents []interface{})(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
-	options := UpsertDocumentsOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
-	if options.enabledSetters["Documents"] {
-		params["documents"] = options.Documents
-	}
+	params["documents"] = Documents
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -2492,9 +2477,13 @@ func (srv *Databases) WithUpdateDocumentsQueries(v []string) UpdateDocumentsOpti
 	}
 }
 					
-// UpdateDocuments update all documents that match your queries, if no queries
-// are submitted then all documents are updated. You can pass only specific
-// fields to be updated.
+// UpdateDocuments **WARNING: Experimental Feature** - This endpoint is
+// experimental and not yet officially supported. It may be subject to
+// breaking changes or removal in future versions.
+// 
+// Update all documents that match your queries, if no queries are submitted
+// then all documents are updated. You can pass only specific fields to be
+// updated.
 func (srv *Databases) UpdateDocuments(DatabaseId string, CollectionId string, optionalSetters ...UpdateDocumentsOption)(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
@@ -2557,8 +2546,12 @@ func (srv *Databases) WithDeleteDocumentsQueries(v []string) DeleteDocumentsOpti
 	}
 }
 					
-// DeleteDocuments bulk delete documents using queries, if no queries are
-// passed then all documents are deleted.
+// DeleteDocuments **WARNING: Experimental Feature** - This endpoint is
+// experimental and not yet officially supported. It may be subject to
+// breaking changes or removal in future versions.
+// 
+// Bulk delete documents using queries, if no queries are passed then all
+// documents are deleted.
 func (srv *Databases) DeleteDocuments(DatabaseId string, CollectionId string, optionalSetters ...DeleteDocumentsOption)(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
@@ -2638,6 +2631,75 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Document{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Document
+	parsed, ok := resp.Result.(models.Document)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpsertDocumentOptions struct {
+	Permissions []string
+	enabledSetters map[string]bool
+}
+func (options UpsertDocumentOptions) New() *UpsertDocumentOptions {
+	options.enabledSetters = map[string]bool{
+		"Permissions": false,
+	}
+	return &options
+}
+type UpsertDocumentOption func(*UpsertDocumentOptions)
+func (srv *Databases) WithUpsertDocumentPermissions(v []string) UpsertDocumentOption {
+	return func(o *UpsertDocumentOptions) {
+		o.Permissions = v
+		o.enabledSetters["Permissions"] = true
+	}
+}
+									
+// UpsertDocument **WARNING: Experimental Feature** - This endpoint is
+// experimental and not yet officially supported. It may be subject to
+// breaking changes or removal in future versions.
+// 
+// Create or update a Document. Before using this route, you should create a
+// new collection resource using either a [server
+// integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
+// API or directly from your database console.
+func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...UpsertDocumentOption)(*models.Document, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
+	options := UpsertDocumentOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["documentId"] = DocumentId
+	params["data"] = Data
+	if options.enabledSetters["Permissions"] {
+		params["permissions"] = options.Permissions
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
 		return nil, err
 	}
@@ -2764,6 +2826,154 @@ func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, Doc
 	}
 	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type DecrementDocumentAttributeOptions struct {
+	Value float64
+	Min float64
+	enabledSetters map[string]bool
+}
+func (options DecrementDocumentAttributeOptions) New() *DecrementDocumentAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Value": false,
+		"Min": false,
+	}
+	return &options
+}
+type DecrementDocumentAttributeOption func(*DecrementDocumentAttributeOptions)
+func (srv *Databases) WithDecrementDocumentAttributeValue(v float64) DecrementDocumentAttributeOption {
+	return func(o *DecrementDocumentAttributeOptions) {
+		o.Value = v
+		o.enabledSetters["Value"] = true
+	}
+}
+func (srv *Databases) WithDecrementDocumentAttributeMin(v float64) DecrementDocumentAttributeOption {
+	return func(o *DecrementDocumentAttributeOptions) {
+		o.Min = v
+		o.enabledSetters["Min"] = true
+	}
+}
+									
+// DecrementDocumentAttribute decrement a specific attribute of a document by
+// a given value.
+func (srv *Databases) DecrementDocumentAttribute(DatabaseId string, CollectionId string, DocumentId string, Attribute string, optionalSetters ...DecrementDocumentAttributeOption)(*models.Document, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId, "{attribute}", Attribute)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/decrement")
+	options := DecrementDocumentAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["documentId"] = DocumentId
+	params["attribute"] = Attribute
+	if options.enabledSetters["Value"] {
+		params["value"] = options.Value
+	}
+	if options.enabledSetters["Min"] {
+		params["min"] = options.Min
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Document{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Document
+	parsed, ok := resp.Result.(models.Document)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type IncrementDocumentAttributeOptions struct {
+	Value float64
+	Max float64
+	enabledSetters map[string]bool
+}
+func (options IncrementDocumentAttributeOptions) New() *IncrementDocumentAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Value": false,
+		"Max": false,
+	}
+	return &options
+}
+type IncrementDocumentAttributeOption func(*IncrementDocumentAttributeOptions)
+func (srv *Databases) WithIncrementDocumentAttributeValue(v float64) IncrementDocumentAttributeOption {
+	return func(o *IncrementDocumentAttributeOptions) {
+		o.Value = v
+		o.enabledSetters["Value"] = true
+	}
+}
+func (srv *Databases) WithIncrementDocumentAttributeMax(v float64) IncrementDocumentAttributeOption {
+	return func(o *IncrementDocumentAttributeOptions) {
+		o.Max = v
+		o.enabledSetters["Max"] = true
+	}
+}
+									
+// IncrementDocumentAttribute increment a specific attribute of a document by
+// a given value.
+func (srv *Databases) IncrementDocumentAttribute(DatabaseId string, CollectionId string, DocumentId string, Attribute string, optionalSetters ...IncrementDocumentAttributeOption)(*models.Document, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId, "{attribute}", Attribute)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/increment")
+	options := IncrementDocumentAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["documentId"] = DocumentId
+	params["attribute"] = Attribute
+	if options.enabledSetters["Value"] {
+		params["value"] = options.Value
+	}
+	if options.enabledSetters["Max"] {
+		params["max"] = options.Max
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Document{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Document
+	parsed, ok := resp.Result.(models.Document)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

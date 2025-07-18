@@ -98,7 +98,7 @@ func (srv *Tokens) WithCreateFileTokenExpire(v string) CreateFileTokenOption {
 }
 					
 // CreateFileToken create a new token. A token is linked to a file. Token can
-// be passed as a header or request get parameter.
+// be passed as a request URL search parameter.
 func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSetters ...CreateFileTokenOption)(*models.ResourceToken, error) {
 	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
 	path := r.Replace("/tokens/buckets/{bucketId}/files/{fileId}")
