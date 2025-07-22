@@ -7,7 +7,7 @@ import (
 
 // ResourceTokensList Model
 type ResourceTokenList struct {
-    // Total number of tokens documents that matched your query.
+    // Total number of tokens rows that matched your query.
     Total int `json:"total"`
     // List of tokens.
     Tokens []ResourceToken `json:"tokens"`

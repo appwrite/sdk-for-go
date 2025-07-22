@@ -7,7 +7,7 @@ import (
 
 // TopicList Model
 type TopicList struct {
-    // Total number of topics documents that matched your query.
+    // Total number of topics rows that matched your query.
     Total int `json:"total"`
     // List of topics.
     Topics []Topic `json:"topics"`

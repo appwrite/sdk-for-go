@@ -7,7 +7,7 @@ import (
 
 // DeploymentsList Model
 type DeploymentList struct {
-    // Total number of deployments documents that matched your query.
+    // Total number of deployments rows that matched your query.
     Total int `json:"total"`
     // List of deployments.
     Deployments []Deployment `json:"deployments"`

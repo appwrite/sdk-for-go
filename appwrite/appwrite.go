@@ -7,6 +7,7 @@ import (
 	"github.com/appwrite/sdk-for-go/account"
 	"github.com/appwrite/sdk-for-go/avatars"
 	"github.com/appwrite/sdk-for-go/databases"
+	"github.com/appwrite/sdk-for-go/tables"
 	"github.com/appwrite/sdk-for-go/functions"
 	"github.com/appwrite/sdk-for-go/graphql"
 	"github.com/appwrite/sdk-for-go/health"
@@ -27,6 +28,9 @@ func NewAvatars(clt client.Client) *avatars.Avatars {
 }
 func NewDatabases(clt client.Client) *databases.Databases {
 	return databases.New(clt)
+}
+func NewTables(clt client.Client) *tables.Tables {
+	return tables.New(clt)
 }
 func NewFunctions(clt client.Client) *functions.Functions {
 	return functions.New(clt)

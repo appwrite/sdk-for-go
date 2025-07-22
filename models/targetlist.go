@@ -7,7 +7,7 @@ import (
 
 // TargetList Model
 type TargetList struct {
-    // Total number of targets documents that matched your query.
+    // Total number of targets rows that matched your query.
     Total int `json:"total"`
     // List of targets.
     Targets []Target `json:"targets"`
