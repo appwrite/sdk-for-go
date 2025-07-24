@@ -7,7 +7,7 @@ import (
 
 // SessionsList Model
 type SessionList struct {
-    // Total number of sessions rows that matched your query.
+    // Total number of sessions documents that matched your query.
     Total int `json:"total"`
     // List of sessions.
     Sessions []Session `json:"sessions"`

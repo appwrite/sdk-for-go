@@ -7,7 +7,7 @@ import (
 
 // ExecutionsList Model
 type ExecutionList struct {
-    // Total number of executions rows that matched your query.
+    // Total number of executions documents that matched your query.
     Total int `json:"total"`
     // List of executions.
     Executions []Execution `json:"executions"`

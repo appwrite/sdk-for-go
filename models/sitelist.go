@@ -7,7 +7,7 @@ import (
 
 // SitesList Model
 type SiteList struct {
-    // Total number of sites rows that matched your query.
+    // Total number of sites documents that matched your query.
     Total int `json:"total"`
     // List of sites.
     Sites []Site `json:"sites"`
