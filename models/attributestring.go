@@ -30,6 +30,8 @@ type AttributeString struct {
     // Default value for attribute when not provided. Cannot be set when attribute
     // is required.
     Default string `json:"xdefault"`
+    // Defines whether this attribute is encrypted or not.
+    Encrypt bool `json:"encrypt"`
 
     // Used by Decode() method
     data []byte

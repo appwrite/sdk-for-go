@@ -3,7 +3,7 @@ package main
 import (
     "fmt"
     "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/messaging"
+    "github.com/appwrite/sdk-for-go/databases"
 )
 
 func main() {
@@ -13,9 +13,14 @@ func main() {
         client.WithKey("<YOUR_API_KEY>") // Your secret API key
     )
 
-    service := messaging.New(client)
-    response, error := service.GetTopic(
-        "<TOPIC_ID>",
+    service := databases.New(client)
+    response, error := service.IncrementDocumentAttribute(
+        "<DATABASE_ID>",
+        "<COLLECTION_ID>",
+        "<DOCUMENT_ID>",
+        "",
+        databases.WithIncrementDocumentAttributeValue(0),
+        databases.WithIncrementDocumentAttributeMax(0),
     )
 
     if error != nil {
