@@ -19,6 +19,8 @@ type Database struct {
     // database is inaccessible to users, but remains accessible to Server SDKs
     // using API keys.
     Enabled bool `json:"enabled"`
+    // Database type.
+    Type string `json:"xtype"`
 
     // Used by Decode() method
     data []byte

@@ -14,6 +14,7 @@ import (
 	"github.com/appwrite/sdk-for-go/messaging"
 	"github.com/appwrite/sdk-for-go/sites"
 	"github.com/appwrite/sdk-for-go/storage"
+	"github.com/appwrite/sdk-for-go/tablesdb"
 	"github.com/appwrite/sdk-for-go/teams"
 	"github.com/appwrite/sdk-for-go/tokens"
 	"github.com/appwrite/sdk-for-go/users"
@@ -48,6 +49,9 @@ func NewSites(clt client.Client) *sites.Sites {
 }
 func NewStorage(clt client.Client) *storage.Storage {
 	return storage.New(clt)
+}
+func NewTablesDb(clt client.Client) *tablesdb.TablesDb {
+	return tablesdb.New(clt)
 }
 func NewTeams(clt client.Client) *teams.Teams {
 	return teams.New(clt)

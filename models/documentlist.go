@@ -7,7 +7,7 @@ import (
 
 // DocumentsList Model
 type DocumentList struct {
-    // Total number of documents documents that matched your query.
+    // Total number of documents rows that matched your query.
     Total int `json:"total"`
     // List of documents.
     Documents []Document `json:"documents"`

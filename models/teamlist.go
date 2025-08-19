@@ -7,7 +7,7 @@ import (
 
 // TeamsList Model
 type TeamList struct {
-    // Total number of teams documents that matched your query.
+    // Total number of teams rows that matched your query.
     Total int `json:"total"`
     // List of teams.
     Teams []Team `json:"teams"`

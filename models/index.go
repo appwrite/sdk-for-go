@@ -7,7 +7,13 @@ import (
 
 // Index Model
 type Index struct {
-    // Index Key.
+    // Index ID.
+    Id string `json:"$id"`
+    // Index creation date in ISO 8601 format.
+    CreatedAt string `json:"$createdAt"`
+    // Index update date in ISO 8601 format.
+    UpdatedAt string `json:"$updatedAt"`
+    // Index key.
     Key string `json:"key"`
     // Index type.
     Type string `json:"xtype"`
@@ -23,10 +29,6 @@ type Index struct {
     Lengths []int `json:"lengths"`
     // Index orders.
     Orders []string `json:"orders"`
-    // Index creation date in ISO 8601 format.
-    CreatedAt string `json:"$createdAt"`
-    // Index update date in ISO 8601 format.
-    UpdatedAt string `json:"$updatedAt"`
 
     // Used by Decode() method
     data []byte
