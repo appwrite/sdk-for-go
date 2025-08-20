@@ -89,13 +89,11 @@ func (srv *TablesDb) List(optionalSetters ...ListOption)(*models.DatabaseList, e
 }
 type CreateOptions struct {
 	Enabled bool
-	Type string
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
 	options.enabledSetters = map[string]bool{
 		"Enabled": false,
-		"Type": false,
 	}
 	return &options
 }
@@ -104,12 +102,6 @@ func (srv *TablesDb) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
-	}
-}
-func (srv *TablesDb) WithCreateType(v string) CreateOption {
-	return func(o *CreateOptions) {
-		o.Type = v
-		o.enabledSetters["Type"] = true
 	}
 }
 					
@@ -125,9 +117,6 @@ func (srv *TablesDb) Create(DatabaseId string, Name string, optionalSetters ...C
 	params["name"] = Name
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
-	}
-	if options.enabledSetters["Type"] {
-		params["type"] = options.Type
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -2267,7 +2256,7 @@ func (srv *TablesDb) WithListIndexesQueries(v []string) ListIndexesOption {
 	}
 }
 					
-// ListIndexes list indexes in the collection.
+// ListIndexes list indexes on the table.
 func (srv *TablesDb) ListIndexes(DatabaseId string, TableId string, optionalSetters ...ListIndexesOption)(*models.ColumnIndexList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")
@@ -2336,7 +2325,7 @@ func (srv *TablesDb) WithCreateIndexLengths(v []int) CreateIndexOption {
 											
 // CreateIndex creates an index on the columns listed. Your index should
 // include all the columns you will query in a single request.
-// Attributes can be `key`, `fulltext`, and `unique`.
+// Type can be `key`, `fulltext`, or `unique`.
 func (srv *TablesDb) CreateIndex(DatabaseId string, TableId string, Key string, Type string, Columns []string, optionalSetters ...CreateIndexOption)(*models.ColumnIndex, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")

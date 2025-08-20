@@ -91,13 +91,11 @@ func (srv *Databases) List(optionalSetters ...ListOption)(*models.DatabaseList, 
 }
 type CreateOptions struct {
 	Enabled bool
-	Type string
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
 	options.enabledSetters = map[string]bool{
 		"Enabled": false,
-		"Type": false,
 	}
 	return &options
 }
@@ -106,12 +104,6 @@ func (srv *Databases) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
-	}
-}
-func (srv *Databases) WithCreateType(v string) CreateOption {
-	return func(o *CreateOptions) {
-		o.Type = v
-		o.enabledSetters["Type"] = true
 	}
 }
 					
@@ -129,9 +121,6 @@ func (srv *Databases) Create(DatabaseId string, Name string, optionalSetters ...
 	params["name"] = Name
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
-	}
-	if options.enabledSetters["Type"] {
-		params["type"] = options.Type
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",

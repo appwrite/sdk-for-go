@@ -18,7 +18,6 @@ func main() {
         "<DATABASE_ID>",
         "<NAME>",
         tablesdb.WithCreateEnabled(false),
-        tablesdb.WithCreateType("tablesdb"),
     )
 
     if error != nil {
