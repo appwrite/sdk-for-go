@@ -7,7 +7,7 @@ import (
 
 // LanguagesList Model
 type LanguageList struct {
-    // Total number of languages rows that matched your query.
+    // Total number of languages that matched your query.
     Total int `json:"total"`
     // List of languages.
     Languages []Language `json:"languages"`

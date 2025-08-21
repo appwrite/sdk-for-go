@@ -7,7 +7,7 @@ import (
 
 // DatabasesList Model
 type DatabaseList struct {
-    // Total number of databases rows that matched your query.
+    // Total number of databases that matched your query.
     Total int `json:"total"`
     // List of databases.
     Databases []Database `json:"databases"`

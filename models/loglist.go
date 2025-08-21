@@ -7,7 +7,7 @@ import (
 
 // LogsList Model
 type LogList struct {
-    // Total number of logs rows that matched your query.
+    // Total number of logs that matched your query.
     Total int `json:"total"`
     // List of logs.
     Logs []Log `json:"logs"`

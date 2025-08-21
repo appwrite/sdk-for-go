@@ -50,7 +50,7 @@ func NewSites(clt client.Client) *sites.Sites {
 func NewStorage(clt client.Client) *storage.Storage {
 	return storage.New(clt)
 }
-func NewTablesDb(clt client.Client) *tablesdb.TablesDb {
+func NewTablesDB(clt client.Client) *tablesdb.TablesDB {
 	return tablesdb.New(clt)
 }
 func NewTeams(clt client.Client) *teams.Teams {

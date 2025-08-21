@@ -7,7 +7,7 @@ import (
 
 // FrameworksList Model
 type FrameworkList struct {
-    // Total number of frameworks rows that matched your query.
+    // Total number of frameworks that matched your query.
     Total int `json:"total"`
     // List of frameworks.
     Frameworks []Framework `json:"frameworks"`

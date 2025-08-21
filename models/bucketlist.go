@@ -7,7 +7,7 @@ import (
 
 // BucketsList Model
 type BucketList struct {
-    // Total number of buckets rows that matched your query.
+    // Total number of buckets that matched your query.
     Total int `json:"total"`
     // List of buckets.
     Buckets []Bucket `json:"buckets"`

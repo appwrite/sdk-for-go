@@ -7,7 +7,7 @@ import (
 
 // RuntimesList Model
 type RuntimeList struct {
-    // Total number of runtimes rows that matched your query.
+    // Total number of runtimes that matched your query.
     Total int `json:"total"`
     // List of runtimes.
     Runtimes []Runtime `json:"runtimes"`

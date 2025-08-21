@@ -7,7 +7,7 @@ import (
 
 // FilesList Model
 type FileList struct {
-    // Total number of files rows that matched your query.
+    // Total number of files that matched your query.
     Total int `json:"total"`
     // List of files.
     Files []File `json:"files"`

@@ -7,7 +7,7 @@ import (
 
 // CollectionsList Model
 type CollectionList struct {
-    // Total number of collections rows that matched your query.
+    // Total number of collections that matched your query.
     Total int `json:"total"`
     // List of collections.
     Collections []Collection `json:"collections"`

@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-// TablesDb service
-type TablesDb struct {
+// TablesDB service
+type TablesDB struct {
 	client client.Client
 }
 
-func New(clt client.Client) *TablesDb {
-	return &TablesDb{
+func New(clt client.Client) *TablesDB {
+	return &TablesDB{
 		client: clt,
 	}
 }
@@ -32,13 +32,13 @@ func (options ListOptions) New() *ListOptions {
 	return &options
 }
 type ListOption func(*ListOptions)
-func (srv *TablesDb) WithListQueries(v []string) ListOption {
+func (srv *TablesDB) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func (srv *TablesDb) WithListSearch(v string) ListOption {
+func (srv *TablesDB) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -47,7 +47,7 @@ func (srv *TablesDb) WithListSearch(v string) ListOption {
 	
 // List get a list of all databases from the current Appwrite project. You can
 // use the search parameter to filter your results.
-func (srv *TablesDb) List(optionalSetters ...ListOption)(*models.DatabaseList, error) {
+func (srv *TablesDB) List(optionalSetters ...ListOption)(*models.DatabaseList, error) {
 	path := "/tablesdb"
 	options := ListOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -98,7 +98,7 @@ func (options CreateOptions) New() *CreateOptions {
 	return &options
 }
 type CreateOption func(*CreateOptions)
-func (srv *TablesDb) WithCreateEnabled(v bool) CreateOption {
+func (srv *TablesDB) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -106,7 +106,7 @@ func (srv *TablesDb) WithCreateEnabled(v bool) CreateOption {
 }
 					
 // Create create a new Database.
-func (srv *TablesDb) Create(DatabaseId string, Name string, optionalSetters ...CreateOption)(*models.Database, error) {
+func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...CreateOption)(*models.Database, error) {
 	path := "/tablesdb"
 	options := CreateOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -149,7 +149,7 @@ func (srv *TablesDb) Create(DatabaseId string, Name string, optionalSetters ...C
 	
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
-func (srv *TablesDb) Get(DatabaseId string)(*models.Database, error) {
+func (srv *TablesDB) Get(DatabaseId string)(*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/tablesdb/{databaseId}")
 	params := map[string]interface{}{}
@@ -192,7 +192,7 @@ func (options UpdateOptions) New() *UpdateOptions {
 	return &options
 }
 type UpdateOption func(*UpdateOptions)
-func (srv *TablesDb) WithUpdateEnabled(v bool) UpdateOption {
+func (srv *TablesDB) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -200,7 +200,7 @@ func (srv *TablesDb) WithUpdateEnabled(v bool) UpdateOption {
 }
 					
 // Update update a database by its unique ID.
-func (srv *TablesDb) Update(DatabaseId string, Name string, optionalSetters ...UpdateOption)(*models.Database, error) {
+func (srv *TablesDB) Update(DatabaseId string, Name string, optionalSetters ...UpdateOption)(*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/tablesdb/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -244,7 +244,7 @@ func (srv *TablesDb) Update(DatabaseId string, Name string, optionalSetters ...U
 	
 // Delete delete a database by its unique ID. Only API keys with with
 // databases.write scope can delete a database.
-func (srv *TablesDb) Delete(DatabaseId string)(*interface{}, error) {
+func (srv *TablesDB) Delete(DatabaseId string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/tablesdb/{databaseId}")
 	params := map[string]interface{}{}
@@ -289,13 +289,13 @@ func (options ListTablesOptions) New() *ListTablesOptions {
 	return &options
 }
 type ListTablesOption func(*ListTablesOptions)
-func (srv *TablesDb) WithListTablesQueries(v []string) ListTablesOption {
+func (srv *TablesDB) WithListTablesQueries(v []string) ListTablesOption {
 	return func(o *ListTablesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-func (srv *TablesDb) WithListTablesSearch(v string) ListTablesOption {
+func (srv *TablesDB) WithListTablesSearch(v string) ListTablesOption {
 	return func(o *ListTablesOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
@@ -304,7 +304,7 @@ func (srv *TablesDb) WithListTablesSearch(v string) ListTablesOption {
 			
 // ListTables get a list of all tables that belong to the provided databaseId.
 // You can use the search parameter to filter your results.
-func (srv *TablesDb) ListTables(DatabaseId string, optionalSetters ...ListTablesOption)(*models.TableList, error) {
+func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTablesOption)(*models.TableList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/tablesdb/{databaseId}/tables")
 	options := ListTablesOptions{}.New()
@@ -361,19 +361,19 @@ func (options CreateTableOptions) New() *CreateTableOptions {
 	return &options
 }
 type CreateTableOption func(*CreateTableOptions)
-func (srv *TablesDb) WithCreateTablePermissions(v []string) CreateTableOption {
+func (srv *TablesDB) WithCreateTablePermissions(v []string) CreateTableOption {
 	return func(o *CreateTableOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-func (srv *TablesDb) WithCreateTableRowSecurity(v bool) CreateTableOption {
+func (srv *TablesDB) WithCreateTableRowSecurity(v bool) CreateTableOption {
 	return func(o *CreateTableOptions) {
 		o.RowSecurity = v
 		o.enabledSetters["RowSecurity"] = true
 	}
 }
-func (srv *TablesDb) WithCreateTableEnabled(v bool) CreateTableOption {
+func (srv *TablesDB) WithCreateTableEnabled(v bool) CreateTableOption {
 	return func(o *CreateTableOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -382,9 +382,9 @@ func (srv *TablesDb) WithCreateTableEnabled(v bool) CreateTableOption {
 							
 // CreateTable create a new Table. Before using this route, you should create
 // a new database resource using either a [server
-// integration](https://appwrite.io/docs/server/databases#databasesCreateTable)
+// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
 // API or directly from your database console.
-func (srv *TablesDb) CreateTable(DatabaseId string, TableId string, Name string, optionalSetters ...CreateTableOption)(*models.Table, error) {
+func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string, optionalSetters ...CreateTableOption)(*models.Table, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/tablesdb/{databaseId}/tables")
 	options := CreateTableOptions{}.New()
@@ -435,7 +435,7 @@ func (srv *TablesDb) CreateTable(DatabaseId string, TableId string, Name string,
 			
 // GetTable get a table by its unique ID. This endpoint response returns a
 // JSON object with the table metadata.
-func (srv *TablesDb) GetTable(DatabaseId string, TableId string)(*models.Table, error) {
+func (srv *TablesDB) GetTable(DatabaseId string, TableId string)(*models.Table, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	params := map[string]interface{}{}
@@ -483,19 +483,19 @@ func (options UpdateTableOptions) New() *UpdateTableOptions {
 	return &options
 }
 type UpdateTableOption func(*UpdateTableOptions)
-func (srv *TablesDb) WithUpdateTablePermissions(v []string) UpdateTableOption {
+func (srv *TablesDB) WithUpdateTablePermissions(v []string) UpdateTableOption {
 	return func(o *UpdateTableOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateTableRowSecurity(v bool) UpdateTableOption {
+func (srv *TablesDB) WithUpdateTableRowSecurity(v bool) UpdateTableOption {
 	return func(o *UpdateTableOptions) {
 		o.RowSecurity = v
 		o.enabledSetters["RowSecurity"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateTableEnabled(v bool) UpdateTableOption {
+func (srv *TablesDB) WithUpdateTableEnabled(v bool) UpdateTableOption {
 	return func(o *UpdateTableOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
@@ -503,7 +503,7 @@ func (srv *TablesDb) WithUpdateTableEnabled(v bool) UpdateTableOption {
 }
 							
 // UpdateTable update a table by its unique ID.
-func (srv *TablesDb) UpdateTable(DatabaseId string, TableId string, Name string, optionalSetters ...UpdateTableOption)(*models.Table, error) {
+func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, Name string, optionalSetters ...UpdateTableOption)(*models.Table, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	options := UpdateTableOptions{}.New()
@@ -554,7 +554,7 @@ func (srv *TablesDb) UpdateTable(DatabaseId string, TableId string, Name string,
 			
 // DeleteTable delete a table by its unique ID. Only users with write
 // permissions have access to delete this resource.
-func (srv *TablesDb) DeleteTable(DatabaseId string, TableId string)(*interface{}, error) {
+func (srv *TablesDB) DeleteTable(DatabaseId string, TableId string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	params := map[string]interface{}{}
@@ -598,7 +598,7 @@ func (options ListColumnsOptions) New() *ListColumnsOptions {
 	return &options
 }
 type ListColumnsOption func(*ListColumnsOptions)
-func (srv *TablesDb) WithListColumnsQueries(v []string) ListColumnsOption {
+func (srv *TablesDB) WithListColumnsQueries(v []string) ListColumnsOption {
 	return func(o *ListColumnsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -606,7 +606,7 @@ func (srv *TablesDb) WithListColumnsQueries(v []string) ListColumnsOption {
 }
 					
 // ListColumns list columns in the table.
-func (srv *TablesDb) ListColumns(DatabaseId string, TableId string, optionalSetters ...ListColumnsOption)(*models.ColumnList, error) {
+func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSetters ...ListColumnsOption)(*models.ColumnList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns")
 	options := ListColumnsOptions{}.New()
@@ -659,13 +659,13 @@ func (options CreateBooleanColumnOptions) New() *CreateBooleanColumnOptions {
 	return &options
 }
 type CreateBooleanColumnOption func(*CreateBooleanColumnOptions)
-func (srv *TablesDb) WithCreateBooleanColumnDefault(v bool) CreateBooleanColumnOption {
+func (srv *TablesDB) WithCreateBooleanColumnDefault(v bool) CreateBooleanColumnOption {
 	return func(o *CreateBooleanColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func (srv *TablesDb) WithCreateBooleanColumnArray(v bool) CreateBooleanColumnOption {
+func (srv *TablesDB) WithCreateBooleanColumnArray(v bool) CreateBooleanColumnOption {
 	return func(o *CreateBooleanColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -673,7 +673,7 @@ func (srv *TablesDb) WithCreateBooleanColumnArray(v bool) CreateBooleanColumnOpt
 }
 									
 // CreateBooleanColumn create a boolean column.
-func (srv *TablesDb) CreateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBooleanColumnOption)(*models.ColumnBoolean, error) {
+func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBooleanColumnOption)(*models.ColumnBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/boolean")
 	options := CreateBooleanColumnOptions{}.New()
@@ -730,7 +730,7 @@ func (options UpdateBooleanColumnOptions) New() *UpdateBooleanColumnOptions {
 	return &options
 }
 type UpdateBooleanColumnOption func(*UpdateBooleanColumnOptions)
-func (srv *TablesDb) WithUpdateBooleanColumnNewKey(v string) UpdateBooleanColumnOption {
+func (srv *TablesDB) WithUpdateBooleanColumnNewKey(v string) UpdateBooleanColumnOption {
 	return func(o *UpdateBooleanColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -739,7 +739,7 @@ func (srv *TablesDb) WithUpdateBooleanColumnNewKey(v string) UpdateBooleanColumn
 											
 // UpdateBooleanColumn update a boolean column. Changing the `default` value
 // will not update already existing rows.
-func (srv *TablesDb) UpdateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, Default bool, optionalSetters ...UpdateBooleanColumnOption)(*models.ColumnBoolean, error) {
+func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, Default bool, optionalSetters ...UpdateBooleanColumnOption)(*models.ColumnBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/boolean/{key}")
 	options := UpdateBooleanColumnOptions{}.New()
@@ -796,13 +796,13 @@ func (options CreateDatetimeColumnOptions) New() *CreateDatetimeColumnOptions {
 	return &options
 }
 type CreateDatetimeColumnOption func(*CreateDatetimeColumnOptions)
-func (srv *TablesDb) WithCreateDatetimeColumnDefault(v string) CreateDatetimeColumnOption {
+func (srv *TablesDB) WithCreateDatetimeColumnDefault(v string) CreateDatetimeColumnOption {
 	return func(o *CreateDatetimeColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func (srv *TablesDb) WithCreateDatetimeColumnArray(v bool) CreateDatetimeColumnOption {
+func (srv *TablesDB) WithCreateDatetimeColumnArray(v bool) CreateDatetimeColumnOption {
 	return func(o *CreateDatetimeColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -811,7 +811,7 @@ func (srv *TablesDb) WithCreateDatetimeColumnArray(v bool) CreateDatetimeColumnO
 									
 // CreateDatetimeColumn create a date time column according to the ISO 8601
 // standard.
-func (srv *TablesDb) CreateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateDatetimeColumnOption)(*models.ColumnDatetime, error) {
+func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateDatetimeColumnOption)(*models.ColumnDatetime, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/datetime")
 	options := CreateDatetimeColumnOptions{}.New()
@@ -868,7 +868,7 @@ func (options UpdateDatetimeColumnOptions) New() *UpdateDatetimeColumnOptions {
 	return &options
 }
 type UpdateDatetimeColumnOption func(*UpdateDatetimeColumnOptions)
-func (srv *TablesDb) WithUpdateDatetimeColumnNewKey(v string) UpdateDatetimeColumnOption {
+func (srv *TablesDB) WithUpdateDatetimeColumnNewKey(v string) UpdateDatetimeColumnOption {
 	return func(o *UpdateDatetimeColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -877,7 +877,7 @@ func (srv *TablesDb) WithUpdateDatetimeColumnNewKey(v string) UpdateDatetimeColu
 											
 // UpdateDatetimeColumn update a date time column. Changing the `default`
 // value will not update already existing rows.
-func (srv *TablesDb) UpdateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateDatetimeColumnOption)(*models.ColumnDatetime, error) {
+func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateDatetimeColumnOption)(*models.ColumnDatetime, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/datetime/{key}")
 	options := UpdateDatetimeColumnOptions{}.New()
@@ -934,13 +934,13 @@ func (options CreateEmailColumnOptions) New() *CreateEmailColumnOptions {
 	return &options
 }
 type CreateEmailColumnOption func(*CreateEmailColumnOptions)
-func (srv *TablesDb) WithCreateEmailColumnDefault(v string) CreateEmailColumnOption {
+func (srv *TablesDB) WithCreateEmailColumnDefault(v string) CreateEmailColumnOption {
 	return func(o *CreateEmailColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func (srv *TablesDb) WithCreateEmailColumnArray(v bool) CreateEmailColumnOption {
+func (srv *TablesDB) WithCreateEmailColumnArray(v bool) CreateEmailColumnOption {
 	return func(o *CreateEmailColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -948,7 +948,7 @@ func (srv *TablesDb) WithCreateEmailColumnArray(v bool) CreateEmailColumnOption 
 }
 									
 // CreateEmailColumn create an email column.
-func (srv *TablesDb) CreateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateEmailColumnOption)(*models.ColumnEmail, error) {
+func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateEmailColumnOption)(*models.ColumnEmail, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/email")
 	options := CreateEmailColumnOptions{}.New()
@@ -1005,7 +1005,7 @@ func (options UpdateEmailColumnOptions) New() *UpdateEmailColumnOptions {
 	return &options
 }
 type UpdateEmailColumnOption func(*UpdateEmailColumnOptions)
-func (srv *TablesDb) WithUpdateEmailColumnNewKey(v string) UpdateEmailColumnOption {
+func (srv *TablesDB) WithUpdateEmailColumnNewKey(v string) UpdateEmailColumnOption {
 	return func(o *UpdateEmailColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -1014,7 +1014,7 @@ func (srv *TablesDb) WithUpdateEmailColumnNewKey(v string) UpdateEmailColumnOpti
 											
 // UpdateEmailColumn update an email column. Changing the `default` value will
 // not update already existing rows.
-func (srv *TablesDb) UpdateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateEmailColumnOption)(*models.ColumnEmail, error) {
+func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateEmailColumnOption)(*models.ColumnEmail, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/email/{key}")
 	options := UpdateEmailColumnOptions{}.New()
@@ -1071,13 +1071,13 @@ func (options CreateEnumColumnOptions) New() *CreateEnumColumnOptions {
 	return &options
 }
 type CreateEnumColumnOption func(*CreateEnumColumnOptions)
-func (srv *TablesDb) WithCreateEnumColumnDefault(v string) CreateEnumColumnOption {
+func (srv *TablesDB) WithCreateEnumColumnDefault(v string) CreateEnumColumnOption {
 	return func(o *CreateEnumColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func (srv *TablesDb) WithCreateEnumColumnArray(v bool) CreateEnumColumnOption {
+func (srv *TablesDB) WithCreateEnumColumnArray(v bool) CreateEnumColumnOption {
 	return func(o *CreateEnumColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -1086,7 +1086,7 @@ func (srv *TablesDb) WithCreateEnumColumnArray(v bool) CreateEnumColumnOption {
 											
 // CreateEnumColumn create an enumeration column. The `elements` param acts as
 // a white-list of accepted values for this column.
-func (srv *TablesDb) CreateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, optionalSetters ...CreateEnumColumnOption)(*models.ColumnEnum, error) {
+func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, optionalSetters ...CreateEnumColumnOption)(*models.ColumnEnum, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/enum")
 	options := CreateEnumColumnOptions{}.New()
@@ -1144,7 +1144,7 @@ func (options UpdateEnumColumnOptions) New() *UpdateEnumColumnOptions {
 	return &options
 }
 type UpdateEnumColumnOption func(*UpdateEnumColumnOptions)
-func (srv *TablesDb) WithUpdateEnumColumnNewKey(v string) UpdateEnumColumnOption {
+func (srv *TablesDB) WithUpdateEnumColumnNewKey(v string) UpdateEnumColumnOption {
 	return func(o *UpdateEnumColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -1153,7 +1153,7 @@ func (srv *TablesDb) WithUpdateEnumColumnNewKey(v string) UpdateEnumColumnOption
 													
 // UpdateEnumColumn update an enum column. Changing the `default` value will
 // not update already existing rows.
-func (srv *TablesDb) UpdateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, Default string, optionalSetters ...UpdateEnumColumnOption)(*models.ColumnEnum, error) {
+func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, Default string, optionalSetters ...UpdateEnumColumnOption)(*models.ColumnEnum, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/enum/{key}")
 	options := UpdateEnumColumnOptions{}.New()
@@ -1215,25 +1215,25 @@ func (options CreateFloatColumnOptions) New() *CreateFloatColumnOptions {
 	return &options
 }
 type CreateFloatColumnOption func(*CreateFloatColumnOptions)
-func (srv *TablesDb) WithCreateFloatColumnMin(v float64) CreateFloatColumnOption {
+func (srv *TablesDB) WithCreateFloatColumnMin(v float64) CreateFloatColumnOption {
 	return func(o *CreateFloatColumnOptions) {
 		o.Min = v
 		o.enabledSetters["Min"] = true
 	}
 }
-func (srv *TablesDb) WithCreateFloatColumnMax(v float64) CreateFloatColumnOption {
+func (srv *TablesDB) WithCreateFloatColumnMax(v float64) CreateFloatColumnOption {
 	return func(o *CreateFloatColumnOptions) {
 		o.Max = v
 		o.enabledSetters["Max"] = true
 	}
 }
-func (srv *TablesDb) WithCreateFloatColumnDefault(v float64) CreateFloatColumnOption {
+func (srv *TablesDB) WithCreateFloatColumnDefault(v float64) CreateFloatColumnOption {
 	return func(o *CreateFloatColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func (srv *TablesDb) WithCreateFloatColumnArray(v bool) CreateFloatColumnOption {
+func (srv *TablesDB) WithCreateFloatColumnArray(v bool) CreateFloatColumnOption {
 	return func(o *CreateFloatColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -1242,7 +1242,7 @@ func (srv *TablesDb) WithCreateFloatColumnArray(v bool) CreateFloatColumnOption 
 									
 // CreateFloatColumn create a float column. Optionally, minimum and maximum
 // values can be provided.
-func (srv *TablesDb) CreateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateFloatColumnOption)(*models.ColumnFloat, error) {
+func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateFloatColumnOption)(*models.ColumnFloat, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/float")
 	options := CreateFloatColumnOptions{}.New()
@@ -1309,19 +1309,19 @@ func (options UpdateFloatColumnOptions) New() *UpdateFloatColumnOptions {
 	return &options
 }
 type UpdateFloatColumnOption func(*UpdateFloatColumnOptions)
-func (srv *TablesDb) WithUpdateFloatColumnMin(v float64) UpdateFloatColumnOption {
+func (srv *TablesDB) WithUpdateFloatColumnMin(v float64) UpdateFloatColumnOption {
 	return func(o *UpdateFloatColumnOptions) {
 		o.Min = v
 		o.enabledSetters["Min"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateFloatColumnMax(v float64) UpdateFloatColumnOption {
+func (srv *TablesDB) WithUpdateFloatColumnMax(v float64) UpdateFloatColumnOption {
 	return func(o *UpdateFloatColumnOptions) {
 		o.Max = v
 		o.enabledSetters["Max"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateFloatColumnNewKey(v string) UpdateFloatColumnOption {
+func (srv *TablesDB) WithUpdateFloatColumnNewKey(v string) UpdateFloatColumnOption {
 	return func(o *UpdateFloatColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -1330,7 +1330,7 @@ func (srv *TablesDb) WithUpdateFloatColumnNewKey(v string) UpdateFloatColumnOpti
 											
 // UpdateFloatColumn update a float column. Changing the `default` value will
 // not update already existing rows.
-func (srv *TablesDb) UpdateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, Default float64, optionalSetters ...UpdateFloatColumnOption)(*models.ColumnFloat, error) {
+func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, Default float64, optionalSetters ...UpdateFloatColumnOption)(*models.ColumnFloat, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/float/{key}")
 	options := UpdateFloatColumnOptions{}.New()
@@ -1397,25 +1397,25 @@ func (options CreateIntegerColumnOptions) New() *CreateIntegerColumnOptions {
 	return &options
 }
 type CreateIntegerColumnOption func(*CreateIntegerColumnOptions)
-func (srv *TablesDb) WithCreateIntegerColumnMin(v int) CreateIntegerColumnOption {
+func (srv *TablesDB) WithCreateIntegerColumnMin(v int) CreateIntegerColumnOption {
 	return func(o *CreateIntegerColumnOptions) {
 		o.Min = v
 		o.enabledSetters["Min"] = true
 	}
 }
-func (srv *TablesDb) WithCreateIntegerColumnMax(v int) CreateIntegerColumnOption {
+func (srv *TablesDB) WithCreateIntegerColumnMax(v int) CreateIntegerColumnOption {
 	return func(o *CreateIntegerColumnOptions) {
 		o.Max = v
 		o.enabledSetters["Max"] = true
 	}
 }
-func (srv *TablesDb) WithCreateIntegerColumnDefault(v int) CreateIntegerColumnOption {
+func (srv *TablesDB) WithCreateIntegerColumnDefault(v int) CreateIntegerColumnOption {
 	return func(o *CreateIntegerColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func (srv *TablesDb) WithCreateIntegerColumnArray(v bool) CreateIntegerColumnOption {
+func (srv *TablesDB) WithCreateIntegerColumnArray(v bool) CreateIntegerColumnOption {
 	return func(o *CreateIntegerColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -1424,7 +1424,7 @@ func (srv *TablesDb) WithCreateIntegerColumnArray(v bool) CreateIntegerColumnOpt
 									
 // CreateIntegerColumn create an integer column. Optionally, minimum and
 // maximum values can be provided.
-func (srv *TablesDb) CreateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIntegerColumnOption)(*models.ColumnInteger, error) {
+func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIntegerColumnOption)(*models.ColumnInteger, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/integer")
 	options := CreateIntegerColumnOptions{}.New()
@@ -1491,19 +1491,19 @@ func (options UpdateIntegerColumnOptions) New() *UpdateIntegerColumnOptions {
 	return &options
 }
 type UpdateIntegerColumnOption func(*UpdateIntegerColumnOptions)
-func (srv *TablesDb) WithUpdateIntegerColumnMin(v int) UpdateIntegerColumnOption {
+func (srv *TablesDB) WithUpdateIntegerColumnMin(v int) UpdateIntegerColumnOption {
 	return func(o *UpdateIntegerColumnOptions) {
 		o.Min = v
 		o.enabledSetters["Min"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateIntegerColumnMax(v int) UpdateIntegerColumnOption {
+func (srv *TablesDB) WithUpdateIntegerColumnMax(v int) UpdateIntegerColumnOption {
 	return func(o *UpdateIntegerColumnOptions) {
 		o.Max = v
 		o.enabledSetters["Max"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateIntegerColumnNewKey(v string) UpdateIntegerColumnOption {
+func (srv *TablesDB) WithUpdateIntegerColumnNewKey(v string) UpdateIntegerColumnOption {
 	return func(o *UpdateIntegerColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -1512,7 +1512,7 @@ func (srv *TablesDb) WithUpdateIntegerColumnNewKey(v string) UpdateIntegerColumn
 											
 // UpdateIntegerColumn update an integer column. Changing the `default` value
 // will not update already existing rows.
-func (srv *TablesDb) UpdateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateIntegerColumnOption)(*models.ColumnInteger, error) {
+func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateIntegerColumnOption)(*models.ColumnInteger, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/integer/{key}")
 	options := UpdateIntegerColumnOptions{}.New()
@@ -1575,13 +1575,13 @@ func (options CreateIpColumnOptions) New() *CreateIpColumnOptions {
 	return &options
 }
 type CreateIpColumnOption func(*CreateIpColumnOptions)
-func (srv *TablesDb) WithCreateIpColumnDefault(v string) CreateIpColumnOption {
+func (srv *TablesDB) WithCreateIpColumnDefault(v string) CreateIpColumnOption {
 	return func(o *CreateIpColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func (srv *TablesDb) WithCreateIpColumnArray(v bool) CreateIpColumnOption {
+func (srv *TablesDB) WithCreateIpColumnArray(v bool) CreateIpColumnOption {
 	return func(o *CreateIpColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -1589,7 +1589,7 @@ func (srv *TablesDb) WithCreateIpColumnArray(v bool) CreateIpColumnOption {
 }
 									
 // CreateIpColumn create IP address column.
-func (srv *TablesDb) CreateIpColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIpColumnOption)(*models.ColumnIp, error) {
+func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIpColumnOption)(*models.ColumnIp, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/ip")
 	options := CreateIpColumnOptions{}.New()
@@ -1646,7 +1646,7 @@ func (options UpdateIpColumnOptions) New() *UpdateIpColumnOptions {
 	return &options
 }
 type UpdateIpColumnOption func(*UpdateIpColumnOptions)
-func (srv *TablesDb) WithUpdateIpColumnNewKey(v string) UpdateIpColumnOption {
+func (srv *TablesDB) WithUpdateIpColumnNewKey(v string) UpdateIpColumnOption {
 	return func(o *UpdateIpColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -1655,7 +1655,7 @@ func (srv *TablesDb) WithUpdateIpColumnNewKey(v string) UpdateIpColumnOption {
 											
 // UpdateIpColumn update an ip column. Changing the `default` value will not
 // update already existing rows.
-func (srv *TablesDb) UpdateIpColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateIpColumnOption)(*models.ColumnIp, error) {
+func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateIpColumnOption)(*models.ColumnIp, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/ip/{key}")
 	options := UpdateIpColumnOptions{}.New()
@@ -1716,25 +1716,25 @@ func (options CreateRelationshipColumnOptions) New() *CreateRelationshipColumnOp
 	return &options
 }
 type CreateRelationshipColumnOption func(*CreateRelationshipColumnOptions)
-func (srv *TablesDb) WithCreateRelationshipColumnTwoWay(v bool) CreateRelationshipColumnOption {
+func (srv *TablesDB) WithCreateRelationshipColumnTwoWay(v bool) CreateRelationshipColumnOption {
 	return func(o *CreateRelationshipColumnOptions) {
 		o.TwoWay = v
 		o.enabledSetters["TwoWay"] = true
 	}
 }
-func (srv *TablesDb) WithCreateRelationshipColumnKey(v string) CreateRelationshipColumnOption {
+func (srv *TablesDB) WithCreateRelationshipColumnKey(v string) CreateRelationshipColumnOption {
 	return func(o *CreateRelationshipColumnOptions) {
 		o.Key = v
 		o.enabledSetters["Key"] = true
 	}
 }
-func (srv *TablesDb) WithCreateRelationshipColumnTwoWayKey(v string) CreateRelationshipColumnOption {
+func (srv *TablesDB) WithCreateRelationshipColumnTwoWayKey(v string) CreateRelationshipColumnOption {
 	return func(o *CreateRelationshipColumnOptions) {
 		o.TwoWayKey = v
 		o.enabledSetters["TwoWayKey"] = true
 	}
 }
-func (srv *TablesDb) WithCreateRelationshipColumnOnDelete(v string) CreateRelationshipColumnOption {
+func (srv *TablesDB) WithCreateRelationshipColumnOnDelete(v string) CreateRelationshipColumnOption {
 	return func(o *CreateRelationshipColumnOptions) {
 		o.OnDelete = v
 		o.enabledSetters["OnDelete"] = true
@@ -1744,7 +1744,7 @@ func (srv *TablesDb) WithCreateRelationshipColumnOnDelete(v string) CreateRelati
 // CreateRelationshipColumn create relationship column. [Learn more about
 // relationship
 // columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
-func (srv *TablesDb) CreateRelationshipColumn(DatabaseId string, TableId string, RelatedTableId string, Type string, optionalSetters ...CreateRelationshipColumnOption)(*models.ColumnRelationship, error) {
+func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string, RelatedTableId string, Type string, optionalSetters ...CreateRelationshipColumnOption)(*models.ColumnRelationship, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/relationship")
 	options := CreateRelationshipColumnOptions{}.New()
@@ -1811,19 +1811,19 @@ func (options CreateStringColumnOptions) New() *CreateStringColumnOptions {
 	return &options
 }
 type CreateStringColumnOption func(*CreateStringColumnOptions)
-func (srv *TablesDb) WithCreateStringColumnDefault(v string) CreateStringColumnOption {
+func (srv *TablesDB) WithCreateStringColumnDefault(v string) CreateStringColumnOption {
 	return func(o *CreateStringColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func (srv *TablesDb) WithCreateStringColumnArray(v bool) CreateStringColumnOption {
+func (srv *TablesDB) WithCreateStringColumnArray(v bool) CreateStringColumnOption {
 	return func(o *CreateStringColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
 	}
 }
-func (srv *TablesDb) WithCreateStringColumnEncrypt(v bool) CreateStringColumnOption {
+func (srv *TablesDB) WithCreateStringColumnEncrypt(v bool) CreateStringColumnOption {
 	return func(o *CreateStringColumnOptions) {
 		o.Encrypt = v
 		o.enabledSetters["Encrypt"] = true
@@ -1831,7 +1831,7 @@ func (srv *TablesDb) WithCreateStringColumnEncrypt(v bool) CreateStringColumnOpt
 }
 											
 // CreateStringColumn create a string column.
-func (srv *TablesDb) CreateStringColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateStringColumnOption)(*models.ColumnString, error) {
+func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateStringColumnOption)(*models.ColumnString, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string")
 	options := CreateStringColumnOptions{}.New()
@@ -1894,13 +1894,13 @@ func (options UpdateStringColumnOptions) New() *UpdateStringColumnOptions {
 	return &options
 }
 type UpdateStringColumnOption func(*UpdateStringColumnOptions)
-func (srv *TablesDb) WithUpdateStringColumnSize(v int) UpdateStringColumnOption {
+func (srv *TablesDB) WithUpdateStringColumnSize(v int) UpdateStringColumnOption {
 	return func(o *UpdateStringColumnOptions) {
 		o.Size = v
 		o.enabledSetters["Size"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateStringColumnNewKey(v string) UpdateStringColumnOption {
+func (srv *TablesDB) WithUpdateStringColumnNewKey(v string) UpdateStringColumnOption {
 	return func(o *UpdateStringColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -1909,7 +1909,7 @@ func (srv *TablesDb) WithUpdateStringColumnNewKey(v string) UpdateStringColumnOp
 											
 // UpdateStringColumn update a string column. Changing the `default` value
 // will not update already existing rows.
-func (srv *TablesDb) UpdateStringColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringColumnOption)(*models.ColumnString, error) {
+func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringColumnOption)(*models.ColumnString, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}")
 	options := UpdateStringColumnOptions{}.New()
@@ -1969,13 +1969,13 @@ func (options CreateUrlColumnOptions) New() *CreateUrlColumnOptions {
 	return &options
 }
 type CreateUrlColumnOption func(*CreateUrlColumnOptions)
-func (srv *TablesDb) WithCreateUrlColumnDefault(v string) CreateUrlColumnOption {
+func (srv *TablesDB) WithCreateUrlColumnDefault(v string) CreateUrlColumnOption {
 	return func(o *CreateUrlColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-func (srv *TablesDb) WithCreateUrlColumnArray(v bool) CreateUrlColumnOption {
+func (srv *TablesDB) WithCreateUrlColumnArray(v bool) CreateUrlColumnOption {
 	return func(o *CreateUrlColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
@@ -1983,7 +1983,7 @@ func (srv *TablesDb) WithCreateUrlColumnArray(v bool) CreateUrlColumnOption {
 }
 									
 // CreateUrlColumn create a URL column.
-func (srv *TablesDb) CreateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateUrlColumnOption)(*models.ColumnUrl, error) {
+func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateUrlColumnOption)(*models.ColumnUrl, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/url")
 	options := CreateUrlColumnOptions{}.New()
@@ -2040,7 +2040,7 @@ func (options UpdateUrlColumnOptions) New() *UpdateUrlColumnOptions {
 	return &options
 }
 type UpdateUrlColumnOption func(*UpdateUrlColumnOptions)
-func (srv *TablesDb) WithUpdateUrlColumnNewKey(v string) UpdateUrlColumnOption {
+func (srv *TablesDB) WithUpdateUrlColumnNewKey(v string) UpdateUrlColumnOption {
 	return func(o *UpdateUrlColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -2049,7 +2049,7 @@ func (srv *TablesDb) WithUpdateUrlColumnNewKey(v string) UpdateUrlColumnOption {
 											
 // UpdateUrlColumn update an url column. Changing the `default` value will not
 // update already existing rows.
-func (srv *TablesDb) UpdateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateUrlColumnOption)(*models.ColumnUrl, error) {
+func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateUrlColumnOption)(*models.ColumnUrl, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/url/{key}")
 	options := UpdateUrlColumnOptions{}.New()
@@ -2095,7 +2095,7 @@ func (srv *TablesDb) UpdateUrlColumn(DatabaseId string, TableId string, Key stri
 }
 					
 // GetColumn get column by ID.
-func (srv *TablesDb) GetColumn(DatabaseId string, TableId string, Key string)(*interface{}, error) {
+func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
@@ -2130,7 +2130,7 @@ func (srv *TablesDb) GetColumn(DatabaseId string, TableId string, Key string)(*i
 }
 					
 // DeleteColumn deletes a column.
-func (srv *TablesDb) DeleteColumn(DatabaseId string, TableId string, Key string)(*interface{}, error) {
+func (srv *TablesDB) DeleteColumn(DatabaseId string, TableId string, Key string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
@@ -2177,13 +2177,13 @@ func (options UpdateRelationshipColumnOptions) New() *UpdateRelationshipColumnOp
 	return &options
 }
 type UpdateRelationshipColumnOption func(*UpdateRelationshipColumnOptions)
-func (srv *TablesDb) WithUpdateRelationshipColumnOnDelete(v string) UpdateRelationshipColumnOption {
+func (srv *TablesDB) WithUpdateRelationshipColumnOnDelete(v string) UpdateRelationshipColumnOption {
 	return func(o *UpdateRelationshipColumnOptions) {
 		o.OnDelete = v
 		o.enabledSetters["OnDelete"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateRelationshipColumnNewKey(v string) UpdateRelationshipColumnOption {
+func (srv *TablesDB) WithUpdateRelationshipColumnNewKey(v string) UpdateRelationshipColumnOption {
 	return func(o *UpdateRelationshipColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
@@ -2193,7 +2193,7 @@ func (srv *TablesDb) WithUpdateRelationshipColumnNewKey(v string) UpdateRelation
 // UpdateRelationshipColumn update relationship column. [Learn more about
 // relationship
 // columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
-func (srv *TablesDb) UpdateRelationshipColumn(DatabaseId string, TableId string, Key string, optionalSetters ...UpdateRelationshipColumnOption)(*models.ColumnRelationship, error) {
+func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string, Key string, optionalSetters ...UpdateRelationshipColumnOption)(*models.ColumnRelationship, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}/relationship")
 	options := UpdateRelationshipColumnOptions{}.New()
@@ -2249,7 +2249,7 @@ func (options ListIndexesOptions) New() *ListIndexesOptions {
 	return &options
 }
 type ListIndexesOption func(*ListIndexesOptions)
-func (srv *TablesDb) WithListIndexesQueries(v []string) ListIndexesOption {
+func (srv *TablesDB) WithListIndexesQueries(v []string) ListIndexesOption {
 	return func(o *ListIndexesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -2257,7 +2257,7 @@ func (srv *TablesDb) WithListIndexesQueries(v []string) ListIndexesOption {
 }
 					
 // ListIndexes list indexes on the table.
-func (srv *TablesDb) ListIndexes(DatabaseId string, TableId string, optionalSetters ...ListIndexesOption)(*models.ColumnIndexList, error) {
+func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSetters ...ListIndexesOption)(*models.ColumnIndexList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")
 	options := ListIndexesOptions{}.New()
@@ -2310,13 +2310,13 @@ func (options CreateIndexOptions) New() *CreateIndexOptions {
 	return &options
 }
 type CreateIndexOption func(*CreateIndexOptions)
-func (srv *TablesDb) WithCreateIndexOrders(v []string) CreateIndexOption {
+func (srv *TablesDB) WithCreateIndexOrders(v []string) CreateIndexOption {
 	return func(o *CreateIndexOptions) {
 		o.Orders = v
 		o.enabledSetters["Orders"] = true
 	}
 }
-func (srv *TablesDb) WithCreateIndexLengths(v []int) CreateIndexOption {
+func (srv *TablesDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 	return func(o *CreateIndexOptions) {
 		o.Lengths = v
 		o.enabledSetters["Lengths"] = true
@@ -2326,7 +2326,7 @@ func (srv *TablesDb) WithCreateIndexLengths(v []int) CreateIndexOption {
 // CreateIndex creates an index on the columns listed. Your index should
 // include all the columns you will query in a single request.
 // Type can be `key`, `fulltext`, or `unique`.
-func (srv *TablesDb) CreateIndex(DatabaseId string, TableId string, Key string, Type string, Columns []string, optionalSetters ...CreateIndexOption)(*models.ColumnIndex, error) {
+func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, Type string, Columns []string, optionalSetters ...CreateIndexOption)(*models.ColumnIndex, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")
 	options := CreateIndexOptions{}.New()
@@ -2375,7 +2375,7 @@ func (srv *TablesDb) CreateIndex(DatabaseId string, TableId string, Key string, 
 }
 					
 // GetIndex get index by ID.
-func (srv *TablesDb) GetIndex(DatabaseId string, TableId string, Key string)(*models.ColumnIndex, error) {
+func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string)(*models.ColumnIndex, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}")
 	params := map[string]interface{}{}
@@ -2411,7 +2411,7 @@ func (srv *TablesDb) GetIndex(DatabaseId string, TableId string, Key string)(*mo
 }
 					
 // DeleteIndex delete an index.
-func (srv *TablesDb) DeleteIndex(DatabaseId string, TableId string, Key string)(*interface{}, error) {
+func (srv *TablesDB) DeleteIndex(DatabaseId string, TableId string, Key string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}")
 	params := map[string]interface{}{}
@@ -2456,7 +2456,7 @@ func (options ListRowsOptions) New() *ListRowsOptions {
 	return &options
 }
 type ListRowsOption func(*ListRowsOptions)
-func (srv *TablesDb) WithListRowsQueries(v []string) ListRowsOption {
+func (srv *TablesDB) WithListRowsQueries(v []string) ListRowsOption {
 	return func(o *ListRowsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -2465,7 +2465,7 @@ func (srv *TablesDb) WithListRowsQueries(v []string) ListRowsOption {
 					
 // ListRows get a list of all the user's rows in a given table. You can use
 // the query params to filter your results.
-func (srv *TablesDb) ListRows(DatabaseId string, TableId string, optionalSetters ...ListRowsOption)(*models.RowList, error) {
+func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters ...ListRowsOption)(*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := ListRowsOptions{}.New()
@@ -2516,7 +2516,7 @@ func (options CreateRowOptions) New() *CreateRowOptions {
 	return &options
 }
 type CreateRowOption func(*CreateRowOptions)
-func (srv *TablesDb) WithCreateRowPermissions(v []string) CreateRowOption {
+func (srv *TablesDB) WithCreateRowPermissions(v []string) CreateRowOption {
 	return func(o *CreateRowOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
@@ -2525,9 +2525,9 @@ func (srv *TablesDb) WithCreateRowPermissions(v []string) CreateRowOption {
 									
 // CreateRow create a new Row. Before using this route, you should create a
 // new table resource using either a [server
-// integration](https://appwrite.io/docs/server/databases#databasesCreateTable)
+// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
 // API or directly from your database console.
-func (srv *TablesDb) CreateRow(DatabaseId string, TableId string, RowId string, Data interface{}, optionalSetters ...CreateRowOption)(*models.Row, error) {
+func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, Data interface{}, optionalSetters ...CreateRowOption)(*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := CreateRowOptions{}.New()
@@ -2573,9 +2573,9 @@ func (srv *TablesDb) CreateRow(DatabaseId string, TableId string, RowId string, 
 					
 // CreateRows create new Rows. Before using this route, you should create a
 // new table resource using either a [server
-// integration](https://appwrite.io/docs/server/databases#databasesCreateTable)
+// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
 // API or directly from your database console.
-func (srv *TablesDb) CreateRows(DatabaseId string, TableId string, Rows []interface{})(*models.RowList, error) {
+func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interface{})(*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	params := map[string]interface{}{}
@@ -2613,9 +2613,9 @@ func (srv *TablesDb) CreateRows(DatabaseId string, TableId string, Rows []interf
 					
 // UpsertRows create or update Rows. Before using this route, you should
 // create a new table resource using either a [server
-// integration](https://appwrite.io/docs/server/databases#databasesCreateTable)
+// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
 // API or directly from your database console.
-func (srv *TablesDb) UpsertRows(DatabaseId string, TableId string, Rows []interface{})(*models.RowList, error) {
+func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interface{})(*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	params := map[string]interface{}{}
@@ -2663,13 +2663,13 @@ func (options UpdateRowsOptions) New() *UpdateRowsOptions {
 	return &options
 }
 type UpdateRowsOption func(*UpdateRowsOptions)
-func (srv *TablesDb) WithUpdateRowsData(v interface{}) UpdateRowsOption {
+func (srv *TablesDB) WithUpdateRowsData(v interface{}) UpdateRowsOption {
 	return func(o *UpdateRowsOptions) {
 		o.Data = v
 		o.enabledSetters["Data"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateRowsQueries(v []string) UpdateRowsOption {
+func (srv *TablesDB) WithUpdateRowsQueries(v []string) UpdateRowsOption {
 	return func(o *UpdateRowsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -2679,7 +2679,7 @@ func (srv *TablesDb) WithUpdateRowsQueries(v []string) UpdateRowsOption {
 // UpdateRows update all rows that match your queries, if no queries are
 // submitted then all rows are updated. You can pass only specific fields to
 // be updated.
-func (srv *TablesDb) UpdateRows(DatabaseId string, TableId string, optionalSetters ...UpdateRowsOption)(*models.RowList, error) {
+func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSetters ...UpdateRowsOption)(*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := UpdateRowsOptions{}.New()
@@ -2734,7 +2734,7 @@ func (options DeleteRowsOptions) New() *DeleteRowsOptions {
 	return &options
 }
 type DeleteRowsOption func(*DeleteRowsOptions)
-func (srv *TablesDb) WithDeleteRowsQueries(v []string) DeleteRowsOption {
+func (srv *TablesDB) WithDeleteRowsQueries(v []string) DeleteRowsOption {
 	return func(o *DeleteRowsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -2743,7 +2743,7 @@ func (srv *TablesDb) WithDeleteRowsQueries(v []string) DeleteRowsOption {
 					
 // DeleteRows bulk delete rows using queries, if no queries are passed then
 // all rows are deleted.
-func (srv *TablesDb) DeleteRows(DatabaseId string, TableId string, optionalSetters ...DeleteRowsOption)(*models.RowList, error) {
+func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSetters ...DeleteRowsOption)(*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := DeleteRowsOptions{}.New()
@@ -2795,7 +2795,7 @@ func (options GetRowOptions) New() *GetRowOptions {
 	return &options
 }
 type GetRowOption func(*GetRowOptions)
-func (srv *TablesDb) WithGetRowQueries(v []string) GetRowOption {
+func (srv *TablesDB) WithGetRowQueries(v []string) GetRowOption {
 	return func(o *GetRowOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
@@ -2804,7 +2804,7 @@ func (srv *TablesDb) WithGetRowQueries(v []string) GetRowOption {
 							
 // GetRow get a row by its unique ID. This endpoint response returns a JSON
 // object with the row data.
-func (srv *TablesDb) GetRow(DatabaseId string, TableId string, RowId string, optionalSetters ...GetRowOption)(*models.Row, error) {
+func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, optionalSetters ...GetRowOption)(*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := GetRowOptions{}.New()
@@ -2858,13 +2858,13 @@ func (options UpsertRowOptions) New() *UpsertRowOptions {
 	return &options
 }
 type UpsertRowOption func(*UpsertRowOptions)
-func (srv *TablesDb) WithUpsertRowData(v interface{}) UpsertRowOption {
+func (srv *TablesDB) WithUpsertRowData(v interface{}) UpsertRowOption {
 	return func(o *UpsertRowOptions) {
 		o.Data = v
 		o.enabledSetters["Data"] = true
 	}
 }
-func (srv *TablesDb) WithUpsertRowPermissions(v []string) UpsertRowOption {
+func (srv *TablesDB) WithUpsertRowPermissions(v []string) UpsertRowOption {
 	return func(o *UpsertRowOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
@@ -2873,9 +2873,9 @@ func (srv *TablesDb) WithUpsertRowPermissions(v []string) UpsertRowOption {
 							
 // UpsertRow create or update a Row. Before using this route, you should
 // create a new table resource using either a [server
-// integration](https://appwrite.io/docs/server/databases#databasesCreateTable)
+// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
 // API or directly from your database console.
-func (srv *TablesDb) UpsertRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpsertRowOption)(*models.Row, error) {
+func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpsertRowOption)(*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := UpsertRowOptions{}.New()
@@ -2933,13 +2933,13 @@ func (options UpdateRowOptions) New() *UpdateRowOptions {
 	return &options
 }
 type UpdateRowOption func(*UpdateRowOptions)
-func (srv *TablesDb) WithUpdateRowData(v interface{}) UpdateRowOption {
+func (srv *TablesDB) WithUpdateRowData(v interface{}) UpdateRowOption {
 	return func(o *UpdateRowOptions) {
 		o.Data = v
 		o.enabledSetters["Data"] = true
 	}
 }
-func (srv *TablesDb) WithUpdateRowPermissions(v []string) UpdateRowOption {
+func (srv *TablesDB) WithUpdateRowPermissions(v []string) UpdateRowOption {
 	return func(o *UpdateRowOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
@@ -2948,7 +2948,7 @@ func (srv *TablesDb) WithUpdateRowPermissions(v []string) UpdateRowOption {
 							
 // UpdateRow update a row by its unique ID. Using the patch method you can
 // pass only specific fields that will get updated.
-func (srv *TablesDb) UpdateRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpdateRowOption)(*models.Row, error) {
+func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpdateRowOption)(*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := UpdateRowOptions{}.New()
@@ -2995,7 +2995,7 @@ func (srv *TablesDb) UpdateRow(DatabaseId string, TableId string, RowId string, 
 }
 					
 // DeleteRow delete a row by its unique ID.
-func (srv *TablesDb) DeleteRow(DatabaseId string, TableId string, RowId string)(*interface{}, error) {
+func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	params := map[string]interface{}{}
@@ -3042,13 +3042,13 @@ func (options DecrementRowColumnOptions) New() *DecrementRowColumnOptions {
 	return &options
 }
 type DecrementRowColumnOption func(*DecrementRowColumnOptions)
-func (srv *TablesDb) WithDecrementRowColumnValue(v float64) DecrementRowColumnOption {
+func (srv *TablesDB) WithDecrementRowColumnValue(v float64) DecrementRowColumnOption {
 	return func(o *DecrementRowColumnOptions) {
 		o.Value = v
 		o.enabledSetters["Value"] = true
 	}
 }
-func (srv *TablesDb) WithDecrementRowColumnMin(v float64) DecrementRowColumnOption {
+func (srv *TablesDB) WithDecrementRowColumnMin(v float64) DecrementRowColumnOption {
 	return func(o *DecrementRowColumnOptions) {
 		o.Min = v
 		o.enabledSetters["Min"] = true
@@ -3056,7 +3056,7 @@ func (srv *TablesDb) WithDecrementRowColumnMin(v float64) DecrementRowColumnOpti
 }
 									
 // DecrementRowColumn decrement a specific column of a row by a given value.
-func (srv *TablesDb) DecrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...DecrementRowColumnOption)(*models.Row, error) {
+func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...DecrementRowColumnOption)(*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId, "{column}", Column)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/decrement")
 	options := DecrementRowColumnOptions{}.New()
@@ -3115,13 +3115,13 @@ func (options IncrementRowColumnOptions) New() *IncrementRowColumnOptions {
 	return &options
 }
 type IncrementRowColumnOption func(*IncrementRowColumnOptions)
-func (srv *TablesDb) WithIncrementRowColumnValue(v float64) IncrementRowColumnOption {
+func (srv *TablesDB) WithIncrementRowColumnValue(v float64) IncrementRowColumnOption {
 	return func(o *IncrementRowColumnOptions) {
 		o.Value = v
 		o.enabledSetters["Value"] = true
 	}
 }
-func (srv *TablesDb) WithIncrementRowColumnMax(v float64) IncrementRowColumnOption {
+func (srv *TablesDB) WithIncrementRowColumnMax(v float64) IncrementRowColumnOption {
 	return func(o *IncrementRowColumnOptions) {
 		o.Max = v
 		o.enabledSetters["Max"] = true
@@ -3129,7 +3129,7 @@ func (srv *TablesDb) WithIncrementRowColumnMax(v float64) IncrementRowColumnOpti
 }
 									
 // IncrementRowColumn increment a specific column of a row by a given value.
-func (srv *TablesDb) IncrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...IncrementRowColumnOption)(*models.Row, error) {
+func (srv *TablesDB) IncrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...IncrementRowColumnOption)(*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId, "{column}", Column)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/increment")
 	options := IncrementRowColumnOptions{}.New()

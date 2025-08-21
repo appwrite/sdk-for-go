@@ -1093,6 +1093,8 @@ func (srv *Users) ListMemberships(UserId string, optionalSetters ...ListMembersh
 }
 			
 // UpdateMfa enable or disable MFA on a user account.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateMFA` instead.
 func (srv *Users) UpdateMfa(UserId string, Mfa bool)(*models.User, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa")
@@ -1128,8 +1130,81 @@ func (srv *Users) UpdateMfa(UserId string, Mfa bool)(*models.User, error) {
 
 }
 			
+// UpdateMFA enable or disable MFA on a user account.
+func (srv *Users) UpdateMFA(UserId string, Mfa bool)(*models.User, error) {
+	r := strings.NewReplacer("{userId}", UserId)
+	path := r.Replace("/users/{userId}/mfa")
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	params["mfa"] = Mfa
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.User
+	parsed, ok := resp.Result.(models.User)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
 // DeleteMfaAuthenticator delete an authenticator app.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `DeleteMFAAuthenticator` instead.
 func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string)(*interface{}, error) {
+	r := strings.NewReplacer("{userId}", UserId, "{type}", Type)
+	path := r.Replace("/users/{userId}/mfa/authenticators/{type}")
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	params["type"] = Type
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// DeleteMFAAuthenticator delete an authenticator app.
+func (srv *Users) DeleteMFAAuthenticator(UserId string, Type string)(*interface{}, error) {
 	r := strings.NewReplacer("{userId}", UserId, "{type}", Type)
 	path := r.Replace("/users/{userId}/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
@@ -1165,7 +1240,44 @@ func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string)(*interface{
 	
 // ListMfaFactors list the factors available on the account to be used as a
 // MFA challange.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `ListMFAFactors` instead.
 func (srv *Users) ListMfaFactors(UserId string)(*models.MfaFactors, error) {
+	r := strings.NewReplacer("{userId}", UserId)
+	path := r.Replace("/users/{userId}/mfa/factors")
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MfaFactors{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.MfaFactors
+	parsed, ok := resp.Result.(models.MfaFactors)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// ListMFAFactors list the factors available on the account to be used as a
+// MFA challange.
+func (srv *Users) ListMFAFactors(UserId string)(*models.MfaFactors, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa/factors")
 	params := map[string]interface{}{}
@@ -1202,7 +1314,46 @@ func (srv *Users) ListMfaFactors(UserId string)(*models.MfaFactors, error) {
 // flow by User ID. Before getting codes, they must be generated using
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `GetMFARecoveryCodes` instead.
 func (srv *Users) GetMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, error) {
+	r := strings.NewReplacer("{userId}", UserId)
+	path := r.Replace("/users/{userId}/mfa/recovery-codes")
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MfaRecoveryCodes{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.MfaRecoveryCodes
+	parsed, ok := resp.Result.(models.MfaRecoveryCodes)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// GetMFARecoveryCodes get recovery codes that can be used as backup for MFA
+// flow by User ID. Before getting codes, they must be generated using
+// [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
+// method.
+func (srv *Users) GetMFARecoveryCodes(UserId string)(*models.MfaRecoveryCodes, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
 	params := map[string]interface{}{}
@@ -1240,7 +1391,48 @@ func (srv *Users) GetMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, e
 // generated using
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateMFARecoveryCodes` instead.
 func (srv *Users) UpdateMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, error) {
+	r := strings.NewReplacer("{userId}", UserId)
+	path := r.Replace("/users/{userId}/mfa/recovery-codes")
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MfaRecoveryCodes{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.MfaRecoveryCodes
+	parsed, ok := resp.Result.(models.MfaRecoveryCodes)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// UpdateMFARecoveryCodes regenerate recovery codes that can be used as backup
+// for MFA flow by User ID. Before regenerating codes, they must be first
+// generated using
+// [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
+// method.
+func (srv *Users) UpdateMFARecoveryCodes(UserId string)(*models.MfaRecoveryCodes, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
 	params := map[string]interface{}{}
@@ -1278,7 +1470,47 @@ func (srv *Users) UpdateMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes
 // for User ID. Recovery codes can be used as a MFA verification type in
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method by client SDK.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `CreateMFARecoveryCodes` instead.
 func (srv *Users) CreateMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, error) {
+	r := strings.NewReplacer("{userId}", UserId)
+	path := r.Replace("/users/{userId}/mfa/recovery-codes")
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MfaRecoveryCodes{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.MfaRecoveryCodes
+	parsed, ok := resp.Result.(models.MfaRecoveryCodes)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// CreateMFARecoveryCodes generate recovery codes used as backup for MFA flow
+// for User ID. Recovery codes can be used as a MFA verification type in
+// [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
+// method by client SDK.
+func (srv *Users) CreateMFARecoveryCodes(UserId string)(*models.MfaRecoveryCodes, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
 	params := map[string]interface{}{}

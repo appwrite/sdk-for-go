@@ -7,7 +7,7 @@ import (
 
 // IdentitiesList Model
 type IdentityList struct {
-    // Total number of identities rows that matched your query.
+    // Total number of identities that matched your query.
     Total int `json:"total"`
     // List of identities.
     Identities []Identity `json:"identities"`

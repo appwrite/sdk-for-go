@@ -7,7 +7,7 @@ import (
 
 // PhonesList Model
 type PhoneList struct {
-    // Total number of phones rows that matched your query.
+    // Total number of phones that matched your query.
     Total int `json:"total"`
     // List of phones.
     Phones []Phone `json:"phones"`

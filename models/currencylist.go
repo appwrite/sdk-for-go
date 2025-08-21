@@ -7,7 +7,7 @@ import (
 
 // CurrenciesList Model
 type CurrencyList struct {
-    // Total number of currencies rows that matched your query.
+    // Total number of currencies that matched your query.
     Total int `json:"total"`
     // List of currencies.
     Currencies []Currency `json:"currencies"`

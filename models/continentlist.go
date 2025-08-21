@@ -7,7 +7,7 @@ import (
 
 // ContinentsList Model
 type ContinentList struct {
-    // Total number of continents rows that matched your query.
+    // Total number of continents that matched your query.
     Total int `json:"total"`
     // List of continents.
     Continents []Continent `json:"continents"`

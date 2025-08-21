@@ -7,7 +7,7 @@ import (
 
 // SpecificationsList Model
 type SpecificationList struct {
-    // Total number of specifications rows that matched your query.
+    // Total number of specifications that matched your query.
     Total int `json:"total"`
     // List of specifications.
     Specifications []Specification `json:"specifications"`

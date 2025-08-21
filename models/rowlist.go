@@ -7,7 +7,7 @@ import (
 
 // RowsList Model
 type RowList struct {
-    // Total number of rows rows that matched your query.
+    // Total number of rows that matched your query.
     Total int `json:"total"`
     // List of rows.
     Rows []Row `json:"rows"`

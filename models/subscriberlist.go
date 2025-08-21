@@ -7,7 +7,7 @@ import (
 
 // SubscriberList Model
 type SubscriberList struct {
-    // Total number of subscribers rows that matched your query.
+    // Total number of subscribers that matched your query.
     Total int `json:"total"`
     // List of subscribers.
     Subscribers []Subscriber `json:"subscribers"`

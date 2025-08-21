@@ -7,7 +7,7 @@ import (
 
 // ColumnIndexesList Model
 type ColumnIndexList struct {
-    // Total number of indexes rows that matched your query.
+    // Total number of indexes that matched your query.
     Total int `json:"total"`
     // List of indexes.
     Indexes []ColumnIndex `json:"indexes"`

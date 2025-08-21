@@ -7,7 +7,7 @@ import (
 
 // TablesList Model
 type TableList struct {
-    // Total number of tables rows that matched your query.
+    // Total number of tables that matched your query.
     Total int `json:"total"`
     // List of tables.
     Tables []Table `json:"tables"`
