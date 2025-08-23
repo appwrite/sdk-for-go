@@ -383,7 +383,7 @@ func (srv *Account) UpdateMFA(Mfa bool)(*models.User, error) {
 // authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator)
 // method.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `CreateMFAAuthenticator` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createMFAAuthenticator` instead.
 func (srv *Account) CreateMfaAuthenticator(Type string)(*models.MfaType, error) {
 	r := strings.NewReplacer("{type}", Type)
 	path := r.Replace("/account/mfa/authenticators/{type}")
@@ -461,7 +461,7 @@ func (srv *Account) CreateMFAAuthenticator(Type string)(*models.MfaType, error) 
 // authenticator](/docs/references/cloud/client-web/account#createMfaAuthenticator)
 // method.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateMFAAuthenticator` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateMFAAuthenticator` instead.
 func (srv *Account) UpdateMfaAuthenticator(Type string, Otp string)(*models.User, error) {
 	r := strings.NewReplacer("{type}", Type)
 	path := r.Replace("/account/mfa/authenticators/{type}")
@@ -538,7 +538,7 @@ func (srv *Account) UpdateMFAAuthenticator(Type string, Otp string)(*models.User
 	
 // DeleteMfaAuthenticator delete an authenticator for a user by ID.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `DeleteMFAAuthenticator` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.deleteMFAAuthenticator` instead.
 func (srv *Account) DeleteMfaAuthenticator(Type string)(*interface{}, error) {
 	r := strings.NewReplacer("{type}", Type)
 	path := r.Replace("/account/mfa/authenticators/{type}")
@@ -611,7 +611,7 @@ func (srv *Account) DeleteMFAAuthenticator(Type string)(*interface{}, error) {
 // [updateMfaChallenge](/docs/references/cloud/client-web/account#updateMfaChallenge)
 // method.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `CreateMFAChallenge` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createMFAChallenge` instead.
 func (srv *Account) CreateMfaChallenge(Factor string)(*models.MfaChallenge, error) {
 	path := "/account/mfa/challenge"
 	params := map[string]interface{}{}
@@ -688,7 +688,7 @@ func (srv *Account) CreateMFAChallenge(Factor string)(*models.MfaChallenge, erro
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateMFAChallenge` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateMFAChallenge` instead.
 func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string)(*models.Session, error) {
 	path := "/account/mfa/challenge"
 	params := map[string]interface{}{}
@@ -765,7 +765,7 @@ func (srv *Account) UpdateMFAChallenge(ChallengeId string, Otp string)(*models.S
 // ListMfaFactors list the factors available on the account to be used as a
 // MFA challange.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `ListMFAFactors` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.listMFAFactors` instead.
 func (srv *Account) ListMfaFactors()(*models.MfaFactors, error) {
 	path := "/account/mfa/factors"
 	params := map[string]interface{}{}
@@ -835,7 +835,7 @@ func (srv *Account) ListMFAFactors()(*models.MfaFactors, error) {
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method. An OTP challenge is required to read recovery codes.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `GetMFARecoveryCodes` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.getMFARecoveryCodes` instead.
 func (srv *Account) GetMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
@@ -909,7 +909,7 @@ func (srv *Account) GetMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `CreateMFARecoveryCodes` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createMFARecoveryCodes` instead.
 func (srv *Account) CreateMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
@@ -985,7 +985,7 @@ func (srv *Account) CreateMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method. An OTP challenge is required to regenreate recovery codes.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateMFARecoveryCodes` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateMFARecoveryCodes` instead.
 func (srv *Account) UpdateMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}

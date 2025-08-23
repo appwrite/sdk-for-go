@@ -1094,7 +1094,7 @@ func (srv *Users) ListMemberships(UserId string, optionalSetters ...ListMembersh
 			
 // UpdateMfa enable or disable MFA on a user account.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateMFA` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Users.updateMFA` instead.
 func (srv *Users) UpdateMfa(UserId string, Mfa bool)(*models.User, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa")
@@ -1168,7 +1168,7 @@ func (srv *Users) UpdateMFA(UserId string, Mfa bool)(*models.User, error) {
 			
 // DeleteMfaAuthenticator delete an authenticator app.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `DeleteMFAAuthenticator` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Users.deleteMFAAuthenticator` instead.
 func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string)(*interface{}, error) {
 	r := strings.NewReplacer("{userId}", UserId, "{type}", Type)
 	path := r.Replace("/users/{userId}/mfa/authenticators/{type}")
@@ -1241,7 +1241,7 @@ func (srv *Users) DeleteMFAAuthenticator(UserId string, Type string)(*interface{
 // ListMfaFactors list the factors available on the account to be used as a
 // MFA challange.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `ListMFAFactors` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Users.listMFAFactors` instead.
 func (srv *Users) ListMfaFactors(UserId string)(*models.MfaFactors, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa/factors")
@@ -1315,7 +1315,7 @@ func (srv *Users) ListMFAFactors(UserId string)(*models.MfaFactors, error) {
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `GetMFARecoveryCodes` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Users.getMFARecoveryCodes` instead.
 func (srv *Users) GetMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
@@ -1392,7 +1392,7 @@ func (srv *Users) GetMFARecoveryCodes(UserId string)(*models.MfaRecoveryCodes, e
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateMFARecoveryCodes` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Users.updateMFARecoveryCodes` instead.
 func (srv *Users) UpdateMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
@@ -1471,7 +1471,7 @@ func (srv *Users) UpdateMFARecoveryCodes(UserId string)(*models.MfaRecoveryCodes
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method by client SDK.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `CreateMFARecoveryCodes` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Users.createMFARecoveryCodes` instead.
 func (srv *Users) CreateMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")

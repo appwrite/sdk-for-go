@@ -29,8 +29,8 @@ type ColumnFloat struct {
     Min float64 `json:"min"`
     // Maximum value to enforce for new documents.
     Max float64 `json:"max"`
-    // Default value for attribute when not provided. Cannot be set when attribute
-    // is required.
+    // Default value for column when not provided. Cannot be set when column is
+    // required.
     Default float64 `json:"xdefault"`
 
     // Used by Decode() method

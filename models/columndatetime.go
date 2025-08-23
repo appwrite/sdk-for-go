@@ -27,7 +27,7 @@ type ColumnDatetime struct {
     UpdatedAt string `json:"$updatedAt"`
     // ISO 8601 format.
     Format string `json:"format"`
-    // Default value for attribute when not provided. Only null is optional
+    // Default value for column when not provided. Only null is optional
     Default string `json:"xdefault"`
 
     // Used by Decode() method

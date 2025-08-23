@@ -27,8 +27,8 @@ type ColumnIp struct {
     UpdatedAt string `json:"$updatedAt"`
     // String format.
     Format string `json:"format"`
-    // Default value for attribute when not provided. Cannot be set when attribute
-    // is required.
+    // Default value for column when not provided. Cannot be set when column is
+    // required.
     Default string `json:"xdefault"`
 
     // Used by Decode() method

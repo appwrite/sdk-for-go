@@ -950,7 +950,7 @@ func (srv *Messaging) WithCreateSmsScheduledAt(v string) CreateSmsOption {
 					
 // CreateSms create a new SMS message.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `CreateSMS` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createSMS` instead.
 func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetters ...CreateSmsOption)(*models.Message, error) {
 	path := "/messaging/messages/sms"
 	options := CreateSmsOptions{}.New()
@@ -1168,7 +1168,7 @@ func (srv *Messaging) WithUpdateSmsScheduledAt(v string) UpdateSmsOption {
 // on messages that are in draft status. Messages that are already processing,
 // sent, or failed cannot be updated.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateSMS` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateSMS` instead.
 func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOption)(*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", MessageId)
 	path := r.Replace("/messaging/messages/sms/{messageId}")
@@ -1653,7 +1653,7 @@ func (srv *Messaging) WithCreateApnsProviderEnabled(v bool) CreateApnsProviderOp
 					
 // CreateApnsProvider create a new Apple Push Notification service provider.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `CreateAPNSProvider` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createAPNSProvider` instead.
 func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optionalSetters ...CreateApnsProviderOption)(*models.Provider, error) {
 	path := "/messaging/providers/apns"
 	options := CreateApnsProviderOptions{}.New()
@@ -1892,7 +1892,7 @@ func (srv *Messaging) WithUpdateApnsProviderSandbox(v bool) UpdateApnsProviderOp
 // UpdateApnsProvider update a Apple Push Notification service provider by its
 // unique ID.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateAPNSProvider` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateAPNSProvider` instead.
 func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...UpdateApnsProviderOption)(*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", ProviderId)
 	path := r.Replace("/messaging/providers/apns/{providerId}")
@@ -2105,7 +2105,7 @@ func (srv *Messaging) WithCreateFcmProviderEnabled(v bool) CreateFcmProviderOpti
 					
 // CreateFcmProvider create a new Firebase Cloud Messaging provider.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `CreateFCMProvider` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createFCMProvider` instead.
 func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optionalSetters ...CreateFcmProviderOption)(*models.Provider, error) {
 	path := "/messaging/providers/fcm"
 	options := CreateFcmProviderOptions{}.New()
@@ -2256,7 +2256,7 @@ func (srv *Messaging) WithUpdateFcmProviderServiceAccountJSON(v interface{}) Upd
 // UpdateFcmProvider update a Firebase Cloud Messaging provider by its unique
 // ID.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateFCMProvider` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateFCMProvider` instead.
 func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...UpdateFcmProviderOption)(*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", ProviderId)
 	path := r.Replace("/messaging/providers/fcm/{providerId}")
@@ -3202,7 +3202,7 @@ func (srv *Messaging) WithCreateSmtpProviderEnabled(v bool) CreateSmtpProviderOp
 							
 // CreateSmtpProvider create a new SMTP provider.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `CreateSMTPProvider` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createSMTPProvider` instead.
 func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host string, optionalSetters ...CreateSmtpProviderOption)(*models.Provider, error) {
 	path := "/messaging/providers/smtp"
 	options := CreateSmtpProviderOptions{}.New()
@@ -3560,7 +3560,7 @@ func (srv *Messaging) WithUpdateSmtpProviderEnabled(v bool) UpdateSmtpProviderOp
 			
 // UpdateSmtpProvider update a SMTP provider by its unique ID.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `UpdateSMTPProvider` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateSMTPProvider` instead.
 func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...UpdateSmtpProviderOption)(*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", ProviderId)
 	path := r.Replace("/messaging/providers/smtp/{providerId}")
