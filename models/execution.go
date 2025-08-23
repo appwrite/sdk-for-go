@@ -17,6 +17,8 @@ type Execution struct {
     Permissions []string `json:"$permissions"`
     // Function ID.
     FunctionId string `json:"functionId"`
+    // Function's deployment ID used to create the execution.
+    DeploymentId string `json:"deploymentId"`
     // The trigger that caused the function to execute. Possible values can be:
     // `http`, `schedule`, or `event`.
     Trigger string `json:"trigger"`
