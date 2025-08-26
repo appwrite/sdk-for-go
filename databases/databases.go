@@ -47,6 +47,8 @@ func (srv *Databases) WithListSearch(v string) ListOption {
 	
 // List get a list of all databases from the current Appwrite project. You can
 // use the search parameter to filter your results.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.list` instead.
 func (srv *Databases) List(optionalSetters ...ListOption)(*models.DatabaseList, error) {
 	path := "/databases"
 	options := ListOptions{}.New()
@@ -106,6 +108,8 @@ func (srv *Databases) WithCreateEnabled(v bool) CreateOption {
 }
 					
 // Create create a new Database.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createDatabase` instead.
 func (srv *Databases) Create(DatabaseId string, Name string, optionalSetters ...CreateOption)(*models.Database, error) {
 	path := "/databases"
 	options := CreateOptions{}.New()
@@ -149,6 +153,8 @@ func (srv *Databases) Create(DatabaseId string, Name string, optionalSetters ...
 	
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.get` instead.
 func (srv *Databases) Get(DatabaseId string)(*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}")
@@ -200,6 +206,8 @@ func (srv *Databases) WithUpdateEnabled(v bool) UpdateOption {
 }
 					
 // Update update a database by its unique ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.update` instead.
 func (srv *Databases) Update(DatabaseId string, Name string, optionalSetters ...UpdateOption)(*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}")
@@ -244,6 +252,8 @@ func (srv *Databases) Update(DatabaseId string, Name string, optionalSetters ...
 	
 // Delete delete a database by its unique ID. Only API keys with with
 // databases.write scope can delete a database.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.delete` instead.
 func (srv *Databases) Delete(DatabaseId string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}")
@@ -304,6 +314,8 @@ func (srv *Databases) WithListCollectionsSearch(v string) ListCollectionsOption 
 			
 // ListCollections get a list of all collections that belong to the provided
 // databaseId. You can use the search parameter to filter your results.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listTables` instead.
 func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...ListCollectionsOption)(*models.CollectionList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}/collections")
@@ -384,6 +396,8 @@ func (srv *Databases) WithCreateCollectionEnabled(v bool) CreateCollectionOption
 // should create a new database resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createTable` instead.
 func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...CreateCollectionOption)(*models.Collection, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}/collections")
@@ -435,6 +449,8 @@ func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, N
 			
 // GetCollection get a collection by its unique ID. This endpoint response
 // returns a JSON object with the collection metadata.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getTable` instead.
 func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)(*models.Collection, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
@@ -503,6 +519,8 @@ func (srv *Databases) WithUpdateCollectionEnabled(v bool) UpdateCollectionOption
 }
 							
 // UpdateCollection update a collection by its unique ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTable` instead.
 func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...UpdateCollectionOption)(*models.Collection, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
@@ -554,6 +572,8 @@ func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, N
 			
 // DeleteCollection delete a collection by its unique ID. Only users with
 // write permissions have access to delete this resource.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteTable` instead.
 func (srv *Databases) DeleteCollection(DatabaseId string, CollectionId string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
@@ -606,6 +626,8 @@ func (srv *Databases) WithListAttributesQueries(v []string) ListAttributesOption
 }
 					
 // ListAttributes list attributes in the collection.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listColumns` instead.
 func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string, optionalSetters ...ListAttributesOption)(*models.AttributeList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes")
@@ -673,6 +695,8 @@ func (srv *Databases) WithCreateBooleanAttributeArray(v bool) CreateBooleanAttri
 }
 									
 // CreateBooleanAttribute create a boolean attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createBooleanColumn` instead.
 func (srv *Databases) CreateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateBooleanAttributeOption)(*models.AttributeBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/boolean")
@@ -739,6 +763,8 @@ func (srv *Databases) WithUpdateBooleanAttributeNewKey(v string) UpdateBooleanAt
 											
 // UpdateBooleanAttribute update a boolean attribute. Changing the `default`
 // value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateBooleanColumn` instead.
 func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default bool, optionalSetters ...UpdateBooleanAttributeOption)(*models.AttributeBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/boolean/{key}")
@@ -811,6 +837,8 @@ func (srv *Databases) WithCreateDatetimeAttributeArray(v bool) CreateDatetimeAtt
 									
 // CreateDatetimeAttribute create a date time attribute according to the ISO
 // 8601 standard.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createDatetimeColumn` instead.
 func (srv *Databases) CreateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateDatetimeAttributeOption)(*models.AttributeDatetime, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/datetime")
@@ -877,6 +905,8 @@ func (srv *Databases) WithUpdateDatetimeAttributeNewKey(v string) UpdateDatetime
 											
 // UpdateDatetimeAttribute update a date time attribute. Changing the
 // `default` value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateDatetimeColumn` instead.
 func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateDatetimeAttributeOption)(*models.AttributeDatetime, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/datetime/{key}")
@@ -948,6 +978,8 @@ func (srv *Databases) WithCreateEmailAttributeArray(v bool) CreateEmailAttribute
 }
 									
 // CreateEmailAttribute create an email attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createEmailColumn` instead.
 func (srv *Databases) CreateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateEmailAttributeOption)(*models.AttributeEmail, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/email")
@@ -1014,6 +1046,8 @@ func (srv *Databases) WithUpdateEmailAttributeNewKey(v string) UpdateEmailAttrib
 											
 // UpdateEmailAttribute update an email attribute. Changing the `default`
 // value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateEmailColumn` instead.
 func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateEmailAttributeOption)(*models.AttributeEmail, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/email/{key}")
@@ -1084,8 +1118,10 @@ func (srv *Databases) WithCreateEnumAttributeArray(v bool) CreateEnumAttributeOp
 	}
 }
 											
-// CreateEnumAttribute create an enumeration attribute. The `elements` param
-// acts as a white-list of accepted values for this attribute.
+// CreateEnumAttribute create an enum attribute. The `elements` param acts as
+// a white-list of accepted values for this attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createEnumColumn` instead.
 func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []string, Required bool, optionalSetters ...CreateEnumAttributeOption)(*models.AttributeEnum, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/enum")
@@ -1153,6 +1189,8 @@ func (srv *Databases) WithUpdateEnumAttributeNewKey(v string) UpdateEnumAttribut
 													
 // UpdateEnumAttribute update an enum attribute. Changing the `default` value
 // will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateEnumColumn` instead.
 func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []string, Required bool, Default string, optionalSetters ...UpdateEnumAttributeOption)(*models.AttributeEnum, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}")
@@ -1242,6 +1280,8 @@ func (srv *Databases) WithCreateFloatAttributeArray(v bool) CreateFloatAttribute
 									
 // CreateFloatAttribute create a float attribute. Optionally, minimum and
 // maximum values can be provided.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createFloatColumn` instead.
 func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateFloatAttributeOption)(*models.AttributeFloat, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/float")
@@ -1330,6 +1370,8 @@ func (srv *Databases) WithUpdateFloatAttributeNewKey(v string) UpdateFloatAttrib
 											
 // UpdateFloatAttribute update a float attribute. Changing the `default` value
 // will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateFloatColumn` instead.
 func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default float64, optionalSetters ...UpdateFloatAttributeOption)(*models.AttributeFloat, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}")
@@ -1424,6 +1466,8 @@ func (srv *Databases) WithCreateIntegerAttributeArray(v bool) CreateIntegerAttri
 									
 // CreateIntegerAttribute create an integer attribute. Optionally, minimum and
 // maximum values can be provided.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createIntegerColumn` instead.
 func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateIntegerAttributeOption)(*models.AttributeInteger, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/integer")
@@ -1512,6 +1556,8 @@ func (srv *Databases) WithUpdateIntegerAttributeNewKey(v string) UpdateIntegerAt
 											
 // UpdateIntegerAttribute update an integer attribute. Changing the `default`
 // value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateIntegerColumn` instead.
 func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default int, optionalSetters ...UpdateIntegerAttributeOption)(*models.AttributeInteger, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}")
@@ -1589,6 +1635,8 @@ func (srv *Databases) WithCreateIpAttributeArray(v bool) CreateIpAttributeOption
 }
 									
 // CreateIpAttribute create IP address attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createIpColumn` instead.
 func (srv *Databases) CreateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateIpAttributeOption)(*models.AttributeIp, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/ip")
@@ -1655,6 +1703,8 @@ func (srv *Databases) WithUpdateIpAttributeNewKey(v string) UpdateIpAttributeOpt
 											
 // UpdateIpAttribute update an ip attribute. Changing the `default` value will
 // not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateIpColumn` instead.
 func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateIpAttributeOption)(*models.AttributeIp, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/ip/{key}")
@@ -1744,6 +1794,8 @@ func (srv *Databases) WithCreateRelationshipAttributeOnDelete(v string) CreateRe
 // CreateRelationshipAttribute create relationship attribute. [Learn more
 // about relationship
 // attributes](https://appwrite.io/docs/databases-relationships#relationship-attributes).
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createRelationshipColumn` instead.
 func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionId string, RelatedCollectionId string, Type string, optionalSetters ...CreateRelationshipAttributeOption)(*models.AttributeRelationship, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/relationship")
@@ -1831,6 +1883,8 @@ func (srv *Databases) WithCreateStringAttributeEncrypt(v bool) CreateStringAttri
 }
 											
 // CreateStringAttribute create a string attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createStringColumn` instead.
 func (srv *Databases) CreateStringAttribute(DatabaseId string, CollectionId string, Key string, Size int, Required bool, optionalSetters ...CreateStringAttributeOption)(*models.AttributeString, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/string")
@@ -1909,6 +1963,8 @@ func (srv *Databases) WithUpdateStringAttributeNewKey(v string) UpdateStringAttr
 											
 // UpdateStringAttribute update a string attribute. Changing the `default`
 // value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateStringColumn` instead.
 func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringAttributeOption)(*models.AttributeString, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/string/{key}")
@@ -1983,6 +2039,8 @@ func (srv *Databases) WithCreateUrlAttributeArray(v bool) CreateUrlAttributeOpti
 }
 									
 // CreateUrlAttribute create a URL attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createUrlColumn` instead.
 func (srv *Databases) CreateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateUrlAttributeOption)(*models.AttributeUrl, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/url")
@@ -2049,6 +2107,8 @@ func (srv *Databases) WithUpdateUrlAttributeNewKey(v string) UpdateUrlAttributeO
 											
 // UpdateUrlAttribute update an url attribute. Changing the `default` value
 // will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateUrlColumn` instead.
 func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateUrlAttributeOption)(*models.AttributeUrl, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/url/{key}")
@@ -2095,6 +2155,8 @@ func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string,
 }
 					
 // GetAttribute get attribute by ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getColumn` instead.
 func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}")
@@ -2130,6 +2192,8 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 }
 					
 // DeleteAttribute deletes an attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteColumn` instead.
 func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Key string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}")
@@ -2193,6 +2257,8 @@ func (srv *Databases) WithUpdateRelationshipAttributeNewKey(v string) UpdateRela
 // UpdateRelationshipAttribute update relationship attribute. [Learn more
 // about relationship
 // attributes](https://appwrite.io/docs/databases-relationships#relationship-attributes).
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateRelationshipColumn` instead.
 func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionId string, Key string, optionalSetters ...UpdateRelationshipAttributeOption)(*models.AttributeRelationship, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}/relationship")
@@ -2258,6 +2324,8 @@ func (srv *Databases) WithListDocumentsQueries(v []string) ListDocumentsOption {
 					
 // ListDocuments get a list of all the user's documents in a given collection.
 // You can use the query params to filter your results.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listRows` instead.
 func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, optionalSetters ...ListDocumentsOption)(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
@@ -2320,6 +2388,8 @@ func (srv *Databases) WithCreateDocumentPermissions(v []string) CreateDocumentOp
 // create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createRow` instead.
 func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...CreateDocumentOption)(*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
@@ -2364,14 +2434,12 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 
 }
 					
-// CreateDocuments **WARNING: Experimental Feature** - This endpoint is
-// experimental and not yet officially supported. It may be subject to
-// breaking changes or removal in future versions.
-// 
-// Create new Documents. Before using this route, you should create a new
-// collection resource using either a [server
+// CreateDocuments create new Documents. Before using this route, you should
+// create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createRows` instead.
 func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{})(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
@@ -2408,14 +2476,12 @@ func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Do
 
 }
 					
-// UpsertDocuments **WARNING: Experimental Feature** - This endpoint is
-// experimental and not yet officially supported. It may be subject to
-// breaking changes or removal in future versions.
-// 
-// Create or update Documents. Before using this route, you should create a
-// new collection resource using either a [server
+// UpsertDocuments create or update Documents. Before using this route, you
+// should create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.upsertRows` instead.
 func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, Documents []interface{})(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
@@ -2477,13 +2543,11 @@ func (srv *Databases) WithUpdateDocumentsQueries(v []string) UpdateDocumentsOpti
 	}
 }
 					
-// UpdateDocuments **WARNING: Experimental Feature** - This endpoint is
-// experimental and not yet officially supported. It may be subject to
-// breaking changes or removal in future versions.
-// 
-// Update all documents that match your queries, if no queries are submitted
-// then all documents are updated. You can pass only specific fields to be
-// updated.
+// UpdateDocuments update all documents that match your queries, if no queries
+// are submitted then all documents are updated. You can pass only specific
+// fields to be updated.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateRows` instead.
 func (srv *Databases) UpdateDocuments(DatabaseId string, CollectionId string, optionalSetters ...UpdateDocumentsOption)(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
@@ -2546,12 +2610,10 @@ func (srv *Databases) WithDeleteDocumentsQueries(v []string) DeleteDocumentsOpti
 	}
 }
 					
-// DeleteDocuments **WARNING: Experimental Feature** - This endpoint is
-// experimental and not yet officially supported. It may be subject to
-// breaking changes or removal in future versions.
-// 
-// Bulk delete documents using queries, if no queries are passed then all
-// documents are deleted.
+// DeleteDocuments bulk delete documents using queries, if no queries are
+// passed then all documents are deleted.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteRows` instead.
 func (srv *Databases) DeleteDocuments(DatabaseId string, CollectionId string, optionalSetters ...DeleteDocumentsOption)(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
@@ -2613,6 +2675,8 @@ func (srv *Databases) WithGetDocumentQueries(v []string) GetDocumentOption {
 							
 // GetDocument get a document by its unique ID. This endpoint response returns
 // a JSON object with the document data.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getRow` instead.
 func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...GetDocumentOption)(*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
@@ -2672,14 +2736,12 @@ func (srv *Databases) WithUpsertDocumentPermissions(v []string) UpsertDocumentOp
 	}
 }
 									
-// UpsertDocument **WARNING: Experimental Feature** - This endpoint is
-// experimental and not yet officially supported. It may be subject to
-// breaking changes or removal in future versions.
-// 
-// Create or update a Document. Before using this route, you should create a
-// new collection resource using either a [server
+// UpsertDocument create or update a Document. Before using this route, you
+// should create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.upsertRow` instead.
 func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...UpsertDocumentOption)(*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
@@ -2751,6 +2813,8 @@ func (srv *Databases) WithUpdateDocumentPermissions(v []string) UpdateDocumentOp
 							
 // UpdateDocument update a document by its unique ID. Using the patch method
 // you can pass only specific fields that will get updated.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateRow` instead.
 func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpdateDocumentOption)(*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
@@ -2798,6 +2862,8 @@ func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, Doc
 }
 					
 // DeleteDocument delete a document by its unique ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteRow` instead.
 func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, DocumentId string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
@@ -2860,6 +2926,8 @@ func (srv *Databases) WithDecrementDocumentAttributeMin(v float64) DecrementDocu
 									
 // DecrementDocumentAttribute decrement a specific attribute of a document by
 // a given value.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.decrementRowColumn` instead.
 func (srv *Databases) DecrementDocumentAttribute(DatabaseId string, CollectionId string, DocumentId string, Attribute string, optionalSetters ...DecrementDocumentAttributeOption)(*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId, "{attribute}", Attribute)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/decrement")
@@ -2934,6 +3002,8 @@ func (srv *Databases) WithIncrementDocumentAttributeMax(v float64) IncrementDocu
 									
 // IncrementDocumentAttribute increment a specific attribute of a document by
 // a given value.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.incrementRowColumn` instead.
 func (srv *Databases) IncrementDocumentAttribute(DatabaseId string, CollectionId string, DocumentId string, Attribute string, optionalSetters ...IncrementDocumentAttributeOption)(*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId, "{attribute}", Attribute)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/increment")
@@ -2999,6 +3069,8 @@ func (srv *Databases) WithListIndexesQueries(v []string) ListIndexesOption {
 }
 					
 // ListIndexes list indexes in the collection.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listIndexes` instead.
 func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string, optionalSetters ...ListIndexesOption)(*models.IndexList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes")
@@ -3068,6 +3140,8 @@ func (srv *Databases) WithCreateIndexLengths(v []int) CreateIndexOption {
 // CreateIndex creates an index on the attributes listed. Your index should
 // include all the attributes you will query in a single request.
 // Attributes can be `key`, `fulltext`, and `unique`.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createIndex` instead.
 func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key string, Type string, Attributes []string, optionalSetters ...CreateIndexOption)(*models.Index, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes")
@@ -3117,6 +3191,8 @@ func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key st
 }
 					
 // GetIndex get index by ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getIndex` instead.
 func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key string)(*models.Index, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes/{key}")
@@ -3153,6 +3229,8 @@ func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key strin
 }
 					
 // DeleteIndex delete an index.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteIndex` instead.
 func (srv *Databases) DeleteIndex(DatabaseId string, CollectionId string, Key string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes/{key}")

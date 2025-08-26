@@ -20,7 +20,7 @@ type Provider struct {
     // Is provider enabled?
     Enabled bool `json:"enabled"`
     // Type of provider.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
     // Provider credentials.
     Credentials interface{} `json:"credentials"`
     // Provider options.

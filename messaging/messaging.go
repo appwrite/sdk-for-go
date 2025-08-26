@@ -949,9 +949,114 @@ func (srv *Messaging) WithCreateSmsScheduledAt(v string) CreateSmsOption {
 }
 					
 // CreateSms create a new SMS message.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createSMS` instead.
 func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetters ...CreateSmsOption)(*models.Message, error) {
 	path := "/messaging/messages/sms"
 	options := CreateSmsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["messageId"] = MessageId
+	params["content"] = Content
+	if options.enabledSetters["Topics"] {
+		params["topics"] = options.Topics
+	}
+	if options.enabledSetters["Users"] {
+		params["users"] = options.Users
+	}
+	if options.enabledSetters["Targets"] {
+		params["targets"] = options.Targets
+	}
+	if options.enabledSetters["Draft"] {
+		params["draft"] = options.Draft
+	}
+	if options.enabledSetters["ScheduledAt"] {
+		params["scheduledAt"] = options.ScheduledAt
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Message{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Message
+	parsed, ok := resp.Result.(models.Message)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateSMSOptions struct {
+	Topics []string
+	Users []string
+	Targets []string
+	Draft bool
+	ScheduledAt string
+	enabledSetters map[string]bool
+}
+func (options CreateSMSOptions) New() *CreateSMSOptions {
+	options.enabledSetters = map[string]bool{
+		"Topics": false,
+		"Users": false,
+		"Targets": false,
+		"Draft": false,
+		"ScheduledAt": false,
+	}
+	return &options
+}
+type CreateSMSOption func(*CreateSMSOptions)
+func (srv *Messaging) WithCreateSMSTopics(v []string) CreateSMSOption {
+	return func(o *CreateSMSOptions) {
+		o.Topics = v
+		o.enabledSetters["Topics"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMSUsers(v []string) CreateSMSOption {
+	return func(o *CreateSMSOptions) {
+		o.Users = v
+		o.enabledSetters["Users"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMSTargets(v []string) CreateSMSOption {
+	return func(o *CreateSMSOptions) {
+		o.Targets = v
+		o.enabledSetters["Targets"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMSDraft(v bool) CreateSMSOption {
+	return func(o *CreateSMSOptions) {
+		o.Draft = v
+		o.enabledSetters["Draft"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMSScheduledAt(v string) CreateSMSOption {
+	return func(o *CreateSMSOptions) {
+		o.ScheduledAt = v
+		o.enabledSetters["ScheduledAt"] = true
+	}
+}
+					
+// CreateSMS create a new SMS message.
+func (srv *Messaging) CreateSMS(MessageId string, Content string, optionalSetters ...CreateSMSOption)(*models.Message, error) {
+	path := "/messaging/messages/sms"
+	options := CreateSMSOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
@@ -1062,10 +1167,128 @@ func (srv *Messaging) WithUpdateSmsScheduledAt(v string) UpdateSmsOption {
 // UpdateSms update an SMS message by its unique ID. This endpoint only works
 // on messages that are in draft status. Messages that are already processing,
 // sent, or failed cannot be updated.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateSMS` instead.
 func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOption)(*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", MessageId)
 	path := r.Replace("/messaging/messages/sms/{messageId}")
 	options := UpdateSmsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["messageId"] = MessageId
+	if options.enabledSetters["Topics"] {
+		params["topics"] = options.Topics
+	}
+	if options.enabledSetters["Users"] {
+		params["users"] = options.Users
+	}
+	if options.enabledSetters["Targets"] {
+		params["targets"] = options.Targets
+	}
+	if options.enabledSetters["Content"] {
+		params["content"] = options.Content
+	}
+	if options.enabledSetters["Draft"] {
+		params["draft"] = options.Draft
+	}
+	if options.enabledSetters["ScheduledAt"] {
+		params["scheduledAt"] = options.ScheduledAt
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Message{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Message
+	parsed, ok := resp.Result.(models.Message)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateSMSOptions struct {
+	Topics []string
+	Users []string
+	Targets []string
+	Content string
+	Draft bool
+	ScheduledAt string
+	enabledSetters map[string]bool
+}
+func (options UpdateSMSOptions) New() *UpdateSMSOptions {
+	options.enabledSetters = map[string]bool{
+		"Topics": false,
+		"Users": false,
+		"Targets": false,
+		"Content": false,
+		"Draft": false,
+		"ScheduledAt": false,
+	}
+	return &options
+}
+type UpdateSMSOption func(*UpdateSMSOptions)
+func (srv *Messaging) WithUpdateSMSTopics(v []string) UpdateSMSOption {
+	return func(o *UpdateSMSOptions) {
+		o.Topics = v
+		o.enabledSetters["Topics"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMSUsers(v []string) UpdateSMSOption {
+	return func(o *UpdateSMSOptions) {
+		o.Users = v
+		o.enabledSetters["Users"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMSTargets(v []string) UpdateSMSOption {
+	return func(o *UpdateSMSOptions) {
+		o.Targets = v
+		o.enabledSetters["Targets"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMSContent(v string) UpdateSMSOption {
+	return func(o *UpdateSMSOptions) {
+		o.Content = v
+		o.enabledSetters["Content"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMSDraft(v bool) UpdateSMSOption {
+	return func(o *UpdateSMSOptions) {
+		o.Draft = v
+		o.enabledSetters["Draft"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMSScheduledAt(v string) UpdateSMSOption {
+	return func(o *UpdateSMSOptions) {
+		o.ScheduledAt = v
+		o.enabledSetters["ScheduledAt"] = true
+	}
+}
+			
+// UpdateSMS update an SMS message by its unique ID. This endpoint only works
+// on messages that are in draft status. Messages that are already processing,
+// sent, or failed cannot be updated.
+func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOption)(*models.Message, error) {
+	r := strings.NewReplacer("{messageId}", MessageId)
+	path := r.Replace("/messaging/messages/sms/{messageId}")
+	options := UpdateSMSOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
@@ -1429,9 +1652,125 @@ func (srv *Messaging) WithCreateApnsProviderEnabled(v bool) CreateApnsProviderOp
 }
 					
 // CreateApnsProvider create a new Apple Push Notification service provider.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createAPNSProvider` instead.
 func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optionalSetters ...CreateApnsProviderOption)(*models.Provider, error) {
 	path := "/messaging/providers/apns"
 	options := CreateApnsProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	params["name"] = Name
+	if options.enabledSetters["AuthKey"] {
+		params["authKey"] = options.AuthKey
+	}
+	if options.enabledSetters["AuthKeyId"] {
+		params["authKeyId"] = options.AuthKeyId
+	}
+	if options.enabledSetters["TeamId"] {
+		params["teamId"] = options.TeamId
+	}
+	if options.enabledSetters["BundleId"] {
+		params["bundleId"] = options.BundleId
+	}
+	if options.enabledSetters["Sandbox"] {
+		params["sandbox"] = options.Sandbox
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateAPNSProviderOptions struct {
+	AuthKey string
+	AuthKeyId string
+	TeamId string
+	BundleId string
+	Sandbox bool
+	Enabled bool
+	enabledSetters map[string]bool
+}
+func (options CreateAPNSProviderOptions) New() *CreateAPNSProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"AuthKey": false,
+		"AuthKeyId": false,
+		"TeamId": false,
+		"BundleId": false,
+		"Sandbox": false,
+		"Enabled": false,
+	}
+	return &options
+}
+type CreateAPNSProviderOption func(*CreateAPNSProviderOptions)
+func (srv *Messaging) WithCreateAPNSProviderAuthKey(v string) CreateAPNSProviderOption {
+	return func(o *CreateAPNSProviderOptions) {
+		o.AuthKey = v
+		o.enabledSetters["AuthKey"] = true
+	}
+}
+func (srv *Messaging) WithCreateAPNSProviderAuthKeyId(v string) CreateAPNSProviderOption {
+	return func(o *CreateAPNSProviderOptions) {
+		o.AuthKeyId = v
+		o.enabledSetters["AuthKeyId"] = true
+	}
+}
+func (srv *Messaging) WithCreateAPNSProviderTeamId(v string) CreateAPNSProviderOption {
+	return func(o *CreateAPNSProviderOptions) {
+		o.TeamId = v
+		o.enabledSetters["TeamId"] = true
+	}
+}
+func (srv *Messaging) WithCreateAPNSProviderBundleId(v string) CreateAPNSProviderOption {
+	return func(o *CreateAPNSProviderOptions) {
+		o.BundleId = v
+		o.enabledSetters["BundleId"] = true
+	}
+}
+func (srv *Messaging) WithCreateAPNSProviderSandbox(v bool) CreateAPNSProviderOption {
+	return func(o *CreateAPNSProviderOptions) {
+		o.Sandbox = v
+		o.enabledSetters["Sandbox"] = true
+	}
+}
+func (srv *Messaging) WithCreateAPNSProviderEnabled(v bool) CreateAPNSProviderOption {
+	return func(o *CreateAPNSProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+					
+// CreateAPNSProvider create a new Apple Push Notification service provider.
+func (srv *Messaging) CreateAPNSProvider(ProviderId string, Name string, optionalSetters ...CreateAPNSProviderOption)(*models.Provider, error) {
+	path := "/messaging/providers/apns"
+	options := CreateAPNSProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
@@ -1552,10 +1891,138 @@ func (srv *Messaging) WithUpdateApnsProviderSandbox(v bool) UpdateApnsProviderOp
 			
 // UpdateApnsProvider update a Apple Push Notification service provider by its
 // unique ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateAPNSProvider` instead.
 func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...UpdateApnsProviderOption)(*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", ProviderId)
 	path := r.Replace("/messaging/providers/apns/{providerId}")
 	options := UpdateApnsProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["AuthKey"] {
+		params["authKey"] = options.AuthKey
+	}
+	if options.enabledSetters["AuthKeyId"] {
+		params["authKeyId"] = options.AuthKeyId
+	}
+	if options.enabledSetters["TeamId"] {
+		params["teamId"] = options.TeamId
+	}
+	if options.enabledSetters["BundleId"] {
+		params["bundleId"] = options.BundleId
+	}
+	if options.enabledSetters["Sandbox"] {
+		params["sandbox"] = options.Sandbox
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateAPNSProviderOptions struct {
+	Name string
+	Enabled bool
+	AuthKey string
+	AuthKeyId string
+	TeamId string
+	BundleId string
+	Sandbox bool
+	enabledSetters map[string]bool
+}
+func (options UpdateAPNSProviderOptions) New() *UpdateAPNSProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"Name": false,
+		"Enabled": false,
+		"AuthKey": false,
+		"AuthKeyId": false,
+		"TeamId": false,
+		"BundleId": false,
+		"Sandbox": false,
+	}
+	return &options
+}
+type UpdateAPNSProviderOption func(*UpdateAPNSProviderOptions)
+func (srv *Messaging) WithUpdateAPNSProviderName(v string) UpdateAPNSProviderOption {
+	return func(o *UpdateAPNSProviderOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Messaging) WithUpdateAPNSProviderEnabled(v bool) UpdateAPNSProviderOption {
+	return func(o *UpdateAPNSProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Messaging) WithUpdateAPNSProviderAuthKey(v string) UpdateAPNSProviderOption {
+	return func(o *UpdateAPNSProviderOptions) {
+		o.AuthKey = v
+		o.enabledSetters["AuthKey"] = true
+	}
+}
+func (srv *Messaging) WithUpdateAPNSProviderAuthKeyId(v string) UpdateAPNSProviderOption {
+	return func(o *UpdateAPNSProviderOptions) {
+		o.AuthKeyId = v
+		o.enabledSetters["AuthKeyId"] = true
+	}
+}
+func (srv *Messaging) WithUpdateAPNSProviderTeamId(v string) UpdateAPNSProviderOption {
+	return func(o *UpdateAPNSProviderOptions) {
+		o.TeamId = v
+		o.enabledSetters["TeamId"] = true
+	}
+}
+func (srv *Messaging) WithUpdateAPNSProviderBundleId(v string) UpdateAPNSProviderOption {
+	return func(o *UpdateAPNSProviderOptions) {
+		o.BundleId = v
+		o.enabledSetters["BundleId"] = true
+	}
+}
+func (srv *Messaging) WithUpdateAPNSProviderSandbox(v bool) UpdateAPNSProviderOption {
+	return func(o *UpdateAPNSProviderOptions) {
+		o.Sandbox = v
+		o.enabledSetters["Sandbox"] = true
+	}
+}
+			
+// UpdateAPNSProvider update a Apple Push Notification service provider by its
+// unique ID.
+func (srv *Messaging) UpdateAPNSProvider(ProviderId string, optionalSetters ...UpdateAPNSProviderOption)(*models.Provider, error) {
+	r := strings.NewReplacer("{providerId}", ProviderId)
+	path := r.Replace("/messaging/providers/apns/{providerId}")
+	options := UpdateAPNSProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
@@ -1637,9 +2104,81 @@ func (srv *Messaging) WithCreateFcmProviderEnabled(v bool) CreateFcmProviderOpti
 }
 					
 // CreateFcmProvider create a new Firebase Cloud Messaging provider.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createFCMProvider` instead.
 func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optionalSetters ...CreateFcmProviderOption)(*models.Provider, error) {
 	path := "/messaging/providers/fcm"
 	options := CreateFcmProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	params["name"] = Name
+	if options.enabledSetters["ServiceAccountJSON"] {
+		params["serviceAccountJSON"] = options.ServiceAccountJSON
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateFCMProviderOptions struct {
+	ServiceAccountJSON interface{}
+	Enabled bool
+	enabledSetters map[string]bool
+}
+func (options CreateFCMProviderOptions) New() *CreateFCMProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"ServiceAccountJSON": false,
+		"Enabled": false,
+	}
+	return &options
+}
+type CreateFCMProviderOption func(*CreateFCMProviderOptions)
+func (srv *Messaging) WithCreateFCMProviderServiceAccountJSON(v interface{}) CreateFCMProviderOption {
+	return func(o *CreateFCMProviderOptions) {
+		o.ServiceAccountJSON = v
+		o.enabledSetters["ServiceAccountJSON"] = true
+	}
+}
+func (srv *Messaging) WithCreateFCMProviderEnabled(v bool) CreateFCMProviderOption {
+	return func(o *CreateFCMProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+					
+// CreateFCMProvider create a new Firebase Cloud Messaging provider.
+func (srv *Messaging) CreateFCMProvider(ProviderId string, Name string, optionalSetters ...CreateFCMProviderOption)(*models.Provider, error) {
+	path := "/messaging/providers/fcm"
+	options := CreateFCMProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
@@ -1716,10 +2255,94 @@ func (srv *Messaging) WithUpdateFcmProviderServiceAccountJSON(v interface{}) Upd
 			
 // UpdateFcmProvider update a Firebase Cloud Messaging provider by its unique
 // ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateFCMProvider` instead.
 func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...UpdateFcmProviderOption)(*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", ProviderId)
 	path := r.Replace("/messaging/providers/fcm/{providerId}")
 	options := UpdateFcmProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["ServiceAccountJSON"] {
+		params["serviceAccountJSON"] = options.ServiceAccountJSON
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateFCMProviderOptions struct {
+	Name string
+	Enabled bool
+	ServiceAccountJSON interface{}
+	enabledSetters map[string]bool
+}
+func (options UpdateFCMProviderOptions) New() *UpdateFCMProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"Name": false,
+		"Enabled": false,
+		"ServiceAccountJSON": false,
+	}
+	return &options
+}
+type UpdateFCMProviderOption func(*UpdateFCMProviderOptions)
+func (srv *Messaging) WithUpdateFCMProviderName(v string) UpdateFCMProviderOption {
+	return func(o *UpdateFCMProviderOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Messaging) WithUpdateFCMProviderEnabled(v bool) UpdateFCMProviderOption {
+	return func(o *UpdateFCMProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Messaging) WithUpdateFCMProviderServiceAccountJSON(v interface{}) UpdateFCMProviderOption {
+	return func(o *UpdateFCMProviderOptions) {
+		o.ServiceAccountJSON = v
+		o.enabledSetters["ServiceAccountJSON"] = true
+	}
+}
+			
+// UpdateFCMProvider update a Firebase Cloud Messaging provider by its unique
+// ID.
+func (srv *Messaging) UpdateFCMProvider(ProviderId string, optionalSetters ...UpdateFCMProviderOption)(*models.Provider, error) {
+	r := strings.NewReplacer("{providerId}", ProviderId)
+	path := r.Replace("/messaging/providers/fcm/{providerId}")
+	options := UpdateFCMProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
@@ -2578,9 +3201,181 @@ func (srv *Messaging) WithCreateSmtpProviderEnabled(v bool) CreateSmtpProviderOp
 }
 							
 // CreateSmtpProvider create a new SMTP provider.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createSMTPProvider` instead.
 func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host string, optionalSetters ...CreateSmtpProviderOption)(*models.Provider, error) {
 	path := "/messaging/providers/smtp"
 	options := CreateSmtpProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	params["name"] = Name
+	params["host"] = Host
+	if options.enabledSetters["Port"] {
+		params["port"] = options.Port
+	}
+	if options.enabledSetters["Username"] {
+		params["username"] = options.Username
+	}
+	if options.enabledSetters["Password"] {
+		params["password"] = options.Password
+	}
+	if options.enabledSetters["Encryption"] {
+		params["encryption"] = options.Encryption
+	}
+	if options.enabledSetters["AutoTLS"] {
+		params["autoTLS"] = options.AutoTLS
+	}
+	if options.enabledSetters["Mailer"] {
+		params["mailer"] = options.Mailer
+	}
+	if options.enabledSetters["FromName"] {
+		params["fromName"] = options.FromName
+	}
+	if options.enabledSetters["FromEmail"] {
+		params["fromEmail"] = options.FromEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateSMTPProviderOptions struct {
+	Port int
+	Username string
+	Password string
+	Encryption string
+	AutoTLS bool
+	Mailer string
+	FromName string
+	FromEmail string
+	ReplyToName string
+	ReplyToEmail string
+	Enabled bool
+	enabledSetters map[string]bool
+}
+func (options CreateSMTPProviderOptions) New() *CreateSMTPProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"Port": false,
+		"Username": false,
+		"Password": false,
+		"Encryption": false,
+		"AutoTLS": false,
+		"Mailer": false,
+		"FromName": false,
+		"FromEmail": false,
+		"ReplyToName": false,
+		"ReplyToEmail": false,
+		"Enabled": false,
+	}
+	return &options
+}
+type CreateSMTPProviderOption func(*CreateSMTPProviderOptions)
+func (srv *Messaging) WithCreateSMTPProviderPort(v int) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.Port = v
+		o.enabledSetters["Port"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderUsername(v string) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.Username = v
+		o.enabledSetters["Username"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderPassword(v string) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.Password = v
+		o.enabledSetters["Password"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderEncryption(v string) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.Encryption = v
+		o.enabledSetters["Encryption"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderAutoTLS(v bool) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.AutoTLS = v
+		o.enabledSetters["AutoTLS"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderMailer(v string) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.Mailer = v
+		o.enabledSetters["Mailer"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderFromName(v string) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.FromName = v
+		o.enabledSetters["FromName"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderFromEmail(v string) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.FromEmail = v
+		o.enabledSetters["FromEmail"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderReplyToName(v string) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderReplyToEmail(v string) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+func (srv *Messaging) WithCreateSMTPProviderEnabled(v bool) CreateSMTPProviderOption {
+	return func(o *CreateSMTPProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+							
+// CreateSMTPProvider create a new SMTP provider.
+func (srv *Messaging) CreateSMTPProvider(ProviderId string, Name string, Host string, optionalSetters ...CreateSMTPProviderOption)(*models.Provider, error) {
+	path := "/messaging/providers/smtp"
+	options := CreateSMTPProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
@@ -2764,10 +3559,203 @@ func (srv *Messaging) WithUpdateSmtpProviderEnabled(v bool) UpdateSmtpProviderOp
 }
 			
 // UpdateSmtpProvider update a SMTP provider by its unique ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateSMTPProvider` instead.
 func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...UpdateSmtpProviderOption)(*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", ProviderId)
 	path := r.Replace("/messaging/providers/smtp/{providerId}")
 	options := UpdateSmtpProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["Host"] {
+		params["host"] = options.Host
+	}
+	if options.enabledSetters["Port"] {
+		params["port"] = options.Port
+	}
+	if options.enabledSetters["Username"] {
+		params["username"] = options.Username
+	}
+	if options.enabledSetters["Password"] {
+		params["password"] = options.Password
+	}
+	if options.enabledSetters["Encryption"] {
+		params["encryption"] = options.Encryption
+	}
+	if options.enabledSetters["AutoTLS"] {
+		params["autoTLS"] = options.AutoTLS
+	}
+	if options.enabledSetters["Mailer"] {
+		params["mailer"] = options.Mailer
+	}
+	if options.enabledSetters["FromName"] {
+		params["fromName"] = options.FromName
+	}
+	if options.enabledSetters["FromEmail"] {
+		params["fromEmail"] = options.FromEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateSMTPProviderOptions struct {
+	Name string
+	Host string
+	Port int
+	Username string
+	Password string
+	Encryption string
+	AutoTLS bool
+	Mailer string
+	FromName string
+	FromEmail string
+	ReplyToName string
+	ReplyToEmail string
+	Enabled bool
+	enabledSetters map[string]bool
+}
+func (options UpdateSMTPProviderOptions) New() *UpdateSMTPProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"Name": false,
+		"Host": false,
+		"Port": false,
+		"Username": false,
+		"Password": false,
+		"Encryption": false,
+		"AutoTLS": false,
+		"Mailer": false,
+		"FromName": false,
+		"FromEmail": false,
+		"ReplyToName": false,
+		"ReplyToEmail": false,
+		"Enabled": false,
+	}
+	return &options
+}
+type UpdateSMTPProviderOption func(*UpdateSMTPProviderOptions)
+func (srv *Messaging) WithUpdateSMTPProviderName(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderHost(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.Host = v
+		o.enabledSetters["Host"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderPort(v int) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.Port = v
+		o.enabledSetters["Port"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderUsername(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.Username = v
+		o.enabledSetters["Username"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderPassword(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.Password = v
+		o.enabledSetters["Password"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderEncryption(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.Encryption = v
+		o.enabledSetters["Encryption"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderAutoTLS(v bool) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.AutoTLS = v
+		o.enabledSetters["AutoTLS"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderMailer(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.Mailer = v
+		o.enabledSetters["Mailer"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderFromName(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.FromName = v
+		o.enabledSetters["FromName"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderFromEmail(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.FromEmail = v
+		o.enabledSetters["FromEmail"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderReplyToName(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderReplyToEmail(v string) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSMTPProviderEnabled(v bool) UpdateSMTPProviderOption {
+	return func(o *UpdateSMTPProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+			
+// UpdateSMTPProvider update a SMTP provider by its unique ID.
+func (srv *Messaging) UpdateSMTPProvider(ProviderId string, optionalSetters ...UpdateSMTPProviderOption)(*models.Provider, error) {
+	r := strings.NewReplacer("{providerId}", ProviderId)
+	path := r.Replace("/messaging/providers/smtp/{providerId}")
+	options := UpdateSMTPProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}

@@ -39,5 +39,5 @@
 * Add new push message parameters
 
 
-## 0.9.0
+## 0.10.0
   

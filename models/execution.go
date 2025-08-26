@@ -11,12 +11,14 @@ type Execution struct {
     Id string `json:"$id"`
     // Execution creation date in ISO 8601 format.
     CreatedAt string `json:"$createdAt"`
-    // Execution upate date in ISO 8601 format.
+    // Execution update date in ISO 8601 format.
     UpdatedAt string `json:"$updatedAt"`
     // Execution roles.
     Permissions []string `json:"$permissions"`
     // Function ID.
     FunctionId string `json:"functionId"`
+    // Function's deployment ID used to create the execution.
+    DeploymentId string `json:"deploymentId"`
     // The trigger that caused the function to execute. Possible values can be:
     // `http`, `schedule`, or `event`.
     Trigger string `json:"trigger"`
