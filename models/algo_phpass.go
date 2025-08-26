@@ -8,7 +8,7 @@ import (
 // AlgoPHPass Model
 type AlgoPhpass struct {
     // Algo type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
 
     // Used by Decode() method
     data []byte

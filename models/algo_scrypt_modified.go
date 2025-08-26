@@ -8,7 +8,7 @@ import (
 // AlgoScryptModified Model
 type AlgoScryptModified struct {
     // Algo type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
     // Salt used to compute hash.
     Salt string `json:"salt"`
     // Separator used to compute hash.

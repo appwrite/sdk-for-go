@@ -5,42 +5,41 @@ import (
     "errors"
 )
 
-// ColumnEmail Model
-type ColumnEmail struct {
-    // Column Key.
+// AttributeDatetime Model
+type AttributeDatetime struct {
+    // Attribute Key.
     Key string `json:"key"`
-    // Column type.
-    Type string `json:"xtype"`
-    // Column status. Possible values: `available`, `processing`, `deleting`,
+    // Attribute type.
+    Type string `json:"type"`
+    // Attribute status. Possible values: `available`, `processing`, `deleting`,
     // `stuck`, or `failed`
     Status string `json:"status"`
     // Error message. Displays error generated on failure of creating or deleting
-    // an column.
-    Error string `json:"xerror"`
-    // Is column required?
+    // an attribute.
+    Error string `json:"error"`
+    // Is attribute required?
     Required bool `json:"required"`
-    // Is column an array?
+    // Is attribute an array?
     Array bool `json:"array"`
-    // Column creation date in ISO 8601 format.
+    // Attribute creation date in ISO 8601 format.
     CreatedAt string `json:"$createdAt"`
-    // Column update date in ISO 8601 format.
+    // Attribute update date in ISO 8601 format.
     UpdatedAt string `json:"$updatedAt"`
-    // String format.
+    // ISO 8601 format.
     Format string `json:"format"`
-    // Default value for column when not provided. Cannot be set when column is
-    // required.
-    Default string `json:"xdefault"`
+    // Default value for attribute when not provided. Only null is optional
+    Default string `json:"default"`
 
     // Used by Decode() method
     data []byte
 }
 
-func (model ColumnEmail) New(data []byte) *ColumnEmail {
+func (model AttributeDatetime) New(data []byte) *AttributeDatetime {
     model.data = data
     return &model
 }
 
-func (model *ColumnEmail) Decode(value interface{}) error {
+func (model *AttributeDatetime) Decode(value interface{}) error {
     if len(model.data) <= 0 {
         return errors.New("method Decode() cannot be used on nested struct")
     }

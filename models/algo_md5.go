@@ -5,21 +5,21 @@ import (
     "errors"
 )
 
-// AlgoBcrypt Model
-type AlgoBcrypt struct {
+// AlgoMD5 Model
+type AlgoMd5 struct {
     // Algo type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
 
     // Used by Decode() method
     data []byte
 }
 
-func (model AlgoBcrypt) New(data []byte) *AlgoBcrypt {
+func (model AlgoMd5) New(data []byte) *AlgoMd5 {
     model.data = data
     return &model
 }
 
-func (model *AlgoBcrypt) Decode(value interface{}) error {
+func (model *AlgoMd5) Decode(value interface{}) error {
     if len(model.data) <= 0 {
         return errors.New("method Decode() cannot be used on nested struct")
     }

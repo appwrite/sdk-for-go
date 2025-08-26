@@ -5,18 +5,18 @@ import (
     "errors"
 )
 
-// ColumnFloat Model
-type ColumnFloat struct {
+// ColumnURL Model
+type ColumnUrl struct {
     // Column Key.
     Key string `json:"key"`
     // Column type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
     // Column status. Possible values: `available`, `processing`, `deleting`,
     // `stuck`, or `failed`
     Status string `json:"status"`
     // Error message. Displays error generated on failure of creating or deleting
     // an column.
-    Error string `json:"xerror"`
+    Error string `json:"error"`
     // Is column required?
     Required bool `json:"required"`
     // Is column an array?
@@ -25,24 +25,22 @@ type ColumnFloat struct {
     CreatedAt string `json:"$createdAt"`
     // Column update date in ISO 8601 format.
     UpdatedAt string `json:"$updatedAt"`
-    // Minimum value to enforce for new documents.
-    Min float64 `json:"min"`
-    // Maximum value to enforce for new documents.
-    Max float64 `json:"max"`
+    // String format.
+    Format string `json:"format"`
     // Default value for column when not provided. Cannot be set when column is
     // required.
-    Default float64 `json:"xdefault"`
+    Default string `json:"default"`
 
     // Used by Decode() method
     data []byte
 }
 
-func (model ColumnFloat) New(data []byte) *ColumnFloat {
+func (model ColumnUrl) New(data []byte) *ColumnUrl {
     model.data = data
     return &model
 }
 
-func (model *ColumnFloat) Decode(value interface{}) error {
+func (model *ColumnUrl) Decode(value interface{}) error {
     if len(model.data) <= 0 {
         return errors.New("method Decode() cannot be used on nested struct")
     }

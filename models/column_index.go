@@ -16,13 +16,13 @@ type ColumnIndex struct {
     // Index Key.
     Key string `json:"key"`
     // Index type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
     // Index status. Possible values: `available`, `processing`, `deleting`,
     // `stuck`, or `failed`
     Status string `json:"status"`
     // Error message. Displays error generated on failure of creating or deleting
     // an index.
-    Error string `json:"xerror"`
+    Error string `json:"error"`
     // Index columns.
     Columns []string `json:"columns"`
     // Index columns length.

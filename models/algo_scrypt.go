@@ -8,7 +8,7 @@ import (
 // AlgoScrypt Model
 type AlgoScrypt struct {
     // Algo type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
     // CPU complexity of computed hash.
     CostCpu int `json:"costCpu"`
     // Memory complexity of computed hash.

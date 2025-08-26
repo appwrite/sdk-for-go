@@ -20,7 +20,7 @@ type Database struct {
     // using API keys.
     Enabled bool `json:"enabled"`
     // Database type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
 
     // Used by Decode() method
     data []byte

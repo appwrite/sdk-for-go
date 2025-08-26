@@ -8,7 +8,7 @@ import (
 // AlgoArgon2 Model
 type AlgoArgon2 struct {
     // Algo type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
     // Memory used to compute hash.
     MemoryCost int `json:"memoryCost"`
     // Amount of time consumed to compute hash

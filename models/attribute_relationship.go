@@ -5,28 +5,28 @@ import (
     "errors"
 )
 
-// ColumnRelationship Model
-type ColumnRelationship struct {
-    // Column Key.
+// AttributeRelationship Model
+type AttributeRelationship struct {
+    // Attribute Key.
     Key string `json:"key"`
-    // Column type.
-    Type string `json:"xtype"`
-    // Column status. Possible values: `available`, `processing`, `deleting`,
+    // Attribute type.
+    Type string `json:"type"`
+    // Attribute status. Possible values: `available`, `processing`, `deleting`,
     // `stuck`, or `failed`
     Status string `json:"status"`
     // Error message. Displays error generated on failure of creating or deleting
-    // an column.
-    Error string `json:"xerror"`
-    // Is column required?
+    // an attribute.
+    Error string `json:"error"`
+    // Is attribute required?
     Required bool `json:"required"`
-    // Is column an array?
+    // Is attribute an array?
     Array bool `json:"array"`
-    // Column creation date in ISO 8601 format.
+    // Attribute creation date in ISO 8601 format.
     CreatedAt string `json:"$createdAt"`
-    // Column update date in ISO 8601 format.
+    // Attribute update date in ISO 8601 format.
     UpdatedAt string `json:"$updatedAt"`
-    // The ID of the related table.
-    RelatedTable string `json:"relatedTable"`
+    // The ID of the related collection.
+    RelatedCollection string `json:"relatedCollection"`
     // The type of the relationship.
     RelationType string `json:"relationType"`
     // Is the relationship two-way?
@@ -42,12 +42,12 @@ type ColumnRelationship struct {
     data []byte
 }
 
-func (model ColumnRelationship) New(data []byte) *ColumnRelationship {
+func (model AttributeRelationship) New(data []byte) *AttributeRelationship {
     model.data = data
     return &model
 }
 
-func (model *ColumnRelationship) Decode(value interface{}) error {
+func (model *AttributeRelationship) Decode(value interface{}) error {
     if len(model.data) <= 0 {
         return errors.New("method Decode() cannot be used on nested struct")
     }

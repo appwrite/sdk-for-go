@@ -14,7 +14,7 @@ type Deployment struct {
     // Deployment update date in ISO 8601 format.
     UpdatedAt string `json:"$updatedAt"`
     // Type of deployment.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
     // Resource ID.
     ResourceId string `json:"resourceId"`
     // Resource type.

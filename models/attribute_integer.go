@@ -5,18 +5,18 @@ import (
     "errors"
 )
 
-// AttributeFloat Model
-type AttributeFloat struct {
+// AttributeInteger Model
+type AttributeInteger struct {
     // Attribute Key.
     Key string `json:"key"`
     // Attribute type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
     // Attribute status. Possible values: `available`, `processing`, `deleting`,
     // `stuck`, or `failed`
     Status string `json:"status"`
     // Error message. Displays error generated on failure of creating or deleting
     // an attribute.
-    Error string `json:"xerror"`
+    Error string `json:"error"`
     // Is attribute required?
     Required bool `json:"required"`
     // Is attribute an array?
@@ -26,23 +26,23 @@ type AttributeFloat struct {
     // Attribute update date in ISO 8601 format.
     UpdatedAt string `json:"$updatedAt"`
     // Minimum value to enforce for new documents.
-    Min float64 `json:"min"`
+    Min int `json:"min"`
     // Maximum value to enforce for new documents.
-    Max float64 `json:"max"`
+    Max int `json:"max"`
     // Default value for attribute when not provided. Cannot be set when attribute
     // is required.
-    Default float64 `json:"xdefault"`
+    Default int `json:"default"`
 
     // Used by Decode() method
     data []byte
 }
 
-func (model AttributeFloat) New(data []byte) *AttributeFloat {
+func (model AttributeInteger) New(data []byte) *AttributeInteger {
     model.data = data
     return &model
 }
 
-func (model *AttributeFloat) Decode(value interface{}) error {
+func (model *AttributeInteger) Decode(value interface{}) error {
     if len(model.data) <= 0 {
         return errors.New("method Decode() cannot be used on nested struct")
     }

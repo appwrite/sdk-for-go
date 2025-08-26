@@ -5,18 +5,18 @@ import (
     "errors"
 )
 
-// ColumnURL Model
-type ColumnUrl struct {
+// ColumnDatetime Model
+type ColumnDatetime struct {
     // Column Key.
     Key string `json:"key"`
     // Column type.
-    Type string `json:"xtype"`
+    Type string `json:"type"`
     // Column status. Possible values: `available`, `processing`, `deleting`,
     // `stuck`, or `failed`
     Status string `json:"status"`
     // Error message. Displays error generated on failure of creating or deleting
     // an column.
-    Error string `json:"xerror"`
+    Error string `json:"error"`
     // Is column required?
     Required bool `json:"required"`
     // Is column an array?
@@ -25,22 +25,21 @@ type ColumnUrl struct {
     CreatedAt string `json:"$createdAt"`
     // Column update date in ISO 8601 format.
     UpdatedAt string `json:"$updatedAt"`
-    // String format.
+    // ISO 8601 format.
     Format string `json:"format"`
-    // Default value for column when not provided. Cannot be set when column is
-    // required.
-    Default string `json:"xdefault"`
+    // Default value for column when not provided. Only null is optional
+    Default string `json:"default"`
 
     // Used by Decode() method
     data []byte
 }
 
-func (model ColumnUrl) New(data []byte) *ColumnUrl {
+func (model ColumnDatetime) New(data []byte) *ColumnDatetime {
     model.data = data
     return &model
 }
 
-func (model *ColumnUrl) Decode(value interface{}) error {
+func (model *ColumnDatetime) Decode(value interface{}) error {
     if len(model.data) <= 0 {
         return errors.New("method Decode() cannot be used on nested struct")
     }
