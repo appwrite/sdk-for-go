@@ -1699,6 +1699,414 @@ func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key strin
 	return &parsed, nil
 
 }
+type CreateLineColumnOptions struct {
+	Default string
+	enabledSetters map[string]bool
+}
+func (options CreateLineColumnOptions) New() *CreateLineColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+	}
+	return &options
+}
+type CreateLineColumnOption func(*CreateLineColumnOptions)
+func (srv *TablesDB) WithCreateLineColumnDefault(v string) CreateLineColumnOption {
+	return func(o *CreateLineColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+									
+// CreateLineColumn create a geometric line attribute.
+func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLineColumnOption)(*models.ColumnLine, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line")
+	options := CreateLineColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnLine{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnLine
+	parsed, ok := resp.Result.(models.ColumnLine)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateLineColumnOptions struct {
+	Default string
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateLineColumnOptions) New() *UpdateLineColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateLineColumnOption func(*UpdateLineColumnOptions)
+func (srv *TablesDB) WithUpdateLineColumnDefault(v string) UpdateLineColumnOption {
+	return func(o *UpdateLineColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateLineColumnNewKey(v string) UpdateLineColumnOption {
+	return func(o *UpdateLineColumnOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+									
+// UpdateLineColumn update a line column. Changing the `default` value will
+// not update already existing documents.
+func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdateLineColumnOption)(*models.ColumnLine, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}")
+	options := UpdateLineColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnLine{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnLine
+	parsed, ok := resp.Result.(models.ColumnLine)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreatePointColumnOptions struct {
+	Default string
+	enabledSetters map[string]bool
+}
+func (options CreatePointColumnOptions) New() *CreatePointColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+	}
+	return &options
+}
+type CreatePointColumnOption func(*CreatePointColumnOptions)
+func (srv *TablesDB) WithCreatePointColumnDefault(v string) CreatePointColumnOption {
+	return func(o *CreatePointColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+									
+// CreatePointColumn create a geometric point attribute.
+func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePointColumnOption)(*models.ColumnPoint, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point")
+	options := CreatePointColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnPoint{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnPoint
+	parsed, ok := resp.Result.(models.ColumnPoint)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdatePointColumnOptions struct {
+	Default string
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdatePointColumnOptions) New() *UpdatePointColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdatePointColumnOption func(*UpdatePointColumnOptions)
+func (srv *TablesDB) WithUpdatePointColumnDefault(v string) UpdatePointColumnOption {
+	return func(o *UpdatePointColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithUpdatePointColumnNewKey(v string) UpdatePointColumnOption {
+	return func(o *UpdatePointColumnOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+									
+// UpdatePointColumn update a point column. Changing the `default` value will
+// not update already existing documents.
+func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePointColumnOption)(*models.ColumnPoint, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}")
+	options := UpdatePointColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnPoint{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnPoint
+	parsed, ok := resp.Result.(models.ColumnPoint)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreatePolygonColumnOptions struct {
+	Default string
+	enabledSetters map[string]bool
+}
+func (options CreatePolygonColumnOptions) New() *CreatePolygonColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+	}
+	return &options
+}
+type CreatePolygonColumnOption func(*CreatePolygonColumnOptions)
+func (srv *TablesDB) WithCreatePolygonColumnDefault(v string) CreatePolygonColumnOption {
+	return func(o *CreatePolygonColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+									
+// CreatePolygonColumn create a geometric polygon attribute.
+func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePolygonColumnOption)(*models.ColumnPolygon, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon")
+	options := CreatePolygonColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnPolygon{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnPolygon
+	parsed, ok := resp.Result.(models.ColumnPolygon)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdatePolygonColumnOptions struct {
+	Default string
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdatePolygonColumnOptions) New() *UpdatePolygonColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdatePolygonColumnOption func(*UpdatePolygonColumnOptions)
+func (srv *TablesDB) WithUpdatePolygonColumnDefault(v string) UpdatePolygonColumnOption {
+	return func(o *UpdatePolygonColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithUpdatePolygonColumnNewKey(v string) UpdatePolygonColumnOption {
+	return func(o *UpdatePolygonColumnOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+									
+// UpdatePolygonColumn update a polygon column. Changing the `default` value
+// will not update already existing documents.
+func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePolygonColumnOption)(*models.ColumnPolygon, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}")
+	options := UpdatePolygonColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnPolygon{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnPolygon
+	parsed, ok := resp.Result.(models.ColumnPolygon)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type CreateRelationshipColumnOptions struct {
 	TwoWay bool
 	Key string

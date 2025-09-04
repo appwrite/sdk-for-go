@@ -1496,7 +1496,7 @@ func (srv *Account) CreateEmailPasswordSession(Email string, Password string)(*m
 // response of authentication flows initiated by token creation. For example,
 // magic URL and phone login.
 //
-// Deprecated: This API has been deprecated.
+// Deprecated: This API has been deprecated since 1.6.0. Please use `Account.createSession` instead.
 func (srv *Account) UpdateMagicURLSession(UserId string, Secret string)(*models.Session, error) {
 	path := "/account/sessions/magic-url"
 	params := map[string]interface{}{}
@@ -1536,7 +1536,7 @@ func (srv *Account) UpdateMagicURLSession(UserId string, Secret string)(*models.
 // response of authentication flows initiated by token creation. For example,
 // magic URL and phone login.
 //
-// Deprecated: This API has been deprecated.
+// Deprecated: This API has been deprecated since 1.6.0. Please use `Account.createSession` instead.
 func (srv *Account) UpdatePhoneSession(UserId string, Secret string)(*models.Session, error) {
 	path := "/account/sessions/phone"
 	params := map[string]interface{}{}

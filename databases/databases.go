@@ -109,7 +109,7 @@ func (srv *Databases) WithCreateEnabled(v bool) CreateOption {
 					
 // Create create a new Database.
 //
-// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createDatabase` instead.
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.create` instead.
 func (srv *Databases) Create(DatabaseId string, Name string, optionalSetters ...CreateOption)(*models.Database, error) {
 	path := "/databases"
 	options := CreateOptions{}.New()
@@ -1743,6 +1743,426 @@ func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, 
 	}
 	var parsed models.AttributeIp
 	parsed, ok := resp.Result.(models.AttributeIp)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateLineAttributeOptions struct {
+	Default string
+	enabledSetters map[string]bool
+}
+func (options CreateLineAttributeOptions) New() *CreateLineAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+	}
+	return &options
+}
+type CreateLineAttributeOption func(*CreateLineAttributeOptions)
+func (srv *Databases) WithCreateLineAttributeDefault(v string) CreateLineAttributeOption {
+	return func(o *CreateLineAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+									
+// CreateLineAttribute create a geometric line attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createLineColumn` instead.
+func (srv *Databases) CreateLineAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateLineAttributeOption)(*models.AttributeLine, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/line")
+	options := CreateLineAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeLine{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeLine
+	parsed, ok := resp.Result.(models.AttributeLine)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateLineAttributeOptions struct {
+	Default string
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateLineAttributeOptions) New() *UpdateLineAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateLineAttributeOption func(*UpdateLineAttributeOptions)
+func (srv *Databases) WithUpdateLineAttributeDefault(v string) UpdateLineAttributeOption {
+	return func(o *UpdateLineAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *Databases) WithUpdateLineAttributeNewKey(v string) UpdateLineAttributeOption {
+	return func(o *UpdateLineAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+									
+// UpdateLineAttribute update a line attribute. Changing the `default` value
+// will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateLineColumn` instead.
+func (srv *Databases) UpdateLineAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...UpdateLineAttributeOption)(*models.AttributeLine, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/line/{key}")
+	options := UpdateLineAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeLine{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeLine
+	parsed, ok := resp.Result.(models.AttributeLine)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreatePointAttributeOptions struct {
+	Default string
+	enabledSetters map[string]bool
+}
+func (options CreatePointAttributeOptions) New() *CreatePointAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+	}
+	return &options
+}
+type CreatePointAttributeOption func(*CreatePointAttributeOptions)
+func (srv *Databases) WithCreatePointAttributeDefault(v string) CreatePointAttributeOption {
+	return func(o *CreatePointAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+									
+// CreatePointAttribute create a geometric 2d point attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createPointColumn` instead.
+func (srv *Databases) CreatePointAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreatePointAttributeOption)(*models.AttributePoint, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/point")
+	options := CreatePointAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributePoint{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributePoint
+	parsed, ok := resp.Result.(models.AttributePoint)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdatePointAttributeOptions struct {
+	Default string
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdatePointAttributeOptions) New() *UpdatePointAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdatePointAttributeOption func(*UpdatePointAttributeOptions)
+func (srv *Databases) WithUpdatePointAttributeDefault(v string) UpdatePointAttributeOption {
+	return func(o *UpdatePointAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *Databases) WithUpdatePointAttributeNewKey(v string) UpdatePointAttributeOption {
+	return func(o *UpdatePointAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+									
+// UpdatePointAttribute update a point attribute. Changing the `default` value
+// will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updatePointColumn` instead.
+func (srv *Databases) UpdatePointAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...UpdatePointAttributeOption)(*models.AttributePoint, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/point/{key}")
+	options := UpdatePointAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributePoint{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributePoint
+	parsed, ok := resp.Result.(models.AttributePoint)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreatePolygonAttributeOptions struct {
+	Default string
+	enabledSetters map[string]bool
+}
+func (options CreatePolygonAttributeOptions) New() *CreatePolygonAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+	}
+	return &options
+}
+type CreatePolygonAttributeOption func(*CreatePolygonAttributeOptions)
+func (srv *Databases) WithCreatePolygonAttributeDefault(v string) CreatePolygonAttributeOption {
+	return func(o *CreatePolygonAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+									
+// CreatePolygonAttribute create a geometric polygon attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createPolygonColumn` instead.
+func (srv *Databases) CreatePolygonAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreatePolygonAttributeOption)(*models.AttributePolygon, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/polygon")
+	options := CreatePolygonAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributePolygon{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributePolygon
+	parsed, ok := resp.Result.(models.AttributePolygon)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdatePolygonAttributeOptions struct {
+	Default string
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdatePolygonAttributeOptions) New() *UpdatePolygonAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdatePolygonAttributeOption func(*UpdatePolygonAttributeOptions)
+func (srv *Databases) WithUpdatePolygonAttributeDefault(v string) UpdatePolygonAttributeOption {
+	return func(o *UpdatePolygonAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *Databases) WithUpdatePolygonAttributeNewKey(v string) UpdatePolygonAttributeOption {
+	return func(o *UpdatePolygonAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+									
+// UpdatePolygonAttribute update a polygon attribute. Changing the `default`
+// value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updatePolygonColumn` instead.
+func (srv *Databases) UpdatePolygonAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...UpdatePolygonAttributeOption)(*models.AttributePolygon, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/polygon/{key}")
+	options := UpdatePolygonAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributePolygon{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributePolygon
+	parsed, ok := resp.Result.(models.AttributePolygon)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
