@@ -1700,7 +1700,7 @@ func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key strin
 
 }
 type CreateLineColumnOptions struct {
-	Default string
+	Default []interface{}
 	enabledSetters map[string]bool
 }
 func (options CreateLineColumnOptions) New() *CreateLineColumnOptions {
@@ -1710,7 +1710,7 @@ func (options CreateLineColumnOptions) New() *CreateLineColumnOptions {
 	return &options
 }
 type CreateLineColumnOption func(*CreateLineColumnOptions)
-func (srv *TablesDB) WithCreateLineColumnDefault(v string) CreateLineColumnOption {
+func (srv *TablesDB) WithCreateLineColumnDefault(v []interface{}) CreateLineColumnOption {
 	return func(o *CreateLineColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -1762,7 +1762,7 @@ func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key str
 
 }
 type UpdateLineColumnOptions struct {
-	Default string
+	Default []interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -1774,7 +1774,7 @@ func (options UpdateLineColumnOptions) New() *UpdateLineColumnOptions {
 	return &options
 }
 type UpdateLineColumnOption func(*UpdateLineColumnOptions)
-func (srv *TablesDB) WithUpdateLineColumnDefault(v string) UpdateLineColumnOption {
+func (srv *TablesDB) WithUpdateLineColumnDefault(v []interface{}) UpdateLineColumnOption {
 	return func(o *UpdateLineColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -1836,7 +1836,7 @@ func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key str
 
 }
 type CreatePointColumnOptions struct {
-	Default string
+	Default []interface{}
 	enabledSetters map[string]bool
 }
 func (options CreatePointColumnOptions) New() *CreatePointColumnOptions {
@@ -1846,7 +1846,7 @@ func (options CreatePointColumnOptions) New() *CreatePointColumnOptions {
 	return &options
 }
 type CreatePointColumnOption func(*CreatePointColumnOptions)
-func (srv *TablesDB) WithCreatePointColumnDefault(v string) CreatePointColumnOption {
+func (srv *TablesDB) WithCreatePointColumnDefault(v []interface{}) CreatePointColumnOption {
 	return func(o *CreatePointColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -1898,7 +1898,7 @@ func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key st
 
 }
 type UpdatePointColumnOptions struct {
-	Default string
+	Default []interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -1910,7 +1910,7 @@ func (options UpdatePointColumnOptions) New() *UpdatePointColumnOptions {
 	return &options
 }
 type UpdatePointColumnOption func(*UpdatePointColumnOptions)
-func (srv *TablesDB) WithUpdatePointColumnDefault(v string) UpdatePointColumnOption {
+func (srv *TablesDB) WithUpdatePointColumnDefault(v []interface{}) UpdatePointColumnOption {
 	return func(o *UpdatePointColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -1972,7 +1972,7 @@ func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key st
 
 }
 type CreatePolygonColumnOptions struct {
-	Default string
+	Default []interface{}
 	enabledSetters map[string]bool
 }
 func (options CreatePolygonColumnOptions) New() *CreatePolygonColumnOptions {
@@ -1982,7 +1982,7 @@ func (options CreatePolygonColumnOptions) New() *CreatePolygonColumnOptions {
 	return &options
 }
 type CreatePolygonColumnOption func(*CreatePolygonColumnOptions)
-func (srv *TablesDB) WithCreatePolygonColumnDefault(v string) CreatePolygonColumnOption {
+func (srv *TablesDB) WithCreatePolygonColumnDefault(v []interface{}) CreatePolygonColumnOption {
 	return func(o *CreatePolygonColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2034,7 +2034,7 @@ func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key 
 
 }
 type UpdatePolygonColumnOptions struct {
-	Default string
+	Default []interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -2046,7 +2046,7 @@ func (options UpdatePolygonColumnOptions) New() *UpdatePolygonColumnOptions {
 	return &options
 }
 type UpdatePolygonColumnOption func(*UpdatePolygonColumnOptions)
-func (srv *TablesDB) WithUpdatePolygonColumnDefault(v string) UpdatePolygonColumnOption {
+func (srv *TablesDB) WithUpdatePolygonColumnDefault(v []interface{}) UpdatePolygonColumnOption {
 	return func(o *UpdatePolygonColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true

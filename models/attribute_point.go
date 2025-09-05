@@ -27,7 +27,7 @@ type AttributePoint struct {
     UpdatedAt string `json:"$updatedAt"`
     // Default value for attribute when not provided. Cannot be set when attribute
     // is required.
-    Default interface{} `json:"default"`
+    Default []interface{} `json:"default"`
 
     // Used by Decode() method
     data []byte

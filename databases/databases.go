@@ -1750,7 +1750,7 @@ func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, 
 
 }
 type CreateLineAttributeOptions struct {
-	Default string
+	Default []interface{}
 	enabledSetters map[string]bool
 }
 func (options CreateLineAttributeOptions) New() *CreateLineAttributeOptions {
@@ -1760,7 +1760,7 @@ func (options CreateLineAttributeOptions) New() *CreateLineAttributeOptions {
 	return &options
 }
 type CreateLineAttributeOption func(*CreateLineAttributeOptions)
-func (srv *Databases) WithCreateLineAttributeDefault(v string) CreateLineAttributeOption {
+func (srv *Databases) WithCreateLineAttributeDefault(v []interface{}) CreateLineAttributeOption {
 	return func(o *CreateLineAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -1814,7 +1814,7 @@ func (srv *Databases) CreateLineAttribute(DatabaseId string, CollectionId string
 
 }
 type UpdateLineAttributeOptions struct {
-	Default string
+	Default []interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -1826,7 +1826,7 @@ func (options UpdateLineAttributeOptions) New() *UpdateLineAttributeOptions {
 	return &options
 }
 type UpdateLineAttributeOption func(*UpdateLineAttributeOptions)
-func (srv *Databases) WithUpdateLineAttributeDefault(v string) UpdateLineAttributeOption {
+func (srv *Databases) WithUpdateLineAttributeDefault(v []interface{}) UpdateLineAttributeOption {
 	return func(o *UpdateLineAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -1890,7 +1890,7 @@ func (srv *Databases) UpdateLineAttribute(DatabaseId string, CollectionId string
 
 }
 type CreatePointAttributeOptions struct {
-	Default string
+	Default []interface{}
 	enabledSetters map[string]bool
 }
 func (options CreatePointAttributeOptions) New() *CreatePointAttributeOptions {
@@ -1900,7 +1900,7 @@ func (options CreatePointAttributeOptions) New() *CreatePointAttributeOptions {
 	return &options
 }
 type CreatePointAttributeOption func(*CreatePointAttributeOptions)
-func (srv *Databases) WithCreatePointAttributeDefault(v string) CreatePointAttributeOption {
+func (srv *Databases) WithCreatePointAttributeDefault(v []interface{}) CreatePointAttributeOption {
 	return func(o *CreatePointAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -1954,7 +1954,7 @@ func (srv *Databases) CreatePointAttribute(DatabaseId string, CollectionId strin
 
 }
 type UpdatePointAttributeOptions struct {
-	Default string
+	Default []interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -1966,7 +1966,7 @@ func (options UpdatePointAttributeOptions) New() *UpdatePointAttributeOptions {
 	return &options
 }
 type UpdatePointAttributeOption func(*UpdatePointAttributeOptions)
-func (srv *Databases) WithUpdatePointAttributeDefault(v string) UpdatePointAttributeOption {
+func (srv *Databases) WithUpdatePointAttributeDefault(v []interface{}) UpdatePointAttributeOption {
 	return func(o *UpdatePointAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2030,7 +2030,7 @@ func (srv *Databases) UpdatePointAttribute(DatabaseId string, CollectionId strin
 
 }
 type CreatePolygonAttributeOptions struct {
-	Default string
+	Default []interface{}
 	enabledSetters map[string]bool
 }
 func (options CreatePolygonAttributeOptions) New() *CreatePolygonAttributeOptions {
@@ -2040,7 +2040,7 @@ func (options CreatePolygonAttributeOptions) New() *CreatePolygonAttributeOption
 	return &options
 }
 type CreatePolygonAttributeOption func(*CreatePolygonAttributeOptions)
-func (srv *Databases) WithCreatePolygonAttributeDefault(v string) CreatePolygonAttributeOption {
+func (srv *Databases) WithCreatePolygonAttributeDefault(v []interface{}) CreatePolygonAttributeOption {
 	return func(o *CreatePolygonAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2094,7 +2094,7 @@ func (srv *Databases) CreatePolygonAttribute(DatabaseId string, CollectionId str
 
 }
 type UpdatePolygonAttributeOptions struct {
-	Default string
+	Default []interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -2106,7 +2106,7 @@ func (options UpdatePolygonAttributeOptions) New() *UpdatePolygonAttributeOption
 	return &options
 }
 type UpdatePolygonAttributeOption func(*UpdatePolygonAttributeOptions)
-func (srv *Databases) WithUpdatePolygonAttributeDefault(v string) UpdatePolygonAttributeOption {
+func (srv *Databases) WithUpdatePolygonAttributeDefault(v []interface{}) UpdatePolygonAttributeOption {
 	return func(o *UpdatePolygonAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true

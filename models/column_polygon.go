@@ -27,7 +27,7 @@ type ColumnPolygon struct {
     UpdatedAt string `json:"$updatedAt"`
     // Default value for column when not provided. Cannot be set when column is
     // required.
-    Default interface{} `json:"default"`
+    Default []interface{} `json:"default"`
 
     // Used by Decode() method
     data []byte

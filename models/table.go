@@ -28,7 +28,7 @@ type Table struct {
     // permissions](https://appwrite.io/docs/permissions).
     RowSecurity bool `json:"rowSecurity"`
     // Table columns.
-    Columns []string `json:"columns"`
+    Columns []interface{} `json:"columns"`
     // Table indexes.
     Indexes []ColumnIndex `json:"indexes"`
 
