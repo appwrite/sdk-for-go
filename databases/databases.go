@@ -1907,7 +1907,7 @@ func (srv *Databases) WithCreatePointAttributeDefault(v string) CreatePointAttri
 	}
 }
 									
-// CreatePointAttribute create a geometric 2d point attribute.
+// CreatePointAttribute create a geometric point attribute.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createPointColumn` instead.
 func (srv *Databases) CreatePointAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreatePointAttributeOption)(*models.AttributePoint, error) {

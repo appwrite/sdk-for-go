@@ -1717,7 +1717,7 @@ func (srv *TablesDB) WithCreateLineColumnDefault(v string) CreateLineColumnOptio
 	}
 }
 									
-// CreateLineColumn create a geometric line attribute.
+// CreateLineColumn create a geometric line column.
 func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLineColumnOption)(*models.ColumnLine, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line")
@@ -1788,7 +1788,7 @@ func (srv *TablesDB) WithUpdateLineColumnNewKey(v string) UpdateLineColumnOption
 }
 									
 // UpdateLineColumn update a line column. Changing the `default` value will
-// not update already existing documents.
+// not update already existing rows.
 func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdateLineColumnOption)(*models.ColumnLine, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}")
@@ -1853,7 +1853,7 @@ func (srv *TablesDB) WithCreatePointColumnDefault(v string) CreatePointColumnOpt
 	}
 }
 									
-// CreatePointColumn create a geometric point attribute.
+// CreatePointColumn create a geometric point column.
 func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePointColumnOption)(*models.ColumnPoint, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point")
@@ -1924,7 +1924,7 @@ func (srv *TablesDB) WithUpdatePointColumnNewKey(v string) UpdatePointColumnOpti
 }
 									
 // UpdatePointColumn update a point column. Changing the `default` value will
-// not update already existing documents.
+// not update already existing rows.
 func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePointColumnOption)(*models.ColumnPoint, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}")
@@ -1989,7 +1989,7 @@ func (srv *TablesDB) WithCreatePolygonColumnDefault(v string) CreatePolygonColum
 	}
 }
 									
-// CreatePolygonColumn create a geometric polygon attribute.
+// CreatePolygonColumn create a geometric polygon column.
 func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePolygonColumnOption)(*models.ColumnPolygon, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon")
@@ -2060,7 +2060,7 @@ func (srv *TablesDB) WithUpdatePolygonColumnNewKey(v string) UpdatePolygonColumn
 }
 									
 // UpdatePolygonColumn update a polygon column. Changing the `default` value
-// will not update already existing documents.
+// will not update already existing rows.
 func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePolygonColumnOption)(*models.ColumnPolygon, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}")
