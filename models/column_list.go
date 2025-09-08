@@ -10,7 +10,7 @@ type ColumnList struct {
     // Total number of columns in the given table.
     Total int `json:"total"`
     // List of columns.
-    Columns []string `json:"columns"`
+    Columns []interface{} `json:"columns"`
 
     // Used by Decode() method
     data []byte
