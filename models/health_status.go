@@ -11,7 +11,7 @@ type HealthStatus struct {
     Name string `json:"name"`
     // Duration in milliseconds how long the health check took.
     Ping int `json:"ping"`
-    // Service status. Possible values can are: `pass`, `fail`
+    // Service status. Possible values are: `pass`, `fail`
     Status string `json:"status"`
 
     // Used by Decode() method

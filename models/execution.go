@@ -29,7 +29,7 @@ type Execution struct {
     RequestMethod string `json:"requestMethod"`
     // HTTP request path and query.
     RequestPath string `json:"requestPath"`
-    // HTTP response headers as a key-value object. This will return only
+    // HTTP request headers as a key-value object. This will return only
     // whitelisted headers. All headers are returned if execution is created as
     // synchronous.
     RequestHeaders []Headers `json:"requestHeaders"`
