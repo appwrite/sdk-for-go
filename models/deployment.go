@@ -48,8 +48,6 @@ type Deployment struct {
     ProviderRepositoryOwner string `json:"providerRepositoryOwner"`
     // The url of the vcs provider repository
     ProviderRepositoryUrl string `json:"providerRepositoryUrl"`
-    // The branch of the vcs repository
-    ProviderBranch string `json:"providerBranch"`
     // The commit hash of the vcs commit
     ProviderCommitHash string `json:"providerCommitHash"`
     // The url of vcs commit author
@@ -60,6 +58,8 @@ type Deployment struct {
     ProviderCommitMessage string `json:"providerCommitMessage"`
     // The url of the vcs commit
     ProviderCommitUrl string `json:"providerCommitUrl"`
+    // The branch of the vcs repository
+    ProviderBranch string `json:"providerBranch"`
     // The branch of the vcs repository
     ProviderBranchUrl string `json:"providerBranchUrl"`
 

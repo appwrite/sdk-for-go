@@ -895,8 +895,8 @@ func (srv *Sites) WithCreateTemplateDeploymentActivate(v bool) CreateTemplateDep
 // CreateTemplateDeployment create a deployment based on a template.
 // 
 // Use this endpoint with combination of
-// [listTemplates](https://appwrite.io/docs/server/sites#listTemplates) to
-// find the template details.
+// [listTemplates](https://appwrite.io/docs/products/sites/templates) to find
+// the template details.
 func (srv *Sites) CreateTemplateDeployment(SiteId string, Repository string, Owner string, RootDirectory string, Version string, optionalSetters ...CreateTemplateDeploymentOption)(*models.Deployment, error) {
 	r := strings.NewReplacer("{siteId}", SiteId)
 	path := r.Replace("/sites/{siteId}/deployments/template")

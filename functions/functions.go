@@ -938,7 +938,7 @@ func (srv *Functions) WithCreateTemplateDeploymentActivate(v bool) CreateTemplat
 // CreateTemplateDeployment create a deployment based on a template.
 // 
 // Use this endpoint with combination of
-// [listTemplates](https://appwrite.io/docs/server/functions#listTemplates) to
+// [listTemplates](https://appwrite.io/docs/products/functions/templates) to
 // find the template details.
 func (srv *Functions) CreateTemplateDeployment(FunctionId string, Repository string, Owner string, RootDirectory string, Version string, optionalSetters ...CreateTemplateDeploymentOption)(*models.Deployment, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
