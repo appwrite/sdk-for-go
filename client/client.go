@@ -74,11 +74,11 @@ type Client struct {
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.8.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.13.1 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/0.14.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "0.13.1",
+		"x-sdk-version": "0.14.0",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {

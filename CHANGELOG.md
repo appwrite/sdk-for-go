@@ -1,6 +1,6 @@
 # # Change Log
 
-## 0.13.1
+## 0.14.0
 
 * Deprecate `createVerification` method in `Account` service
 * Add `createEmailVerification` method in `Account` service
@@ -44,5 +44,5 @@
 * Add new push message parameters
 
 
-## 0.13.1
+## 0.14.0
   
