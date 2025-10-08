@@ -382,7 +382,7 @@ func (srv *TablesDB) WithCreateTableEnabled(v bool) CreateTableOption {
 							
 // CreateTable create a new Table. Before using this route, you should create
 // a new database resource using either a [server
-// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
+// integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string, optionalSetters ...CreateTableOption)(*models.Table, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
@@ -2933,7 +2933,7 @@ func (srv *TablesDB) WithCreateRowPermissions(v []string) CreateRowOption {
 									
 // CreateRow create a new Row. Before using this route, you should create a
 // new table resource using either a [server
-// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
+// integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, Data interface{}, optionalSetters ...CreateRowOption)(*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
@@ -2981,7 +2981,7 @@ func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, 
 					
 // CreateRows create new Rows. Before using this route, you should create a
 // new table resource using either a [server
-// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
+// integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interface{})(*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
@@ -3021,7 +3021,7 @@ func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interf
 					
 // UpsertRows create or update Rows. Before using this route, you should
 // create a new table resource using either a [server
-// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
+// integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interface{})(*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
@@ -3281,7 +3281,7 @@ func (srv *TablesDB) WithUpsertRowPermissions(v []string) UpsertRowOption {
 							
 // UpsertRow create or update a Row. Before using this route, you should
 // create a new table resource using either a [server
-// integration](https://appwrite.io/docs/server/tablesdb#tablesDBCreateTable)
+// integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpsertRowOption)(*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)

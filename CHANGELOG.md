@@ -1,5 +1,10 @@
 # # Change Log
 
+## 0.13.1
+
+* Deprecate `createVerification` method in `Account` service
+* Add `createEmailVerification` method in `Account` service
+
 ## 0.9.0
 
 * Add `incrementDocumentAttribute` and `decrementDocumentAttribute` support to `Databases` service
@@ -39,5 +44,5 @@
 * Add new push message parameters
 
 
-## 0.13.0
+## 0.13.1
   

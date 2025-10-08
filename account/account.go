@@ -2045,6 +2045,54 @@ func (srv *Account) CreatePhoneToken(UserId string, Phone string)(*models.Token,
 
 }
 	
+// CreateEmailVerification use this endpoint to send a verification message to
+// your user email address to confirm they are the valid owners of that
+// address. Both the **userId** and **secret** arguments will be passed as
+// query parameters to the URL you have provided to be attached to the
+// verification email. The provided URL should redirect the user back to your
+// app and allow you to complete the verification process by verifying both
+// the **userId** and **secret** parameters. Learn more about how to [complete
+// the verification
+// process](https://appwrite.io/docs/references/cloud/client-web/account#updateVerification).
+// The verification link sent to the user's email address is valid for 7 days.
+// 
+// Please note that in order to avoid a [Redirect
+// Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
+// the only valid redirect URLs are the ones from domains you have set when
+// adding your platforms in the console interface.
+func (srv *Account) CreateEmailVerification(Url string)(*models.Token, error) {
+	path := "/account/verifications/email"
+	params := map[string]interface{}{}
+	params["url"] = Url
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Token{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Token
+	parsed, ok := resp.Result.(models.Token)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
 // CreateVerification use this endpoint to send a verification message to your
 // user email address to confirm they are the valid owners of that address.
 // Both the **userId** and **secret** arguments will be passed as query
@@ -2060,8 +2108,10 @@ func (srv *Account) CreatePhoneToken(UserId string, Phone string)(*models.Token,
 // Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
 // the only valid redirect URLs are the ones from domains you have set when
 // adding your platforms in the console interface.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createEmailVerification` instead.
 func (srv *Account) CreateVerification(Url string)(*models.Token, error) {
-	path := "/account/verification"
+	path := "/account/verifications/email"
 	params := map[string]interface{}{}
 	params["url"] = Url
 	headers := map[string]interface{}{
@@ -2093,12 +2143,52 @@ func (srv *Account) CreateVerification(Url string)(*models.Token, error) {
 
 }
 			
+// UpdateEmailVerification use this endpoint to complete the user email
+// verification process. Use both the **userId** and **secret** parameters
+// that were attached to your app URL to verify the user email ownership. If
+// confirmed this route will return a 200 status code.
+func (srv *Account) UpdateEmailVerification(UserId string, Secret string)(*models.Token, error) {
+	path := "/account/verifications/email"
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	params["secret"] = Secret
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Token{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Token
+	parsed, ok := resp.Result.(models.Token)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
 // UpdateVerification use this endpoint to complete the user email
 // verification process. Use both the **userId** and **secret** parameters
 // that were attached to your app URL to verify the user email ownership. If
 // confirmed this route will return a 200 status code.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateEmailVerification` instead.
 func (srv *Account) UpdateVerification(UserId string, Secret string)(*models.Token, error) {
-	path := "/account/verification"
+	path := "/account/verifications/email"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
@@ -2140,7 +2230,7 @@ func (srv *Account) UpdateVerification(UserId string, Secret string)(*models.Tok
 // The verification code sent to the user's phone number is valid for 15
 // minutes.
 func (srv *Account) CreatePhoneVerification()(*models.Token, error) {
-	path := "/account/verification/phone"
+	path := "/account/verifications/phone"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -2176,7 +2266,7 @@ func (srv *Account) CreatePhoneVerification()(*models.Token, error) {
 // your user's phone number to verify the user email ownership. If confirmed
 // this route will return a 200 status code.
 func (srv *Account) UpdatePhoneVerification(UserId string, Secret string)(*models.Token, error) {
-	path := "/account/verification/phone"
+	path := "/account/verifications/phone"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
