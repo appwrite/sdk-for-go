@@ -150,6 +150,317 @@ func (srv *Databases) Create(DatabaseId string, Name string, optionalSetters ...
 	return &parsed, nil
 
 }
+type ListTransactionsOptions struct {
+	Queries []string
+	enabledSetters map[string]bool
+}
+func (options ListTransactionsOptions) New() *ListTransactionsOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+	}
+	return &options
+}
+type ListTransactionsOption func(*ListTransactionsOptions)
+func (srv *Databases) WithListTransactionsQueries(v []string) ListTransactionsOption {
+	return func(o *ListTransactionsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+	
+// ListTransactions list transactions across all databases.
+func (srv *Databases) ListTransactions(optionalSetters ...ListTransactionsOption)(*models.TransactionList, error) {
+	path := "/databases/transactions"
+	options := ListTransactionsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.TransactionList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.TransactionList
+	parsed, ok := resp.Result.(models.TransactionList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateTransactionOptions struct {
+	Ttl int
+	enabledSetters map[string]bool
+}
+func (options CreateTransactionOptions) New() *CreateTransactionOptions {
+	options.enabledSetters = map[string]bool{
+		"Ttl": false,
+	}
+	return &options
+}
+type CreateTransactionOption func(*CreateTransactionOptions)
+func (srv *Databases) WithCreateTransactionTtl(v int) CreateTransactionOption {
+	return func(o *CreateTransactionOptions) {
+		o.Ttl = v
+		o.enabledSetters["Ttl"] = true
+	}
+}
+	
+// CreateTransaction create a new transaction.
+func (srv *Databases) CreateTransaction(optionalSetters ...CreateTransactionOption)(*models.Transaction, error) {
+	path := "/databases/transactions"
+	options := CreateTransactionOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Ttl"] {
+		params["ttl"] = options.Ttl
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Transaction{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Transaction
+	parsed, ok := resp.Result.(models.Transaction)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// GetTransaction get a transaction by its unique ID.
+func (srv *Databases) GetTransaction(TransactionId string)(*models.Transaction, error) {
+	r := strings.NewReplacer("{transactionId}", TransactionId)
+	path := r.Replace("/databases/transactions/{transactionId}")
+	params := map[string]interface{}{}
+	params["transactionId"] = TransactionId
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Transaction{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Transaction
+	parsed, ok := resp.Result.(models.Transaction)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateTransactionOptions struct {
+	Commit bool
+	Rollback bool
+	enabledSetters map[string]bool
+}
+func (options UpdateTransactionOptions) New() *UpdateTransactionOptions {
+	options.enabledSetters = map[string]bool{
+		"Commit": false,
+		"Rollback": false,
+	}
+	return &options
+}
+type UpdateTransactionOption func(*UpdateTransactionOptions)
+func (srv *Databases) WithUpdateTransactionCommit(v bool) UpdateTransactionOption {
+	return func(o *UpdateTransactionOptions) {
+		o.Commit = v
+		o.enabledSetters["Commit"] = true
+	}
+}
+func (srv *Databases) WithUpdateTransactionRollback(v bool) UpdateTransactionOption {
+	return func(o *UpdateTransactionOptions) {
+		o.Rollback = v
+		o.enabledSetters["Rollback"] = true
+	}
+}
+			
+// UpdateTransaction update a transaction, to either commit or roll back its
+// operations.
+func (srv *Databases) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption)(*models.Transaction, error) {
+	r := strings.NewReplacer("{transactionId}", TransactionId)
+	path := r.Replace("/databases/transactions/{transactionId}")
+	options := UpdateTransactionOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["transactionId"] = TransactionId
+	if options.enabledSetters["Commit"] {
+		params["commit"] = options.Commit
+	}
+	if options.enabledSetters["Rollback"] {
+		params["rollback"] = options.Rollback
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Transaction{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Transaction
+	parsed, ok := resp.Result.(models.Transaction)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// DeleteTransaction delete a transaction by its unique ID.
+func (srv *Databases) DeleteTransaction(TransactionId string)(*interface{}, error) {
+	r := strings.NewReplacer("{transactionId}", TransactionId)
+	path := r.Replace("/databases/transactions/{transactionId}")
+	params := map[string]interface{}{}
+	params["transactionId"] = TransactionId
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateOperationsOptions struct {
+	Operations []interface{}
+	enabledSetters map[string]bool
+}
+func (options CreateOperationsOptions) New() *CreateOperationsOptions {
+	options.enabledSetters = map[string]bool{
+		"Operations": false,
+	}
+	return &options
+}
+type CreateOperationsOption func(*CreateOperationsOptions)
+func (srv *Databases) WithCreateOperationsOperations(v []interface{}) CreateOperationsOption {
+	return func(o *CreateOperationsOptions) {
+		o.Operations = v
+		o.enabledSetters["Operations"] = true
+	}
+}
+			
+// CreateOperations create multiple operations in a single transaction.
+func (srv *Databases) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption)(*models.Transaction, error) {
+	r := strings.NewReplacer("{transactionId}", TransactionId)
+	path := r.Replace("/databases/transactions/{transactionId}/operations")
+	options := CreateOperationsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["transactionId"] = TransactionId
+	if options.enabledSetters["Operations"] {
+		params["operations"] = options.Operations
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Transaction{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Transaction
+	parsed, ok := resp.Result.(models.Transaction)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 	
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
@@ -2726,11 +3037,13 @@ func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionI
 }
 type ListDocumentsOptions struct {
 	Queries []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options ListDocumentsOptions) New() *ListDocumentsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -2739,6 +3052,12 @@ func (srv *Databases) WithListDocumentsQueries(v []string) ListDocumentsOption {
 	return func(o *ListDocumentsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Databases) WithListDocumentsTransactionId(v string) ListDocumentsOption {
+	return func(o *ListDocumentsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 					
@@ -2758,6 +3077,9 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 	params["collectionId"] = CollectionId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 	}
@@ -2788,11 +3110,13 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 }
 type CreateDocumentOptions struct {
 	Permissions []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options CreateDocumentOptions) New() *CreateDocumentOptions {
 	options.enabledSetters = map[string]bool{
 		"Permissions": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -2801,6 +3125,12 @@ func (srv *Databases) WithCreateDocumentPermissions(v []string) CreateDocumentOp
 	return func(o *CreateDocumentOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
+	}
+}
+func (srv *Databases) WithCreateDocumentTransactionId(v string) CreateDocumentOption {
+	return func(o *CreateDocumentOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 									
@@ -2824,6 +3154,9 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 	params["data"] = Data
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -2853,20 +3186,44 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 	return &parsed, nil
 
 }
-					
+type CreateDocumentsOptions struct {
+	TransactionId string
+	enabledSetters map[string]bool
+}
+func (options CreateDocumentsOptions) New() *CreateDocumentsOptions {
+	options.enabledSetters = map[string]bool{
+		"TransactionId": false,
+	}
+	return &options
+}
+type CreateDocumentsOption func(*CreateDocumentsOptions)
+func (srv *Databases) WithCreateDocumentsTransactionId(v string) CreateDocumentsOption {
+	return func(o *CreateDocumentsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
+	}
+}
+							
 // CreateDocuments create new Documents. Before using this route, you should
 // create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createRows` instead.
-func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{})(*models.DocumentList, error) {
+func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{}, optionalSetters ...CreateDocumentsOption)(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
+	options := CreateDocumentsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["documents"] = Documents
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -2895,20 +3252,44 @@ func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Do
 	return &parsed, nil
 
 }
-					
+type UpsertDocumentsOptions struct {
+	TransactionId string
+	enabledSetters map[string]bool
+}
+func (options UpsertDocumentsOptions) New() *UpsertDocumentsOptions {
+	options.enabledSetters = map[string]bool{
+		"TransactionId": false,
+	}
+	return &options
+}
+type UpsertDocumentsOption func(*UpsertDocumentsOptions)
+func (srv *Databases) WithUpsertDocumentsTransactionId(v string) UpsertDocumentsOption {
+	return func(o *UpsertDocumentsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
+	}
+}
+							
 // UpsertDocuments create or update Documents. Before using this route, you
 // should create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.upsertRows` instead.
-func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, Documents []interface{})(*models.DocumentList, error) {
+func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, Documents []interface{}, optionalSetters ...UpsertDocumentsOption)(*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
+	options := UpsertDocumentsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["documents"] = Documents
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -2940,12 +3321,14 @@ func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, Do
 type UpdateDocumentsOptions struct {
 	Data interface{}
 	Queries []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options UpdateDocumentsOptions) New() *UpdateDocumentsOptions {
 	options.enabledSetters = map[string]bool{
 		"Data": false,
 		"Queries": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -2960,6 +3343,12 @@ func (srv *Databases) WithUpdateDocumentsQueries(v []string) UpdateDocumentsOpti
 	return func(o *UpdateDocumentsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Databases) WithUpdateDocumentsTransactionId(v string) UpdateDocumentsOption {
+	return func(o *UpdateDocumentsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 					
@@ -2983,6 +3372,9 @@ func (srv *Databases) UpdateDocuments(DatabaseId string, CollectionId string, op
 	}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3014,11 +3406,13 @@ func (srv *Databases) UpdateDocuments(DatabaseId string, CollectionId string, op
 }
 type DeleteDocumentsOptions struct {
 	Queries []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options DeleteDocumentsOptions) New() *DeleteDocumentsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3027,6 +3421,12 @@ func (srv *Databases) WithDeleteDocumentsQueries(v []string) DeleteDocumentsOpti
 	return func(o *DeleteDocumentsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Databases) WithDeleteDocumentsTransactionId(v string) DeleteDocumentsOption {
+	return func(o *DeleteDocumentsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 					
@@ -3046,6 +3446,9 @@ func (srv *Databases) DeleteDocuments(DatabaseId string, CollectionId string, op
 	params["collectionId"] = CollectionId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3077,11 +3480,13 @@ func (srv *Databases) DeleteDocuments(DatabaseId string, CollectionId string, op
 }
 type GetDocumentOptions struct {
 	Queries []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options GetDocumentOptions) New() *GetDocumentOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3090,6 +3495,12 @@ func (srv *Databases) WithGetDocumentQueries(v []string) GetDocumentOption {
 	return func(o *GetDocumentOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Databases) WithGetDocumentTransactionId(v string) GetDocumentOption {
+	return func(o *GetDocumentOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 							
@@ -3110,6 +3521,9 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 	params["documentId"] = DocumentId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 	}
@@ -3140,11 +3554,13 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 }
 type UpsertDocumentOptions struct {
 	Permissions []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options UpsertDocumentOptions) New() *UpsertDocumentOptions {
 	options.enabledSetters = map[string]bool{
 		"Permissions": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3153,6 +3569,12 @@ func (srv *Databases) WithUpsertDocumentPermissions(v []string) UpsertDocumentOp
 	return func(o *UpsertDocumentOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
+	}
+}
+func (srv *Databases) WithUpsertDocumentTransactionId(v string) UpsertDocumentOption {
+	return func(o *UpsertDocumentOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 									
@@ -3176,6 +3598,9 @@ func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, Doc
 	params["data"] = Data
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3208,12 +3633,14 @@ func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, Doc
 type UpdateDocumentOptions struct {
 	Data interface{}
 	Permissions []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options UpdateDocumentOptions) New() *UpdateDocumentOptions {
 	options.enabledSetters = map[string]bool{
 		"Data": false,
 		"Permissions": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3228,6 +3655,12 @@ func (srv *Databases) WithUpdateDocumentPermissions(v []string) UpdateDocumentOp
 	return func(o *UpdateDocumentOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
+	}
+}
+func (srv *Databases) WithUpdateDocumentTransactionId(v string) UpdateDocumentOption {
+	return func(o *UpdateDocumentOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 							
@@ -3251,6 +3684,9 @@ func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, Doc
 	}
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3280,17 +3716,41 @@ func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, Doc
 	return &parsed, nil
 
 }
-					
+type DeleteDocumentOptions struct {
+	TransactionId string
+	enabledSetters map[string]bool
+}
+func (options DeleteDocumentOptions) New() *DeleteDocumentOptions {
+	options.enabledSetters = map[string]bool{
+		"TransactionId": false,
+	}
+	return &options
+}
+type DeleteDocumentOption func(*DeleteDocumentOptions)
+func (srv *Databases) WithDeleteDocumentTransactionId(v string) DeleteDocumentOption {
+	return func(o *DeleteDocumentOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
+	}
+}
+							
 // DeleteDocument delete a document by its unique ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteRow` instead.
-func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, DocumentId string)(*interface{}, error) {
+func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...DeleteDocumentOption)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
+	options := DeleteDocumentOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["documentId"] = DocumentId
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -3321,12 +3781,14 @@ func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, Doc
 type DecrementDocumentAttributeOptions struct {
 	Value float64
 	Min float64
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options DecrementDocumentAttributeOptions) New() *DecrementDocumentAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Value": false,
 		"Min": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3341,6 +3803,12 @@ func (srv *Databases) WithDecrementDocumentAttributeMin(v float64) DecrementDocu
 	return func(o *DecrementDocumentAttributeOptions) {
 		o.Min = v
 		o.enabledSetters["Min"] = true
+	}
+}
+func (srv *Databases) WithDecrementDocumentAttributeTransactionId(v string) DecrementDocumentAttributeOption {
+	return func(o *DecrementDocumentAttributeOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 									
@@ -3365,6 +3833,9 @@ func (srv *Databases) DecrementDocumentAttribute(DatabaseId string, CollectionId
 	}
 	if options.enabledSetters["Min"] {
 		params["min"] = options.Min
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3397,12 +3868,14 @@ func (srv *Databases) DecrementDocumentAttribute(DatabaseId string, CollectionId
 type IncrementDocumentAttributeOptions struct {
 	Value float64
 	Max float64
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options IncrementDocumentAttributeOptions) New() *IncrementDocumentAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Value": false,
 		"Max": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3417,6 +3890,12 @@ func (srv *Databases) WithIncrementDocumentAttributeMax(v float64) IncrementDocu
 	return func(o *IncrementDocumentAttributeOptions) {
 		o.Max = v
 		o.enabledSetters["Max"] = true
+	}
+}
+func (srv *Databases) WithIncrementDocumentAttributeTransactionId(v string) IncrementDocumentAttributeOption {
+	return func(o *IncrementDocumentAttributeOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 									
@@ -3441,6 +3920,9 @@ func (srv *Databases) IncrementDocumentAttribute(DatabaseId string, CollectionId
 	}
 	if options.enabledSetters["Max"] {
 		params["max"] = options.Max
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3610,7 +4092,7 @@ func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key st
 
 }
 					
-// GetIndex get index by ID.
+// GetIndex get an index by its unique ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getIndex` instead.
 func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key string)(*models.Index, error) {
