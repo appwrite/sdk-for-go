@@ -146,6 +146,317 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 	return &parsed, nil
 
 }
+type ListTransactionsOptions struct {
+	Queries []string
+	enabledSetters map[string]bool
+}
+func (options ListTransactionsOptions) New() *ListTransactionsOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+	}
+	return &options
+}
+type ListTransactionsOption func(*ListTransactionsOptions)
+func (srv *TablesDB) WithListTransactionsQueries(v []string) ListTransactionsOption {
+	return func(o *ListTransactionsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+	
+// ListTransactions list transactions across all databases.
+func (srv *TablesDB) ListTransactions(optionalSetters ...ListTransactionsOption)(*models.TransactionList, error) {
+	path := "/tablesdb/transactions"
+	options := ListTransactionsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.TransactionList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.TransactionList
+	parsed, ok := resp.Result.(models.TransactionList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateTransactionOptions struct {
+	Ttl int
+	enabledSetters map[string]bool
+}
+func (options CreateTransactionOptions) New() *CreateTransactionOptions {
+	options.enabledSetters = map[string]bool{
+		"Ttl": false,
+	}
+	return &options
+}
+type CreateTransactionOption func(*CreateTransactionOptions)
+func (srv *TablesDB) WithCreateTransactionTtl(v int) CreateTransactionOption {
+	return func(o *CreateTransactionOptions) {
+		o.Ttl = v
+		o.enabledSetters["Ttl"] = true
+	}
+}
+	
+// CreateTransaction create a new transaction.
+func (srv *TablesDB) CreateTransaction(optionalSetters ...CreateTransactionOption)(*models.Transaction, error) {
+	path := "/tablesdb/transactions"
+	options := CreateTransactionOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Ttl"] {
+		params["ttl"] = options.Ttl
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Transaction{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Transaction
+	parsed, ok := resp.Result.(models.Transaction)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// GetTransaction get a transaction by its unique ID.
+func (srv *TablesDB) GetTransaction(TransactionId string)(*models.Transaction, error) {
+	r := strings.NewReplacer("{transactionId}", TransactionId)
+	path := r.Replace("/tablesdb/transactions/{transactionId}")
+	params := map[string]interface{}{}
+	params["transactionId"] = TransactionId
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Transaction{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Transaction
+	parsed, ok := resp.Result.(models.Transaction)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateTransactionOptions struct {
+	Commit bool
+	Rollback bool
+	enabledSetters map[string]bool
+}
+func (options UpdateTransactionOptions) New() *UpdateTransactionOptions {
+	options.enabledSetters = map[string]bool{
+		"Commit": false,
+		"Rollback": false,
+	}
+	return &options
+}
+type UpdateTransactionOption func(*UpdateTransactionOptions)
+func (srv *TablesDB) WithUpdateTransactionCommit(v bool) UpdateTransactionOption {
+	return func(o *UpdateTransactionOptions) {
+		o.Commit = v
+		o.enabledSetters["Commit"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateTransactionRollback(v bool) UpdateTransactionOption {
+	return func(o *UpdateTransactionOptions) {
+		o.Rollback = v
+		o.enabledSetters["Rollback"] = true
+	}
+}
+			
+// UpdateTransaction update a transaction, to either commit or roll back its
+// operations.
+func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption)(*models.Transaction, error) {
+	r := strings.NewReplacer("{transactionId}", TransactionId)
+	path := r.Replace("/tablesdb/transactions/{transactionId}")
+	options := UpdateTransactionOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["transactionId"] = TransactionId
+	if options.enabledSetters["Commit"] {
+		params["commit"] = options.Commit
+	}
+	if options.enabledSetters["Rollback"] {
+		params["rollback"] = options.Rollback
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Transaction{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Transaction
+	parsed, ok := resp.Result.(models.Transaction)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// DeleteTransaction delete a transaction by its unique ID.
+func (srv *TablesDB) DeleteTransaction(TransactionId string)(*interface{}, error) {
+	r := strings.NewReplacer("{transactionId}", TransactionId)
+	path := r.Replace("/tablesdb/transactions/{transactionId}")
+	params := map[string]interface{}{}
+	params["transactionId"] = TransactionId
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateOperationsOptions struct {
+	Operations []interface{}
+	enabledSetters map[string]bool
+}
+func (options CreateOperationsOptions) New() *CreateOperationsOptions {
+	options.enabledSetters = map[string]bool{
+		"Operations": false,
+	}
+	return &options
+}
+type CreateOperationsOption func(*CreateOperationsOptions)
+func (srv *TablesDB) WithCreateOperationsOperations(v []interface{}) CreateOperationsOption {
+	return func(o *CreateOperationsOptions) {
+		o.Operations = v
+		o.enabledSetters["Operations"] = true
+	}
+}
+			
+// CreateOperations create multiple operations in a single transaction.
+func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption)(*models.Transaction, error) {
+	r := strings.NewReplacer("{transactionId}", TransactionId)
+	path := r.Replace("/tablesdb/transactions/{transactionId}/operations")
+	options := CreateOperationsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["transactionId"] = TransactionId
+	if options.enabledSetters["Operations"] {
+		params["operations"] = options.Operations
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Transaction{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Transaction
+	parsed, ok := resp.Result.(models.Transaction)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 	
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
@@ -2855,11 +3166,13 @@ func (srv *TablesDB) DeleteIndex(DatabaseId string, TableId string, Key string)(
 }
 type ListRowsOptions struct {
 	Queries []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options ListRowsOptions) New() *ListRowsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -2868,6 +3181,12 @@ func (srv *TablesDB) WithListRowsQueries(v []string) ListRowsOption {
 	return func(o *ListRowsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *TablesDB) WithListRowsTransactionId(v string) ListRowsOption {
+	return func(o *ListRowsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 					
@@ -2885,6 +3204,9 @@ func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters
 	params["tableId"] = TableId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 	}
@@ -2915,11 +3237,13 @@ func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters
 }
 type CreateRowOptions struct {
 	Permissions []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options CreateRowOptions) New() *CreateRowOptions {
 	options.enabledSetters = map[string]bool{
 		"Permissions": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -2928,6 +3252,12 @@ func (srv *TablesDB) WithCreateRowPermissions(v []string) CreateRowOption {
 	return func(o *CreateRowOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
+	}
+}
+func (srv *TablesDB) WithCreateRowTransactionId(v string) CreateRowOption {
+	return func(o *CreateRowOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 									
@@ -2949,6 +3279,9 @@ func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, 
 	params["data"] = Data
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -2978,18 +3311,42 @@ func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, 
 	return &parsed, nil
 
 }
-					
+type CreateRowsOptions struct {
+	TransactionId string
+	enabledSetters map[string]bool
+}
+func (options CreateRowsOptions) New() *CreateRowsOptions {
+	options.enabledSetters = map[string]bool{
+		"TransactionId": false,
+	}
+	return &options
+}
+type CreateRowsOption func(*CreateRowsOptions)
+func (srv *TablesDB) WithCreateRowsTransactionId(v string) CreateRowsOption {
+	return func(o *CreateRowsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
+	}
+}
+							
 // CreateRows create new Rows. Before using this route, you should create a
 // new table resource using either a [server
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
-func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interface{})(*models.RowList, error) {
+func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...CreateRowsOption)(*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
+	options := CreateRowsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["tableId"] = TableId
 	params["rows"] = Rows
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -3018,18 +3375,42 @@ func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interf
 	return &parsed, nil
 
 }
-					
+type UpsertRowsOptions struct {
+	TransactionId string
+	enabledSetters map[string]bool
+}
+func (options UpsertRowsOptions) New() *UpsertRowsOptions {
+	options.enabledSetters = map[string]bool{
+		"TransactionId": false,
+	}
+	return &options
+}
+type UpsertRowsOption func(*UpsertRowsOptions)
+func (srv *TablesDB) WithUpsertRowsTransactionId(v string) UpsertRowsOption {
+	return func(o *UpsertRowsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
+	}
+}
+							
 // UpsertRows create or update Rows. Before using this route, you should
 // create a new table resource using either a [server
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
-func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interface{})(*models.RowList, error) {
+func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...UpsertRowsOption)(*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
+	options := UpsertRowsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["tableId"] = TableId
 	params["rows"] = Rows
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -3061,12 +3442,14 @@ func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interf
 type UpdateRowsOptions struct {
 	Data interface{}
 	Queries []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options UpdateRowsOptions) New() *UpdateRowsOptions {
 	options.enabledSetters = map[string]bool{
 		"Data": false,
 		"Queries": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3081,6 +3464,12 @@ func (srv *TablesDB) WithUpdateRowsQueries(v []string) UpdateRowsOption {
 	return func(o *UpdateRowsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateRowsTransactionId(v string) UpdateRowsOption {
+	return func(o *UpdateRowsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 					
@@ -3102,6 +3491,9 @@ func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSette
 	}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3133,11 +3525,13 @@ func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSette
 }
 type DeleteRowsOptions struct {
 	Queries []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options DeleteRowsOptions) New() *DeleteRowsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3146,6 +3540,12 @@ func (srv *TablesDB) WithDeleteRowsQueries(v []string) DeleteRowsOption {
 	return func(o *DeleteRowsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *TablesDB) WithDeleteRowsTransactionId(v string) DeleteRowsOption {
+	return func(o *DeleteRowsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 					
@@ -3163,6 +3563,9 @@ func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSette
 	params["tableId"] = TableId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3194,11 +3597,13 @@ func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSette
 }
 type GetRowOptions struct {
 	Queries []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options GetRowOptions) New() *GetRowOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3207,6 +3612,12 @@ func (srv *TablesDB) WithGetRowQueries(v []string) GetRowOption {
 	return func(o *GetRowOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *TablesDB) WithGetRowTransactionId(v string) GetRowOption {
+	return func(o *GetRowOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 							
@@ -3225,6 +3636,9 @@ func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, opt
 	params["rowId"] = RowId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 	}
@@ -3256,12 +3670,14 @@ func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, opt
 type UpsertRowOptions struct {
 	Data interface{}
 	Permissions []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options UpsertRowOptions) New() *UpsertRowOptions {
 	options.enabledSetters = map[string]bool{
 		"Data": false,
 		"Permissions": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3276,6 +3692,12 @@ func (srv *TablesDB) WithUpsertRowPermissions(v []string) UpsertRowOption {
 	return func(o *UpsertRowOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
+	}
+}
+func (srv *TablesDB) WithUpsertRowTransactionId(v string) UpsertRowOption {
+	return func(o *UpsertRowOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 							
@@ -3299,6 +3721,9 @@ func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, 
 	}
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3331,12 +3756,14 @@ func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, 
 type UpdateRowOptions struct {
 	Data interface{}
 	Permissions []string
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options UpdateRowOptions) New() *UpdateRowOptions {
 	options.enabledSetters = map[string]bool{
 		"Data": false,
 		"Permissions": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3351,6 +3778,12 @@ func (srv *TablesDB) WithUpdateRowPermissions(v []string) UpdateRowOption {
 	return func(o *UpdateRowOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateRowTransactionId(v string) UpdateRowOption {
+	return func(o *UpdateRowOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 							
@@ -3372,6 +3805,9 @@ func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, 
 	}
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3401,15 +3837,39 @@ func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, 
 	return &parsed, nil
 
 }
-					
+type DeleteRowOptions struct {
+	TransactionId string
+	enabledSetters map[string]bool
+}
+func (options DeleteRowOptions) New() *DeleteRowOptions {
+	options.enabledSetters = map[string]bool{
+		"TransactionId": false,
+	}
+	return &options
+}
+type DeleteRowOption func(*DeleteRowOptions)
+func (srv *TablesDB) WithDeleteRowTransactionId(v string) DeleteRowOption {
+	return func(o *DeleteRowOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
+	}
+}
+							
 // DeleteRow delete a row by its unique ID.
-func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string)(*interface{}, error) {
+func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string, optionalSetters ...DeleteRowOption)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
+	options := DeleteRowOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["tableId"] = TableId
 	params["rowId"] = RowId
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}
@@ -3440,12 +3900,14 @@ func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string)(
 type DecrementRowColumnOptions struct {
 	Value float64
 	Min float64
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options DecrementRowColumnOptions) New() *DecrementRowColumnOptions {
 	options.enabledSetters = map[string]bool{
 		"Value": false,
 		"Min": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3460,6 +3922,12 @@ func (srv *TablesDB) WithDecrementRowColumnMin(v float64) DecrementRowColumnOpti
 	return func(o *DecrementRowColumnOptions) {
 		o.Min = v
 		o.enabledSetters["Min"] = true
+	}
+}
+func (srv *TablesDB) WithDecrementRowColumnTransactionId(v string) DecrementRowColumnOption {
+	return func(o *DecrementRowColumnOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 									
@@ -3481,6 +3949,9 @@ func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId
 	}
 	if options.enabledSetters["Min"] {
 		params["min"] = options.Min
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3513,12 +3984,14 @@ func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId
 type IncrementRowColumnOptions struct {
 	Value float64
 	Max float64
+	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options IncrementRowColumnOptions) New() *IncrementRowColumnOptions {
 	options.enabledSetters = map[string]bool{
 		"Value": false,
 		"Max": false,
+		"TransactionId": false,
 	}
 	return &options
 }
@@ -3533,6 +4006,12 @@ func (srv *TablesDB) WithIncrementRowColumnMax(v float64) IncrementRowColumnOpti
 	return func(o *IncrementRowColumnOptions) {
 		o.Max = v
 		o.enabledSetters["Max"] = true
+	}
+}
+func (srv *TablesDB) WithIncrementRowColumnTransactionId(v string) IncrementRowColumnOption {
+	return func(o *IncrementRowColumnOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 									
@@ -3554,6 +4033,9 @@ func (srv *TablesDB) IncrementRowColumn(DatabaseId string, TableId string, RowId
 	}
 	if options.enabledSetters["Max"] {
 		params["max"] = options.Max
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",

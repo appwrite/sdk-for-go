@@ -9,15 +9,13 @@ import (
 client := client.New(
     client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
     client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithSession("")
+    client.WithKey("<YOUR_API_KEY>")
 )
 
 service := tablesdb.New(client)
 
-response, error := service.GetRow(
-    "<DATABASE_ID>",
-    "<TABLE_ID>",
-    "<ROW_ID>",
-    tablesdb.WithGetRowQueries([]interface{}{}),
-    tablesdb.WithGetRowTransactionId("<TRANSACTION_ID>"),
+response, error := service.UpdateTransaction(
+    "<TRANSACTION_ID>",
+    tablesdb.WithUpdateTransactionCommit(false),
+    tablesdb.WithUpdateTransactionRollback(false),
 )
