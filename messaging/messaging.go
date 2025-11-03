@@ -22,12 +22,14 @@ func New(clt client.Client) *Messaging {
 type ListMessagesOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListMessagesOptions) New() *ListMessagesOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -44,6 +46,12 @@ func (srv *Messaging) WithListMessagesSearch(v string) ListMessagesOption {
 		o.enabledSetters["Search"] = true
 	}
 }
+func (srv *Messaging) WithListMessagesTotal(v bool) ListMessagesOption {
+	return func(o *ListMessagesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
 	
 // ListMessages get a list of all messages from the current Appwrite project.
 func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*models.MessageList, error) {
@@ -58,6 +66,9 @@ func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*model
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -1411,11 +1422,13 @@ func (srv *Messaging) Delete(MessageId string)(*interface{}, error) {
 }
 type ListMessageLogsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListMessageLogsOptions) New() *ListMessageLogsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -1424,6 +1437,12 @@ func (srv *Messaging) WithListMessageLogsQueries(v []string) ListMessageLogsOpti
 	return func(o *ListMessageLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Messaging) WithListMessageLogsTotal(v bool) ListMessageLogsOption {
+	return func(o *ListMessageLogsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -1439,6 +1458,9 @@ func (srv *Messaging) ListMessageLogs(MessageId string, optionalSetters ...ListM
 	params["messageId"] = MessageId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -1469,11 +1491,13 @@ func (srv *Messaging) ListMessageLogs(MessageId string, optionalSetters ...ListM
 }
 type ListTargetsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListTargetsOptions) New() *ListTargetsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -1482,6 +1506,12 @@ func (srv *Messaging) WithListTargetsQueries(v []string) ListTargetsOption {
 	return func(o *ListTargetsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Messaging) WithListTargetsTotal(v bool) ListTargetsOption {
+	return func(o *ListTargetsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -1497,6 +1527,9 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 	params["messageId"] = MessageId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -1528,12 +1561,14 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 type ListProvidersOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListProvidersOptions) New() *ListProvidersOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -1548,6 +1583,12 @@ func (srv *Messaging) WithListProvidersSearch(v string) ListProvidersOption {
 	return func(o *ListProvidersOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Messaging) WithListProvidersTotal(v bool) ListProvidersOption {
+	return func(o *ListProvidersOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 	
@@ -1565,6 +1606,9 @@ func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*mod
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -2834,6 +2878,245 @@ func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...
 	}
 	if options.enabledSetters["AuthKey"] {
 		params["authKey"] = options.AuthKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateResendProviderOptions struct {
+	ApiKey string
+	FromName string
+	FromEmail string
+	ReplyToName string
+	ReplyToEmail string
+	Enabled bool
+	enabledSetters map[string]bool
+}
+func (options CreateResendProviderOptions) New() *CreateResendProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"ApiKey": false,
+		"FromName": false,
+		"FromEmail": false,
+		"ReplyToName": false,
+		"ReplyToEmail": false,
+		"Enabled": false,
+	}
+	return &options
+}
+type CreateResendProviderOption func(*CreateResendProviderOptions)
+func (srv *Messaging) WithCreateResendProviderApiKey(v string) CreateResendProviderOption {
+	return func(o *CreateResendProviderOptions) {
+		o.ApiKey = v
+		o.enabledSetters["ApiKey"] = true
+	}
+}
+func (srv *Messaging) WithCreateResendProviderFromName(v string) CreateResendProviderOption {
+	return func(o *CreateResendProviderOptions) {
+		o.FromName = v
+		o.enabledSetters["FromName"] = true
+	}
+}
+func (srv *Messaging) WithCreateResendProviderFromEmail(v string) CreateResendProviderOption {
+	return func(o *CreateResendProviderOptions) {
+		o.FromEmail = v
+		o.enabledSetters["FromEmail"] = true
+	}
+}
+func (srv *Messaging) WithCreateResendProviderReplyToName(v string) CreateResendProviderOption {
+	return func(o *CreateResendProviderOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
+	}
+}
+func (srv *Messaging) WithCreateResendProviderReplyToEmail(v string) CreateResendProviderOption {
+	return func(o *CreateResendProviderOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+func (srv *Messaging) WithCreateResendProviderEnabled(v bool) CreateResendProviderOption {
+	return func(o *CreateResendProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+					
+// CreateResendProvider create a new Resend provider.
+func (srv *Messaging) CreateResendProvider(ProviderId string, Name string, optionalSetters ...CreateResendProviderOption)(*models.Provider, error) {
+	path := "/messaging/providers/resend"
+	options := CreateResendProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	params["name"] = Name
+	if options.enabledSetters["ApiKey"] {
+		params["apiKey"] = options.ApiKey
+	}
+	if options.enabledSetters["FromName"] {
+		params["fromName"] = options.FromName
+	}
+	if options.enabledSetters["FromEmail"] {
+		params["fromEmail"] = options.FromEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateResendProviderOptions struct {
+	Name string
+	Enabled bool
+	ApiKey string
+	FromName string
+	FromEmail string
+	ReplyToName string
+	ReplyToEmail string
+	enabledSetters map[string]bool
+}
+func (options UpdateResendProviderOptions) New() *UpdateResendProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"Name": false,
+		"Enabled": false,
+		"ApiKey": false,
+		"FromName": false,
+		"FromEmail": false,
+		"ReplyToName": false,
+		"ReplyToEmail": false,
+	}
+	return &options
+}
+type UpdateResendProviderOption func(*UpdateResendProviderOptions)
+func (srv *Messaging) WithUpdateResendProviderName(v string) UpdateResendProviderOption {
+	return func(o *UpdateResendProviderOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Messaging) WithUpdateResendProviderEnabled(v bool) UpdateResendProviderOption {
+	return func(o *UpdateResendProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Messaging) WithUpdateResendProviderApiKey(v string) UpdateResendProviderOption {
+	return func(o *UpdateResendProviderOptions) {
+		o.ApiKey = v
+		o.enabledSetters["ApiKey"] = true
+	}
+}
+func (srv *Messaging) WithUpdateResendProviderFromName(v string) UpdateResendProviderOption {
+	return func(o *UpdateResendProviderOptions) {
+		o.FromName = v
+		o.enabledSetters["FromName"] = true
+	}
+}
+func (srv *Messaging) WithUpdateResendProviderFromEmail(v string) UpdateResendProviderOption {
+	return func(o *UpdateResendProviderOptions) {
+		o.FromEmail = v
+		o.enabledSetters["FromEmail"] = true
+	}
+}
+func (srv *Messaging) WithUpdateResendProviderReplyToName(v string) UpdateResendProviderOption {
+	return func(o *UpdateResendProviderOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
+	}
+}
+func (srv *Messaging) WithUpdateResendProviderReplyToEmail(v string) UpdateResendProviderOption {
+	return func(o *UpdateResendProviderOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+			
+// UpdateResendProvider update a Resend provider by its unique ID.
+func (srv *Messaging) UpdateResendProvider(ProviderId string, optionalSetters ...UpdateResendProviderOption)(*models.Provider, error) {
+	r := strings.NewReplacer("{providerId}", ProviderId)
+	path := r.Replace("/messaging/providers/resend/{providerId}")
+	options := UpdateResendProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["ApiKey"] {
+		params["apiKey"] = options.ApiKey
+	}
+	if options.enabledSetters["FromName"] {
+		params["fromName"] = options.FromName
+	}
+	if options.enabledSetters["FromEmail"] {
+		params["fromEmail"] = options.FromEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -4678,11 +4961,13 @@ func (srv *Messaging) DeleteProvider(ProviderId string)(*interface{}, error) {
 }
 type ListProviderLogsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListProviderLogsOptions) New() *ListProviderLogsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -4691,6 +4976,12 @@ func (srv *Messaging) WithListProviderLogsQueries(v []string) ListProviderLogsOp
 	return func(o *ListProviderLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Messaging) WithListProviderLogsTotal(v bool) ListProviderLogsOption {
+	return func(o *ListProviderLogsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -4706,6 +4997,9 @@ func (srv *Messaging) ListProviderLogs(ProviderId string, optionalSetters ...Lis
 	params["providerId"] = ProviderId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -4736,11 +5030,13 @@ func (srv *Messaging) ListProviderLogs(ProviderId string, optionalSetters ...Lis
 }
 type ListSubscriberLogsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListSubscriberLogsOptions) New() *ListSubscriberLogsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -4749,6 +5045,12 @@ func (srv *Messaging) WithListSubscriberLogsQueries(v []string) ListSubscriberLo
 	return func(o *ListSubscriberLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Messaging) WithListSubscriberLogsTotal(v bool) ListSubscriberLogsOption {
+	return func(o *ListSubscriberLogsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -4765,6 +5067,9 @@ func (srv *Messaging) ListSubscriberLogs(SubscriberId string, optionalSetters ..
 	params["subscriberId"] = SubscriberId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -4796,12 +5101,14 @@ func (srv *Messaging) ListSubscriberLogs(SubscriberId string, optionalSetters ..
 type ListTopicsOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListTopicsOptions) New() *ListTopicsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -4818,6 +5125,12 @@ func (srv *Messaging) WithListTopicsSearch(v string) ListTopicsOption {
 		o.enabledSetters["Search"] = true
 	}
 }
+func (srv *Messaging) WithListTopicsTotal(v bool) ListTopicsOption {
+	return func(o *ListTopicsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
 	
 // ListTopics get a list of all topics from the current Appwrite project.
 func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.TopicList, error) {
@@ -4832,6 +5145,9 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.To
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -5059,11 +5375,13 @@ func (srv *Messaging) DeleteTopic(TopicId string)(*interface{}, error) {
 }
 type ListTopicLogsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListTopicLogsOptions) New() *ListTopicLogsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -5072,6 +5390,12 @@ func (srv *Messaging) WithListTopicLogsQueries(v []string) ListTopicLogsOption {
 	return func(o *ListTopicLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Messaging) WithListTopicLogsTotal(v bool) ListTopicLogsOption {
+	return func(o *ListTopicLogsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -5087,6 +5411,9 @@ func (srv *Messaging) ListTopicLogs(TopicId string, optionalSetters ...ListTopic
 	params["topicId"] = TopicId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -5118,12 +5445,14 @@ func (srv *Messaging) ListTopicLogs(TopicId string, optionalSetters ...ListTopic
 type ListSubscribersOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListSubscribersOptions) New() *ListSubscribersOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -5138,6 +5467,12 @@ func (srv *Messaging) WithListSubscribersSearch(v string) ListSubscribersOption 
 	return func(o *ListSubscribersOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Messaging) WithListSubscribersTotal(v bool) ListSubscribersOption {
+	return func(o *ListSubscribersOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -5157,6 +5492,9 @@ func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSub
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}

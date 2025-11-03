@@ -22,12 +22,14 @@ func New(clt client.Client) *Teams {
 type ListOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListOptions) New() *ListOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -42,6 +44,12 @@ func (srv *Teams) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Teams) WithListTotal(v bool) ListOption {
+	return func(o *ListOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 	
@@ -59,6 +67,9 @@ func (srv *Teams) List(optionalSetters ...ListOption)(*models.TeamList, error) {
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -257,12 +268,14 @@ func (srv *Teams) Delete(TeamId string)(*interface{}, error) {
 type ListMembershipsOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListMembershipsOptions) New() *ListMembershipsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -277,6 +290,12 @@ func (srv *Teams) WithListMembershipsSearch(v string) ListMembershipsOption {
 	return func(o *ListMembershipsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Teams) WithListMembershipsTotal(v bool) ListMembershipsOption {
+	return func(o *ListMembershipsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -297,6 +316,9 @@ func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembersh
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}

@@ -23,12 +23,14 @@ func New(clt client.Client) *Storage {
 type ListBucketsOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListBucketsOptions) New() *ListBucketsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -43,6 +45,12 @@ func (srv *Storage) WithListBucketsSearch(v string) ListBucketsOption {
 	return func(o *ListBucketsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Storage) WithListBucketsTotal(v bool) ListBucketsOption {
+	return func(o *ListBucketsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 	
@@ -60,6 +68,9 @@ func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption)(*models.Bu
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -433,12 +444,14 @@ func (srv *Storage) DeleteBucket(BucketId string)(*interface{}, error) {
 type ListFilesOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListFilesOptions) New() *ListFilesOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -453,6 +466,12 @@ func (srv *Storage) WithListFilesSearch(v string) ListFilesOption {
 	return func(o *ListFilesOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Storage) WithListFilesTotal(v bool) ListFilesOption {
+	return func(o *ListFilesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -472,6 +491,9 @@ func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOptio
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}

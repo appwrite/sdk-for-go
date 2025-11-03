@@ -22,12 +22,14 @@ func New(clt client.Client) *TablesDB {
 type ListOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListOptions) New() *ListOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -42,6 +44,12 @@ func (srv *TablesDB) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *TablesDB) WithListTotal(v bool) ListOption {
+	return func(o *ListOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 	
@@ -59,6 +67,9 @@ func (srv *TablesDB) List(optionalSetters ...ListOption)(*models.DatabaseList, e
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -590,12 +601,14 @@ func (srv *TablesDB) Delete(DatabaseId string)(*interface{}, error) {
 type ListTablesOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListTablesOptions) New() *ListTablesOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -610,6 +623,12 @@ func (srv *TablesDB) WithListTablesSearch(v string) ListTablesOption {
 	return func(o *ListTablesOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *TablesDB) WithListTablesTotal(v bool) ListTablesOption {
+	return func(o *ListTablesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -629,6 +648,9 @@ func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTables
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -900,11 +922,13 @@ func (srv *TablesDB) DeleteTable(DatabaseId string, TableId string)(*interface{}
 }
 type ListColumnsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListColumnsOptions) New() *ListColumnsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -913,6 +937,12 @@ func (srv *TablesDB) WithListColumnsQueries(v []string) ListColumnsOption {
 	return func(o *ListColumnsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *TablesDB) WithListColumnsTotal(v bool) ListColumnsOption {
+	return func(o *ListColumnsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 					
@@ -929,6 +959,9 @@ func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSett
 	params["tableId"] = TableId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -2959,11 +2992,13 @@ func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string,
 }
 type ListIndexesOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListIndexesOptions) New() *ListIndexesOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -2972,6 +3007,12 @@ func (srv *TablesDB) WithListIndexesQueries(v []string) ListIndexesOption {
 	return func(o *ListIndexesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *TablesDB) WithListIndexesTotal(v bool) ListIndexesOption {
+	return func(o *ListIndexesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 					
@@ -2988,6 +3029,9 @@ func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSett
 	params["tableId"] = TableId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -3167,12 +3211,14 @@ func (srv *TablesDB) DeleteIndex(DatabaseId string, TableId string, Key string)(
 type ListRowsOptions struct {
 	Queries []string
 	TransactionId string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListRowsOptions) New() *ListRowsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"TransactionId": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -3187,6 +3233,12 @@ func (srv *TablesDB) WithListRowsTransactionId(v string) ListRowsOption {
 	return func(o *ListRowsOptions) {
 		o.TransactionId = v
 		o.enabledSetters["TransactionId"] = true
+	}
+}
+func (srv *TablesDB) WithListRowsTotal(v bool) ListRowsOption {
+	return func(o *ListRowsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 					
@@ -3207,6 +3259,9 @@ func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters
 	}
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
