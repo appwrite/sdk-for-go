@@ -23,7 +23,7 @@ type Execution struct {
     // `http`, `schedule`, or `event`.
     Trigger string `json:"trigger"`
     // The status of the function execution. Possible values can be: `waiting`,
-    // `processing`, `completed`, or `failed`.
+    // `processing`, `completed`, `failed`, or `scheduled`.
     Status string `json:"status"`
     // HTTP request method type.
     RequestMethod string `json:"requestMethod"`

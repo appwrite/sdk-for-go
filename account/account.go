@@ -160,11 +160,13 @@ func (srv *Account) UpdateEmail(Email string, Password string)(*models.User, err
 }
 type ListIdentitiesOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListIdentitiesOptions) New() *ListIdentitiesOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -173,6 +175,12 @@ func (srv *Account) WithListIdentitiesQueries(v []string) ListIdentitiesOption {
 	return func(o *ListIdentitiesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Account) WithListIdentitiesTotal(v bool) ListIdentitiesOption {
+	return func(o *ListIdentitiesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 	
@@ -186,6 +194,9 @@ func (srv *Account) ListIdentities(optionalSetters ...ListIdentitiesOption)(*mod
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -287,11 +298,13 @@ func (srv *Account) CreateJWT()(*models.Jwt, error) {
 }
 type ListLogsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListLogsOptions) New() *ListLogsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -300,6 +313,12 @@ func (srv *Account) WithListLogsQueries(v []string) ListLogsOption {
 	return func(o *ListLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Account) WithListLogsTotal(v bool) ListLogsOption {
+	return func(o *ListLogsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 	
@@ -315,6 +334,9 @@ func (srv *Account) ListLogs(optionalSetters ...ListLogsOption)(*models.LogList,
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}

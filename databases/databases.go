@@ -22,12 +22,14 @@ func New(clt client.Client) *Databases {
 type ListOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListOptions) New() *ListOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -42,6 +44,12 @@ func (srv *Databases) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Databases) WithListTotal(v bool) ListOption {
+	return func(o *ListOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 	
@@ -61,6 +69,9 @@ func (srv *Databases) List(optionalSetters ...ListOption)(*models.DatabaseList, 
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -600,12 +611,14 @@ func (srv *Databases) Delete(DatabaseId string)(*interface{}, error) {
 type ListCollectionsOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListCollectionsOptions) New() *ListCollectionsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -620,6 +633,12 @@ func (srv *Databases) WithListCollectionsSearch(v string) ListCollectionsOption 
 	return func(o *ListCollectionsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Databases) WithListCollectionsTotal(v bool) ListCollectionsOption {
+	return func(o *ListCollectionsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -641,6 +660,9 @@ func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...List
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -920,11 +942,13 @@ func (srv *Databases) DeleteCollection(DatabaseId string, CollectionId string)(*
 }
 type ListAttributesOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListAttributesOptions) New() *ListAttributesOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -933,6 +957,12 @@ func (srv *Databases) WithListAttributesQueries(v []string) ListAttributesOption
 	return func(o *ListAttributesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Databases) WithListAttributesTotal(v bool) ListAttributesOption {
+	return func(o *ListAttributesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 					
@@ -951,6 +981,9 @@ func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string, opt
 	params["collectionId"] = CollectionId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -3038,12 +3071,14 @@ func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionI
 type ListDocumentsOptions struct {
 	Queries []string
 	TransactionId string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListDocumentsOptions) New() *ListDocumentsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"TransactionId": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -3058,6 +3093,12 @@ func (srv *Databases) WithListDocumentsTransactionId(v string) ListDocumentsOpti
 	return func(o *ListDocumentsOptions) {
 		o.TransactionId = v
 		o.enabledSetters["TransactionId"] = true
+	}
+}
+func (srv *Databases) WithListDocumentsTotal(v bool) ListDocumentsOption {
+	return func(o *ListDocumentsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 					
@@ -3080,6 +3121,9 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 	}
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -3954,11 +3998,13 @@ func (srv *Databases) IncrementDocumentAttribute(DatabaseId string, CollectionId
 }
 type ListIndexesOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListIndexesOptions) New() *ListIndexesOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -3967,6 +4013,12 @@ func (srv *Databases) WithListIndexesQueries(v []string) ListIndexesOption {
 	return func(o *ListIndexesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Databases) WithListIndexesTotal(v bool) ListIndexesOption {
+	return func(o *ListIndexesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 					
@@ -3985,6 +4037,9 @@ func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string, option
 	params["collectionId"] = CollectionId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}

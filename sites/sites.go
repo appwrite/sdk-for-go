@@ -23,12 +23,14 @@ func New(clt client.Client) *Sites {
 type ListOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListOptions) New() *ListOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -43,6 +45,12 @@ func (srv *Sites) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Sites) WithListTotal(v bool) ListOption {
+	return func(o *ListOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 	
@@ -60,6 +68,9 @@ func (srv *Sites) List(optionalSetters ...ListOption)(*models.SiteList, error) {
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -681,12 +692,14 @@ func (srv *Sites) UpdateSiteDeployment(SiteId string, DeploymentId string)(*mode
 type ListDeploymentsOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListDeploymentsOptions) New() *ListDeploymentsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -701,6 +714,12 @@ func (srv *Sites) WithListDeploymentsSearch(v string) ListDeploymentsOption {
 	return func(o *ListDeploymentsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Sites) WithListDeploymentsTotal(v bool) ListDeploymentsOption {
+	return func(o *ListDeploymentsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -720,6 +739,9 @@ func (srv *Sites) ListDeployments(SiteId string, optionalSetters ...ListDeployme
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -1178,11 +1200,13 @@ func (srv *Sites) UpdateDeploymentStatus(SiteId string, DeploymentId string)(*mo
 }
 type ListLogsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListLogsOptions) New() *ListLogsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -1191,6 +1215,12 @@ func (srv *Sites) WithListLogsQueries(v []string) ListLogsOption {
 	return func(o *ListLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Sites) WithListLogsTotal(v bool) ListLogsOption {
+	return func(o *ListLogsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -1207,6 +1237,9 @@ func (srv *Sites) ListLogs(SiteId string, optionalSetters ...ListLogsOption)(*mo
 	params["siteId"] = SiteId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}

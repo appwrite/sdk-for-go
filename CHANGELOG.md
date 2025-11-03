@@ -1,4 +1,10 @@
-# # Change Log
+# Change Log
+
+## v0.14.0
+
+* Add `total` parameter to list queries allowing skipping counting rows in a table for improved performance
+* Add `Operator` class for atomic modification of rows via update, bulk update, upsert, and bulk upsert operations
+* Add `createResendProvider` and `updateResendProvider` methods to `Messaging` service
 
 ## v0.13.1
 
@@ -47,7 +53,3 @@
 ## 0.3.0
 
 * Add new push message parameters
-
-
-## v0.13.1
-  

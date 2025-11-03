@@ -22,12 +22,14 @@ func New(clt client.Client) *Users {
 type ListOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListOptions) New() *ListOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -42,6 +44,12 @@ func (srv *Users) WithListSearch(v string) ListOption {
 	return func(o *ListOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Users) WithListTotal(v bool) ListOption {
+	return func(o *ListOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 	
@@ -59,6 +67,9 @@ func (srv *Users) List(optionalSetters ...ListOption)(*models.UserList, error) {
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -307,12 +318,14 @@ func (srv *Users) CreateBcryptUser(UserId string, Email string, Password string,
 type ListIdentitiesOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListIdentitiesOptions) New() *ListIdentitiesOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -329,6 +342,12 @@ func (srv *Users) WithListIdentitiesSearch(v string) ListIdentitiesOption {
 		o.enabledSetters["Search"] = true
 	}
 }
+func (srv *Users) WithListIdentitiesTotal(v bool) ListIdentitiesOption {
+	return func(o *ListIdentitiesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
 	
 // ListIdentities get identities for all users.
 func (srv *Users) ListIdentities(optionalSetters ...ListIdentitiesOption)(*models.IdentityList, error) {
@@ -343,6 +362,9 @@ func (srv *Users) ListIdentities(optionalSetters ...ListIdentitiesOption)(*model
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -966,11 +988,13 @@ func (srv *Users) UpdateLabels(UserId string, Labels []string)(*models.User, err
 }
 type ListLogsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListLogsOptions) New() *ListLogsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -979,6 +1003,12 @@ func (srv *Users) WithListLogsQueries(v []string) ListLogsOption {
 	return func(o *ListLogsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Users) WithListLogsTotal(v bool) ListLogsOption {
+	return func(o *ListLogsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -994,6 +1024,9 @@ func (srv *Users) ListLogs(UserId string, optionalSetters ...ListLogsOption)(*mo
 	params["userId"] = UserId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -1025,12 +1058,14 @@ func (srv *Users) ListLogs(UserId string, optionalSetters ...ListLogsOption)(*mo
 type ListMembershipsOptions struct {
 	Queries []string
 	Search string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListMembershipsOptions) New() *ListMembershipsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
 		"Search": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -1045,6 +1080,12 @@ func (srv *Users) WithListMembershipsSearch(v string) ListMembershipsOption {
 	return func(o *ListMembershipsOptions) {
 		o.Search = v
 		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Users) WithListMembershipsTotal(v bool) ListMembershipsOption {
+	return func(o *ListMembershipsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -1063,6 +1104,9 @@ func (srv *Users) ListMemberships(UserId string, optionalSetters ...ListMembersh
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
@@ -1723,13 +1767,37 @@ func (srv *Users) UpdatePrefs(UserId string, Prefs interface{})(*models.Preferen
 	return &parsed, nil
 
 }
-	
+type ListSessionsOptions struct {
+	Total bool
+	enabledSetters map[string]bool
+}
+func (options ListSessionsOptions) New() *ListSessionsOptions {
+	options.enabledSetters = map[string]bool{
+		"Total": false,
+	}
+	return &options
+}
+type ListSessionsOption func(*ListSessionsOptions)
+func (srv *Users) WithListSessionsTotal(v bool) ListSessionsOption {
+	return func(o *ListSessionsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+			
 // ListSessions get the user sessions list by its unique ID.
-func (srv *Users) ListSessions(UserId string)(*models.SessionList, error) {
+func (srv *Users) ListSessions(UserId string, optionalSetters ...ListSessionsOption)(*models.SessionList, error) {
 	r := strings.NewReplacer("{userId}", UserId)
 	path := r.Replace("/users/{userId}/sessions")
+	options := ListSessionsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["userId"] = UserId
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
 	headers := map[string]interface{}{
 	}
 
@@ -1906,11 +1974,13 @@ func (srv *Users) UpdateStatus(UserId string, Status bool)(*models.User, error) 
 }
 type ListTargetsOptions struct {
 	Queries []string
+	Total bool
 	enabledSetters map[string]bool
 }
 func (options ListTargetsOptions) New() *ListTargetsOptions {
 	options.enabledSetters = map[string]bool{
 		"Queries": false,
+		"Total": false,
 	}
 	return &options
 }
@@ -1919,6 +1989,12 @@ func (srv *Users) WithListTargetsQueries(v []string) ListTargetsOption {
 	return func(o *ListTargetsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Users) WithListTargetsTotal(v bool) ListTargetsOption {
+	return func(o *ListTargetsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 			
@@ -1934,6 +2010,9 @@ func (srv *Users) ListTargets(UserId string, optionalSetters ...ListTargetsOptio
 	params["userId"] = UserId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
 	}
