@@ -956,13 +956,13 @@ func (srv *Functions) WithCreateTemplateDeploymentActivate(v bool) CreateTemplat
 		o.enabledSetters["Activate"] = true
 	}
 }
-											
+													
 // CreateTemplateDeployment create a deployment based on a template.
 // 
 // Use this endpoint with combination of
 // [listTemplates](https://appwrite.io/docs/products/functions/templates) to
 // find the template details.
-func (srv *Functions) CreateTemplateDeployment(FunctionId string, Repository string, Owner string, RootDirectory string, Version string, optionalSetters ...CreateTemplateDeploymentOption)(*models.Deployment, error) {
+func (srv *Functions) CreateTemplateDeployment(FunctionId string, Repository string, Owner string, RootDirectory string, Type string, Reference string, optionalSetters ...CreateTemplateDeploymentOption)(*models.Deployment, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/deployments/template")
 	options := CreateTemplateDeploymentOptions{}.New()
@@ -974,7 +974,8 @@ func (srv *Functions) CreateTemplateDeployment(FunctionId string, Repository str
 	params["repository"] = Repository
 	params["owner"] = Owner
 	params["rootDirectory"] = RootDirectory
-	params["version"] = Version
+	params["type"] = Type
+	params["reference"] = Reference
 	if options.enabledSetters["Activate"] {
 		params["activate"] = options.Activate
 	}
