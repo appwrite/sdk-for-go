@@ -108,6 +108,7 @@ type CreateBucketOptions struct {
 	Compression string
 	Encryption bool
 	Antivirus bool
+	Transformations bool
 	enabledSetters map[string]bool
 }
 func (options CreateBucketOptions) New() *CreateBucketOptions {
@@ -120,6 +121,7 @@ func (options CreateBucketOptions) New() *CreateBucketOptions {
 		"Compression": false,
 		"Encryption": false,
 		"Antivirus": false,
+		"Transformations": false,
 	}
 	return &options
 }
@@ -172,6 +174,12 @@ func (srv *Storage) WithCreateBucketAntivirus(v bool) CreateBucketOption {
 		o.enabledSetters["Antivirus"] = true
 	}
 }
+func (srv *Storage) WithCreateBucketTransformations(v bool) CreateBucketOption {
+	return func(o *CreateBucketOptions) {
+		o.Transformations = v
+		o.enabledSetters["Transformations"] = true
+	}
+}
 					
 // CreateBucket create a new storage bucket.
 func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters ...CreateBucketOption)(*models.Bucket, error) {
@@ -206,6 +214,9 @@ func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters .
 	}
 	if options.enabledSetters["Antivirus"] {
 		params["antivirus"] = options.Antivirus
+	}
+	if options.enabledSetters["Transformations"] {
+		params["transformations"] = options.Transformations
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -279,6 +290,7 @@ type UpdateBucketOptions struct {
 	Compression string
 	Encryption bool
 	Antivirus bool
+	Transformations bool
 	enabledSetters map[string]bool
 }
 func (options UpdateBucketOptions) New() *UpdateBucketOptions {
@@ -291,6 +303,7 @@ func (options UpdateBucketOptions) New() *UpdateBucketOptions {
 		"Compression": false,
 		"Encryption": false,
 		"Antivirus": false,
+		"Transformations": false,
 	}
 	return &options
 }
@@ -343,6 +356,12 @@ func (srv *Storage) WithUpdateBucketAntivirus(v bool) UpdateBucketOption {
 		o.enabledSetters["Antivirus"] = true
 	}
 }
+func (srv *Storage) WithUpdateBucketTransformations(v bool) UpdateBucketOption {
+	return func(o *UpdateBucketOptions) {
+		o.Transformations = v
+		o.enabledSetters["Transformations"] = true
+	}
+}
 					
 // UpdateBucket update a storage bucket by its unique ID.
 func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters ...UpdateBucketOption)(*models.Bucket, error) {
@@ -378,6 +397,9 @@ func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters .
 	}
 	if options.enabledSetters["Antivirus"] {
 		params["antivirus"] = options.Antivirus
+	}
+	if options.enabledSetters["Transformations"] {
+		params["transformations"] = options.Transformations
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",

@@ -574,3 +574,267 @@ func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption)(*[]byte, 
 	return &parsed, nil
 
 }
+type GetScreenshotOptions struct {
+	Headers interface{}
+	ViewportWidth int
+	ViewportHeight int
+	Scale float64
+	Theme string
+	UserAgent string
+	Fullpage bool
+	Locale string
+	Timezone string
+	Latitude float64
+	Longitude float64
+	Accuracy float64
+	Touch bool
+	Permissions []string
+	Sleep int
+	Width int
+	Height int
+	Quality int
+	Output string
+	enabledSetters map[string]bool
+}
+func (options GetScreenshotOptions) New() *GetScreenshotOptions {
+	options.enabledSetters = map[string]bool{
+		"Headers": false,
+		"ViewportWidth": false,
+		"ViewportHeight": false,
+		"Scale": false,
+		"Theme": false,
+		"UserAgent": false,
+		"Fullpage": false,
+		"Locale": false,
+		"Timezone": false,
+		"Latitude": false,
+		"Longitude": false,
+		"Accuracy": false,
+		"Touch": false,
+		"Permissions": false,
+		"Sleep": false,
+		"Width": false,
+		"Height": false,
+		"Quality": false,
+		"Output": false,
+	}
+	return &options
+}
+type GetScreenshotOption func(*GetScreenshotOptions)
+func (srv *Avatars) WithGetScreenshotHeaders(v interface{}) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Headers = v
+		o.enabledSetters["Headers"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotViewportWidth(v int) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.ViewportWidth = v
+		o.enabledSetters["ViewportWidth"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotViewportHeight(v int) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.ViewportHeight = v
+		o.enabledSetters["ViewportHeight"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotScale(v float64) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Scale = v
+		o.enabledSetters["Scale"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotTheme(v string) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Theme = v
+		o.enabledSetters["Theme"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotUserAgent(v string) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.UserAgent = v
+		o.enabledSetters["UserAgent"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotFullpage(v bool) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Fullpage = v
+		o.enabledSetters["Fullpage"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotLocale(v string) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Locale = v
+		o.enabledSetters["Locale"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotTimezone(v string) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Timezone = v
+		o.enabledSetters["Timezone"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotLatitude(v float64) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Latitude = v
+		o.enabledSetters["Latitude"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotLongitude(v float64) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Longitude = v
+		o.enabledSetters["Longitude"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotAccuracy(v float64) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Accuracy = v
+		o.enabledSetters["Accuracy"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotTouch(v bool) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Touch = v
+		o.enabledSetters["Touch"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotPermissions(v []string) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Permissions = v
+		o.enabledSetters["Permissions"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotSleep(v int) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Sleep = v
+		o.enabledSetters["Sleep"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotWidth(v int) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Width = v
+		o.enabledSetters["Width"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotHeight(v int) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Height = v
+		o.enabledSetters["Height"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotQuality(v int) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Quality = v
+		o.enabledSetters["Quality"] = true
+	}
+}
+func (srv *Avatars) WithGetScreenshotOutput(v string) GetScreenshotOption {
+	return func(o *GetScreenshotOptions) {
+		o.Output = v
+		o.enabledSetters["Output"] = true
+	}
+}
+			
+// GetScreenshot use this endpoint to capture a screenshot of any website URL.
+// This endpoint uses a headless browser to render the webpage and capture it
+// as an image.
+// 
+// You can configure the browser viewport size, theme, user agent,
+// geolocation, permissions, and more. Capture either just the viewport or the
+// full page scroll.
+// 
+// When width and height are specified, the image is resized accordingly. If
+// both dimensions are 0, the API provides an image at original size. If
+// dimensions are not specified, the default viewport size is 1280x720px.
+func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOption)(*[]byte, error) {
+	path := "/avatars/screenshots"
+	options := GetScreenshotOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["url"] = Url
+	if options.enabledSetters["Headers"] {
+		params["headers"] = options.Headers
+	}
+	if options.enabledSetters["ViewportWidth"] {
+		params["viewportWidth"] = options.ViewportWidth
+	}
+	if options.enabledSetters["ViewportHeight"] {
+		params["viewportHeight"] = options.ViewportHeight
+	}
+	if options.enabledSetters["Scale"] {
+		params["scale"] = options.Scale
+	}
+	if options.enabledSetters["Theme"] {
+		params["theme"] = options.Theme
+	}
+	if options.enabledSetters["UserAgent"] {
+		params["userAgent"] = options.UserAgent
+	}
+	if options.enabledSetters["Fullpage"] {
+		params["fullpage"] = options.Fullpage
+	}
+	if options.enabledSetters["Locale"] {
+		params["locale"] = options.Locale
+	}
+	if options.enabledSetters["Timezone"] {
+		params["timezone"] = options.Timezone
+	}
+	if options.enabledSetters["Latitude"] {
+		params["latitude"] = options.Latitude
+	}
+	if options.enabledSetters["Longitude"] {
+		params["longitude"] = options.Longitude
+	}
+	if options.enabledSetters["Accuracy"] {
+		params["accuracy"] = options.Accuracy
+	}
+	if options.enabledSetters["Touch"] {
+		params["touch"] = options.Touch
+	}
+	if options.enabledSetters["Permissions"] {
+		params["permissions"] = options.Permissions
+	}
+	if options.enabledSetters["Sleep"] {
+		params["sleep"] = options.Sleep
+	}
+	if options.enabledSetters["Width"] {
+		params["width"] = options.Width
+	}
+	if options.enabledSetters["Height"] {
+		params["height"] = options.Height
+	}
+	if options.enabledSetters["Quality"] {
+		params["quality"] = options.Quality
+	}
+	if options.enabledSetters["Output"] {
+		params["output"] = options.Output
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed []byte
+	parsed, ok := resp.Result.([]byte)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}

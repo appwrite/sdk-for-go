@@ -35,6 +35,8 @@ type Bucket struct {
     Encryption bool `json:"encryption"`
     // Virus scanning is enabled.
     Antivirus bool `json:"antivirus"`
+    // Image transformations are enabled.
+    Transformations bool `json:"transformations"`
 
     // Used by Decode() method
     data []byte
