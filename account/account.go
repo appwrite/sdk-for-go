@@ -635,7 +635,7 @@ func (srv *Account) DeleteMFAAuthenticator(Type string)(*interface{}, error) {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createMFAChallenge` instead.
 func (srv *Account) CreateMfaChallenge(Factor string)(*models.MfaChallenge, error) {
-	path := "/account/mfa/challenge"
+	path := "/account/mfa/challenges"
 	params := map[string]interface{}{}
 	params["factor"] = Factor
 	headers := map[string]interface{}{
@@ -672,7 +672,7 @@ func (srv *Account) CreateMfaChallenge(Factor string)(*models.MfaChallenge, erro
 // [updateMfaChallenge](/docs/references/cloud/client-web/account#updateMfaChallenge)
 // method.
 func (srv *Account) CreateMFAChallenge(Factor string)(*models.MfaChallenge, error) {
-	path := "/account/mfa/challenge"
+	path := "/account/mfa/challenges"
 	params := map[string]interface{}{}
 	params["factor"] = Factor
 	headers := map[string]interface{}{
@@ -712,7 +712,7 @@ func (srv *Account) CreateMFAChallenge(Factor string)(*models.MfaChallenge, erro
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateMFAChallenge` instead.
 func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string)(*models.Session, error) {
-	path := "/account/mfa/challenge"
+	path := "/account/mfa/challenges"
 	params := map[string]interface{}{}
 	params["challengeId"] = ChallengeId
 	params["otp"] = Otp
@@ -751,7 +751,7 @@ func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string)(*models.S
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method.
 func (srv *Account) UpdateMFAChallenge(ChallengeId string, Otp string)(*models.Session, error) {
-	path := "/account/mfa/challenge"
+	path := "/account/mfa/challenges"
 	params := map[string]interface{}{}
 	params["challengeId"] = ChallengeId
 	params["otp"] = Otp
