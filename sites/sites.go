@@ -806,7 +806,7 @@ func (srv *Sites) WithCreateDeploymentOutputDirectory(v string) CreateDeployment
 							
 // CreateDeployment create a new site code deployment. Use this endpoint to
 // upload a new version of your site code. To activate your newly uploaded
-// code, you'll need to update the function's deployment to use your new
+// code, you'll need to update the site's deployment to use your new
 // deployment ID.
 func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, Activate bool, optionalSetters ...CreateDeploymentOption)(*models.Deployment, error) {
 	r := strings.NewReplacer("{siteId}", SiteId)
@@ -913,13 +913,13 @@ func (srv *Sites) WithCreateTemplateDeploymentActivate(v bool) CreateTemplateDep
 		o.enabledSetters["Activate"] = true
 	}
 }
-											
+													
 // CreateTemplateDeployment create a deployment based on a template.
 // 
 // Use this endpoint with combination of
 // [listTemplates](https://appwrite.io/docs/products/sites/templates) to find
 // the template details.
-func (srv *Sites) CreateTemplateDeployment(SiteId string, Repository string, Owner string, RootDirectory string, Version string, optionalSetters ...CreateTemplateDeploymentOption)(*models.Deployment, error) {
+func (srv *Sites) CreateTemplateDeployment(SiteId string, Repository string, Owner string, RootDirectory string, Type string, Reference string, optionalSetters ...CreateTemplateDeploymentOption)(*models.Deployment, error) {
 	r := strings.NewReplacer("{siteId}", SiteId)
 	path := r.Replace("/sites/{siteId}/deployments/template")
 	options := CreateTemplateDeploymentOptions{}.New()
@@ -931,7 +931,8 @@ func (srv *Sites) CreateTemplateDeployment(SiteId string, Repository string, Own
 	params["repository"] = Repository
 	params["owner"] = Owner
 	params["rootDirectory"] = RootDirectory
-	params["version"] = Version
+	params["type"] = Type
+	params["reference"] = Reference
 	if options.enabledSetters["Activate"] {
 		params["activate"] = options.Activate
 	}
