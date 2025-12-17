@@ -683,6 +683,8 @@ type CreateTableOptions struct {
 	Permissions []string
 	RowSecurity bool
 	Enabled bool
+	Columns []interface{}
+	Indexes []interface{}
 	enabledSetters map[string]bool
 }
 func (options CreateTableOptions) New() *CreateTableOptions {
@@ -690,6 +692,8 @@ func (options CreateTableOptions) New() *CreateTableOptions {
 		"Permissions": false,
 		"RowSecurity": false,
 		"Enabled": false,
+		"Columns": false,
+		"Indexes": false,
 	}
 	return &options
 }
@@ -710,6 +714,18 @@ func (srv *TablesDB) WithCreateTableEnabled(v bool) CreateTableOption {
 	return func(o *CreateTableOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *TablesDB) WithCreateTableColumns(v []interface{}) CreateTableOption {
+	return func(o *CreateTableOptions) {
+		o.Columns = v
+		o.enabledSetters["Columns"] = true
+	}
+}
+func (srv *TablesDB) WithCreateTableIndexes(v []interface{}) CreateTableOption {
+	return func(o *CreateTableOptions) {
+		o.Indexes = v
+		o.enabledSetters["Indexes"] = true
 	}
 }
 							
@@ -736,6 +752,12 @@ func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string,
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Columns"] {
+		params["columns"] = options.Columns
+	}
+	if options.enabledSetters["Indexes"] {
+		params["indexes"] = options.Indexes
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
