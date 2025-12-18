@@ -695,6 +695,8 @@ type CreateCollectionOptions struct {
 	Permissions []string
 	DocumentSecurity bool
 	Enabled bool
+	Attributes []interface{}
+	Indexes []interface{}
 	enabledSetters map[string]bool
 }
 func (options CreateCollectionOptions) New() *CreateCollectionOptions {
@@ -702,6 +704,8 @@ func (options CreateCollectionOptions) New() *CreateCollectionOptions {
 		"Permissions": false,
 		"DocumentSecurity": false,
 		"Enabled": false,
+		"Attributes": false,
+		"Indexes": false,
 	}
 	return &options
 }
@@ -722,6 +726,18 @@ func (srv *Databases) WithCreateCollectionEnabled(v bool) CreateCollectionOption
 	return func(o *CreateCollectionOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Databases) WithCreateCollectionAttributes(v []interface{}) CreateCollectionOption {
+	return func(o *CreateCollectionOptions) {
+		o.Attributes = v
+		o.enabledSetters["Attributes"] = true
+	}
+}
+func (srv *Databases) WithCreateCollectionIndexes(v []interface{}) CreateCollectionOption {
+	return func(o *CreateCollectionOptions) {
+		o.Indexes = v
+		o.enabledSetters["Indexes"] = true
 	}
 }
 							
@@ -750,6 +766,12 @@ func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, N
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Attributes"] {
+		params["attributes"] = options.Attributes
+	}
+	if options.enabledSetters["Indexes"] {
+		params["indexes"] = options.Indexes
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
