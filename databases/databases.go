@@ -2943,7 +2943,7 @@ func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string,
 // GetAttribute get attribute by ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getColumn` instead.
-func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string)(*interface{}, error) {
+func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string)(*models.AttributeBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}")
 	params := map[string]interface{}{}
@@ -2960,16 +2960,17 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		var parsed interface{}
+		parsed := models.AttributeBoolean{}.New(bytes)
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
-	var parsed interface{}
-	parsed, ok := resp.Result.(interface{})
+	var parsed models.AttributeBoolean
+	parsed, ok := resp.Result.(models.AttributeBoolean)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -3619,18 +3620,26 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 
 }
 type UpsertDocumentOptions struct {
+	Data interface{}
 	Permissions []string
 	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options UpsertDocumentOptions) New() *UpsertDocumentOptions {
 	options.enabledSetters = map[string]bool{
+		"Data": false,
 		"Permissions": false,
 		"TransactionId": false,
 	}
 	return &options
 }
 type UpsertDocumentOption func(*UpsertDocumentOptions)
+func (srv *Databases) WithUpsertDocumentData(v interface{}) UpsertDocumentOption {
+	return func(o *UpsertDocumentOptions) {
+		o.Data = v
+		o.enabledSetters["Data"] = true
+	}
+}
 func (srv *Databases) WithUpsertDocumentPermissions(v []string) UpsertDocumentOption {
 	return func(o *UpsertDocumentOptions) {
 		o.Permissions = v
@@ -3643,14 +3652,14 @@ func (srv *Databases) WithUpsertDocumentTransactionId(v string) UpsertDocumentOp
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-									
+							
 // UpsertDocument create or update a Document. Before using this route, you
 // should create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.upsertRow` instead.
-func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...UpsertDocumentOption)(*models.Document, error) {
+func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpsertDocumentOption)(*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpsertDocumentOptions{}.New()
@@ -3661,7 +3670,9 @@ func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, Doc
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["documentId"] = DocumentId
-	params["data"] = Data
+	if options.enabledSetters["Data"] {
+		params["data"] = options.Data
+	}
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
 	}

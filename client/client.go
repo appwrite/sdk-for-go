@@ -74,11 +74,11 @@ type Client struct {
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.8.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v0.16.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v0.15.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "v0.16.0",
+		"x-sdk-version": "v0.15.0",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
@@ -438,7 +438,6 @@ func toString(arg interface{}) string {
 		return fmt.Sprintf("%s", v)
 	}
 }
-
 
 // flatten recursively flattens params into a map[string]string and writes it to result
 func flatten(params interface{}, prefix string, result *map[string]string) error {

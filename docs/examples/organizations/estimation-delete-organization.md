@@ -3,7 +3,7 @@ package main
 import (
     "fmt"
     "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/account"
+    "github.com/appwrite/sdk-for-go/organizations"
 )
 
 client := client.New(
@@ -12,8 +12,8 @@ client := client.New(
     client.WithSession("")
 )
 
-service := account.New(client)
+service := organizations.New(client)
 
-response, error := service.CreateJWT(
-    account.WithCreateJWTDuration(0),
+response, error := service.EstimationDeleteOrganization(
+    "<ORGANIZATION_ID>",
 )

@@ -239,6 +239,118 @@ func (srv *Health) GetPubSub()(*models.HealthStatus, error) {
 	return &parsed, nil
 
 }
+type GetQueueBillingProjectAggregationOptions struct {
+	Threshold int
+	enabledSetters map[string]bool
+}
+func (options GetQueueBillingProjectAggregationOptions) New() *GetQueueBillingProjectAggregationOptions {
+	options.enabledSetters = map[string]bool{
+		"Threshold": false,
+	}
+	return &options
+}
+type GetQueueBillingProjectAggregationOption func(*GetQueueBillingProjectAggregationOptions)
+func (srv *Health) WithGetQueueBillingProjectAggregationThreshold(v int) GetQueueBillingProjectAggregationOption {
+	return func(o *GetQueueBillingProjectAggregationOptions) {
+		o.Threshold = v
+		o.enabledSetters["Threshold"] = true
+	}
+}
+	
+// GetQueueBillingProjectAggregation get billing project aggregation queue.
+func (srv *Health) GetQueueBillingProjectAggregation(optionalSetters ...GetQueueBillingProjectAggregationOption)(*models.HealthQueue, error) {
+	path := "/health/queue/billing-project-aggregation"
+	options := GetQueueBillingProjectAggregationOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Threshold"] {
+		params["threshold"] = options.Threshold
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.HealthQueue
+	parsed, ok := resp.Result.(models.HealthQueue)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type GetQueueBillingTeamAggregationOptions struct {
+	Threshold int
+	enabledSetters map[string]bool
+}
+func (options GetQueueBillingTeamAggregationOptions) New() *GetQueueBillingTeamAggregationOptions {
+	options.enabledSetters = map[string]bool{
+		"Threshold": false,
+	}
+	return &options
+}
+type GetQueueBillingTeamAggregationOption func(*GetQueueBillingTeamAggregationOptions)
+func (srv *Health) WithGetQueueBillingTeamAggregationThreshold(v int) GetQueueBillingTeamAggregationOption {
+	return func(o *GetQueueBillingTeamAggregationOptions) {
+		o.Threshold = v
+		o.enabledSetters["Threshold"] = true
+	}
+}
+	
+// GetQueueBillingTeamAggregation get billing team aggregation queue.
+func (srv *Health) GetQueueBillingTeamAggregation(optionalSetters ...GetQueueBillingTeamAggregationOption)(*models.HealthQueue, error) {
+	path := "/health/queue/billing-team-aggregation"
+	options := GetQueueBillingTeamAggregationOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Threshold"] {
+		params["threshold"] = options.Threshold
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.HealthQueue
+	parsed, ok := resp.Result.(models.HealthQueue)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type GetQueueBuildsOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -262,6 +374,62 @@ func (srv *Health) WithGetQueueBuildsThreshold(v int) GetQueueBuildsOption {
 func (srv *Health) GetQueueBuilds(optionalSetters ...GetQueueBuildsOption)(*models.HealthQueue, error) {
 	path := "/health/queue/builds"
 	options := GetQueueBuildsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Threshold"] {
+		params["threshold"] = options.Threshold
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.HealthQueue
+	parsed, ok := resp.Result.(models.HealthQueue)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type GetQueuePriorityBuildsOptions struct {
+	Threshold int
+	enabledSetters map[string]bool
+}
+func (options GetQueuePriorityBuildsOptions) New() *GetQueuePriorityBuildsOptions {
+	options.enabledSetters = map[string]bool{
+		"Threshold": false,
+	}
+	return &options
+}
+type GetQueuePriorityBuildsOption func(*GetQueuePriorityBuildsOptions)
+func (srv *Health) WithGetQueuePriorityBuildsThreshold(v int) GetQueuePriorityBuildsOption {
+	return func(o *GetQueuePriorityBuildsOptions) {
+		o.Threshold = v
+		o.enabledSetters["Threshold"] = true
+	}
+}
+	
+// GetQueuePriorityBuilds get the priority builds queue size.
+func (srv *Health) GetQueuePriorityBuilds(optionalSetters ...GetQueuePriorityBuildsOption)(*models.HealthQueue, error) {
+	path := "/health/queue/builds-priority"
+	options := GetQueuePriorityBuildsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
@@ -822,6 +990,62 @@ func (srv *Health) GetQueueMigrations(optionalSetters ...GetQueueMigrationsOptio
 	return &parsed, nil
 
 }
+type GetQueueRegionManagerOptions struct {
+	Threshold int
+	enabledSetters map[string]bool
+}
+func (options GetQueueRegionManagerOptions) New() *GetQueueRegionManagerOptions {
+	options.enabledSetters = map[string]bool{
+		"Threshold": false,
+	}
+	return &options
+}
+type GetQueueRegionManagerOption func(*GetQueueRegionManagerOptions)
+func (srv *Health) WithGetQueueRegionManagerThreshold(v int) GetQueueRegionManagerOption {
+	return func(o *GetQueueRegionManagerOptions) {
+		o.Threshold = v
+		o.enabledSetters["Threshold"] = true
+	}
+}
+	
+// GetQueueRegionManager get region manager queue.
+func (srv *Health) GetQueueRegionManager(optionalSetters ...GetQueueRegionManagerOption)(*models.HealthQueue, error) {
+	path := "/health/queue/region-manager"
+	options := GetQueueRegionManagerOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Threshold"] {
+		params["threshold"] = options.Threshold
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.HealthQueue
+	parsed, ok := resp.Result.(models.HealthQueue)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type GetQueueStatsResourcesOptions struct {
 	Threshold int
 	enabledSetters map[string]bool
@@ -902,6 +1126,62 @@ func (srv *Health) WithGetQueueUsageThreshold(v int) GetQueueUsageOption {
 func (srv *Health) GetQueueUsage(optionalSetters ...GetQueueUsageOption)(*models.HealthQueue, error) {
 	path := "/health/queue/stats-usage"
 	options := GetQueueUsageOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Threshold"] {
+		params["threshold"] = options.Threshold
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.HealthQueue
+	parsed, ok := resp.Result.(models.HealthQueue)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type GetQueueThreatsOptions struct {
+	Threshold int
+	enabledSetters map[string]bool
+}
+func (options GetQueueThreatsOptions) New() *GetQueueThreatsOptions {
+	options.enabledSetters = map[string]bool{
+		"Threshold": false,
+	}
+	return &options
+}
+type GetQueueThreatsOption func(*GetQueueThreatsOptions)
+func (srv *Health) WithGetQueueThreatsThreshold(v int) GetQueueThreatsOption {
+	return func(o *GetQueueThreatsOptions) {
+		o.Threshold = v
+		o.enabledSetters["Threshold"] = true
+	}
+}
+	
+// GetQueueThreats get threats queue.
+func (srv *Health) GetQueueThreats(optionalSetters ...GetQueueThreatsOption)(*models.HealthQueue, error) {
+	path := "/health/queue/threats"
+	options := GetQueueThreatsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}

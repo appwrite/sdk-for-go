@@ -2869,7 +2869,7 @@ func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key stri
 }
 					
 // GetColumn get column by ID.
-func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(*interface{}, error) {
+func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(*models.ColumnBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
@@ -2886,16 +2886,17 @@ func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(*i
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		var parsed interface{}
+		parsed := models.ColumnBoolean{}.New(bytes)
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
-	var parsed interface{}
-	parsed, ok := resp.Result.(interface{})
+	var parsed models.ColumnBoolean
+	parsed, ok := resp.Result.(models.ColumnBoolean)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
