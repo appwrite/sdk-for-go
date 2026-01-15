@@ -3,17 +3,17 @@ package main
 import (
     "fmt"
     "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/account"
+    "github.com/appwrite/sdk-for-go/backups"
 )
 
 client := client.New(
     client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
     client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithSession("")
+    client.WithKey("<YOUR_API_KEY>")
 )
 
-service := account.New(client)
+service := backups.New(client)
 
-response, error := service.CreateJWT(
-    account.WithCreateJWTDuration(0),
+response, error := service.GetArchive(
+    "<ARCHIVE_ID>",
 )
