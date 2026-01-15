@@ -30,6 +30,12 @@ type File struct {
     ChunksTotal int `json:"chunksTotal"`
     // Total number of chunks uploaded
     ChunksUploaded int `json:"chunksUploaded"`
+    // Whether file contents are encrypted at rest.
+    Encryption bool `json:"encryption"`
+    // Compression algorithm used for the file. Will be one of none,
+    // [gzip](https://en.wikipedia.org/wiki/Gzip), or
+    // [zstd](https://en.wikipedia.org/wiki/Zstd).
+    Compression string `json:"compression"`
 
     // Used by Decode() method
     data []byte

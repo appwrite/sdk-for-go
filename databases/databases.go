@@ -2943,7 +2943,7 @@ func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string,
 // GetAttribute get attribute by ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getColumn` instead.
-func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string)(*models.AttributeBoolean, error) {
+func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string)(*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}")
 	params := map[string]interface{}{}
@@ -2960,17 +2960,16 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		parsed := models.AttributeBoolean{}.New(bytes)
+		var parsed interface{}
 
-		err = json.Unmarshal(bytes, parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
-
-		return parsed, nil
+		return &parsed, nil
 	}
-	var parsed models.AttributeBoolean
-	parsed, ok := resp.Result.(models.AttributeBoolean)
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
