@@ -2221,6 +2221,280 @@ func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key str
 	return &parsed, nil
 
 }
+type CreateLongtextColumnOptions struct {
+	Default string
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateLongtextColumnOptions) New() *CreateLongtextColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateLongtextColumnOption func(*CreateLongtextColumnOptions)
+func (srv *TablesDB) WithCreateLongtextColumnDefault(v string) CreateLongtextColumnOption {
+	return func(o *CreateLongtextColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithCreateLongtextColumnArray(v bool) CreateLongtextColumnOption {
+	return func(o *CreateLongtextColumnOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+									
+// CreateLongtextColumn create a longtext column.
+func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLongtextColumnOption)(*models.ColumnLongtext, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/longtext")
+	options := CreateLongtextColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnLongtext{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnLongtext
+	parsed, ok := resp.Result.(models.ColumnLongtext)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateLongtextColumnOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateLongtextColumnOptions) New() *UpdateLongtextColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateLongtextColumnOption func(*UpdateLongtextColumnOptions)
+func (srv *TablesDB) WithUpdateLongtextColumnNewKey(v string) UpdateLongtextColumnOption {
+	return func(o *UpdateLongtextColumnOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateLongtextColumn update a longtext column. Changing the `default` value
+// will not update already existing rows.
+func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateLongtextColumnOption)(*models.ColumnLongtext, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/longtext/{key}")
+	options := UpdateLongtextColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnLongtext{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnLongtext
+	parsed, ok := resp.Result.(models.ColumnLongtext)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateMediumtextColumnOptions struct {
+	Default string
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateMediumtextColumnOptions) New() *CreateMediumtextColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateMediumtextColumnOption func(*CreateMediumtextColumnOptions)
+func (srv *TablesDB) WithCreateMediumtextColumnDefault(v string) CreateMediumtextColumnOption {
+	return func(o *CreateMediumtextColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithCreateMediumtextColumnArray(v bool) CreateMediumtextColumnOption {
+	return func(o *CreateMediumtextColumnOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+									
+// CreateMediumtextColumn create a mediumtext column.
+func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateMediumtextColumnOption)(*models.ColumnMediumtext, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext")
+	options := CreateMediumtextColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnMediumtext{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnMediumtext
+	parsed, ok := resp.Result.(models.ColumnMediumtext)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateMediumtextColumnOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateMediumtextColumnOptions) New() *UpdateMediumtextColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateMediumtextColumnOption func(*UpdateMediumtextColumnOptions)
+func (srv *TablesDB) WithUpdateMediumtextColumnNewKey(v string) UpdateMediumtextColumnOption {
+	return func(o *UpdateMediumtextColumnOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateMediumtextColumn update a mediumtext column. Changing the `default`
+// value will not update already existing rows.
+func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateMediumtextColumnOption)(*models.ColumnMediumtext, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext/{key}")
+	options := UpdateMediumtextColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnMediumtext{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnMediumtext
+	parsed, ok := resp.Result.(models.ColumnMediumtext)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type CreatePointColumnOptions struct {
 	Default []interface{}
 	enabledSetters map[string]bool
@@ -2625,6 +2899,8 @@ func (srv *TablesDB) WithCreateStringColumnEncrypt(v bool) CreateStringColumnOpt
 }
 											
 // CreateStringColumn create a string column.
+//
+// Deprecated: This API has been deprecated since 1.9.0. Please use `TablesDB.createTextColumn` instead.
 func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateStringColumnOption)(*models.ColumnString, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string")
@@ -2703,6 +2979,8 @@ func (srv *TablesDB) WithUpdateStringColumnNewKey(v string) UpdateStringColumnOp
 											
 // UpdateStringColumn update a string column. Changing the `default` value
 // will not update already existing rows.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTextColumn` instead.
 func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringColumnOption)(*models.ColumnString, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}")
@@ -2744,6 +3022,143 @@ func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key s
 	}
 	var parsed models.ColumnString
 	parsed, ok := resp.Result.(models.ColumnString)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateTextColumnOptions struct {
+	Default string
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateTextColumnOptions) New() *CreateTextColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateTextColumnOption func(*CreateTextColumnOptions)
+func (srv *TablesDB) WithCreateTextColumnDefault(v string) CreateTextColumnOption {
+	return func(o *CreateTextColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithCreateTextColumnArray(v bool) CreateTextColumnOption {
+	return func(o *CreateTextColumnOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+									
+// CreateTextColumn create a text column.
+func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateTextColumnOption)(*models.ColumnText, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/text")
+	options := CreateTextColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnText{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnText
+	parsed, ok := resp.Result.(models.ColumnText)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateTextColumnOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateTextColumnOptions) New() *UpdateTextColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateTextColumnOption func(*UpdateTextColumnOptions)
+func (srv *TablesDB) WithUpdateTextColumnNewKey(v string) UpdateTextColumnOption {
+	return func(o *UpdateTextColumnOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateTextColumn update a text column. Changing the `default` value will
+// not update already existing rows.
+func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateTextColumnOption)(*models.ColumnText, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/text/{key}")
+	options := UpdateTextColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnText{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnText
+	parsed, ok := resp.Result.(models.ColumnText)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -2881,6 +3296,155 @@ func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key stri
 	}
 	var parsed models.ColumnUrl
 	parsed, ok := resp.Result.(models.ColumnUrl)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateVarcharColumnOptions struct {
+	Default string
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateVarcharColumnOptions) New() *CreateVarcharColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateVarcharColumnOption func(*CreateVarcharColumnOptions)
+func (srv *TablesDB) WithCreateVarcharColumnDefault(v string) CreateVarcharColumnOption {
+	return func(o *CreateVarcharColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithCreateVarcharColumnArray(v bool) CreateVarcharColumnOption {
+	return func(o *CreateVarcharColumnOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+											
+// CreateVarcharColumn create a varchar column.
+func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateVarcharColumnOption)(*models.ColumnVarchar, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/varchar")
+	options := CreateVarcharColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["size"] = Size
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnVarchar{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnVarchar
+	parsed, ok := resp.Result.(models.ColumnVarchar)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateVarcharColumnOptions struct {
+	Size int
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateVarcharColumnOptions) New() *UpdateVarcharColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Size": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateVarcharColumnOption func(*UpdateVarcharColumnOptions)
+func (srv *TablesDB) WithUpdateVarcharColumnSize(v int) UpdateVarcharColumnOption {
+	return func(o *UpdateVarcharColumnOptions) {
+		o.Size = v
+		o.enabledSetters["Size"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateVarcharColumnNewKey(v string) UpdateVarcharColumnOption {
+	return func(o *UpdateVarcharColumnOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateVarcharColumn update a varchar column. Changing the `default` value
+// will not update already existing rows.
+func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateVarcharColumnOption)(*models.ColumnVarchar, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/varchar/{key}")
+	options := UpdateVarcharColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["Size"] {
+		params["size"] = options.Size
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnVarchar{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnVarchar
+	parsed, ok := resp.Result.(models.ColumnVarchar)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
