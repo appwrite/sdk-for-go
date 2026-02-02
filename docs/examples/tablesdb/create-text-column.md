@@ -14,8 +14,11 @@ client := client.New(
 
 service := tablesdb.New(client)
 
-response, error := service.Update(
+response, error := service.CreateTextColumn(
     "<DATABASE_ID>",
-    tablesdb.WithUpdateName("<NAME>"),
-    tablesdb.WithUpdateEnabled(false),
+    "<TABLE_ID>",
+    "",
+    false,
+    tablesdb.WithCreateTextColumnDefault("<DEFAULT>"),
+    tablesdb.WithCreateTextColumnArray(false),
 )

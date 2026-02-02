@@ -3,7 +3,7 @@ package main
 import (
     "fmt"
     "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/tablesdb"
+    "github.com/appwrite/sdk-for-go/health"
 )
 
 client := client.New(
@@ -12,10 +12,8 @@ client := client.New(
     client.WithKey("<YOUR_API_KEY>")
 )
 
-service := tablesdb.New(client)
+service := health.New(client)
 
-response, error := service.Update(
-    "<DATABASE_ID>",
-    tablesdb.WithUpdateName("<NAME>"),
-    tablesdb.WithUpdateEnabled(false),
+response, error := service.GetQueueAudits(
+    health.WithGetQueueAuditsThreshold(0),
 )

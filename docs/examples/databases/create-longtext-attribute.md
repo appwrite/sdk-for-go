@@ -14,8 +14,11 @@ client := client.New(
 
 service := databases.New(client)
 
-response, error := service.Update(
+response, error := service.CreateLongtextAttribute(
     "<DATABASE_ID>",
-    databases.WithUpdateName("<NAME>"),
-    databases.WithUpdateEnabled(false),
+    "<COLLECTION_ID>",
+    "",
+    false,
+    databases.WithCreateLongtextAttributeDefault("<DEFAULT>"),
+    databases.WithCreateLongtextAttributeArray(false),
 )

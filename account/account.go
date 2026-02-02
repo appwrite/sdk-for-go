@@ -259,15 +259,39 @@ func (srv *Account) DeleteIdentity(IdentityId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-
+type CreateJWTOptions struct {
+	Duration int
+	enabledSetters map[string]bool
+}
+func (options CreateJWTOptions) New() *CreateJWTOptions {
+	options.enabledSetters = map[string]bool{
+		"Duration": false,
+	}
+	return &options
+}
+type CreateJWTOption func(*CreateJWTOptions)
+func (srv *Account) WithCreateJWTDuration(v int) CreateJWTOption {
+	return func(o *CreateJWTOptions) {
+		o.Duration = v
+		o.enabledSetters["Duration"] = true
+	}
+}
+	
 // CreateJWT use this endpoint to create a JSON Web Token. You can use the
 // resulting JWT to authenticate on behalf of the current user when working
 // with the Appwrite server-side API and SDKs. The JWT secret is valid for 15
 // minutes from its creation and will be invalid if the user will logout in
 // that time frame.
-func (srv *Account) CreateJWT()(*models.Jwt, error) {
+func (srv *Account) CreateJWT(optionalSetters ...CreateJWTOption)(*models.Jwt, error) {
 	path := "/account/jwts"
+	options := CreateJWTOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Duration"] {
+		params["duration"] = options.Duration
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}

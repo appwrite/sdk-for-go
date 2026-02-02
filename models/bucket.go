@@ -27,7 +27,7 @@ type Bucket struct {
     MaximumFileSize int `json:"maximumFileSize"`
     // Allowed file extensions.
     AllowedFileExtensions []string `json:"allowedFileExtensions"`
-    // Compression algorithm choosen for compression. Will be one of none,
+    // Compression algorithm chosen for compression. Will be one of none,
     // [gzip](https://en.wikipedia.org/wiki/Gzip), or
     // [zstd](https://en.wikipedia.org/wiki/Zstd).
     Compression string `json:"compression"`
@@ -37,6 +37,8 @@ type Bucket struct {
     Antivirus bool `json:"antivirus"`
     // Image transformations are enabled.
     Transformations bool `json:"transformations"`
+    // Total size of this bucket in bytes.
+    TotalSize int `json:"totalSize"`
 
     // Used by Decode() method
     data []byte

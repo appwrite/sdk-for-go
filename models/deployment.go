@@ -36,7 +36,7 @@ type Deployment struct {
     // Screenshot with dark theme preference file ID.
     ScreenshotDark string `json:"screenshotDark"`
     // The deployment status. Possible values are "waiting", "processing",
-    // "building", "ready", and "failed".
+    // "building", "ready", "canceled" and "failed".
     Status string `json:"status"`
     // The build logs.
     BuildLogs string `json:"buildLogs"`

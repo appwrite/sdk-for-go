@@ -510,27 +510,35 @@ func (srv *Databases) Get(DatabaseId string)(*models.Database, error) {
 
 }
 type UpdateOptions struct {
+	Name string
 	Enabled bool
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
 	options.enabledSetters = map[string]bool{
+		"Name": false,
 		"Enabled": false,
 	}
 	return &options
 }
 type UpdateOption func(*UpdateOptions)
+func (srv *Databases) WithUpdateName(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
 func (srv *Databases) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+			
 // Update update a database by its unique ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.update` instead.
-func (srv *Databases) Update(DatabaseId string, Name string, optionalSetters ...UpdateOption)(*models.Database, error) {
+func (srv *Databases) Update(DatabaseId string, optionalSetters ...UpdateOption)(*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -539,7 +547,9 @@ func (srv *Databases) Update(DatabaseId string, Name string, optionalSetters ...
 	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
-	params["name"] = Name
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
@@ -840,6 +850,7 @@ func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)(*mod
 
 }
 type UpdateCollectionOptions struct {
+	Name string
 	Permissions []string
 	DocumentSecurity bool
 	Enabled bool
@@ -847,6 +858,7 @@ type UpdateCollectionOptions struct {
 }
 func (options UpdateCollectionOptions) New() *UpdateCollectionOptions {
 	options.enabledSetters = map[string]bool{
+		"Name": false,
 		"Permissions": false,
 		"DocumentSecurity": false,
 		"Enabled": false,
@@ -854,6 +866,12 @@ func (options UpdateCollectionOptions) New() *UpdateCollectionOptions {
 	return &options
 }
 type UpdateCollectionOption func(*UpdateCollectionOptions)
+func (srv *Databases) WithUpdateCollectionName(v string) UpdateCollectionOption {
+	return func(o *UpdateCollectionOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
 func (srv *Databases) WithUpdateCollectionPermissions(v []string) UpdateCollectionOption {
 	return func(o *UpdateCollectionOptions) {
 		o.Permissions = v
@@ -872,11 +890,11 @@ func (srv *Databases) WithUpdateCollectionEnabled(v bool) UpdateCollectionOption
 		o.enabledSetters["Enabled"] = true
 	}
 }
-							
+					
 // UpdateCollection update a collection by its unique ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTable` instead.
-func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...UpdateCollectionOption)(*models.Collection, error) {
+func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, optionalSetters ...UpdateCollectionOption)(*models.Collection, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
 	options := UpdateCollectionOptions{}.New()
@@ -886,7 +904,9 @@ func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, N
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
-	params["name"] = Name
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
 	}
@@ -2255,6 +2275,280 @@ func (srv *Databases) UpdateLineAttribute(DatabaseId string, CollectionId string
 	return &parsed, nil
 
 }
+type CreateLongtextAttributeOptions struct {
+	Default string
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateLongtextAttributeOptions) New() *CreateLongtextAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateLongtextAttributeOption func(*CreateLongtextAttributeOptions)
+func (srv *Databases) WithCreateLongtextAttributeDefault(v string) CreateLongtextAttributeOption {
+	return func(o *CreateLongtextAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *Databases) WithCreateLongtextAttributeArray(v bool) CreateLongtextAttributeOption {
+	return func(o *CreateLongtextAttributeOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+									
+// CreateLongtextAttribute create a longtext attribute.
+func (srv *Databases) CreateLongtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateLongtextAttributeOption)(*models.AttributeLongtext, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/longtext")
+	options := CreateLongtextAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeLongtext{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeLongtext
+	parsed, ok := resp.Result.(models.AttributeLongtext)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateLongtextAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateLongtextAttributeOptions) New() *UpdateLongtextAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateLongtextAttributeOption func(*UpdateLongtextAttributeOptions)
+func (srv *Databases) WithUpdateLongtextAttributeNewKey(v string) UpdateLongtextAttributeOption {
+	return func(o *UpdateLongtextAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateLongtextAttribute update a longtext attribute. Changing the `default`
+// value will not update already existing documents.
+func (srv *Databases) UpdateLongtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateLongtextAttributeOption)(*models.AttributeLongtext, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/longtext/{key}")
+	options := UpdateLongtextAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeLongtext{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeLongtext
+	parsed, ok := resp.Result.(models.AttributeLongtext)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateMediumtextAttributeOptions struct {
+	Default string
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateMediumtextAttributeOptions) New() *CreateMediumtextAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateMediumtextAttributeOption func(*CreateMediumtextAttributeOptions)
+func (srv *Databases) WithCreateMediumtextAttributeDefault(v string) CreateMediumtextAttributeOption {
+	return func(o *CreateMediumtextAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *Databases) WithCreateMediumtextAttributeArray(v bool) CreateMediumtextAttributeOption {
+	return func(o *CreateMediumtextAttributeOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+									
+// CreateMediumtextAttribute create a mediumtext attribute.
+func (srv *Databases) CreateMediumtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateMediumtextAttributeOption)(*models.AttributeMediumtext, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext")
+	options := CreateMediumtextAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeMediumtext{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeMediumtext
+	parsed, ok := resp.Result.(models.AttributeMediumtext)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateMediumtextAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateMediumtextAttributeOptions) New() *UpdateMediumtextAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateMediumtextAttributeOption func(*UpdateMediumtextAttributeOptions)
+func (srv *Databases) WithUpdateMediumtextAttributeNewKey(v string) UpdateMediumtextAttributeOption {
+	return func(o *UpdateMediumtextAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateMediumtextAttribute update a mediumtext attribute. Changing the
+// `default` value will not update already existing documents.
+func (srv *Databases) UpdateMediumtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateMediumtextAttributeOption)(*models.AttributeMediumtext, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext/{key}")
+	options := UpdateMediumtextAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeMediumtext{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeMediumtext
+	parsed, ok := resp.Result.(models.AttributeMediumtext)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type CreatePointAttributeOptions struct {
 	Default []interface{}
 	enabledSetters map[string]bool
@@ -2798,6 +3092,143 @@ func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId stri
 	return &parsed, nil
 
 }
+type CreateTextAttributeOptions struct {
+	Default string
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateTextAttributeOptions) New() *CreateTextAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateTextAttributeOption func(*CreateTextAttributeOptions)
+func (srv *Databases) WithCreateTextAttributeDefault(v string) CreateTextAttributeOption {
+	return func(o *CreateTextAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *Databases) WithCreateTextAttributeArray(v bool) CreateTextAttributeOption {
+	return func(o *CreateTextAttributeOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+									
+// CreateTextAttribute create a text attribute.
+func (srv *Databases) CreateTextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateTextAttributeOption)(*models.AttributeText, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/text")
+	options := CreateTextAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeText{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeText
+	parsed, ok := resp.Result.(models.AttributeText)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateTextAttributeOptions struct {
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateTextAttributeOptions) New() *UpdateTextAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateTextAttributeOption func(*UpdateTextAttributeOptions)
+func (srv *Databases) WithUpdateTextAttributeNewKey(v string) UpdateTextAttributeOption {
+	return func(o *UpdateTextAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateTextAttribute update a text attribute. Changing the `default` value
+// will not update already existing documents.
+func (srv *Databases) UpdateTextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateTextAttributeOption)(*models.AttributeText, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/text/{key}")
+	options := UpdateTextAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeText{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeText
+	parsed, ok := resp.Result.(models.AttributeText)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type CreateUrlAttributeOptions struct {
 	Default string
 	Array bool
@@ -2933,6 +3364,155 @@ func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string,
 	}
 	var parsed models.AttributeUrl
 	parsed, ok := resp.Result.(models.AttributeUrl)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateVarcharAttributeOptions struct {
+	Default string
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateVarcharAttributeOptions) New() *CreateVarcharAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateVarcharAttributeOption func(*CreateVarcharAttributeOptions)
+func (srv *Databases) WithCreateVarcharAttributeDefault(v string) CreateVarcharAttributeOption {
+	return func(o *CreateVarcharAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *Databases) WithCreateVarcharAttributeArray(v bool) CreateVarcharAttributeOption {
+	return func(o *CreateVarcharAttributeOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+											
+// CreateVarcharAttribute create a varchar attribute.
+func (srv *Databases) CreateVarcharAttribute(DatabaseId string, CollectionId string, Key string, Size int, Required bool, optionalSetters ...CreateVarcharAttributeOption)(*models.AttributeVarchar, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/varchar")
+	options := CreateVarcharAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["size"] = Size
+	params["required"] = Required
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeVarchar{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeVarchar
+	parsed, ok := resp.Result.(models.AttributeVarchar)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateVarcharAttributeOptions struct {
+	Size int
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateVarcharAttributeOptions) New() *UpdateVarcharAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Size": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateVarcharAttributeOption func(*UpdateVarcharAttributeOptions)
+func (srv *Databases) WithUpdateVarcharAttributeSize(v int) UpdateVarcharAttributeOption {
+	return func(o *UpdateVarcharAttributeOptions) {
+		o.Size = v
+		o.enabledSetters["Size"] = true
+	}
+}
+func (srv *Databases) WithUpdateVarcharAttributeNewKey(v string) UpdateVarcharAttributeOption {
+	return func(o *UpdateVarcharAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateVarcharAttribute update a varchar attribute. Changing the `default`
+// value will not update already existing documents.
+func (srv *Databases) UpdateVarcharAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateVarcharAttributeOption)(*models.AttributeVarchar, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/varchar/{key}")
+	options := UpdateVarcharAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["Size"] {
+		params["size"] = options.Size
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeVarchar{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeVarchar
+	parsed, ok := resp.Result.(models.AttributeVarchar)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -3619,18 +4199,26 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 
 }
 type UpsertDocumentOptions struct {
+	Data interface{}
 	Permissions []string
 	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options UpsertDocumentOptions) New() *UpsertDocumentOptions {
 	options.enabledSetters = map[string]bool{
+		"Data": false,
 		"Permissions": false,
 		"TransactionId": false,
 	}
 	return &options
 }
 type UpsertDocumentOption func(*UpsertDocumentOptions)
+func (srv *Databases) WithUpsertDocumentData(v interface{}) UpsertDocumentOption {
+	return func(o *UpsertDocumentOptions) {
+		o.Data = v
+		o.enabledSetters["Data"] = true
+	}
+}
 func (srv *Databases) WithUpsertDocumentPermissions(v []string) UpsertDocumentOption {
 	return func(o *UpsertDocumentOptions) {
 		o.Permissions = v
@@ -3643,14 +4231,14 @@ func (srv *Databases) WithUpsertDocumentTransactionId(v string) UpsertDocumentOp
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-									
+							
 // UpsertDocument create or update a Document. Before using this route, you
 // should create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.upsertRow` instead.
-func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...UpsertDocumentOption)(*models.Document, error) {
+func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpsertDocumentOption)(*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpsertDocumentOptions{}.New()
@@ -3661,7 +4249,9 @@ func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, Doc
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["documentId"] = DocumentId
-	params["data"] = Data
+	if options.enabledSetters["Data"] {
+		params["data"] = options.Data
+	}
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
 	}

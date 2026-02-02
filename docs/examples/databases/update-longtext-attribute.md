@@ -3,7 +3,7 @@ package main
 import (
     "fmt"
     "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/tablesdb"
+    "github.com/appwrite/sdk-for-go/databases"
 )
 
 client := client.New(
@@ -12,10 +12,13 @@ client := client.New(
     client.WithKey("<YOUR_API_KEY>")
 )
 
-service := tablesdb.New(client)
+service := databases.New(client)
 
-response, error := service.Update(
+response, error := service.UpdateLongtextAttribute(
     "<DATABASE_ID>",
-    tablesdb.WithUpdateName("<NAME>"),
-    tablesdb.WithUpdateEnabled(false),
+    "<COLLECTION_ID>",
+    "",
+    false,
+    "<DEFAULT>",
+    databases.WithUpdateLongtextAttributeNewKey(""),
 )
