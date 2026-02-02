@@ -87,7 +87,7 @@ func (srv *Health) GetAntivirus()(*models.HealthAntivirus, error) {
 
 // GetCache check the Appwrite in-memory cache servers are up and connection
 // is successful.
-func (srv *Health) GetCache()(*models.HealthStatus, error) {
+func (srv *Health) GetCache()(*models.HealthStatusList, error) {
 	path := "/health/cache"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -100,7 +100,7 @@ func (srv *Health) GetCache()(*models.HealthStatus, error) {
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatusList{}.New(bytes)
 
 		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
@@ -109,8 +109,8 @@ func (srv *Health) GetCache()(*models.HealthStatus, error) {
 
 		return parsed, nil
 	}
-	var parsed models.HealthStatus
-	parsed, ok := resp.Result.(models.HealthStatus)
+	var parsed models.HealthStatusList
+	parsed, ok := resp.Result.(models.HealthStatusList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -176,7 +176,7 @@ func (srv *Health) GetCertificate(optionalSetters ...GetCertificateOption)(*mode
 
 // GetDB check the Appwrite database servers are up and connection is
 // successful.
-func (srv *Health) GetDB()(*models.HealthStatus, error) {
+func (srv *Health) GetDB()(*models.HealthStatusList, error) {
 	path := "/health/db"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -189,7 +189,7 @@ func (srv *Health) GetDB()(*models.HealthStatus, error) {
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatusList{}.New(bytes)
 
 		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
@@ -198,8 +198,8 @@ func (srv *Health) GetDB()(*models.HealthStatus, error) {
 
 		return parsed, nil
 	}
-	var parsed models.HealthStatus
-	parsed, ok := resp.Result.(models.HealthStatus)
+	var parsed models.HealthStatusList
+	parsed, ok := resp.Result.(models.HealthStatusList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -209,7 +209,7 @@ func (srv *Health) GetDB()(*models.HealthStatus, error) {
 
 // GetPubSub check the Appwrite pub-sub servers are up and connection is
 // successful.
-func (srv *Health) GetPubSub()(*models.HealthStatus, error) {
+func (srv *Health) GetPubSub()(*models.HealthStatusList, error) {
 	path := "/health/pubsub"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
@@ -222,7 +222,7 @@ func (srv *Health) GetPubSub()(*models.HealthStatus, error) {
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		parsed := models.HealthStatus{}.New(bytes)
+		parsed := models.HealthStatusList{}.New(bytes)
 
 		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
@@ -231,8 +231,65 @@ func (srv *Health) GetPubSub()(*models.HealthStatus, error) {
 
 		return parsed, nil
 	}
-	var parsed models.HealthStatus
-	parsed, ok := resp.Result.(models.HealthStatus)
+	var parsed models.HealthStatusList
+	parsed, ok := resp.Result.(models.HealthStatusList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type GetQueueAuditsOptions struct {
+	Threshold int
+	enabledSetters map[string]bool
+}
+func (options GetQueueAuditsOptions) New() *GetQueueAuditsOptions {
+	options.enabledSetters = map[string]bool{
+		"Threshold": false,
+	}
+	return &options
+}
+type GetQueueAuditsOption func(*GetQueueAuditsOptions)
+func (srv *Health) WithGetQueueAuditsThreshold(v int) GetQueueAuditsOption {
+	return func(o *GetQueueAuditsOptions) {
+		o.Threshold = v
+		o.enabledSetters["Threshold"] = true
+	}
+}
+	
+// GetQueueAudits get the number of audit logs that are waiting to be
+// processed in the Appwrite internal queue server.
+func (srv *Health) GetQueueAudits(optionalSetters ...GetQueueAuditsOption)(*models.HealthQueue, error) {
+	path := "/health/queue/audits"
+	options := GetQueueAuditsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Threshold"] {
+		params["threshold"] = options.Threshold
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthQueue{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.HealthQueue
+	parsed, ok := resp.Result.(models.HealthQueue)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

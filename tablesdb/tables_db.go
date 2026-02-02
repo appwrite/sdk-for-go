@@ -504,25 +504,33 @@ func (srv *TablesDB) Get(DatabaseId string)(*models.Database, error) {
 
 }
 type UpdateOptions struct {
+	Name string
 	Enabled bool
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
 	options.enabledSetters = map[string]bool{
+		"Name": false,
 		"Enabled": false,
 	}
 	return &options
 }
 type UpdateOption func(*UpdateOptions)
+func (srv *TablesDB) WithUpdateName(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
 func (srv *TablesDB) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+			
 // Update update a database by its unique ID.
-func (srv *TablesDB) Update(DatabaseId string, Name string, optionalSetters ...UpdateOption)(*models.Database, error) {
+func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/tablesdb/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -531,7 +539,9 @@ func (srv *TablesDB) Update(DatabaseId string, Name string, optionalSetters ...U
 	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
-	params["name"] = Name
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
@@ -824,6 +834,7 @@ func (srv *TablesDB) GetTable(DatabaseId string, TableId string)(*models.Table, 
 
 }
 type UpdateTableOptions struct {
+	Name string
 	Permissions []string
 	RowSecurity bool
 	Enabled bool
@@ -831,6 +842,7 @@ type UpdateTableOptions struct {
 }
 func (options UpdateTableOptions) New() *UpdateTableOptions {
 	options.enabledSetters = map[string]bool{
+		"Name": false,
 		"Permissions": false,
 		"RowSecurity": false,
 		"Enabled": false,
@@ -838,6 +850,12 @@ func (options UpdateTableOptions) New() *UpdateTableOptions {
 	return &options
 }
 type UpdateTableOption func(*UpdateTableOptions)
+func (srv *TablesDB) WithUpdateTableName(v string) UpdateTableOption {
+	return func(o *UpdateTableOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
 func (srv *TablesDB) WithUpdateTablePermissions(v []string) UpdateTableOption {
 	return func(o *UpdateTableOptions) {
 		o.Permissions = v
@@ -856,9 +874,9 @@ func (srv *TablesDB) WithUpdateTableEnabled(v bool) UpdateTableOption {
 		o.enabledSetters["Enabled"] = true
 	}
 }
-							
+					
 // UpdateTable update a table by its unique ID.
-func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, Name string, optionalSetters ...UpdateTableOption)(*models.Table, error) {
+func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSetters ...UpdateTableOption)(*models.Table, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	options := UpdateTableOptions{}.New()
@@ -868,7 +886,9 @@ func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, Name string,
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["tableId"] = TableId
-	params["name"] = Name
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
 	}

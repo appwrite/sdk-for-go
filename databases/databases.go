@@ -510,27 +510,35 @@ func (srv *Databases) Get(DatabaseId string)(*models.Database, error) {
 
 }
 type UpdateOptions struct {
+	Name string
 	Enabled bool
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
 	options.enabledSetters = map[string]bool{
+		"Name": false,
 		"Enabled": false,
 	}
 	return &options
 }
 type UpdateOption func(*UpdateOptions)
+func (srv *Databases) WithUpdateName(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
 func (srv *Databases) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+			
 // Update update a database by its unique ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.update` instead.
-func (srv *Databases) Update(DatabaseId string, Name string, optionalSetters ...UpdateOption)(*models.Database, error) {
+func (srv *Databases) Update(DatabaseId string, optionalSetters ...UpdateOption)(*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/databases/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -539,7 +547,9 @@ func (srv *Databases) Update(DatabaseId string, Name string, optionalSetters ...
 	}
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
-	params["name"] = Name
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
@@ -840,6 +850,7 @@ func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)(*mod
 
 }
 type UpdateCollectionOptions struct {
+	Name string
 	Permissions []string
 	DocumentSecurity bool
 	Enabled bool
@@ -847,6 +858,7 @@ type UpdateCollectionOptions struct {
 }
 func (options UpdateCollectionOptions) New() *UpdateCollectionOptions {
 	options.enabledSetters = map[string]bool{
+		"Name": false,
 		"Permissions": false,
 		"DocumentSecurity": false,
 		"Enabled": false,
@@ -854,6 +866,12 @@ func (options UpdateCollectionOptions) New() *UpdateCollectionOptions {
 	return &options
 }
 type UpdateCollectionOption func(*UpdateCollectionOptions)
+func (srv *Databases) WithUpdateCollectionName(v string) UpdateCollectionOption {
+	return func(o *UpdateCollectionOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
 func (srv *Databases) WithUpdateCollectionPermissions(v []string) UpdateCollectionOption {
 	return func(o *UpdateCollectionOptions) {
 		o.Permissions = v
@@ -872,11 +890,11 @@ func (srv *Databases) WithUpdateCollectionEnabled(v bool) UpdateCollectionOption
 		o.enabledSetters["Enabled"] = true
 	}
 }
-							
+					
 // UpdateCollection update a collection by its unique ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTable` instead.
-func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...UpdateCollectionOption)(*models.Collection, error) {
+func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, optionalSetters ...UpdateCollectionOption)(*models.Collection, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
 	options := UpdateCollectionOptions{}.New()
@@ -886,7 +904,9 @@ func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, N
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
-	params["name"] = Name
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
 	}
@@ -3619,18 +3639,26 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 
 }
 type UpsertDocumentOptions struct {
+	Data interface{}
 	Permissions []string
 	TransactionId string
 	enabledSetters map[string]bool
 }
 func (options UpsertDocumentOptions) New() *UpsertDocumentOptions {
 	options.enabledSetters = map[string]bool{
+		"Data": false,
 		"Permissions": false,
 		"TransactionId": false,
 	}
 	return &options
 }
 type UpsertDocumentOption func(*UpsertDocumentOptions)
+func (srv *Databases) WithUpsertDocumentData(v interface{}) UpsertDocumentOption {
+	return func(o *UpsertDocumentOptions) {
+		o.Data = v
+		o.enabledSetters["Data"] = true
+	}
+}
 func (srv *Databases) WithUpsertDocumentPermissions(v []string) UpsertDocumentOption {
 	return func(o *UpsertDocumentOptions) {
 		o.Permissions = v
@@ -3643,14 +3671,14 @@ func (srv *Databases) WithUpsertDocumentTransactionId(v string) UpsertDocumentOp
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-									
+							
 // UpsertDocument create or update a Document. Before using this route, you
 // should create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#databasesCreateCollection)
 // API or directly from your database console.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.upsertRow` instead.
-func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...UpsertDocumentOption)(*models.Document, error) {
+func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpsertDocumentOption)(*models.Document, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{documentId}", DocumentId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpsertDocumentOptions{}.New()
@@ -3661,7 +3689,9 @@ func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, Doc
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	params["documentId"] = DocumentId
-	params["data"] = Data
+	if options.enabledSetters["Data"] {
+		params["data"] = options.Data
+	}
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
 	}
