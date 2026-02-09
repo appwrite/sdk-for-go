@@ -6,12 +6,14 @@ import (
 	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/account"
 	"github.com/appwrite/sdk-for-go/avatars"
+	"github.com/appwrite/sdk-for-go/backups"
 	"github.com/appwrite/sdk-for-go/databases"
 	"github.com/appwrite/sdk-for-go/functions"
 	"github.com/appwrite/sdk-for-go/graphql"
 	"github.com/appwrite/sdk-for-go/health"
 	"github.com/appwrite/sdk-for-go/locale"
 	"github.com/appwrite/sdk-for-go/messaging"
+	"github.com/appwrite/sdk-for-go/organizations"
 	"github.com/appwrite/sdk-for-go/sites"
 	"github.com/appwrite/sdk-for-go/storage"
 	"github.com/appwrite/sdk-for-go/tablesdb"
@@ -25,6 +27,9 @@ func NewAccount(clt client.Client) *account.Account {
 }
 func NewAvatars(clt client.Client) *avatars.Avatars {
 	return avatars.New(clt)
+}
+func NewBackups(clt client.Client) *backups.Backups {
+	return backups.New(clt)
 }
 func NewDatabases(clt client.Client) *databases.Databases {
 	return databases.New(clt)
@@ -43,6 +48,9 @@ func NewLocale(clt client.Client) *locale.Locale {
 }
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
+}
+func NewOrganizations(clt client.Client) *organizations.Organizations {
+	return organizations.New(clt)
 }
 func NewSites(clt client.Client) *sites.Sites {
 	return sites.New(clt)
