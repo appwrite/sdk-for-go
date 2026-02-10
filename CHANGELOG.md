@@ -1,5 +1,12 @@
 # Change Log
 
+## v0.16.1
+
+* Update SDK as per latest server specs, these include -
+    * Introduces Backups module for managing Database backups
+    * Introduces Organization module
+    * Introduce Account level keys, Backup Service & Models
+
 ## v0.14.0
 
 * Add `total` parameter to list queries allowing skipping counting rows in a table for improved performance
