@@ -31,6 +31,10 @@ type Table struct {
     Columns []interface{} `json:"columns"`
     // Table indexes.
     Indexes []ColumnIndex `json:"indexes"`
+    // Maximum row size in bytes. Returns 0 when no limit applies.
+    BytesMax int `json:"bytesMax"`
+    // Currently used row size in bytes based on defined columns.
+    BytesUsed int `json:"bytesUsed"`
 
     // Used by Decode() method
     data []byte

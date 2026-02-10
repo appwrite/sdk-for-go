@@ -1,18 +1,11 @@
 # Change Log
 
-## v0.16.0
+## v0.16.1
 
-* Added ability to create columns and indexes synchronously while creating a table
-* Breaking change: `Output` enum has been removed; use `ImageFormat` instead.
-* Add `getQueueAudits` support to `Health` service.
-* Add longtext/mediumtext/text/varchar attribute and column helpers to `Databases` and `TablesDB` services.
-
-## v0.15.0
-
-* Rename `VCSDeploymentType` enum to `VCSReferenceType`
-* Change `CreateTemplateDeployment` method signature: replace `Version` parameter with `Type` (TemplateReferenceType) and `Reference` parameters
-* Add `GetScreenshot` method to `Avatars` service
-* Add `Theme`, `Timezone` and `Output` enums
+* Update SDK as per latest server specs, these include -
+    * Introduces Backups module for managing Database backups
+    * Introduces Organization module
+    * Introduce Account level keys, Backup Service & Models
 
 ## v0.14.0
 
