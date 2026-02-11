@@ -17,6 +17,12 @@ func (model Preferences) New(data []byte) *Preferences {
     return &model
 }
 
+func (p *Preferences) UnmarshalJSON(b []byte) error {
+    p.data = make([]byte, len(b))
+    copy(p.data, b)
+    return nil
+}
+
 // Use this method to get response in desired type
 func (model *Preferences) Decode(value interface{}) error {
     if len(model.data) <= 0 {
