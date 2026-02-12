@@ -13,7 +13,6 @@ import (
 	"github.com/appwrite/sdk-for-go/health"
 	"github.com/appwrite/sdk-for-go/locale"
 	"github.com/appwrite/sdk-for-go/messaging"
-	"github.com/appwrite/sdk-for-go/organizations"
 	"github.com/appwrite/sdk-for-go/sites"
 	"github.com/appwrite/sdk-for-go/storage"
 	"github.com/appwrite/sdk-for-go/tablesdb"
@@ -48,9 +47,6 @@ func NewLocale(clt client.Client) *locale.Locale {
 }
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
-}
-func NewOrganizations(clt client.Client) *organizations.Organizations {
-	return organizations.New(clt)
 }
 func NewSites(clt client.Client) *sites.Sites {
 	return sites.New(clt)
