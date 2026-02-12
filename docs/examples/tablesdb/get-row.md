@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -21,3 +22,4 @@ response, error := service.GetRow(
     tablesdb.WithGetRowQueries([]interface{}{}),
     tablesdb.WithGetRowTransactionId("<TRANSACTION_ID>"),
 )
+```

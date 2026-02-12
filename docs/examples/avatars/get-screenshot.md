@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -39,3 +40,4 @@ response, error := service.GetScreenshot(
     avatars.WithGetScreenshotQuality(85),
     avatars.WithGetScreenshotOutput("jpeg"),
 )
+```

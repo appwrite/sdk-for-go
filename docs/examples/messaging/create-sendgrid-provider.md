@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -24,3 +25,4 @@ response, error := service.CreateSendgridProvider(
     messaging.WithCreateSendgridProviderReplyToEmail("email@example.com"),
     messaging.WithCreateSendgridProviderEnabled(false),
 )
+```

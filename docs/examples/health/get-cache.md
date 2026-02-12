@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -15,3 +16,4 @@ client := client.New(
 service := health.New(client)
 
 response, error := service.GetCache())
+```

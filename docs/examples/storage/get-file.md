@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -18,3 +19,4 @@ response, error := service.GetFile(
     "<BUCKET_ID>",
     "<FILE_ID>",
 )
+```

@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -34,3 +35,4 @@ response, error := service.Update(
     functions.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
     functions.WithUpdateSpecification(""),
 )
+```

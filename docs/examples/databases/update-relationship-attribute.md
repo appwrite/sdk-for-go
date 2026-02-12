@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -21,3 +22,4 @@ response, error := service.UpdateRelationshipAttribute(
     databases.WithUpdateRelationshipAttributeOnDelete("cascade"),
     databases.WithUpdateRelationshipAttributeNewKey(""),
 )
+```

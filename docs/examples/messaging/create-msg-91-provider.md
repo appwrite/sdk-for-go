@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -22,3 +23,4 @@ response, error := service.CreateMsg91Provider(
     messaging.WithCreateMsg91ProviderAuthKey("<AUTH_KEY>"),
     messaging.WithCreateMsg91ProviderEnabled(false),
 )
+```

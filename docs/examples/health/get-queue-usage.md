@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -17,3 +18,4 @@ service := health.New(client)
 response, error := service.GetQueueUsage(
     health.WithGetQueueUsageThreshold(0),
 )
+```

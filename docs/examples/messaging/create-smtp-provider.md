@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -30,3 +31,4 @@ response, error := service.CreateSMTPProvider(
     messaging.WithCreateSMTPProviderReplyToEmail("email@example.com"),
     messaging.WithCreateSMTPProviderEnabled(false),
 )
+```

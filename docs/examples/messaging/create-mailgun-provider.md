@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -26,3 +27,4 @@ response, error := service.CreateMailgunProvider(
     messaging.WithCreateMailgunProviderReplyToEmail("email@example.com"),
     messaging.WithCreateMailgunProviderEnabled(false),
 )
+```

@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -26,3 +27,4 @@ response, error := service.UpdateMailgunProvider(
     messaging.WithUpdateMailgunProviderReplyToName("<REPLY_TO_NAME>"),
     messaging.WithUpdateMailgunProviderReplyToEmail("<REPLY_TO_EMAIL>"),
 )
+```

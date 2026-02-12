@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -21,3 +22,4 @@ response, error := service.CreateLineColumn(
     false,
     tablesdb.WithCreateLineColumnDefault(interface{}{[1, 2], [3, 4], [5, 6]}),
 )
+```

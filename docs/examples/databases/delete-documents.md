@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -20,3 +21,4 @@ response, error := service.DeleteDocuments(
     databases.WithDeleteDocumentsQueries([]interface{}{}),
     databases.WithDeleteDocumentsTransactionId("<TRANSACTION_ID>"),
 )
+```

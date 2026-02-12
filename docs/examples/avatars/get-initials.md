@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -20,3 +21,4 @@ response, error := service.GetInitials(
     avatars.WithGetInitialsHeight(0),
     avatars.WithGetInitialsBackground(""),
 )
+```

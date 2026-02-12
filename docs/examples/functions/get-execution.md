@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -18,3 +19,4 @@ response, error := service.GetExecution(
     "<FUNCTION_ID>",
     "<EXECUTION_ID>",
 )
+```

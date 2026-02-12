@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -22,3 +23,4 @@ response, error := service.UpdatePointColumn(
     tablesdb.WithUpdatePointColumnDefault(interface{}{1, 2}),
     tablesdb.WithUpdatePointColumnNewKey(""),
 )
+```

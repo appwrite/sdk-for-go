@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -18,3 +19,4 @@ response, error := service.DeleteCollection(
     "<DATABASE_ID>",
     "<COLLECTION_ID>",
 )
+```

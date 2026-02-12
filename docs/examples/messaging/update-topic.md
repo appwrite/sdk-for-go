@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -19,3 +20,4 @@ response, error := service.UpdateTopic(
     messaging.WithUpdateTopicName("<NAME>"),
     messaging.WithUpdateTopicSubscribe(interface{}{"any"}),
 )
+```

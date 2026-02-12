@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -27,3 +28,4 @@ response, error := service.CreateBucket(
     storage.WithCreateBucketAntivirus(false),
     storage.WithCreateBucketTransformations(false),
 )
+```

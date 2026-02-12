@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -22,3 +23,4 @@ response, error := service.CreateVonageProvider(
     messaging.WithCreateVonageProviderApiSecret("<API_SECRET>"),
     messaging.WithCreateVonageProviderEnabled(false),
 )
+```

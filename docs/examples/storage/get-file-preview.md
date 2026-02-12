@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -30,3 +31,4 @@ response, error := service.GetFilePreview(
     storage.WithGetFilePreviewOutput("jpg"),
     storage.WithGetFilePreviewToken("<TOKEN>"),
 )
+```

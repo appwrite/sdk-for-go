@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -25,3 +26,4 @@ response, error := service.CreateScryptUser(
     0,
     users.WithCreateScryptUserName("<NAME>"),
 )
+```

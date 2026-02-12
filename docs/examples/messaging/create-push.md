@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -35,3 +36,4 @@ response, error := service.CreatePush(
     messaging.WithCreatePushCritical(false),
     messaging.WithCreatePushPriority("normal"),
 )
+```

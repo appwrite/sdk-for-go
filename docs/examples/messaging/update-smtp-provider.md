@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -30,3 +31,4 @@ response, error := service.UpdateSMTPProvider(
     messaging.WithUpdateSMTPProviderReplyToEmail("<REPLY_TO_EMAIL>"),
     messaging.WithUpdateSMTPProviderEnabled(false),
 )
+```

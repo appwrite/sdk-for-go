@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -17,3 +18,4 @@ service := messaging.New(client)
 response, error := service.GetTopic(
     "<TOPIC_ID>",
 )
+```

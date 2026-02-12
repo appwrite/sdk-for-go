@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -17,3 +18,4 @@ service := tokens.New(client)
 response, error := service.Delete(
     "<TOKEN_ID>",
 )
+```

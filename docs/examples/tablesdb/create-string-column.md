@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -24,3 +25,4 @@ response, error := service.CreateStringColumn(
     tablesdb.WithCreateStringColumnArray(false),
     tablesdb.WithCreateStringColumnEncrypt(false),
 )
+```

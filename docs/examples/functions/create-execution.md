@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -23,3 +24,4 @@ response, error := service.CreateExecution(
     functions.WithCreateExecutionHeaders(map[string]interface{}{}),
     functions.WithCreateExecutionScheduledAt("<SCHEDULED_AT>"),
 )
+```

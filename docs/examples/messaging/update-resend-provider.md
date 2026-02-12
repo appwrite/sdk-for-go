@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -24,3 +25,4 @@ response, error := service.UpdateResendProvider(
     messaging.WithUpdateResendProviderReplyToName("<REPLY_TO_NAME>"),
     messaging.WithUpdateResendProviderReplyToEmail("<REPLY_TO_EMAIL>"),
 )
+```

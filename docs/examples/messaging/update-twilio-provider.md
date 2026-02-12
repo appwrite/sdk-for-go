@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -22,3 +23,4 @@ response, error := service.UpdateTwilioProvider(
     messaging.WithUpdateTwilioProviderAuthToken("<AUTH_TOKEN>"),
     messaging.WithUpdateTwilioProviderFrom("<FROM>"),
 )
+```

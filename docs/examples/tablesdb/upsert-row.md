@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -28,3 +29,4 @@ response, error := service.UpsertRow(
     tablesdb.WithUpsertRowPermissions(interface{}{"read("any")"}),
     tablesdb.WithUpsertRowTransactionId("<TRANSACTION_ID>"),
 )
+```

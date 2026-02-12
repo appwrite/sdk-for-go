@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -21,3 +22,4 @@ response, error := service.UpdateVariable(
     sites.WithUpdateVariableValue("<VALUE>"),
     sites.WithUpdateVariableSecret(false),
 )
+```

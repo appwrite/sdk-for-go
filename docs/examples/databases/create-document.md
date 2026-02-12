@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -28,3 +29,4 @@ response, error := service.CreateDocument(
     databases.WithCreateDocumentPermissions(interface{}{"read("any")"}),
     databases.WithCreateDocumentTransactionId("<TRANSACTION_ID>"),
 )
+```

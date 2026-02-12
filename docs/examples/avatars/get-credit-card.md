@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -20,3 +21,4 @@ response, error := service.GetCreditCard(
     avatars.WithGetCreditCardHeight(0),
     avatars.WithGetCreditCardQuality(-1),
 )
+```

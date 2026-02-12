@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -17,3 +18,4 @@ service := databases.New(client)
 response, error := service.CreateTransaction(
     databases.WithCreateTransactionTtl(60),
 )
+```

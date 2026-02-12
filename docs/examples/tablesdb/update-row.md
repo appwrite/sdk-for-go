@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -28,3 +29,4 @@ response, error := service.UpdateRow(
     tablesdb.WithUpdateRowPermissions(interface{}{"read("any")"}),
     tablesdb.WithUpdateRowTransactionId("<TRANSACTION_ID>"),
 )
+```

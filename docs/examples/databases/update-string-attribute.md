@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -23,3 +24,4 @@ response, error := service.UpdateStringAttribute(
     databases.WithUpdateStringAttributeSize(1),
     databases.WithUpdateStringAttributeNewKey(""),
 )
+```

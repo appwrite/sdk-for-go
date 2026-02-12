@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -18,3 +19,4 @@ response, error := service.GetFailedJobs(
     "v1-database",
     health.WithGetFailedJobsThreshold(0),
 )
+```

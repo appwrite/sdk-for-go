@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -22,3 +23,4 @@ response, error := service.CreateDeployment(
     sites.WithCreateDeploymentBuildCommand("<BUILD_COMMAND>"),
     sites.WithCreateDeploymentOutputDirectory("<OUTPUT_DIRECTORY>"),
 )
+```

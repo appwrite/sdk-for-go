@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -34,3 +35,4 @@ response, error := service.Create(
     sites.WithCreateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
     sites.WithCreateSpecification(""),
 )
+```

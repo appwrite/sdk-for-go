@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -21,3 +22,4 @@ response, error := service.CreatePointAttribute(
     false,
     databases.WithCreatePointAttributeDefault(interface{}{1, 2}),
 )
+```

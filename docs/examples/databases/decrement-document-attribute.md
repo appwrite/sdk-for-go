@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -23,3 +24,4 @@ response, error := service.DecrementDocumentAttribute(
     databases.WithDecrementDocumentAttributeMin(0),
     databases.WithDecrementDocumentAttributeTransactionId("<TRANSACTION_ID>"),
 )
+```

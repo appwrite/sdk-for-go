@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -23,3 +24,4 @@ response, error := service.DecrementRowColumn(
     tablesdb.WithDecrementRowColumnMin(0),
     tablesdb.WithDecrementRowColumnTransactionId("<TRANSACTION_ID>"),
 )
+```

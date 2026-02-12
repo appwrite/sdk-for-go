@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -20,3 +21,4 @@ response, error := service.CreateOAuth2Token(
     account.WithCreateOAuth2TokenFailure("https://example.com"),
     account.WithCreateOAuth2TokenScopes([]interface{}{}),
 )
+```

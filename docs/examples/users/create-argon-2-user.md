@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -20,3 +21,4 @@ response, error := service.CreateArgon2User(
     "password",
     users.WithCreateArgon2UserName("<NAME>"),
 )
+```

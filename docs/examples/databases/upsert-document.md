@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -28,3 +29,4 @@ response, error := service.UpsertDocument(
     databases.WithUpsertDocumentPermissions(interface{}{"read("any")"}),
     databases.WithUpsertDocumentTransactionId("<TRANSACTION_ID>"),
 )
+```

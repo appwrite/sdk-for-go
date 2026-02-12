@@ -1,5 +1,10 @@
 # Change Log
 
+## v0.17.0
+
+* Fix doc examples with proper formatting
+* Add support for the new `Backups` service
+
 ## v0.16.0
 
 * Added ability to create columns and indexes synchronously while creating a table

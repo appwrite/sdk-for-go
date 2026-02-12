@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -18,3 +19,4 @@ response, error := service.UpdateName(
     "<USER_ID>",
     "<NAME>",
 )
+```

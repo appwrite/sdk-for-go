@@ -1,3 +1,4 @@
+```go
 package main
 
 import (
@@ -23,3 +24,4 @@ response, error := service.CreateScryptModifiedUser(
     "<PASSWORD_SIGNER_KEY>",
     users.WithCreateScryptModifiedUserName("<NAME>"),
 )
+```
