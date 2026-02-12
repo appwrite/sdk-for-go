@@ -31,6 +31,10 @@ type Collection struct {
     Attributes []map[string]any `json:"attributes"`
     // Collection indexes.
     Indexes []Index `json:"indexes"`
+    // Maximum document size in bytes. Returns 0 when no limit applies.
+    BytesMax int `json:"bytesMax"`
+    // Currently used document size in bytes based on defined attributes.
+    BytesUsed int `json:"bytesUsed"`
 
     // Used by Decode() method
     data []byte
