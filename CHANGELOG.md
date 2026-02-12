@@ -1,8 +1,9 @@
 # Change Log
 
-## v0.16.1
+## v0.17.0
 
 * Fix doc examples with proper formatting
+* Add support for the new `Backups` service
 
 ## v0.16.0
 
