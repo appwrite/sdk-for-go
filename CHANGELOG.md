@@ -6,6 +6,7 @@
 * Extended Databases attribute APIs to support encryption: introduced Encrypt option for Longtext, Mediumtext, Text, and Varchar attributes, along with corresponding New/Create option builders (WithCreateLongtextAttributeEncrypt, WithCreateMediumtextAttributeEncrypt, WithCreateTextAttributeEncrypt, WithCreateVarcharAttributeEncrypt) and wiring to send the encrypt parameter when enabled.
 * Updated documentation and examples to demonstrate the new encrypt option for attribute creation (e.g., docs/examples/databases/create-longtext-attribute.md, create-mediumtext-attribute.md, create-text-attribute.md, create-varchar-attribute.md).
 * Updated README to reflect compatibility with Appwrite server version 1.8.x.
+* Add support for the new `Backups` service
 
 ## v0.16.1
 
