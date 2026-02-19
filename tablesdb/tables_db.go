@@ -2224,12 +2224,14 @@ func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key str
 type CreateLongtextColumnOptions struct {
 	Default string
 	Array bool
+	Encrypt bool
 	enabledSetters map[string]bool
 }
 func (options CreateLongtextColumnOptions) New() *CreateLongtextColumnOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
 		"Array": false,
+		"Encrypt": false,
 	}
 	return &options
 }
@@ -2244,6 +2246,12 @@ func (srv *TablesDB) WithCreateLongtextColumnArray(v bool) CreateLongtextColumnO
 	return func(o *CreateLongtextColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateLongtextColumnEncrypt(v bool) CreateLongtextColumnOption {
+	return func(o *CreateLongtextColumnOptions) {
+		o.Encrypt = v
+		o.enabledSetters["Encrypt"] = true
 	}
 }
 									
@@ -2265,6 +2273,9 @@ func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Encrypt"] {
+		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -2361,12 +2372,14 @@ func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key
 type CreateMediumtextColumnOptions struct {
 	Default string
 	Array bool
+	Encrypt bool
 	enabledSetters map[string]bool
 }
 func (options CreateMediumtextColumnOptions) New() *CreateMediumtextColumnOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
 		"Array": false,
+		"Encrypt": false,
 	}
 	return &options
 }
@@ -2381,6 +2394,12 @@ func (srv *TablesDB) WithCreateMediumtextColumnArray(v bool) CreateMediumtextCol
 	return func(o *CreateMediumtextColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateMediumtextColumnEncrypt(v bool) CreateMediumtextColumnOption {
+	return func(o *CreateMediumtextColumnOptions) {
+		o.Encrypt = v
+		o.enabledSetters["Encrypt"] = true
 	}
 }
 									
@@ -2402,6 +2421,9 @@ func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, K
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Encrypt"] {
+		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3031,12 +3053,14 @@ func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key s
 type CreateTextColumnOptions struct {
 	Default string
 	Array bool
+	Encrypt bool
 	enabledSetters map[string]bool
 }
 func (options CreateTextColumnOptions) New() *CreateTextColumnOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
 		"Array": false,
+		"Encrypt": false,
 	}
 	return &options
 }
@@ -3051,6 +3075,12 @@ func (srv *TablesDB) WithCreateTextColumnArray(v bool) CreateTextColumnOption {
 	return func(o *CreateTextColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateTextColumnEncrypt(v bool) CreateTextColumnOption {
+	return func(o *CreateTextColumnOptions) {
+		o.Encrypt = v
+		o.enabledSetters["Encrypt"] = true
 	}
 }
 									
@@ -3072,6 +3102,9 @@ func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key str
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Encrypt"] {
+		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3305,12 +3338,14 @@ func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key stri
 type CreateVarcharColumnOptions struct {
 	Default string
 	Array bool
+	Encrypt bool
 	enabledSetters map[string]bool
 }
 func (options CreateVarcharColumnOptions) New() *CreateVarcharColumnOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
 		"Array": false,
+		"Encrypt": false,
 	}
 	return &options
 }
@@ -3325,6 +3360,12 @@ func (srv *TablesDB) WithCreateVarcharColumnArray(v bool) CreateVarcharColumnOpt
 	return func(o *CreateVarcharColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateVarcharColumnEncrypt(v bool) CreateVarcharColumnOption {
+	return func(o *CreateVarcharColumnOptions) {
+		o.Encrypt = v
+		o.enabledSetters["Encrypt"] = true
 	}
 }
 											
@@ -3347,6 +3388,9 @@ func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key 
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Encrypt"] {
+		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",

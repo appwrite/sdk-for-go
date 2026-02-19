@@ -28,6 +28,8 @@ type ColumnMediumtext struct {
     // Default value for column when not provided. Cannot be set when column is
     // required.
     Default string `json:"default"`
+    // Defines whether this column is encrypted or not.
+    Encrypt bool `json:"encrypt"`
 
     // Used by Decode() method
     data []byte

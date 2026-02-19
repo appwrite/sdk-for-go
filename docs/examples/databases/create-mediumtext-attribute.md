@@ -22,5 +22,6 @@ response, error := service.CreateMediumtextAttribute(
     false,
     databases.WithCreateMediumtextAttributeDefault("<DEFAULT>"),
     databases.WithCreateMediumtextAttributeArray(false),
+    databases.WithCreateMediumtextAttributeEncrypt(false),
 )
 ```
