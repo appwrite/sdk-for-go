@@ -1,5 +1,12 @@
 # Change Log
 
+## 0.17.0
+
+* Added new Activities service to the Go SDK with a NewActivities constructor to access Activities endpoints.
+* Extended Databases attribute APIs to support encryption: introduced Encrypt option for Longtext, Mediumtext, Text, and Varchar attributes, along with corresponding New/Create option builders (WithCreateLongtextAttributeEncrypt, WithCreateMediumtextAttributeEncrypt, WithCreateTextAttributeEncrypt, WithCreateVarcharAttributeEncrypt) and wiring to send the encrypt parameter when enabled.
+* Updated documentation and examples to demonstrate the new encrypt option for attribute creation (e.g., docs/examples/databases/create-longtext-attribute.md, create-mediumtext-attribute.md, create-text-attribute.md, create-varchar-attribute.md).
+* Updated README to reflect compatibility with Appwrite server version 1.8.x.
+
 ## v0.14.0
 
 * Add `total` parameter to list queries allowing skipping counting rows in a table for improved performance
