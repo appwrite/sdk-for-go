@@ -2278,12 +2278,14 @@ func (srv *Databases) UpdateLineAttribute(DatabaseId string, CollectionId string
 type CreateLongtextAttributeOptions struct {
 	Default string
 	Array bool
+	Encrypt bool
 	enabledSetters map[string]bool
 }
 func (options CreateLongtextAttributeOptions) New() *CreateLongtextAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
 		"Array": false,
+		"Encrypt": false,
 	}
 	return &options
 }
@@ -2298,6 +2300,12 @@ func (srv *Databases) WithCreateLongtextAttributeArray(v bool) CreateLongtextAtt
 	return func(o *CreateLongtextAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *Databases) WithCreateLongtextAttributeEncrypt(v bool) CreateLongtextAttributeOption {
+	return func(o *CreateLongtextAttributeOptions) {
+		o.Encrypt = v
+		o.enabledSetters["Encrypt"] = true
 	}
 }
 									
@@ -2319,6 +2327,9 @@ func (srv *Databases) CreateLongtextAttribute(DatabaseId string, CollectionId st
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Encrypt"] {
+		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -2415,12 +2426,14 @@ func (srv *Databases) UpdateLongtextAttribute(DatabaseId string, CollectionId st
 type CreateMediumtextAttributeOptions struct {
 	Default string
 	Array bool
+	Encrypt bool
 	enabledSetters map[string]bool
 }
 func (options CreateMediumtextAttributeOptions) New() *CreateMediumtextAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
 		"Array": false,
+		"Encrypt": false,
 	}
 	return &options
 }
@@ -2435,6 +2448,12 @@ func (srv *Databases) WithCreateMediumtextAttributeArray(v bool) CreateMediumtex
 	return func(o *CreateMediumtextAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *Databases) WithCreateMediumtextAttributeEncrypt(v bool) CreateMediumtextAttributeOption {
+	return func(o *CreateMediumtextAttributeOptions) {
+		o.Encrypt = v
+		o.enabledSetters["Encrypt"] = true
 	}
 }
 									
@@ -2456,6 +2475,9 @@ func (srv *Databases) CreateMediumtextAttribute(DatabaseId string, CollectionId 
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Encrypt"] {
+		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3095,12 +3117,14 @@ func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId stri
 type CreateTextAttributeOptions struct {
 	Default string
 	Array bool
+	Encrypt bool
 	enabledSetters map[string]bool
 }
 func (options CreateTextAttributeOptions) New() *CreateTextAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
 		"Array": false,
+		"Encrypt": false,
 	}
 	return &options
 }
@@ -3115,6 +3139,12 @@ func (srv *Databases) WithCreateTextAttributeArray(v bool) CreateTextAttributeOp
 	return func(o *CreateTextAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *Databases) WithCreateTextAttributeEncrypt(v bool) CreateTextAttributeOption {
+	return func(o *CreateTextAttributeOptions) {
+		o.Encrypt = v
+		o.enabledSetters["Encrypt"] = true
 	}
 }
 									
@@ -3136,6 +3166,9 @@ func (srv *Databases) CreateTextAttribute(DatabaseId string, CollectionId string
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Encrypt"] {
+		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3373,12 +3406,14 @@ func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string,
 type CreateVarcharAttributeOptions struct {
 	Default string
 	Array bool
+	Encrypt bool
 	enabledSetters map[string]bool
 }
 func (options CreateVarcharAttributeOptions) New() *CreateVarcharAttributeOptions {
 	options.enabledSetters = map[string]bool{
 		"Default": false,
 		"Array": false,
+		"Encrypt": false,
 	}
 	return &options
 }
@@ -3393,6 +3428,12 @@ func (srv *Databases) WithCreateVarcharAttributeArray(v bool) CreateVarcharAttri
 	return func(o *CreateVarcharAttributeOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *Databases) WithCreateVarcharAttributeEncrypt(v bool) CreateVarcharAttributeOption {
+	return func(o *CreateVarcharAttributeOptions) {
+		o.Encrypt = v
+		o.enabledSetters["Encrypt"] = true
 	}
 }
 											
@@ -3415,6 +3456,9 @@ func (srv *Databases) CreateVarcharAttribute(DatabaseId string, CollectionId str
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Encrypt"] {
+		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",

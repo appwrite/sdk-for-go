@@ -22,5 +22,6 @@ response, error := service.CreateLongtextColumn(
     false,
     tablesdb.WithCreateLongtextColumnDefault("<DEFAULT>"),
     tablesdb.WithCreateLongtextColumnArray(false),
+    tablesdb.WithCreateLongtextColumnEncrypt(false),
 )
 ```

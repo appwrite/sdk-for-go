@@ -5,6 +5,7 @@ import (
 
 	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/account"
+	"github.com/appwrite/sdk-for-go/activities"
 	"github.com/appwrite/sdk-for-go/avatars"
 	"github.com/appwrite/sdk-for-go/backups"
 	"github.com/appwrite/sdk-for-go/databases"
@@ -23,6 +24,9 @@ import (
 
 func NewAccount(clt client.Client) *account.Account {
 	return account.New(clt)
+}
+func NewActivities(clt client.Client) *activities.Activities {
+	return activities.New(clt)
 }
 func NewAvatars(clt client.Client) *avatars.Avatars {
 	return avatars.New(clt)

@@ -22,5 +22,6 @@ response, error := service.CreateMediumtextColumn(
     false,
     tablesdb.WithCreateMediumtextColumnDefault("<DEFAULT>"),
     tablesdb.WithCreateMediumtextColumnArray(false),
+    tablesdb.WithCreateMediumtextColumnEncrypt(false),
 )
 ```

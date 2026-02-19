@@ -4,7 +4,7 @@ package main
 import (
     "fmt"
     "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/health"
+    "github.com/appwrite/sdk-for-go/activities"
 )
 
 client := client.New(
@@ -13,9 +13,9 @@ client := client.New(
     client.WithKey("<YOUR_API_KEY>")
 )
 
-service := health.New(client)
+service := activities.New(client)
 
-response, error := service.GetQueueBillingTeamAggregation(
-    health.WithGetQueueBillingTeamAggregationThreshold(0),
+response, error := service.ListEvents(
+    activities.WithListEventsQueries(""),
 )
 ```
