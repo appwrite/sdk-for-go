@@ -173,6 +173,75 @@ func (srv *Health) GetCertificate(optionalSetters ...GetCertificateOption)(*mode
 	return &parsed, nil
 
 }
+type GetConsolePausingOptions struct {
+	Threshold int
+	InactivityDays int
+	enabledSetters map[string]bool
+}
+func (options GetConsolePausingOptions) New() *GetConsolePausingOptions {
+	options.enabledSetters = map[string]bool{
+		"Threshold": false,
+		"InactivityDays": false,
+	}
+	return &options
+}
+type GetConsolePausingOption func(*GetConsolePausingOptions)
+func (srv *Health) WithGetConsolePausingThreshold(v int) GetConsolePausingOption {
+	return func(o *GetConsolePausingOptions) {
+		o.Threshold = v
+		o.enabledSetters["Threshold"] = true
+	}
+}
+func (srv *Health) WithGetConsolePausingInactivityDays(v int) GetConsolePausingOption {
+	return func(o *GetConsolePausingOptions) {
+		o.InactivityDays = v
+		o.enabledSetters["InactivityDays"] = true
+	}
+}
+	
+// GetConsolePausing get console pausing health status. Monitors projects
+// approaching the pause threshold to detect potential issues with console
+// access tracking.
+func (srv *Health) GetConsolePausing(optionalSetters ...GetConsolePausingOption)(*models.HealthStatus, error) {
+	path := "/health/console-pausing"
+	options := GetConsolePausingOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Threshold"] {
+		params["threshold"] = options.Threshold
+	}
+	if options.enabledSetters["InactivityDays"] {
+		params["inactivityDays"] = options.InactivityDays
+	}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthStatus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.HealthStatus
+	parsed, ok := resp.Result.(models.HealthStatus)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 
 // GetDB check the Appwrite database servers are up and connection is
 // successful.

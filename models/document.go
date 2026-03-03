@@ -9,7 +9,7 @@ import (
 type Document struct {
     // Document ID.
     Id string `json:"$id"`
-    // Document automatically incrementing ID.
+    // Document sequence ID.
     Sequence int `json:"$sequence"`
     // Collection ID.
     CollectionId string `json:"$collectionId"`

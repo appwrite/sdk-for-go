@@ -2950,6 +2950,82 @@ func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionI
 	return &parsed, nil
 
 }
+type UpdateRelationshipAttributeOptions struct {
+	OnDelete string
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateRelationshipAttributeOptions) New() *UpdateRelationshipAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"OnDelete": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateRelationshipAttributeOption func(*UpdateRelationshipAttributeOptions)
+func (srv *Databases) WithUpdateRelationshipAttributeOnDelete(v string) UpdateRelationshipAttributeOption {
+	return func(o *UpdateRelationshipAttributeOptions) {
+		o.OnDelete = v
+		o.enabledSetters["OnDelete"] = true
+	}
+}
+func (srv *Databases) WithUpdateRelationshipAttributeNewKey(v string) UpdateRelationshipAttributeOption {
+	return func(o *UpdateRelationshipAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+							
+// UpdateRelationshipAttribute update relationship attribute. [Learn more
+// about relationship
+// attributes](https://appwrite.io/docs/databases-relationships#relationship-attributes).
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateRelationshipColumn` instead.
+func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionId string, Key string, optionalSetters ...UpdateRelationshipAttributeOption)(*models.AttributeRelationship, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/relationship/{key}")
+	options := UpdateRelationshipAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	if options.enabledSetters["OnDelete"] {
+		params["onDelete"] = options.OnDelete
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeRelationship{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeRelationship
+	parsed, ok := resp.Result.(models.AttributeRelationship)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type CreateStringAttributeOptions struct {
 	Default string
 	Array bool
@@ -3638,86 +3714,11 @@ func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Ke
 	return &parsed, nil
 
 }
-type UpdateRelationshipAttributeOptions struct {
-	OnDelete string
-	NewKey string
-	enabledSetters map[string]bool
-}
-func (options UpdateRelationshipAttributeOptions) New() *UpdateRelationshipAttributeOptions {
-	options.enabledSetters = map[string]bool{
-		"OnDelete": false,
-		"NewKey": false,
-	}
-	return &options
-}
-type UpdateRelationshipAttributeOption func(*UpdateRelationshipAttributeOptions)
-func (srv *Databases) WithUpdateRelationshipAttributeOnDelete(v string) UpdateRelationshipAttributeOption {
-	return func(o *UpdateRelationshipAttributeOptions) {
-		o.OnDelete = v
-		o.enabledSetters["OnDelete"] = true
-	}
-}
-func (srv *Databases) WithUpdateRelationshipAttributeNewKey(v string) UpdateRelationshipAttributeOption {
-	return func(o *UpdateRelationshipAttributeOptions) {
-		o.NewKey = v
-		o.enabledSetters["NewKey"] = true
-	}
-}
-							
-// UpdateRelationshipAttribute update relationship attribute. [Learn more
-// about relationship
-// attributes](https://appwrite.io/docs/databases-relationships#relationship-attributes).
-//
-// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateRelationshipColumn` instead.
-func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionId string, Key string, optionalSetters ...UpdateRelationshipAttributeOption)(*models.AttributeRelationship, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
-	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}/relationship")
-	options := UpdateRelationshipAttributeOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["collectionId"] = CollectionId
-	params["key"] = Key
-	if options.enabledSetters["OnDelete"] {
-		params["onDelete"] = options.OnDelete
-	}
-	if options.enabledSetters["NewKey"] {
-		params["newKey"] = options.NewKey
-	}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-	}
-
-	resp, err := srv.client.Call("PATCH", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
-
-		parsed := models.AttributeRelationship{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.AttributeRelationship
-	parsed, ok := resp.Result.(models.AttributeRelationship)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
 type ListDocumentsOptions struct {
 	Queries []string
 	TransactionId string
 	Total bool
+	Ttl int
 	enabledSetters map[string]bool
 }
 func (options ListDocumentsOptions) New() *ListDocumentsOptions {
@@ -3725,6 +3726,7 @@ func (options ListDocumentsOptions) New() *ListDocumentsOptions {
 		"Queries": false,
 		"TransactionId": false,
 		"Total": false,
+		"Ttl": false,
 	}
 	return &options
 }
@@ -3745,6 +3747,12 @@ func (srv *Databases) WithListDocumentsTotal(v bool) ListDocumentsOption {
 	return func(o *ListDocumentsOptions) {
 		o.Total = v
 		o.enabledSetters["Total"] = true
+	}
+}
+func (srv *Databases) WithListDocumentsTtl(v int) ListDocumentsOption {
+	return func(o *ListDocumentsOptions) {
+		o.Ttl = v
+		o.enabledSetters["Ttl"] = true
 	}
 }
 					
@@ -3770,6 +3778,9 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 	}
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
+	}
+	if options.enabledSetters["Ttl"] {
+		params["ttl"] = options.Ttl
 	}
 	headers := map[string]interface{}{
 	}
