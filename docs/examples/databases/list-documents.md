@@ -21,5 +21,6 @@ response, error := service.ListDocuments(
     databases.WithListDocumentsQueries([]interface{}{}),
     databases.WithListDocumentsTransactionId("<TRANSACTION_ID>"),
     databases.WithListDocumentsTotal(false),
+    databases.WithListDocumentsTtl(0),
 )
 ```

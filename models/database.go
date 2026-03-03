@@ -21,10 +21,6 @@ type Database struct {
     Enabled bool `json:"enabled"`
     // Database type.
     Type string `json:"type"`
-    // Database backup policies.
-    Policies []Index `json:"policies"`
-    // Database backup archives.
-    Archives []Collection `json:"archives"`
 
     // Used by Decode() method
     data []byte

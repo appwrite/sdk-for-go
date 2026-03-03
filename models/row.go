@@ -9,7 +9,7 @@ import (
 type Row struct {
     // Row ID.
     Id string `json:"$id"`
-    // Row automatically incrementing ID.
+    // Row sequence ID.
     Sequence int `json:"$sequence"`
     // Table ID.
     TableId string `json:"$tableId"`

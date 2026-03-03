@@ -21,5 +21,6 @@ response, error := service.ListRows(
     tablesdb.WithListRowsQueries([]interface{}{}),
     tablesdb.WithListRowsTransactionId("<TRANSACTION_ID>"),
     tablesdb.WithListRowsTotal(false),
+    tablesdb.WithListRowsTtl(0),
 )
 ```

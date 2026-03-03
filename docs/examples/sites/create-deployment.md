@@ -18,9 +18,9 @@ service := sites.New(client)
 response, error := service.CreateDeployment(
     "<SITE_ID>",
     file.NewInputFile("/path/to/file.png", "file.png"),
-    false,
     sites.WithCreateDeploymentInstallCommand("<INSTALL_COMMAND>"),
     sites.WithCreateDeploymentBuildCommand("<BUILD_COMMAND>"),
     sites.WithCreateDeploymentOutputDirectory("<OUTPUT_DIRECTORY>"),
+    sites.WithCreateDeploymentActivate(false),
 )
 ```

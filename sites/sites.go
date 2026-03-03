@@ -774,6 +774,7 @@ type CreateDeploymentOptions struct {
 	InstallCommand string
 	BuildCommand string
 	OutputDirectory string
+	Activate bool
 	enabledSetters map[string]bool
 }
 func (options CreateDeploymentOptions) New() *CreateDeploymentOptions {
@@ -781,6 +782,7 @@ func (options CreateDeploymentOptions) New() *CreateDeploymentOptions {
 		"InstallCommand": false,
 		"BuildCommand": false,
 		"OutputDirectory": false,
+		"Activate": false,
 	}
 	return &options
 }
@@ -803,12 +805,18 @@ func (srv *Sites) WithCreateDeploymentOutputDirectory(v string) CreateDeployment
 		o.enabledSetters["OutputDirectory"] = true
 	}
 }
-							
+func (srv *Sites) WithCreateDeploymentActivate(v bool) CreateDeploymentOption {
+	return func(o *CreateDeploymentOptions) {
+		o.Activate = v
+		o.enabledSetters["Activate"] = true
+	}
+}
+					
 // CreateDeployment create a new site code deployment. Use this endpoint to
 // upload a new version of your site code. To activate your newly uploaded
 // code, you'll need to update the site's deployment to use your new
 // deployment ID.
-func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, Activate bool, optionalSetters ...CreateDeploymentOption)(*models.Deployment, error) {
+func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, optionalSetters ...CreateDeploymentOption)(*models.Deployment, error) {
 	r := strings.NewReplacer("{siteId}", SiteId)
 	path := r.Replace("/sites/{siteId}/deployments")
 	options := CreateDeploymentOptions{}.New()
@@ -818,7 +826,6 @@ func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, Activate 
 	params := map[string]interface{}{}
 	params["siteId"] = SiteId
 	params["code"] = Code
-	params["activate"] = Activate
 	if options.enabledSetters["InstallCommand"] {
 		params["installCommand"] = options.InstallCommand
 	}
@@ -827,6 +834,9 @@ func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, Activate 
 	}
 	if options.enabledSetters["OutputDirectory"] {
 		params["outputDirectory"] = options.OutputDirectory
+	}
+	if options.enabledSetters["Activate"] {
+		params["activate"] = options.Activate
 	}
 	headers := map[string]interface{}{
 		"content-type": "multipart/form-data",

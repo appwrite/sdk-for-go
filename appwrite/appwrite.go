@@ -5,9 +5,7 @@ import (
 
 	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/account"
-	"github.com/appwrite/sdk-for-go/activities"
 	"github.com/appwrite/sdk-for-go/avatars"
-	"github.com/appwrite/sdk-for-go/backups"
 	"github.com/appwrite/sdk-for-go/databases"
 	"github.com/appwrite/sdk-for-go/functions"
 	"github.com/appwrite/sdk-for-go/graphql"
@@ -25,14 +23,8 @@ import (
 func NewAccount(clt client.Client) *account.Account {
 	return account.New(clt)
 }
-func NewActivities(clt client.Client) *activities.Activities {
-	return activities.New(clt)
-}
 func NewAvatars(clt client.Client) *avatars.Avatars {
 	return avatars.New(clt)
-}
-func NewBackups(clt client.Client) *backups.Backups {
-	return backups.New(clt)
 }
 func NewDatabases(clt client.Client) *databases.Databases {
 	return databases.New(clt)

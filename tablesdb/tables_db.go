@@ -3862,6 +3862,7 @@ type ListRowsOptions struct {
 	Queries []string
 	TransactionId string
 	Total bool
+	Ttl int
 	enabledSetters map[string]bool
 }
 func (options ListRowsOptions) New() *ListRowsOptions {
@@ -3869,6 +3870,7 @@ func (options ListRowsOptions) New() *ListRowsOptions {
 		"Queries": false,
 		"TransactionId": false,
 		"Total": false,
+		"Ttl": false,
 	}
 	return &options
 }
@@ -3889,6 +3891,12 @@ func (srv *TablesDB) WithListRowsTotal(v bool) ListRowsOption {
 	return func(o *ListRowsOptions) {
 		o.Total = v
 		o.enabledSetters["Total"] = true
+	}
+}
+func (srv *TablesDB) WithListRowsTtl(v int) ListRowsOption {
+	return func(o *ListRowsOptions) {
+		o.Ttl = v
+		o.enabledSetters["Ttl"] = true
 	}
 }
 					
@@ -3912,6 +3920,9 @@ func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters
 	}
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
+	}
+	if options.enabledSetters["Ttl"] {
+		params["ttl"] = options.Ttl
 	}
 	headers := map[string]interface{}{
 	}
