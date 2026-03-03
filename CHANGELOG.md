@@ -1,5 +1,13 @@
 # Change Log
 
+## v1.0.0
+
+* Breaking: Activate parameter was removed from CreateDeployment; use WithCreateDeploymentActivate.
+* Breaking: UpdateRelationshipAttribute API path changed and old overload removed.
+* Added: GetConsolePausing endpoint to monitor console pausing status.
+* Added: TTL option to list operations for documents and rows.
+* Updated: Document and Row sequence comments to reflect sequence IDs.
+
 ## 0.17.0
 
 * Added new Activities service to the Go SDK with a NewActivities constructor to access Activities endpoints.
