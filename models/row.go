@@ -10,7 +10,7 @@ type Row struct {
     // Row ID.
     Id string `json:"$id"`
     // Row sequence ID.
-    Sequence int `json:"$sequence"`
+    Sequence string `json:"$sequence"`
     // Table ID.
     TableId string `json:"$tableId"`
     // Database ID.

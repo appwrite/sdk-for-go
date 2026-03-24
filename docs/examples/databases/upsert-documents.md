@@ -10,7 +10,7 @@ import (
 client := client.New(
     client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
     client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
+    client.WithSession("")
 )
 
 service := databases.New(client)

@@ -6,6 +6,8 @@ import (
 	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/models"
 	"github.com/appwrite/sdk-for-go/file"
+	"net/url"
+	"fmt"
 	"strings"
 )
 
@@ -114,7 +116,9 @@ type CreateOptions struct {
 	ProviderBranch string
 	ProviderSilentMode bool
 	ProviderRootDirectory string
-	Specification string
+	BuildSpecification string
+	RuntimeSpecification string
+	DeploymentRetention int
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
@@ -133,7 +137,9 @@ func (options CreateOptions) New() *CreateOptions {
 		"ProviderBranch": false,
 		"ProviderSilentMode": false,
 		"ProviderRootDirectory": false,
-		"Specification": false,
+		"BuildSpecification": false,
+		"RuntimeSpecification": false,
+		"DeploymentRetention": false,
 	}
 	return &options
 }
@@ -222,10 +228,22 @@ func (srv *Functions) WithCreateProviderRootDirectory(v string) CreateOption {
 		o.enabledSetters["ProviderRootDirectory"] = true
 	}
 }
-func (srv *Functions) WithCreateSpecification(v string) CreateOption {
+func (srv *Functions) WithCreateBuildSpecification(v string) CreateOption {
 	return func(o *CreateOptions) {
-		o.Specification = v
-		o.enabledSetters["Specification"] = true
+		o.BuildSpecification = v
+		o.enabledSetters["BuildSpecification"] = true
+	}
+}
+func (srv *Functions) WithCreateRuntimeSpecification(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.RuntimeSpecification = v
+		o.enabledSetters["RuntimeSpecification"] = true
+	}
+}
+func (srv *Functions) WithCreateDeploymentRetention(v int) CreateOption {
+	return func(o *CreateOptions) {
+		o.DeploymentRetention = v
+		o.enabledSetters["DeploymentRetention"] = true
 	}
 }
 							
@@ -285,8 +303,14 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 	if options.enabledSetters["ProviderRootDirectory"] {
 		params["providerRootDirectory"] = options.ProviderRootDirectory
 	}
-	if options.enabledSetters["Specification"] {
-		params["specification"] = options.Specification
+	if options.enabledSetters["BuildSpecification"] {
+		params["buildSpecification"] = options.BuildSpecification
+	}
+	if options.enabledSetters["RuntimeSpecification"] {
+		params["runtimeSpecification"] = options.RuntimeSpecification
+	}
+	if options.enabledSetters["DeploymentRetention"] {
+		params["deploymentRetention"] = options.DeploymentRetention
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -431,7 +455,9 @@ type UpdateOptions struct {
 	ProviderBranch string
 	ProviderSilentMode bool
 	ProviderRootDirectory string
-	Specification string
+	BuildSpecification string
+	RuntimeSpecification string
+	DeploymentRetention int
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
@@ -451,7 +477,9 @@ func (options UpdateOptions) New() *UpdateOptions {
 		"ProviderBranch": false,
 		"ProviderSilentMode": false,
 		"ProviderRootDirectory": false,
-		"Specification": false,
+		"BuildSpecification": false,
+		"RuntimeSpecification": false,
+		"DeploymentRetention": false,
 	}
 	return &options
 }
@@ -546,10 +574,22 @@ func (srv *Functions) WithUpdateProviderRootDirectory(v string) UpdateOption {
 		o.enabledSetters["ProviderRootDirectory"] = true
 	}
 }
-func (srv *Functions) WithUpdateSpecification(v string) UpdateOption {
+func (srv *Functions) WithUpdateBuildSpecification(v string) UpdateOption {
 	return func(o *UpdateOptions) {
-		o.Specification = v
-		o.enabledSetters["Specification"] = true
+		o.BuildSpecification = v
+		o.enabledSetters["BuildSpecification"] = true
+	}
+}
+func (srv *Functions) WithUpdateRuntimeSpecification(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.RuntimeSpecification = v
+		o.enabledSetters["RuntimeSpecification"] = true
+	}
+}
+func (srv *Functions) WithUpdateDeploymentRetention(v int) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.DeploymentRetention = v
+		o.enabledSetters["DeploymentRetention"] = true
 	}
 }
 					
@@ -609,8 +649,14 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	if options.enabledSetters["ProviderRootDirectory"] {
 		params["providerRootDirectory"] = options.ProviderRootDirectory
 	}
-	if options.enabledSetters["Specification"] {
-		params["specification"] = options.Specification
+	if options.enabledSetters["BuildSpecification"] {
+		params["buildSpecification"] = options.BuildSpecification
+	}
+	if options.enabledSetters["RuntimeSpecification"] {
+		params["runtimeSpecification"] = options.RuntimeSpecification
+	}
+	if options.enabledSetters["DeploymentRetention"] {
+		params["deploymentRetention"] = options.DeploymentRetention
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -1201,6 +1247,30 @@ func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId stri
 	}
 	return &parsed, nil
 
+}
+// GetDeploymentDownloadURL get a function deployment content by its unique
+// ID. The endpoint response return with a 'Content-Disposition: attachment'
+// header that tells the browser to start downloading the file to user
+// downloads directory.
+// Returns the URL for the resource instead of the content.
+func (srv *Functions) GetDeploymentDownloadURL(FunctionId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*string, error) {
+	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
+	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/download")
+	options := GetDeploymentDownloadOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Type"] {
+		q.Set("type", fmt.Sprintf("%v", options.Type))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
 }
 			
 // UpdateDeploymentStatus cancel an ongoing function deployment build. If the

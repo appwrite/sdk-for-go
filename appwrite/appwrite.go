@@ -9,17 +9,21 @@ import (
 	"github.com/appwrite/sdk-for-go/avatars"
 	"github.com/appwrite/sdk-for-go/backups"
 	"github.com/appwrite/sdk-for-go/databases"
+	"github.com/appwrite/sdk-for-go/documentsdb"
 	"github.com/appwrite/sdk-for-go/functions"
 	"github.com/appwrite/sdk-for-go/graphql"
 	"github.com/appwrite/sdk-for-go/health"
 	"github.com/appwrite/sdk-for-go/locale"
 	"github.com/appwrite/sdk-for-go/messaging"
+	"github.com/appwrite/sdk-for-go/project"
 	"github.com/appwrite/sdk-for-go/sites"
 	"github.com/appwrite/sdk-for-go/storage"
 	"github.com/appwrite/sdk-for-go/tablesdb"
 	"github.com/appwrite/sdk-for-go/teams"
 	"github.com/appwrite/sdk-for-go/tokens"
 	"github.com/appwrite/sdk-for-go/users"
+	"github.com/appwrite/sdk-for-go/vectorsdb"
+	"github.com/appwrite/sdk-for-go/webhooks"
 )
 
 func NewAccount(clt client.Client) *account.Account {
@@ -37,6 +41,9 @@ func NewBackups(clt client.Client) *backups.Backups {
 func NewDatabases(clt client.Client) *databases.Databases {
 	return databases.New(clt)
 }
+func NewDocumentsDB(clt client.Client) *documentsdb.DocumentsDB {
+	return documentsdb.New(clt)
+}
 func NewFunctions(clt client.Client) *functions.Functions {
 	return functions.New(clt)
 }
@@ -51,6 +58,9 @@ func NewLocale(clt client.Client) *locale.Locale {
 }
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
+}
+func NewProject(clt client.Client) *project.Project {
+	return project.New(clt)
 }
 func NewSites(clt client.Client) *sites.Sites {
 	return sites.New(clt)
@@ -69,6 +79,12 @@ func NewTokens(clt client.Client) *tokens.Tokens {
 }
 func NewUsers(clt client.Client) *users.Users {
 	return users.New(clt)
+}
+func NewVectorsDB(clt client.Client) *vectorsdb.VectorsDB {
+	return vectorsdb.New(clt)
+}
+func NewWebhooks(clt client.Client) *webhooks.Webhooks {
+	return webhooks.New(clt)
 }
 
 // NewClient initializes a new Appwrite client with a given timeout
@@ -164,6 +180,33 @@ func WithSession(value string) client.ClientOption {
 func WithForwardedUserAgent(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Headers["X-Forwarded-User-Agent"] = value
+		return nil
+	}
+}
+// Helper method to construct NewClient()
+// 
+// Impersonate a user by ID on an already user-authenticated request. Requires the current request to be authenticated as a user with impersonator capability; X-Appwrite-Key alone is not sufficient. Impersonator users are intentionally granted users.read so they can discover a target before impersonation begins. Internal audit logs still attribute actions to the original impersonator and record the impersonated target only in internal audit payload data.
+func WithImpersonateUserId(value string) client.ClientOption {
+	return func(clt *client.Client) error {
+		clt.Headers["X-Appwrite-Impersonate-User-Id"] = value
+		return nil
+	}
+}
+// Helper method to construct NewClient()
+// 
+// Impersonate a user by email on an already user-authenticated request. Requires the current request to be authenticated as a user with impersonator capability; X-Appwrite-Key alone is not sufficient. Impersonator users are intentionally granted users.read so they can discover a target before impersonation begins. Internal audit logs still attribute actions to the original impersonator and record the impersonated target only in internal audit payload data.
+func WithImpersonateUserEmail(value string) client.ClientOption {
+	return func(clt *client.Client) error {
+		clt.Headers["X-Appwrite-Impersonate-User-Email"] = value
+		return nil
+	}
+}
+// Helper method to construct NewClient()
+// 
+// Impersonate a user by phone on an already user-authenticated request. Requires the current request to be authenticated as a user with impersonator capability; X-Appwrite-Key alone is not sufficient. Impersonator users are intentionally granted users.read so they can discover a target before impersonation begins. Internal audit logs still attribute actions to the original impersonator and record the impersonated target only in internal audit payload data.
+func WithImpersonateUserPhone(value string) client.ClientOption {
+	return func(clt *client.Client) error {
+		clt.Headers["X-Appwrite-Impersonate-User-Phone"] = value
 		return nil
 	}
 }

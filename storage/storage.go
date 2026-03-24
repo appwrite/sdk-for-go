@@ -6,6 +6,8 @@ import (
 	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/models"
 	"github.com/appwrite/sdk-for-go/file"
+	"net/url"
+	"fmt"
 	"strings"
 )
 
@@ -825,6 +827,29 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSett
 	return &parsed, nil
 
 }
+// GetFileDownloadURL get a file content by its unique ID. The endpoint
+// response return with a 'Content-Disposition: attachment' header that tells
+// the browser to start downloading the file to user downloads directory.
+// Returns the URL for the resource instead of the content.
+func (srv *Storage) GetFileDownloadURL(BucketId string, FileId string, optionalSetters ...GetFileDownloadOption) (*string, error) {
+	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
+	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/download")
+	options := GetFileDownloadOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Token"] {
+		q.Set("token", fmt.Sprintf("%v", options.Token))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
+}
 type GetFilePreviewOptions struct {
 	Width int
 	Height int
@@ -1008,6 +1033,64 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 	return &parsed, nil
 
 }
+// GetFilePreviewURL get a file preview image. Currently, this method supports
+// preview for image files (jpg, png, and gif), other supported formats, like
+// pdf, docs, slides, and spreadsheets, will return the file icon image. You
+// can also pass query string arguments for cutting and resizing your preview
+// image. Preview is supported only for image files smaller than 10MB.
+// Returns the URL for the resource instead of the content.
+func (srv *Storage) GetFilePreviewURL(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption) (*string, error) {
+	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
+	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/preview")
+	options := GetFilePreviewOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Width"] {
+		q.Set("width", fmt.Sprintf("%v", options.Width))
+	}
+	if options.enabledSetters["Height"] {
+		q.Set("height", fmt.Sprintf("%v", options.Height))
+	}
+	if options.enabledSetters["Gravity"] {
+		q.Set("gravity", fmt.Sprintf("%v", options.Gravity))
+	}
+	if options.enabledSetters["Quality"] {
+		q.Set("quality", fmt.Sprintf("%v", options.Quality))
+	}
+	if options.enabledSetters["BorderWidth"] {
+		q.Set("borderWidth", fmt.Sprintf("%v", options.BorderWidth))
+	}
+	if options.enabledSetters["BorderColor"] {
+		q.Set("borderColor", fmt.Sprintf("%v", options.BorderColor))
+	}
+	if options.enabledSetters["BorderRadius"] {
+		q.Set("borderRadius", fmt.Sprintf("%v", options.BorderRadius))
+	}
+	if options.enabledSetters["Opacity"] {
+		q.Set("opacity", fmt.Sprintf("%v", options.Opacity))
+	}
+	if options.enabledSetters["Rotation"] {
+		q.Set("rotation", fmt.Sprintf("%v", options.Rotation))
+	}
+	if options.enabledSetters["Background"] {
+		q.Set("background", fmt.Sprintf("%v", options.Background))
+	}
+	if options.enabledSetters["Output"] {
+		q.Set("output", fmt.Sprintf("%v", options.Output))
+	}
+	if options.enabledSetters["Token"] {
+		q.Set("token", fmt.Sprintf("%v", options.Token))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
+}
 type GetFileViewOptions struct {
 	Token string
 	enabledSetters map[string]bool
@@ -1067,4 +1150,27 @@ func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters 
 	}
 	return &parsed, nil
 
+}
+// GetFileViewURL get a file content by its unique ID. This endpoint is
+// similar to the download method but returns with no  'Content-Disposition:
+// attachment' header.
+// Returns the URL for the resource instead of the content.
+func (srv *Storage) GetFileViewURL(BucketId string, FileId string, optionalSetters ...GetFileViewOption) (*string, error) {
+	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
+	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/view")
+	options := GetFileViewOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Token"] {
+		q.Set("token", fmt.Sprintf("%v", options.Token))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
 }

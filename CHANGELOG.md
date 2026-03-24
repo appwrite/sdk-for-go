@@ -1,12 +1,11 @@
 # Change Log
 
-## v1.0.0
+## 0.18.0
 
-* Breaking: Activate parameter was removed from CreateDeployment; use WithCreateDeploymentActivate.
-* Breaking: UpdateRelationshipAttribute API path changed and old overload removed.
-* Added: GetConsolePausing endpoint to monitor console pausing status.
-* Added: TTL option to list operations for documents and rows.
-* Updated: Document and Row sequence comments to reflect sequence IDs.
+* Added `NewDocumentsDB`, `NewProject`, `NewVectorsDB`, and `NewWebhooks` client constructors
+* Added impersonation helpers `WithImpersonateUserId`, `WithImpersonateUserEmail`, `WithImpersonateUserPhone`
+* Added avatar URL helpers: `GetBrowserURL`, `GetCreditCardURL`, `GetFaviconURL`, `GetFlagURL`, `GetImageURL`, `GetInitialsURL`, `GetQRURL`, `GetScreenshotURL`
+* Updated README badge to API version 1.9.0
 
 ## 0.17.0
 

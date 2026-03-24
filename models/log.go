@@ -9,11 +9,14 @@ import (
 type Log struct {
     // Event name.
     Event string `json:"event"`
-    // User ID.
+    // User ID of the actor recorded for this log. During impersonation, this is
+    // the original impersonator, not the impersonated target user.
     UserId string `json:"userId"`
-    // User Email.
+    // User email of the actor recorded for this log. During impersonation, this
+    // is the original impersonator.
     UserEmail string `json:"userEmail"`
-    // User Name.
+    // User name of the actor recorded for this log. During impersonation, this is
+    // the original impersonator.
     UserName string `json:"userName"`
     // API mode when event triggered.
     Mode string `json:"mode"`

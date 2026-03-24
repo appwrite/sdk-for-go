@@ -47,6 +47,13 @@ type User struct {
     // Most recent access date in ISO 8601 format. This attribute is only updated
     // again after 24 hours.
     AccessedAt string `json:"accessedAt"`
+    // Whether the user can impersonate other users.
+    Impersonator bool `json:"impersonator"`
+    // ID of the original actor performing the impersonation. Present only when
+    // the current request is impersonating another user. Internal audit logs
+    // attribute the action to this user, while the impersonated target is
+    // recorded only in internal audit payload data.
+    ImpersonatorUserId string `json:"impersonatorUserId"`
 
     // Used by Decode() method
     data []byte

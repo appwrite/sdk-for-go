@@ -33,6 +33,8 @@ response, error := service.Update(
     functions.WithUpdateProviderBranch("<PROVIDER_BRANCH>"),
     functions.WithUpdateProviderSilentMode(false),
     functions.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-    functions.WithUpdateSpecification(""),
+    functions.WithUpdateBuildSpecification(""),
+    functions.WithUpdateRuntimeSpecification(""),
+    functions.WithUpdateDeploymentRetention(0),
 )
 ```
