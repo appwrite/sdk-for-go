@@ -9,7 +9,6 @@ import (
 	"github.com/appwrite/sdk-for-go/avatars"
 	"github.com/appwrite/sdk-for-go/backups"
 	"github.com/appwrite/sdk-for-go/databases"
-	"github.com/appwrite/sdk-for-go/documentsdb"
 	"github.com/appwrite/sdk-for-go/functions"
 	"github.com/appwrite/sdk-for-go/graphql"
 	"github.com/appwrite/sdk-for-go/health"
@@ -22,7 +21,6 @@ import (
 	"github.com/appwrite/sdk-for-go/teams"
 	"github.com/appwrite/sdk-for-go/tokens"
 	"github.com/appwrite/sdk-for-go/users"
-	"github.com/appwrite/sdk-for-go/vectorsdb"
 	"github.com/appwrite/sdk-for-go/webhooks"
 )
 
@@ -40,9 +38,6 @@ func NewBackups(clt client.Client) *backups.Backups {
 }
 func NewDatabases(clt client.Client) *databases.Databases {
 	return databases.New(clt)
-}
-func NewDocumentsDB(clt client.Client) *documentsdb.DocumentsDB {
-	return documentsdb.New(clt)
 }
 func NewFunctions(clt client.Client) *functions.Functions {
 	return functions.New(clt)
@@ -79,9 +74,6 @@ func NewTokens(clt client.Client) *tokens.Tokens {
 }
 func NewUsers(clt client.Client) *users.Users {
 	return users.New(clt)
-}
-func NewVectorsDB(clt client.Client) *vectorsdb.VectorsDB {
-	return vectorsdb.New(clt)
 }
 func NewWebhooks(clt client.Client) *webhooks.Webhooks {
 	return webhooks.New(clt)
