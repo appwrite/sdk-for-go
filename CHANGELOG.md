@@ -2,7 +2,8 @@
 
 ## 0.18.0
 
-* Added `NewDocumentsDB`, `NewProject`, `NewVectorsDB`, and `NewWebhooks` client constructors
+* [BREAKING] Changed `$sequence` type from `int` to `string` for rows and documents
+* Added `NewProject` and `NewWebhooks` client constructors
 * Added impersonation helpers `WithImpersonateUserId`, `WithImpersonateUserEmail`, `WithImpersonateUserPhone`
 * Added avatar URL helpers: `GetBrowserURL`, `GetCreditCardURL`, `GetFaviconURL`, `GetFlagURL`, `GetImageURL`, `GetInitialsURL`, `GetQRURL`, `GetScreenshotURL`
 * Updated README badge to API version 1.9.0
