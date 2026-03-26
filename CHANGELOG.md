@@ -1,6 +1,6 @@
 # Change Log
 
-## 0.18.0
+## v2.0.0
 
 * [BREAKING] Changed `$sequence` type from `int` to `string` for rows and documents
 * Added `NewProject` and `NewWebhooks` client constructors
@@ -8,7 +8,15 @@
 * Added avatar URL helpers: `GetBrowserURL`, `GetCreditCardURL`, `GetFaviconURL`, `GetFlagURL`, `GetImageURL`, `GetInitialsURL`, `GetQRURL`, `GetScreenshotURL`
 * Updated README badge to API version 1.9.0
 
-## 0.17.0
+## v1.0.0
+
+* Breaking: Activate parameter was removed from CreateDeployment; use WithCreateDeploymentActivate.
+* Breaking: UpdateRelationshipAttribute API path changed and old overload removed.
+* Added: GetConsolePausing endpoint to monitor console pausing status.
+* Added: TTL option to list operations for documents and rows.
+* Updated: Document and Row sequence comments to reflect sequence IDs.
+
+## v0.17.0
 
 * Added new Activities service to the Go SDK with a NewActivities constructor to access Activities endpoints.
 * Extended Databases attribute APIs to support encryption: introduced Encrypt option for Longtext, Mediumtext, Text, and Varchar attributes, along with corresponding New/Create option builders (WithCreateLongtextAttributeEncrypt, WithCreateMediumtextAttributeEncrypt, WithCreateTextAttributeEncrypt, WithCreateVarcharAttributeEncrypt) and wiring to send the encrypt parameter when enabled.
