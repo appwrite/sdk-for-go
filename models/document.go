@@ -10,7 +10,7 @@ type Document struct {
     // Document ID.
     Id string `json:"$id"`
     // Document sequence ID.
-    Sequence int `json:"$sequence"`
+    Sequence string `json:"$sequence"`
     // Collection ID.
     CollectionId string `json:"$collectionId"`
     // Database ID.

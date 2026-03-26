@@ -25,6 +25,7 @@ response, error := service.Create(
     sites.WithCreateTimeout(1),
     sites.WithCreateInstallCommand("<INSTALL_COMMAND>"),
     sites.WithCreateBuildCommand("<BUILD_COMMAND>"),
+    sites.WithCreateStartCommand("<START_COMMAND>"),
     sites.WithCreateOutputDirectory("<OUTPUT_DIRECTORY>"),
     sites.WithCreateAdapter("static"),
     sites.WithCreateInstallationId("<INSTALLATION_ID>"),
@@ -33,6 +34,8 @@ response, error := service.Create(
     sites.WithCreateProviderBranch("<PROVIDER_BRANCH>"),
     sites.WithCreateProviderSilentMode(false),
     sites.WithCreateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-    sites.WithCreateSpecification(""),
+    sites.WithCreateBuildSpecification(""),
+    sites.WithCreateRuntimeSpecification(""),
+    sites.WithCreateDeploymentRetention(0),
 )
 ```

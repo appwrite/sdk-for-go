@@ -73,12 +73,12 @@ type Client struct {
 // Initialize a new Appwrite client with a given timeout
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
-		"X-Appwrite-Response-Format" : "1.8.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v1.0.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"X-Appwrite-Response-Format" : "1.9.0",
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v2.0.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "v1.0.0",
+		"x-sdk-version": "v2.0.0",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
@@ -123,6 +123,11 @@ type ClientOption func(*Client) error
 // AddHeader add a new custom header that the Client should send on each request
 func (client *Client) AddHeader(key string, value string) {
 	client.Headers[key] = value
+}
+
+// GetEndpoint returns the client's current endpoint
+func (client *Client) GetEndpoint() string {
+	return client.Endpoint
 }
 
 func isFileUpload(headers map[string]interface{}) bool {

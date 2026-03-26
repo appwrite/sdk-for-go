@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/appwrite/sdk-for-go/client"
+	"net/url"
+	"fmt"
 	"strings"
 )
 
@@ -107,6 +109,43 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 	return &parsed, nil
 
 }
+// GetBrowserURL you can use this endpoint to show different browser icons to
+// your users. The code argument receives the browser code as it appears in
+// your user [GET
+// /account/sessions](https://appwrite.io/docs/references/cloud/client-web/account#getSessions)
+// endpoint. Use width, height and quality arguments to change the output
+// settings.
+// 
+// When one dimension is specified and the other is 0, the image is scaled
+// with preserved aspect ratio. If both dimensions are 0, the API provides an
+// image at source quality. If dimensions are not specified, the default size
+// of image returned is 100x100px.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetBrowserURL(Code string, optionalSetters ...GetBrowserOption) (*string, error) {
+	r := strings.NewReplacer("{code}", Code)
+	path := r.Replace("/avatars/browsers/{code}")
+	options := GetBrowserOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Width"] {
+		q.Set("width", fmt.Sprintf("%v", options.Width))
+	}
+	if options.enabledSetters["Height"] {
+		q.Set("height", fmt.Sprintf("%v", options.Height))
+	}
+	if options.enabledSetters["Quality"] {
+		q.Set("quality", fmt.Sprintf("%v", options.Quality))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
+}
 type GetCreditCardOptions struct {
 	Width int
 	Height int
@@ -193,6 +232,40 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 	return &parsed, nil
 
 }
+// GetCreditCardURL the credit card endpoint will return you the icon of the
+// credit card provider you need. Use width, height and quality arguments to
+// change the output settings.
+// 
+// When one dimension is specified and the other is 0, the image is scaled
+// with preserved aspect ratio. If both dimensions are 0, the API provides an
+// image at source quality. If dimensions are not specified, the default size
+// of image returned is 100x100px.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetCreditCardURL(Code string, optionalSetters ...GetCreditCardOption) (*string, error) {
+	r := strings.NewReplacer("{code}", Code)
+	path := r.Replace("/avatars/credit-cards/{code}")
+	options := GetCreditCardOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Width"] {
+		q.Set("width", fmt.Sprintf("%v", options.Width))
+	}
+	if options.enabledSetters["Height"] {
+		q.Set("height", fmt.Sprintf("%v", options.Height))
+	}
+	if options.enabledSetters["Quality"] {
+		q.Set("quality", fmt.Sprintf("%v", options.Quality))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
+}
 	
 // GetFavicon use this endpoint to fetch the favorite icon (AKA favicon) of
 // any remote website URL.
@@ -227,6 +300,23 @@ func (srv *Avatars) GetFavicon(Url string)(*[]byte, error) {
 	}
 	return &parsed, nil
 
+}
+// GetFaviconURL use this endpoint to fetch the favorite icon (AKA favicon) of
+// any remote website URL.
+// 
+// This endpoint does not follow HTTP redirects.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetFaviconURL(Url string) (*string, error) {
+	path := "/avatars/favicon"
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	q.Set("url", fmt.Sprintf("%v", Url))
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
 }
 type GetFlagOptions struct {
 	Width int
@@ -316,6 +406,42 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption)(*[]by
 	return &parsed, nil
 
 }
+// GetFlagURL you can use this endpoint to show different country flags icons
+// to your users. The code argument receives the 2 letter country code. Use
+// width, height and quality arguments to change the output settings. Country
+// codes follow the [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
+// standard.
+// 
+// When one dimension is specified and the other is 0, the image is scaled
+// with preserved aspect ratio. If both dimensions are 0, the API provides an
+// image at source quality. If dimensions are not specified, the default size
+// of image returned is 100x100px.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetFlagURL(Code string, optionalSetters ...GetFlagOption) (*string, error) {
+	r := strings.NewReplacer("{code}", Code)
+	path := r.Replace("/avatars/flags/{code}")
+	options := GetFlagOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Width"] {
+		q.Set("width", fmt.Sprintf("%v", options.Width))
+	}
+	if options.enabledSetters["Height"] {
+		q.Set("height", fmt.Sprintf("%v", options.Height))
+	}
+	if options.enabledSetters["Quality"] {
+		q.Set("quality", fmt.Sprintf("%v", options.Quality))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
+}
 type GetImageOptions struct {
 	Width int
 	Height int
@@ -392,6 +518,40 @@ func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption)(*[]b
 	}
 	return &parsed, nil
 
+}
+// GetImageURL use this endpoint to fetch a remote image URL and crop it to
+// any image size you want. This endpoint is very useful if you need to crop
+// and display remote images in your app or in case you want to make sure a
+// 3rd party image is properly served using a TLS protocol.
+// 
+// When one dimension is specified and the other is 0, the image is scaled
+// with preserved aspect ratio. If both dimensions are 0, the API provides an
+// image at source quality. If dimensions are not specified, the default size
+// of image returned is 400x400px.
+// 
+// This endpoint does not follow HTTP redirects.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetImageURL(Url string, optionalSetters ...GetImageOption) (*string, error) {
+	path := "/avatars/image"
+	options := GetImageOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	q.Set("url", fmt.Sprintf("%v", Url))
+	if options.enabledSetters["Width"] {
+		q.Set("width", fmt.Sprintf("%v", options.Width))
+	}
+	if options.enabledSetters["Height"] {
+		q.Set("height", fmt.Sprintf("%v", options.Height))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
 }
 type GetInitialsOptions struct {
 	Name string
@@ -495,6 +655,49 @@ func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption)(*[]byte, e
 	return &parsed, nil
 
 }
+// GetInitialsURL use this endpoint to show your user initials avatar icon on
+// your website or app. By default, this route will try to print your
+// logged-in user name or email initials. You can also overwrite the user name
+// if you pass the 'name' parameter. If no name is given and no user is
+// logged, an empty avatar will be returned.
+// 
+// You can use the color and background params to change the avatar colors. By
+// default, a random theme will be selected. The random theme will persist for
+// the user's initials when reloading the same theme will always return for
+// the same initials.
+// 
+// When one dimension is specified and the other is 0, the image is scaled
+// with preserved aspect ratio. If both dimensions are 0, the API provides an
+// image at source quality. If dimensions are not specified, the default size
+// of image returned is 100x100px.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetInitialsURL(optionalSetters ...GetInitialsOption) (*string, error) {
+	path := "/avatars/initials"
+	options := GetInitialsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Name"] {
+		q.Set("name", fmt.Sprintf("%v", options.Name))
+	}
+	if options.enabledSetters["Width"] {
+		q.Set("width", fmt.Sprintf("%v", options.Width))
+	}
+	if options.enabledSetters["Height"] {
+		q.Set("height", fmt.Sprintf("%v", options.Height))
+	}
+	if options.enabledSetters["Background"] {
+		q.Set("background", fmt.Sprintf("%v", options.Background))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
+}
 type GetQROptions struct {
 	Size int
 	Margin int
@@ -573,6 +776,34 @@ func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption)(*[]byte, 
 	}
 	return &parsed, nil
 
+}
+// GetQRURL converts a given plain text to a QR code image. You can use the
+// query parameters to change the size and style of the resulting image.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetQRURL(Text string, optionalSetters ...GetQROption) (*string, error) {
+	path := "/avatars/qr"
+	options := GetQROptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	q.Set("text", fmt.Sprintf("%v", Text))
+	if options.enabledSetters["Size"] {
+		q.Set("size", fmt.Sprintf("%v", options.Size))
+	}
+	if options.enabledSetters["Margin"] {
+		q.Set("margin", fmt.Sprintf("%v", options.Margin))
+	}
+	if options.enabledSetters["Download"] {
+		q.Set("download", fmt.Sprintf("%v", options.Download))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
 }
 type GetScreenshotOptions struct {
 	Headers interface{}
@@ -837,4 +1068,89 @@ func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOp
 	}
 	return &parsed, nil
 
+}
+// GetScreenshotURL use this endpoint to capture a screenshot of any website
+// URL. This endpoint uses a headless browser to render the webpage and
+// capture it as an image.
+// 
+// You can configure the browser viewport size, theme, user agent,
+// geolocation, permissions, and more. Capture either just the viewport or the
+// full page scroll.
+// 
+// When width and height are specified, the image is resized accordingly. If
+// both dimensions are 0, the API provides an image at original size. If
+// dimensions are not specified, the default viewport size is 1280x720px.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetScreenshotURL(Url string, optionalSetters ...GetScreenshotOption) (*string, error) {
+	path := "/avatars/screenshots"
+	options := GetScreenshotOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	q.Set("url", fmt.Sprintf("%v", Url))
+	if options.enabledSetters["Headers"] {
+		q.Set("headers", fmt.Sprintf("%v", options.Headers))
+	}
+	if options.enabledSetters["ViewportWidth"] {
+		q.Set("viewportWidth", fmt.Sprintf("%v", options.ViewportWidth))
+	}
+	if options.enabledSetters["ViewportHeight"] {
+		q.Set("viewportHeight", fmt.Sprintf("%v", options.ViewportHeight))
+	}
+	if options.enabledSetters["Scale"] {
+		q.Set("scale", fmt.Sprintf("%v", options.Scale))
+	}
+	if options.enabledSetters["Theme"] {
+		q.Set("theme", fmt.Sprintf("%v", options.Theme))
+	}
+	if options.enabledSetters["UserAgent"] {
+		q.Set("userAgent", fmt.Sprintf("%v", options.UserAgent))
+	}
+	if options.enabledSetters["Fullpage"] {
+		q.Set("fullpage", fmt.Sprintf("%v", options.Fullpage))
+	}
+	if options.enabledSetters["Locale"] {
+		q.Set("locale", fmt.Sprintf("%v", options.Locale))
+	}
+	if options.enabledSetters["Timezone"] {
+		q.Set("timezone", fmt.Sprintf("%v", options.Timezone))
+	}
+	if options.enabledSetters["Latitude"] {
+		q.Set("latitude", fmt.Sprintf("%v", options.Latitude))
+	}
+	if options.enabledSetters["Longitude"] {
+		q.Set("longitude", fmt.Sprintf("%v", options.Longitude))
+	}
+	if options.enabledSetters["Accuracy"] {
+		q.Set("accuracy", fmt.Sprintf("%v", options.Accuracy))
+	}
+	if options.enabledSetters["Touch"] {
+		q.Set("touch", fmt.Sprintf("%v", options.Touch))
+	}
+	if options.enabledSetters["Permissions"] {
+		q.Set("permissions", fmt.Sprintf("%v", options.Permissions))
+	}
+	if options.enabledSetters["Sleep"] {
+		q.Set("sleep", fmt.Sprintf("%v", options.Sleep))
+	}
+	if options.enabledSetters["Width"] {
+		q.Set("width", fmt.Sprintf("%v", options.Width))
+	}
+	if options.enabledSetters["Height"] {
+		q.Set("height", fmt.Sprintf("%v", options.Height))
+	}
+	if options.enabledSetters["Quality"] {
+		q.Set("quality", fmt.Sprintf("%v", options.Quality))
+	}
+	if options.enabledSetters["Output"] {
+		q.Set("output", fmt.Sprintf("%v", options.Output))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
 }

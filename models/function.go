@@ -29,6 +29,9 @@ type Function struct {
     Logging bool `json:"logging"`
     // Function execution and build runtime.
     Runtime string `json:"runtime"`
+    // How many days to keep the non-active deployments before they will be
+    // automatically deleted.
+    DeploymentRetention int `json:"deploymentRetention"`
     // Function's active deployment ID.
     DeploymentId string `json:"deploymentId"`
     // Active deployment creation date in ISO 8601 format.
@@ -68,8 +71,10 @@ type Function struct {
     // silence mode, no comments will be posted on the repository pull or merge
     // requests
     ProviderSilentMode bool `json:"providerSilentMode"`
-    // Machine specification for builds and executions.
-    Specification string `json:"specification"`
+    // Machine specification for deployment builds.
+    BuildSpecification string `json:"buildSpecification"`
+    // Machine specification for executions.
+    RuntimeSpecification string `json:"runtimeSpecification"`
 
     // Used by Decode() method
     data []byte

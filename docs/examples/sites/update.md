@@ -24,6 +24,7 @@ response, error := service.Update(
     sites.WithUpdateTimeout(1),
     sites.WithUpdateInstallCommand("<INSTALL_COMMAND>"),
     sites.WithUpdateBuildCommand("<BUILD_COMMAND>"),
+    sites.WithUpdateStartCommand("<START_COMMAND>"),
     sites.WithUpdateOutputDirectory("<OUTPUT_DIRECTORY>"),
     sites.WithUpdateBuildRuntime("node-14.5"),
     sites.WithUpdateAdapter("static"),
@@ -33,6 +34,8 @@ response, error := service.Update(
     sites.WithUpdateProviderBranch("<PROVIDER_BRANCH>"),
     sites.WithUpdateProviderSilentMode(false),
     sites.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-    sites.WithUpdateSpecification(""),
+    sites.WithUpdateBuildSpecification(""),
+    sites.WithUpdateRuntimeSpecification(""),
+    sites.WithUpdateDeploymentRetention(0),
 )
 ```

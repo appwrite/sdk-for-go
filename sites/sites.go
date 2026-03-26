@@ -6,6 +6,8 @@ import (
 	"github.com/appwrite/sdk-for-go/client"
 	"github.com/appwrite/sdk-for-go/models"
 	"github.com/appwrite/sdk-for-go/file"
+	"net/url"
+	"fmt"
 	"strings"
 )
 
@@ -105,6 +107,7 @@ type CreateOptions struct {
 	Timeout int
 	InstallCommand string
 	BuildCommand string
+	StartCommand string
 	OutputDirectory string
 	Adapter string
 	InstallationId string
@@ -113,7 +116,9 @@ type CreateOptions struct {
 	ProviderBranch string
 	ProviderSilentMode bool
 	ProviderRootDirectory string
-	Specification string
+	BuildSpecification string
+	RuntimeSpecification string
+	DeploymentRetention int
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
@@ -123,6 +128,7 @@ func (options CreateOptions) New() *CreateOptions {
 		"Timeout": false,
 		"InstallCommand": false,
 		"BuildCommand": false,
+		"StartCommand": false,
 		"OutputDirectory": false,
 		"Adapter": false,
 		"InstallationId": false,
@@ -131,7 +137,9 @@ func (options CreateOptions) New() *CreateOptions {
 		"ProviderBranch": false,
 		"ProviderSilentMode": false,
 		"ProviderRootDirectory": false,
-		"Specification": false,
+		"BuildSpecification": false,
+		"RuntimeSpecification": false,
+		"DeploymentRetention": false,
 	}
 	return &options
 }
@@ -164,6 +172,12 @@ func (srv *Sites) WithCreateBuildCommand(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.BuildCommand = v
 		o.enabledSetters["BuildCommand"] = true
+	}
+}
+func (srv *Sites) WithCreateStartCommand(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.StartCommand = v
+		o.enabledSetters["StartCommand"] = true
 	}
 }
 func (srv *Sites) WithCreateOutputDirectory(v string) CreateOption {
@@ -214,10 +228,22 @@ func (srv *Sites) WithCreateProviderRootDirectory(v string) CreateOption {
 		o.enabledSetters["ProviderRootDirectory"] = true
 	}
 }
-func (srv *Sites) WithCreateSpecification(v string) CreateOption {
+func (srv *Sites) WithCreateBuildSpecification(v string) CreateOption {
 	return func(o *CreateOptions) {
-		o.Specification = v
-		o.enabledSetters["Specification"] = true
+		o.BuildSpecification = v
+		o.enabledSetters["BuildSpecification"] = true
+	}
+}
+func (srv *Sites) WithCreateRuntimeSpecification(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.RuntimeSpecification = v
+		o.enabledSetters["RuntimeSpecification"] = true
+	}
+}
+func (srv *Sites) WithCreateDeploymentRetention(v int) CreateOption {
+	return func(o *CreateOptions) {
+		o.DeploymentRetention = v
+		o.enabledSetters["DeploymentRetention"] = true
 	}
 }
 									
@@ -248,6 +274,9 @@ func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRunt
 	if options.enabledSetters["BuildCommand"] {
 		params["buildCommand"] = options.BuildCommand
 	}
+	if options.enabledSetters["StartCommand"] {
+		params["startCommand"] = options.StartCommand
+	}
 	if options.enabledSetters["OutputDirectory"] {
 		params["outputDirectory"] = options.OutputDirectory
 	}
@@ -272,8 +301,14 @@ func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRunt
 	if options.enabledSetters["ProviderRootDirectory"] {
 		params["providerRootDirectory"] = options.ProviderRootDirectory
 	}
-	if options.enabledSetters["Specification"] {
-		params["specification"] = options.Specification
+	if options.enabledSetters["BuildSpecification"] {
+		params["buildSpecification"] = options.BuildSpecification
+	}
+	if options.enabledSetters["RuntimeSpecification"] {
+		params["runtimeSpecification"] = options.RuntimeSpecification
+	}
+	if options.enabledSetters["DeploymentRetention"] {
+		params["deploymentRetention"] = options.DeploymentRetention
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -408,6 +443,7 @@ type UpdateOptions struct {
 	Timeout int
 	InstallCommand string
 	BuildCommand string
+	StartCommand string
 	OutputDirectory string
 	BuildRuntime string
 	Adapter string
@@ -417,7 +453,9 @@ type UpdateOptions struct {
 	ProviderBranch string
 	ProviderSilentMode bool
 	ProviderRootDirectory string
-	Specification string
+	BuildSpecification string
+	RuntimeSpecification string
+	DeploymentRetention int
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
@@ -427,6 +465,7 @@ func (options UpdateOptions) New() *UpdateOptions {
 		"Timeout": false,
 		"InstallCommand": false,
 		"BuildCommand": false,
+		"StartCommand": false,
 		"OutputDirectory": false,
 		"BuildRuntime": false,
 		"Adapter": false,
@@ -436,7 +475,9 @@ func (options UpdateOptions) New() *UpdateOptions {
 		"ProviderBranch": false,
 		"ProviderSilentMode": false,
 		"ProviderRootDirectory": false,
-		"Specification": false,
+		"BuildSpecification": false,
+		"RuntimeSpecification": false,
+		"DeploymentRetention": false,
 	}
 	return &options
 }
@@ -469,6 +510,12 @@ func (srv *Sites) WithUpdateBuildCommand(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.BuildCommand = v
 		o.enabledSetters["BuildCommand"] = true
+	}
+}
+func (srv *Sites) WithUpdateStartCommand(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.StartCommand = v
+		o.enabledSetters["StartCommand"] = true
 	}
 }
 func (srv *Sites) WithUpdateOutputDirectory(v string) UpdateOption {
@@ -525,10 +572,22 @@ func (srv *Sites) WithUpdateProviderRootDirectory(v string) UpdateOption {
 		o.enabledSetters["ProviderRootDirectory"] = true
 	}
 }
-func (srv *Sites) WithUpdateSpecification(v string) UpdateOption {
+func (srv *Sites) WithUpdateBuildSpecification(v string) UpdateOption {
 	return func(o *UpdateOptions) {
-		o.Specification = v
-		o.enabledSetters["Specification"] = true
+		o.BuildSpecification = v
+		o.enabledSetters["BuildSpecification"] = true
+	}
+}
+func (srv *Sites) WithUpdateRuntimeSpecification(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.RuntimeSpecification = v
+		o.enabledSetters["RuntimeSpecification"] = true
+	}
+}
+func (srv *Sites) WithUpdateDeploymentRetention(v int) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.DeploymentRetention = v
+		o.enabledSetters["DeploymentRetention"] = true
 	}
 }
 							
@@ -559,6 +618,9 @@ func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalS
 	if options.enabledSetters["BuildCommand"] {
 		params["buildCommand"] = options.BuildCommand
 	}
+	if options.enabledSetters["StartCommand"] {
+		params["startCommand"] = options.StartCommand
+	}
 	if options.enabledSetters["OutputDirectory"] {
 		params["outputDirectory"] = options.OutputDirectory
 	}
@@ -586,8 +648,14 @@ func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalS
 	if options.enabledSetters["ProviderRootDirectory"] {
 		params["providerRootDirectory"] = options.ProviderRootDirectory
 	}
-	if options.enabledSetters["Specification"] {
-		params["specification"] = options.Specification
+	if options.enabledSetters["BuildSpecification"] {
+		params["buildSpecification"] = options.BuildSpecification
+	}
+	if options.enabledSetters["RuntimeSpecification"] {
+		params["runtimeSpecification"] = options.RuntimeSpecification
+	}
+	if options.enabledSetters["DeploymentRetention"] {
+		params["deploymentRetention"] = options.DeploymentRetention
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -1167,6 +1235,30 @@ func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, opti
 	}
 	return &parsed, nil
 
+}
+// GetDeploymentDownloadURL get a site deployment content by its unique ID.
+// The endpoint response return with a 'Content-Disposition: attachment'
+// header that tells the browser to start downloading the file to user
+// downloads directory.
+// Returns the URL for the resource instead of the content.
+func (srv *Sites) GetDeploymentDownloadURL(SiteId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*string, error) {
+	r := strings.NewReplacer("{siteId}", SiteId, "{deploymentId}", DeploymentId)
+	path := r.Replace("/sites/{siteId}/deployments/{deploymentId}/download")
+	options := GetDeploymentDownloadOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Type"] {
+		q.Set("type", fmt.Sprintf("%v", options.Type))
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
 }
 			
 // UpdateDeploymentStatus cancel an ongoing site deployment build. If the

@@ -33,6 +33,8 @@ response, error := service.Create(
     functions.WithCreateProviderBranch("<PROVIDER_BRANCH>"),
     functions.WithCreateProviderSilentMode(false),
     functions.WithCreateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-    functions.WithCreateSpecification(""),
+    functions.WithCreateBuildSpecification(""),
+    functions.WithCreateRuntimeSpecification(""),
+    functions.WithCreateDeploymentRetention(0),
 )
 ```

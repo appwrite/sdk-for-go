@@ -27,6 +27,9 @@ type Site struct {
     Logging bool `json:"logging"`
     // Site framework.
     Framework string `json:"framework"`
+    // How many days to keep the non-active deployments before they will be
+    // automatically deleted.
+    DeploymentRetention int `json:"deploymentRetention"`
     // Site's active deployment ID.
     DeploymentId string `json:"deploymentId"`
     // Active deployment creation date in ISO 8601 format.
@@ -50,6 +53,8 @@ type Site struct {
     InstallCommand string `json:"installCommand"`
     // The build command used to build the site.
     BuildCommand string `json:"buildCommand"`
+    // Custom command to use when starting site runtime.
+    StartCommand string `json:"startCommand"`
     // The directory where the site build output is located.
     OutputDirectory string `json:"outputDirectory"`
     // Site VCS (Version Control System) installation id.
@@ -64,8 +69,10 @@ type Site struct {
     // silence mode, no comments will be posted on the repository pull or merge
     // requests
     ProviderSilentMode bool `json:"providerSilentMode"`
-    // Machine specification for builds and executions.
-    Specification string `json:"specification"`
+    // Machine specification for deployment builds.
+    BuildSpecification string `json:"buildSpecification"`
+    // Machine specification for SSR executions.
+    RuntimeSpecification string `json:"runtimeSpecification"`
     // Site build runtime.
     BuildRuntime string `json:"buildRuntime"`
     // Site framework adapter.

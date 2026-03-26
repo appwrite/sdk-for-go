@@ -872,6 +872,46 @@ func (srv *Users) UpdateEmail(UserId string, Email string)(*models.User, error) 
 	return &parsed, nil
 
 }
+			
+// UpdateImpersonator enable or disable whether a user can impersonate other
+// users. When impersonation headers are used, the request runs as the target
+// user for API behavior, while internal audit logs still attribute the action
+// to the original impersonator and store the impersonated target details only
+// in internal audit payload data.
+func (srv *Users) UpdateImpersonator(UserId string, Impersonator bool)(*models.User, error) {
+	r := strings.NewReplacer("{userId}", UserId)
+	path := r.Replace("/users/{userId}/impersonator")
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	params["impersonator"] = Impersonator
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.User{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.User
+	parsed, ok := resp.Result.(models.User)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type CreateJWTOptions struct {
 	SessionId string
 	Duration int
