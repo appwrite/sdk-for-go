@@ -1,5 +1,11 @@
 # Change Log
 
+## v2.1.0
+
+* Added `GetHeaders` method to `Client` for retrieving current request headers
+* Fixed chunked upload resume handling for responses returned as strings
+* Updated Go module path to `v2` for proper Go modules compatibility
+
 ## v2.0.0
 
 * [BREAKING] Changed `$sequence` type from `int` to `string` for rows and documents

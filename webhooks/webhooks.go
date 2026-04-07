@@ -3,8 +3,8 @@ package webhooks
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/client"
-	"github.com/appwrite/sdk-for-go/models"
+	"github.com/appwrite/sdk-for-go/v2/client"
+	"github.com/appwrite/sdk-for-go/v2/models"
 	"strings"
 )
 

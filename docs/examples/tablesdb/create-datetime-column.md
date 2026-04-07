@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/tablesdb"
+    "github.com/appwrite/sdk-for-go/v2/client"
+    "github.com/appwrite/sdk-for-go/v2/tablesdb"
 )
 
 client := client.New(
@@ -20,7 +20,7 @@ response, error := service.CreateDatetimeColumn(
     "<TABLE_ID>",
     "",
     false,
-    tablesdb.WithCreateDatetimeColumnDefault(""),
+    tablesdb.WithCreateDatetimeColumnDefault("2020-10-15T06:38:00.000+00:00"),
     tablesdb.WithCreateDatetimeColumnArray(false),
 )
 ```
