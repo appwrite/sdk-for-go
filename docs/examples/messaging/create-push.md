@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/messaging"
+    "github.com/appwrite/sdk-for-go/v2/client"
+    "github.com/appwrite/sdk-for-go/v2/messaging"
 )
 
 client := client.New(
@@ -31,7 +31,7 @@ response, error := service.CreatePush(
     messaging.WithCreatePushTag("<TAG>"),
     messaging.WithCreatePushBadge(0),
     messaging.WithCreatePushDraft(false),
-    messaging.WithCreatePushScheduledAt(""),
+    messaging.WithCreatePushScheduledAt("2020-10-15T06:38:00.000+00:00"),
     messaging.WithCreatePushContentAvailable(false),
     messaging.WithCreatePushCritical(false),
     messaging.WithCreatePushPriority("normal"),

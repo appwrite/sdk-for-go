@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/messaging"
+    "github.com/appwrite/sdk-for-go/v2/client"
+    "github.com/appwrite/sdk-for-go/v2/messaging"
 )
 
 client := client.New(
@@ -22,6 +22,6 @@ response, error := service.CreateSMS(
     messaging.WithCreateSMSUsers([]interface{}{}),
     messaging.WithCreateSMSTargets([]interface{}{}),
     messaging.WithCreateSMSDraft(false),
-    messaging.WithCreateSMSScheduledAt(""),
+    messaging.WithCreateSMSScheduledAt("2020-10-15T06:38:00.000+00:00"),
 )
 ```

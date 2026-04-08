@@ -23,7 +23,7 @@ go mod init <YOUR_MODULE_NAME>
 To install using `go get`:
 
 ```bash
-go get github.com/appwrite/sdk-for-go
+go get github.com/appwrite/sdk-for-go/v2
 ```
 
 ## Testing the SDK
@@ -51,8 +51,8 @@ go get github.com/appwrite/sdk-for-go
 		"os"
 		"time"
 
-		"github.com/appwrite/sdk-for-go/appwrite"
-		"github.com/appwrite/sdk-for-go/id"
+		"github.com/appwrite/sdk-for-go/v2/appwrite"
+		"github.com/appwrite/sdk-for-go/v2/id"
 	)
 
 	func main() {

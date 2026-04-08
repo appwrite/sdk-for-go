@@ -19,7 +19,7 @@ import (
 	"time"
 	"runtime"
 
-	"github.com/appwrite/sdk-for-go/file"
+	"github.com/appwrite/sdk-for-go/v2/file"
 )
 
 const (
@@ -74,11 +74,11 @@ type Client struct {
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.9.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v2.0.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v2.1.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "v2.0.0",
+		"x-sdk-version": "v2.1.0",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
@@ -125,6 +125,16 @@ func (client *Client) AddHeader(key string, value string) {
 	client.Headers[key] = value
 }
 
+// GetHeaders returns a copy of the client's current request headers
+func (client *Client) GetHeaders() map[string]string {
+	headers := make(map[string]string, len(client.Headers))
+	for key, value := range client.Headers {
+		headers[key] = value
+	}
+
+	return headers
+}
+
 // GetEndpoint returns the client's current endpoint
 func (client *Client) GetEndpoint() string {
 	return client.Endpoint
@@ -168,7 +178,15 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 	if uploadId != "" {
 		resp, err := client.Call("GET", url+"/"+uploadId, nil, nil)
 		if err == nil {
-			currentChunk = int64(resp.Result.(map[string]interface{})["chunksUploaded"].(float64))
+			var result map[string]interface{}
+			if resStr, ok := resp.Result.(string); ok {
+				_ = json.Unmarshal([]byte(resStr), &result)
+			} else {
+				result, _ = resp.Result.(map[string]interface{})
+			}
+			if result != nil && result["chunksUploaded"] != nil {
+				currentChunk = int64(result["chunksUploaded"].(float64))
+			}
 		}
 	}
 

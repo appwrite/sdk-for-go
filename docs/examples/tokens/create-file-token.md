@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/client"
-    "github.com/appwrite/sdk-for-go/tokens"
+    "github.com/appwrite/sdk-for-go/v2/client"
+    "github.com/appwrite/sdk-for-go/v2/tokens"
 )
 
 client := client.New(
@@ -18,6 +18,6 @@ service := tokens.New(client)
 response, error := service.CreateFileToken(
     "<BUCKET_ID>",
     "<FILE_ID>",
-    tokens.WithCreateFileTokenExpire(""),
+    tokens.WithCreateFileTokenExpire("2020-10-15T06:38:00.000+00:00"),
 )
 ```
