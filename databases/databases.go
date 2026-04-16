@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/appwrite/sdk-for-go/v3/client"
 	"github.com/appwrite/sdk-for-go/v3/models"
+	"fmt"
 	"strings"
 )
 
@@ -3671,14 +3672,92 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		parsed := models.AttributeBoolean{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
+		var response map[string]interface{}
+		if err := json.Unmarshal(bytes, &response); err != nil {
 			return nil, err
 		}
+		if fmt.Sprint(response["type"]) == "string" && fmt.Sprint(response["format"]) == "email" {
+			parsed := models.AttributeEmail{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
 
-		return parsed, nil
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "string" && fmt.Sprint(response["format"]) == "enum" {
+			parsed := models.AttributeEnum{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "string" && fmt.Sprint(response["format"]) == "url" {
+			parsed := models.AttributeUrl{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "string" && fmt.Sprint(response["format"]) == "ip" {
+			parsed := models.AttributeIp{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "boolean" {
+			parsed := models.AttributeBoolean{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "integer" {
+			parsed := models.AttributeInteger{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "double" {
+			parsed := models.AttributeFloat{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "datetime" {
+			parsed := models.AttributeDatetime{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "relationship" {
+			parsed := models.AttributeRelationship{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "string" {
+			parsed := models.AttributeString{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+
+		return nil, errors.New("unable to match response to any expected response model")
 	}
 	parsed, ok := resp.Result.(models.Model)
 	if !ok {

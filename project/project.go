@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/appwrite/sdk-for-go/v3/client"
 	"github.com/appwrite/sdk-for-go/v3/models"
+	"fmt"
 	"strings"
 )
 
@@ -779,14 +780,52 @@ func (srv *Project) GetPlatform(PlatformId string)(models.Model, error) {
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		parsed := models.PlatformWeb{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
+		var response map[string]interface{}
+		if err := json.Unmarshal(bytes, &response); err != nil {
 			return nil, err
 		}
+		if fmt.Sprint(response["type"]) == "web" {
+			parsed := models.PlatformWeb{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
 
-		return parsed, nil
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "apple" {
+			parsed := models.PlatformApple{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "android" {
+			parsed := models.PlatformAndroid{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "windows" {
+			parsed := models.PlatformWindows{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "linux" {
+			parsed := models.PlatformLinux{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+
+		return nil, errors.New("unable to match response to any expected response model")
 	}
 	parsed, ok := resp.Result.(models.Model)
 	if !ok {

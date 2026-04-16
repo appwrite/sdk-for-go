@@ -698,7 +698,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "My Web App",
-    "type": "web",
+    "type": "linux",
     "packageName": "com.company.appname"
 }
 `
