@@ -5,7 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v2/client"
+	"github.com/appwrite/sdk-for-go/v3/client"
+	"github.com/appwrite/sdk-for-go/v3/models"
 )
 
 func TestTablesDB(t *testing.T) {
@@ -1856,13 +1857,14 @@ func TestTablesDB(t *testing.T) {
 	t.Run("Test GetColumn", func(t *testing.T) {
 		mockResponse := `
 {
-    "key": "isEnabled",
-    "type": "boolean",
+    "key": "fullName",
+    "type": "string",
     "status": "available",
     "error": "string",
     "required": true,
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
-    "$updatedAt": "2020-10-15T06:38:00.000+00:00"
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "size": 128
 }
 `
 
@@ -1879,9 +1881,12 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.GetColumn("<DATABASE_ID>", "<TABLE_ID>", "")
+		response, err := srv.GetColumn("<DATABASE_ID>", "<TABLE_ID>", "")
 		if err != nil {
 			t.Errorf("Method GetColumn failed: %v", err)
+		}
+		if _, ok := response.(*models.ColumnString); !ok {
+			t.Errorf("Expected response type *models.ColumnString, got %T", response)
 		}
 	})
 

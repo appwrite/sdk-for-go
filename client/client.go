@@ -19,7 +19,7 @@ import (
 	"time"
 	"runtime"
 
-	"github.com/appwrite/sdk-for-go/v2/file"
+	"github.com/appwrite/sdk-for-go/v3/file"
 )
 
 const (
@@ -73,12 +73,12 @@ type Client struct {
 // Initialize a new Appwrite client with a given timeout
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
-		"X-Appwrite-Response-Format" : "1.9.0",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v2.1.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"X-Appwrite-Response-Format" : "1.9.1",
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v3.0.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "v2.1.0",
+		"x-sdk-version": "v3.0.0",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {

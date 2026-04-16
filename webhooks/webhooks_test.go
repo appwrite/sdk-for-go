@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v2/client"
+	"github.com/appwrite/sdk-for-go/v3/client"
 )
 
 func TestWebhooks(t *testing.T) {
@@ -28,10 +28,10 @@ func TestWebhooks(t *testing.T) {
             "name": "My Webhook",
             "url": "https://example.com/webhook",
             "events": [],
-            "security": true,
-            "httpUser": "username",
-            "httpPass": "password",
-            "signatureKey": "ad3d581ca230e2b7059c545e5a",
+            "tls": true,
+            "authUsername": "username",
+            "authPassword": "password",
+            "secret": "ad3d581ca230e2b7059c545e5a",
             "enabled": true,
             "logs": "Failed to connect to remote server.",
             "attempts": 10
@@ -68,10 +68,10 @@ func TestWebhooks(t *testing.T) {
     "name": "My Webhook",
     "url": "https://example.com/webhook",
     "events": [],
-    "security": true,
-    "httpUser": "username",
-    "httpPass": "password",
-    "signatureKey": "ad3d581ca230e2b7059c545e5a",
+    "tls": true,
+    "authUsername": "username",
+    "authPassword": "password",
+    "secret": "ad3d581ca230e2b7059c545e5a",
     "enabled": true,
     "logs": "Failed to connect to remote server.",
     "attempts": 10
@@ -106,10 +106,10 @@ func TestWebhooks(t *testing.T) {
     "name": "My Webhook",
     "url": "https://example.com/webhook",
     "events": [],
-    "security": true,
-    "httpUser": "username",
-    "httpPass": "password",
-    "signatureKey": "ad3d581ca230e2b7059c545e5a",
+    "tls": true,
+    "authUsername": "username",
+    "authPassword": "password",
+    "secret": "ad3d581ca230e2b7059c545e5a",
     "enabled": true,
     "logs": "Failed to connect to remote server.",
     "attempts": 10
@@ -144,10 +144,10 @@ func TestWebhooks(t *testing.T) {
     "name": "My Webhook",
     "url": "https://example.com/webhook",
     "events": [],
-    "security": true,
-    "httpUser": "username",
-    "httpPass": "password",
-    "signatureKey": "ad3d581ca230e2b7059c545e5a",
+    "tls": true,
+    "authUsername": "username",
+    "authPassword": "password",
+    "secret": "ad3d581ca230e2b7059c545e5a",
     "enabled": true,
     "logs": "Failed to connect to remote server.",
     "attempts": 10
@@ -199,7 +199,7 @@ func TestWebhooks(t *testing.T) {
 		}
 	})
 
-	t.Run("Test UpdateSignature", func(t *testing.T) {
+	t.Run("Test UpdateSecret", func(t *testing.T) {
 		mockResponse := `
 {
     "$id": "5e5ea5c16897e",
@@ -208,10 +208,10 @@ func TestWebhooks(t *testing.T) {
     "name": "My Webhook",
     "url": "https://example.com/webhook",
     "events": [],
-    "security": true,
-    "httpUser": "username",
-    "httpPass": "password",
-    "signatureKey": "ad3d581ca230e2b7059c545e5a",
+    "tls": true,
+    "authUsername": "username",
+    "authPassword": "password",
+    "secret": "ad3d581ca230e2b7059c545e5a",
     "enabled": true,
     "logs": "Failed to connect to remote server.",
     "attempts": 10
@@ -231,9 +231,9 @@ func TestWebhooks(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateSignature("<WEBHOOK_ID>")
+		_, err := srv.UpdateSecret("<WEBHOOK_ID>")
 		if err != nil {
-			t.Errorf("Method UpdateSignature failed: %v", err)
+			t.Errorf("Method UpdateSecret failed: %v", err)
 		}
 	})
 }

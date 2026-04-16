@@ -5,7 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v2/client"
+	"github.com/appwrite/sdk-for-go/v3/client"
+	"github.com/appwrite/sdk-for-go/v3/models"
 )
 
 func TestDatabases(t *testing.T) {
@@ -1894,13 +1895,14 @@ func TestDatabases(t *testing.T) {
 	t.Run("Test GetAttribute", func(t *testing.T) {
 		mockResponse := `
 {
-    "key": "isEnabled",
-    "type": "boolean",
+    "key": "fullName",
+    "type": "string",
     "status": "available",
     "error": "string",
     "required": true,
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
-    "$updatedAt": "2020-10-15T06:38:00.000+00:00"
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "size": 128
 }
 `
 
@@ -1917,9 +1919,12 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.GetAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		response, err := srv.GetAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "")
 		if err != nil {
 			t.Errorf("Method GetAttribute failed: %v", err)
+		}
+		if _, ok := response.(*models.AttributeString); !ok {
+			t.Errorf("Expected response type *models.AttributeString, got %T", response)
 		}
 	})
 

@@ -3,9 +3,9 @@ package sites
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v2/client"
-	"github.com/appwrite/sdk-for-go/v2/models"
-	"github.com/appwrite/sdk-for-go/v2/file"
+	"github.com/appwrite/sdk-for-go/v3/client"
+	"github.com/appwrite/sdk-for-go/v3/models"
+	"github.com/appwrite/sdk-for-go/v3/file"
 	"net/url"
 	"fmt"
 	"strings"
@@ -915,23 +915,25 @@ func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, optionalS
 
     uploadId := ""
 
-    resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
-    if err != nil {
+	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
+	if err != nil {
 		return nil, err
 	}
-	var parsed models.Deployment
 	if strings.HasPrefix(resp.Type, "application/json") {
+		var parsed models.Deployment
 		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
 		if err != nil {
 			return nil, err
 		}
 		return &parsed, nil
 	}
+	var parsed models.Deployment
 	parsed, ok := resp.Result.(models.Deployment)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
 	return &parsed, nil
+
 }
 			
 // CreateDuplicateDeployment create a new build for an existing site

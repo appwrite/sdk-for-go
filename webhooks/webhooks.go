@@ -3,8 +3,8 @@ package webhooks
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v2/client"
-	"github.com/appwrite/sdk-for-go/v2/models"
+	"github.com/appwrite/sdk-for-go/v3/client"
+	"github.com/appwrite/sdk-for-go/v3/models"
 	"strings"
 )
 
@@ -89,17 +89,19 @@ func (srv *Webhooks) List(optionalSetters ...ListOption)(*models.WebhookList, er
 }
 type CreateOptions struct {
 	Enabled bool
-	Security bool
-	HttpUser string
-	HttpPass string
+	Tls bool
+	AuthUsername string
+	AuthPassword string
+	Secret string
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
 	options.enabledSetters = map[string]bool{
 		"Enabled": false,
-		"Security": false,
-		"HttpUser": false,
-		"HttpPass": false,
+		"Tls": false,
+		"AuthUsername": false,
+		"AuthPassword": false,
+		"Secret": false,
 	}
 	return &options
 }
@@ -110,22 +112,28 @@ func (srv *Webhooks) WithCreateEnabled(v bool) CreateOption {
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func (srv *Webhooks) WithCreateSecurity(v bool) CreateOption {
+func (srv *Webhooks) WithCreateTls(v bool) CreateOption {
 	return func(o *CreateOptions) {
-		o.Security = v
-		o.enabledSetters["Security"] = true
+		o.Tls = v
+		o.enabledSetters["Tls"] = true
 	}
 }
-func (srv *Webhooks) WithCreateHttpUser(v string) CreateOption {
+func (srv *Webhooks) WithCreateAuthUsername(v string) CreateOption {
 	return func(o *CreateOptions) {
-		o.HttpUser = v
-		o.enabledSetters["HttpUser"] = true
+		o.AuthUsername = v
+		o.enabledSetters["AuthUsername"] = true
 	}
 }
-func (srv *Webhooks) WithCreateHttpPass(v string) CreateOption {
+func (srv *Webhooks) WithCreateAuthPassword(v string) CreateOption {
 	return func(o *CreateOptions) {
-		o.HttpPass = v
-		o.enabledSetters["HttpPass"] = true
+		o.AuthPassword = v
+		o.enabledSetters["AuthPassword"] = true
+	}
+}
+func (srv *Webhooks) WithCreateSecret(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.Secret = v
+		o.enabledSetters["Secret"] = true
 	}
 }
 									
@@ -145,14 +153,17 @@ func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	if options.enabledSetters["Security"] {
-		params["security"] = options.Security
+	if options.enabledSetters["Tls"] {
+		params["tls"] = options.Tls
 	}
-	if options.enabledSetters["HttpUser"] {
-		params["httpUser"] = options.HttpUser
+	if options.enabledSetters["AuthUsername"] {
+		params["authUsername"] = options.AuthUsername
 	}
-	if options.enabledSetters["HttpPass"] {
-		params["httpPass"] = options.HttpPass
+	if options.enabledSetters["AuthPassword"] {
+		params["authPassword"] = options.AuthPassword
+	}
+	if options.enabledSetters["Secret"] {
+		params["secret"] = options.Secret
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -219,17 +230,17 @@ func (srv *Webhooks) Get(WebhookId string)(*models.Webhook, error) {
 }
 type UpdateOptions struct {
 	Enabled bool
-	Security bool
-	HttpUser string
-	HttpPass string
+	Tls bool
+	AuthUsername string
+	AuthPassword string
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
 	options.enabledSetters = map[string]bool{
 		"Enabled": false,
-		"Security": false,
-		"HttpUser": false,
-		"HttpPass": false,
+		"Tls": false,
+		"AuthUsername": false,
+		"AuthPassword": false,
 	}
 	return &options
 }
@@ -240,22 +251,22 @@ func (srv *Webhooks) WithUpdateEnabled(v bool) UpdateOption {
 		o.enabledSetters["Enabled"] = true
 	}
 }
-func (srv *Webhooks) WithUpdateSecurity(v bool) UpdateOption {
+func (srv *Webhooks) WithUpdateTls(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
-		o.Security = v
-		o.enabledSetters["Security"] = true
+		o.Tls = v
+		o.enabledSetters["Tls"] = true
 	}
 }
-func (srv *Webhooks) WithUpdateHttpUser(v string) UpdateOption {
+func (srv *Webhooks) WithUpdateAuthUsername(v string) UpdateOption {
 	return func(o *UpdateOptions) {
-		o.HttpUser = v
-		o.enabledSetters["HttpUser"] = true
+		o.AuthUsername = v
+		o.enabledSetters["AuthUsername"] = true
 	}
 }
-func (srv *Webhooks) WithUpdateHttpPass(v string) UpdateOption {
+func (srv *Webhooks) WithUpdateAuthPassword(v string) UpdateOption {
 	return func(o *UpdateOptions) {
-		o.HttpPass = v
-		o.enabledSetters["HttpPass"] = true
+		o.AuthPassword = v
+		o.enabledSetters["AuthPassword"] = true
 	}
 }
 									
@@ -276,14 +287,14 @@ func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	if options.enabledSetters["Security"] {
-		params["security"] = options.Security
+	if options.enabledSetters["Tls"] {
+		params["tls"] = options.Tls
 	}
-	if options.enabledSetters["HttpUser"] {
-		params["httpUser"] = options.HttpUser
+	if options.enabledSetters["AuthUsername"] {
+		params["authUsername"] = options.AuthUsername
 	}
-	if options.enabledSetters["HttpPass"] {
-		params["httpPass"] = options.HttpPass
+	if options.enabledSetters["AuthPassword"] {
+		params["authPassword"] = options.AuthPassword
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -348,15 +359,39 @@ func (srv *Webhooks) Delete(WebhookId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-	
-// UpdateSignature update the webhook signature key. This endpoint can be used
-// to regenerate the signature key used to sign and validate payload
-// deliveries for a specific webhook.
-func (srv *Webhooks) UpdateSignature(WebhookId string)(*models.Webhook, error) {
+type UpdateSecretOptions struct {
+	Secret string
+	enabledSetters map[string]bool
+}
+func (options UpdateSecretOptions) New() *UpdateSecretOptions {
+	options.enabledSetters = map[string]bool{
+		"Secret": false,
+	}
+	return &options
+}
+type UpdateSecretOption func(*UpdateSecretOptions)
+func (srv *Webhooks) WithUpdateSecretSecret(v string) UpdateSecretOption {
+	return func(o *UpdateSecretOptions) {
+		o.Secret = v
+		o.enabledSetters["Secret"] = true
+	}
+}
+			
+// UpdateSecret update the webhook signing key. This endpoint can be used to
+// regenerate the signing key used to sign and validate payload deliveries for
+// a specific webhook.
+func (srv *Webhooks) UpdateSecret(WebhookId string, optionalSetters ...UpdateSecretOption)(*models.Webhook, error) {
 	r := strings.NewReplacer("{webhookId}", WebhookId)
-	path := r.Replace("/webhooks/{webhookId}/signature")
+	path := r.Replace("/webhooks/{webhookId}/secret")
+	options := UpdateSecretOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["webhookId"] = WebhookId
+	if options.enabledSetters["Secret"] {
+		params["secret"] = options.Secret
+	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
 	}

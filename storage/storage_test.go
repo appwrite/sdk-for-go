@@ -6,8 +6,8 @@ import (
 	"testing"
 	"os"
 
-	"github.com/appwrite/sdk-for-go/v2/client"
-	"github.com/appwrite/sdk-for-go/v2/file")
+	"github.com/appwrite/sdk-for-go/v3/client"
+	"github.com/appwrite/sdk-for-go/v3/file")
 
 func TestStorage(t *testing.T) {
 	tmpFile, err := os.CreateTemp("", "test")
