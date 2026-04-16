@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v2/client"
-    "github.com/appwrite/sdk-for-go/v2/webhooks"
+    "github.com/appwrite/sdk-for-go/v3/client"
+    "github.com/appwrite/sdk-for-go/v3/project"
 )
 
 client := client.New(
@@ -13,9 +13,9 @@ client := client.New(
     client.WithKey("<YOUR_API_KEY>")
 )
 
-service := webhooks.New(client)
+service := project.New(client)
 
-response, error := service.UpdateSignature(
-    "<WEBHOOK_ID>",
+response, error := service.DeleteKey(
+    "<KEY_ID>",
 )
 ```

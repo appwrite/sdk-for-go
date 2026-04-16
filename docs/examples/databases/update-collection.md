@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v2/client"
-    "github.com/appwrite/sdk-for-go/v2/databases"
+    "github.com/appwrite/sdk-for-go/v3/client"
+    "github.com/appwrite/sdk-for-go/v3/databases"
 )
 
 client := client.New(
@@ -22,5 +22,6 @@ response, error := service.UpdateCollection(
     databases.WithUpdateCollectionPermissions(interface{}{"read("any")"}),
     databases.WithUpdateCollectionDocumentSecurity(false),
     databases.WithUpdateCollectionEnabled(false),
+    databases.WithUpdateCollectionPurge(false),
 )
 ```

@@ -19,14 +19,15 @@ type Webhook struct {
     Url string `json:"url"`
     // Webhook trigger events.
     Events []string `json:"events"`
-    // Indicated if SSL / TLS Certificate verification is enabled.
-    Security bool `json:"security"`
+    // Indicates if SSL / TLS certificate verification is enabled.
+    Tls bool `json:"tls"`
     // HTTP basic authentication username.
-    HttpUser string `json:"httpUser"`
+    AuthUsername string `json:"authUsername"`
     // HTTP basic authentication password.
-    HttpPass string `json:"httpPass"`
-    // Signature key which can be used to validated incoming
-    SignatureKey string `json:"signatureKey"`
+    AuthPassword string `json:"authPassword"`
+    // Signature key which can be used to validate incoming webhook payloads. Only
+    // returned on creation and secret rotation.
+    Secret string `json:"secret"`
     // Indicates if this webhook is enabled.
     Enabled bool `json:"enabled"`
     // Webhook error logs from the most recent failure.

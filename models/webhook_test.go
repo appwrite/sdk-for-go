@@ -6,7 +6,7 @@ import (
 )
 
 func TestWebhookModel(t *testing.T) {
-    model := Webhook{        Id: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        Name: "My Webhook",        Url: "https://example.com/webhook",        Events: []string{"test"},        Security: true,        HttpUser: "username",        HttpPass: "password",        SignatureKey: "ad3d581ca230e2b7059c545e5a",        Enabled: true,        Logs: "Failed to connect to remote server.",        Attempts: 10,    }
+    model := Webhook{        Id: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        Name: "My Webhook",        Url: "https://example.com/webhook",        Events: []string{"test"},        Tls: true,        AuthUsername: "username",        AuthPassword: "password",        Secret: "ad3d581ca230e2b7059c545e5a",        Enabled: true,        Logs: "Failed to connect to remote server.",        Attempts: 10,    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -33,17 +33,17 @@ func TestWebhookModel(t *testing.T) {
     if result.Url != model.Url {
         t.Errorf("Expected Url %v, got %v", model.Url, result.Url)
     }
-    if result.Security != model.Security {
-        t.Errorf("Expected Security %v, got %v", model.Security, result.Security)
+    if result.Tls != model.Tls {
+        t.Errorf("Expected Tls %v, got %v", model.Tls, result.Tls)
     }
-    if result.HttpUser != model.HttpUser {
-        t.Errorf("Expected HttpUser %v, got %v", model.HttpUser, result.HttpUser)
+    if result.AuthUsername != model.AuthUsername {
+        t.Errorf("Expected AuthUsername %v, got %v", model.AuthUsername, result.AuthUsername)
     }
-    if result.HttpPass != model.HttpPass {
-        t.Errorf("Expected HttpPass %v, got %v", model.HttpPass, result.HttpPass)
+    if result.AuthPassword != model.AuthPassword {
+        t.Errorf("Expected AuthPassword %v, got %v", model.AuthPassword, result.AuthPassword)
     }
-    if result.SignatureKey != model.SignatureKey {
-        t.Errorf("Expected SignatureKey %v, got %v", model.SignatureKey, result.SignatureKey)
+    if result.Secret != model.Secret {
+        t.Errorf("Expected Secret %v, got %v", model.Secret, result.Secret)
     }
     if result.Enabled != model.Enabled {
         t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)

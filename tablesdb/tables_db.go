@@ -3,8 +3,8 @@ package tablesdb
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v2/client"
-	"github.com/appwrite/sdk-for-go/v2/models"
+	"github.com/appwrite/sdk-for-go/v3/client"
+	"github.com/appwrite/sdk-for-go/v3/models"
 	"strings"
 )
 
@@ -838,6 +838,7 @@ type UpdateTableOptions struct {
 	Permissions []string
 	RowSecurity bool
 	Enabled bool
+	Purge bool
 	enabledSetters map[string]bool
 }
 func (options UpdateTableOptions) New() *UpdateTableOptions {
@@ -846,6 +847,7 @@ func (options UpdateTableOptions) New() *UpdateTableOptions {
 		"Permissions": false,
 		"RowSecurity": false,
 		"Enabled": false,
+		"Purge": false,
 	}
 	return &options
 }
@@ -874,6 +876,12 @@ func (srv *TablesDB) WithUpdateTableEnabled(v bool) UpdateTableOption {
 		o.enabledSetters["Enabled"] = true
 	}
 }
+func (srv *TablesDB) WithUpdateTablePurge(v bool) UpdateTableOption {
+	return func(o *UpdateTableOptions) {
+		o.Purge = v
+		o.enabledSetters["Purge"] = true
+	}
+}
 					
 // UpdateTable update a table by its unique ID.
 func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSetters ...UpdateTableOption)(*models.Table, error) {
@@ -897,6 +905,9 @@ func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSett
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Purge"] {
+		params["purge"] = options.Purge
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3497,7 +3508,7 @@ func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key 
 }
 					
 // GetColumn get column by ID.
-func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(*interface{}, error) {
+func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(models.Model, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
@@ -3514,20 +3525,20 @@ func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(*i
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		var parsed interface{}
+		parsed := models.ColumnBoolean{}.New(bytes)
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
-	var parsed interface{}
-	parsed, ok := resp.Result.(interface{})
+	parsed, ok := resp.Result.(models.Model)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
-	return &parsed, nil
+	return parsed, nil
 
 }
 					

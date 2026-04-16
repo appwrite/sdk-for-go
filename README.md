@@ -1,7 +1,7 @@
 # Appwrite Go SDK
 
 ![License](https://img.shields.io/github/license/appwrite/sdk-for-go.svg?style=flat-square)
-![Version](https://img.shields.io/badge/api%20version-1.9.0-blue.svg?style=flat-square)
+![Version](https://img.shields.io/badge/api%20version-1.9.1-blue.svg?style=flat-square)
 [![Build Status](https://img.shields.io/travis/com/appwrite/sdk-generator?style=flat-square)](https://travis-ci.com/appwrite/sdk-generator)
 [![Twitter Account](https://img.shields.io/twitter/follow/appwrite?color=00acee&label=twitter&style=flat-square)](https://twitter.com/appwrite)
 [![Discord](https://img.shields.io/discord/564160730845151244?label=discord&style=flat-square)](https://appwrite.io/discord)
@@ -23,7 +23,7 @@ go mod init <YOUR_MODULE_NAME>
 To install using `go get`:
 
 ```bash
-go get github.com/appwrite/sdk-for-go/v2
+go get github.com/appwrite/sdk-for-go/v3
 ```
 
 ## Testing the SDK
@@ -51,8 +51,8 @@ go get github.com/appwrite/sdk-for-go/v2
 		"os"
 		"time"
 
-		"github.com/appwrite/sdk-for-go/v2/appwrite"
-		"github.com/appwrite/sdk-for-go/v2/id"
+		"github.com/appwrite/sdk-for-go/v3/appwrite"
+		"github.com/appwrite/sdk-for-go/v3/id"
 	)
 
 	func main() {

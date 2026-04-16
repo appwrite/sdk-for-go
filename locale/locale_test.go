@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v2/client"
+	"github.com/appwrite/sdk-for-go/v3/client"
 )
 
 func TestLocale(t *testing.T) {

@@ -3,8 +3,8 @@ package databases
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v2/client"
-	"github.com/appwrite/sdk-for-go/v2/models"
+	"github.com/appwrite/sdk-for-go/v3/client"
+	"github.com/appwrite/sdk-for-go/v3/models"
 	"strings"
 )
 
@@ -854,6 +854,7 @@ type UpdateCollectionOptions struct {
 	Permissions []string
 	DocumentSecurity bool
 	Enabled bool
+	Purge bool
 	enabledSetters map[string]bool
 }
 func (options UpdateCollectionOptions) New() *UpdateCollectionOptions {
@@ -862,6 +863,7 @@ func (options UpdateCollectionOptions) New() *UpdateCollectionOptions {
 		"Permissions": false,
 		"DocumentSecurity": false,
 		"Enabled": false,
+		"Purge": false,
 	}
 	return &options
 }
@@ -890,6 +892,12 @@ func (srv *Databases) WithUpdateCollectionEnabled(v bool) UpdateCollectionOption
 		o.enabledSetters["Enabled"] = true
 	}
 }
+func (srv *Databases) WithUpdateCollectionPurge(v bool) UpdateCollectionOption {
+	return func(o *UpdateCollectionOptions) {
+		o.Purge = v
+		o.enabledSetters["Purge"] = true
+	}
+}
 					
 // UpdateCollection update a collection by its unique ID.
 //
@@ -915,6 +923,9 @@ func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, o
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Purge"] {
+		params["purge"] = options.Purge
 	}
 	headers := map[string]interface{}{
 		"content-type": "application/json",
@@ -3643,7 +3654,7 @@ func (srv *Databases) UpdateVarcharAttribute(DatabaseId string, CollectionId str
 // GetAttribute get attribute by ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getColumn` instead.
-func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string)(*interface{}, error) {
+func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string)(models.Model, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}")
 	params := map[string]interface{}{}
@@ -3660,20 +3671,20 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 	if strings.HasPrefix(resp.Type, "application/json") {
 		bytes := []byte(resp.Result.(string))
 
-		var parsed interface{}
+		parsed := models.AttributeBoolean{}.New(bytes)
 
-		err = json.Unmarshal(bytes, &parsed)
+		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+
+		return parsed, nil
 	}
-	var parsed interface{}
-	parsed, ok := resp.Result.(interface{})
+	parsed, ok := resp.Result.(models.Model)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
-	return &parsed, nil
+	return parsed, nil
 
 }
 					

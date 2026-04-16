@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v2/client"
+	"github.com/appwrite/sdk-for-go/v3/client"
 )
 
 func TestMessaging(t *testing.T) {
@@ -408,6 +408,7 @@ func TestMessaging(t *testing.T) {
             "userEmail": "john@appwrite.io",
             "userName": "John Doe",
             "mode": "admin",
+            "userType": "user",
             "ip": "127.0.0.1",
             "time": "2020-10-15T06:38:00.000+00:00",
             "osCode": "Mac",
@@ -1518,6 +1519,7 @@ func TestMessaging(t *testing.T) {
             "userEmail": "john@appwrite.io",
             "userName": "John Doe",
             "mode": "admin",
+            "userType": "user",
             "ip": "127.0.0.1",
             "time": "2020-10-15T06:38:00.000+00:00",
             "osCode": "Mac",
@@ -1569,6 +1571,7 @@ func TestMessaging(t *testing.T) {
             "userEmail": "john@appwrite.io",
             "userName": "John Doe",
             "mode": "admin",
+            "userType": "user",
             "ip": "127.0.0.1",
             "time": "2020-10-15T06:38:00.000+00:00",
             "osCode": "Mac",
@@ -1783,6 +1786,7 @@ func TestMessaging(t *testing.T) {
             "userEmail": "john@appwrite.io",
             "userName": "John Doe",
             "mode": "admin",
+            "userType": "user",
             "ip": "127.0.0.1",
             "time": "2020-10-15T06:38:00.000+00:00",
             "osCode": "Mac",

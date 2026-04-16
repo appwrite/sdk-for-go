@@ -20,6 +20,9 @@ type Log struct {
     UserName string `json:"userName"`
     // API mode when event triggered.
     Mode string `json:"mode"`
+    // User type who triggered the audit log. Possible values: user, admin, guest,
+    // keyProject, keyAccount, keyOrganization.
+    UserType string `json:"userType"`
     // IP session in use when the session was created.
     Ip string `json:"ip"`
     // Log creation date in ISO 8601 format.

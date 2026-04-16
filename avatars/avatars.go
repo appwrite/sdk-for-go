@@ -3,7 +3,7 @@ package avatars
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v2/client"
+	"github.com/appwrite/sdk-for-go/v3/client"
 	"net/url"
 	"fmt"
 	"strings"

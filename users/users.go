@@ -3,8 +3,8 @@ package users
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v2/client"
-	"github.com/appwrite/sdk-for-go/v2/models"
+	"github.com/appwrite/sdk-for-go/v3/client"
+	"github.com/appwrite/sdk-for-go/v3/models"
 	"strings"
 )
 
