@@ -17,5 +17,7 @@ service := functions.New(client)
 
 response, error := service.ListVariables(
     "<FUNCTION_ID>",
+    functions.WithListVariablesQueries([]interface{}{}),
+    functions.WithListVariablesTotal(false),
 )
 ```

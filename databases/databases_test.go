@@ -776,6 +776,70 @@ func TestDatabases(t *testing.T) {
 		}
 	})
 
+	t.Run("Test CreateBigIntAttribute", func(t *testing.T) {
+		mockResponse := `
+{
+    "key": "count",
+    "type": "bigint",
+    "status": "available",
+    "error": "string",
+    "required": true,
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateBigIntAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		if err != nil {
+			t.Errorf("Method CreateBigIntAttribute failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateBigIntAttribute", func(t *testing.T) {
+		mockResponse := `
+{
+    "key": "count",
+    "type": "bigint",
+    "status": "available",
+    "error": "string",
+    "required": true,
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateBigIntAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, 1)
+		if err != nil {
+			t.Errorf("Method UpdateBigIntAttribute failed: %v", err)
+		}
+	})
+
 	t.Run("Test CreateBooleanAttribute", func(t *testing.T) {
 		mockResponse := `
 {

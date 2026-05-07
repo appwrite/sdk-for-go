@@ -14,7 +14,7 @@ type AuthProvider struct {
     // OAuth 2.0 application ID.
     AppId string `json:"appId"`
     // OAuth 2.0 application secret. Might be JSON string if provider requires
-    // extra configuration.
+    // extra configuration. This property is write-only and always returned empty.
     Secret string `json:"secret"`
     // Auth Provider is active and can be used to create session.
     Enabled bool `json:"enabled"`

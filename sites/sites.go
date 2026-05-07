@@ -1443,13 +1443,48 @@ func (srv *Sites) DeleteLog(SiteId string, LogId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-	
+type ListVariablesOptions struct {
+	Queries []string
+	Total bool
+	enabledSetters map[string]bool
+}
+func (options ListVariablesOptions) New() *ListVariablesOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+		"Total": false,
+	}
+	return &options
+}
+type ListVariablesOption func(*ListVariablesOptions)
+func (srv *Sites) WithListVariablesQueries(v []string) ListVariablesOption {
+	return func(o *ListVariablesOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Sites) WithListVariablesTotal(v bool) ListVariablesOption {
+	return func(o *ListVariablesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+			
 // ListVariables get a list of all variables of a specific site.
-func (srv *Sites) ListVariables(SiteId string)(*models.VariableList, error) {
+func (srv *Sites) ListVariables(SiteId string, optionalSetters ...ListVariablesOption)(*models.VariableList, error) {
 	r := strings.NewReplacer("{siteId}", SiteId)
 	path := r.Replace("/sites/{siteId}/variables")
+	options := ListVariablesOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["siteId"] = SiteId
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
 	headers := map[string]interface{}{
 	}
 
@@ -1494,10 +1529,10 @@ func (srv *Sites) WithCreateVariableSecret(v bool) CreateVariableOption {
 		o.enabledSetters["Secret"] = true
 	}
 }
-							
+									
 // CreateVariable create a new site variable. These variables can be accessed
 // during build and runtime (server-side rendering) as environment variables.
-func (srv *Sites) CreateVariable(SiteId string, Key string, Value string, optionalSetters ...CreateVariableOption)(*models.Variable, error) {
+func (srv *Sites) CreateVariable(SiteId string, VariableId string, Key string, Value string, optionalSetters ...CreateVariableOption)(*models.Variable, error) {
 	r := strings.NewReplacer("{siteId}", SiteId)
 	path := r.Replace("/sites/{siteId}/variables")
 	options := CreateVariableOptions{}.New()
@@ -1506,6 +1541,7 @@ func (srv *Sites) CreateVariable(SiteId string, Key string, Value string, option
 	}
 	params := map[string]interface{}{}
 	params["siteId"] = SiteId
+	params["variableId"] = VariableId
 	params["key"] = Key
 	params["value"] = Value
 	if options.enabledSetters["Secret"] {
@@ -1575,18 +1611,26 @@ func (srv *Sites) GetVariable(SiteId string, VariableId string)(*models.Variable
 
 }
 type UpdateVariableOptions struct {
+	Key string
 	Value string
 	Secret bool
 	enabledSetters map[string]bool
 }
 func (options UpdateVariableOptions) New() *UpdateVariableOptions {
 	options.enabledSetters = map[string]bool{
+		"Key": false,
 		"Value": false,
 		"Secret": false,
 	}
 	return &options
 }
 type UpdateVariableOption func(*UpdateVariableOptions)
+func (srv *Sites) WithUpdateVariableKey(v string) UpdateVariableOption {
+	return func(o *UpdateVariableOptions) {
+		o.Key = v
+		o.enabledSetters["Key"] = true
+	}
+}
 func (srv *Sites) WithUpdateVariableValue(v string) UpdateVariableOption {
 	return func(o *UpdateVariableOptions) {
 		o.Value = v
@@ -1599,9 +1643,9 @@ func (srv *Sites) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 		o.enabledSetters["Secret"] = true
 	}
 }
-							
+					
 // UpdateVariable update variable by its unique ID.
-func (srv *Sites) UpdateVariable(SiteId string, VariableId string, Key string, optionalSetters ...UpdateVariableOption)(*models.Variable, error) {
+func (srv *Sites) UpdateVariable(SiteId string, VariableId string, optionalSetters ...UpdateVariableOption)(*models.Variable, error) {
 	r := strings.NewReplacer("{siteId}", SiteId, "{variableId}", VariableId)
 	path := r.Replace("/sites/{siteId}/variables/{variableId}")
 	options := UpdateVariableOptions{}.New()
@@ -1611,7 +1655,9 @@ func (srv *Sites) UpdateVariable(SiteId string, VariableId string, Key string, o
 	params := map[string]interface{}{}
 	params["siteId"] = SiteId
 	params["variableId"] = VariableId
-	params["key"] = Key
+	if options.enabledSetters["Key"] {
+		params["key"] = options.Key
+	}
 	if options.enabledSetters["Value"] {
 		params["value"] = options.Value
 	}
