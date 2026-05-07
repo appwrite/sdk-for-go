@@ -1,11 +1,5 @@
 # Change Log
 
-## v3.1.0
-
-* Added: Introduced `bigint` create/update APIs for legacy Databases attributes
-* Added: Introduced `bigint` create/update APIs for `TablesDB` columns
-* Updated: Extended key-list query filters with `key`, `resourceType`, `resourceId`, and `secret`
-
 ## v3.0.0
 
 * [BREAKING] Renamed Webhook model fields: `security` → `tls`, `httpUser` → `authUsername`, `httpPass` → `authPassword`, `signatureKey` → `secret`
