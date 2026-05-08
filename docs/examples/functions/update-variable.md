@@ -18,7 +18,7 @@ service := functions.New(client)
 response, error := service.UpdateVariable(
     "<FUNCTION_ID>",
     "<VARIABLE_ID>",
-    "<KEY>",
+    functions.WithUpdateVariableKey("<KEY>"),
     functions.WithUpdateVariableValue("<VALUE>"),
     functions.WithUpdateVariableSecret(false),
 )

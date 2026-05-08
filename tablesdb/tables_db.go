@@ -1044,6 +1044,188 @@ func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSett
 	return &parsed, nil
 
 }
+type CreateBigIntColumnOptions struct {
+	Min int
+	Max int
+	Default int
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateBigIntColumnOptions) New() *CreateBigIntColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Min": false,
+		"Max": false,
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateBigIntColumnOption func(*CreateBigIntColumnOptions)
+func (srv *TablesDB) WithCreateBigIntColumnMin(v int) CreateBigIntColumnOption {
+	return func(o *CreateBigIntColumnOptions) {
+		o.Min = v
+		o.enabledSetters["Min"] = true
+	}
+}
+func (srv *TablesDB) WithCreateBigIntColumnMax(v int) CreateBigIntColumnOption {
+	return func(o *CreateBigIntColumnOptions) {
+		o.Max = v
+		o.enabledSetters["Max"] = true
+	}
+}
+func (srv *TablesDB) WithCreateBigIntColumnDefault(v int) CreateBigIntColumnOption {
+	return func(o *CreateBigIntColumnOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithCreateBigIntColumnArray(v bool) CreateBigIntColumnOption {
+	return func(o *CreateBigIntColumnOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+									
+// CreateBigIntColumn create a bigint column. Optionally, minimum and maximum
+// values can be provided.
+func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBigIntColumnOption)(*models.ColumnBigint, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/bigint")
+	options := CreateBigIntColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Min"] {
+		params["min"] = options.Min
+	}
+	if options.enabledSetters["Max"] {
+		params["max"] = options.Max
+	}
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnBigint{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnBigint
+	parsed, ok := resp.Result.(models.ColumnBigint)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateBigIntColumnOptions struct {
+	Min int
+	Max int
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateBigIntColumnOptions) New() *UpdateBigIntColumnOptions {
+	options.enabledSetters = map[string]bool{
+		"Min": false,
+		"Max": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateBigIntColumnOption func(*UpdateBigIntColumnOptions)
+func (srv *TablesDB) WithUpdateBigIntColumnMin(v int) UpdateBigIntColumnOption {
+	return func(o *UpdateBigIntColumnOptions) {
+		o.Min = v
+		o.enabledSetters["Min"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateBigIntColumnMax(v int) UpdateBigIntColumnOption {
+	return func(o *UpdateBigIntColumnOptions) {
+		o.Max = v
+		o.enabledSetters["Max"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateBigIntColumnNewKey(v string) UpdateBigIntColumnOption {
+	return func(o *UpdateBigIntColumnOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateBigIntColumn update a bigint column. Changing the `default` value
+// will not update already existing rows.
+func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateBigIntColumnOption)(*models.ColumnBigint, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}")
+	options := UpdateBigIntColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["tableId"] = TableId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["Min"] {
+		params["min"] = options.Min
+	}
+	if options.enabledSetters["Max"] {
+		params["max"] = options.Max
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ColumnBigint{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnBigint
+	parsed, ok := resp.Result.(models.ColumnBigint)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type CreateBooleanColumnOptions struct {
 	Default bool
 	Array bool

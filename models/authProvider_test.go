@@ -6,7 +6,7 @@ import (
 )
 
 func TestAuthProviderModel(t *testing.T) {
-    model := AuthProvider{        Key: "github",        Name: "GitHub",        AppId: "259125845563242502",        Secret: "Bpw_g9c2TGXxfgLshDbSaL8tsCcqgczQ",        Enabled: true,    }
+    model := AuthProvider{        Key: "github",        Name: "GitHub",        AppId: "259125845563242502",        Secret: "string",        Enabled: true,    }
 
     data, err := json.Marshal(model)
     if err != nil {

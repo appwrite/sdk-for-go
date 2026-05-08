@@ -1066,6 +1066,192 @@ func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string, opt
 	return &parsed, nil
 
 }
+type CreateBigIntAttributeOptions struct {
+	Min int
+	Max int
+	Default int
+	Array bool
+	enabledSetters map[string]bool
+}
+func (options CreateBigIntAttributeOptions) New() *CreateBigIntAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Min": false,
+		"Max": false,
+		"Default": false,
+		"Array": false,
+	}
+	return &options
+}
+type CreateBigIntAttributeOption func(*CreateBigIntAttributeOptions)
+func (srv *Databases) WithCreateBigIntAttributeMin(v int) CreateBigIntAttributeOption {
+	return func(o *CreateBigIntAttributeOptions) {
+		o.Min = v
+		o.enabledSetters["Min"] = true
+	}
+}
+func (srv *Databases) WithCreateBigIntAttributeMax(v int) CreateBigIntAttributeOption {
+	return func(o *CreateBigIntAttributeOptions) {
+		o.Max = v
+		o.enabledSetters["Max"] = true
+	}
+}
+func (srv *Databases) WithCreateBigIntAttributeDefault(v int) CreateBigIntAttributeOption {
+	return func(o *CreateBigIntAttributeOptions) {
+		o.Default = v
+		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *Databases) WithCreateBigIntAttributeArray(v bool) CreateBigIntAttributeOption {
+	return func(o *CreateBigIntAttributeOptions) {
+		o.Array = v
+		o.enabledSetters["Array"] = true
+	}
+}
+									
+// CreateBigIntAttribute create a bigint attribute. Optionally, minimum and
+// maximum values can be provided.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createBigIntColumn` instead.
+func (srv *Databases) CreateBigIntAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateBigIntAttributeOption)(*models.AttributeBigint, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/bigint")
+	options := CreateBigIntAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	if options.enabledSetters["Min"] {
+		params["min"] = options.Min
+	}
+	if options.enabledSetters["Max"] {
+		params["max"] = options.Max
+	}
+	if options.enabledSetters["Default"] {
+		params["default"] = options.Default
+	}
+	if options.enabledSetters["Array"] {
+		params["array"] = options.Array
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeBigint{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeBigint
+	parsed, ok := resp.Result.(models.AttributeBigint)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateBigIntAttributeOptions struct {
+	Min int
+	Max int
+	NewKey string
+	enabledSetters map[string]bool
+}
+func (options UpdateBigIntAttributeOptions) New() *UpdateBigIntAttributeOptions {
+	options.enabledSetters = map[string]bool{
+		"Min": false,
+		"Max": false,
+		"NewKey": false,
+	}
+	return &options
+}
+type UpdateBigIntAttributeOption func(*UpdateBigIntAttributeOptions)
+func (srv *Databases) WithUpdateBigIntAttributeMin(v int) UpdateBigIntAttributeOption {
+	return func(o *UpdateBigIntAttributeOptions) {
+		o.Min = v
+		o.enabledSetters["Min"] = true
+	}
+}
+func (srv *Databases) WithUpdateBigIntAttributeMax(v int) UpdateBigIntAttributeOption {
+	return func(o *UpdateBigIntAttributeOptions) {
+		o.Max = v
+		o.enabledSetters["Max"] = true
+	}
+}
+func (srv *Databases) WithUpdateBigIntAttributeNewKey(v string) UpdateBigIntAttributeOption {
+	return func(o *UpdateBigIntAttributeOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+											
+// UpdateBigIntAttribute update a bigint attribute. Changing the `default`
+// value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateBigIntColumn` instead.
+func (srv *Databases) UpdateBigIntAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default int, optionalSetters ...UpdateBigIntAttributeOption)(*models.AttributeBigint, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/bigint/{key}")
+	options := UpdateBigIntAttributeOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	params["collectionId"] = CollectionId
+	params["key"] = Key
+	params["required"] = Required
+	params["default"] = Default
+	if options.enabledSetters["Min"] {
+		params["min"] = options.Min
+	}
+	if options.enabledSetters["Max"] {
+		params["max"] = options.Max
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AttributeBigint{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AttributeBigint
+	parsed, ok := resp.Result.(models.AttributeBigint)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type CreateBooleanAttributeOptions struct {
 	Default bool
 	Array bool

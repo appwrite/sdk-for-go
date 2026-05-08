@@ -21,6 +21,9 @@ type Membership struct {
     // User email address. Hide this attribute by toggling membership privacy in
     // the Console.
     UserEmail string `json:"userEmail"`
+    // User phone number. Hide this attribute by toggling membership privacy in
+    // the Console.
+    UserPhone string `json:"userPhone"`
     // Team ID.
     TeamId string `json:"teamId"`
     // Team name.

@@ -1096,7 +1096,7 @@ func TestSites(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateVariable("<SITE_ID>", "<KEY>", "<VALUE>")
+		_, err := srv.CreateVariable("<SITE_ID>", "<VARIABLE_ID>", "<KEY>", "<VALUE>")
 		if err != nil {
 			t.Errorf("Method CreateVariable failed: %v", err)
 		}
@@ -1162,7 +1162,7 @@ func TestSites(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateVariable("<SITE_ID>", "<VARIABLE_ID>", "<KEY>")
+		_, err := srv.UpdateVariable("<SITE_ID>", "<VARIABLE_ID>")
 		if err != nil {
 			t.Errorf("Method UpdateVariable failed: %v", err)
 		}

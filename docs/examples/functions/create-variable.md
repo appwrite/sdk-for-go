@@ -17,6 +17,7 @@ service := functions.New(client)
 
 response, error := service.CreateVariable(
     "<FUNCTION_ID>",
+    "<VARIABLE_ID>",
     "<KEY>",
     "<VALUE>",
     functions.WithCreateVariableSecret(false),
