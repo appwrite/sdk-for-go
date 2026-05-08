@@ -15,8 +15,10 @@ client := client.New(
 
 service := project.New(client)
 
-response, error := service.UpdateServiceStatus(
-    "account",
-    false,
+response, error := service.UpdateOAuth2Gitlab(
+    project.WithUpdateOAuth2GitlabApplicationId("<APPLICATION_ID>"),
+    project.WithUpdateOAuth2GitlabSecret("<SECRET>"),
+    project.WithUpdateOAuth2GitlabEndpoint("https://example.com"),
+    project.WithUpdateOAuth2GitlabEnabled(false),
 )
 ```

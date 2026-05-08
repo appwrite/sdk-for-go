@@ -9,9 +9,13 @@ import (
 type MockNumber struct {
     // Mock phone number for testing phone authentication. Useful for testing
     // phone authentication without sending an SMS.
-    Phone string `json:"phone"`
+    Number string `json:"number"`
     // Mock OTP for the number.
     Otp string `json:"otp"`
+    // Attribute creation date in ISO 8601 format.
+    CreatedAt string `json:"$createdAt"`
+    // Attribute update date in ISO 8601 format.
+    UpdatedAt string `json:"$updatedAt"`
 
     // Used by Decode() method
     data []byte
