@@ -18,6 +18,16 @@ type Block struct {
     // Block expiration date in ISO 8601 format. Can be null if the block does not
     // expire.
     ExpiredAt string `json:"expiredAt"`
+    // Name of the project this block applies to.
+    ProjectName string `json:"projectName"`
+    // Region of the project this block applies to.
+    Region string `json:"region"`
+    // Name of the organization that owns the project.
+    OrganizationName string `json:"organizationName"`
+    // ID of the organization that owns the project.
+    OrganizationId string `json:"organizationId"`
+    // Billing plan of the organization that owns the project.
+    BillingPlan string `json:"billingPlan"`
 
     // Used by Decode() method
     data []byte

@@ -17,6 +17,7 @@ service := sites.New(client)
 
 response, error := service.CreateVariable(
     "<SITE_ID>",
+    "<VARIABLE_ID>",
     "<KEY>",
     "<VALUE>",
     sites.WithCreateVariableSecret(false),

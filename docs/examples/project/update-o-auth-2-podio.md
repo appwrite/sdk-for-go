@@ -15,8 +15,9 @@ client := client.New(
 
 service := project.New(client)
 
-response, error := service.UpdateProtocolStatus(
-    "rest",
-    false,
+response, error := service.UpdateOAuth2Podio(
+    project.WithUpdateOAuth2PodioClientId("<CLIENT_ID>"),
+    project.WithUpdateOAuth2PodioClientSecret("<CLIENT_SECRET>"),
+    project.WithUpdateOAuth2PodioEnabled(false),
 )
 ```

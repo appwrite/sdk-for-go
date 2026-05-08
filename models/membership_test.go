@@ -6,7 +6,7 @@ import (
 )
 
 func TestMembershipModel(t *testing.T) {
-    model := Membership{        Id: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        UserId: "5e5ea5c16897e",        UserName: "John Doe",        UserEmail: "john@appwrite.io",        TeamId: "5e5ea5c16897e",        TeamName: "VIP",        Invited: "2020-10-15T06:38:00.000+00:00",        Joined: "2020-10-15T06:38:00.000+00:00",        Confirm: true,        Mfa: true,        Roles: []string{"test"},    }
+    model := Membership{        Id: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        UserId: "5e5ea5c16897e",        UserName: "John Doe",        UserEmail: "john@appwrite.io",        UserPhone: "+1 555 555 5555",        TeamId: "5e5ea5c16897e",        TeamName: "VIP",        Invited: "2020-10-15T06:38:00.000+00:00",        Joined: "2020-10-15T06:38:00.000+00:00",        Confirm: true,        Mfa: true,        Roles: []string{"test"},    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -35,6 +35,9 @@ func TestMembershipModel(t *testing.T) {
     }
     if result.UserEmail != model.UserEmail {
         t.Errorf("Expected UserEmail %v, got %v", model.UserEmail, result.UserEmail)
+    }
+    if result.UserPhone != model.UserPhone {
+        t.Errorf("Expected UserPhone %v, got %v", model.UserPhone, result.UserPhone)
     }
     if result.TeamId != model.TeamId {
         t.Errorf("Expected TeamId %v, got %v", model.TeamId, result.TeamId)

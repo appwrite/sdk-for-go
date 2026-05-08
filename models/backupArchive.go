@@ -18,7 +18,7 @@ type BackupArchive struct {
     // Archive size in bytes.
     Size int `json:"size"`
     // The status of the archive creation. Possible values: pending, processing,
-    // uploading, completed, failed.
+    // uploading, completed, failed, skipped.
     Status string `json:"status"`
     // The backup start time.
     StartedAt string `json:"startedAt"`

@@ -70,6 +70,10 @@ type Project struct {
     AuthMembershipsUserEmail bool `json:"authMembershipsUserEmail"`
     // Whether or not to show user MFA status in the teams membership response.
     AuthMembershipsMfa bool `json:"authMembershipsMfa"`
+    // Whether or not to show user IDs in the teams membership response.
+    AuthMembershipsUserId bool `json:"authMembershipsUserId"`
+    // Whether or not to show user phone numbers in the teams membership response.
+    AuthMembershipsUserPhone bool `json:"authMembershipsUserPhone"`
     // Whether or not all existing sessions should be invalidated on password
     // change
     AuthInvalidateSessions bool `json:"authInvalidateSessions"`
@@ -89,15 +93,18 @@ type Project struct {
     SmtpSenderName string `json:"smtpSenderName"`
     // SMTP sender email
     SmtpSenderEmail string `json:"smtpSenderEmail"`
+    // SMTP reply to name
+    SmtpReplyToName string `json:"smtpReplyToName"`
     // SMTP reply to email
-    SmtpReplyTo string `json:"smtpReplyTo"`
+    SmtpReplyToEmail string `json:"smtpReplyToEmail"`
     // SMTP server host name
     SmtpHost string `json:"smtpHost"`
     // SMTP server port
     SmtpPort int `json:"smtpPort"`
     // SMTP server username
     SmtpUsername string `json:"smtpUsername"`
-    // SMTP server password
+    // SMTP server password. This property is write-only and always returned
+    // empty.
     SmtpPassword string `json:"smtpPassword"`
     // SMTP server secure protocol
     SmtpSecure string `json:"smtpSecure"`

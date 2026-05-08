@@ -18,7 +18,7 @@ service := sites.New(client)
 response, error := service.UpdateVariable(
     "<SITE_ID>",
     "<VARIABLE_ID>",
-    "<KEY>",
+    sites.WithUpdateVariableKey("<KEY>"),
     sites.WithUpdateVariableValue("<VALUE>"),
     sites.WithUpdateVariableSecret(false),
 )

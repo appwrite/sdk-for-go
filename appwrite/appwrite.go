@@ -14,7 +14,9 @@ import (
 	"github.com/appwrite/sdk-for-go/v3/health"
 	"github.com/appwrite/sdk-for-go/v3/locale"
 	"github.com/appwrite/sdk-for-go/v3/messaging"
+	"github.com/appwrite/sdk-for-go/v3/presences"
 	"github.com/appwrite/sdk-for-go/v3/project"
+	"github.com/appwrite/sdk-for-go/v3/proxy"
 	"github.com/appwrite/sdk-for-go/v3/sites"
 	"github.com/appwrite/sdk-for-go/v3/storage"
 	"github.com/appwrite/sdk-for-go/v3/tablesdb"
@@ -54,8 +56,14 @@ func NewLocale(clt client.Client) *locale.Locale {
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
 }
+func NewPresences(clt client.Client) *presences.Presences {
+	return presences.New(clt)
+}
 func NewProject(clt client.Client) *project.Project {
 	return project.New(clt)
+}
+func NewProxy(clt client.Client) *proxy.Proxy {
+	return proxy.New(clt)
 }
 func NewSites(clt client.Client) *sites.Sites {
 	return sites.New(clt)
@@ -172,6 +180,24 @@ func WithSession(value string) client.ClientOption {
 func WithForwardedUserAgent(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Headers["X-Forwarded-User-Agent"] = value
+		return nil
+	}
+}
+// Helper method to construct NewClient()
+// 
+// Your secret dev API key
+func WithDevKey(value string) client.ClientOption {
+	return func(clt *client.Client) error {
+		clt.Headers["X-Appwrite-Dev-Key"] = value
+		return nil
+	}
+}
+// Helper method to construct NewClient()
+// 
+// The user cookie to authenticate with. Used by SDKs that forward an incoming Cookie header in server-side runtimes.
+func WithCookie(value string) client.ClientOption {
+	return func(clt *client.Client) error {
+		clt.Headers["Cookie"] = value
 		return nil
 	}
 }

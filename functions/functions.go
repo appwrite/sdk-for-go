@@ -1572,13 +1572,48 @@ func (srv *Functions) DeleteExecution(FunctionId string, ExecutionId string)(*in
 	return &parsed, nil
 
 }
-	
+type ListVariablesOptions struct {
+	Queries []string
+	Total bool
+	enabledSetters map[string]bool
+}
+func (options ListVariablesOptions) New() *ListVariablesOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+		"Total": false,
+	}
+	return &options
+}
+type ListVariablesOption func(*ListVariablesOptions)
+func (srv *Functions) WithListVariablesQueries(v []string) ListVariablesOption {
+	return func(o *ListVariablesOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Functions) WithListVariablesTotal(v bool) ListVariablesOption {
+	return func(o *ListVariablesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+			
 // ListVariables get a list of all variables of a specific function.
-func (srv *Functions) ListVariables(FunctionId string)(*models.VariableList, error) {
+func (srv *Functions) ListVariables(FunctionId string, optionalSetters ...ListVariablesOption)(*models.VariableList, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/variables")
+	options := ListVariablesOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["functionId"] = FunctionId
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
 	headers := map[string]interface{}{
 	}
 
@@ -1623,10 +1658,10 @@ func (srv *Functions) WithCreateVariableSecret(v bool) CreateVariableOption {
 		o.enabledSetters["Secret"] = true
 	}
 }
-							
+									
 // CreateVariable create a new function environment variable. These variables
 // can be accessed in the function at runtime as environment variables.
-func (srv *Functions) CreateVariable(FunctionId string, Key string, Value string, optionalSetters ...CreateVariableOption)(*models.Variable, error) {
+func (srv *Functions) CreateVariable(FunctionId string, VariableId string, Key string, Value string, optionalSetters ...CreateVariableOption)(*models.Variable, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId)
 	path := r.Replace("/functions/{functionId}/variables")
 	options := CreateVariableOptions{}.New()
@@ -1635,6 +1670,7 @@ func (srv *Functions) CreateVariable(FunctionId string, Key string, Value string
 	}
 	params := map[string]interface{}{}
 	params["functionId"] = FunctionId
+	params["variableId"] = VariableId
 	params["key"] = Key
 	params["value"] = Value
 	if options.enabledSetters["Secret"] {
@@ -1704,18 +1740,26 @@ func (srv *Functions) GetVariable(FunctionId string, VariableId string)(*models.
 
 }
 type UpdateVariableOptions struct {
+	Key string
 	Value string
 	Secret bool
 	enabledSetters map[string]bool
 }
 func (options UpdateVariableOptions) New() *UpdateVariableOptions {
 	options.enabledSetters = map[string]bool{
+		"Key": false,
 		"Value": false,
 		"Secret": false,
 	}
 	return &options
 }
 type UpdateVariableOption func(*UpdateVariableOptions)
+func (srv *Functions) WithUpdateVariableKey(v string) UpdateVariableOption {
+	return func(o *UpdateVariableOptions) {
+		o.Key = v
+		o.enabledSetters["Key"] = true
+	}
+}
 func (srv *Functions) WithUpdateVariableValue(v string) UpdateVariableOption {
 	return func(o *UpdateVariableOptions) {
 		o.Value = v
@@ -1728,9 +1772,9 @@ func (srv *Functions) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 		o.enabledSetters["Secret"] = true
 	}
 }
-							
+					
 // UpdateVariable update variable by its unique ID.
-func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, Key string, optionalSetters ...UpdateVariableOption)(*models.Variable, error) {
+func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, optionalSetters ...UpdateVariableOption)(*models.Variable, error) {
 	r := strings.NewReplacer("{functionId}", FunctionId, "{variableId}", VariableId)
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	options := UpdateVariableOptions{}.New()
@@ -1740,7 +1784,9 @@ func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, Key s
 	params := map[string]interface{}{}
 	params["functionId"] = FunctionId
 	params["variableId"] = VariableId
-	params["key"] = Key
+	if options.enabledSetters["Key"] {
+		params["key"] = options.Key
+	}
 	if options.enabledSetters["Value"] {
 		params["value"] = options.Value
 	}
