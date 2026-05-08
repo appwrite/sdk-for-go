@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2OidcModel(t *testing.T) {
-    model := OAuth2Oidc{        Id: "github",        Enabled: true,        ClientId: "qibI2x0000000000000000000000000006L2YFoG",        ClientSecret: "Ah68ed000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003qpcHV",        WellKnownURL: "https://myoauth.com/.well-known/openid-configuration",        AuthorizationURL: "https://myoauth.com/oauth2/authorize",        TokenURL: "https://myoauth.com/oauth2/token",        UserInfoURL: "https://myoauth.com/oauth2/userinfo",    }
+    model := OAuth2Oidc{        Id: "github",        Enabled: true,        ClientId: "qibI2x0000000000000000000000000006L2YFoG",        ClientSecret: "&lt;CLIENT_SECRET&gt;",        WellKnownURL: "https://myoauth.com/.well-known/openid-configuration",        AuthorizationURL: "https://myoauth.com/oauth2/authorize",        TokenURL: "https://myoauth.com/oauth2/token",        UserInfoURL: "https://myoauth.com/oauth2/userinfo",    }
 
     data, err := json.Marshal(model)
     if err != nil {

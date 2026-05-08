@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2SpotifyModel(t *testing.T) {
-    model := OAuth2Spotify{        Id: "github",        Enabled: true,        ClientId: "6ec271000000000000000000009beace",        ClientSecret: "db068a000000000000000000008b5b9f",    }
+    model := OAuth2Spotify{        Id: "github",        Enabled: true,        ClientId: "6ec271000000000000000000009beace",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

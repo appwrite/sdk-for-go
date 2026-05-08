@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2BitlyModel(t *testing.T) {
-    model := OAuth2Bitly{        Id: "github",        Enabled: true,        ClientId: "d95151000000000000000000000000000067af9b",        ClientSecret: "a13e250000000000000000000000000000d73095",    }
+    model := OAuth2Bitly{        Id: "github",        Enabled: true,        ClientId: "d95151000000000000000000000000000067af9b",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

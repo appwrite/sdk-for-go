@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2MicrosoftModel(t *testing.T) {
-    model := OAuth2Microsoft{        Id: "github",        Enabled: true,        ApplicationId: "00001111-aaaa-2222-bbbb-3333cccc4444",        ApplicationSecret: "A1bC2dE3fH4iJ5kL6mN7oP8qR9sT0u",        Tenant: "common",    }
+    model := OAuth2Microsoft{        Id: "github",        Enabled: true,        ApplicationId: "00001111-aaaa-2222-bbbb-3333cccc4444",        ApplicationSecret: "&lt;CLIENT_SECRET&gt;",        Tenant: "common",    }
 
     data, err := json.Marshal(model)
     if err != nil {

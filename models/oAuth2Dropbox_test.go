@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2DropboxModel(t *testing.T) {
-    model := OAuth2Dropbox{        Id: "github",        Enabled: true,        AppKey: "jl000000000009t",        AppSecret: "g200000000000vw",    }
+    model := OAuth2Dropbox{        Id: "github",        Enabled: true,        AppKey: "jl000000000009t",        AppSecret: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

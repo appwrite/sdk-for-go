@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2PaypalModel(t *testing.T) {
-    model := OAuth2Paypal{        Id: "github",        Enabled: true,        ClientId: "AdhIEG7-000000000000-0000000000000000000000000000000-0000000000000000000000-2pyB",        SecretKey: "EH8KCXtew--000000000000000000000000000000000000000_C-1_5UP_000000000000000CB7KDp",    }
+    model := OAuth2Paypal{        Id: "github",        Enabled: true,        ClientId: "AdhIEG7-000000000000-0000000000000000000000000000000-0000000000000000000000-2pyB",        SecretKey: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

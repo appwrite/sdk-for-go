@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2NotionModel(t *testing.T) {
-    model := OAuth2Notion{        Id: "github",        Enabled: true,        OauthClientId: "341d8700-0000-0000-0000-000000446ee3",        OauthClientSecret: "secret_dLUr4b000000000000000000000000000000lFHAa9",    }
+    model := OAuth2Notion{        Id: "github",        Enabled: true,        OauthClientId: "341d8700-0000-0000-0000-000000446ee3",        OauthClientSecret: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

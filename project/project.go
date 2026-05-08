@@ -706,358 +706,6 @@ func (srv *Project) ListOAuth2Providers(optionalSetters ...ListOAuth2ProvidersOp
 	return &parsed, nil
 
 }
-	
-// GetOAuth2Provider get a single OAuth2 provider configuration. Credential
-// fields (client secret, p8 file, key/team IDs) are write-only and always
-// returned empty.
-func (srv *Project) GetOAuth2Provider(ProviderId string)(models.Model, error) {
-	path := "/project/oauth2/:provider"
-	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
-	headers := map[string]interface{}{
-	}
-
-	resp, err := srv.client.Call("GET", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
-
-		var response map[string]interface{}
-		if err := json.Unmarshal(bytes, &response); err != nil {
-			return nil, err
-		}
-		if fmt.Sprint(response["$id"]) == "github" {
-			parsed := models.OAuth2Github{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "discord" {
-			parsed := models.OAuth2Discord{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "figma" {
-			parsed := models.OAuth2Figma{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "dropbox" {
-			parsed := models.OAuth2Dropbox{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "dailymotion" {
-			parsed := models.OAuth2Dailymotion{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "bitbucket" {
-			parsed := models.OAuth2Bitbucket{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "bitly" {
-			parsed := models.OAuth2Bitly{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "box" {
-			parsed := models.OAuth2Box{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "autodesk" {
-			parsed := models.OAuth2Autodesk{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "google" {
-			parsed := models.OAuth2Google{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "zoom" {
-			parsed := models.OAuth2Zoom{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "zoho" {
-			parsed := models.OAuth2Zoho{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "yandex" {
-			parsed := models.OAuth2Yandex{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "x" {
-			parsed := models.OAuth2X{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "wordpress" {
-			parsed := models.OAuth2WordPress{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "twitch" {
-			parsed := models.OAuth2Twitch{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "stripe" {
-			parsed := models.OAuth2Stripe{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "spotify" {
-			parsed := models.OAuth2Spotify{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "slack" {
-			parsed := models.OAuth2Slack{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "podio" {
-			parsed := models.OAuth2Podio{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "notion" {
-			parsed := models.OAuth2Notion{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "salesforce" {
-			parsed := models.OAuth2Salesforce{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "yahoo" {
-			parsed := models.OAuth2Yahoo{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "linkedin" {
-			parsed := models.OAuth2Linkedin{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "disqus" {
-			parsed := models.OAuth2Disqus{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "amazon" {
-			parsed := models.OAuth2Amazon{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "etsy" {
-			parsed := models.OAuth2Etsy{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "facebook" {
-			parsed := models.OAuth2Facebook{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "tradeshiftBox" {
-			parsed := models.OAuth2Tradeshift{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "paypalSandbox" {
-			parsed := models.OAuth2Paypal{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "gitlab" {
-			parsed := models.OAuth2Gitlab{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "authentik" {
-			parsed := models.OAuth2Authentik{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "auth0" {
-			parsed := models.OAuth2Auth0{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "fusionauth" {
-			parsed := models.OAuth2FusionAuth{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "keycloak" {
-			parsed := models.OAuth2Keycloak{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "oidc" {
-			parsed := models.OAuth2Oidc{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "apple" {
-			parsed := models.OAuth2Apple{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "okta" {
-			parsed := models.OAuth2Okta{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "kick" {
-			parsed := models.OAuth2Kick{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-		if fmt.Sprint(response["$id"]) == "microsoft" {
-			parsed := models.OAuth2Microsoft{}.New(bytes)
-			if err := json.Unmarshal(bytes, parsed); err != nil {
-				return nil, err
-			}
-
-			return parsed, nil
-		}
-
-		return nil, errors.New("unable to match response to any expected response model")
-	}
-	parsed, ok := resp.Result.(models.Model)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return parsed, nil
-
-}
 type UpdateOAuth2AmazonOptions struct {
 	ClientId string
 	ClientSecret string
@@ -4542,6 +4190,359 @@ func (srv *Project) UpdateOAuth2Zoom(optionalSetters ...UpdateOAuth2ZoomOption)(
 		return nil, errors.New("unexpected response type")
 	}
 	return &parsed, nil
+
+}
+	
+// GetOAuth2Provider get a single OAuth2 provider configuration. Credential
+// fields (client secret, p8 file, key/team IDs) are write-only and always
+// returned empty.
+func (srv *Project) GetOAuth2Provider(ProviderId string)(models.Model, error) {
+	r := strings.NewReplacer("{providerId}", ProviderId)
+	path := r.Replace("/project/oauth2/{providerId}")
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var response map[string]interface{}
+		if err := json.Unmarshal(bytes, &response); err != nil {
+			return nil, err
+		}
+		if fmt.Sprint(response["$id"]) == "github" {
+			parsed := models.OAuth2Github{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "discord" {
+			parsed := models.OAuth2Discord{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "figma" {
+			parsed := models.OAuth2Figma{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "dropbox" {
+			parsed := models.OAuth2Dropbox{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "dailymotion" {
+			parsed := models.OAuth2Dailymotion{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "bitbucket" {
+			parsed := models.OAuth2Bitbucket{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "bitly" {
+			parsed := models.OAuth2Bitly{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "box" {
+			parsed := models.OAuth2Box{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "autodesk" {
+			parsed := models.OAuth2Autodesk{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "google" {
+			parsed := models.OAuth2Google{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "zoom" {
+			parsed := models.OAuth2Zoom{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "zoho" {
+			parsed := models.OAuth2Zoho{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "yandex" {
+			parsed := models.OAuth2Yandex{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "x" {
+			parsed := models.OAuth2X{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "wordpress" {
+			parsed := models.OAuth2WordPress{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "twitch" {
+			parsed := models.OAuth2Twitch{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "stripe" {
+			parsed := models.OAuth2Stripe{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "spotify" {
+			parsed := models.OAuth2Spotify{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "slack" {
+			parsed := models.OAuth2Slack{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "podio" {
+			parsed := models.OAuth2Podio{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "notion" {
+			parsed := models.OAuth2Notion{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "salesforce" {
+			parsed := models.OAuth2Salesforce{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "yahoo" {
+			parsed := models.OAuth2Yahoo{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "linkedin" {
+			parsed := models.OAuth2Linkedin{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "disqus" {
+			parsed := models.OAuth2Disqus{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "amazon" {
+			parsed := models.OAuth2Amazon{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "etsy" {
+			parsed := models.OAuth2Etsy{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "facebook" {
+			parsed := models.OAuth2Facebook{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "tradeshiftBox" {
+			parsed := models.OAuth2Tradeshift{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "paypalSandbox" {
+			parsed := models.OAuth2Paypal{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "gitlab" {
+			parsed := models.OAuth2Gitlab{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "authentik" {
+			parsed := models.OAuth2Authentik{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "auth0" {
+			parsed := models.OAuth2Auth0{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "fusionauth" {
+			parsed := models.OAuth2FusionAuth{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "keycloak" {
+			parsed := models.OAuth2Keycloak{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "oidc" {
+			parsed := models.OAuth2Oidc{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "apple" {
+			parsed := models.OAuth2Apple{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "okta" {
+			parsed := models.OAuth2Okta{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "kick" {
+			parsed := models.OAuth2Kick{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "microsoft" {
+			parsed := models.OAuth2Microsoft{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+
+		return nil, errors.New("unable to match response to any expected response model")
+	}
+	parsed, ok := resp.Result.(models.Model)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return parsed, nil
 
 }
 type ListPlatformsOptions struct {

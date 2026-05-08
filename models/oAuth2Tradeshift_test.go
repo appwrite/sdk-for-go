@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2TradeshiftModel(t *testing.T) {
-    model := OAuth2Tradeshift{        Id: "github",        Enabled: true,        Oauth2ClientId: "appwrite-test-org.appwrite-test-app",        Oauth2ClientSecret: "7cb52700-0000-0000-0000-000000ca5b83",    }
+    model := OAuth2Tradeshift{        Id: "github",        Enabled: true,        Oauth2ClientId: "appwrite-test-org.appwrite-test-app",        Oauth2ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

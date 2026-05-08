@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2YandexModel(t *testing.T) {
-    model := OAuth2Yandex{        Id: "github",        Enabled: true,        ClientId: "6a8a6a0000000000000000000091483c",        ClientSecret: "bbf98500000000000000000000c75a63",    }
+    model := OAuth2Yandex{        Id: "github",        Enabled: true,        ClientId: "6a8a6a0000000000000000000091483c",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

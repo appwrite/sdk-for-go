@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2FigmaModel(t *testing.T) {
-    model := OAuth2Figma{        Id: "github",        Enabled: true,        ClientId: "byay5H0000000000VtiI40",        ClientSecret: "yEpOYn0000000000000000004iIsU5",    }
+    model := OAuth2Figma{        Id: "github",        Enabled: true,        ClientId: "byay5H0000000000VtiI40",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

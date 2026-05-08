@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2BitbucketModel(t *testing.T) {
-    model := OAuth2Bitbucket{        Id: "github",        Enabled: true,        Key: "Knt70000000000ByRc",        Secret: "NMfLZJ00000000000000000000TLQdDx",    }
+    model := OAuth2Bitbucket{        Id: "github",        Enabled: true,        Key: "Knt70000000000ByRc",        Secret: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

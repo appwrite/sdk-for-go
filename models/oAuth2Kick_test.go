@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2KickModel(t *testing.T) {
-    model := OAuth2Kick{        Id: "github",        Enabled: true,        ClientId: "01KQ7C00000000000001MFHS32",        ClientSecret: "34ac5600000000000000000000000000000000000000000000000000e830c8b",    }
+    model := OAuth2Kick{        Id: "github",        Enabled: true,        ClientId: "01KQ7C00000000000001MFHS32",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {

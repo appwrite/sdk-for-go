@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2KeycloakModel(t *testing.T) {
-    model := OAuth2Keycloak{        Id: "github",        Enabled: true,        ClientId: "appwrite-o0000000st-app",        ClientSecret: "jdjrJd00000000000000000000HUsaZO",        Endpoint: "keycloak.example.com",        RealmName: "appwrite-realm",    }
+    model := OAuth2Keycloak{        Id: "github",        Enabled: true,        ClientId: "appwrite-o0000000st-app",        ClientSecret: "&lt;CLIENT_SECRET&gt;",        Endpoint: "keycloak.example.com",        RealmName: "appwrite-realm",    }
 
     data, err := json.Marshal(model)
     if err != nil {

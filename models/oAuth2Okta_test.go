@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2OktaModel(t *testing.T) {
-    model := OAuth2Okta{        Id: "github",        Enabled: true,        ClientId: "0oa00000000000000698",        ClientSecret: "Kiq0000000000000000000000000000000000000-00000000000H2L5-3SJ-vRV",        Domain: "trial-6400025.okta.com",        AuthorizationServerId: "aus000000000000000h7z",    }
+    model := OAuth2Okta{        Id: "github",        Enabled: true,        ClientId: "0oa00000000000000698",        ClientSecret: "&lt;CLIENT_SECRET&gt;",        Domain: "trial-6400025.okta.com",        AuthorizationServerId: "aus000000000000000h7z",    }
 
     data, err := json.Marshal(model)
     if err != nil {

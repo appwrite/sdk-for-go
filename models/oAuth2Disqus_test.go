@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2DisqusModel(t *testing.T) {
-    model := OAuth2Disqus{        Id: "github",        Enabled: true,        PublicKey: "cgegH70000000000000000000000000000000000000000000000000000Hr1nYX",        SecretKey: "W7Bykj00000000000000000000000000000000000000000000000000003o43w9",    }
+    model := OAuth2Disqus{        Id: "github",        Enabled: true,        PublicKey: "cgegH70000000000000000000000000000000000000000000000000000Hr1nYX",        SecretKey: "&lt;CLIENT_SECRET&gt;",    }
 
     data, err := json.Marshal(model)
     if err != nil {
