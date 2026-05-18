@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2FusionAuthModel(t *testing.T) {
-    model := OAuth2FusionAuth{        Id: "github",        Enabled: true,        ClientId: "b2222c00-0000-0000-0000-000000862097",        ClientSecret: "&lt;CLIENT_SECRET&gt;",        Endpoint: "example.fusionauth.io",    }
+    model := OAuth2FusionAuth{        Id: "github",        Enabled: true,        ClientId: "b2222c00-0000-0000-0000-000000862097",        ClientSecret: "Jx4s0C0000000000000000000000000000000wGqLsc",        Endpoint: "example.fusionauth.io",    }
 
     data, err := json.Marshal(model)
     if err != nil {

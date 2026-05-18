@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2FacebookModel(t *testing.T) {
-    model := OAuth2Facebook{        Id: "github",        Enabled: true,        AppId: "260600000007694",        AppSecret: "&lt;CLIENT_SECRET&gt;",    }
+    model := OAuth2Facebook{        Id: "github",        Enabled: true,        AppId: "260600000007694",        AppSecret: "2d0b2800000000000000000000d38af4",    }
 
     data, err := json.Marshal(model)
     if err != nil {

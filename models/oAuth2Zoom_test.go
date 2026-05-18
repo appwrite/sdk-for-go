@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2ZoomModel(t *testing.T) {
-    model := OAuth2Zoom{        Id: "github",        Enabled: true,        ClientId: "QMAC00000000000000w0AQ",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
+    model := OAuth2Zoom{        Id: "github",        Enabled: true,        ClientId: "QMAC00000000000000w0AQ",        ClientSecret: "GAWsG4000000000000000000007U01ON",    }
 
     data, err := json.Marshal(model)
     if err != nil {

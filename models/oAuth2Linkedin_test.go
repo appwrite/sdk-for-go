@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2LinkedinModel(t *testing.T) {
-    model := OAuth2Linkedin{        Id: "github",        Enabled: true,        ClientId: "770000000000dv",        PrimaryClientSecret: "&lt;CLIENT_SECRET&gt;",    }
+    model := OAuth2Linkedin{        Id: "github",        Enabled: true,        ClientId: "770000000000dv",        PrimaryClientSecret: "example-linkedin-client-secret",    }
 
     data, err := json.Marshal(model)
     if err != nil {

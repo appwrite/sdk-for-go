@@ -22,9 +22,9 @@ type Database struct {
     // Database type.
     Type string `json:"type"`
     // Database backup policies.
-    Policies []Index `json:"policies"`
+    Policies []BackupPolicy `json:"policies"`
     // Database backup archives.
-    Archives []Collection `json:"archives"`
+    Archives []BackupArchive `json:"archives"`
 
     // Used by Decode() method
     data []byte

@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2SalesforceModel(t *testing.T) {
-    model := OAuth2Salesforce{        Id: "github",        Enabled: true,        CustomerKey: "3MVG9I0000000000000000000000000000000000000000000000000000000000000000000000000C5Aejq",        CustomerSecret: "&lt;CLIENT_SECRET&gt;",    }
+    model := OAuth2Salesforce{        Id: "github",        Enabled: true,        CustomerKey: "3MVG9I0000000000000000000000000000000000000000000000000000000000000000000000000C5Aejq",        CustomerSecret: "3w000000000000e2",    }
 
     data, err := json.Marshal(model)
     if err != nil {

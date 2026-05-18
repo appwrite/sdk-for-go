@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v3/client"
+	"github.com/appwrite/sdk-for-go/v4/client"
 )
 
 func TestHealth(t *testing.T) {

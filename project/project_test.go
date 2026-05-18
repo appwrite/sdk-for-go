@@ -5,8 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v3/client"
-	"github.com/appwrite/sdk-for-go/v3/models"
+	"github.com/appwrite/sdk-for-go/v4/client"
+	"github.com/appwrite/sdk-for-go/v4/models"
 )
 
 func TestProject(t *testing.T) {
@@ -16,6 +16,104 @@ func TestProject(t *testing.T) {
 		c.Client = ts.Client()
 		return c
 	}
+
+	t.Run("Test Get", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "devKeys": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "Dev API Key",
+            "expire": "2020-10-15T06:38:00.000+00:00",
+            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
+            "accessedAt": "2020-10-15T06:38:00.000+00:00",
+            "sdks": []
+        }
+    ],
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "string",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "region": "fra",
+    "billingLimits": {
+        "bandwidth": 5,
+        "storage": 150,
+        "users": 200000,
+        "executions": 750000,
+        "GBHours": 100,
+        "imageTransformations": 100,
+        "authPhone": 10,
+        "budgetLimit": 100
+    },
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "projectName": "My Project",
+            "region": "fra",
+            "organizationName": "Acme Inc.",
+            "organizationId": "5e5ea5c16897e",
+            "billingPlan": "pro"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.Get()
+		if err != nil {
+			t.Errorf("Method Get failed: %v", err)
+		}
+	})
 
 	t.Run("Test Delete", func(t *testing.T) {
 		mockResponse := `
@@ -50,80 +148,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -150,33 +175,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -431,80 +447,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -531,33 +474,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -784,7 +718,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "amzn1.application-oa2-client.87400c00000000000000000000063d5b2",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "79ffe4000000000000000000000000000000000000000000000000000002de55"
 }
 `
 
@@ -844,7 +778,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "OaOkIA000000000000000000005KLSYq",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;",
+    "clientSecret": "zXz0000-00000000000000000000000000000-00000000000000000000PJafnF",
     "endpoint": "example.us.auth0.com"
 }
 `
@@ -874,7 +808,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "dTKOPa0000000000000000000000000000e7G8hv",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;",
+    "clientSecret": "ntQadq000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000Hp5WK",
     "endpoint": "example.authentik.com"
 }
 `
@@ -904,7 +838,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "5zw90v00000000000000000000kVYXN7",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "7I000000000000MW"
 }
 `
 
@@ -933,7 +867,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "key": "Knt70000000000ByRc",
-    "secret": "&lt;CLIENT_SECRET&gt;"
+    "secret": "NMfLZJ00000000000000000000TLQdDx"
 }
 `
 
@@ -962,7 +896,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "d95151000000000000000000000000000067af9b",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "a13e250000000000000000000000000000d73095"
 }
 `
 
@@ -991,7 +925,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "deglcs00000000000000000000x2og6y",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "OKM1f100000000000000000000eshEif"
 }
 `
 
@@ -1020,7 +954,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "apiKey": "07a9000000000000067f",
-    "apiSecret": "&lt;CLIENT_SECRET&gt;"
+    "apiSecret": "a399a90000000000000000000000000000d90639"
 }
 `
 
@@ -1049,7 +983,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "950722000000343754",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "YmPXnM000000000000000000002zFg5D"
 }
 `
 
@@ -1078,7 +1012,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "publicKey": "cgegH70000000000000000000000000000000000000000000000000000Hr1nYX",
-    "secretKey": "&lt;CLIENT_SECRET&gt;"
+    "secretKey": "W7Bykj00000000000000000000000000000000000000000000000000003o43w9"
 }
 `
 
@@ -1107,7 +1041,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "appKey": "jl000000000009t",
-    "appSecret": "&lt;CLIENT_SECRET&gt;"
+    "appSecret": "g200000000000vw"
 }
 `
 
@@ -1136,7 +1070,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "keyString": "nsgzxh0000000000008j85a2",
-    "sharedSecret": "&lt;CLIENT_SECRET&gt;"
+    "sharedSecret": "tp000000ru"
 }
 `
 
@@ -1165,7 +1099,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "appId": "260600000007694",
-    "appSecret": "&lt;CLIENT_SECRET&gt;"
+    "appSecret": "2d0b2800000000000000000000d38af4"
 }
 `
 
@@ -1194,7 +1128,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "byay5H0000000000VtiI40",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "yEpOYn0000000000000000004iIsU5"
 }
 `
 
@@ -1223,7 +1157,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "b2222c00-0000-0000-0000-000000862097",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;",
+    "clientSecret": "Jx4s0C0000000000000000000000000000000wGqLsc",
     "endpoint": "example.fusionauth.io"
 }
 `
@@ -1253,7 +1187,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "e4d87900000000540733",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "5e07c00000000000000000000000000000198bcc"
 }
 `
 
@@ -1282,7 +1216,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "applicationId": "d41ffe0000000000000000000000000000000000000000000000000000d5e252",
-    "secret": "&lt;CLIENT_SECRET&gt;",
+    "secret": "gloas-838cfa0000000000000000000000000000000000000000000000000000ecbb38",
     "endpoint": "https://gitlab.com"
 }
 `
@@ -1312,7 +1246,8 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "120000000095-92ifjb00000000000000000000g7ijfb.apps.googleusercontent.com",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "example-google-client-secret",
+    "prompt": []
 }
 `
 
@@ -1341,7 +1276,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "appwrite-o0000000st-app",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;",
+    "clientSecret": "jdjrJd00000000000000000000HUsaZO",
     "endpoint": "keycloak.example.com",
     "realmName": "appwrite-realm"
 }
@@ -1372,7 +1307,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "01KQ7C00000000000001MFHS32",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "34ac5600000000000000000000000000000000000000000000000000e830c8b"
 }
 `
 
@@ -1401,7 +1336,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "770000000000dv",
-    "primaryClientSecret": "&lt;CLIENT_SECRET&gt;"
+    "primaryClientSecret": "example-linkedin-client-secret"
 }
 `
 
@@ -1430,7 +1365,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "applicationId": "00001111-aaaa-2222-bbbb-3333cccc4444",
-    "applicationSecret": "&lt;CLIENT_SECRET&gt;",
+    "applicationSecret": "A1bC2dE3fH4iJ5kL6mN7oP8qR9sT0u",
     "tenant": "common"
 }
 `
@@ -1460,7 +1395,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "oauthClientId": "341d8700-0000-0000-0000-000000446ee3",
-    "oauthClientSecret": "&lt;CLIENT_SECRET&gt;"
+    "oauthClientSecret": "secret_dLUr4b000000000000000000000000000000lFHAa9"
 }
 `
 
@@ -1489,7 +1424,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "qibI2x0000000000000000000000000006L2YFoG",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;",
+    "clientSecret": "Ah68ed000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003qpcHV",
     "wellKnownURL": "https://myoauth.com/.well-known/openid-configuration",
     "authorizationURL": "https://myoauth.com/oauth2/authorize",
     "tokenURL": "https://myoauth.com/oauth2/token",
@@ -1522,7 +1457,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "0oa00000000000000698",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;",
+    "clientSecret": "Kiq0000000000000000000000000000000000000-00000000000H2L5-3SJ-vRV",
     "domain": "trial-6400025.okta.com",
     "authorizationServerId": "aus000000000000000h7z"
 }
@@ -1553,7 +1488,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "AdhIEG7-000000000000-0000000000000000000000000000000-0000000000000000000000-2pyB",
-    "secretKey": "&lt;CLIENT_SECRET&gt;"
+    "secretKey": "EH8KCXtew--000000000000000000000000000000000000000_C-1_5UP_000000000000000CB7KDp"
 }
 `
 
@@ -1582,7 +1517,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "AdhIEG7-000000000000-0000000000000000000000000000000-0000000000000000000000-2pyB",
-    "secretKey": "&lt;CLIENT_SECRET&gt;"
+    "secretKey": "EH8KCXtew--000000000000000000000000000000000000000_C-1_5UP_000000000000000CB7KDp"
 }
 `
 
@@ -1611,7 +1546,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "appwrite-oauth-test-app",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "Rn247T0000000000000000000000000000000000000000000000000000W2zWTN"
 }
 `
 
@@ -1640,7 +1575,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "customerKey": "3MVG9I0000000000000000000000000000000000000000000000000000000000000000000000000C5Aejq",
-    "customerSecret": "&lt;CLIENT_SECRET&gt;"
+    "customerSecret": "3w000000000000e2"
 }
 `
 
@@ -1669,7 +1604,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "23000000089.15000000000023",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "81656000000000000000000000f3d2fd"
 }
 `
 
@@ -1698,7 +1633,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "6ec271000000000000000000009beace",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "db068a000000000000000000008b5b9f"
 }
 `
 
@@ -1727,7 +1662,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "ca_UKibXX0000000000000000000006byvR",
-    "apiSecretKey": "&lt;CLIENT_SECRET&gt;"
+    "apiSecretKey": "sk_51SfOd000000000000000000000000000000000000000000000000000000000000000000000000000000000000000QGWYfp"
 }
 `
 
@@ -1756,7 +1691,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "oauth2ClientId": "appwrite-test-org.appwrite-test-app",
-    "oauth2ClientSecret": "&lt;CLIENT_SECRET&gt;"
+    "oauth2ClientSecret": "7cb52700-0000-0000-0000-000000ca5b83"
 }
 `
 
@@ -1785,7 +1720,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "oauth2ClientId": "appwrite-test-org.appwrite-test-app",
-    "oauth2ClientSecret": "&lt;CLIENT_SECRET&gt;"
+    "oauth2ClientSecret": "7cb52700-0000-0000-0000-000000ca5b83"
 }
 `
 
@@ -1814,7 +1749,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "vvi0in000000000000000000ikmt9p",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "pmapue000000000000000000zylw3v"
 }
 `
 
@@ -1843,7 +1778,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "130005",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "PlBfJS0000000000000000000000000000000000000000000000000000EdUZJk"
 }
 `
 
@@ -1872,7 +1807,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "customerKey": "slzZV0000000000000NFLaWT",
-    "secretKey": "&lt;CLIENT_SECRET&gt;"
+    "secretKey": "tkEPkp00000000000000000000000000000000000000FTxbI9"
 }
 `
 
@@ -1901,7 +1836,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "dj0yJm000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z4PWRm",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "cf978f0000000000000000000000000000c5e2e9"
 }
 `
 
@@ -1930,7 +1865,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "6a8a6a0000000000000000000091483c",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "bbf98500000000000000000000c75a63"
 }
 `
 
@@ -1959,7 +1894,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "1000.83C178000000000000000000RPNX0B",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "fb5cac000000000000000000000000000000a68f6e"
 }
 `
 
@@ -1988,7 +1923,7 @@ func TestProject(t *testing.T) {
     "$id": "github",
     "enabled": true,
     "clientId": "QMAC00000000000000w0AQ",
-    "clientSecret": "&lt;CLIENT_SECRET&gt;"
+    "clientSecret": "GAWsG4000000000000000000007U01ON"
 }
 `
 
@@ -2017,7 +1952,7 @@ func TestProject(t *testing.T) {
     "$id": "microsoft",
     "enabled": true,
     "applicationId": "00001111-aaaa-2222-bbbb-3333cccc4444",
-    "applicationSecret": "&lt;CLIENT_SECRET&gt;",
+    "applicationSecret": "A1bC2dE3fH4iJ5kL6mN7oP8qR9sT0u",
     "tenant": "common"
 }
 `
@@ -2468,87 +2403,14 @@ func TestProject(t *testing.T) {
 		}
 	})
 
-	t.Run("Test UpdateMembershipPrivacyPolicy", func(t *testing.T) {
+	t.Run("Test UpdateDenyAliasedEmailPolicy", func(t *testing.T) {
 		mockResponse := `
 {
     "$id": "5e5ea5c16897e",
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -2575,33 +2437,318 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "region": "fra",
+    "billingLimits": {
+        "bandwidth": 5,
+        "storage": 150,
+        "users": 200000,
+        "executions": 750000,
+        "GBHours": 100,
+        "imageTransformations": 100,
+        "authPhone": 10,
+        "budgetLimit": 100
+    },
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "projectName": "My Project",
+            "region": "fra",
+            "organizationName": "Acme Inc.",
+            "organizationId": "5e5ea5c16897e",
+            "billingPlan": "pro"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateDenyAliasedEmailPolicy(true)
+		if err != nil {
+			t.Errorf("Method UpdateDenyAliasedEmailPolicy failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateDenyDisposableEmailPolicy", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "devKeys": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "Dev API Key",
+            "expire": "2020-10-15T06:38:00.000+00:00",
+            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
+            "accessedAt": "2020-10-15T06:38:00.000+00:00",
+            "sdks": []
+        }
+    ],
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "string",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "region": "fra",
+    "billingLimits": {
+        "bandwidth": 5,
+        "storage": 150,
+        "users": 200000,
+        "executions": 750000,
+        "GBHours": 100,
+        "imageTransformations": 100,
+        "authPhone": 10,
+        "budgetLimit": 100
+    },
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "projectName": "My Project",
+            "region": "fra",
+            "organizationName": "Acme Inc.",
+            "organizationId": "5e5ea5c16897e",
+            "billingPlan": "pro"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateDenyDisposableEmailPolicy(true)
+		if err != nil {
+			t.Errorf("Method UpdateDenyDisposableEmailPolicy failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateDenyFreeEmailPolicy", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "devKeys": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "Dev API Key",
+            "expire": "2020-10-15T06:38:00.000+00:00",
+            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
+            "accessedAt": "2020-10-15T06:38:00.000+00:00",
+            "sdks": []
+        }
+    ],
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "string",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "region": "fra",
+    "billingLimits": {
+        "bandwidth": 5,
+        "storage": 150,
+        "users": 200000,
+        "executions": 750000,
+        "GBHours": 100,
+        "imageTransformations": 100,
+        "authPhone": 10,
+        "budgetLimit": 100
+    },
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "projectName": "My Project",
+            "region": "fra",
+            "organizationName": "Acme Inc.",
+            "organizationId": "5e5ea5c16897e",
+            "billingPlan": "pro"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateDenyFreeEmailPolicy(true)
+		if err != nil {
+			t.Errorf("Method UpdateDenyFreeEmailPolicy failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateMembershipPrivacyPolicy", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "devKeys": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "Dev API Key",
+            "expire": "2020-10-15T06:38:00.000+00:00",
+            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
+            "accessedAt": "2020-10-15T06:38:00.000+00:00",
+            "sdks": []
+        }
+    ],
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "string",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -2655,80 +2802,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -2755,33 +2829,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -2835,80 +2900,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -2935,33 +2927,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -3015,80 +2998,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -3115,33 +3025,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -3195,80 +3096,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -3295,33 +3123,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -3375,80 +3194,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -3475,33 +3221,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -3555,80 +3292,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -3655,33 +3319,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -3735,80 +3390,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -3835,33 +3417,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -3915,80 +3488,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -4015,33 +3515,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -4129,80 +3620,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -4229,33 +3647,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -4309,80 +3718,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -4409,33 +3745,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,
@@ -4489,80 +3816,7 @@ func TestProject(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
-    "description": "This is a new project.",
     "teamId": "1592981250",
-    "logo": "5f5c451b403cb",
-    "url": "5f5c451b403cb",
-    "legalName": "Company LTD.",
-    "legalCountry": "US",
-    "legalState": "New York",
-    "legalCity": "New York City.",
-    "legalAddress": "620 Eighth Avenue, New York, NY 10018",
-    "legalTaxId": "131102020",
-    "authDuration": 60,
-    "authLimit": 100,
-    "authSessionsLimit": 10,
-    "authPasswordHistory": 5,
-    "authPasswordDictionary": true,
-    "authPersonalDataCheck": true,
-    "authDisposableEmails": true,
-    "authCanonicalEmails": true,
-    "authFreeEmails": true,
-    "authMockNumbers": [
-        {
-            "number": "+1612842323",
-            "otp": "123456",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00"
-        }
-    ],
-    "authSessionAlerts": true,
-    "authMembershipsUserName": true,
-    "authMembershipsUserEmail": true,
-    "authMembershipsMfa": true,
-    "authMembershipsUserId": true,
-    "authMembershipsUserPhone": true,
-    "authInvalidateSessions": true,
-    "oAuthProviders": [
-        {
-            "key": "github",
-            "name": "GitHub",
-            "appId": "259125845563242502",
-            "secret": "string",
-            "enabled": true
-        }
-    ],
-    "platforms": [],
-    "webhooks": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My Webhook",
-            "url": "https://example.com/webhook",
-            "events": [],
-            "tls": true,
-            "authUsername": "username",
-            "authPassword": "password",
-            "secret": "ad3d581ca230e2b7059c545e5a",
-            "enabled": true,
-            "logs": "Failed to connect to remote server.",
-            "attempts": 10
-        }
-    ],
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -4589,33 +3843,24 @@ func TestProject(t *testing.T) {
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
-    "authEmailPassword": true,
-    "authUsersAuthMagicURL": true,
-    "authEmailOtp": true,
-    "authAnonymous": true,
-    "authInvites": true,
-    "authJWT": true,
-    "authPhone": true,
-    "serviceStatusForAccount": true,
-    "serviceStatusForAvatars": true,
-    "serviceStatusForDatabases": true,
-    "serviceStatusForTablesdb": true,
-    "serviceStatusForLocale": true,
-    "serviceStatusForHealth": true,
-    "serviceStatusForProject": true,
-    "serviceStatusForStorage": true,
-    "serviceStatusForTeams": true,
-    "serviceStatusForUsers": true,
-    "serviceStatusForVcs": true,
-    "serviceStatusForSites": true,
-    "serviceStatusForFunctions": true,
-    "serviceStatusForProxy": true,
-    "serviceStatusForGraphql": true,
-    "serviceStatusForMigrations": true,
-    "serviceStatusForMessaging": true,
-    "protocolStatusForRest": true,
-    "protocolStatusForGraphql": true,
-    "protocolStatusForWebsocket": true,
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
     "region": "fra",
     "billingLimits": {
         "bandwidth": 5,

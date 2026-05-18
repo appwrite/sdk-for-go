@@ -15,6 +15,8 @@ type OAuth2Google struct {
     ClientId string `json:"clientId"`
     // Google OAuth2 client secret.
     ClientSecret string `json:"clientSecret"`
+    // Google OAuth2 prompt values.
+    Prompt []string `json:"prompt"`
 
     // Used by Decode() method
     data []byte

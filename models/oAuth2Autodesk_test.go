@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2AutodeskModel(t *testing.T) {
-    model := OAuth2Autodesk{        Id: "github",        Enabled: true,        ClientId: "5zw90v00000000000000000000kVYXN7",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
+    model := OAuth2Autodesk{        Id: "github",        Enabled: true,        ClientId: "5zw90v00000000000000000000kVYXN7",        ClientSecret: "7I000000000000MW",    }
 
     data, err := json.Marshal(model)
     if err != nil {

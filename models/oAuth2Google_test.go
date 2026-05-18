@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2GoogleModel(t *testing.T) {
-    model := OAuth2Google{        Id: "github",        Enabled: true,        ClientId: "120000000095-92ifjb00000000000000000000g7ijfb.apps.googleusercontent.com",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
+    model := OAuth2Google{        Id: "github",        Enabled: true,        ClientId: "120000000095-92ifjb00000000000000000000g7ijfb.apps.googleusercontent.com",        ClientSecret: "example-google-client-secret",        Prompt: []string{"test"},    }
 
     data, err := json.Marshal(model)
     if err != nil {
