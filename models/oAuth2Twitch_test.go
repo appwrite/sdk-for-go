@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2TwitchModel(t *testing.T) {
-    model := OAuth2Twitch{        Id: "github",        Enabled: true,        ClientId: "vvi0in000000000000000000ikmt9p",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
+    model := OAuth2Twitch{        Id: "github",        Enabled: true,        ClientId: "vvi0in000000000000000000ikmt9p",        ClientSecret: "pmapue000000000000000000zylw3v",    }
 
     data, err := json.Marshal(model)
     if err != nil {

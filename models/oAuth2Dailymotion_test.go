@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2DailymotionModel(t *testing.T) {
-    model := OAuth2Dailymotion{        Id: "github",        Enabled: true,        ApiKey: "07a9000000000000067f",        ApiSecret: "&lt;CLIENT_SECRET&gt;",    }
+    model := OAuth2Dailymotion{        Id: "github",        Enabled: true,        ApiKey: "07a9000000000000067f",        ApiSecret: "a399a90000000000000000000000000000d90639",    }
 
     data, err := json.Marshal(model)
     if err != nil {

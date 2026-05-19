@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2DiscordModel(t *testing.T) {
-    model := OAuth2Discord{        Id: "github",        Enabled: true,        ClientId: "950722000000343754",        ClientSecret: "&lt;CLIENT_SECRET&gt;",    }
+    model := OAuth2Discord{        Id: "github",        Enabled: true,        ClientId: "950722000000343754",        ClientSecret: "YmPXnM000000000000000000002zFg5D",    }
 
     data, err := json.Marshal(model)
     if err != nil {

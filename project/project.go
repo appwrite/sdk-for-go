@@ -3,8 +3,8 @@ package project
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v3/client"
-	"github.com/appwrite/sdk-for-go/v3/models"
+	"github.com/appwrite/sdk-for-go/v4/client"
+	"github.com/appwrite/sdk-for-go/v4/models"
 	"fmt"
 	"strings"
 )
@@ -20,6 +20,38 @@ func New(clt client.Client) *Project {
 	}
 }
 
+
+// Get get a project.
+func (srv *Project) Get()(*models.Project, error) {
+	path := "/project"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 
 // Delete delete a project.
 func (srv *Project) Delete()(*interface{}, error) {
@@ -2198,6 +2230,7 @@ func (srv *Project) UpdateOAuth2Gitlab(optionalSetters ...UpdateOAuth2GitlabOpti
 type UpdateOAuth2GoogleOptions struct {
 	ClientId string
 	ClientSecret string
+	Prompt []string
 	Enabled bool
 	enabledSetters map[string]bool
 }
@@ -2205,6 +2238,7 @@ func (options UpdateOAuth2GoogleOptions) New() *UpdateOAuth2GoogleOptions {
 	options.enabledSetters = map[string]bool{
 		"ClientId": false,
 		"ClientSecret": false,
+		"Prompt": false,
 		"Enabled": false,
 	}
 	return &options
@@ -2220,6 +2254,12 @@ func (srv *Project) WithUpdateOAuth2GoogleClientSecret(v string) UpdateOAuth2Goo
 	return func(o *UpdateOAuth2GoogleOptions) {
 		o.ClientSecret = v
 		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2GooglePrompt(v []string) UpdateOAuth2GoogleOption {
+	return func(o *UpdateOAuth2GoogleOptions) {
+		o.Prompt = v
+		o.enabledSetters["Prompt"] = true
 	}
 }
 func (srv *Project) WithUpdateOAuth2GoogleEnabled(v bool) UpdateOAuth2GoogleOption {
@@ -2242,6 +2282,9 @@ func (srv *Project) UpdateOAuth2Google(optionalSetters ...UpdateOAuth2GoogleOpti
 	}
 	if options.enabledSetters["ClientSecret"] {
 		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Prompt"] {
+		params["prompt"] = options.Prompt
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
@@ -5162,6 +5205,112 @@ func (srv *Project) ListPolicies(optionalSetters ...ListPoliciesOption)(*models.
 	}
 	var parsed models.PolicyList
 	parsed, ok := resp.Result.(models.PolicyList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// UpdateDenyAliasedEmailPolicy configures if aliased emails such as
+// subaddresses and emails with suffixes are denied during new users sign-ups
+// and email updates.
+func (srv *Project) UpdateDenyAliasedEmailPolicy(Enabled bool)(*models.Project, error) {
+	path := "/project/policies/deny-aliased-email"
+	params := map[string]interface{}{}
+	params["enabled"] = Enabled
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// UpdateDenyDisposableEmailPolicy configures if disposable emails from known
+// temporary domains are denied during new users sign-ups and email updates.
+func (srv *Project) UpdateDenyDisposableEmailPolicy(Enabled bool)(*models.Project, error) {
+	path := "/project/policies/deny-disposable-email"
+	params := map[string]interface{}{}
+	params["enabled"] = Enabled
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// UpdateDenyFreeEmailPolicy configures if emails from free providers such as
+// Gmail or Yahoo are denied during new users sign-ups and email updates.
+func (srv *Project) UpdateDenyFreeEmailPolicy(Enabled bool)(*models.Project, error) {
+	path := "/project/policies/deny-free-email"
+	params := map[string]interface{}{}
+	params["enabled"] = Enabled
+	headers := map[string]interface{}{
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

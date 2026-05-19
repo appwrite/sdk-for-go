@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2Auth0Model(t *testing.T) {
-    model := OAuth2Auth0{        Id: "github",        Enabled: true,        ClientId: "OaOkIA000000000000000000005KLSYq",        ClientSecret: "&lt;CLIENT_SECRET&gt;",        Endpoint: "example.us.auth0.com",    }
+    model := OAuth2Auth0{        Id: "github",        Enabled: true,        ClientId: "OaOkIA000000000000000000005KLSYq",        ClientSecret: "zXz0000-00000000000000000000000000000-00000000000000000000PJafnF",        Endpoint: "example.us.auth0.com",    }
 
     data, err := json.Marshal(model)
     if err != nil {

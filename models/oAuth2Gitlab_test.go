@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2GitlabModel(t *testing.T) {
-    model := OAuth2Gitlab{        Id: "github",        Enabled: true,        ApplicationId: "d41ffe0000000000000000000000000000000000000000000000000000d5e252",        Secret: "&lt;CLIENT_SECRET&gt;",        Endpoint: "https://gitlab.com",    }
+    model := OAuth2Gitlab{        Id: "github",        Enabled: true,        ApplicationId: "d41ffe0000000000000000000000000000000000000000000000000000d5e252",        Secret: "gloas-838cfa0000000000000000000000000000000000000000000000000000ecbb38",        Endpoint: "https://gitlab.com",    }
 
     data, err := json.Marshal(model)
     if err != nil {

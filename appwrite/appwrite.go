@@ -3,26 +3,29 @@ package appwrite
 import (
 	"time"
 
-	"github.com/appwrite/sdk-for-go/v3/client"
-	"github.com/appwrite/sdk-for-go/v3/account"
-	"github.com/appwrite/sdk-for-go/v3/activities"
-	"github.com/appwrite/sdk-for-go/v3/avatars"
-	"github.com/appwrite/sdk-for-go/v3/backups"
-	"github.com/appwrite/sdk-for-go/v3/databases"
-	"github.com/appwrite/sdk-for-go/v3/functions"
-	"github.com/appwrite/sdk-for-go/v3/graphql"
-	"github.com/appwrite/sdk-for-go/v3/health"
-	"github.com/appwrite/sdk-for-go/v3/locale"
-	"github.com/appwrite/sdk-for-go/v3/messaging"
-	"github.com/appwrite/sdk-for-go/v3/project"
-	"github.com/appwrite/sdk-for-go/v3/proxy"
-	"github.com/appwrite/sdk-for-go/v3/sites"
-	"github.com/appwrite/sdk-for-go/v3/storage"
-	"github.com/appwrite/sdk-for-go/v3/tablesdb"
-	"github.com/appwrite/sdk-for-go/v3/teams"
-	"github.com/appwrite/sdk-for-go/v3/tokens"
-	"github.com/appwrite/sdk-for-go/v3/users"
-	"github.com/appwrite/sdk-for-go/v3/webhooks"
+	"github.com/appwrite/sdk-for-go/v4/client"
+	"github.com/appwrite/sdk-for-go/v4/account"
+	"github.com/appwrite/sdk-for-go/v4/activities"
+	"github.com/appwrite/sdk-for-go/v4/avatars"
+	"github.com/appwrite/sdk-for-go/v4/backups"
+	"github.com/appwrite/sdk-for-go/v4/databases"
+	"github.com/appwrite/sdk-for-go/v4/functions"
+	"github.com/appwrite/sdk-for-go/v4/graphql"
+	"github.com/appwrite/sdk-for-go/v4/health"
+	"github.com/appwrite/sdk-for-go/v4/locale"
+	"github.com/appwrite/sdk-for-go/v4/messaging"
+	"github.com/appwrite/sdk-for-go/v4/presences"
+	"github.com/appwrite/sdk-for-go/v4/project"
+	"github.com/appwrite/sdk-for-go/v4/proxy"
+	"github.com/appwrite/sdk-for-go/v4/advisor"
+	"github.com/appwrite/sdk-for-go/v4/sites"
+	"github.com/appwrite/sdk-for-go/v4/storage"
+	"github.com/appwrite/sdk-for-go/v4/tablesdb"
+	"github.com/appwrite/sdk-for-go/v4/teams"
+	"github.com/appwrite/sdk-for-go/v4/tokens"
+	"github.com/appwrite/sdk-for-go/v4/usage"
+	"github.com/appwrite/sdk-for-go/v4/users"
+	"github.com/appwrite/sdk-for-go/v4/webhooks"
 )
 
 func NewAccount(clt client.Client) *account.Account {
@@ -55,11 +58,17 @@ func NewLocale(clt client.Client) *locale.Locale {
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
 }
+func NewPresences(clt client.Client) *presences.Presences {
+	return presences.New(clt)
+}
 func NewProject(clt client.Client) *project.Project {
 	return project.New(clt)
 }
 func NewProxy(clt client.Client) *proxy.Proxy {
 	return proxy.New(clt)
+}
+func NewAdvisor(clt client.Client) *advisor.Advisor {
+	return advisor.New(clt)
 }
 func NewSites(clt client.Client) *sites.Sites {
 	return sites.New(clt)
@@ -75,6 +84,9 @@ func NewTeams(clt client.Client) *teams.Teams {
 }
 func NewTokens(clt client.Client) *tokens.Tokens {
 	return tokens.New(clt)
+}
+func NewUsage(clt client.Client) *usage.Usage {
+	return usage.New(clt)
 }
 func NewUsers(clt client.Client) *users.Users {
 	return users.New(clt)

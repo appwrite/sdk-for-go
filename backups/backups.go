@@ -3,8 +3,8 @@ package backups
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v3/client"
-	"github.com/appwrite/sdk-for-go/v3/models"
+	"github.com/appwrite/sdk-for-go/v4/client"
+	"github.com/appwrite/sdk-for-go/v4/models"
 	"strings"
 )
 
