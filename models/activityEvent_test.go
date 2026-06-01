@@ -6,7 +6,7 @@ import (
 )
 
 func TestActivityEventModel(t *testing.T) {
-    model := ActivityEvent{        Id: "5e5ea5c16897e",        UserType: "user",        UserId: "610fc2f985ee0",        UserEmail: "john@appwrite.io",        UserName: "John Doe",        ResourceParent: "database/ID",        ResourceType: "collection",        ResourceId: "610fc2f985ee0",        Resource: "collections/610fc2f985ee0",        Event: "account.sessions.create",        UserAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",        Ip: "127.0.0.1",        Mode: "admin",        Country: "US",        Time: "2020-10-15T06:38:00.000+00:00",        ProjectId: "610fc2f985ee0",        TeamId: "610fc2f985ee0",        Hostname: "appwrite.io",        OsCode: "Mac",        OsName: "Mac",        OsVersion: "Mac",        ClientType: "browser",        ClientCode: "CM",        ClientName: "Chrome Mobile iOS",        ClientVersion: "84.0",        ClientEngine: "WebKit",        ClientEngineVersion: "605.1.15",        DeviceName: "smartphone",        DeviceBrand: "Google",        DeviceModel: "Nexus 5",        CountryCode: "US",        CountryName: "United States",    }
+    model := ActivityEvent{        Id: "5e5ea5c16897e",        ActorType: "user",        ActorId: "610fc2f985ee0",        ActorEmail: "john@appwrite.io",        ActorName: "John Doe",        ResourceParent: "database/ID",        ResourceType: "collection",        ResourceId: "610fc2f985ee0",        Resource: "collections/610fc2f985ee0",        Event: "account.sessions.create",        UserAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",        Ip: "127.0.0.1",        Mode: "admin",        Country: "US",        Time: "2020-10-15T06:38:00.000+00:00",        ProjectId: "610fc2f985ee0",        TeamId: "610fc2f985ee0",        Hostname: "appwrite.io",        OsCode: "Mac",        OsName: "Mac",        OsVersion: "Mac",        ClientType: "browser",        ClientCode: "CM",        ClientName: "Chrome Mobile iOS",        ClientVersion: "84.0",        ClientEngine: "WebKit",        ClientEngineVersion: "605.1.15",        DeviceName: "smartphone",        DeviceBrand: "Google",        DeviceModel: "Nexus 5",        CountryCode: "US",        CountryName: "United States",    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -21,17 +21,17 @@ func TestActivityEventModel(t *testing.T) {
     if result.Id != model.Id {
         t.Errorf("Expected Id %v, got %v", model.Id, result.Id)
     }
-    if result.UserType != model.UserType {
-        t.Errorf("Expected UserType %v, got %v", model.UserType, result.UserType)
+    if result.ActorType != model.ActorType {
+        t.Errorf("Expected ActorType %v, got %v", model.ActorType, result.ActorType)
     }
-    if result.UserId != model.UserId {
-        t.Errorf("Expected UserId %v, got %v", model.UserId, result.UserId)
+    if result.ActorId != model.ActorId {
+        t.Errorf("Expected ActorId %v, got %v", model.ActorId, result.ActorId)
     }
-    if result.UserEmail != model.UserEmail {
-        t.Errorf("Expected UserEmail %v, got %v", model.UserEmail, result.UserEmail)
+    if result.ActorEmail != model.ActorEmail {
+        t.Errorf("Expected ActorEmail %v, got %v", model.ActorEmail, result.ActorEmail)
     }
-    if result.UserName != model.UserName {
-        t.Errorf("Expected UserName %v, got %v", model.UserName, result.UserName)
+    if result.ActorName != model.ActorName {
+        t.Errorf("Expected ActorName %v, got %v", model.ActorName, result.ActorName)
     }
     if result.ResourceParent != model.ResourceParent {
         t.Errorf("Expected ResourceParent %v, got %v", model.ResourceParent, result.ResourceParent)

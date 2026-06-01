@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v4/client"
+	"github.com/appwrite/sdk-for-go/v5/client"
 )
 
 func TestUsage(t *testing.T) {
@@ -64,7 +64,9 @@ func TestUsage(t *testing.T) {
         {
             "metric": "users",
             "value": 1500,
-            "time": "2026-04-09T12:00:00.000+00:00"
+            "time": "2026-04-09T12:00:00.000+00:00",
+            "resourceType": "dedicatedDatabases",
+            "resourceId": "production"
         }
     ]
 }

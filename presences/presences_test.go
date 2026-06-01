@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v4/client"
+	"github.com/appwrite/sdk-for-go/v5/client"
 )
 
 func TestPresences(t *testing.T) {
@@ -114,7 +114,7 @@ func TestPresences(t *testing.T) {
 		}
 	})
 
-	t.Run("Test UpdatePresence", func(t *testing.T) {
+	t.Run("Test Update", func(t *testing.T) {
 		mockResponse := `
 {
     "$id": "5e5ea5c16897e",
@@ -139,9 +139,9 @@ func TestPresences(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdatePresence("<PRESENCE_ID>", "<USER_ID>")
+		_, err := srv.Update("<PRESENCE_ID>", "<USER_ID>")
 		if err != nil {
-			t.Errorf("Method UpdatePresence failed: %v", err)
+			t.Errorf("Method Update failed: %v", err)
 		}
 	})
 

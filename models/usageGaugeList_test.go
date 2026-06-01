@@ -6,7 +6,7 @@ import (
 )
 
 func TestUsageGaugeListModel(t *testing.T) {
-    model := UsageGaugeList{        Total: 5,        Gauges: []UsageGauge{UsageGauge{        Metric: "users",        Value: 1500,        Time: "2026-04-09T12:00:00.000+00:00",    },
+    model := UsageGaugeList{        Total: 5,        Gauges: []UsageGauge{UsageGauge{        Metric: "users",        Value: 1500,        Time: "2026-04-09T12:00:00.000+00:00",        ResourceType: "dedicatedDatabases",        ResourceId: "production",    },
             },    }
 
     data, err := json.Marshal(model)

@@ -3,29 +3,30 @@ package appwrite
 import (
 	"time"
 
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/account"
-	"github.com/appwrite/sdk-for-go/v4/activities"
-	"github.com/appwrite/sdk-for-go/v4/avatars"
-	"github.com/appwrite/sdk-for-go/v4/backups"
-	"github.com/appwrite/sdk-for-go/v4/databases"
-	"github.com/appwrite/sdk-for-go/v4/functions"
-	"github.com/appwrite/sdk-for-go/v4/graphql"
-	"github.com/appwrite/sdk-for-go/v4/health"
-	"github.com/appwrite/sdk-for-go/v4/locale"
-	"github.com/appwrite/sdk-for-go/v4/messaging"
-	"github.com/appwrite/sdk-for-go/v4/presences"
-	"github.com/appwrite/sdk-for-go/v4/project"
-	"github.com/appwrite/sdk-for-go/v4/proxy"
-	"github.com/appwrite/sdk-for-go/v4/advisor"
-	"github.com/appwrite/sdk-for-go/v4/sites"
-	"github.com/appwrite/sdk-for-go/v4/storage"
-	"github.com/appwrite/sdk-for-go/v4/tablesdb"
-	"github.com/appwrite/sdk-for-go/v4/teams"
-	"github.com/appwrite/sdk-for-go/v4/tokens"
-	"github.com/appwrite/sdk-for-go/v4/usage"
-	"github.com/appwrite/sdk-for-go/v4/users"
-	"github.com/appwrite/sdk-for-go/v4/webhooks"
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/account"
+	"github.com/appwrite/sdk-for-go/v5/activities"
+	"github.com/appwrite/sdk-for-go/v5/avatars"
+	"github.com/appwrite/sdk-for-go/v5/backups"
+	"github.com/appwrite/sdk-for-go/v5/databases"
+	"github.com/appwrite/sdk-for-go/v5/functions"
+	"github.com/appwrite/sdk-for-go/v5/graphql"
+	"github.com/appwrite/sdk-for-go/v5/health"
+	"github.com/appwrite/sdk-for-go/v5/locale"
+	"github.com/appwrite/sdk-for-go/v5/messaging"
+	"github.com/appwrite/sdk-for-go/v5/organization"
+	"github.com/appwrite/sdk-for-go/v5/presences"
+	"github.com/appwrite/sdk-for-go/v5/project"
+	"github.com/appwrite/sdk-for-go/v5/proxy"
+	"github.com/appwrite/sdk-for-go/v5/advisor"
+	"github.com/appwrite/sdk-for-go/v5/sites"
+	"github.com/appwrite/sdk-for-go/v5/storage"
+	"github.com/appwrite/sdk-for-go/v5/tablesdb"
+	"github.com/appwrite/sdk-for-go/v5/teams"
+	"github.com/appwrite/sdk-for-go/v5/tokens"
+	"github.com/appwrite/sdk-for-go/v5/usage"
+	"github.com/appwrite/sdk-for-go/v5/users"
+	"github.com/appwrite/sdk-for-go/v5/webhooks"
 )
 
 func NewAccount(clt client.Client) *account.Account {
@@ -57,6 +58,9 @@ func NewLocale(clt client.Client) *locale.Locale {
 }
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
+}
+func NewOrganization(clt client.Client) *organization.Organization {
+	return organization.New(clt)
 }
 func NewPresences(clt client.Client) *presences.Presences {
 	return presences.New(clt)

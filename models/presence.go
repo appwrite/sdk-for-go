@@ -24,6 +24,8 @@ type Presence struct {
     Source string `json:"source"`
     // Presence expiry date in ISO 8601 format.
     ExpiresAt string `json:"expiresAt"`
+    // Presence metadata.
+    Metadata interface{} `json:"metadata"`
 
     // Used by Decode() method
     data []byte
@@ -34,7 +36,6 @@ func (model Presence) New(data []byte) *Presence {
     return &model
 }
 
-// Use this method to get response in desired type
 func (model *Presence) Decode(value interface{}) error {
     if len(model.data) <= 0 {
         return errors.New("method Decode() cannot be used on nested struct")

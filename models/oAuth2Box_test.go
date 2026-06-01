@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2BoxModel(t *testing.T) {
-    model := OAuth2Box{        Id: "github",        Enabled: true,        ClientId: "deglcs00000000000000000000x2og6y",        ClientSecret: "OKM1f100000000000000000000eshEif",    }
+    model := OAuth2Box{        Id: "github",        Enabled: true,        ClientId: "deglcs00000000000000000000x2og6y",        ClientSecret: "your-oauth2-client-secret",    }
 
     data, err := json.Marshal(model)
     if err != nil {

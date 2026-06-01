@@ -3,8 +3,8 @@ package usage
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/models"
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/models"
 	"strings"
 )
 
@@ -125,9 +125,9 @@ func (srv *Usage) WithListGaugesTotal(v bool) ListGaugesOption {
 	
 // ListGauges query usage gauge metrics (point-in-time resource snapshots)
 // from the usage database. Returns individual gauge snapshots with metric,
-// value, and timestamp. Pass Query objects as JSON strings to filter,
-// paginate, and order results. Supported query methods: equal,
-// greaterThanEqual, lessThanEqual, orderAsc, orderDesc, limit, offset.
+// value, timestamp, resourceType, and resourceId. Pass Query objects as JSON
+// strings to filter, paginate, and order results. Supported query methods:
+// equal, greaterThanEqual, lessThanEqual, orderAsc, orderDesc, limit, offset.
 // Supported filter attributes: metric, time. Use `orderDesc("time"),
 // limit(1)` to fetch the most recent snapshot. When no time filter is
 // supplied the endpoint defaults to the last 7 days. Default `limit(100)` is

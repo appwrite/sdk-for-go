@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2AmazonModel(t *testing.T) {
-    model := OAuth2Amazon{        Id: "github",        Enabled: true,        ClientId: "amzn1.application-oa2-client.87400c00000000000000000000063d5b2",        ClientSecret: "79ffe4000000000000000000000000000000000000000000000000000002de55",    }
+    model := OAuth2Amazon{        Id: "github",        Enabled: true,        ClientId: "amzn1.application-oa2-client.87400c00000000000000000000063d5b2",        ClientSecret: "your-oauth2-client-secret",    }
 
     data, err := json.Marshal(model)
     if err != nil {

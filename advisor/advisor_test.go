@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v4/client"
+	"github.com/appwrite/sdk-for-go/v5/client"
 )
 
 func TestAdvisor(t *testing.T) {
@@ -46,7 +46,7 @@ func TestAdvisor(t *testing.T) {
                     "parentResourceType": "tables",
                     "parentResourceId": "orders",
                     "title": "Missing index on collection orders",
-                    "summary": "Queries against `orders.status` are scanning the full collection.",
+                    "summary": "Queries against \u0060orders.status\u0060 are scanning the full collection.",
                     "ctas": [
                         {
                             "label": "Create missing index",
@@ -108,7 +108,7 @@ func TestAdvisor(t *testing.T) {
             "parentResourceType": "tables",
             "parentResourceId": "orders",
             "title": "Missing index on collection orders",
-            "summary": "Queries against `orders.status` are scanning the full collection.",
+            "summary": "Queries against \u0060orders.status\u0060 are scanning the full collection.",
             "ctas": [
                 {
                     "label": "Create missing index",
@@ -185,7 +185,7 @@ func TestAdvisor(t *testing.T) {
             "parentResourceType": "tables",
             "parentResourceId": "orders",
             "title": "Missing index on collection orders",
-            "summary": "Queries against `orders.status` are scanning the full collection.",
+            "summary": "Queries against \u0060orders.status\u0060 are scanning the full collection.",
             "ctas": [
                 {
                     "label": "Create missing index",
@@ -233,7 +233,7 @@ func TestAdvisor(t *testing.T) {
     "parentResourceType": "tables",
     "parentResourceId": "orders",
     "title": "Missing index on collection orders",
-    "summary": "Queries against `orders.status` are scanning the full collection.",
+    "summary": "Queries against \u0060orders.status\u0060 are scanning the full collection.",
     "ctas": [
         {
             "label": "Create missing index",

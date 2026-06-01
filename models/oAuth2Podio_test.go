@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2PodioModel(t *testing.T) {
-    model := OAuth2Podio{        Id: "github",        Enabled: true,        ClientId: "appwrite-oauth-test-app",        ClientSecret: "Rn247T0000000000000000000000000000000000000000000000000000W2zWTN",    }
+    model := OAuth2Podio{        Id: "github",        Enabled: true,        ClientId: "appwrite-oauth-test-app",        ClientSecret: "your-oauth2-client-secret",    }
 
     data, err := json.Marshal(model)
     if err != nil {

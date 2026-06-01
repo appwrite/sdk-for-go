@@ -3,8 +3,8 @@ package presences
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/models"
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/models"
 	"strings"
 )
 
@@ -215,7 +215,7 @@ func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, op
 	return &parsed, nil
 
 }
-type UpdatePresenceOptions struct {
+type UpdateOptions struct {
 	Status string
 	ExpiresAt string
 	Metadata interface{}
@@ -223,7 +223,7 @@ type UpdatePresenceOptions struct {
 	Purge bool
 	enabledSetters map[string]bool
 }
-func (options UpdatePresenceOptions) New() *UpdatePresenceOptions {
+func (options UpdateOptions) New() *UpdateOptions {
 	options.enabledSetters = map[string]bool{
 		"Status": false,
 		"ExpiresAt": false,
@@ -233,44 +233,44 @@ func (options UpdatePresenceOptions) New() *UpdatePresenceOptions {
 	}
 	return &options
 }
-type UpdatePresenceOption func(*UpdatePresenceOptions)
-func (srv *Presences) WithUpdatePresenceStatus(v string) UpdatePresenceOption {
-	return func(o *UpdatePresenceOptions) {
+type UpdateOption func(*UpdateOptions)
+func (srv *Presences) WithUpdateStatus(v string) UpdateOption {
+	return func(o *UpdateOptions) {
 		o.Status = v
 		o.enabledSetters["Status"] = true
 	}
 }
-func (srv *Presences) WithUpdatePresenceExpiresAt(v string) UpdatePresenceOption {
-	return func(o *UpdatePresenceOptions) {
+func (srv *Presences) WithUpdateExpiresAt(v string) UpdateOption {
+	return func(o *UpdateOptions) {
 		o.ExpiresAt = v
 		o.enabledSetters["ExpiresAt"] = true
 	}
 }
-func (srv *Presences) WithUpdatePresenceMetadata(v interface{}) UpdatePresenceOption {
-	return func(o *UpdatePresenceOptions) {
+func (srv *Presences) WithUpdateMetadata(v interface{}) UpdateOption {
+	return func(o *UpdateOptions) {
 		o.Metadata = v
 		o.enabledSetters["Metadata"] = true
 	}
 }
-func (srv *Presences) WithUpdatePresencePermissions(v []string) UpdatePresenceOption {
-	return func(o *UpdatePresenceOptions) {
+func (srv *Presences) WithUpdatePermissions(v []string) UpdateOption {
+	return func(o *UpdateOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
 	}
 }
-func (srv *Presences) WithUpdatePresencePurge(v bool) UpdatePresenceOption {
-	return func(o *UpdatePresenceOptions) {
+func (srv *Presences) WithUpdatePurge(v bool) UpdateOption {
+	return func(o *UpdateOptions) {
 		o.Purge = v
 		o.enabledSetters["Purge"] = true
 	}
 }
 					
-// UpdatePresence update a presence log by its unique ID. Using the patch
-// method you can pass only specific fields that will get updated.
-func (srv *Presences) UpdatePresence(PresenceId string, UserId string, optionalSetters ...UpdatePresenceOption)(*models.Presence, error) {
+// Update update a presence log by its unique ID. Using the patch method you
+// can pass only specific fields that will get updated.
+func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters ...UpdateOption)(*models.Presence, error) {
 	r := strings.NewReplacer("{presenceId}", PresenceId)
 	path := r.Replace("/presences/{presenceId}")
-	options := UpdatePresenceOptions{}.New()
+	options := UpdateOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}

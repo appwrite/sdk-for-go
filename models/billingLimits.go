@@ -5,7 +5,7 @@ import (
     "errors"
 )
 
-// BillingLimits Model
+// Limits Model
 type BillingLimits struct {
     // Bandwidth limit
     Bandwidth int `json:"bandwidth"`

@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2SlackModel(t *testing.T) {
-    model := OAuth2Slack{        Id: "github",        Enabled: true,        ClientId: "23000000089.15000000000023",        ClientSecret: "81656000000000000000000000f3d2fd",    }
+    model := OAuth2Slack{        Id: "github",        Enabled: true,        ClientId: "23000000089.15000000000023",        ClientSecret: "your-oauth2-client-secret",    }
 
     data, err := json.Marshal(model)
     if err != nil {

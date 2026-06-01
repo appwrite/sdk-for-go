@@ -9,14 +9,14 @@ import (
 type ActivityEvent struct {
     // Event ID.
     Id string `json:"$id"`
-    // User type.
-    UserType string `json:"userType"`
-    // User ID.
-    UserId string `json:"userId"`
-    // User Email.
-    UserEmail string `json:"userEmail"`
-    // User Name.
-    UserName string `json:"userName"`
+    // Actor type.
+    ActorType string `json:"actorType"`
+    // Actor ID.
+    ActorId string `json:"actorId"`
+    // Actor Email.
+    ActorEmail string `json:"actorEmail"`
+    // Actor Name.
+    ActorName string `json:"actorName"`
     // Resource parent.
     ResourceParent string `json:"resourceParent"`
     // Resource type.

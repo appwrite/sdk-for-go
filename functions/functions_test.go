@@ -6,8 +6,8 @@ import (
 	"testing"
 	"os"
 
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/file")
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/file")
 
 func TestFunctions(t *testing.T) {
 	tmpFile, err := os.CreateTemp("", "test")
@@ -69,6 +69,8 @@ func TestFunctions(t *testing.T) {
             "providerBranch": "main",
             "providerRootDirectory": "functions/helloWorld",
             "providerSilentMode": true,
+            "providerBranches": [],
+            "providerPaths": [],
             "buildSpecification": "s-1vcpu-512mb",
             "runtimeSpecification": "s-1vcpu-512mb"
         }
@@ -137,6 +139,8 @@ func TestFunctions(t *testing.T) {
     "providerBranch": "main",
     "providerRootDirectory": "functions/helloWorld",
     "providerSilentMode": true,
+    "providerBranches": [],
+    "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
     "runtimeSpecification": "s-1vcpu-512mb"
 }
@@ -275,6 +279,8 @@ func TestFunctions(t *testing.T) {
     "providerBranch": "main",
     "providerRootDirectory": "functions/helloWorld",
     "providerSilentMode": true,
+    "providerBranches": [],
+    "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
     "runtimeSpecification": "s-1vcpu-512mb"
 }
@@ -341,6 +347,8 @@ func TestFunctions(t *testing.T) {
     "providerBranch": "main",
     "providerRootDirectory": "functions/helloWorld",
     "providerSilentMode": true,
+    "providerBranches": [],
+    "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
     "runtimeSpecification": "s-1vcpu-512mb"
 }
@@ -433,6 +441,8 @@ func TestFunctions(t *testing.T) {
     "providerBranch": "main",
     "providerRootDirectory": "functions/helloWorld",
     "providerSilentMode": true,
+    "providerBranches": [],
+    "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
     "runtimeSpecification": "s-1vcpu-512mb"
 }
