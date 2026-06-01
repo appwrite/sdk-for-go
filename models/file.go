@@ -26,6 +26,8 @@ type File struct {
     MimeType string `json:"mimeType"`
     // File original size in bytes.
     SizeOriginal int `json:"sizeOriginal"`
+    // File actual stored size in bytes after compression and/or encryption.
+    SizeActual int `json:"sizeActual"`
     // Total number of chunks available
     ChunksTotal int `json:"chunksTotal"`
     // Total number of chunks uploaded

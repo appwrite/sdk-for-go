@@ -6,8 +6,8 @@ import (
 	"testing"
 	"os"
 
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/file")
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/file")
 
 func TestStorage(t *testing.T) {
 	tmpFile, err := os.CreateTemp("", "test")
@@ -226,6 +226,7 @@ func TestStorage(t *testing.T) {
             "signature": "5d529fd02b544198ae075bd57c1762bb",
             "mimeType": "image/png",
             "sizeOriginal": 17890,
+            "sizeActual": 12345,
             "chunksTotal": 17890,
             "chunksUploaded": 17890,
             "encryption": true,
@@ -266,6 +267,7 @@ func TestStorage(t *testing.T) {
     "signature": "5d529fd02b544198ae075bd57c1762bb",
     "mimeType": "image/png",
     "sizeOriginal": 17890,
+    "sizeActual": 12345,
     "chunksTotal": 17890,
     "chunksUploaded": 17890,
     "encryption": true,
@@ -311,6 +313,7 @@ func TestStorage(t *testing.T) {
     "signature": "5d529fd02b544198ae075bd57c1762bb",
     "mimeType": "image/png",
     "sizeOriginal": 17890,
+    "sizeActual": 12345,
     "chunksTotal": 17890,
     "chunksUploaded": 17890,
     "encryption": true,
@@ -349,6 +352,7 @@ func TestStorage(t *testing.T) {
     "signature": "5d529fd02b544198ae075bd57c1762bb",
     "mimeType": "image/png",
     "sizeOriginal": 17890,
+    "sizeActual": 12345,
     "chunksTotal": 17890,
     "chunksUploaded": 17890,
     "encryption": true,

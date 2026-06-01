@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v4/client"
+	"github.com/appwrite/sdk-for-go/v5/client"
 )
 
 func TestActivities(t *testing.T) {
@@ -23,10 +23,10 @@ func TestActivities(t *testing.T) {
     "events": [
         {
             "$id": "5e5ea5c16897e",
-            "userType": "user",
-            "userId": "610fc2f985ee0",
-            "userEmail": "john@appwrite.io",
-            "userName": "John Doe",
+            "actorType": "user",
+            "actorId": "610fc2f985ee0",
+            "actorEmail": "john@appwrite.io",
+            "actorName": "John Doe",
             "resourceParent": "database/ID",
             "resourceType": "collection",
             "resourceId": "610fc2f985ee0",
@@ -82,10 +82,10 @@ func TestActivities(t *testing.T) {
 		mockResponse := `
 {
     "$id": "5e5ea5c16897e",
-    "userType": "user",
-    "userId": "610fc2f985ee0",
-    "userEmail": "john@appwrite.io",
-    "userName": "John Doe",
+    "actorType": "user",
+    "actorId": "610fc2f985ee0",
+    "actorEmail": "john@appwrite.io",
+    "actorName": "John Doe",
     "resourceParent": "database/ID",
     "resourceType": "collection",
     "resourceId": "610fc2f985ee0",

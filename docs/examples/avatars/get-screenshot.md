@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v4/client"
-    "github.com/appwrite/sdk-for-go/v4/avatars"
+    "github.com/appwrite/sdk-for-go/v5/client"
+    "github.com/appwrite/sdk-for-go/v5/avatars"
 )
 
 client := client.New(
@@ -28,7 +28,7 @@ response, error := service.GetScreenshot(
     avatars.WithGetScreenshotUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15"),
     avatars.WithGetScreenshotFullpage(true),
     avatars.WithGetScreenshotLocale("en-US"),
-    avatars.WithGetScreenshotTimezone("america/new_york"),
+    avatars.WithGetScreenshotTimezone("America/New_York"),
     avatars.WithGetScreenshotLatitude(37.7749),
     avatars.WithGetScreenshotLongitude(-122.4194),
     avatars.WithGetScreenshotAccuracy(100),

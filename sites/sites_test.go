@@ -6,8 +6,8 @@ import (
 	"testing"
 	"os"
 
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/file")
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/file")
 
 func TestSites(t *testing.T) {
 	tmpFile, err := os.CreateTemp("", "test")
@@ -68,6 +68,8 @@ func TestSites(t *testing.T) {
             "providerBranch": "main",
             "providerRootDirectory": "sites/helloWorld",
             "providerSilentMode": true,
+            "providerBranches": [],
+            "providerPaths": [],
             "buildSpecification": "s-1vcpu-512mb",
             "runtimeSpecification": "s-1vcpu-512mb",
             "buildRuntime": "node-22",
@@ -138,6 +140,8 @@ func TestSites(t *testing.T) {
     "providerBranch": "main",
     "providerRootDirectory": "sites/helloWorld",
     "providerSilentMode": true,
+    "providerBranches": [],
+    "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
     "runtimeSpecification": "s-1vcpu-512mb",
     "buildRuntime": "node-22",
@@ -283,6 +287,8 @@ func TestSites(t *testing.T) {
     "providerBranch": "main",
     "providerRootDirectory": "sites/helloWorld",
     "providerSilentMode": true,
+    "providerBranches": [],
+    "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
     "runtimeSpecification": "s-1vcpu-512mb",
     "buildRuntime": "node-22",
@@ -351,6 +357,8 @@ func TestSites(t *testing.T) {
     "providerBranch": "main",
     "providerRootDirectory": "sites/helloWorld",
     "providerSilentMode": true,
+    "providerBranches": [],
+    "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
     "runtimeSpecification": "s-1vcpu-512mb",
     "buildRuntime": "node-22",
@@ -445,6 +453,8 @@ func TestSites(t *testing.T) {
     "providerBranch": "main",
     "providerRootDirectory": "sites/helloWorld",
     "providerSilentMode": true,
+    "providerBranches": [],
+    "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
     "runtimeSpecification": "s-1vcpu-512mb",
     "buildRuntime": "node-22",

@@ -5,8 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/models"
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/models"
 )
 
 func TestTablesDB(t *testing.T) {

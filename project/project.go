@@ -3,8 +3,8 @@ package project
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/models"
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/models"
 	"fmt"
 	"strings"
 )
@@ -5808,6 +5808,30 @@ func (srv *Project) GetPolicy(PolicyId string)(models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "membership-privacy" {
 			parsed := models.PolicyMembershipPrivacy{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "deny-aliased-email" {
+			parsed := models.PolicyDenyAliasedEmail{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "deny-disposable-email" {
+			parsed := models.PolicyDenyDisposableEmail{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "deny-free-email" {
+			parsed := models.PolicyDenyFreeEmail{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}

@@ -3,7 +3,7 @@ package graphql
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v4/client"
+	"github.com/appwrite/sdk-for-go/v5/client"
 	"strings"
 )
 

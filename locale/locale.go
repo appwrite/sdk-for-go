@@ -3,8 +3,8 @@ package locale
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/models"
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/models"
 	"strings"
 )
 

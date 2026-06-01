@@ -6,7 +6,7 @@ import (
 )
 
 func TestFileModel(t *testing.T) {
-    model := File{        Id: "5e5ea5c16897e",        BucketId: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        Permissions: []string{"test"},        Name: "Pink.png",        Signature: "5d529fd02b544198ae075bd57c1762bb",        MimeType: "image/png",        SizeOriginal: 17890,        ChunksTotal: 17890,        ChunksUploaded: 17890,        Encryption: true,        Compression: "gzip",    }
+    model := File{        Id: "5e5ea5c16897e",        BucketId: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        Permissions: []string{"test"},        Name: "Pink.png",        Signature: "5d529fd02b544198ae075bd57c1762bb",        MimeType: "image/png",        SizeOriginal: 17890,        SizeActual: 12345,        ChunksTotal: 17890,        ChunksUploaded: 17890,        Encryption: true,        Compression: "gzip",    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -41,6 +41,9 @@ func TestFileModel(t *testing.T) {
     }
     if result.SizeOriginal != model.SizeOriginal {
         t.Errorf("Expected SizeOriginal %v, got %v", model.SizeOriginal, result.SizeOriginal)
+    }
+    if result.SizeActual != model.SizeActual {
+        t.Errorf("Expected SizeActual %v, got %v", model.SizeActual, result.SizeActual)
     }
     if result.ChunksTotal != model.ChunksTotal {
         t.Errorf("Expected ChunksTotal %v, got %v", model.ChunksTotal, result.ChunksTotal)

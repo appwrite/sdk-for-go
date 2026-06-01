@@ -13,6 +13,10 @@ type UsageGauge struct {
     Value int `json:"value"`
     // The snapshot timestamp.
     Time string `json:"time"`
+    // The resource type.
+    ResourceType string `json:"resourceType"`
+    // The resource ID.
+    ResourceId string `json:"resourceId"`
 
     // Used by Decode() method
     data []byte

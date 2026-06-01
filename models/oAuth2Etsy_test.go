@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2EtsyModel(t *testing.T) {
-    model := OAuth2Etsy{        Id: "github",        Enabled: true,        KeyString: "nsgzxh0000000000008j85a2",        SharedSecret: "tp000000ru",    }
+    model := OAuth2Etsy{        Id: "github",        Enabled: true,        KeyString: "nsgzxh0000000000008j85a2",        SharedSecret: "your-oauth2-client-secret",    }
 
     data, err := json.Marshal(model)
     if err != nil {

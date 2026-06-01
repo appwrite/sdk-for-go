@@ -69,6 +69,12 @@ type Site struct {
     // silence mode, no comments will be posted on the repository pull or merge
     // requests
     ProviderSilentMode bool `json:"providerSilentMode"`
+    // List of branch name patterns that trigger automatic deployments. Supports
+    // glob wildcards. Empty list deploys on all branches.
+    ProviderBranches []string `json:"providerBranches"`
+    // List of file path patterns that trigger automatic deployments. Supports
+    // glob wildcards. Empty list deploys on all file changes.
+    ProviderPaths []string `json:"providerPaths"`
     // Machine specification for deployment builds.
     BuildSpecification string `json:"buildSpecification"`
     // Machine specification for SSR executions.

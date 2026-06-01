@@ -3,9 +3,9 @@ package functions
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v4/client"
-	"github.com/appwrite/sdk-for-go/v4/models"
-	"github.com/appwrite/sdk-for-go/v4/file"
+	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v5/file"
 	"net/url"
 	"fmt"
 	"strings"
@@ -116,6 +116,8 @@ type CreateOptions struct {
 	ProviderBranch string
 	ProviderSilentMode bool
 	ProviderRootDirectory string
+	ProviderBranches []string
+	ProviderPaths []string
 	BuildSpecification string
 	RuntimeSpecification string
 	DeploymentRetention int
@@ -137,6 +139,8 @@ func (options CreateOptions) New() *CreateOptions {
 		"ProviderBranch": false,
 		"ProviderSilentMode": false,
 		"ProviderRootDirectory": false,
+		"ProviderBranches": false,
+		"ProviderPaths": false,
 		"BuildSpecification": false,
 		"RuntimeSpecification": false,
 		"DeploymentRetention": false,
@@ -228,6 +232,18 @@ func (srv *Functions) WithCreateProviderRootDirectory(v string) CreateOption {
 		o.enabledSetters["ProviderRootDirectory"] = true
 	}
 }
+func (srv *Functions) WithCreateProviderBranches(v []string) CreateOption {
+	return func(o *CreateOptions) {
+		o.ProviderBranches = v
+		o.enabledSetters["ProviderBranches"] = true
+	}
+}
+func (srv *Functions) WithCreateProviderPaths(v []string) CreateOption {
+	return func(o *CreateOptions) {
+		o.ProviderPaths = v
+		o.enabledSetters["ProviderPaths"] = true
+	}
+}
 func (srv *Functions) WithCreateBuildSpecification(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.BuildSpecification = v
@@ -302,6 +318,12 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 	}
 	if options.enabledSetters["ProviderRootDirectory"] {
 		params["providerRootDirectory"] = options.ProviderRootDirectory
+	}
+	if options.enabledSetters["ProviderBranches"] {
+		params["providerBranches"] = options.ProviderBranches
+	}
+	if options.enabledSetters["ProviderPaths"] {
+		params["providerPaths"] = options.ProviderPaths
 	}
 	if options.enabledSetters["BuildSpecification"] {
 		params["buildSpecification"] = options.BuildSpecification
@@ -455,6 +477,8 @@ type UpdateOptions struct {
 	ProviderBranch string
 	ProviderSilentMode bool
 	ProviderRootDirectory string
+	ProviderBranches []string
+	ProviderPaths []string
 	BuildSpecification string
 	RuntimeSpecification string
 	DeploymentRetention int
@@ -477,6 +501,8 @@ func (options UpdateOptions) New() *UpdateOptions {
 		"ProviderBranch": false,
 		"ProviderSilentMode": false,
 		"ProviderRootDirectory": false,
+		"ProviderBranches": false,
+		"ProviderPaths": false,
 		"BuildSpecification": false,
 		"RuntimeSpecification": false,
 		"DeploymentRetention": false,
@@ -574,6 +600,18 @@ func (srv *Functions) WithUpdateProviderRootDirectory(v string) UpdateOption {
 		o.enabledSetters["ProviderRootDirectory"] = true
 	}
 }
+func (srv *Functions) WithUpdateProviderBranches(v []string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.ProviderBranches = v
+		o.enabledSetters["ProviderBranches"] = true
+	}
+}
+func (srv *Functions) WithUpdateProviderPaths(v []string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.ProviderPaths = v
+		o.enabledSetters["ProviderPaths"] = true
+	}
+}
 func (srv *Functions) WithUpdateBuildSpecification(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.BuildSpecification = v
@@ -648,6 +686,12 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	}
 	if options.enabledSetters["ProviderRootDirectory"] {
 		params["providerRootDirectory"] = options.ProviderRootDirectory
+	}
+	if options.enabledSetters["ProviderBranches"] {
+		params["providerBranches"] = options.ProviderBranches
+	}
+	if options.enabledSetters["ProviderPaths"] {
+		params["providerPaths"] = options.ProviderPaths
 	}
 	if options.enabledSetters["BuildSpecification"] {
 		params["buildSpecification"] = options.BuildSpecification
