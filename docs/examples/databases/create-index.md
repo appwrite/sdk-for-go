@@ -20,8 +20,8 @@ response, error := service.CreateIndex(
     "<COLLECTION_ID>",
     "",
     "key",
-    []interface{}{},
-    databases.WithCreateIndexOrders([]interface{}{}),
-    databases.WithCreateIndexLengths([]interface{}{}),
+    []string{},
+    databases.WithCreateIndexOrders([]string{}),
+    databases.WithCreateIndexLengths([]int{}),
 )
 ```

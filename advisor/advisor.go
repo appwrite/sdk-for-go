@@ -61,6 +61,7 @@ func (srv *Advisor) ListReports(optionalSetters ...ListReportsOption)(*models.Re
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -96,6 +97,7 @@ func (srv *Advisor) GetReport(ReportId string)(*models.Report, error) {
 	params := map[string]interface{}{}
 	params["reportId"] = ReportId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -131,6 +133,7 @@ func (srv *Advisor) DeleteReport(ReportId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["reportId"] = ReportId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -201,6 +204,7 @@ func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsight
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -236,6 +240,7 @@ func (srv *Advisor) GetInsight(ReportId string, InsightId string)(*models.Insigh
 	params["reportId"] = ReportId
 	params["insightId"] = InsightId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

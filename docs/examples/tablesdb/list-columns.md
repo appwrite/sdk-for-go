@@ -18,7 +18,7 @@ service := tablesdb.New(client)
 response, error := service.ListColumns(
     "<DATABASE_ID>",
     "<TABLE_ID>",
-    tablesdb.WithListColumnsQueries([]interface{}{}),
+    tablesdb.WithListColumnsQueries([]string{}),
     tablesdb.WithListColumnsTotal(false),
 )
 ```

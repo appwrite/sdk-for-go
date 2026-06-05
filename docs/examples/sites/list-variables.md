@@ -17,7 +17,7 @@ service := sites.New(client)
 
 response, error := service.ListVariables(
     "<SITE_ID>",
-    sites.WithListVariablesQueries([]interface{}{}),
+    sites.WithListVariablesQueries([]string{}),
     sites.WithListVariablesTotal(false),
 )
 ```

@@ -25,6 +25,7 @@ func (srv *Health) Get()(*models.HealthStatus, error) {
 	path := "/health"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -58,6 +59,7 @@ func (srv *Health) GetAntivirus()(*models.HealthAntivirus, error) {
 	path := "/health/anti-virus"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -85,12 +87,48 @@ func (srv *Health) GetAntivirus()(*models.HealthAntivirus, error) {
 
 }
 
+// GetAuditsDB check the database that backs the audit and activity store.
+// When the connection is reachable the endpoint returns a passing status with
+// its response time.
+func (srv *Health) GetAuditsDB()(*models.HealthStatusList, error) {
+	path := "/health/audits-db"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.HealthStatusList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.HealthStatusList
+	parsed, ok := resp.Result.(models.HealthStatusList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // GetCache check the Appwrite in-memory cache servers are up and connection
 // is successful.
 func (srv *Health) GetCache()(*models.HealthStatusList, error) {
 	path := "/health/cache"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -147,6 +185,7 @@ func (srv *Health) GetCertificate(optionalSetters ...GetCertificateOption)(*mode
 		params["domain"] = options.Domain
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -216,6 +255,7 @@ func (srv *Health) GetConsolePausing(optionalSetters ...GetConsolePausingOption)
 		params["inactivityDays"] = options.InactivityDays
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -249,6 +289,7 @@ func (srv *Health) GetDB()(*models.HealthStatusList, error) {
 	path := "/health/db"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -282,6 +323,7 @@ func (srv *Health) GetPubSub()(*models.HealthStatusList, error) {
 	path := "/health/pubsub"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -339,6 +381,7 @@ func (srv *Health) GetQueueAudits(optionalSetters ...GetQueueAuditsOption)(*mode
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -396,6 +439,7 @@ func (srv *Health) GetQueueBuilds(optionalSetters ...GetQueueBuildsOption)(*mode
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -454,6 +498,7 @@ func (srv *Health) GetQueueCertificates(optionalSetters ...GetQueueCertificatesO
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -522,6 +567,7 @@ func (srv *Health) GetQueueDatabases(optionalSetters ...GetQueueDatabasesOption)
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -579,6 +625,7 @@ func (srv *Health) GetQueueDeletes(optionalSetters ...GetQueueDeletesOption)(*mo
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -637,6 +684,7 @@ func (srv *Health) GetFailedJobs(Name string, optionalSetters ...GetFailedJobsOp
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -694,6 +742,7 @@ func (srv *Health) GetQueueFunctions(optionalSetters ...GetQueueFunctionsOption)
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -751,6 +800,7 @@ func (srv *Health) GetQueueLogs(optionalSetters ...GetQueueLogsOption)(*models.H
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -808,6 +858,7 @@ func (srv *Health) GetQueueMails(optionalSetters ...GetQueueMailsOption)(*models
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -865,6 +916,7 @@ func (srv *Health) GetQueueMessaging(optionalSetters ...GetQueueMessagingOption)
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -922,6 +974,7 @@ func (srv *Health) GetQueueMigrations(optionalSetters ...GetQueueMigrationsOptio
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -979,6 +1032,7 @@ func (srv *Health) GetQueueStatsResources(optionalSetters ...GetQueueStatsResour
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1036,6 +1090,7 @@ func (srv *Health) GetQueueUsage(optionalSetters ...GetQueueUsageOption)(*models
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1093,6 +1148,7 @@ func (srv *Health) GetQueueWebhooks(optionalSetters ...GetQueueWebhooksOption)(*
 		params["threshold"] = options.Threshold
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1126,6 +1182,7 @@ func (srv *Health) GetStorage()(*models.HealthStatus, error) {
 	path := "/health/storage"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1159,6 +1216,7 @@ func (srv *Health) GetStorageLocal()(*models.HealthStatus, error) {
 	path := "/health/storage/local"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1197,6 +1255,7 @@ func (srv *Health) GetTime()(*models.HealthTime, error) {
 	path := "/health/time"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

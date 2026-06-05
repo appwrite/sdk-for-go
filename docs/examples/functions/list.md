@@ -16,7 +16,7 @@ client := client.New(
 service := functions.New(client)
 
 response, error := service.List(
-    functions.WithListQueries([]interface{}{}),
+    functions.WithListQueries([]string{}),
     functions.WithListSearch("<SEARCH>"),
     functions.WithListTotal(false),
 )

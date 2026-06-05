@@ -17,7 +17,7 @@ service := messaging.New(client)
 
 response, error := service.ListTopicLogs(
     "<TOPIC_ID>",
-    messaging.WithListTopicLogsQueries([]interface{}{}),
+    messaging.WithListTopicLogsQueries([]string{}),
     messaging.WithListTopicLogsTotal(false),
 )
 ```

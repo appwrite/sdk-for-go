@@ -19,6 +19,6 @@ response, error := service.UpdateFile(
     "<BUCKET_ID>",
     "<FILE_ID>",
     storage.WithUpdateFileName("<NAME>"),
-    storage.WithUpdateFilePermissions(interface{}{"read("any")"}),
+    storage.WithUpdateFilePermissions([]string{"read("any")"}),
 )
 ```

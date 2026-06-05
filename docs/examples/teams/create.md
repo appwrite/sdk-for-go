@@ -18,6 +18,6 @@ service := teams.New(client)
 response, error := service.Create(
     "<TEAM_ID>",
     "<NAME>",
-    teams.WithCreateRoles([]interface{}{}),
+    teams.WithCreateRoles([]string{}),
 )
 ```

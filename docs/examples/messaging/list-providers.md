@@ -16,7 +16,7 @@ client := client.New(
 service := messaging.New(client)
 
 response, error := service.ListProviders(
-    messaging.WithListProvidersQueries([]interface{}{}),
+    messaging.WithListProvidersQueries([]string{}),
     messaging.WithListProvidersSearch("<SEARCH>"),
     messaging.WithListProvidersTotal(false),
 )

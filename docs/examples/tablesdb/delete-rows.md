@@ -18,7 +18,7 @@ service := tablesdb.New(client)
 response, error := service.DeleteRows(
     "<DATABASE_ID>",
     "<TABLE_ID>",
-    tablesdb.WithDeleteRowsQueries([]interface{}{}),
+    tablesdb.WithDeleteRowsQueries([]string{}),
     tablesdb.WithDeleteRowsTransactionId("<TRANSACTION_ID>"),
 )
 ```

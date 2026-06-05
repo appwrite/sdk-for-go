@@ -16,7 +16,7 @@ client := client.New(
 service := project.New(client)
 
 response, error := service.ListKeys(
-    project.WithListKeysQueries([]interface{}{}),
+    project.WithListKeysQueries([]string{}),
     project.WithListKeysTotal(false),
 )
 ```

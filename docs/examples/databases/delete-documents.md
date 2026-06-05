@@ -18,7 +18,7 @@ service := databases.New(client)
 response, error := service.DeleteDocuments(
     "<DATABASE_ID>",
     "<COLLECTION_ID>",
-    databases.WithDeleteDocumentsQueries([]interface{}{}),
+    databases.WithDeleteDocumentsQueries([]string{}),
     databases.WithDeleteDocumentsTransactionId("<TRANSACTION_ID>"),
 )
 ```

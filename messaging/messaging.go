@@ -71,6 +71,7 @@ func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*model
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -218,6 +219,7 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 		params["scheduledAt"] = options.ScheduledAt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -389,6 +391,7 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 		params["attachments"] = options.Attachments
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -634,6 +637,7 @@ func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePush
 		params["priority"] = options.Priority
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -882,6 +886,7 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 		params["priority"] = options.Priority
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -987,6 +992,7 @@ func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetter
 		params["scheduledAt"] = options.ScheduledAt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1090,6 +1096,7 @@ func (srv *Messaging) CreateSMS(MessageId string, Content string, optionalSetter
 		params["scheduledAt"] = options.ScheduledAt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1208,6 +1215,7 @@ func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOp
 		params["scheduledAt"] = options.ScheduledAt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1324,6 +1332,7 @@ func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOp
 		params["scheduledAt"] = options.ScheduledAt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1359,6 +1368,7 @@ func (srv *Messaging) GetMessage(MessageId string)(*models.Message, error) {
 	params := map[string]interface{}{}
 	params["messageId"] = MessageId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1394,6 +1404,7 @@ func (srv *Messaging) Delete(MessageId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["messageId"] = MessageId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1463,6 +1474,7 @@ func (srv *Messaging) ListMessageLogs(MessageId string, optionalSetters ...ListM
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1532,6 +1544,7 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1611,6 +1624,7 @@ func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*mod
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1726,6 +1740,7 @@ func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optiona
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1840,6 +1855,7 @@ func (srv *Messaging) CreateAPNSProvider(ProviderId string, Name string, optiona
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1968,6 +1984,7 @@ func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...U
 		params["sandbox"] = options.Sandbox
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2094,6 +2111,7 @@ func (srv *Messaging) UpdateAPNSProvider(ProviderId string, optionalSetters ...U
 		params["sandbox"] = options.Sandbox
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2166,6 +2184,7 @@ func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optional
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2236,6 +2255,7 @@ func (srv *Messaging) CreateFCMProvider(ProviderId string, Name string, optional
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2320,6 +2340,7 @@ func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...Up
 		params["serviceAccountJSON"] = options.ServiceAccountJSON
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2402,6 +2423,7 @@ func (srv *Messaging) UpdateFCMProvider(ProviderId string, optionalSetters ...Up
 		params["serviceAccountJSON"] = options.ServiceAccountJSON
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2538,6 +2560,7 @@ func (srv *Messaging) CreateMailgunProvider(ProviderId string, Name string, opti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2685,6 +2708,7 @@ func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters .
 		params["replyToEmail"] = options.ReplyToEmail
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2777,6 +2801,7 @@ func (srv *Messaging) CreateMsg91Provider(ProviderId string, Name string, option
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2880,6 +2905,7 @@ func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...
 		params["authKey"] = options.AuthKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2994,6 +3020,7 @@ func (srv *Messaging) CreateResendProvider(ProviderId string, Name string, optio
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3119,6 +3146,7 @@ func (srv *Messaging) UpdateResendProvider(ProviderId string, optionalSetters ..
 		params["replyToEmail"] = options.ReplyToEmail
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3233,6 +3261,7 @@ func (srv *Messaging) CreateSendgridProvider(ProviderId string, Name string, opt
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3358,6 +3387,292 @@ func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters 
 		params["replyToEmail"] = options.ReplyToEmail
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateSesProviderOptions struct {
+	AccessKey string
+	SecretKey string
+	Region string
+	FromName string
+	FromEmail string
+	ReplyToName string
+	ReplyToEmail string
+	Enabled bool
+	enabledSetters map[string]bool
+}
+func (options CreateSesProviderOptions) New() *CreateSesProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"AccessKey": false,
+		"SecretKey": false,
+		"Region": false,
+		"FromName": false,
+		"FromEmail": false,
+		"ReplyToName": false,
+		"ReplyToEmail": false,
+		"Enabled": false,
+	}
+	return &options
+}
+type CreateSesProviderOption func(*CreateSesProviderOptions)
+func (srv *Messaging) WithCreateSesProviderAccessKey(v string) CreateSesProviderOption {
+	return func(o *CreateSesProviderOptions) {
+		o.AccessKey = v
+		o.enabledSetters["AccessKey"] = true
+	}
+}
+func (srv *Messaging) WithCreateSesProviderSecretKey(v string) CreateSesProviderOption {
+	return func(o *CreateSesProviderOptions) {
+		o.SecretKey = v
+		o.enabledSetters["SecretKey"] = true
+	}
+}
+func (srv *Messaging) WithCreateSesProviderRegion(v string) CreateSesProviderOption {
+	return func(o *CreateSesProviderOptions) {
+		o.Region = v
+		o.enabledSetters["Region"] = true
+	}
+}
+func (srv *Messaging) WithCreateSesProviderFromName(v string) CreateSesProviderOption {
+	return func(o *CreateSesProviderOptions) {
+		o.FromName = v
+		o.enabledSetters["FromName"] = true
+	}
+}
+func (srv *Messaging) WithCreateSesProviderFromEmail(v string) CreateSesProviderOption {
+	return func(o *CreateSesProviderOptions) {
+		o.FromEmail = v
+		o.enabledSetters["FromEmail"] = true
+	}
+}
+func (srv *Messaging) WithCreateSesProviderReplyToName(v string) CreateSesProviderOption {
+	return func(o *CreateSesProviderOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
+	}
+}
+func (srv *Messaging) WithCreateSesProviderReplyToEmail(v string) CreateSesProviderOption {
+	return func(o *CreateSesProviderOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+func (srv *Messaging) WithCreateSesProviderEnabled(v bool) CreateSesProviderOption {
+	return func(o *CreateSesProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+					
+// CreateSesProvider create a new Amazon SES provider.
+func (srv *Messaging) CreateSesProvider(ProviderId string, Name string, optionalSetters ...CreateSesProviderOption)(*models.Provider, error) {
+	path := "/messaging/providers/ses"
+	options := CreateSesProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	params["name"] = Name
+	if options.enabledSetters["AccessKey"] {
+		params["accessKey"] = options.AccessKey
+	}
+	if options.enabledSetters["SecretKey"] {
+		params["secretKey"] = options.SecretKey
+	}
+	if options.enabledSetters["Region"] {
+		params["region"] = options.Region
+	}
+	if options.enabledSetters["FromName"] {
+		params["fromName"] = options.FromName
+	}
+	if options.enabledSetters["FromEmail"] {
+		params["fromEmail"] = options.FromEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateSesProviderOptions struct {
+	Name string
+	Enabled bool
+	AccessKey string
+	SecretKey string
+	Region string
+	FromName string
+	FromEmail string
+	ReplyToName string
+	ReplyToEmail string
+	enabledSetters map[string]bool
+}
+func (options UpdateSesProviderOptions) New() *UpdateSesProviderOptions {
+	options.enabledSetters = map[string]bool{
+		"Name": false,
+		"Enabled": false,
+		"AccessKey": false,
+		"SecretKey": false,
+		"Region": false,
+		"FromName": false,
+		"FromEmail": false,
+		"ReplyToName": false,
+		"ReplyToEmail": false,
+	}
+	return &options
+}
+type UpdateSesProviderOption func(*UpdateSesProviderOptions)
+func (srv *Messaging) WithUpdateSesProviderName(v string) UpdateSesProviderOption {
+	return func(o *UpdateSesProviderOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSesProviderEnabled(v bool) UpdateSesProviderOption {
+	return func(o *UpdateSesProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSesProviderAccessKey(v string) UpdateSesProviderOption {
+	return func(o *UpdateSesProviderOptions) {
+		o.AccessKey = v
+		o.enabledSetters["AccessKey"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSesProviderSecretKey(v string) UpdateSesProviderOption {
+	return func(o *UpdateSesProviderOptions) {
+		o.SecretKey = v
+		o.enabledSetters["SecretKey"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSesProviderRegion(v string) UpdateSesProviderOption {
+	return func(o *UpdateSesProviderOptions) {
+		o.Region = v
+		o.enabledSetters["Region"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSesProviderFromName(v string) UpdateSesProviderOption {
+	return func(o *UpdateSesProviderOptions) {
+		o.FromName = v
+		o.enabledSetters["FromName"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSesProviderFromEmail(v string) UpdateSesProviderOption {
+	return func(o *UpdateSesProviderOptions) {
+		o.FromEmail = v
+		o.enabledSetters["FromEmail"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSesProviderReplyToName(v string) UpdateSesProviderOption {
+	return func(o *UpdateSesProviderOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
+	}
+}
+func (srv *Messaging) WithUpdateSesProviderReplyToEmail(v string) UpdateSesProviderOption {
+	return func(o *UpdateSesProviderOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+			
+// UpdateSesProvider update an Amazon SES provider by its unique ID.
+func (srv *Messaging) UpdateSesProvider(ProviderId string, optionalSetters ...UpdateSesProviderOption)(*models.Provider, error) {
+	r := strings.NewReplacer("{providerId}", ProviderId)
+	path := r.Replace("/messaging/providers/ses/{providerId}")
+	options := UpdateSesProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["AccessKey"] {
+		params["accessKey"] = options.AccessKey
+	}
+	if options.enabledSetters["SecretKey"] {
+		params["secretKey"] = options.SecretKey
+	}
+	if options.enabledSetters["Region"] {
+		params["region"] = options.Region
+	}
+	if options.enabledSetters["FromName"] {
+		params["fromName"] = options.FromName
+	}
+	if options.enabledSetters["FromEmail"] {
+		params["fromEmail"] = options.FromEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3530,6 +3845,7 @@ func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host st
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3700,6 +4016,7 @@ func (srv *Messaging) CreateSMTPProvider(ProviderId string, Name string, Host st
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3893,6 +4210,7 @@ func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...U
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4084,6 +4402,7 @@ func (srv *Messaging) UpdateSMTPProvider(ProviderId string, optionalSetters ...U
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4176,6 +4495,7 @@ func (srv *Messaging) CreateTelesignProvider(ProviderId string, Name string, opt
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4279,6 +4599,7 @@ func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters 
 		params["from"] = options.From
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4371,6 +4692,7 @@ func (srv *Messaging) CreateTextmagicProvider(ProviderId string, Name string, op
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4474,6 +4796,7 @@ func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters
 		params["from"] = options.From
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4566,6 +4889,7 @@ func (srv *Messaging) CreateTwilioProvider(ProviderId string, Name string, optio
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4669,6 +4993,7 @@ func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ..
 		params["from"] = options.From
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4761,6 +5086,7 @@ func (srv *Messaging) CreateVonageProvider(ProviderId string, Name string, optio
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4864,6 +5190,7 @@ func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ..
 		params["from"] = options.From
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4899,6 +5226,7 @@ func (srv *Messaging) GetProvider(ProviderId string)(*models.Provider, error) {
 	params := map[string]interface{}{}
 	params["providerId"] = ProviderId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4933,6 +5261,7 @@ func (srv *Messaging) DeleteProvider(ProviderId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["providerId"] = ProviderId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5002,6 +5331,7 @@ func (srv *Messaging) ListProviderLogs(ProviderId string, optionalSetters ...Lis
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5072,6 +5402,7 @@ func (srv *Messaging) ListSubscriberLogs(SubscriberId string, optionalSetters ..
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5150,6 +5481,7 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.To
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5208,6 +5540,7 @@ func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters .
 		params["subscribe"] = options.Subscribe
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5243,6 +5576,7 @@ func (srv *Messaging) GetTopic(TopicId string)(*models.Topic, error) {
 	params := map[string]interface{}{}
 	params["topicId"] = TopicId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5312,6 +5646,7 @@ func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopic
 		params["subscribe"] = options.Subscribe
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5347,6 +5682,7 @@ func (srv *Messaging) DeleteTopic(TopicId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["topicId"] = TopicId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5416,6 +5752,7 @@ func (srv *Messaging) ListTopicLogs(TopicId string, optionalSetters ...ListTopic
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5497,6 +5834,7 @@ func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSub
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5533,6 +5871,7 @@ func (srv *Messaging) CreateSubscriber(TopicId string, SubscriberId string, Targ
 	params["subscriberId"] = SubscriberId
 	params["targetId"] = TargetId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5569,6 +5908,7 @@ func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string)(*models
 	params["topicId"] = TopicId
 	params["subscriberId"] = SubscriberId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5604,6 +5944,7 @@ func (srv *Messaging) DeleteSubscriber(TopicId string, SubscriberId string)(*int
 	params["topicId"] = TopicId
 	params["subscriberId"] = SubscriberId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 

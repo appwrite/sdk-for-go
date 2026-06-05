@@ -19,7 +19,7 @@ response, error := service.UpdateEnumColumn(
     "<DATABASE_ID>",
     "<TABLE_ID>",
     "",
-    []interface{}{},
+    []string{},
     false,
     "<DEFAULT>",
     tablesdb.WithUpdateEnumColumnNewKey(""),

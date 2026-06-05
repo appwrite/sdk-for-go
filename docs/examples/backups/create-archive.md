@@ -16,7 +16,7 @@ client := client.New(
 service := backups.New(client)
 
 response, error := service.CreateArchive(
-    []interface{}{},
+    []string{},
     backups.WithCreateArchiveResourceId("<RESOURCE_ID>"),
 )
 ```

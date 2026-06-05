@@ -18,6 +18,6 @@ service := messaging.New(client)
 response, error := service.CreateTopic(
     "<TOPIC_ID>",
     "<NAME>",
-    messaging.WithCreateTopicSubscribe(interface{}{"any"}),
+    messaging.WithCreateTopicSubscribe([]string{"any"}),
 )
 ```

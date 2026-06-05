@@ -20,6 +20,6 @@ response, error := service.CreatePolygonColumn(
     "<TABLE_ID>",
     "",
     false,
-    tablesdb.WithCreatePolygonColumnDefault(interface{}{[[1, 2], [3, 4], [5, 6], [1, 2]]}),
+    tablesdb.WithCreatePolygonColumnDefault([]interface{}{[[1, 2], [3, 4], [5, 6], [1, 2]]}),
 )
 ```

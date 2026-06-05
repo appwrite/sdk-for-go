@@ -16,7 +16,7 @@ client := client.New(
 service := project.New(client)
 
 response, error := service.ListEmailTemplates(
-    project.WithListEmailTemplatesQueries([]interface{}{}),
+    project.WithListEmailTemplatesQueries([]string{}),
     project.WithListEmailTemplatesTotal(false),
 )
 ```

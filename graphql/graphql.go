@@ -25,6 +25,7 @@ func (srv *Graphql) Query(Query interface{})(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["query"] = Query
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"x-sdk-graphql": "true",
 		"content-type": "application/json",
 	}
@@ -59,6 +60,7 @@ func (srv *Graphql) Mutation(Query interface{})(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["query"] = Query
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"x-sdk-graphql": "true",
 		"content-type": "application/json",
 	}

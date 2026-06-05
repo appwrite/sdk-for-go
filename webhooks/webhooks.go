@@ -61,6 +61,7 @@ func (srv *Webhooks) List(optionalSetters ...ListOption)(*models.WebhookList, er
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -166,6 +167,7 @@ func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []
 		params["secret"] = options.Secret
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -202,6 +204,7 @@ func (srv *Webhooks) Get(WebhookId string)(*models.Webhook, error) {
 	params := map[string]interface{}{}
 	params["webhookId"] = WebhookId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -297,6 +300,7 @@ func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []
 		params["authPassword"] = options.AuthPassword
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -333,6 +337,7 @@ func (srv *Webhooks) Delete(WebhookId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["webhookId"] = WebhookId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -393,6 +398,7 @@ func (srv *Webhooks) UpdateSecret(WebhookId string, optionalSetters ...UpdateSec
 		params["secret"] = options.Secret
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 

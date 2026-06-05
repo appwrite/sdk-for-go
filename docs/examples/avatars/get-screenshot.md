@@ -33,7 +33,7 @@ response, error := service.GetScreenshot(
     avatars.WithGetScreenshotLongitude(-122.4194),
     avatars.WithGetScreenshotAccuracy(100),
     avatars.WithGetScreenshotTouch(true),
-    avatars.WithGetScreenshotPermissions(interface{}{"geolocation","notifications"}),
+    avatars.WithGetScreenshotPermissions([]string{"geolocation","notifications"}),
     avatars.WithGetScreenshotSleep(3),
     avatars.WithGetScreenshotWidth(800),
     avatars.WithGetScreenshotHeight(600),

@@ -25,6 +25,7 @@ func (srv *Account) Get()(*models.User, error) {
 	path := "/account"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -90,6 +91,7 @@ func (srv *Account) Create(UserId string, Email string, Password string, optiona
 		params["name"] = options.Name
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -131,6 +133,7 @@ func (srv *Account) UpdateEmail(Email string, Password string)(*models.User, err
 	params["email"] = Email
 	params["password"] = Password
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -199,6 +202,7 @@ func (srv *Account) ListIdentities(optionalSetters ...ListIdentitiesOption)(*mod
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -233,6 +237,7 @@ func (srv *Account) DeleteIdentity(IdentityId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["identityId"] = IdentityId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -293,6 +298,7 @@ func (srv *Account) CreateJWT(optionalSetters ...CreateJWTOption)(*models.Jwt, e
 		params["duration"] = options.Duration
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -363,6 +369,7 @@ func (srv *Account) ListLogs(optionalSetters ...ListLogsOption)(*models.LogList,
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -396,6 +403,7 @@ func (srv *Account) UpdateMFA(Mfa bool)(*models.User, error) {
 	params := map[string]interface{}{}
 	params["mfa"] = Mfa
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -436,6 +444,7 @@ func (srv *Account) CreateMfaAuthenticator(Type string)(*models.MfaType, error) 
 	params := map[string]interface{}{}
 	params["type"] = Type
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -474,6 +483,7 @@ func (srv *Account) CreateMFAAuthenticator(Type string)(*models.MfaType, error) 
 	params := map[string]interface{}{}
 	params["type"] = Type
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -515,6 +525,7 @@ func (srv *Account) UpdateMfaAuthenticator(Type string, Otp string)(*models.User
 	params["type"] = Type
 	params["otp"] = Otp
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -554,6 +565,7 @@ func (srv *Account) UpdateMFAAuthenticator(Type string, Otp string)(*models.User
 	params["type"] = Type
 	params["otp"] = Otp
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -591,6 +603,7 @@ func (srv *Account) DeleteMfaAuthenticator(Type string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["type"] = Type
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -625,6 +638,7 @@ func (srv *Account) DeleteMFAAuthenticator(Type string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["type"] = Type
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -663,6 +677,7 @@ func (srv *Account) CreateMfaChallenge(Factor string)(*models.MfaChallenge, erro
 	params := map[string]interface{}{}
 	params["factor"] = Factor
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -700,6 +715,7 @@ func (srv *Account) CreateMFAChallenge(Factor string)(*models.MfaChallenge, erro
 	params := map[string]interface{}{}
 	params["factor"] = Factor
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -741,6 +757,7 @@ func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string)(*models.S
 	params["challengeId"] = ChallengeId
 	params["otp"] = Otp
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -780,6 +797,7 @@ func (srv *Account) UpdateMFAChallenge(ChallengeId string, Otp string)(*models.S
 	params["challengeId"] = ChallengeId
 	params["otp"] = Otp
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -816,6 +834,7 @@ func (srv *Account) ListMfaFactors()(*models.MfaFactors, error) {
 	path := "/account/mfa/factors"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -849,6 +868,7 @@ func (srv *Account) ListMFAFactors()(*models.MfaFactors, error) {
 	path := "/account/mfa/factors"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -886,6 +906,7 @@ func (srv *Account) GetMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -921,6 +942,7 @@ func (srv *Account) GetMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -960,6 +982,7 @@ func (srv *Account) CreateMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -998,6 +1021,7 @@ func (srv *Account) CreateMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1036,6 +1060,7 @@ func (srv *Account) UpdateMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1072,6 +1097,7 @@ func (srv *Account) UpdateMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1106,6 +1132,7 @@ func (srv *Account) UpdateName(Name string)(*models.User, error) {
 	params := map[string]interface{}{}
 	params["name"] = Name
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1167,6 +1194,7 @@ func (srv *Account) UpdatePassword(Password string, optionalSetters ...UpdatePas
 		params["oldPassword"] = options.OldPassword
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1206,6 +1234,7 @@ func (srv *Account) UpdatePhone(Phone string, Password string)(*models.User, err
 	params["phone"] = Phone
 	params["password"] = Password
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1240,6 +1269,7 @@ func (srv *Account) GetPrefs()(*models.Preferences, error) {
 	path := "/account/prefs"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1275,6 +1305,7 @@ func (srv *Account) UpdatePrefs(Prefs interface{})(*models.User, error) {
 	params := map[string]interface{}{}
 	params["prefs"] = Prefs
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1317,6 +1348,7 @@ func (srv *Account) CreateRecovery(Email string, Url string)(*models.Token, erro
 	params["email"] = Email
 	params["url"] = Url
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1363,6 +1395,7 @@ func (srv *Account) UpdateRecovery(UserId string, Secret string, Password string
 	params["secret"] = Secret
 	params["password"] = Password
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1397,6 +1430,7 @@ func (srv *Account) ListSessions()(*models.SessionList, error) {
 	path := "/account/sessions"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1430,6 +1464,7 @@ func (srv *Account) DeleteSessions()(*interface{}, error) {
 	path := "/account/sessions"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1468,6 +1503,7 @@ func (srv *Account) CreateAnonymousSession()(*models.Session, error) {
 	path := "/account/sessions/anonymous"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1509,6 +1545,7 @@ func (srv *Account) CreateEmailPasswordSession(Email string, Password string)(*m
 	params["email"] = Email
 	params["password"] = Password
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1549,6 +1586,7 @@ func (srv *Account) UpdateMagicURLSession(UserId string, Secret string)(*models.
 	params["userId"] = UserId
 	params["secret"] = Secret
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1589,6 +1627,7 @@ func (srv *Account) UpdatePhoneSession(UserId string, Secret string)(*models.Ses
 	params["userId"] = UserId
 	params["secret"] = Secret
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1627,6 +1666,7 @@ func (srv *Account) CreateSession(UserId string, Secret string)(*models.Session,
 	params["userId"] = UserId
 	params["secret"] = Secret
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1663,6 +1703,7 @@ func (srv *Account) GetSession(SessionId string)(*models.Session, error) {
 	params := map[string]interface{}{}
 	params["sessionId"] = SessionId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1700,6 +1741,7 @@ func (srv *Account) UpdateSession(SessionId string)(*models.Session, error) {
 	params := map[string]interface{}{}
 	params["sessionId"] = SessionId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1739,6 +1781,7 @@ func (srv *Account) DeleteSession(SessionId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["sessionId"] = SessionId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1773,6 +1816,7 @@ func (srv *Account) UpdateStatus()(*models.User, error) {
 	path := "/account/status"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1844,6 +1888,7 @@ func (srv *Account) CreateEmailToken(UserId string, Email string, optionalSetter
 		params["phrase"] = options.Phrase
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1926,6 +1971,7 @@ func (srv *Account) CreateMagicURLToken(UserId string, Email string, optionalSet
 		params["phrase"] = options.Phrase
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2020,6 +2066,7 @@ func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...Create
 		params["scopes"] = options.Scopes
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -2063,6 +2110,7 @@ func (srv *Account) CreatePhoneToken(UserId string, Phone string)(*models.Token,
 	params["userId"] = UserId
 	params["phone"] = Phone
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2111,6 +2159,7 @@ func (srv *Account) CreateEmailVerification(Url string)(*models.Token, error) {
 	params := map[string]interface{}{}
 	params["url"] = Url
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2161,6 +2210,7 @@ func (srv *Account) CreateVerification(Url string)(*models.Token, error) {
 	params := map[string]interface{}{}
 	params["url"] = Url
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2199,6 +2249,7 @@ func (srv *Account) UpdateEmailVerification(UserId string, Secret string)(*model
 	params["userId"] = UserId
 	params["secret"] = Secret
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2239,6 +2290,7 @@ func (srv *Account) UpdateVerification(UserId string, Secret string)(*models.Tok
 	params["userId"] = UserId
 	params["secret"] = Secret
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2279,6 +2331,7 @@ func (srv *Account) CreatePhoneVerification()(*models.Token, error) {
 	path := "/account/verifications/phone"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2317,6 +2370,7 @@ func (srv *Account) UpdatePhoneVerification(UserId string, Secret string)(*model
 	params["userId"] = UserId
 	params["secret"] = Secret
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 

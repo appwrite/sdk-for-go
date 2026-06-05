@@ -18,7 +18,7 @@ service := databases.New(client)
 response, error := service.ListAttributes(
     "<DATABASE_ID>",
     "<COLLECTION_ID>",
-    databases.WithListAttributesQueries([]interface{}{}),
+    databases.WithListAttributesQueries([]string{}),
     databases.WithListAttributesTotal(false),
 )
 ```

@@ -30,6 +30,7 @@ func (srv *Locale) Get()(*models.Locale, error) {
 	path := "/locale"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -63,6 +64,7 @@ func (srv *Locale) ListCodes()(*models.LocaleCodeList, error) {
 	path := "/locale/codes"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -96,6 +98,7 @@ func (srv *Locale) ListContinents()(*models.ContinentList, error) {
 	path := "/locale/continents"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -129,6 +132,7 @@ func (srv *Locale) ListCountries()(*models.CountryList, error) {
 	path := "/locale/countries"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -162,6 +166,7 @@ func (srv *Locale) ListCountriesEU()(*models.CountryList, error) {
 	path := "/locale/countries/eu"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -195,6 +200,7 @@ func (srv *Locale) ListCountriesPhones()(*models.PhoneList, error) {
 	path := "/locale/countries/phones"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -229,6 +235,7 @@ func (srv *Locale) ListCurrencies()(*models.CurrencyList, error) {
 	path := "/locale/currencies"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -262,6 +269,7 @@ func (srv *Locale) ListLanguages()(*models.LanguageList, error) {
 	path := "/locale/languages"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

@@ -26,7 +26,7 @@ response, error := service.UpdateDocument(
         "age": 33,
         "isAdmin": false
     }),
-    databases.WithUpdateDocumentPermissions(interface{}{"read("any")"}),
+    databases.WithUpdateDocumentPermissions([]string{"read("any")"}),
     databases.WithUpdateDocumentTransactionId("<TRANSACTION_ID>"),
 )
 ```

@@ -72,6 +72,7 @@ func (srv *Teams) List(optionalSetters ...ListOption)(*models.TeamList, error) {
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -132,6 +133,7 @@ func (srv *Teams) Create(TeamId string, Name string, optionalSetters ...CreateOp
 		params["roles"] = options.Roles
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -168,6 +170,7 @@ func (srv *Teams) Get(TeamId string)(*models.Team, error) {
 	params := map[string]interface{}{}
 	params["teamId"] = TeamId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -203,6 +206,7 @@ func (srv *Teams) UpdateName(TeamId string, Name string)(*models.Team, error) {
 	params["teamId"] = TeamId
 	params["name"] = Name
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -239,6 +243,7 @@ func (srv *Teams) Delete(TeamId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["teamId"] = TeamId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -321,6 +326,7 @@ func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembersh
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -443,6 +449,7 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetter
 		params["name"] = options.Name
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -481,6 +488,7 @@ func (srv *Teams) GetMembership(TeamId string, MembershipId string)(*models.Memb
 	params["teamId"] = TeamId
 	params["membershipId"] = MembershipId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -519,6 +527,7 @@ func (srv *Teams) UpdateMembership(TeamId string, MembershipId string, Roles []s
 	params["membershipId"] = MembershipId
 	params["roles"] = Roles
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -557,6 +566,7 @@ func (srv *Teams) DeleteMembership(TeamId string, MembershipId string)(*interfac
 	params["teamId"] = TeamId
 	params["membershipId"] = MembershipId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -599,6 +609,7 @@ func (srv *Teams) UpdateMembershipStatus(TeamId string, MembershipId string, Use
 	params["userId"] = UserId
 	params["secret"] = Secret
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -637,6 +648,7 @@ func (srv *Teams) GetPrefs(TeamId string)(*models.Preferences, error) {
 	params := map[string]interface{}{}
 	params["teamId"] = TeamId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -674,6 +686,7 @@ func (srv *Teams) UpdatePrefs(TeamId string, Prefs interface{})(*models.Preferen
 	params["teamId"] = TeamId
 	params["prefs"] = Prefs
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 

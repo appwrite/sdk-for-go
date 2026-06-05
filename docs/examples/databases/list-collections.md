@@ -17,7 +17,7 @@ service := databases.New(client)
 
 response, error := service.ListCollections(
     "<DATABASE_ID>",
-    databases.WithListCollectionsQueries([]interface{}{}),
+    databases.WithListCollectionsQueries([]string{}),
     databases.WithListCollectionsSearch("<SEARCH>"),
     databases.WithListCollectionsTotal(false),
 )

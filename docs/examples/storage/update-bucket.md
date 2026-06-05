@@ -18,11 +18,11 @@ service := storage.New(client)
 response, error := service.UpdateBucket(
     "<BUCKET_ID>",
     "<NAME>",
-    storage.WithUpdateBucketPermissions(interface{}{"read("any")"}),
+    storage.WithUpdateBucketPermissions([]string{"read("any")"}),
     storage.WithUpdateBucketFileSecurity(false),
     storage.WithUpdateBucketEnabled(false),
     storage.WithUpdateBucketMaximumFileSize(1),
-    storage.WithUpdateBucketAllowedFileExtensions([]interface{}{}),
+    storage.WithUpdateBucketAllowedFileExtensions([]string{}),
     storage.WithUpdateBucketCompression("none"),
     storage.WithUpdateBucketEncryption(false),
     storage.WithUpdateBucketAntivirus(false),

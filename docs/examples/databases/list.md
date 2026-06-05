@@ -16,7 +16,7 @@ client := client.New(
 service := databases.New(client)
 
 response, error := service.List(
-    databases.WithListQueries([]interface{}{}),
+    databases.WithListQueries([]string{}),
     databases.WithListSearch("<SEARCH>"),
     databases.WithListTotal(false),
 )

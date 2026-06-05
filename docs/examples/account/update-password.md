@@ -17,6 +17,6 @@ service := account.New(client)
 
 response, error := service.UpdatePassword(
     "",
-    account.WithUpdatePasswordOldPassword("password"),
+    account.WithUpdatePasswordOldPassword("<OLD_PASSWORD>"),
 )
 ```

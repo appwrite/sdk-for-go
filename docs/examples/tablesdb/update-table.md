@@ -19,7 +19,7 @@ response, error := service.UpdateTable(
     "<DATABASE_ID>",
     "<TABLE_ID>",
     tablesdb.WithUpdateTableName("<NAME>"),
-    tablesdb.WithUpdateTablePermissions(interface{}{"read("any")"}),
+    tablesdb.WithUpdateTablePermissions([]string{"read("any")"}),
     tablesdb.WithUpdateTableRowSecurity(false),
     tablesdb.WithUpdateTableEnabled(false),
     tablesdb.WithUpdateTablePurge(false),

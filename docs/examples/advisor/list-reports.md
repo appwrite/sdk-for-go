@@ -16,7 +16,7 @@ client := client.New(
 service := advisor.New(client)
 
 response, error := service.ListReports(
-    advisor.WithListReportsQueries([]interface{}{}),
+    advisor.WithListReportsQueries([]string{}),
     advisor.WithListReportsTotal(false),
 )
 ```

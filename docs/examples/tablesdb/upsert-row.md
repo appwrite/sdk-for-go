@@ -26,7 +26,7 @@ response, error := service.UpsertRow(
         "age": 33,
         "isAdmin": false
     }),
-    tablesdb.WithUpsertRowPermissions(interface{}{"read("any")"}),
+    tablesdb.WithUpsertRowPermissions([]string{"read("any")"}),
     tablesdb.WithUpsertRowTransactionId("<TRANSACTION_ID>"),
 )
 ```

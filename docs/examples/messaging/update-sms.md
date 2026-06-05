@@ -17,9 +17,9 @@ service := messaging.New(client)
 
 response, error := service.UpdateSMS(
     "<MESSAGE_ID>",
-    messaging.WithUpdateSMSTopics([]interface{}{}),
-    messaging.WithUpdateSMSUsers([]interface{}{}),
-    messaging.WithUpdateSMSTargets([]interface{}{}),
+    messaging.WithUpdateSMSTopics([]string{}),
+    messaging.WithUpdateSMSUsers([]string{}),
+    messaging.WithUpdateSMSTargets([]string{}),
     messaging.WithUpdateSMSContent("<CONTENT>"),
     messaging.WithUpdateSMSDraft(false),
     messaging.WithUpdateSMSScheduledAt("2020-10-15T06:38:00.000+00:00"),

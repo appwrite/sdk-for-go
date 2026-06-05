@@ -17,7 +17,7 @@ service := users.New(client)
 
 response, error := service.ListTargets(
     "<USER_ID>",
-    users.WithListTargetsQueries([]interface{}{}),
+    users.WithListTargetsQueries([]string{}),
     users.WithListTargetsTotal(false),
 )
 ```

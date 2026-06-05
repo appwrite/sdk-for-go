@@ -16,7 +16,7 @@ client := client.New(
 service := usage.New(client)
 
 response, error := service.ListEvents(
-    usage.WithListEventsQueries([]interface{}{}),
+    usage.WithListEventsQueries([]string{}),
     usage.WithListEventsTotal(false),
 )
 ```

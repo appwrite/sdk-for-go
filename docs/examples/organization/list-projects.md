@@ -16,7 +16,7 @@ client := client.New(
 service := organization.New(client)
 
 response, error := service.ListProjects(
-    organization.WithListProjectsQueries([]interface{}{}),
+    organization.WithListProjectsQueries([]string{}),
     organization.WithListProjectsSearch("<SEARCH>"),
     organization.WithListProjectsTotal(false),
 )

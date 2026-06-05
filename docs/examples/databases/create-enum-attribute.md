@@ -19,7 +19,7 @@ response, error := service.CreateEnumAttribute(
     "<DATABASE_ID>",
     "<COLLECTION_ID>",
     "",
-    []interface{}{},
+    []string{},
     false,
     databases.WithCreateEnumAttributeDefault("<DEFAULT>"),
     databases.WithCreateEnumAttributeArray(false),

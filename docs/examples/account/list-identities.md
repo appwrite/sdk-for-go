@@ -16,7 +16,7 @@ client := client.New(
 service := account.New(client)
 
 response, error := service.ListIdentities(
-    account.WithListIdentitiesQueries([]interface{}{}),
+    account.WithListIdentitiesQueries([]string{}),
     account.WithListIdentitiesTotal(false),
 )
 ```

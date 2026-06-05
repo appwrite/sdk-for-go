@@ -26,7 +26,7 @@ response, error := service.UpsertDocument(
         "age": 30,
         "isAdmin": false
     }),
-    databases.WithUpsertDocumentPermissions(interface{}{"read("any")"}),
+    databases.WithUpsertDocumentPermissions([]string{"read("any")"}),
     databases.WithUpsertDocumentTransactionId("<TRANSACTION_ID>"),
 )
 ```

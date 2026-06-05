@@ -18,6 +18,6 @@ service := teams.New(client)
 response, error := service.UpdateMembership(
     "<TEAM_ID>",
     "<MEMBERSHIP_ID>",
-    []interface{}{},
+    []string{},
 )
 ```

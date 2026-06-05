@@ -16,7 +16,7 @@ client := client.New(
 service := usage.New(client)
 
 response, error := service.ListGauges(
-    usage.WithListGaugesQueries([]interface{}{}),
+    usage.WithListGaugesQueries([]string{}),
     usage.WithListGaugesTotal(false),
 )
 ```

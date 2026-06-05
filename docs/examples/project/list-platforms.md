@@ -16,7 +16,7 @@ client := client.New(
 service := project.New(client)
 
 response, error := service.ListPlatforms(
-    project.WithListPlatformsQueries([]interface{}{}),
+    project.WithListPlatformsQueries([]string{}),
     project.WithListPlatformsTotal(false),
 )
 ```

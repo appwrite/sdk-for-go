@@ -71,6 +71,7 @@ func (srv *Usage) ListEvents(optionalSetters ...ListEventsOption)(*models.UsageE
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -148,6 +149,7 @@ func (srv *Usage) ListGauges(optionalSetters ...ListGaugesOption)(*models.UsageG
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

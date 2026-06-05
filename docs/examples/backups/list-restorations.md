@@ -16,6 +16,6 @@ client := client.New(
 service := backups.New(client)
 
 response, error := service.ListRestorations(
-    backups.WithListRestorationsQueries([]interface{}{}),
+    backups.WithListRestorationsQueries([]string{}),
 )
 ```

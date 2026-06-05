@@ -75,6 +75,7 @@ func (srv *Databases) List(optionalSetters ...ListOption)(*models.DatabaseList, 
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -135,6 +136,7 @@ func (srv *Databases) Create(DatabaseId string, Name string, optionalSetters ...
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -192,6 +194,7 @@ func (srv *Databases) ListTransactions(optionalSetters ...ListTransactionsOption
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -248,6 +251,7 @@ func (srv *Databases) CreateTransaction(optionalSetters ...CreateTransactionOpti
 		params["ttl"] = options.Ttl
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -283,6 +287,7 @@ func (srv *Databases) GetTransaction(TransactionId string)(*models.Transaction, 
 	params := map[string]interface{}{}
 	params["transactionId"] = TransactionId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -353,6 +358,7 @@ func (srv *Databases) UpdateTransaction(TransactionId string, optionalSetters ..
 		params["rollback"] = options.Rollback
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -388,6 +394,7 @@ func (srv *Databases) DeleteTransaction(TransactionId string)(*interface{}, erro
 	params := map[string]interface{}{}
 	params["transactionId"] = TransactionId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -446,6 +453,7 @@ func (srv *Databases) CreateOperations(TransactionId string, optionalSetters ...
 		params["operations"] = options.Operations
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -484,6 +492,7 @@ func (srv *Databases) Get(DatabaseId string)(*models.Database, error) {
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -555,6 +564,7 @@ func (srv *Databases) Update(DatabaseId string, optionalSetters ...UpdateOption)
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -593,6 +603,7 @@ func (srv *Databases) Delete(DatabaseId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["databaseId"] = DatabaseId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -676,6 +687,7 @@ func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...List
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -785,6 +797,7 @@ func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, N
 		params["indexes"] = options.Indexes
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -824,6 +837,7 @@ func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)(*mod
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -929,6 +943,7 @@ func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, o
 		params["purge"] = options.Purge
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -968,6 +983,7 @@ func (srv *Databases) DeleteCollection(DatabaseId string, CollectionId string)(*
 	params["databaseId"] = DatabaseId
 	params["collectionId"] = CollectionId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1040,6 +1056,7 @@ func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string, opt
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1137,6 +1154,7 @@ func (srv *Databases) CreateBigIntAttribute(DatabaseId string, CollectionId stri
 		params["array"] = options.Array
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1225,6 +1243,7 @@ func (srv *Databases) UpdateBigIntAttribute(DatabaseId string, CollectionId stri
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1300,6 +1319,7 @@ func (srv *Databases) CreateBooleanAttribute(DatabaseId string, CollectionId str
 		params["array"] = options.Array
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1366,6 +1386,7 @@ func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId str
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1442,6 +1463,7 @@ func (srv *Databases) CreateDatetimeAttribute(DatabaseId string, CollectionId st
 		params["array"] = options.Array
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1508,6 +1530,7 @@ func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId st
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1583,6 +1606,7 @@ func (srv *Databases) CreateEmailAttribute(DatabaseId string, CollectionId strin
 		params["array"] = options.Array
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1649,6 +1673,7 @@ func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId strin
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1726,6 +1751,7 @@ func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string
 		params["array"] = options.Array
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1793,6 +1819,7 @@ func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1891,6 +1918,7 @@ func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId strin
 		params["array"] = options.Array
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1979,6 +2007,7 @@ func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId strin
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2077,6 +2106,7 @@ func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId str
 		params["array"] = options.Array
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2165,6 +2195,7 @@ func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId str
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2240,6 +2271,7 @@ func (srv *Databases) CreateIpAttribute(DatabaseId string, CollectionId string, 
 		params["array"] = options.Array
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2306,6 +2338,7 @@ func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, 
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2370,6 +2403,7 @@ func (srv *Databases) CreateLineAttribute(DatabaseId string, CollectionId string
 		params["default"] = options.Default
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2446,6 +2480,7 @@ func (srv *Databases) UpdateLineAttribute(DatabaseId string, CollectionId string
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2530,6 +2565,7 @@ func (srv *Databases) CreateLongtextAttribute(DatabaseId string, CollectionId st
 		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2594,6 +2630,7 @@ func (srv *Databases) UpdateLongtextAttribute(DatabaseId string, CollectionId st
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2678,6 +2715,7 @@ func (srv *Databases) CreateMediumtextAttribute(DatabaseId string, CollectionId 
 		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2742,6 +2780,7 @@ func (srv *Databases) UpdateMediumtextAttribute(DatabaseId string, CollectionId 
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2806,6 +2845,7 @@ func (srv *Databases) CreatePointAttribute(DatabaseId string, CollectionId strin
 		params["default"] = options.Default
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2882,6 +2922,7 @@ func (srv *Databases) UpdatePointAttribute(DatabaseId string, CollectionId strin
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2946,6 +2987,7 @@ func (srv *Databases) CreatePolygonAttribute(DatabaseId string, CollectionId str
 		params["default"] = options.Default
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3022,6 +3064,7 @@ func (srv *Databases) UpdatePolygonAttribute(DatabaseId string, CollectionId str
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3121,6 +3164,7 @@ func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionI
 		params["onDelete"] = options.OnDelete
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3197,6 +3241,7 @@ func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionI
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3284,6 +3329,7 @@ func (srv *Databases) CreateStringAttribute(DatabaseId string, CollectionId stri
 		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3361,6 +3407,7 @@ func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId stri
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3445,6 +3492,7 @@ func (srv *Databases) CreateTextAttribute(DatabaseId string, CollectionId string
 		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3509,6 +3557,7 @@ func (srv *Databases) UpdateTextAttribute(DatabaseId string, CollectionId string
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3584,6 +3633,7 @@ func (srv *Databases) CreateUrlAttribute(DatabaseId string, CollectionId string,
 		params["array"] = options.Array
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3650,6 +3700,7 @@ func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string,
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3735,6 +3786,7 @@ func (srv *Databases) CreateVarcharAttribute(DatabaseId string, CollectionId str
 		params["encrypt"] = options.Encrypt
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3810,6 +3862,7 @@ func (srv *Databases) UpdateVarcharAttribute(DatabaseId string, CollectionId str
 		params["newKey"] = options.NewKey
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3849,6 +3902,7 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -3964,6 +4018,7 @@ func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Ke
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4059,6 +4114,7 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 		params["ttl"] = options.Ttl
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4136,6 +4192,7 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4202,6 +4259,7 @@ func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Do
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4268,6 +4326,7 @@ func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, Do
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4354,6 +4413,7 @@ func (srv *Databases) UpdateDocuments(DatabaseId string, CollectionId string, op
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4428,6 +4488,7 @@ func (srv *Databases) DeleteDocuments(DatabaseId string, CollectionId string, op
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4503,6 +4564,7 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4590,6 +4652,7 @@ func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, Doc
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4676,6 +4739,7 @@ func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, Doc
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4739,6 +4803,7 @@ func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, Doc
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4825,6 +4890,7 @@ func (srv *Databases) DecrementDocumentAttribute(DatabaseId string, CollectionId
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4912,6 +4978,7 @@ func (srv *Databases) IncrementDocumentAttribute(DatabaseId string, CollectionId
 		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4985,6 +5052,7 @@ func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string, option
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5062,6 +5130,7 @@ func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key st
 		params["lengths"] = options.Lengths
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5101,6 +5170,7 @@ func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key strin
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5139,6 +5209,7 @@ func (srv *Databases) DeleteIndex(DatabaseId string, CollectionId string, Key st
 	params["collectionId"] = CollectionId
 	params["key"] = Key
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 

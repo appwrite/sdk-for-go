@@ -20,6 +20,6 @@ response, error := service.CreatePointAttribute(
     "<COLLECTION_ID>",
     "",
     false,
-    databases.WithCreatePointAttributeDefault(interface{}{1, 2}),
+    databases.WithCreatePointAttributeDefault([]interface{}{1, 2}),
 )
 ```

@@ -16,7 +16,7 @@ client := client.New(
 service := webhooks.New(client)
 
 response, error := service.List(
-    webhooks.WithListQueries([]interface{}{}),
+    webhooks.WithListQueries([]string{}),
     webhooks.WithListTotal(false),
 )
 ```

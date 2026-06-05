@@ -17,7 +17,7 @@ service := users.New(client)
 
 response, error := service.ListMemberships(
     "<USER_ID>",
-    users.WithListMembershipsQueries([]interface{}{}),
+    users.WithListMembershipsQueries([]string{}),
     users.WithListMembershipsSearch("<SEARCH>"),
     users.WithListMembershipsTotal(false),
 )

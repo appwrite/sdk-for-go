@@ -17,7 +17,7 @@ service := messaging.New(client)
 
 response, error := service.ListSubscribers(
     "<TOPIC_ID>",
-    messaging.WithListSubscribersQueries([]interface{}{}),
+    messaging.WithListSubscribersQueries([]string{}),
     messaging.WithListSubscribersSearch("<SEARCH>"),
     messaging.WithListSubscribersTotal(false),
 )

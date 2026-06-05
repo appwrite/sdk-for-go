@@ -19,7 +19,7 @@ response, error := service.CreateEnumColumn(
     "<DATABASE_ID>",
     "<TABLE_ID>",
     "",
-    []interface{}{},
+    []string{},
     false,
     tablesdb.WithCreateEnumColumnDefault("<DEFAULT>"),
     tablesdb.WithCreateEnumColumnArray(false),

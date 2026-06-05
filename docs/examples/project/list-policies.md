@@ -16,7 +16,7 @@ client := client.New(
 service := project.New(client)
 
 response, error := service.ListPolicies(
-    project.WithListPoliciesQueries([]interface{}{}),
+    project.WithListPoliciesQueries([]string{}),
     project.WithListPoliciesTotal(false),
 )
 ```

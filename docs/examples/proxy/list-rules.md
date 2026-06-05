@@ -16,7 +16,7 @@ client := client.New(
 service := proxy.New(client)
 
 response, error := service.ListRules(
-    proxy.WithListRulesQueries([]interface{}{}),
+    proxy.WithListRulesQueries([]string{}),
     proxy.WithListRulesTotal(false),
 )
 ```

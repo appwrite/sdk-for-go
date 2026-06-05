@@ -17,7 +17,7 @@ service := backups.New(client)
 
 response, error := service.CreatePolicy(
     "<POLICY_ID>",
-    []interface{}{},
+    []string{},
     1,
     "",
     backups.WithCreatePolicyName("<NAME>"),

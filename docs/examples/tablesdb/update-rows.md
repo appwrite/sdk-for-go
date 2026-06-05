@@ -25,7 +25,7 @@ response, error := service.UpdateRows(
         "age": 33,
         "isAdmin": false
     }),
-    tablesdb.WithUpdateRowsQueries([]interface{}{}),
+    tablesdb.WithUpdateRowsQueries([]string{}),
     tablesdb.WithUpdateRowsTransactionId("<TRANSACTION_ID>"),
 )
 ```

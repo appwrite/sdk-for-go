@@ -26,6 +26,7 @@ func (srv *Project) Get()(*models.Project, error) {
 	path := "/project"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -58,6 +59,7 @@ func (srv *Project) Delete()(*interface{}, error) {
 	path := "/project"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -94,6 +96,7 @@ func (srv *Project) UpdateAuthMethod(MethodId string, Enabled bool)(*models.Proj
 	params["methodId"] = MethodId
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -162,6 +165,7 @@ func (srv *Project) ListKeys(optionalSetters ...ListKeysOption)(*models.KeyList,
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -225,6 +229,7 @@ func (srv *Project) CreateKey(KeyId string, Name string, Scopes []string, option
 		params["expire"] = options.Expire
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -265,6 +270,7 @@ func (srv *Project) CreateEphemeralKey(Scopes []string, Duration int)(*models.Ep
 	params["scopes"] = Scopes
 	params["duration"] = Duration
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -300,6 +306,7 @@ func (srv *Project) GetKey(KeyId string)(*models.Key, error) {
 	params := map[string]interface{}{}
 	params["keyId"] = KeyId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -361,6 +368,7 @@ func (srv *Project) UpdateKey(KeyId string, Name string, Scopes []string, option
 		params["expire"] = options.Expire
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -397,6 +405,7 @@ func (srv *Project) DeleteKey(KeyId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["keyId"] = KeyId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -431,6 +440,7 @@ func (srv *Project) UpdateLabels(Labels []string)(*models.Project, error) {
 	params := map[string]interface{}{}
 	params["labels"] = Labels
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -500,6 +510,7 @@ func (srv *Project) ListMockPhones(optionalSetters ...ListMockPhonesOption)(*mod
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -535,6 +546,7 @@ func (srv *Project) CreateMockPhone(Number string, Otp string)(*models.MockNumbe
 	params["number"] = Number
 	params["otp"] = Otp
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -571,6 +583,7 @@ func (srv *Project) GetMockPhone(Number string)(*models.MockNumber, error) {
 	params := map[string]interface{}{}
 	params["number"] = Number
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -607,6 +620,7 @@ func (srv *Project) UpdateMockPhone(Number string, Otp string)(*models.MockNumbe
 	params["number"] = Number
 	params["otp"] = Otp
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -643,6 +657,7 @@ func (srv *Project) DeleteMockPhone(Number string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["number"] = Number
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -712,6 +727,7 @@ func (srv *Project) ListOAuth2Providers(optionalSetters ...ListOAuth2ProvidersOp
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -732,6 +748,121 @@ func (srv *Project) ListOAuth2Providers(optionalSetters ...ListOAuth2ProvidersOp
 	}
 	var parsed models.OAuth2ProviderList
 	parsed, ok := resp.Result.(models.OAuth2ProviderList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateOAuth2ServerOptions struct {
+	Scopes []string
+	AccessTokenDuration int
+	RefreshTokenDuration int
+	PublicAccessTokenDuration int
+	PublicRefreshTokenDuration int
+	ConfidentialPkce bool
+	enabledSetters map[string]bool
+}
+func (options UpdateOAuth2ServerOptions) New() *UpdateOAuth2ServerOptions {
+	options.enabledSetters = map[string]bool{
+		"Scopes": false,
+		"AccessTokenDuration": false,
+		"RefreshTokenDuration": false,
+		"PublicAccessTokenDuration": false,
+		"PublicRefreshTokenDuration": false,
+		"ConfidentialPkce": false,
+	}
+	return &options
+}
+type UpdateOAuth2ServerOption func(*UpdateOAuth2ServerOptions)
+func (srv *Project) WithUpdateOAuth2ServerScopes(v []string) UpdateOAuth2ServerOption {
+	return func(o *UpdateOAuth2ServerOptions) {
+		o.Scopes = v
+		o.enabledSetters["Scopes"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2ServerAccessTokenDuration(v int) UpdateOAuth2ServerOption {
+	return func(o *UpdateOAuth2ServerOptions) {
+		o.AccessTokenDuration = v
+		o.enabledSetters["AccessTokenDuration"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2ServerRefreshTokenDuration(v int) UpdateOAuth2ServerOption {
+	return func(o *UpdateOAuth2ServerOptions) {
+		o.RefreshTokenDuration = v
+		o.enabledSetters["RefreshTokenDuration"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2ServerPublicAccessTokenDuration(v int) UpdateOAuth2ServerOption {
+	return func(o *UpdateOAuth2ServerOptions) {
+		o.PublicAccessTokenDuration = v
+		o.enabledSetters["PublicAccessTokenDuration"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2ServerPublicRefreshTokenDuration(v int) UpdateOAuth2ServerOption {
+	return func(o *UpdateOAuth2ServerOptions) {
+		o.PublicRefreshTokenDuration = v
+		o.enabledSetters["PublicRefreshTokenDuration"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2ServerConfidentialPkce(v bool) UpdateOAuth2ServerOption {
+	return func(o *UpdateOAuth2ServerOptions) {
+		o.ConfidentialPkce = v
+		o.enabledSetters["ConfidentialPkce"] = true
+	}
+}
+					
+// UpdateOAuth2Server update the OAuth2 server (OIDC provider) configuration.
+func (srv *Project) UpdateOAuth2Server(Enabled bool, AuthorizationUrl string, optionalSetters ...UpdateOAuth2ServerOption)(*models.Project, error) {
+	path := "/project/oauth2-server"
+	options := UpdateOAuth2ServerOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["enabled"] = Enabled
+	params["authorizationUrl"] = AuthorizationUrl
+	if options.enabledSetters["Scopes"] {
+		params["scopes"] = options.Scopes
+	}
+	if options.enabledSetters["AccessTokenDuration"] {
+		params["accessTokenDuration"] = options.AccessTokenDuration
+	}
+	if options.enabledSetters["RefreshTokenDuration"] {
+		params["refreshTokenDuration"] = options.RefreshTokenDuration
+	}
+	if options.enabledSetters["PublicAccessTokenDuration"] {
+		params["publicAccessTokenDuration"] = options.PublicAccessTokenDuration
+	}
+	if options.enabledSetters["PublicRefreshTokenDuration"] {
+		params["publicRefreshTokenDuration"] = options.PublicRefreshTokenDuration
+	}
+	if options.enabledSetters["ConfidentialPkce"] {
+		params["confidentialPkce"] = options.ConfidentialPkce
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -790,6 +921,7 @@ func (srv *Project) UpdateOAuth2Amazon(optionalSetters ...UpdateOAuth2AmazonOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -891,6 +1023,7 @@ func (srv *Project) UpdateOAuth2Apple(optionalSetters ...UpdateOAuth2AppleOption
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -981,6 +1114,7 @@ func (srv *Project) UpdateOAuth2Auth0(optionalSetters ...UpdateOAuth2Auth0Option
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1071,6 +1205,7 @@ func (srv *Project) UpdateOAuth2Authentik(optionalSetters ...UpdateOAuth2Authent
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1150,6 +1285,7 @@ func (srv *Project) UpdateOAuth2Autodesk(optionalSetters ...UpdateOAuth2Autodesk
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1229,6 +1365,7 @@ func (srv *Project) UpdateOAuth2Bitbucket(optionalSetters ...UpdateOAuth2Bitbuck
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1308,6 +1445,7 @@ func (srv *Project) UpdateOAuth2Bitly(optionalSetters ...UpdateOAuth2BitlyOption
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1387,6 +1525,7 @@ func (srv *Project) UpdateOAuth2Box(optionalSetters ...UpdateOAuth2BoxOption)(*m
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1467,6 +1606,7 @@ func (srv *Project) UpdateOAuth2Dailymotion(optionalSetters ...UpdateOAuth2Daily
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1546,6 +1686,7 @@ func (srv *Project) UpdateOAuth2Discord(optionalSetters ...UpdateOAuth2DiscordOp
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1625,6 +1766,7 @@ func (srv *Project) UpdateOAuth2Disqus(optionalSetters ...UpdateOAuth2DisqusOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1704,6 +1846,7 @@ func (srv *Project) UpdateOAuth2Dropbox(optionalSetters ...UpdateOAuth2DropboxOp
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1783,6 +1926,7 @@ func (srv *Project) UpdateOAuth2Etsy(optionalSetters ...UpdateOAuth2EtsyOption)(
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1862,6 +2006,7 @@ func (srv *Project) UpdateOAuth2Facebook(optionalSetters ...UpdateOAuth2Facebook
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1941,6 +2086,7 @@ func (srv *Project) UpdateOAuth2Figma(optionalSetters ...UpdateOAuth2FigmaOption
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2031,6 +2177,7 @@ func (srv *Project) UpdateOAuth2FusionAuth(optionalSetters ...UpdateOAuth2Fusion
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2110,6 +2257,7 @@ func (srv *Project) UpdateOAuth2GitHub(optionalSetters ...UpdateOAuth2GitHubOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2200,6 +2348,7 @@ func (srv *Project) UpdateOAuth2Gitlab(optionalSetters ...UpdateOAuth2GitlabOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2290,6 +2439,7 @@ func (srv *Project) UpdateOAuth2Google(optionalSetters ...UpdateOAuth2GoogleOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2391,6 +2541,7 @@ func (srv *Project) UpdateOAuth2Keycloak(optionalSetters ...UpdateOAuth2Keycloak
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2470,6 +2621,7 @@ func (srv *Project) UpdateOAuth2Kick(optionalSetters ...UpdateOAuth2KickOption)(
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2549,6 +2701,7 @@ func (srv *Project) UpdateOAuth2Linkedin(optionalSetters ...UpdateOAuth2Linkedin
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2639,6 +2792,7 @@ func (srv *Project) UpdateOAuth2Microsoft(optionalSetters ...UpdateOAuth2Microso
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2718,6 +2872,7 @@ func (srv *Project) UpdateOAuth2Notion(optionalSetters ...UpdateOAuth2NotionOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2841,6 +2996,7 @@ func (srv *Project) UpdateOAuth2Oidc(optionalSetters ...UpdateOAuth2OidcOption)(
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -2942,6 +3098,7 @@ func (srv *Project) UpdateOAuth2Okta(optionalSetters ...UpdateOAuth2OktaOption)(
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3021,6 +3178,7 @@ func (srv *Project) UpdateOAuth2Paypal(optionalSetters ...UpdateOAuth2PaypalOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3101,6 +3259,7 @@ func (srv *Project) UpdateOAuth2PaypalSandbox(optionalSetters ...UpdateOAuth2Pay
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3180,6 +3339,7 @@ func (srv *Project) UpdateOAuth2Podio(optionalSetters ...UpdateOAuth2PodioOption
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3259,6 +3419,7 @@ func (srv *Project) UpdateOAuth2Salesforce(optionalSetters ...UpdateOAuth2Salesf
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3338,6 +3499,7 @@ func (srv *Project) UpdateOAuth2Slack(optionalSetters ...UpdateOAuth2SlackOption
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3417,6 +3579,7 @@ func (srv *Project) UpdateOAuth2Spotify(optionalSetters ...UpdateOAuth2SpotifyOp
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3496,6 +3659,7 @@ func (srv *Project) UpdateOAuth2Stripe(optionalSetters ...UpdateOAuth2StripeOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3575,6 +3739,7 @@ func (srv *Project) UpdateOAuth2Tradeshift(optionalSetters ...UpdateOAuth2Trades
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3655,6 +3820,7 @@ func (srv *Project) UpdateOAuth2TradeshiftSandbox(optionalSetters ...UpdateOAuth
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3734,6 +3900,7 @@ func (srv *Project) UpdateOAuth2Twitch(optionalSetters ...UpdateOAuth2TwitchOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3813,6 +3980,7 @@ func (srv *Project) UpdateOAuth2WordPress(optionalSetters ...UpdateOAuth2WordPre
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3892,6 +4060,7 @@ func (srv *Project) UpdateOAuth2X(optionalSetters ...UpdateOAuth2XOption)(*model
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -3971,6 +4140,7 @@ func (srv *Project) UpdateOAuth2Yahoo(optionalSetters ...UpdateOAuth2YahooOption
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4050,6 +4220,7 @@ func (srv *Project) UpdateOAuth2Yandex(optionalSetters ...UpdateOAuth2YandexOpti
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4129,6 +4300,7 @@ func (srv *Project) UpdateOAuth2Zoho(optionalSetters ...UpdateOAuth2ZohoOption)(
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4208,6 +4380,7 @@ func (srv *Project) UpdateOAuth2Zoom(optionalSetters ...UpdateOAuth2ZoomOption)(
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4245,6 +4418,7 @@ func (srv *Project) GetOAuth2Provider(ProviderId string)(models.Model, error) {
 	params := map[string]interface{}{}
 	params["providerId"] = ProviderId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4630,6 +4804,7 @@ func (srv *Project) ListPlatforms(optionalSetters ...ListPlatformsOption)(*model
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4667,6 +4842,7 @@ func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, Applic
 	params["name"] = Name
 	params["applicationId"] = ApplicationId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4705,6 +4881,7 @@ func (srv *Project) UpdateAndroidPlatform(PlatformId string, Name string, Applic
 	params["name"] = Name
 	params["applicationId"] = ApplicationId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4743,6 +4920,7 @@ func (srv *Project) CreateApplePlatform(PlatformId string, Name string, BundleId
 	params["name"] = Name
 	params["bundleIdentifier"] = BundleIdentifier
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4781,6 +4959,7 @@ func (srv *Project) UpdateApplePlatform(PlatformId string, Name string, BundleId
 	params["name"] = Name
 	params["bundleIdentifier"] = BundleIdentifier
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4819,6 +4998,7 @@ func (srv *Project) CreateLinuxPlatform(PlatformId string, Name string, PackageN
 	params["name"] = Name
 	params["packageName"] = PackageName
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4857,6 +5037,7 @@ func (srv *Project) UpdateLinuxPlatform(PlatformId string, Name string, PackageN
 	params["name"] = Name
 	params["packageName"] = PackageName
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4895,6 +5076,7 @@ func (srv *Project) CreateWebPlatform(PlatformId string, Name string, Hostname s
 	params["name"] = Name
 	params["hostname"] = Hostname
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4933,6 +5115,7 @@ func (srv *Project) UpdateWebPlatform(PlatformId string, Name string, Hostname s
 	params["name"] = Name
 	params["hostname"] = Hostname
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -4971,6 +5154,7 @@ func (srv *Project) CreateWindowsPlatform(PlatformId string, Name string, Packag
 	params["name"] = Name
 	params["packageIdentifierName"] = PackageIdentifierName
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5009,6 +5193,7 @@ func (srv *Project) UpdateWindowsPlatform(PlatformId string, Name string, Packag
 	params["name"] = Name
 	params["packageIdentifierName"] = PackageIdentifierName
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5045,6 +5230,7 @@ func (srv *Project) GetPlatform(PlatformId string)(models.Model, error) {
 	params := map[string]interface{}{}
 	params["platformId"] = PlatformId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5117,6 +5303,7 @@ func (srv *Project) DeletePlatform(PlatformId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["platformId"] = PlatformId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5185,6 +5372,7 @@ func (srv *Project) ListPolicies(optionalSetters ...ListPoliciesOption)(*models.
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5220,6 +5408,7 @@ func (srv *Project) UpdateDenyAliasedEmailPolicy(Enabled bool)(*models.Project, 
 	params := map[string]interface{}{}
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5255,6 +5444,7 @@ func (srv *Project) UpdateDenyDisposableEmailPolicy(Enabled bool)(*models.Projec
 	params := map[string]interface{}{}
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5290,6 +5480,7 @@ func (srv *Project) UpdateDenyFreeEmailPolicy(Enabled bool)(*models.Project, err
 	params := map[string]interface{}{}
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5394,6 +5585,7 @@ func (srv *Project) UpdateMembershipPrivacyPolicy(optionalSetters ...UpdateMembe
 		params["userMFA"] = options.UserMFA
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5431,6 +5623,7 @@ func (srv *Project) UpdatePasswordDictionaryPolicy(Enabled bool)(*models.Project
 	params := map[string]interface{}{}
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5474,6 +5667,7 @@ func (srv *Project) UpdatePasswordHistoryPolicy(Total int)(*models.Project, erro
 	params := map[string]interface{}{}
 	params["total"] = Total
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5511,6 +5705,7 @@ func (srv *Project) UpdatePasswordPersonalDataPolicy(Enabled bool)(*models.Proje
 	params := map[string]interface{}{}
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5538,6 +5733,109 @@ func (srv *Project) UpdatePasswordPersonalDataPolicy(Enabled bool)(*models.Proje
 	return &parsed, nil
 
 }
+type UpdatePasswordStrengthPolicyOptions struct {
+	Min int
+	Uppercase bool
+	Lowercase bool
+	Number bool
+	Symbols bool
+	enabledSetters map[string]bool
+}
+func (options UpdatePasswordStrengthPolicyOptions) New() *UpdatePasswordStrengthPolicyOptions {
+	options.enabledSetters = map[string]bool{
+		"Min": false,
+		"Uppercase": false,
+		"Lowercase": false,
+		"Number": false,
+		"Symbols": false,
+	}
+	return &options
+}
+type UpdatePasswordStrengthPolicyOption func(*UpdatePasswordStrengthPolicyOptions)
+func (srv *Project) WithUpdatePasswordStrengthPolicyMin(v int) UpdatePasswordStrengthPolicyOption {
+	return func(o *UpdatePasswordStrengthPolicyOptions) {
+		o.Min = v
+		o.enabledSetters["Min"] = true
+	}
+}
+func (srv *Project) WithUpdatePasswordStrengthPolicyUppercase(v bool) UpdatePasswordStrengthPolicyOption {
+	return func(o *UpdatePasswordStrengthPolicyOptions) {
+		o.Uppercase = v
+		o.enabledSetters["Uppercase"] = true
+	}
+}
+func (srv *Project) WithUpdatePasswordStrengthPolicyLowercase(v bool) UpdatePasswordStrengthPolicyOption {
+	return func(o *UpdatePasswordStrengthPolicyOptions) {
+		o.Lowercase = v
+		o.enabledSetters["Lowercase"] = true
+	}
+}
+func (srv *Project) WithUpdatePasswordStrengthPolicyNumber(v bool) UpdatePasswordStrengthPolicyOption {
+	return func(o *UpdatePasswordStrengthPolicyOptions) {
+		o.Number = v
+		o.enabledSetters["Number"] = true
+	}
+}
+func (srv *Project) WithUpdatePasswordStrengthPolicySymbols(v bool) UpdatePasswordStrengthPolicyOption {
+	return func(o *UpdatePasswordStrengthPolicyOptions) {
+		o.Symbols = v
+		o.enabledSetters["Symbols"] = true
+	}
+}
+	
+// UpdatePasswordStrengthPolicy update the password strength requirements for
+// users in the project.
+func (srv *Project) UpdatePasswordStrengthPolicy(optionalSetters ...UpdatePasswordStrengthPolicyOption)(*models.PolicyPasswordStrength, error) {
+	path := "/project/policies/password-strength"
+	options := UpdatePasswordStrengthPolicyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Min"] {
+		params["min"] = options.Min
+	}
+	if options.enabledSetters["Uppercase"] {
+		params["uppercase"] = options.Uppercase
+	}
+	if options.enabledSetters["Lowercase"] {
+		params["lowercase"] = options.Lowercase
+	}
+	if options.enabledSetters["Number"] {
+		params["number"] = options.Number
+	}
+	if options.enabledSetters["Symbols"] {
+		params["symbols"] = options.Symbols
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.PolicyPasswordStrength{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.PolicyPasswordStrength
+	parsed, ok := resp.Result.(models.PolicyPasswordStrength)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 	
 // UpdateSessionAlertPolicy updating this policy allows you to control if
 // email alert is sent upon session creation. When enabled, and user signs
@@ -5549,6 +5847,7 @@ func (srv *Project) UpdateSessionAlertPolicy(Enabled bool)(*models.Project, erro
 	params := map[string]interface{}{}
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5584,6 +5883,7 @@ func (srv *Project) UpdateSessionDurationPolicy(Duration int)(*models.Project, e
 	params := map[string]interface{}{}
 	params["duration"] = Duration
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5621,6 +5921,7 @@ func (srv *Project) UpdateSessionInvalidationPolicy(Enabled bool)(*models.Projec
 	params := map[string]interface{}{}
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5657,6 +5958,7 @@ func (srv *Project) UpdateSessionLimitPolicy(Total int)(*models.Project, error) 
 	params := map[string]interface{}{}
 	params["total"] = Total
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5693,6 +5995,7 @@ func (srv *Project) UpdateUserLimitPolicy(Total int)(*models.Project, error) {
 	params := map[string]interface{}{}
 	params["total"] = Total
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5729,6 +6032,7 @@ func (srv *Project) GetPolicy(PolicyId string)(models.Model, error) {
 	params := map[string]interface{}{}
 	params["policyId"] = PolicyId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5752,6 +6056,14 @@ func (srv *Project) GetPolicy(PolicyId string)(models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "password-history" {
 			parsed := models.PolicyPasswordHistory{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "password-strength" {
+			parsed := models.PolicyPasswordStrength{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}
@@ -5858,6 +6170,7 @@ func (srv *Project) UpdateProtocol(ProtocolId string, Enabled bool)(*models.Proj
 	params["protocolId"] = ProtocolId
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -5895,6 +6208,7 @@ func (srv *Project) UpdateService(ServiceId string, Enabled bool)(*models.Projec
 	params["serviceId"] = ServiceId
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -6053,6 +6367,7 @@ func (srv *Project) UpdateSMTP(optionalSetters ...UpdateSMTPOption)(*models.Proj
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -6087,6 +6402,7 @@ func (srv *Project) CreateSMTPTest(Emails []string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["emails"] = Emails
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -6156,6 +6472,7 @@ func (srv *Project) ListEmailTemplates(optionalSetters ...ListEmailTemplatesOpti
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -6280,6 +6597,7 @@ func (srv *Project) UpdateEmailTemplate(TemplateId string, optionalSetters ...Up
 		params["replyToName"] = options.ReplyToName
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -6341,6 +6659,7 @@ func (srv *Project) GetEmailTemplate(TemplateId string, optionalSetters ...GetEm
 		params["locale"] = options.Locale
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -6408,6 +6727,7 @@ func (srv *Project) ListVariables(optionalSetters ...ListVariablesOption)(*model
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -6468,6 +6788,7 @@ func (srv *Project) CreateVariable(VariableId string, Key string, Value string, 
 		params["secret"] = options.Secret
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -6503,6 +6824,7 @@ func (srv *Project) GetVariable(VariableId string)(*models.Variable, error) {
 	params := map[string]interface{}{}
 	params["variableId"] = VariableId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -6583,6 +6905,7 @@ func (srv *Project) UpdateVariable(VariableId string, optionalSetters ...UpdateV
 		params["secret"] = options.Secret
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -6618,6 +6941,7 @@ func (srv *Project) DeleteVariable(VariableId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["variableId"] = VariableId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
