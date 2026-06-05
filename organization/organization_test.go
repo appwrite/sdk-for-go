@@ -194,6 +194,7 @@ func TestOrganization(t *testing.T) {
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
             "name": "New Project",
             "teamId": "1592981250",
+            "region": "fra",
             "devKeys": [
                 {
                     "$id": "5e5ea5c16897e",
@@ -238,7 +239,6 @@ func TestOrganization(t *testing.T) {
                     "enabled": true
                 }
             ],
-            "region": "fra",
             "blocks": [
                 {
                     "$createdAt": "2020-10-15T06:38:00.000+00:00",
@@ -251,7 +251,16 @@ func TestOrganization(t *testing.T) {
                     "billingPlan": "pro"
                 }
             ],
-            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+            "oAuth2ServerEnabled": true,
+            "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
+            "oAuth2ServerScopes": [],
+            "oAuth2ServerAccessTokenDuration": 3600,
+            "oAuth2ServerRefreshTokenDuration": 86400,
+            "oAuth2ServerPublicAccessTokenDuration": 3600,
+            "oAuth2ServerPublicRefreshTokenDuration": 2592000,
+            "oAuth2ServerConfidentialPkce": true,
+            "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
         }
     ]
 }
@@ -284,6 +293,7 @@ func TestOrganization(t *testing.T) {
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
     "teamId": "1592981250",
+    "region": "fra",
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -328,7 +338,6 @@ func TestOrganization(t *testing.T) {
             "enabled": true
         }
     ],
-    "region": "fra",
     "blocks": [
         {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
@@ -341,7 +350,16 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "oAuth2ServerEnabled": true,
+    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
+    "oAuth2ServerScopes": [],
+    "oAuth2ServerAccessTokenDuration": 3600,
+    "oAuth2ServerRefreshTokenDuration": 86400,
+    "oAuth2ServerPublicAccessTokenDuration": 3600,
+    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
+    "oAuth2ServerConfidentialPkce": true,
+    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
 }
 `
 
@@ -372,6 +390,7 @@ func TestOrganization(t *testing.T) {
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
     "teamId": "1592981250",
+    "region": "fra",
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -416,7 +435,6 @@ func TestOrganization(t *testing.T) {
             "enabled": true
         }
     ],
-    "region": "fra",
     "blocks": [
         {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
@@ -429,7 +447,16 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "oAuth2ServerEnabled": true,
+    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
+    "oAuth2ServerScopes": [],
+    "oAuth2ServerAccessTokenDuration": 3600,
+    "oAuth2ServerRefreshTokenDuration": 86400,
+    "oAuth2ServerPublicAccessTokenDuration": 3600,
+    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
+    "oAuth2ServerConfidentialPkce": true,
+    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
 }
 `
 
@@ -460,6 +487,7 @@ func TestOrganization(t *testing.T) {
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "name": "New Project",
     "teamId": "1592981250",
+    "region": "fra",
     "devKeys": [
         {
             "$id": "5e5ea5c16897e",
@@ -504,7 +532,6 @@ func TestOrganization(t *testing.T) {
             "enabled": true
         }
     ],
-    "region": "fra",
     "blocks": [
         {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
@@ -517,7 +544,16 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "oAuth2ServerEnabled": true,
+    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
+    "oAuth2ServerScopes": [],
+    "oAuth2ServerAccessTokenDuration": 3600,
+    "oAuth2ServerRefreshTokenDuration": 86400,
+    "oAuth2ServerPublicAccessTokenDuration": 3600,
+    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
+    "oAuth2ServerConfidentialPkce": true,
+    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
 }
 `
 

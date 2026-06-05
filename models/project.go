@@ -17,6 +17,8 @@ type Project struct {
     Name string `json:"name"`
     // Project team ID.
     TeamId string `json:"teamId"`
+    // Project region
+    Region string `json:"region"`
     // Deprecated since 1.9.5: List of dev keys.
     DevKeys []DevKey `json:"devKeys"`
     // Status for custom SMTP
@@ -54,15 +56,35 @@ type Project struct {
     Services []ProjectService `json:"services"`
     // List of protocols.
     Protocols []ProjectProtocol `json:"protocols"`
-    // Project region
-    Region string `json:"region"`
-    // Billing limits reached
-    BillingLimits BillingLimits `json:"billingLimits"`
     // Project blocks information
     Blocks []Block `json:"blocks"`
     // Last time the project was accessed via console. Used with plan's
     // projectInactivityDays to determine if project is paused.
     ConsoleAccessedAt string `json:"consoleAccessedAt"`
+    // Billing limits reached
+    BillingLimits BillingLimits `json:"billingLimits"`
+    // OAuth2 server status
+    OAuth2ServerEnabled bool `json:"oAuth2ServerEnabled"`
+    // OAuth2 server authorization URL
+    OAuth2ServerAuthorizationUrl string `json:"oAuth2ServerAuthorizationUrl"`
+    // OAuth2 server allowed scopes
+    OAuth2ServerScopes []string `json:"oAuth2ServerScopes"`
+    // OAuth2 server access token duration in seconds for confidential clients
+    OAuth2ServerAccessTokenDuration int `json:"oAuth2ServerAccessTokenDuration"`
+    // OAuth2 server refresh token duration in seconds for confidential clients
+    OAuth2ServerRefreshTokenDuration int `json:"oAuth2ServerRefreshTokenDuration"`
+    // OAuth2 server access token duration in seconds for public clients (SPAs,
+    // mobile, native)
+    OAuth2ServerPublicAccessTokenDuration int `json:"oAuth2ServerPublicAccessTokenDuration"`
+    // OAuth2 server refresh token duration in seconds for public clients (SPAs,
+    // mobile, native)
+    OAuth2ServerPublicRefreshTokenDuration int `json:"oAuth2ServerPublicRefreshTokenDuration"`
+    // When enabled, PKCE is required for confidential clients (server-side flows
+    // using client_secret). PKCE is always required for public clients regardless
+    // of this setting.
+    OAuth2ServerConfidentialPkce bool `json:"oAuth2ServerConfidentialPkce"`
+    // OAuth2 server discovery URL
+    OAuth2ServerDiscoveryUrl string `json:"oAuth2ServerDiscoveryUrl"`
 
     // Used by Decode() method
     data []byte

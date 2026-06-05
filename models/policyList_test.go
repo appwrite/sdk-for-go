@@ -6,7 +6,7 @@ import (
 )
 
 func TestPolicyListModel(t *testing.T) {
-    model := PolicyList{        Total: 9,        Policies: []interface{}{},    }
+    model := PolicyList{        Total: 10,        Policies: []interface{}{},    }
 
     data, err := json.Marshal(model)
     if err != nil {

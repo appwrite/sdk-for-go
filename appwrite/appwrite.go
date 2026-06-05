@@ -148,7 +148,7 @@ func WithChunkSize(size int64) client.ClientOption {
 // Your project ID
 func WithProject(value string) client.ClientOption {
 	return func(clt *client.Client) error {
-		clt.Headers["X-Appwrite-Project"] = value
+		clt.Config["project"] = value
 		return nil
 	}
 }
@@ -157,6 +157,7 @@ func WithProject(value string) client.ClientOption {
 // Your secret API key
 func WithKey(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["key"] = value
 		clt.Headers["X-Appwrite-Key"] = value
 		return nil
 	}
@@ -166,6 +167,7 @@ func WithKey(value string) client.ClientOption {
 // Your secret JSON Web Token
 func WithJWT(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["jwt"] = value
 		clt.Headers["X-Appwrite-JWT"] = value
 		return nil
 	}
@@ -173,6 +175,7 @@ func WithJWT(value string) client.ClientOption {
 // Helper method to construct NewClient()
 func WithLocale(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["locale"] = value
 		clt.Headers["X-Appwrite-Locale"] = value
 		return nil
 	}
@@ -182,6 +185,7 @@ func WithLocale(value string) client.ClientOption {
 // The user session to authenticate with
 func WithSession(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["session"] = value
 		clt.Headers["X-Appwrite-Session"] = value
 		return nil
 	}
@@ -191,6 +195,7 @@ func WithSession(value string) client.ClientOption {
 // The user agent string of the client that made the request
 func WithForwardedUserAgent(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["forwardeduseragent"] = value
 		clt.Headers["X-Forwarded-User-Agent"] = value
 		return nil
 	}
@@ -200,6 +205,7 @@ func WithForwardedUserAgent(value string) client.ClientOption {
 // Your secret dev API key
 func WithDevKey(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["devkey"] = value
 		clt.Headers["X-Appwrite-Dev-Key"] = value
 		return nil
 	}
@@ -209,6 +215,7 @@ func WithDevKey(value string) client.ClientOption {
 // The user cookie to authenticate with. Used by SDKs that forward an incoming Cookie header in server-side runtimes.
 func WithCookie(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["cookie"] = value
 		clt.Headers["Cookie"] = value
 		return nil
 	}
@@ -218,6 +225,7 @@ func WithCookie(value string) client.ClientOption {
 // Impersonate a user by ID on an already user-authenticated request. Requires the current request to be authenticated as a user with impersonator capability; X-Appwrite-Key alone is not sufficient. Impersonator users are intentionally granted users.read so they can discover a target before impersonation begins. Internal audit logs still attribute actions to the original impersonator and record the impersonated target only in internal audit payload data.
 func WithImpersonateUserId(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["impersonateuserid"] = value
 		clt.Headers["X-Appwrite-Impersonate-User-Id"] = value
 		return nil
 	}
@@ -227,6 +235,7 @@ func WithImpersonateUserId(value string) client.ClientOption {
 // Impersonate a user by email on an already user-authenticated request. Requires the current request to be authenticated as a user with impersonator capability; X-Appwrite-Key alone is not sufficient. Impersonator users are intentionally granted users.read so they can discover a target before impersonation begins. Internal audit logs still attribute actions to the original impersonator and record the impersonated target only in internal audit payload data.
 func WithImpersonateUserEmail(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["impersonateuseremail"] = value
 		clt.Headers["X-Appwrite-Impersonate-User-Email"] = value
 		return nil
 	}
@@ -236,6 +245,7 @@ func WithImpersonateUserEmail(value string) client.ClientOption {
 // Impersonate a user by phone on an already user-authenticated request. Requires the current request to be authenticated as a user with impersonator capability; X-Appwrite-Key alone is not sufficient. Impersonator users are intentionally granted users.read so they can discover a target before impersonation begins. Internal audit logs still attribute actions to the original impersonator and record the impersonated target only in internal audit payload data.
 func WithImpersonateUserPhone(value string) client.ClientOption {
 	return func(clt *client.Client) error {
+		clt.Config["impersonateuserphone"] = value
 		clt.Headers["X-Appwrite-Impersonate-User-Phone"] = value
 		return nil
 	}

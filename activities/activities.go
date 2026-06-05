@@ -49,6 +49,7 @@ func (srv *Activities) ListEvents(optionalSetters ...ListEventsOption)(*models.A
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -83,6 +84,7 @@ func (srv *Activities) GetEvent(EventId string)(*models.ActivityEvent, error) {
 	params := map[string]interface{}{}
 	params["eventId"] = EventId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

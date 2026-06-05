@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2ZohoModel(t *testing.T) {
-    model := OAuth2Zoho{        Id: "github",        Enabled: true,        ClientId: "1000.83C178000000000000000000RPNX0B",        ClientSecret: "your-oauth2-client-secret",    }
+    model := OAuth2Zoho{        Id: "github",        Enabled: true,        ClientId: "1000.83C178000000000000000000RPNX0B",        ClientSecret: "fb5cac000000000000000000000000000000a68f6e",    }
 
     data, err := json.Marshal(model)
     if err != nil {

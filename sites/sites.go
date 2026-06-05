@@ -75,6 +75,7 @@ func (srv *Sites) List(optionalSetters ...ListOption)(*models.SiteList, error) {
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -333,6 +334,7 @@ func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRunt
 		params["deploymentRetention"] = options.DeploymentRetention
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -367,6 +369,7 @@ func (srv *Sites) ListFrameworks()(*models.FrameworkList, error) {
 	path := "/sites/frameworks"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -399,6 +402,7 @@ func (srv *Sites) ListSpecifications()(*models.SpecificationList, error) {
 	path := "/sites/specifications"
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -433,6 +437,7 @@ func (srv *Sites) Get(SiteId string)(*models.Site, error) {
 	params := map[string]interface{}{}
 	params["siteId"] = SiteId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -702,6 +707,7 @@ func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalS
 		params["deploymentRetention"] = options.DeploymentRetention
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -737,6 +743,7 @@ func (srv *Sites) Delete(SiteId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["siteId"] = SiteId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -774,6 +781,7 @@ func (srv *Sites) UpdateSiteDeployment(SiteId string, DeploymentId string)(*mode
 	params["siteId"] = SiteId
 	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -856,6 +864,7 @@ func (srv *Sites) ListDeployments(SiteId string, optionalSetters ...ListDeployme
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -951,6 +960,7 @@ func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, optionalS
 		params["activate"] = options.Activate
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "multipart/form-data",
 	}
 
@@ -993,6 +1003,7 @@ func (srv *Sites) CreateDuplicateDeployment(SiteId string, DeploymentId string)(
 	params["siteId"] = SiteId
 	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1061,6 +1072,7 @@ func (srv *Sites) CreateTemplateDeployment(SiteId string, Repository string, Own
 		params["activate"] = options.Activate
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1124,6 +1136,7 @@ func (srv *Sites) CreateVcsDeployment(SiteId string, Type string, Reference stri
 		params["activate"] = options.Activate
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1160,6 +1173,7 @@ func (srv *Sites) GetDeployment(SiteId string, DeploymentId string)(*models.Depl
 	params["siteId"] = SiteId
 	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1195,6 +1209,7 @@ func (srv *Sites) DeleteDeployment(SiteId string, DeploymentId string)(*interfac
 	params["siteId"] = SiteId
 	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1257,6 +1272,7 @@ func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, opti
 		params["type"] = options.Type
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1320,6 +1336,7 @@ func (srv *Sites) UpdateDeploymentStatus(SiteId string, DeploymentId string)(*mo
 	params["siteId"] = SiteId
 	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1391,6 +1408,7 @@ func (srv *Sites) ListLogs(SiteId string, optionalSetters ...ListLogsOption)(*mo
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1426,6 +1444,7 @@ func (srv *Sites) GetLog(SiteId string, LogId string)(*models.Execution, error) 
 	params["siteId"] = SiteId
 	params["logId"] = LogId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1461,6 +1480,7 @@ func (srv *Sites) DeleteLog(SiteId string, LogId string)(*interface{}, error) {
 	params["siteId"] = SiteId
 	params["logId"] = LogId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1530,6 +1550,7 @@ func (srv *Sites) ListVariables(SiteId string, optionalSetters ...ListVariablesO
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1592,6 +1613,7 @@ func (srv *Sites) CreateVariable(SiteId string, VariableId string, Key string, V
 		params["secret"] = options.Secret
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1628,6 +1650,7 @@ func (srv *Sites) GetVariable(SiteId string, VariableId string)(*models.Variable
 	params["siteId"] = SiteId
 	params["variableId"] = VariableId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1709,6 +1732,7 @@ func (srv *Sites) UpdateVariable(SiteId string, VariableId string, optionalSette
 		params["secret"] = options.Secret
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -1745,6 +1769,7 @@ func (srv *Sites) DeleteVariable(SiteId string, VariableId string)(*interface{},
 	params["siteId"] = SiteId
 	params["variableId"] = VariableId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 

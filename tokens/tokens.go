@@ -64,6 +64,7 @@ func (srv *Tokens) List(BucketId string, FileId string, optionalSetters ...ListO
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -124,6 +125,7 @@ func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSette
 		params["expire"] = options.Expire
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -159,6 +161,7 @@ func (srv *Tokens) Get(TokenId string)(*models.ResourceToken, error) {
 	params := map[string]interface{}{}
 	params["tokenId"] = TokenId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -218,6 +221,7 @@ func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption)(*mode
 		params["expire"] = options.Expire
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -253,6 +257,7 @@ func (srv *Tokens) Delete(TokenId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["tokenId"] = TokenId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 

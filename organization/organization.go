@@ -60,6 +60,7 @@ func (srv *Organization) ListKeys(optionalSetters ...ListKeysOption)(*models.Key
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -119,6 +120,7 @@ func (srv *Organization) CreateKey(KeyId string, Name string, Scopes []string, o
 		params["expire"] = options.Expire
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -155,6 +157,7 @@ func (srv *Organization) GetKey(KeyId string)(*models.Key, error) {
 	params := map[string]interface{}{}
 	params["keyId"] = KeyId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -216,6 +219,7 @@ func (srv *Organization) UpdateKey(KeyId string, Name string, Scopes []string, o
 		params["expire"] = options.Expire
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -252,6 +256,7 @@ func (srv *Organization) DeleteKey(KeyId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["keyId"] = KeyId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -331,6 +336,7 @@ func (srv *Organization) ListProjects(optionalSetters ...ListProjectsOption)(*mo
 		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -389,6 +395,7 @@ func (srv *Organization) CreateProject(ProjectId string, Name string, optionalSe
 		params["region"] = options.Region
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -424,6 +431,7 @@ func (srv *Organization) GetProject(ProjectId string)(*models.Project, error) {
 	params := map[string]interface{}{}
 	params["projectId"] = ProjectId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -459,6 +467,7 @@ func (srv *Organization) UpdateProject(ProjectId string, Name string)(*models.Pr
 	params["projectId"] = ProjectId
 	params["name"] = Name
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -494,6 +503,7 @@ func (srv *Organization) DeleteProject(ProjectId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["projectId"] = ProjectId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 

@@ -4,19 +4,16 @@ package main
 import (
     "fmt"
     "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/account"
+    "github.com/appwrite/sdk-for-go/v5/health"
 )
 
 client := client.New(
     client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
     client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithSession("")
+    client.WithKey("<YOUR_API_KEY>")
 )
 
-service := account.New(client)
+service := health.New(client)
 
-response, error := service.UpdatePassword(
-    "",
-    account.WithUpdatePasswordOldPassword("<OLD_PASSWORD>"),
-)
+response, error := service.GetAuditsDB())
 ```

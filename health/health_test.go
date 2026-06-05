@@ -71,6 +71,39 @@ func TestHealth(t *testing.T) {
 		}
 	})
 
+	t.Run("Test GetAuditsDB", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "statuses": [
+        {
+            "name": "database",
+            "ping": 128,
+            "status": "pass"
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetAuditsDB()
+		if err != nil {
+			t.Errorf("Method GetAuditsDB failed: %v", err)
+		}
+	})
+
 	t.Run("Test GetCache", func(t *testing.T) {
 		mockResponse := `
 {

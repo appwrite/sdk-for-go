@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2WordPressModel(t *testing.T) {
-    model := OAuth2WordPress{        Id: "github",        Enabled: true,        ClientId: "130005",        ClientSecret: "your-oauth2-client-secret",    }
+    model := OAuth2WordPress{        Id: "github",        Enabled: true,        ClientId: "130005",        ClientSecret: "PlBfJS0000000000000000000000000000000000000000000000000000EdUZJk",    }
 
     data, err := json.Marshal(model)
     if err != nil {

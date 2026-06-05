@@ -49,6 +49,7 @@ func (srv *Backups) ListArchives(optionalSetters ...ListArchivesOption)(*models.
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -106,6 +107,7 @@ func (srv *Backups) CreateArchive(Services []string, optionalSetters ...CreateAr
 		params["resourceId"] = options.ResourceId
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -141,6 +143,7 @@ func (srv *Backups) GetArchive(ArchiveId string)(*models.BackupArchive, error) {
 	params := map[string]interface{}{}
 	params["archiveId"] = ArchiveId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -175,6 +178,7 @@ func (srv *Backups) DeleteArchive(ArchiveId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["archiveId"] = ArchiveId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -231,6 +235,7 @@ func (srv *Backups) ListPolicies(optionalSetters ...ListPoliciesOption)(*models.
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -313,6 +318,7 @@ func (srv *Backups) CreatePolicy(PolicyId string, Services []string, Retention i
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -348,6 +354,7 @@ func (srv *Backups) GetPolicy(PolicyId string)(*models.BackupPolicy, error) {
 	params := map[string]interface{}{}
 	params["policyId"] = PolicyId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -439,6 +446,7 @@ func (srv *Backups) UpdatePolicy(PolicyId string, optionalSetters ...UpdatePolic
 		params["enabled"] = options.Enabled
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -474,6 +482,7 @@ func (srv *Backups) DeletePolicy(PolicyId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["policyId"] = PolicyId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -544,6 +553,7 @@ func (srv *Backups) CreateRestoration(ArchiveId string, Services []string, optio
 		params["newResourceName"] = options.NewResourceName
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -601,6 +611,7 @@ func (srv *Backups) ListRestorations(optionalSetters ...ListRestorationsOption)(
 		params["queries"] = options.Queries
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -635,6 +646,7 @@ func (srv *Backups) GetRestoration(RestorationId string)(*models.BackupRestorati
 	params := map[string]interface{}{}
 	params["restorationId"] = RestorationId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

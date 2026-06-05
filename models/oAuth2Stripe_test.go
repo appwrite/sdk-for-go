@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2StripeModel(t *testing.T) {
-    model := OAuth2Stripe{        Id: "github",        Enabled: true,        ClientId: "ca_UKibXX0000000000000000000006byvR",        ApiSecretKey: "your-oauth2-client-secret",    }
+    model := OAuth2Stripe{        Id: "github",        Enabled: true,        ClientId: "ca_UKibXX0000000000000000000006byvR",        ApiSecretKey: "sk_51SfOd000000000000000000000000000000000000000000000000000000000000000000000000000000000000000QGWYfp",    }
 
     data, err := json.Marshal(model)
     if err != nil {

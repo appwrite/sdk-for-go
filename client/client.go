@@ -64,6 +64,7 @@ func (ce *AppwriteError) GetResponse() string {
 type Client struct {
 	Client     *http.Client
 	Headers    map[string]string
+	Config     map[string]string
 	Endpoint   string
 	Timeout    time.Duration
 	SelfSigned bool
@@ -74,11 +75,11 @@ type Client struct {
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.9.5",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v5.0.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v5.1.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "v5.0.0",
+		"x-sdk-version": "v5.1.0",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
@@ -90,6 +91,7 @@ func New(optionalSetters ...ClientOption) Client {
 		Client:    httpClient,
 		Timeout:   defaultTimeout,
 		Headers:   headers,
+		Config:    map[string]string{},
 		ChunkSize: defaultChunkSize,
 	}
 

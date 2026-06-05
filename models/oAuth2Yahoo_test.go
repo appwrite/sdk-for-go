@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2YahooModel(t *testing.T) {
-    model := OAuth2Yahoo{        Id: "github",        Enabled: true,        ClientId: "dj0yJm000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z4PWRm",        ClientSecret: "your-oauth2-client-secret",    }
+    model := OAuth2Yahoo{        Id: "github",        Enabled: true,        ClientId: "dj0yJm000000000000000000000000000000000000000000000000000000000000000000000000000000000000Z4PWRm",        ClientSecret: "cf978f0000000000000000000000000000c5e2e9",    }
 
     data, err := json.Marshal(model)
     if err != nil {

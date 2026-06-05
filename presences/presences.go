@@ -71,6 +71,7 @@ func (srv *Presences) List(optionalSetters ...ListOption)(*models.PresenceList, 
 		params["ttl"] = options.Ttl
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -106,6 +107,7 @@ func (srv *Presences) Get(PresenceId string)(*models.Presence, error) {
 	params := map[string]interface{}{}
 	params["presenceId"] = PresenceId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -188,6 +190,7 @@ func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, op
 		params["metadata"] = options.Metadata
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -293,6 +296,7 @@ func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters .
 		params["purge"] = options.Purge
 	}
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
@@ -328,6 +332,7 @@ func (srv *Presences) Delete(PresenceId string)(*interface{}, error) {
 	params := map[string]interface{}{}
 	params["presenceId"] = PresenceId
 	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
 	}
 
