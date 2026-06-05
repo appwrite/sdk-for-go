@@ -26,7 +26,7 @@ response, error := service.CreateDocument(
         "age": 30,
         "isAdmin": false
     },
-    databases.WithCreateDocumentPermissions(interface{}{"read("any")"}),
+    databases.WithCreateDocumentPermissions([]string{"read("any")"}),
     databases.WithCreateDocumentTransactionId("<TRANSACTION_ID>"),
 )
 ```

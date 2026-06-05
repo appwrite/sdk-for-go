@@ -19,7 +19,7 @@ response, error := service.GetDocument(
     "<DATABASE_ID>",
     "<COLLECTION_ID>",
     "<DOCUMENT_ID>",
-    databases.WithGetDocumentQueries([]interface{}{}),
+    databases.WithGetDocumentQueries([]string{}),
     databases.WithGetDocumentTransactionId("<TRANSACTION_ID>"),
 )
 ```

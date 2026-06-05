@@ -17,7 +17,7 @@ service := backups.New(client)
 
 response, error := service.CreateRestoration(
     "<ARCHIVE_ID>",
-    []interface{}{},
+    []string{},
     backups.WithCreateRestorationNewResourceId("<NEW_RESOURCE_ID>"),
     backups.WithCreateRestorationNewResourceName("<NEW_RESOURCE_NAME>"),
 )

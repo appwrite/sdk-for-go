@@ -18,7 +18,7 @@ service := tokens.New(client)
 response, error := service.List(
     "<BUCKET_ID>",
     "<FILE_ID>",
-    tokens.WithListQueries([]interface{}{}),
+    tokens.WithListQueries([]string{}),
     tokens.WithListTotal(false),
 )
 ```

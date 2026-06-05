@@ -20,8 +20,8 @@ response, error := service.CreateIndex(
     "<TABLE_ID>",
     "",
     "key",
-    []interface{}{},
-    tablesdb.WithCreateIndexOrders([]interface{}{}),
-    tablesdb.WithCreateIndexLengths([]interface{}{}),
+    []string{},
+    tablesdb.WithCreateIndexOrders([]string{}),
+    tablesdb.WithCreateIndexLengths([]int{}),
 )
 ```

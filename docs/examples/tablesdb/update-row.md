@@ -26,7 +26,7 @@ response, error := service.UpdateRow(
         "age": 33,
         "isAdmin": false
     }),
-    tablesdb.WithUpdateRowPermissions(interface{}{"read("any")"}),
+    tablesdb.WithUpdateRowPermissions([]string{"read("any")"}),
     tablesdb.WithUpdateRowTransactionId("<TRANSACTION_ID>"),
 )
 ```

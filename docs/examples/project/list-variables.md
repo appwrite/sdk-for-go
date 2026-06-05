@@ -16,7 +16,7 @@ client := client.New(
 service := project.New(client)
 
 response, error := service.ListVariables(
-    project.WithListVariablesQueries([]interface{}{}),
+    project.WithListVariablesQueries([]string{}),
     project.WithListVariablesTotal(false),
 )
 ```

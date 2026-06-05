@@ -17,7 +17,7 @@ service := advisor.New(client)
 
 response, error := service.ListInsights(
     "<REPORT_ID>",
-    advisor.WithListInsightsQueries([]interface{}{}),
+    advisor.WithListInsightsQueries([]string{}),
     advisor.WithListInsightsTotal(false),
 )
 ```

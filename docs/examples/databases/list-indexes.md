@@ -18,7 +18,7 @@ service := databases.New(client)
 response, error := service.ListIndexes(
     "<DATABASE_ID>",
     "<COLLECTION_ID>",
-    databases.WithListIndexesQueries([]interface{}{}),
+    databases.WithListIndexesQueries([]string{}),
     databases.WithListIndexesTotal(false),
 )
 ```

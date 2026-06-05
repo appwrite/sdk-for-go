@@ -18,7 +18,7 @@ service := project.New(client)
 response, error := service.UpdateOAuth2Server(
     false,
     "https://example.com",
-    project.WithUpdateOAuth2ServerScopes([]interface{}{}),
+    project.WithUpdateOAuth2ServerScopes([]string{}),
     project.WithUpdateOAuth2ServerAccessTokenDuration(60),
     project.WithUpdateOAuth2ServerRefreshTokenDuration(60),
     project.WithUpdateOAuth2ServerPublicAccessTokenDuration(60),

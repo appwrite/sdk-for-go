@@ -18,7 +18,7 @@ service := project.New(client)
 response, error := service.CreateKey(
     "<KEY_ID>",
     "<NAME>",
-    []interface{}{},
+    []string{},
     project.WithCreateKeyExpire("2020-10-15T06:38:00.000+00:00"),
 )
 ```

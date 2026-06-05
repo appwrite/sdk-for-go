@@ -17,7 +17,7 @@ service := sites.New(client)
 
 response, error := service.ListDeployments(
     "<SITE_ID>",
-    sites.WithListDeploymentsQueries([]interface{}{}),
+    sites.WithListDeploymentsQueries([]string{}),
     sites.WithListDeploymentsSearch("<SEARCH>"),
     sites.WithListDeploymentsTotal(false),
 )

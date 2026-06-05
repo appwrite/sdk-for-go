@@ -17,7 +17,7 @@ service := messaging.New(client)
 
 response, error := service.ListProviderLogs(
     "<PROVIDER_ID>",
-    messaging.WithListProviderLogsQueries([]interface{}{}),
+    messaging.WithListProviderLogsQueries([]string{}),
     messaging.WithListProviderLogsTotal(false),
 )
 ```

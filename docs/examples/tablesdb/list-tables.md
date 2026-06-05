@@ -17,7 +17,7 @@ service := tablesdb.New(client)
 
 response, error := service.ListTables(
     "<DATABASE_ID>",
-    tablesdb.WithListTablesQueries([]interface{}{}),
+    tablesdb.WithListTablesQueries([]string{}),
     tablesdb.WithListTablesSearch("<SEARCH>"),
     tablesdb.WithListTablesTotal(false),
 )

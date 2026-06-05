@@ -16,6 +16,6 @@ client := client.New(
 service := project.New(client)
 
 response, error := service.UpdateLabels(
-    []interface{}{},
+    []string{},
 )
 ```

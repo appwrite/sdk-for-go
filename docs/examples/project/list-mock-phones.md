@@ -16,7 +16,7 @@ client := client.New(
 service := project.New(client)
 
 response, error := service.ListMockPhones(
-    project.WithListMockPhonesQueries([]interface{}{}),
+    project.WithListMockPhonesQueries([]string{}),
     project.WithListMockPhonesTotal(false),
 )
 ```

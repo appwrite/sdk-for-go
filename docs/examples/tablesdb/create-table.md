@@ -19,7 +19,7 @@ response, error := service.CreateTable(
     "<DATABASE_ID>",
     "<TABLE_ID>",
     "<NAME>",
-    tablesdb.WithCreateTablePermissions(interface{}{"read("any")"}),
+    tablesdb.WithCreateTablePermissions([]string{"read("any")"}),
     tablesdb.WithCreateTableRowSecurity(false),
     tablesdb.WithCreateTableEnabled(false),
     tablesdb.WithCreateTableColumns([]interface{}{}),

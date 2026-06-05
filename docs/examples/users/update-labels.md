@@ -17,6 +17,6 @@ service := users.New(client)
 
 response, error := service.UpdateLabels(
     "<USER_ID>",
-    []interface{}{},
+    []string{},
 )
 ```

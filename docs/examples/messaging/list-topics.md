@@ -16,7 +16,7 @@ client := client.New(
 service := messaging.New(client)
 
 response, error := service.ListTopics(
-    messaging.WithListTopicsQueries([]interface{}{}),
+    messaging.WithListTopicsQueries([]string{}),
     messaging.WithListTopicsSearch("<SEARCH>"),
     messaging.WithListTopicsTotal(false),
 )

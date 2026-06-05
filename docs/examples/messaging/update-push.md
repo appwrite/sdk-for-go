@@ -17,9 +17,9 @@ service := messaging.New(client)
 
 response, error := service.UpdatePush(
     "<MESSAGE_ID>",
-    messaging.WithUpdatePushTopics([]interface{}{}),
-    messaging.WithUpdatePushUsers([]interface{}{}),
-    messaging.WithUpdatePushTargets([]interface{}{}),
+    messaging.WithUpdatePushTopics([]string{}),
+    messaging.WithUpdatePushUsers([]string{}),
+    messaging.WithUpdatePushTargets([]string{}),
     messaging.WithUpdatePushTitle("<TITLE>"),
     messaging.WithUpdatePushBody("<BODY>"),
     messaging.WithUpdatePushData(map[string]interface{}{}),

@@ -17,7 +17,7 @@ service := messaging.New(client)
 
 response, error := service.ListTargets(
     "<MESSAGE_ID>",
-    messaging.WithListTargetsQueries([]interface{}{}),
+    messaging.WithListTargetsQueries([]string{}),
     messaging.WithListTargetsTotal(false),
 )
 ```

@@ -19,7 +19,7 @@ response, error := service.Update(
     "<WEBHOOK_ID>",
     "<NAME>",
     "",
-    []interface{}{},
+    []string{},
     webhooks.WithUpdateEnabled(false),
     webhooks.WithUpdateTls(false),
     webhooks.WithUpdateAuthUsername("<AUTH_USERNAME>"),

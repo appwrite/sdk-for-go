@@ -19,6 +19,6 @@ response, error := service.CreateOAuth2Token(
     "amazon",
     account.WithCreateOAuth2TokenSuccess("https://example.com"),
     account.WithCreateOAuth2TokenFailure("https://example.com"),
-    account.WithCreateOAuth2TokenScopes([]interface{}{}),
+    account.WithCreateOAuth2TokenScopes([]string{}),
 )
 ```

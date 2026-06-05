@@ -17,7 +17,7 @@ service := teams.New(client)
 
 response, error := service.ListMemberships(
     "<TEAM_ID>",
-    teams.WithListMembershipsQueries([]interface{}{}),
+    teams.WithListMembershipsQueries([]string{}),
     teams.WithListMembershipsSearch("<SEARCH>"),
     teams.WithListMembershipsTotal(false),
 )

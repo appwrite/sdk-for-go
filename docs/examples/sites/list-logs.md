@@ -17,7 +17,7 @@ service := sites.New(client)
 
 response, error := service.ListLogs(
     "<SITE_ID>",
-    sites.WithListLogsQueries([]interface{}{}),
+    sites.WithListLogsQueries([]string{}),
     sites.WithListLogsTotal(false),
 )
 ```

@@ -17,7 +17,7 @@ service := storage.New(client)
 
 response, error := service.ListFiles(
     "<BUCKET_ID>",
-    storage.WithListFilesQueries([]interface{}{}),
+    storage.WithListFilesQueries([]string{}),
     storage.WithListFilesSearch("<SEARCH>"),
     storage.WithListFilesTotal(false),
 )

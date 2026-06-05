@@ -20,6 +20,6 @@ response, error := service.CreatePointColumn(
     "<TABLE_ID>",
     "",
     false,
-    tablesdb.WithCreatePointColumnDefault(interface{}{1, 2}),
+    tablesdb.WithCreatePointColumnDefault([]interface{}{1, 2}),
 )
 ```

@@ -19,7 +19,7 @@ response, error := service.Create(
     "<WEBHOOK_ID>",
     "",
     "<NAME>",
-    []interface{}{},
+    []string{},
     webhooks.WithCreateEnabled(false),
     webhooks.WithCreateTls(false),
     webhooks.WithCreateAuthUsername("<AUTH_USERNAME>"),

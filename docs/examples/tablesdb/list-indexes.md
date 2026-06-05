@@ -18,7 +18,7 @@ service := tablesdb.New(client)
 response, error := service.ListIndexes(
     "<DATABASE_ID>",
     "<TABLE_ID>",
-    tablesdb.WithListIndexesQueries([]interface{}{}),
+    tablesdb.WithListIndexesQueries([]string{}),
     tablesdb.WithListIndexesTotal(false),
 )
 ```

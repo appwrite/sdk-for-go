@@ -18,7 +18,7 @@ service := tablesdb.New(client)
 response, error := service.ListRows(
     "<DATABASE_ID>",
     "<TABLE_ID>",
-    tablesdb.WithListRowsQueries([]interface{}{}),
+    tablesdb.WithListRowsQueries([]string{}),
     tablesdb.WithListRowsTransactionId("<TRANSACTION_ID>"),
     tablesdb.WithListRowsTotal(false),
     tablesdb.WithListRowsTtl(0),

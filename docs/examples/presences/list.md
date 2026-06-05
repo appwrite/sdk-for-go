@@ -16,7 +16,7 @@ client := client.New(
 service := presences.New(client)
 
 response, error := service.List(
-    presences.WithListQueries([]interface{}{}),
+    presences.WithListQueries([]string{}),
     presences.WithListTotal(false),
     presences.WithListTtl(0),
 )

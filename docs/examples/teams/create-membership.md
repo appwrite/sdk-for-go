@@ -17,7 +17,7 @@ service := teams.New(client)
 
 response, error := service.CreateMembership(
     "<TEAM_ID>",
-    []interface{}{},
+    []string{},
     teams.WithCreateMembershipEmail("email@example.com"),
     teams.WithCreateMembershipUserId("<USER_ID>"),
     teams.WithCreateMembershipPhone("+12065550100"),

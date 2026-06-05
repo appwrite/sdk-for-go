@@ -20,6 +20,6 @@ response, error := service.CreateLineAttribute(
     "<COLLECTION_ID>",
     "",
     false,
-    databases.WithCreateLineAttributeDefault(interface{}{[1, 2], [3, 4], [5, 6]}),
+    databases.WithCreateLineAttributeDefault([]interface{}{[1, 2], [3, 4], [5, 6]}),
 )
 ```

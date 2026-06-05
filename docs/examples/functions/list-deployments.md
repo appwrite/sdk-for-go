@@ -17,7 +17,7 @@ service := functions.New(client)
 
 response, error := service.ListDeployments(
     "<FUNCTION_ID>",
-    functions.WithListDeploymentsQueries([]interface{}{}),
+    functions.WithListDeploymentsQueries([]string{}),
     functions.WithListDeploymentsSearch("<SEARCH>"),
     functions.WithListDeploymentsTotal(false),
 )

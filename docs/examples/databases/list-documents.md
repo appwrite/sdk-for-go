@@ -18,7 +18,7 @@ service := databases.New(client)
 response, error := service.ListDocuments(
     "<DATABASE_ID>",
     "<COLLECTION_ID>",
-    databases.WithListDocumentsQueries([]interface{}{}),
+    databases.WithListDocumentsQueries([]string{}),
     databases.WithListDocumentsTransactionId("<TRANSACTION_ID>"),
     databases.WithListDocumentsTotal(false),
     databases.WithListDocumentsTtl(0),

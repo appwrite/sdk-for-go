@@ -16,7 +16,7 @@ client := client.New(
 service := organization.New(client)
 
 response, error := service.ListKeys(
-    organization.WithListKeysQueries([]interface{}{}),
+    organization.WithListKeysQueries([]string{}),
     organization.WithListKeysTotal(false),
 )
 ```

@@ -17,7 +17,7 @@ service := databases.New(client)
 
 response, error := service.CreateOperations(
     "<TRANSACTION_ID>",
-    databases.WithCreateOperationsOperations(interface{}{
+    databases.WithCreateOperationsOperations([]interface{}{
 	    {
 	        "action": "create",
 	        "databaseId": "<DATABASE_ID>",
