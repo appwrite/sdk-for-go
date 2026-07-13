@@ -3,8 +3,8 @@ package backups
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 	"strings"
 )
 
@@ -50,6 +50,7 @@ func (srv *Backups) ListArchives(optionalSetters ...ListArchivesOption)(*models.
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -109,6 +110,7 @@ func (srv *Backups) CreateArchive(Services []string, optionalSetters ...CreateAr
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -144,6 +146,7 @@ func (srv *Backups) GetArchive(ArchiveId string)(*models.BackupArchive, error) {
 	params["archiveId"] = ArchiveId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -180,6 +183,7 @@ func (srv *Backups) DeleteArchive(ArchiveId string)(*interface{}, error) {
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
@@ -236,6 +240,7 @@ func (srv *Backups) ListPolicies(optionalSetters ...ListPoliciesOption)(*models.
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -320,6 +325,7 @@ func (srv *Backups) CreatePolicy(PolicyId string, Services []string, Retention i
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -355,6 +361,7 @@ func (srv *Backups) GetPolicy(PolicyId string)(*models.BackupPolicy, error) {
 	params["policyId"] = PolicyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -448,6 +455,7 @@ func (srv *Backups) UpdatePolicy(PolicyId string, optionalSetters ...UpdatePolic
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -484,6 +492,7 @@ func (srv *Backups) DeletePolicy(PolicyId string)(*interface{}, error) {
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
@@ -512,12 +521,14 @@ func (srv *Backups) DeletePolicy(PolicyId string)(*interface{}, error) {
 type CreateRestorationOptions struct {
 	NewResourceId string
 	NewResourceName string
+	NewSpecification string
 	enabledSetters map[string]bool
 }
 func (options CreateRestorationOptions) New() *CreateRestorationOptions {
 	options.enabledSetters = map[string]bool{
 		"NewResourceId": false,
 		"NewResourceName": false,
+		"NewSpecification": false,
 	}
 	return &options
 }
@@ -534,9 +545,24 @@ func (srv *Backups) WithCreateRestorationNewResourceName(v string) CreateRestora
 		o.enabledSetters["NewResourceName"] = true
 	}
 }
+func (srv *Backups) WithCreateRestorationNewSpecification(v string) CreateRestorationOption {
+	return func(o *CreateRestorationOptions) {
+		o.NewSpecification = v
+		o.enabledSetters["NewSpecification"] = true
+	}
+}
 					
 // CreateRestoration create and trigger a new restoration for a backup on a
 // project.
+// 
+// When restoring a DocumentsDB or VectorsDB database to a new resource, pass
+// `newSpecification` to provision the restored database on a different
+// specification than the archived one (for example, restoring onto a larger
+// or smaller dedicated database). Use `serverless` to restore onto the shared
+// pool, or a dedicated specification slug to restore onto a dedicated
+// database of that size. The specification must be permitted by the
+// organization's plan. `newSpecification` is not supported for
+// legacy/TablesDB databases or for bucket restores.
 func (srv *Backups) CreateRestoration(ArchiveId string, Services []string, optionalSetters ...CreateRestorationOption)(*models.BackupRestoration, error) {
 	path := "/backups/restoration"
 	options := CreateRestorationOptions{}.New()
@@ -552,9 +578,13 @@ func (srv *Backups) CreateRestoration(ArchiveId string, Services []string, optio
 	if options.enabledSetters["NewResourceName"] {
 		params["newResourceName"] = options.NewResourceName
 	}
+	if options.enabledSetters["NewSpecification"] {
+		params["newSpecification"] = options.NewSpecification
+	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -612,6 +642,7 @@ func (srv *Backups) ListRestorations(optionalSetters ...ListRestorationsOption)(
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -647,6 +678,7 @@ func (srv *Backups) GetRestoration(RestorationId string)(*models.BackupRestorati
 	params["restorationId"] = RestorationId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/functions"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/functions"
 )
 
 client := client.New(
@@ -19,5 +19,6 @@ response, error := service.GetDeploymentDownload(
     "<FUNCTION_ID>",
     "<DEPLOYMENT_ID>",
     functions.WithGetDeploymentDownloadType("source"),
+    functions.WithGetDeploymentDownloadToken("<TOKEN>"),
 )
 ```

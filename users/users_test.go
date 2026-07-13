@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v6/client"
 )
 
 func TestUsers(t *testing.T) {
@@ -899,6 +899,7 @@ func TestUsers(t *testing.T) {
             "joined": "2020-10-15T06:38:00.000+00:00",
             "confirm": true,
             "mfa": true,
+            "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
             "roles": []
         }
     ]
@@ -1396,7 +1397,7 @@ func TestUsers(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdatePassword("<USER_ID>", "")
+		_, err := srv.UpdatePassword("<USER_ID>", "password")
 		if err != nil {
 			t.Errorf("Method UpdatePassword failed: %v", err)
 		}

@@ -29,6 +29,9 @@ type BackupPolicy struct {
     Retention int `json:"retention"`
     // Policy backup schedule in CRON format.
     Schedule string `json:"schedule"`
+    // Backup type. Possible values: full (complete database snapshot),
+    // incremental (changes since last backup).
+    Type string `json:"type"`
     // Is this policy enabled.
     Enabled bool `json:"enabled"`
 

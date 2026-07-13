@@ -5,8 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 )
 
 func TestProject(t *testing.T) {
@@ -46,12 +46,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -75,6 +76,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -82,16 +84,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -169,12 +162,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -198,6 +192,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -205,16 +200,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -467,12 +453,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -496,6 +483,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -503,16 +491,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -738,12 +717,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -767,6 +747,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -774,16 +755,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -863,6 +835,35 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateOAuth2Apple()
 		if err != nil {
 			t.Errorf("Method UpdateOAuth2Apple failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2Appwrite", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "6a42000000000000b5a0",
+    "clientSecret": "b86afd000000000000000000000000000000000000000000000000000ced5f93"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Appwrite()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Appwrite failed: %v", err)
 		}
 	})
 
@@ -1522,7 +1523,8 @@ func TestProject(t *testing.T) {
     "wellKnownURL": "https://myoauth.com/.well-known/openid-configuration",
     "authorizationURL": "https://myoauth.com/oauth2/authorize",
     "tokenURL": "https://myoauth.com/oauth2/token",
-    "userInfoURL": "https://myoauth.com/oauth2/userinfo"
+    "userInfoURL": "https://myoauth.com/oauth2/userinfo",
+    "prompt": []
 }
 `
 
@@ -2526,12 +2528,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -2555,6 +2558,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -2562,16 +2566,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -2591,6 +2586,96 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateDenyAliasedEmailPolicy(true)
 		if err != nil {
 			t.Errorf("Method UpdateDenyAliasedEmailPolicy failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateDenyCorporateEmailPolicy", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "region": "fra",
+    "devKeys": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "Dev API Key",
+            "expire": "2020-10-15T06:38:00.000+00:00",
+            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
+            "accessedAt": "2020-10-15T06:38:00.000+00:00",
+            "sdks": []
+        }
+    ],
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "smtp-password",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "onboarding": {},
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
+            "projectName": "My Project",
+            "region": "fra",
+            "organizationName": "Acme Inc.",
+            "organizationId": "5e5ea5c16897e",
+            "billingPlan": "pro"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateDenyCorporateEmailPolicy(true)
+		if err != nil {
+			t.Errorf("Method UpdateDenyCorporateEmailPolicy failed: %v", err)
 		}
 	})
 
@@ -2623,12 +2708,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -2652,6 +2738,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -2659,16 +2746,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -2720,12 +2798,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -2749,6 +2828,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -2756,16 +2836,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -2817,12 +2888,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -2846,6 +2918,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -2853,16 +2926,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -2914,12 +2978,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -2943,6 +3008,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -2950,16 +3016,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3011,12 +3068,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3040,6 +3098,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3047,16 +3106,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3108,12 +3158,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3137,6 +3188,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3144,16 +3196,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3236,12 +3279,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3265,6 +3309,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3272,16 +3317,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3333,12 +3369,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3362,6 +3399,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3369,16 +3407,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3430,12 +3459,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3459,6 +3489,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3466,16 +3497,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3527,12 +3549,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3556,6 +3579,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3563,16 +3587,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3624,12 +3639,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3653,6 +3669,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3660,16 +3677,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3695,7 +3703,7 @@ func TestProject(t *testing.T) {
 	t.Run("Test GetPolicy", func(t *testing.T) {
 		mockResponse := `
 {
-    "$id": "deny-free-email",
+    "$id": "deny-corporate-email",
     "enabled": true
 }
 `
@@ -3717,8 +3725,8 @@ func TestProject(t *testing.T) {
 		if err != nil {
 			t.Errorf("Method GetPolicy failed: %v", err)
 		}
-		if _, ok := response.(*models.PolicyDenyFreeEmail); !ok {
-			t.Errorf("Expected response type *models.PolicyDenyFreeEmail, got %T", response)
+		if _, ok := response.(*models.PolicyDenyCorporateEmail); !ok {
+			t.Errorf("Expected response type *models.PolicyDenyCorporateEmail, got %T", response)
 		}
 	})
 
@@ -3751,12 +3759,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3780,6 +3789,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3787,16 +3797,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3848,12 +3849,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3877,6 +3879,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3884,16 +3887,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3945,12 +3939,13 @@ func TestProject(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -3974,6 +3969,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -3981,16 +3977,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 

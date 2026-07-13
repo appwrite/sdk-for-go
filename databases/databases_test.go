@@ -5,8 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 )
 
 func TestDatabases(t *testing.T) {
@@ -39,6 +39,7 @@ func TestDatabases(t *testing.T) {
                     "resources": [],
                     "retention": 7,
                     "schedule": "0 * * * *",
+                    "type": "full",
                     "enabled": true
                 }
             ],
@@ -99,6 +100,7 @@ func TestDatabases(t *testing.T) {
             "resources": [],
             "retention": 7,
             "schedule": "0 * * * *",
+            "type": "full",
             "enabled": true
         }
     ],
@@ -343,6 +345,7 @@ func TestDatabases(t *testing.T) {
             "resources": [],
             "retention": 7,
             "schedule": "0 * * * *",
+            "type": "full",
             "enabled": true
         }
     ],
@@ -401,6 +404,7 @@ func TestDatabases(t *testing.T) {
             "resources": [],
             "retention": 7,
             "schedule": "0 * * * *",
+            "type": "full",
             "enabled": true
         }
     ],

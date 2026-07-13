@@ -3,8 +3,8 @@ package databases
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 	"fmt"
 	"strings"
 )
@@ -76,6 +76,7 @@ func (srv *Databases) List(optionalSetters ...ListOption)(*models.DatabaseList, 
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -138,6 +139,7 @@ func (srv *Databases) Create(DatabaseId string, Name string, optionalSetters ...
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -183,6 +185,8 @@ func (srv *Databases) WithListTransactionsQueries(v []string) ListTransactionsOp
 }
 	
 // ListTransactions list transactions across all databases.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listTransactions` instead.
 func (srv *Databases) ListTransactions(optionalSetters ...ListTransactionsOption)(*models.TransactionList, error) {
 	path := "/databases/transactions"
 	options := ListTransactionsOptions{}.New()
@@ -195,6 +199,7 @@ func (srv *Databases) ListTransactions(optionalSetters ...ListTransactionsOption
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -240,6 +245,8 @@ func (srv *Databases) WithCreateTransactionTtl(v int) CreateTransactionOption {
 }
 	
 // CreateTransaction create a new transaction.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createTransaction` instead.
 func (srv *Databases) CreateTransaction(optionalSetters ...CreateTransactionOption)(*models.Transaction, error) {
 	path := "/databases/transactions"
 	options := CreateTransactionOptions{}.New()
@@ -253,6 +260,7 @@ func (srv *Databases) CreateTransaction(optionalSetters ...CreateTransactionOpti
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -281,6 +289,8 @@ func (srv *Databases) CreateTransaction(optionalSetters ...CreateTransactionOpti
 }
 	
 // GetTransaction get a transaction by its unique ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getTransaction` instead.
 func (srv *Databases) GetTransaction(TransactionId string)(*models.Transaction, error) {
 	r := strings.NewReplacer("{transactionId}", TransactionId)
 	path := r.Replace("/databases/transactions/{transactionId}")
@@ -288,6 +298,7 @@ func (srv *Databases) GetTransaction(TransactionId string)(*models.Transaction, 
 	params["transactionId"] = TransactionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -342,6 +353,8 @@ func (srv *Databases) WithUpdateTransactionRollback(v bool) UpdateTransactionOpt
 			
 // UpdateTransaction update a transaction, to either commit or roll back its
 // operations.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTransaction` instead.
 func (srv *Databases) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption)(*models.Transaction, error) {
 	r := strings.NewReplacer("{transactionId}", TransactionId)
 	path := r.Replace("/databases/transactions/{transactionId}")
@@ -360,6 +373,7 @@ func (srv *Databases) UpdateTransaction(TransactionId string, optionalSetters ..
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -388,6 +402,8 @@ func (srv *Databases) UpdateTransaction(TransactionId string, optionalSetters ..
 }
 	
 // DeleteTransaction delete a transaction by its unique ID.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteTransaction` instead.
 func (srv *Databases) DeleteTransaction(TransactionId string)(*interface{}, error) {
 	r := strings.NewReplacer("{transactionId}", TransactionId)
 	path := r.Replace("/databases/transactions/{transactionId}")
@@ -440,6 +456,8 @@ func (srv *Databases) WithCreateOperationsOperations(v []interface{}) CreateOper
 }
 			
 // CreateOperations create multiple operations in a single transaction.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createOperations` instead.
 func (srv *Databases) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption)(*models.Transaction, error) {
 	r := strings.NewReplacer("{transactionId}", TransactionId)
 	path := r.Replace("/databases/transactions/{transactionId}/operations")
@@ -455,6 +473,7 @@ func (srv *Databases) CreateOperations(TransactionId string, optionalSetters ...
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -493,6 +512,7 @@ func (srv *Databases) Get(DatabaseId string)(*models.Database, error) {
 	params["databaseId"] = DatabaseId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -566,6 +586,7 @@ func (srv *Databases) Update(DatabaseId string, optionalSetters ...UpdateOption)
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -688,6 +709,7 @@ func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...List
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -799,6 +821,7 @@ func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, N
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -838,6 +861,7 @@ func (srv *Databases) GetCollection(DatabaseId string, CollectionId string)(*mod
 	params["collectionId"] = CollectionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -945,6 +969,7 @@ func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, o
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -1057,6 +1082,7 @@ func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string, opt
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1156,6 +1182,7 @@ func (srv *Databases) CreateBigIntAttribute(DatabaseId string, CollectionId stri
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1245,6 +1272,7 @@ func (srv *Databases) UpdateBigIntAttribute(DatabaseId string, CollectionId stri
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1321,6 +1349,7 @@ func (srv *Databases) CreateBooleanAttribute(DatabaseId string, CollectionId str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1388,6 +1417,7 @@ func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1465,6 +1495,7 @@ func (srv *Databases) CreateDatetimeAttribute(DatabaseId string, CollectionId st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1532,6 +1563,7 @@ func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1608,6 +1640,7 @@ func (srv *Databases) CreateEmailAttribute(DatabaseId string, CollectionId strin
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1675,6 +1708,7 @@ func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId strin
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1753,6 +1787,7 @@ func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1821,6 +1856,7 @@ func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1920,6 +1956,7 @@ func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId strin
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2009,6 +2046,7 @@ func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId strin
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2108,6 +2146,7 @@ func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2197,6 +2236,7 @@ func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2273,6 +2313,7 @@ func (srv *Databases) CreateIpAttribute(DatabaseId string, CollectionId string, 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2340,6 +2381,7 @@ func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2367,7 +2409,7 @@ func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, 
 
 }
 type CreateLineAttributeOptions struct {
-	Default []interface{}
+	Default [][]interface{}
 	enabledSetters map[string]bool
 }
 func (options CreateLineAttributeOptions) New() *CreateLineAttributeOptions {
@@ -2377,7 +2419,7 @@ func (options CreateLineAttributeOptions) New() *CreateLineAttributeOptions {
 	return &options
 }
 type CreateLineAttributeOption func(*CreateLineAttributeOptions)
-func (srv *Databases) WithCreateLineAttributeDefault(v []interface{}) CreateLineAttributeOption {
+func (srv *Databases) WithCreateLineAttributeDefault(v [][]interface{}) CreateLineAttributeOption {
 	return func(o *CreateLineAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2405,6 +2447,7 @@ func (srv *Databases) CreateLineAttribute(DatabaseId string, CollectionId string
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2432,7 +2475,7 @@ func (srv *Databases) CreateLineAttribute(DatabaseId string, CollectionId string
 
 }
 type UpdateLineAttributeOptions struct {
-	Default []interface{}
+	Default [][]interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -2444,7 +2487,7 @@ func (options UpdateLineAttributeOptions) New() *UpdateLineAttributeOptions {
 	return &options
 }
 type UpdateLineAttributeOption func(*UpdateLineAttributeOptions)
-func (srv *Databases) WithUpdateLineAttributeDefault(v []interface{}) UpdateLineAttributeOption {
+func (srv *Databases) WithUpdateLineAttributeDefault(v [][]interface{}) UpdateLineAttributeOption {
 	return func(o *UpdateLineAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2482,6 +2525,7 @@ func (srv *Databases) UpdateLineAttribute(DatabaseId string, CollectionId string
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2543,6 +2587,8 @@ func (srv *Databases) WithCreateLongtextAttributeEncrypt(v bool) CreateLongtextA
 }
 									
 // CreateLongtextAttribute create a longtext attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createLongtextColumn` instead.
 func (srv *Databases) CreateLongtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateLongtextAttributeOption)(*models.AttributeLongtext, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/longtext")
@@ -2567,6 +2613,7 @@ func (srv *Databases) CreateLongtextAttribute(DatabaseId string, CollectionId st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2613,6 +2660,8 @@ func (srv *Databases) WithUpdateLongtextAttributeNewKey(v string) UpdateLongtext
 											
 // UpdateLongtextAttribute update a longtext attribute. Changing the `default`
 // value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateLongtextColumn` instead.
 func (srv *Databases) UpdateLongtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateLongtextAttributeOption)(*models.AttributeLongtext, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/longtext/{key}")
@@ -2632,6 +2681,7 @@ func (srv *Databases) UpdateLongtextAttribute(DatabaseId string, CollectionId st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2693,6 +2743,8 @@ func (srv *Databases) WithCreateMediumtextAttributeEncrypt(v bool) CreateMediumt
 }
 									
 // CreateMediumtextAttribute create a mediumtext attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createMediumtextColumn` instead.
 func (srv *Databases) CreateMediumtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateMediumtextAttributeOption)(*models.AttributeMediumtext, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext")
@@ -2717,6 +2769,7 @@ func (srv *Databases) CreateMediumtextAttribute(DatabaseId string, CollectionId 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2763,6 +2816,8 @@ func (srv *Databases) WithUpdateMediumtextAttributeNewKey(v string) UpdateMedium
 											
 // UpdateMediumtextAttribute update a mediumtext attribute. Changing the
 // `default` value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateMediumtextColumn` instead.
 func (srv *Databases) UpdateMediumtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateMediumtextAttributeOption)(*models.AttributeMediumtext, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext/{key}")
@@ -2782,6 +2837,7 @@ func (srv *Databases) UpdateMediumtextAttribute(DatabaseId string, CollectionId 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2809,7 +2865,7 @@ func (srv *Databases) UpdateMediumtextAttribute(DatabaseId string, CollectionId 
 
 }
 type CreatePointAttributeOptions struct {
-	Default []interface{}
+	Default []float64
 	enabledSetters map[string]bool
 }
 func (options CreatePointAttributeOptions) New() *CreatePointAttributeOptions {
@@ -2819,7 +2875,7 @@ func (options CreatePointAttributeOptions) New() *CreatePointAttributeOptions {
 	return &options
 }
 type CreatePointAttributeOption func(*CreatePointAttributeOptions)
-func (srv *Databases) WithCreatePointAttributeDefault(v []interface{}) CreatePointAttributeOption {
+func (srv *Databases) WithCreatePointAttributeDefault(v []float64) CreatePointAttributeOption {
 	return func(o *CreatePointAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2847,6 +2903,7 @@ func (srv *Databases) CreatePointAttribute(DatabaseId string, CollectionId strin
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2874,7 +2931,7 @@ func (srv *Databases) CreatePointAttribute(DatabaseId string, CollectionId strin
 
 }
 type UpdatePointAttributeOptions struct {
-	Default []interface{}
+	Default []float64
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -2886,7 +2943,7 @@ func (options UpdatePointAttributeOptions) New() *UpdatePointAttributeOptions {
 	return &options
 }
 type UpdatePointAttributeOption func(*UpdatePointAttributeOptions)
-func (srv *Databases) WithUpdatePointAttributeDefault(v []interface{}) UpdatePointAttributeOption {
+func (srv *Databases) WithUpdatePointAttributeDefault(v []float64) UpdatePointAttributeOption {
 	return func(o *UpdatePointAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2924,6 +2981,7 @@ func (srv *Databases) UpdatePointAttribute(DatabaseId string, CollectionId strin
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2951,7 +3009,7 @@ func (srv *Databases) UpdatePointAttribute(DatabaseId string, CollectionId strin
 
 }
 type CreatePolygonAttributeOptions struct {
-	Default []interface{}
+	Default [][]interface{}
 	enabledSetters map[string]bool
 }
 func (options CreatePolygonAttributeOptions) New() *CreatePolygonAttributeOptions {
@@ -2961,7 +3019,7 @@ func (options CreatePolygonAttributeOptions) New() *CreatePolygonAttributeOption
 	return &options
 }
 type CreatePolygonAttributeOption func(*CreatePolygonAttributeOptions)
-func (srv *Databases) WithCreatePolygonAttributeDefault(v []interface{}) CreatePolygonAttributeOption {
+func (srv *Databases) WithCreatePolygonAttributeDefault(v [][]interface{}) CreatePolygonAttributeOption {
 	return func(o *CreatePolygonAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2989,6 +3047,7 @@ func (srv *Databases) CreatePolygonAttribute(DatabaseId string, CollectionId str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3016,7 +3075,7 @@ func (srv *Databases) CreatePolygonAttribute(DatabaseId string, CollectionId str
 
 }
 type UpdatePolygonAttributeOptions struct {
-	Default []interface{}
+	Default [][]interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -3028,7 +3087,7 @@ func (options UpdatePolygonAttributeOptions) New() *UpdatePolygonAttributeOption
 	return &options
 }
 type UpdatePolygonAttributeOption func(*UpdatePolygonAttributeOptions)
-func (srv *Databases) WithUpdatePolygonAttributeDefault(v []interface{}) UpdatePolygonAttributeOption {
+func (srv *Databases) WithUpdatePolygonAttributeDefault(v [][]interface{}) UpdatePolygonAttributeOption {
 	return func(o *UpdatePolygonAttributeOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -3066,6 +3125,7 @@ func (srv *Databases) UpdatePolygonAttribute(DatabaseId string, CollectionId str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3166,6 +3226,7 @@ func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionI
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3243,6 +3304,7 @@ func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionI
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3331,6 +3393,7 @@ func (srv *Databases) CreateStringAttribute(DatabaseId string, CollectionId stri
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3409,6 +3472,7 @@ func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId stri
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3470,6 +3534,8 @@ func (srv *Databases) WithCreateTextAttributeEncrypt(v bool) CreateTextAttribute
 }
 									
 // CreateTextAttribute create a text attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createTextColumn` instead.
 func (srv *Databases) CreateTextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateTextAttributeOption)(*models.AttributeText, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/text")
@@ -3494,6 +3560,7 @@ func (srv *Databases) CreateTextAttribute(DatabaseId string, CollectionId string
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3540,6 +3607,8 @@ func (srv *Databases) WithUpdateTextAttributeNewKey(v string) UpdateTextAttribut
 											
 // UpdateTextAttribute update a text attribute. Changing the `default` value
 // will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTextColumn` instead.
 func (srv *Databases) UpdateTextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateTextAttributeOption)(*models.AttributeText, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/text/{key}")
@@ -3559,6 +3628,7 @@ func (srv *Databases) UpdateTextAttribute(DatabaseId string, CollectionId string
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3635,6 +3705,7 @@ func (srv *Databases) CreateUrlAttribute(DatabaseId string, CollectionId string,
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3702,6 +3773,7 @@ func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string,
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3763,6 +3835,8 @@ func (srv *Databases) WithCreateVarcharAttributeEncrypt(v bool) CreateVarcharAtt
 }
 											
 // CreateVarcharAttribute create a varchar attribute.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createVarcharColumn` instead.
 func (srv *Databases) CreateVarcharAttribute(DatabaseId string, CollectionId string, Key string, Size int, Required bool, optionalSetters ...CreateVarcharAttributeOption)(*models.AttributeVarchar, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/varchar")
@@ -3788,6 +3862,7 @@ func (srv *Databases) CreateVarcharAttribute(DatabaseId string, CollectionId str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3842,6 +3917,8 @@ func (srv *Databases) WithUpdateVarcharAttributeNewKey(v string) UpdateVarcharAt
 											
 // UpdateVarcharAttribute update a varchar attribute. Changing the `default`
 // value will not update already existing documents.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateVarcharColumn` instead.
 func (srv *Databases) UpdateVarcharAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateVarcharAttributeOption)(*models.AttributeVarchar, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId, "{collectionId}", CollectionId, "{key}", Key)
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/varchar/{key}")
@@ -3864,6 +3941,7 @@ func (srv *Databases) UpdateVarcharAttribute(DatabaseId string, CollectionId str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3903,6 +3981,7 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 	params["key"] = Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4115,6 +4194,7 @@ func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, opti
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4194,6 +4274,7 @@ func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, Doc
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -4261,6 +4342,7 @@ func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Do
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -4328,6 +4410,7 @@ func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, Do
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -4415,6 +4498,7 @@ func (srv *Databases) UpdateDocuments(DatabaseId string, CollectionId string, op
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -4490,6 +4574,7 @@ func (srv *Databases) DeleteDocuments(DatabaseId string, CollectionId string, op
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
@@ -4565,6 +4650,7 @@ func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, Docume
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4654,6 +4740,7 @@ func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, Doc
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -4741,6 +4828,7 @@ func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, Doc
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -4892,6 +4980,7 @@ func (srv *Databases) DecrementDocumentAttribute(DatabaseId string, CollectionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -4980,6 +5069,7 @@ func (srv *Databases) IncrementDocumentAttribute(DatabaseId string, CollectionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -5053,6 +5143,7 @@ func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string, option
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -5132,6 +5223,7 @@ func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -5171,6 +5263,7 @@ func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key strin
 	params["key"] = Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

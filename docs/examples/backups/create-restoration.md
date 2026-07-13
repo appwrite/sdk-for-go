@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/backups"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/backups"
 )
 
 client := client.New(
@@ -20,5 +20,6 @@ response, error := service.CreateRestoration(
     []string{},
     backups.WithCreateRestorationNewResourceId("<NEW_RESOURCE_ID>"),
     backups.WithCreateRestorationNewResourceName("<NEW_RESOURCE_NAME>"),
+    backups.WithCreateRestorationNewSpecification("serverless"),
 )
 ```

@@ -50,6 +50,9 @@ type Project struct {
     Labels []string `json:"labels"`
     // Project status
     Status string `json:"status"`
+    // Stage progress (completed or skipped) with timestamps and actor types,
+    // keyed by stage id.
+    Onboarding interface{} `json:"onboarding"`
     // List of auth methods.
     AuthMethods []ProjectAuthMethod `json:"authMethods"`
     // List of services.
@@ -69,6 +72,11 @@ type Project struct {
     OAuth2ServerAuthorizationUrl string `json:"oAuth2ServerAuthorizationUrl"`
     // OAuth2 server allowed scopes
     OAuth2ServerScopes []string `json:"oAuth2ServerScopes"`
+    // OAuth2 server scopes used when an authorization request omits the scope
+    // parameter
+    OAuth2ServerDefaultScopes []string `json:"oAuth2ServerDefaultScopes"`
+    // OAuth2 server accepted RFC 9396 authorization_details types
+    OAuth2ServerAuthorizationDetailsTypes []string `json:"oAuth2ServerAuthorizationDetailsTypes"`
     // OAuth2 server access token duration in seconds for confidential clients
     OAuth2ServerAccessTokenDuration int `json:"oAuth2ServerAccessTokenDuration"`
     // OAuth2 server refresh token duration in seconds for confidential clients
@@ -83,6 +91,17 @@ type Project struct {
     // using client_secret). PKCE is always required for public clients regardless
     // of this setting.
     OAuth2ServerConfidentialPkce bool `json:"oAuth2ServerConfidentialPkce"`
+    // URL to your application page where users enter the device flow user code.
+    // Empty when the Device Authorization Grant is not configured.
+    OAuth2ServerVerificationUrl string `json:"oAuth2ServerVerificationUrl"`
+    // Number of characters in the device flow user code, excluding the formatting
+    // separator.
+    OAuth2ServerUserCodeLength int `json:"oAuth2ServerUserCodeLength"`
+    // Character set for device flow user codes: `numeric`, `alphabetic`, or
+    // `alphanumeric`.
+    OAuth2ServerUserCodeFormat string `json:"oAuth2ServerUserCodeFormat"`
+    // Lifetime in seconds of device flow device codes and user codes.
+    OAuth2ServerDeviceCodeDuration int `json:"oAuth2ServerDeviceCodeDuration"`
     // OAuth2 server discovery URL
     OAuth2ServerDiscoveryUrl string `json:"oAuth2ServerDiscoveryUrl"`
 

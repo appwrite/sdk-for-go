@@ -24,6 +24,12 @@ type OAuth2Oidc struct {
     TokenURL string `json:"tokenURL"`
     // OpenID Connect user info endpoint URL.
     UserInfoURL string `json:"userInfoURL"`
+    // OpenID Connect prompt values controlling the authentication and consent
+    // screens.
+    Prompt []string `json:"prompt"`
+    // Maximum authentication age in seconds. When set, the user must have
+    // authenticated within this many seconds.
+    MaxAge int `json:"maxAge"`
 
     // Used by Decode() method
     data []byte

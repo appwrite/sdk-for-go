@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/account"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/account"
 )
 
 client := client.New(
@@ -18,6 +18,6 @@ service := account.New(client)
 response, error := service.UpdateRecovery(
     "<USER_ID>",
     "<SECRET>",
-    "",
+    "password",
 )
 ```

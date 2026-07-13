@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v6/client"
 )
 
 func TestTeams(t *testing.T) {
@@ -194,6 +194,7 @@ func TestTeams(t *testing.T) {
             "joined": "2020-10-15T06:38:00.000+00:00",
             "confirm": true,
             "mfa": true,
+            "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
             "roles": []
         }
     ]
@@ -235,6 +236,7 @@ func TestTeams(t *testing.T) {
     "joined": "2020-10-15T06:38:00.000+00:00",
     "confirm": true,
     "mfa": true,
+    "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
     "roles": []
 }
 `
@@ -274,6 +276,7 @@ func TestTeams(t *testing.T) {
     "joined": "2020-10-15T06:38:00.000+00:00",
     "confirm": true,
     "mfa": true,
+    "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
     "roles": []
 }
 `
@@ -313,6 +316,7 @@ func TestTeams(t *testing.T) {
     "joined": "2020-10-15T06:38:00.000+00:00",
     "confirm": true,
     "mfa": true,
+    "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
     "roles": []
 }
 `
@@ -378,6 +382,7 @@ func TestTeams(t *testing.T) {
     "joined": "2020-10-15T06:38:00.000+00:00",
     "confirm": true,
     "mfa": true,
+    "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
     "roles": []
 }
 `

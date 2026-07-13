@@ -6,7 +6,7 @@ import (
 )
 
 func TestPolicyMembershipPrivacyModel(t *testing.T) {
-    model := PolicyMembershipPrivacy{        Id: "password-dictionary",        UserId: true,        UserEmail: true,        UserPhone: true,        UserName: true,        UserMFA: true,    }
+    model := PolicyMembershipPrivacy{        Id: "password-dictionary",        UserId: true,        UserEmail: true,        UserPhone: true,        UserName: true,        UserMFA: true,        UserAccessedAt: true,    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -35,4 +35,7 @@ func TestPolicyMembershipPrivacyModel(t *testing.T) {
     }
     if result.UserMFA != model.UserMFA {
         t.Errorf("Expected UserMFA %v, got %v", model.UserMFA, result.UserMFA)
+    }
+    if result.UserAccessedAt != model.UserAccessedAt {
+        t.Errorf("Expected UserAccessedAt %v, got %v", model.UserAccessedAt, result.UserAccessedAt)
     }}

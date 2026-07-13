@@ -3,8 +3,8 @@ package organization
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 	"strings"
 )
 
@@ -19,6 +19,110 @@ func New(clt client.Client) *Organization {
 	}
 }
 
+
+// Get get the current organization.
+func (srv *Organization) Get()(*models.Organization, error) {
+	path := "/organization"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Organization{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Organization
+	parsed, ok := resp.Result.(models.Organization)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// Update update the current organization's name.
+func (srv *Organization) Update(Name string)(*models.Organization, error) {
+	path := "/organization"
+	params := map[string]interface{}{}
+	params["name"] = Name
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Organization{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Organization
+	parsed, ok := resp.Result.(models.Organization)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// Delete delete the current organization. All projects that belong to the
+// organization are deleted as well.
+func (srv *Organization) Delete()(*interface{}, error) {
+	path := "/organization"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type ListKeysOptions struct {
 	Queries []string
 	Total bool
@@ -61,6 +165,7 @@ func (srv *Organization) ListKeys(optionalSetters ...ListKeysOption)(*models.Key
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -122,6 +227,7 @@ func (srv *Organization) CreateKey(KeyId string, Name string, Scopes []string, o
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -158,6 +264,7 @@ func (srv *Organization) GetKey(KeyId string)(*models.Key, error) {
 	params["keyId"] = KeyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -221,6 +328,7 @@ func (srv *Organization) UpdateKey(KeyId string, Name string, Scopes []string, o
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -255,6 +363,306 @@ func (srv *Organization) DeleteKey(KeyId string)(*interface{}, error) {
 	path := r.Replace("/organization/keys/{keyId}")
 	params := map[string]interface{}{}
 	params["keyId"] = KeyId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type ListMembershipsOptions struct {
+	Queries []string
+	Search string
+	Total bool
+	enabledSetters map[string]bool
+}
+func (options ListMembershipsOptions) New() *ListMembershipsOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+		"Search": false,
+		"Total": false,
+	}
+	return &options
+}
+type ListMembershipsOption func(*ListMembershipsOptions)
+func (srv *Organization) WithListMembershipsQueries(v []string) ListMembershipsOption {
+	return func(o *ListMembershipsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Organization) WithListMembershipsSearch(v string) ListMembershipsOption {
+	return func(o *ListMembershipsOptions) {
+		o.Search = v
+		o.enabledSetters["Search"] = true
+	}
+}
+func (srv *Organization) WithListMembershipsTotal(v bool) ListMembershipsOption {
+	return func(o *ListMembershipsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+	
+// ListMemberships get a list of all memberships from the current
+// organization.
+func (srv *Organization) ListMemberships(optionalSetters ...ListMembershipsOption)(*models.MembershipList, error) {
+	path := "/organization/memberships"
+	options := ListMembershipsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Search"] {
+		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.MembershipList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.MembershipList
+	parsed, ok := resp.Result.(models.MembershipList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateMembershipOptions struct {
+	Email string
+	UserId string
+	Phone string
+	Url string
+	Name string
+	enabledSetters map[string]bool
+}
+func (options CreateMembershipOptions) New() *CreateMembershipOptions {
+	options.enabledSetters = map[string]bool{
+		"Email": false,
+		"UserId": false,
+		"Phone": false,
+		"Url": false,
+		"Name": false,
+	}
+	return &options
+}
+type CreateMembershipOption func(*CreateMembershipOptions)
+func (srv *Organization) WithCreateMembershipEmail(v string) CreateMembershipOption {
+	return func(o *CreateMembershipOptions) {
+		o.Email = v
+		o.enabledSetters["Email"] = true
+	}
+}
+func (srv *Organization) WithCreateMembershipUserId(v string) CreateMembershipOption {
+	return func(o *CreateMembershipOptions) {
+		o.UserId = v
+		o.enabledSetters["UserId"] = true
+	}
+}
+func (srv *Organization) WithCreateMembershipPhone(v string) CreateMembershipOption {
+	return func(o *CreateMembershipOptions) {
+		o.Phone = v
+		o.enabledSetters["Phone"] = true
+	}
+}
+func (srv *Organization) WithCreateMembershipUrl(v string) CreateMembershipOption {
+	return func(o *CreateMembershipOptions) {
+		o.Url = v
+		o.enabledSetters["Url"] = true
+	}
+}
+func (srv *Organization) WithCreateMembershipName(v string) CreateMembershipOption {
+	return func(o *CreateMembershipOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+			
+// CreateMembership invite a new member to join the current organization. An
+// email with a link to join the organization will be sent to the new member's
+// email address. If member doesn't exist in the project it will be
+// automatically created.
+func (srv *Organization) CreateMembership(Roles []string, optionalSetters ...CreateMembershipOption)(*models.Membership, error) {
+	path := "/organization/memberships"
+	options := CreateMembershipOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["roles"] = Roles
+	if options.enabledSetters["Email"] {
+		params["email"] = options.Email
+	}
+	if options.enabledSetters["UserId"] {
+		params["userId"] = options.UserId
+	}
+	if options.enabledSetters["Phone"] {
+		params["phone"] = options.Phone
+	}
+	if options.enabledSetters["Url"] {
+		params["url"] = options.Url
+	}
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Membership{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Membership
+	parsed, ok := resp.Result.(models.Membership)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// GetMembership get a membership from the current organization by its unique
+// ID.
+func (srv *Organization) GetMembership(MembershipId string)(*models.Membership, error) {
+	r := strings.NewReplacer("{membershipId}", MembershipId)
+	path := r.Replace("/organization/memberships/{membershipId}")
+	params := map[string]interface{}{}
+	params["membershipId"] = MembershipId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Membership{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Membership
+	parsed, ok := resp.Result.(models.Membership)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// UpdateMembership modify the roles of a member in the current organization.
+func (srv *Organization) UpdateMembership(MembershipId string, Roles []string)(*models.Membership, error) {
+	r := strings.NewReplacer("{membershipId}", MembershipId)
+	path := r.Replace("/organization/memberships/{membershipId}")
+	params := map[string]interface{}{}
+	params["membershipId"] = MembershipId
+	params["roles"] = Roles
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Membership{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Membership
+	parsed, ok := resp.Result.(models.Membership)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// DeleteMembership remove a member from the current organization. The member
+// is removed whether they accepted the invitation or not; a pending
+// invitation is revoked.
+func (srv *Organization) DeleteMembership(MembershipId string)(*interface{}, error) {
+	r := strings.NewReplacer("{membershipId}", MembershipId)
+	path := r.Replace("/organization/memberships/{membershipId}")
+	params := map[string]interface{}{}
+	params["membershipId"] = MembershipId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -337,6 +745,7 @@ func (srv *Organization) ListProjects(optionalSetters ...ListProjectsOption)(*mo
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -397,6 +806,7 @@ func (srv *Organization) CreateProject(ProjectId string, Name string, optionalSe
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -469,6 +879,7 @@ func (srv *Organization) UpdateProject(ProjectId string, Name string)(*models.Pr
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)

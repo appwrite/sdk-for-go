@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/tablesdb"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/tablesdb"
 )
 
 client := client.New(
@@ -20,6 +20,6 @@ response, error := service.CreatePointColumn(
     "<TABLE_ID>",
     "",
     false,
-    tablesdb.WithCreatePointColumnDefault([]interface{}{1, 2}),
+    tablesdb.WithCreatePointColumnDefault([]float64{1, 2}),
 )
 ```

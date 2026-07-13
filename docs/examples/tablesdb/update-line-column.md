@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/tablesdb"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/tablesdb"
 )
 
 client := client.New(
@@ -20,7 +20,7 @@ response, error := service.UpdateLineColumn(
     "<TABLE_ID>",
     "",
     false,
-    tablesdb.WithUpdateLineColumnDefault([]interface{}{[1, 2], [3, 4], [5, 6]}),
+    tablesdb.WithUpdateLineColumnDefault([][]interface{}{[1, 2], [3, 4], [5, 6]}),
     tablesdb.WithUpdateLineColumnNewKey(""),
 )
 ```

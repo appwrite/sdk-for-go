@@ -35,6 +35,16 @@ type User struct {
     Phone string `json:"phone"`
     // Email verification status.
     EmailVerification bool `json:"emailVerification"`
+    // Canonical form of the user email address.
+    EmailCanonical string `json:"emailCanonical"`
+    // Whether the user email is from a free email provider.
+    EmailIsFree bool `json:"emailIsFree"`
+    // Whether the user email is from a disposable email provider.
+    EmailIsDisposable bool `json:"emailIsDisposable"`
+    // Whether the user email is from a corporate domain.
+    EmailIsCorporate bool `json:"emailIsCorporate"`
+    // Whether the user email is in its canonical form.
+    EmailIsCanonical bool `json:"emailIsCanonical"`
     // Phone verification status.
     PhoneVerification bool `json:"phoneVerification"`
     // Multi factor authentication status.

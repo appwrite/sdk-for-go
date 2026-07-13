@@ -3,8 +3,8 @@ package advisor
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 	"strings"
 )
 
@@ -62,6 +62,7 @@ func (srv *Advisor) ListReports(optionalSetters ...ListReportsOption)(*models.Re
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -98,6 +99,7 @@ func (srv *Advisor) GetReport(ReportId string)(*models.Report, error) {
 	params["reportId"] = ReportId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -205,6 +207,7 @@ func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsight
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -241,6 +244,7 @@ func (srv *Advisor) GetInsight(ReportId string, InsightId string)(*models.Insigh
 	params["insightId"] = InsightId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

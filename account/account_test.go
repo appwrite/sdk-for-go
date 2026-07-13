@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v6/client"
 )
 
 func TestAccount(t *testing.T) {
@@ -116,7 +116,7 @@ func TestAccount(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.Create("<USER_ID>", "email@example.com", "")
+		_, err := srv.Create("<USER_ID>", "email@example.com", "password")
 		if err != nil {
 			t.Errorf("Method Create failed: %v", err)
 		}
@@ -376,7 +376,7 @@ func TestAccount(t *testing.T) {
 		mockResponse := `
 {
     "secret": "[SHARED_SECRET]",
-    "uri": "otpauth://totp/appwrite:user@example.com?secret=[SHARED_SECRET]&amp;issuer=appwrite"
+    "uri": "otpauth://totp/appwrite:user@example.com?secret=[SHARED_SECRET]&issuer=appwrite"
 }
 `
 
@@ -403,7 +403,7 @@ func TestAccount(t *testing.T) {
 		mockResponse := `
 {
     "secret": "[SHARED_SECRET]",
-    "uri": "otpauth://totp/appwrite:user@example.com?secret=[SHARED_SECRET]&amp;issuer=appwrite"
+    "uri": "otpauth://totp/appwrite:user@example.com?secret=[SHARED_SECRET]&issuer=appwrite"
 }
 `
 
@@ -1064,7 +1064,7 @@ func TestAccount(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdatePassword("")
+		_, err := srv.UpdatePassword("password")
 		if err != nil {
 			t.Errorf("Method UpdatePassword failed: %v", err)
 		}
@@ -1257,7 +1257,7 @@ func TestAccount(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecovery("<USER_ID>", "<SECRET>", "")
+		_, err := srv.UpdateRecovery("<USER_ID>", "<SECRET>", "password")
 		if err != nil {
 			t.Errorf("Method UpdateRecovery failed: %v", err)
 		}

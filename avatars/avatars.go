@@ -3,7 +3,7 @@ package avatars
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v6/client"
 	"net/url"
 	"fmt"
 	"strings"
@@ -85,6 +85,7 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "image/png",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -209,6 +210,7 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "image/png",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -279,6 +281,7 @@ func (srv *Avatars) GetFavicon(Url string)(*[]byte, error) {
 	params["url"] = Url
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "image/*",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -385,6 +388,7 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption)(*[]by
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "image/png",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -499,6 +503,7 @@ func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption)(*[]b
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "image/*",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -636,6 +641,7 @@ func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption)(*[]byte, e
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "image/png",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -759,6 +765,7 @@ func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption)(*[]byte, 
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "image/png",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1052,6 +1059,7 @@ func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOp
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "image/png",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

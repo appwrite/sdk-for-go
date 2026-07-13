@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/databases"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/databases"
 )
 
 client := client.New(
@@ -20,7 +20,7 @@ response, error := service.UpdateLineAttribute(
     "<COLLECTION_ID>",
     "",
     false,
-    databases.WithUpdateLineAttributeDefault([]interface{}{[1, 2], [3, 4], [5, 6]}),
+    databases.WithUpdateLineAttributeDefault([][]interface{}{[1, 2], [3, 4], [5, 6]}),
     databases.WithUpdateLineAttributeNewKey(""),
 )
 ```

@@ -40,6 +40,9 @@ type Membership struct {
     // false otherwise. Hide this attribute by toggling membership privacy in the
     // Console.
     Mfa bool `json:"mfa"`
+    // Most recent access date in ISO 8601 format. Show this attribute by toggling
+    // membership privacy in the Console.
+    UserAccessedAt string `json:"userAccessedAt"`
     // User list of roles
     Roles []string `json:"roles"`
 

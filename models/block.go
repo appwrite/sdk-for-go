@@ -13,6 +13,8 @@ type Block struct {
     ResourceType string `json:"resourceType"`
     // Resource identifier that is blocked
     ResourceId string `json:"resourceId"`
+    // Block mode. full blocks reads and writes; readOnly blocks writes only.
+    Mode string `json:"mode"`
     // Reason for the block. Can be null if no reason was provided.
     Reason string `json:"reason"`
     // Block expiration date in ISO 8601 format. Can be null if the block does not

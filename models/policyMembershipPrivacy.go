@@ -19,6 +19,8 @@ type PolicyMembershipPrivacy struct {
     UserName bool `json:"userName"`
     // Whether user MFA status is visible in memberships.
     UserMFA bool `json:"userMFA"`
+    // Whether user last access time is visible in memberships.
+    UserAccessedAt bool `json:"userAccessedAt"`
 
     // Used by Decode() method
     data []byte

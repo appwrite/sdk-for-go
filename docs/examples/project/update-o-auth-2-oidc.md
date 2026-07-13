@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/project"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/project"
 )
 
 client := client.New(
@@ -22,6 +22,8 @@ response, error := service.UpdateOAuth2Oidc(
     project.WithUpdateOAuth2OidcAuthorizationURL("https://example.com"),
     project.WithUpdateOAuth2OidcTokenURL("https://example.com"),
     project.WithUpdateOAuth2OidcUserInfoURL("https://example.com"),
+    project.WithUpdateOAuth2OidcPrompt([]string{}),
+    project.WithUpdateOAuth2OidcMaxAge(0),
     project.WithUpdateOAuth2OidcEnabled(false),
 )
 ```
