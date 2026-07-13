@@ -6,7 +6,7 @@ import (
 )
 
 func TestMfaTypeModel(t *testing.T) {
-    model := MfaType{        Secret: "[SHARED_SECRET]",        Uri: "otpauth://totp/appwrite:user@example.com?secret=[SHARED_SECRET]&amp;issuer=appwrite",    }
+    model := MfaType{        Secret: "[SHARED_SECRET]",        Uri: "otpauth://totp/appwrite:user@example.com?secret=[SHARED_SECRET]&issuer=appwrite",    }
 
     data, err := json.Marshal(model)
     if err != nil {

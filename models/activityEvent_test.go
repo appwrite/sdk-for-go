@@ -6,7 +6,7 @@ import (
 )
 
 func TestActivityEventModel(t *testing.T) {
-    model := ActivityEvent{        Id: "5e5ea5c16897e",        ActorType: "user",        ActorId: "610fc2f985ee0",        ActorEmail: "john@appwrite.io",        ActorName: "John Doe",        ResourceParent: "database/ID",        ResourceType: "collection",        ResourceId: "610fc2f985ee0",        Resource: "collections/610fc2f985ee0",        Event: "account.sessions.create",        UserAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",        Ip: "127.0.0.1",        Mode: "admin",        Country: "US",        Time: "2020-10-15T06:38:00.000+00:00",        ProjectId: "610fc2f985ee0",        TeamId: "610fc2f985ee0",        Hostname: "appwrite.io",        OsCode: "Mac",        OsName: "Mac",        OsVersion: "Mac",        ClientType: "browser",        ClientCode: "CM",        ClientName: "Chrome Mobile iOS",        ClientVersion: "84.0",        ClientEngine: "WebKit",        ClientEngineVersion: "605.1.15",        DeviceName: "smartphone",        DeviceBrand: "Google",        DeviceModel: "Nexus 5",        CountryCode: "US",        CountryName: "United States",    }
+    model := ActivityEvent{        Id: "5e5ea5c16897e",        ActorType: "user",        ActorId: "610fc2f985ee0",        ActorEmail: "john@appwrite.io",        ActorName: "John Doe",        ResourceParent: "database/ID",        ResourceType: "collection",        ResourceId: "610fc2f985ee0",        Resource: "collections/610fc2f985ee0",        Event: "account.sessions.create",        UserAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",        Ip: "127.0.0.1",        Mode: "admin",        Country: "US",        Time: "2020-10-15T06:38:00.000+00:00",        ProjectId: "610fc2f985ee0",        TeamId: "610fc2f985ee0",        Hostname: "appwrite.io",    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -71,46 +71,4 @@ func TestActivityEventModel(t *testing.T) {
     }
     if result.Hostname != model.Hostname {
         t.Errorf("Expected Hostname %v, got %v", model.Hostname, result.Hostname)
-    }
-    if result.OsCode != model.OsCode {
-        t.Errorf("Expected OsCode %v, got %v", model.OsCode, result.OsCode)
-    }
-    if result.OsName != model.OsName {
-        t.Errorf("Expected OsName %v, got %v", model.OsName, result.OsName)
-    }
-    if result.OsVersion != model.OsVersion {
-        t.Errorf("Expected OsVersion %v, got %v", model.OsVersion, result.OsVersion)
-    }
-    if result.ClientType != model.ClientType {
-        t.Errorf("Expected ClientType %v, got %v", model.ClientType, result.ClientType)
-    }
-    if result.ClientCode != model.ClientCode {
-        t.Errorf("Expected ClientCode %v, got %v", model.ClientCode, result.ClientCode)
-    }
-    if result.ClientName != model.ClientName {
-        t.Errorf("Expected ClientName %v, got %v", model.ClientName, result.ClientName)
-    }
-    if result.ClientVersion != model.ClientVersion {
-        t.Errorf("Expected ClientVersion %v, got %v", model.ClientVersion, result.ClientVersion)
-    }
-    if result.ClientEngine != model.ClientEngine {
-        t.Errorf("Expected ClientEngine %v, got %v", model.ClientEngine, result.ClientEngine)
-    }
-    if result.ClientEngineVersion != model.ClientEngineVersion {
-        t.Errorf("Expected ClientEngineVersion %v, got %v", model.ClientEngineVersion, result.ClientEngineVersion)
-    }
-    if result.DeviceName != model.DeviceName {
-        t.Errorf("Expected DeviceName %v, got %v", model.DeviceName, result.DeviceName)
-    }
-    if result.DeviceBrand != model.DeviceBrand {
-        t.Errorf("Expected DeviceBrand %v, got %v", model.DeviceBrand, result.DeviceBrand)
-    }
-    if result.DeviceModel != model.DeviceModel {
-        t.Errorf("Expected DeviceModel %v, got %v", model.DeviceModel, result.DeviceModel)
-    }
-    if result.CountryCode != model.CountryCode {
-        t.Errorf("Expected CountryCode %v, got %v", model.CountryCode, result.CountryCode)
-    }
-    if result.CountryName != model.CountryName {
-        t.Errorf("Expected CountryName %v, got %v", model.CountryName, result.CountryName)
     }}

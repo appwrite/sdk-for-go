@@ -3,8 +3,8 @@ package presences
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 	"strings"
 )
 
@@ -72,6 +72,7 @@ func (srv *Presences) List(optionalSetters ...ListOption)(*models.PresenceList, 
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -108,6 +109,7 @@ func (srv *Presences) Get(PresenceId string)(*models.Presence, error) {
 	params["presenceId"] = PresenceId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -192,6 +194,7 @@ func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, op
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -298,6 +301,7 @@ func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters .
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)

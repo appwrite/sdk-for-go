@@ -6,7 +6,7 @@ import (
 )
 
 func TestBackupPolicyModel(t *testing.T) {
-    model := BackupPolicy{        Id: "5e5ea5c16897e",        Name: "Hourly backups",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        Services: []string{"test"},        Resources: []string{"test"},        Retention: 7,        Schedule: "0 * * * *",        Enabled: true,    }
+    model := BackupPolicy{        Id: "5e5ea5c16897e",        Name: "Hourly backups",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        Services: []string{"test"},        Resources: []string{"test"},        Retention: 7,        Schedule: "0 * * * *",        Type: "full",        Enabled: true,    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -35,6 +35,9 @@ func TestBackupPolicyModel(t *testing.T) {
     }
     if result.Schedule != model.Schedule {
         t.Errorf("Expected Schedule %v, got %v", model.Schedule, result.Schedule)
+    }
+    if result.Type != model.Type {
+        t.Errorf("Expected Type %v, got %v", model.Type, result.Type)
     }
     if result.Enabled != model.Enabled {
         t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)

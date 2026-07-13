@@ -1,5 +1,23 @@
 # Change Log
 
+## v6.0.0
+
+* Breaking: Removed `Health` and `Usage` services and their models
+* Breaking: Removed `ListMessageLogs`, `ListProviderLogs`, `ListSubscriberLogs`, `ListTopicLogs` from `Messaging`
+* Breaking: Changed spatial default setter types to `[][]interface{}` and `[]float64` in `Databases`/`TablesDB`
+* Breaking: Removed OS, client, device, and country fields from `ActivityEvent` model
+* Added: `Organization` `Get`, `Update`, `Delete`, and membership management methods
+* Added: `WithBearer` client option for OAuth bearer-token authentication
+* Added: `VectorDot`, `VectorCosine`, `VectorEuclidean` query helpers
+* Added: `NewSpecification` option to `Backups.CreateRestoration`, `Specification` option to `TablesDB.Create`
+* Added: `Type` filter option to `Functions.ListSpecifications` and `Sites.ListSpecifications`
+* Added: `UpdateOAuth2Appwrite` and `UpdateDenyCorporateEmailPolicy` methods to `Project`
+* Added: `Token` option to `Functions.GetDeploymentDownload`, new OAuth2 OIDC/server options
+* Added: billing plan, `Organization`, `OAuth2Appwrite`, `Program` response models
+* Added: email canonicalization and classification fields to `User` model
+* Added: `Type` field to `BackupPolicy` model
+* Updated: deprecated `Databases` transaction methods in favor of `TablesDB` equivalents
+
 ## v5.1.0
 
 * Added: `createSesProvider` and `updateSesProvider` to `messaging`

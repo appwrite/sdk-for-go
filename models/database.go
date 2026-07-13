@@ -21,6 +21,8 @@ type Database struct {
     Enabled bool `json:"enabled"`
     // Database type.
     Type string `json:"type"`
+    // Database status. Possible values: `provisioning`, `ready` or `failed`
+    Status string `json:"status"`
     // Database backup policies.
     Policies []BackupPolicy `json:"policies"`
     // Database backup archives.

@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/tablesdb"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/tablesdb"
 )
 
 client := client.New(
@@ -19,5 +19,6 @@ response, error := service.Create(
     "<DATABASE_ID>",
     "<NAME>",
     tablesdb.WithCreateEnabled(false),
+    tablesdb.WithCreateSpecification("serverless"),
 )
 ```

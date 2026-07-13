@@ -3,8 +3,8 @@ package locale
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 	"strings"
 )
 
@@ -31,6 +31,7 @@ func (srv *Locale) Get()(*models.Locale, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -65,6 +66,7 @@ func (srv *Locale) ListCodes()(*models.LocaleCodeList, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -99,6 +101,7 @@ func (srv *Locale) ListContinents()(*models.ContinentList, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -133,6 +136,7 @@ func (srv *Locale) ListCountries()(*models.CountryList, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -167,6 +171,7 @@ func (srv *Locale) ListCountriesEU()(*models.CountryList, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -201,6 +206,7 @@ func (srv *Locale) ListCountriesPhones()(*models.PhoneList, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -236,6 +242,7 @@ func (srv *Locale) ListCurrencies()(*models.CurrencyList, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -270,6 +277,7 @@ func (srv *Locale) ListLanguages()(*models.LanguageList, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

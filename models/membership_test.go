@@ -6,7 +6,7 @@ import (
 )
 
 func TestMembershipModel(t *testing.T) {
-    model := Membership{        Id: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        UserId: "5e5ea5c16897e",        UserName: "John Doe",        UserEmail: "john@appwrite.io",        UserPhone: "+1 555 555 5555",        TeamId: "5e5ea5c16897e",        TeamName: "VIP",        Invited: "2020-10-15T06:38:00.000+00:00",        Joined: "2020-10-15T06:38:00.000+00:00",        Confirm: true,        Mfa: true,        Roles: []string{"test"},    }
+    model := Membership{        Id: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        UpdatedAt: "2020-10-15T06:38:00.000+00:00",        UserId: "5e5ea5c16897e",        UserName: "John Doe",        UserEmail: "john@appwrite.io",        UserPhone: "+1 555 555 5555",        TeamId: "5e5ea5c16897e",        TeamName: "VIP",        Invited: "2020-10-15T06:38:00.000+00:00",        Joined: "2020-10-15T06:38:00.000+00:00",        Confirm: true,        Mfa: true,        UserAccessedAt: "2020-10-15T06:38:00.000+00:00",        Roles: []string{"test"},    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -56,4 +56,7 @@ func TestMembershipModel(t *testing.T) {
     }
     if result.Mfa != model.Mfa {
         t.Errorf("Expected Mfa %v, got %v", model.Mfa, result.Mfa)
+    }
+    if result.UserAccessedAt != model.UserAccessedAt {
+        t.Errorf("Expected UserAccessedAt %v, got %v", model.UserAccessedAt, result.UserAccessedAt)
     }}

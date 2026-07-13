@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/project"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/project"
 )
 
 client := client.New(
@@ -19,7 +19,7 @@ response, error := service.UpdateSMTP(
     project.WithUpdateSMTPHost(""),
     project.WithUpdateSMTPPort(0),
     project.WithUpdateSMTPUsername("<USERNAME>"),
-    project.WithUpdateSMTPPassword("<PASSWORD>"),
+    project.WithUpdateSMTPPassword("password"),
     project.WithUpdateSMTPSenderEmail("email@example.com"),
     project.WithUpdateSMTPSenderName("<SENDER_NAME>"),
     project.WithUpdateSMTPReplyToEmail("email@example.com"),

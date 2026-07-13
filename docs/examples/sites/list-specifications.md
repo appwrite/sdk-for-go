@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/sites"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/sites"
 )
 
 client := client.New(
@@ -15,5 +15,7 @@ client := client.New(
 
 service := sites.New(client)
 
-response, error := service.ListSpecifications())
+response, error := service.ListSpecifications(
+    sites.WithListSpecificationsType("runtimes"),
+)
 ```

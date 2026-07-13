@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v6/client"
 )
 
 func TestMessaging(t *testing.T) {
@@ -394,58 +394,6 @@ func TestMessaging(t *testing.T) {
 		_, err := srv.Delete("<MESSAGE_ID>")
 		if err != nil {
 			t.Errorf("Method Delete failed: %v", err)
-		}
-	})
-
-	t.Run("Test ListMessageLogs", func(t *testing.T) {
-		mockResponse := `
-{
-    "total": 5,
-    "logs": [
-        {
-            "event": "account.sessions.create",
-            "userId": "610fc2f985ee0",
-            "userEmail": "john@appwrite.io",
-            "userName": "John Doe",
-            "mode": "admin",
-            "userType": "user",
-            "ip": "127.0.0.1",
-            "time": "2020-10-15T06:38:00.000+00:00",
-            "osCode": "Mac",
-            "osName": "Mac",
-            "osVersion": "Mac",
-            "clientType": "browser",
-            "clientCode": "CM",
-            "clientName": "Chrome Mobile iOS",
-            "clientVersion": "84.0",
-            "clientEngine": "WebKit",
-            "clientEngineVersion": "605.1.15",
-            "deviceName": "smartphone",
-            "deviceBrand": "Google",
-            "deviceModel": "Nexus 5",
-            "countryCode": "US",
-            "countryName": "United States"
-        }
-    ]
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "GET" {
-				t.Errorf("Expected method GET, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.ListMessageLogs("<MESSAGE_ID>")
-		if err != nil {
-			t.Errorf("Method ListMessageLogs failed: %v", err)
 		}
 	})
 
@@ -1574,110 +1522,6 @@ func TestMessaging(t *testing.T) {
 		}
 	})
 
-	t.Run("Test ListProviderLogs", func(t *testing.T) {
-		mockResponse := `
-{
-    "total": 5,
-    "logs": [
-        {
-            "event": "account.sessions.create",
-            "userId": "610fc2f985ee0",
-            "userEmail": "john@appwrite.io",
-            "userName": "John Doe",
-            "mode": "admin",
-            "userType": "user",
-            "ip": "127.0.0.1",
-            "time": "2020-10-15T06:38:00.000+00:00",
-            "osCode": "Mac",
-            "osName": "Mac",
-            "osVersion": "Mac",
-            "clientType": "browser",
-            "clientCode": "CM",
-            "clientName": "Chrome Mobile iOS",
-            "clientVersion": "84.0",
-            "clientEngine": "WebKit",
-            "clientEngineVersion": "605.1.15",
-            "deviceName": "smartphone",
-            "deviceBrand": "Google",
-            "deviceModel": "Nexus 5",
-            "countryCode": "US",
-            "countryName": "United States"
-        }
-    ]
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "GET" {
-				t.Errorf("Expected method GET, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.ListProviderLogs("<PROVIDER_ID>")
-		if err != nil {
-			t.Errorf("Method ListProviderLogs failed: %v", err)
-		}
-	})
-
-	t.Run("Test ListSubscriberLogs", func(t *testing.T) {
-		mockResponse := `
-{
-    "total": 5,
-    "logs": [
-        {
-            "event": "account.sessions.create",
-            "userId": "610fc2f985ee0",
-            "userEmail": "john@appwrite.io",
-            "userName": "John Doe",
-            "mode": "admin",
-            "userType": "user",
-            "ip": "127.0.0.1",
-            "time": "2020-10-15T06:38:00.000+00:00",
-            "osCode": "Mac",
-            "osName": "Mac",
-            "osVersion": "Mac",
-            "clientType": "browser",
-            "clientCode": "CM",
-            "clientName": "Chrome Mobile iOS",
-            "clientVersion": "84.0",
-            "clientEngine": "WebKit",
-            "clientEngineVersion": "605.1.15",
-            "deviceName": "smartphone",
-            "deviceBrand": "Google",
-            "deviceModel": "Nexus 5",
-            "countryCode": "US",
-            "countryName": "United States"
-        }
-    ]
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "GET" {
-				t.Errorf("Expected method GET, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.ListSubscriberLogs("<SUBSCRIBER_ID>")
-		if err != nil {
-			t.Errorf("Method ListSubscriberLogs failed: %v", err)
-		}
-	})
-
 	t.Run("Test ListTopics", func(t *testing.T) {
 		mockResponse := `
 {
@@ -1838,58 +1682,6 @@ func TestMessaging(t *testing.T) {
 		_, err := srv.DeleteTopic("<TOPIC_ID>")
 		if err != nil {
 			t.Errorf("Method DeleteTopic failed: %v", err)
-		}
-	})
-
-	t.Run("Test ListTopicLogs", func(t *testing.T) {
-		mockResponse := `
-{
-    "total": 5,
-    "logs": [
-        {
-            "event": "account.sessions.create",
-            "userId": "610fc2f985ee0",
-            "userEmail": "john@appwrite.io",
-            "userName": "John Doe",
-            "mode": "admin",
-            "userType": "user",
-            "ip": "127.0.0.1",
-            "time": "2020-10-15T06:38:00.000+00:00",
-            "osCode": "Mac",
-            "osName": "Mac",
-            "osVersion": "Mac",
-            "clientType": "browser",
-            "clientCode": "CM",
-            "clientName": "Chrome Mobile iOS",
-            "clientVersion": "84.0",
-            "clientEngine": "WebKit",
-            "clientEngineVersion": "605.1.15",
-            "deviceName": "smartphone",
-            "deviceBrand": "Google",
-            "deviceModel": "Nexus 5",
-            "countryCode": "US",
-            "countryName": "United States"
-        }
-    ]
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "GET" {
-				t.Errorf("Expected method GET, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.ListTopicLogs("<TOPIC_ID>")
-		if err != nil {
-			t.Errorf("Method ListTopicLogs failed: %v", err)
 		}
 	})
 

@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v6/client"
 )
 
 func TestOrganization(t *testing.T) {
@@ -15,6 +15,510 @@ func TestOrganization(t *testing.T) {
 		c.Client = ts.Client()
 		return c
 	}
+
+	t.Run("Test Get", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "VIP",
+    "total": 7,
+    "prefs": {
+    },
+    "billingBudget": 50,
+    "budgetAlerts": [],
+    "billingPlan": "tier-1",
+    "billingPlanId": "tier-1",
+    "billingPlanDetails": {
+        "$id": "tier-0",
+        "name": "Hobby",
+        "desc": "Hobby plan",
+        "order": 0,
+        "price": 25,
+        "trial": 14,
+        "bandwidth": 25,
+        "storage": 25,
+        "imageTransformations": 100,
+        "screenshotsGenerated": 50,
+        "members": 25,
+        "webhooks": 25,
+        "projects": 2,
+        "platforms": 3,
+        "users": 25,
+        "teams": 25,
+        "databases": 25,
+        "databasesReads": 500000,
+        "databasesWrites": 250000,
+        "databasesBatchSize": 100,
+        "buckets": 25,
+        "fileSize": 25,
+        "functions": 25,
+        "sites": 1,
+        "executions": 25,
+        "executionsRetentionCount": 10000,
+        "GBHours": 100,
+        "realtime": 25,
+        "realtimeMessages": 100000,
+        "messages": 1000,
+        "topics": 1,
+        "authPhone": 10,
+        "domains": 5,
+        "activityLogs": 7,
+        "usageLogs": 30,
+        "projectInactivityDays": 7,
+        "alertLimit": 80,
+        "usage": {
+            "bandwidth": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "executions": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "member": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "realtime": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "realtimeMessages": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "realtimeBandwidth": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "storage": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "users": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "GBHours": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "imageTransformations": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "credits": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            }
+        },
+        "addons": {
+            "seats": {
+                "supported": true,
+                "planIncluded": 1,
+                "limit": 5,
+                "type": "numeric",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "projects": {
+                "supported": true,
+                "planIncluded": 1,
+                "limit": 5,
+                "type": "numeric",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            }
+        },
+        "budgetCapEnabled": true,
+        "customSmtp": true,
+        "emailBranding": true,
+        "requiresPaymentMethod": true,
+        "requiresBillingAddress": true,
+        "isAvailable": true,
+        "selfService": true,
+        "premiumSupport": true,
+        "budgeting": true,
+        "supportsMockNumbers": true,
+        "supportsOrganizationRoles": true,
+        "supportsCredits": true,
+        "supportsDisposableEmailValidation": true,
+        "supportsCanonicalEmailValidation": true,
+        "supportsFreeEmailValidation": true,
+        "supportsCorporateEmailValidation": true,
+        "supportsProjectSpecificRoles": true,
+        "backupsEnabled": true,
+        "usagePerProject": true,
+        "supportedAddons": {
+            "baa": true,
+            "premiumGeoDB": true,
+            "premiumGeoDBOrg": true
+        },
+        "backupPolicies": 1,
+        "deploymentSize": 30,
+        "buildSize": 2000,
+        "databasesAllowEncrypt": true,
+        "group": "pro"
+    },
+    "billingEmail": "billing@org.example",
+    "billingStartDate": "2020-10-15T06:38:00.000+00:00",
+    "billingCurrentInvoiceDate": "2020-10-15T06:38:00.000+00:00",
+    "billingNextInvoiceDate": "2020-10-15T06:38:00.000+00:00",
+    "billingTrialStartDate": "2020-10-15T06:38:00.000+00:00",
+    "billingTrialDays": 14,
+    "billingAggregationId": "adbc3de4rddfsd",
+    "billingInvoiceId": "adbc3de4rddfsd",
+    "paymentMethodId": "adbc3de4rddfsd",
+    "billingAddressId": "adbc3de4rddfsd",
+    "backupPaymentMethodId": "adbc3de4rddfsd",
+    "status": "active",
+    "remarks": "Pending initial payment",
+    "agreementBAA": "string",
+    "programManagerName": "string",
+    "programManagerCalendar": "string",
+    "programDiscordChannelName": "string",
+    "programDiscordChannelUrl": "string",
+    "billingPlanDowngrade": "tier-1",
+    "billingTaxId": "string",
+    "markedForDeletion": true,
+    "platform": "imagine",
+    "projects": []
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.Get()
+		if err != nil {
+			t.Errorf("Method Get failed: %v", err)
+		}
+	})
+
+	t.Run("Test Update", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "VIP",
+    "total": 7,
+    "prefs": {
+    },
+    "billingBudget": 50,
+    "budgetAlerts": [],
+    "billingPlan": "tier-1",
+    "billingPlanId": "tier-1",
+    "billingPlanDetails": {
+        "$id": "tier-0",
+        "name": "Hobby",
+        "desc": "Hobby plan",
+        "order": 0,
+        "price": 25,
+        "trial": 14,
+        "bandwidth": 25,
+        "storage": 25,
+        "imageTransformations": 100,
+        "screenshotsGenerated": 50,
+        "members": 25,
+        "webhooks": 25,
+        "projects": 2,
+        "platforms": 3,
+        "users": 25,
+        "teams": 25,
+        "databases": 25,
+        "databasesReads": 500000,
+        "databasesWrites": 250000,
+        "databasesBatchSize": 100,
+        "buckets": 25,
+        "fileSize": 25,
+        "functions": 25,
+        "sites": 1,
+        "executions": 25,
+        "executionsRetentionCount": 10000,
+        "GBHours": 100,
+        "realtime": 25,
+        "realtimeMessages": 100000,
+        "messages": 1000,
+        "topics": 1,
+        "authPhone": 10,
+        "domains": 5,
+        "activityLogs": 7,
+        "usageLogs": 30,
+        "projectInactivityDays": 7,
+        "alertLimit": 80,
+        "usage": {
+            "bandwidth": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "executions": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "member": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "realtime": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "realtimeMessages": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "realtimeBandwidth": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "storage": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "users": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "GBHours": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "imageTransformations": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "credits": {
+                "name": "string",
+                "unit": "GB",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            }
+        },
+        "addons": {
+            "seats": {
+                "supported": true,
+                "planIncluded": 1,
+                "limit": 5,
+                "type": "numeric",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            },
+            "projects": {
+                "supported": true,
+                "planIncluded": 1,
+                "limit": 5,
+                "type": "numeric",
+                "currency": "USD",
+                "price": 5,
+                "value": 25,
+                "invoiceDesc": "string"
+            }
+        },
+        "budgetCapEnabled": true,
+        "customSmtp": true,
+        "emailBranding": true,
+        "requiresPaymentMethod": true,
+        "requiresBillingAddress": true,
+        "isAvailable": true,
+        "selfService": true,
+        "premiumSupport": true,
+        "budgeting": true,
+        "supportsMockNumbers": true,
+        "supportsOrganizationRoles": true,
+        "supportsCredits": true,
+        "supportsDisposableEmailValidation": true,
+        "supportsCanonicalEmailValidation": true,
+        "supportsFreeEmailValidation": true,
+        "supportsCorporateEmailValidation": true,
+        "supportsProjectSpecificRoles": true,
+        "backupsEnabled": true,
+        "usagePerProject": true,
+        "supportedAddons": {
+            "baa": true,
+            "premiumGeoDB": true,
+            "premiumGeoDBOrg": true
+        },
+        "backupPolicies": 1,
+        "deploymentSize": 30,
+        "buildSize": 2000,
+        "databasesAllowEncrypt": true,
+        "group": "pro"
+    },
+    "billingEmail": "billing@org.example",
+    "billingStartDate": "2020-10-15T06:38:00.000+00:00",
+    "billingCurrentInvoiceDate": "2020-10-15T06:38:00.000+00:00",
+    "billingNextInvoiceDate": "2020-10-15T06:38:00.000+00:00",
+    "billingTrialStartDate": "2020-10-15T06:38:00.000+00:00",
+    "billingTrialDays": 14,
+    "billingAggregationId": "adbc3de4rddfsd",
+    "billingInvoiceId": "adbc3de4rddfsd",
+    "paymentMethodId": "adbc3de4rddfsd",
+    "billingAddressId": "adbc3de4rddfsd",
+    "backupPaymentMethodId": "adbc3de4rddfsd",
+    "status": "active",
+    "remarks": "Pending initial payment",
+    "agreementBAA": "string",
+    "programManagerName": "string",
+    "programManagerCalendar": "string",
+    "programDiscordChannelName": "string",
+    "programDiscordChannelUrl": "string",
+    "billingPlanDowngrade": "tier-1",
+    "billingTaxId": "string",
+    "markedForDeletion": true,
+    "platform": "imagine",
+    "projects": []
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PUT" {
+				t.Errorf("Expected method PUT, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.Update("<NAME>")
+		if err != nil {
+			t.Errorf("Method Update failed: %v", err)
+		}
+	})
+
+	t.Run("Test Delete", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.Delete()
+		if err != nil {
+			t.Errorf("Method Delete failed: %v", err)
+		}
+	})
 
 	t.Run("Test ListKeys", func(t *testing.T) {
 		mockResponse := `
@@ -183,6 +687,197 @@ func TestOrganization(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ListMemberships", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "memberships": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "userId": "5e5ea5c16897e",
+            "userName": "John Doe",
+            "userEmail": "john@appwrite.io",
+            "userPhone": "+1 555 555 5555",
+            "teamId": "5e5ea5c16897e",
+            "teamName": "VIP",
+            "invited": "2020-10-15T06:38:00.000+00:00",
+            "joined": "2020-10-15T06:38:00.000+00:00",
+            "confirm": true,
+            "mfa": true,
+            "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
+            "roles": []
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListMemberships()
+		if err != nil {
+			t.Errorf("Method ListMemberships failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateMembership", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c16897e",
+    "userName": "John Doe",
+    "userEmail": "john@appwrite.io",
+    "userPhone": "+1 555 555 5555",
+    "teamId": "5e5ea5c16897e",
+    "teamName": "VIP",
+    "invited": "2020-10-15T06:38:00.000+00:00",
+    "joined": "2020-10-15T06:38:00.000+00:00",
+    "confirm": true,
+    "mfa": true,
+    "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "roles": []
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateMembership([]string{})
+		if err != nil {
+			t.Errorf("Method CreateMembership failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetMembership", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c16897e",
+    "userName": "John Doe",
+    "userEmail": "john@appwrite.io",
+    "userPhone": "+1 555 555 5555",
+    "teamId": "5e5ea5c16897e",
+    "teamName": "VIP",
+    "invited": "2020-10-15T06:38:00.000+00:00",
+    "joined": "2020-10-15T06:38:00.000+00:00",
+    "confirm": true,
+    "mfa": true,
+    "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "roles": []
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetMembership("<MEMBERSHIP_ID>")
+		if err != nil {
+			t.Errorf("Method GetMembership failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateMembership", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c16897e",
+    "userName": "John Doe",
+    "userEmail": "john@appwrite.io",
+    "userPhone": "+1 555 555 5555",
+    "teamId": "5e5ea5c16897e",
+    "teamName": "VIP",
+    "invited": "2020-10-15T06:38:00.000+00:00",
+    "joined": "2020-10-15T06:38:00.000+00:00",
+    "confirm": true,
+    "mfa": true,
+    "userAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "roles": []
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateMembership("<MEMBERSHIP_ID>", []string{})
+		if err != nil {
+			t.Errorf("Method UpdateMembership failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteMembership", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteMembership("<MEMBERSHIP_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteMembership failed: %v", err)
+		}
+	})
+
 	t.Run("Test ListProjects", func(t *testing.T) {
 		mockResponse := `
 {
@@ -215,12 +910,13 @@ func TestOrganization(t *testing.T) {
             "smtpHost": "mail.appwrite.io",
             "smtpPort": 25,
             "smtpUsername": "emailuser",
-            "smtpPassword": "string",
+            "smtpPassword": "smtp-password",
             "smtpSecure": "tls",
             "pingCount": 1,
             "pingedAt": "2020-10-15T06:38:00.000+00:00",
             "labels": [],
             "status": "active",
+            "onboarding": {},
             "authMethods": [
                 {
                     "$id": "email-password",
@@ -244,6 +940,7 @@ func TestOrganization(t *testing.T) {
                     "$createdAt": "2020-10-15T06:38:00.000+00:00",
                     "resourceType": "project",
                     "resourceId": "5e5ea5c16897e",
+                    "mode": "readOnly",
                     "projectName": "My Project",
                     "region": "fra",
                     "organizationName": "Acme Inc.",
@@ -251,16 +948,7 @@ func TestOrganization(t *testing.T) {
                     "billingPlan": "pro"
                 }
             ],
-            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-            "oAuth2ServerEnabled": true,
-            "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-            "oAuth2ServerScopes": [],
-            "oAuth2ServerAccessTokenDuration": 3600,
-            "oAuth2ServerRefreshTokenDuration": 86400,
-            "oAuth2ServerPublicAccessTokenDuration": 3600,
-            "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-            "oAuth2ServerConfidentialPkce": true,
-            "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
         }
     ]
 }
@@ -314,12 +1002,13 @@ func TestOrganization(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -343,6 +1032,7 @@ func TestOrganization(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -350,16 +1040,7 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -411,12 +1092,13 @@ func TestOrganization(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -440,6 +1122,7 @@ func TestOrganization(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -447,16 +1130,7 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -508,12 +1182,13 @@ func TestOrganization(t *testing.T) {
     "smtpHost": "mail.appwrite.io",
     "smtpPort": 25,
     "smtpUsername": "emailuser",
-    "smtpPassword": "string",
+    "smtpPassword": "smtp-password",
     "smtpSecure": "tls",
     "pingCount": 1,
     "pingedAt": "2020-10-15T06:38:00.000+00:00",
     "labels": [],
     "status": "active",
+    "onboarding": {},
     "authMethods": [
         {
             "$id": "email-password",
@@ -537,6 +1212,7 @@ func TestOrganization(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly",
             "projectName": "My Project",
             "region": "fra",
             "organizationName": "Acme Inc.",
@@ -544,16 +1220,7 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "oAuth2ServerEnabled": true,
-    "oAuth2ServerAuthorizationUrl": "https://cloud.appwrite.io/oauth2/.well-known/openid-configuration",
-    "oAuth2ServerScopes": [],
-    "oAuth2ServerAccessTokenDuration": 3600,
-    "oAuth2ServerRefreshTokenDuration": 86400,
-    "oAuth2ServerPublicAccessTokenDuration": 3600,
-    "oAuth2ServerPublicRefreshTokenDuration": 2592000,
-    "oAuth2ServerConfidentialPkce": true,
-    "oAuth2ServerDiscoveryUrl": "https://auth.example.com/.well-known/openid-configuration"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 

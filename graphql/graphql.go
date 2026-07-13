@@ -3,7 +3,7 @@ package graphql
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v6/client"
 	"strings"
 )
 
@@ -28,6 +28,7 @@ func (srv *Graphql) Query(Query interface{})(*interface{}, error) {
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"x-sdk-graphql": "true",
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -63,6 +64,7 @@ func (srv *Graphql) Mutation(Query interface{})(*interface{}, error) {
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"x-sdk-graphql": "true",
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)

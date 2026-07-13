@@ -3,8 +3,8 @@ package main
 
 import (
     "fmt"
-    "github.com/appwrite/sdk-for-go/v5/client"
-    "github.com/appwrite/sdk-for-go/v5/messaging"
+    "github.com/appwrite/sdk-for-go/v6/client"
+    "github.com/appwrite/sdk-for-go/v6/messaging"
 )
 
 client := client.New(
@@ -21,7 +21,7 @@ response, error := service.UpdateSMTPProvider(
     messaging.WithUpdateSMTPProviderHost("<HOST>"),
     messaging.WithUpdateSMTPProviderPort(1),
     messaging.WithUpdateSMTPProviderUsername("<USERNAME>"),
-    messaging.WithUpdateSMTPProviderPassword("<PASSWORD>"),
+    messaging.WithUpdateSMTPProviderPassword("password"),
     messaging.WithUpdateSMTPProviderEncryption("none"),
     messaging.WithUpdateSMTPProviderAutoTLS(false),
     messaging.WithUpdateSMTPProviderMailer("<MAILER>"),

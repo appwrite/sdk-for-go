@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v6/client"
 )
 
 func TestBackups(t *testing.T) {
@@ -166,6 +166,7 @@ func TestBackups(t *testing.T) {
             "resources": [],
             "retention": 7,
             "schedule": "0 * * * *",
+            "type": "full",
             "enabled": true
         }
     ]
@@ -202,6 +203,7 @@ func TestBackups(t *testing.T) {
     "resources": [],
     "retention": 7,
     "schedule": "0 * * * *",
+    "type": "full",
     "enabled": true
 }
 `
@@ -236,6 +238,7 @@ func TestBackups(t *testing.T) {
     "resources": [],
     "retention": 7,
     "schedule": "0 * * * *",
+    "type": "full",
     "enabled": true
 }
 `
@@ -270,6 +273,7 @@ func TestBackups(t *testing.T) {
     "resources": [],
     "retention": 7,
     "schedule": "0 * * * *",
+    "type": "full",
     "enabled": true
 }
 `
@@ -332,7 +336,7 @@ func TestBackups(t *testing.T) {
     "migrationId": "did8jx6ws45jana098ab7",
     "services": [],
     "resources": [],
-    "options": "{databases.database[{oldId, newId, newName}]}"
+    "options": "{databases.database[{oldId, newId, newName, newSpecification}]}"
 }
 `
 
@@ -371,7 +375,7 @@ func TestBackups(t *testing.T) {
             "migrationId": "did8jx6ws45jana098ab7",
             "services": [],
             "resources": [],
-            "options": "{databases.database[{oldId, newId, newName}]}"
+            "options": "{databases.database[{oldId, newId, newName, newSpecification}]}"
         }
     ]
 }
@@ -409,7 +413,7 @@ func TestBackups(t *testing.T) {
     "migrationId": "did8jx6ws45jana098ab7",
     "services": [],
     "resources": [],
-    "options": "{databases.database[{oldId, newId, newName}]}"
+    "options": "{databases.database[{oldId, newId, newName, newSpecification}]}"
 }
 `
 

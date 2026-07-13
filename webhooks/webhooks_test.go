@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
+	"github.com/appwrite/sdk-for-go/v6/client"
 )
 
 func TestWebhooks(t *testing.T) {
@@ -30,7 +30,7 @@ func TestWebhooks(t *testing.T) {
             "events": [],
             "tls": true,
             "authUsername": "username",
-            "authPassword": "password",
+            "authPassword": "webhook-password",
             "secret": "ad3d581ca230e2b7059c545e5a",
             "enabled": true,
             "logs": "Failed to connect to remote server.",
@@ -70,7 +70,7 @@ func TestWebhooks(t *testing.T) {
     "events": [],
     "tls": true,
     "authUsername": "username",
-    "authPassword": "password",
+    "authPassword": "webhook-password",
     "secret": "ad3d581ca230e2b7059c545e5a",
     "enabled": true,
     "logs": "Failed to connect to remote server.",
@@ -108,7 +108,7 @@ func TestWebhooks(t *testing.T) {
     "events": [],
     "tls": true,
     "authUsername": "username",
-    "authPassword": "password",
+    "authPassword": "webhook-password",
     "secret": "ad3d581ca230e2b7059c545e5a",
     "enabled": true,
     "logs": "Failed to connect to remote server.",
@@ -146,7 +146,7 @@ func TestWebhooks(t *testing.T) {
     "events": [],
     "tls": true,
     "authUsername": "username",
-    "authPassword": "password",
+    "authPassword": "webhook-password",
     "secret": "ad3d581ca230e2b7059c545e5a",
     "enabled": true,
     "logs": "Failed to connect to remote server.",
@@ -210,7 +210,7 @@ func TestWebhooks(t *testing.T) {
     "events": [],
     "tls": true,
     "authUsername": "username",
-    "authPassword": "password",
+    "authPassword": "webhook-password",
     "secret": "ad3d581ca230e2b7059c545e5a",
     "enabled": true,
     "logs": "Failed to connect to remote server.",

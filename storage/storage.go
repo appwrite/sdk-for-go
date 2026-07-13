@@ -3,9 +3,9 @@ package storage
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
-	"github.com/appwrite/sdk-for-go/v5/file"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
+	"github.com/appwrite/sdk-for-go/v6/file"
 	"net/url"
 	"fmt"
 	"strings"
@@ -76,6 +76,7 @@ func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption)(*models.Bu
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -224,6 +225,7 @@ func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters .
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -260,6 +262,7 @@ func (srv *Storage) GetBucket(BucketId string)(*models.Bucket, error) {
 	params["bucketId"] = BucketId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -409,6 +412,7 @@ func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters .
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -526,6 +530,7 @@ func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOptio
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -604,6 +609,7 @@ func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFi
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "multipart/form-data",
+		"accept": "application/json",
 	}
 
     paramName := "file"
@@ -643,6 +649,7 @@ func (srv *Storage) GetFile(BucketId string, FileId string)(*models.File, error)
 	params["fileId"] = FileId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -716,6 +723,7 @@ func (srv *Storage) UpdateFile(BucketId string, FileId string, optionalSetters .
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -815,6 +823,7 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSett
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "*/*",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1022,6 +1031,7 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "image/*",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1141,6 +1151,7 @@ func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters 
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "*/*",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)

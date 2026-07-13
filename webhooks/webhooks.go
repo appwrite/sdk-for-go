@@ -3,8 +3,8 @@ package webhooks
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 	"strings"
 )
 
@@ -62,6 +62,7 @@ func (srv *Webhooks) List(optionalSetters ...ListOption)(*models.WebhookList, er
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -169,6 +170,7 @@ func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -205,6 +207,7 @@ func (srv *Webhooks) Get(WebhookId string)(*models.Webhook, error) {
 	params["webhookId"] = WebhookId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -302,6 +305,7 @@ func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -400,6 +404,7 @@ func (srv *Webhooks) UpdateSecret(WebhookId string, optionalSetters ...UpdateSec
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)

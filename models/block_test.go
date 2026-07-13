@@ -6,7 +6,7 @@ import (
 )
 
 func TestBlockModel(t *testing.T) {
-    model := Block{        CreatedAt: "2020-10-15T06:38:00.000+00:00",        ResourceType: "project",        ResourceId: "5e5ea5c16897e",        ProjectName: "My Project",        Region: "fra",        OrganizationName: "Acme Inc.",        OrganizationId: "5e5ea5c16897e",        BillingPlan: "pro",    }
+    model := Block{        CreatedAt: "2020-10-15T06:38:00.000+00:00",        ResourceType: "project",        ResourceId: "5e5ea5c16897e",        Mode: "readOnly",        ProjectName: "My Project",        Region: "fra",        OrganizationName: "Acme Inc.",        OrganizationId: "5e5ea5c16897e",        BillingPlan: "pro",    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -26,6 +26,9 @@ func TestBlockModel(t *testing.T) {
     }
     if result.ResourceId != model.ResourceId {
         t.Errorf("Expected ResourceId %v, got %v", model.ResourceId, result.ResourceId)
+    }
+    if result.Mode != model.Mode {
+        t.Errorf("Expected Mode %v, got %v", model.Mode, result.Mode)
     }
     if result.ProjectName != model.ProjectName {
         t.Errorf("Expected ProjectName %v, got %v", model.ProjectName, result.ProjectName)

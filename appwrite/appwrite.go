@@ -3,30 +3,28 @@ package appwrite
 import (
 	"time"
 
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/account"
-	"github.com/appwrite/sdk-for-go/v5/activities"
-	"github.com/appwrite/sdk-for-go/v5/avatars"
-	"github.com/appwrite/sdk-for-go/v5/backups"
-	"github.com/appwrite/sdk-for-go/v5/databases"
-	"github.com/appwrite/sdk-for-go/v5/functions"
-	"github.com/appwrite/sdk-for-go/v5/graphql"
-	"github.com/appwrite/sdk-for-go/v5/health"
-	"github.com/appwrite/sdk-for-go/v5/locale"
-	"github.com/appwrite/sdk-for-go/v5/messaging"
-	"github.com/appwrite/sdk-for-go/v5/organization"
-	"github.com/appwrite/sdk-for-go/v5/presences"
-	"github.com/appwrite/sdk-for-go/v5/project"
-	"github.com/appwrite/sdk-for-go/v5/proxy"
-	"github.com/appwrite/sdk-for-go/v5/advisor"
-	"github.com/appwrite/sdk-for-go/v5/sites"
-	"github.com/appwrite/sdk-for-go/v5/storage"
-	"github.com/appwrite/sdk-for-go/v5/tablesdb"
-	"github.com/appwrite/sdk-for-go/v5/teams"
-	"github.com/appwrite/sdk-for-go/v5/tokens"
-	"github.com/appwrite/sdk-for-go/v5/usage"
-	"github.com/appwrite/sdk-for-go/v5/users"
-	"github.com/appwrite/sdk-for-go/v5/webhooks"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/account"
+	"github.com/appwrite/sdk-for-go/v6/activities"
+	"github.com/appwrite/sdk-for-go/v6/avatars"
+	"github.com/appwrite/sdk-for-go/v6/backups"
+	"github.com/appwrite/sdk-for-go/v6/databases"
+	"github.com/appwrite/sdk-for-go/v6/functions"
+	"github.com/appwrite/sdk-for-go/v6/graphql"
+	"github.com/appwrite/sdk-for-go/v6/locale"
+	"github.com/appwrite/sdk-for-go/v6/messaging"
+	"github.com/appwrite/sdk-for-go/v6/organization"
+	"github.com/appwrite/sdk-for-go/v6/presences"
+	"github.com/appwrite/sdk-for-go/v6/project"
+	"github.com/appwrite/sdk-for-go/v6/proxy"
+	"github.com/appwrite/sdk-for-go/v6/advisor"
+	"github.com/appwrite/sdk-for-go/v6/sites"
+	"github.com/appwrite/sdk-for-go/v6/storage"
+	"github.com/appwrite/sdk-for-go/v6/tablesdb"
+	"github.com/appwrite/sdk-for-go/v6/teams"
+	"github.com/appwrite/sdk-for-go/v6/tokens"
+	"github.com/appwrite/sdk-for-go/v6/users"
+	"github.com/appwrite/sdk-for-go/v6/webhooks"
 )
 
 func NewAccount(clt client.Client) *account.Account {
@@ -49,9 +47,6 @@ func NewFunctions(clt client.Client) *functions.Functions {
 }
 func NewGraphql(clt client.Client) *graphql.Graphql {
 	return graphql.New(clt)
-}
-func NewHealth(clt client.Client) *health.Health {
-	return health.New(clt)
 }
 func NewLocale(clt client.Client) *locale.Locale {
 	return locale.New(clt)
@@ -88,9 +83,6 @@ func NewTeams(clt client.Client) *teams.Teams {
 }
 func NewTokens(clt client.Client) *tokens.Tokens {
 	return tokens.New(clt)
-}
-func NewUsage(clt client.Client) *usage.Usage {
-	return usage.New(clt)
 }
 func NewUsers(clt client.Client) *users.Users {
 	return users.New(clt)
@@ -173,6 +165,16 @@ func WithJWT(value string) client.ClientOption {
 	}
 }
 // Helper method to construct NewClient()
+// 
+// The OAuth access token to authenticate with
+func WithBearer(value string) client.ClientOption {
+	return func(clt *client.Client) error {
+		clt.Config["bearer"] = value
+		clt.Headers["Authorization"] = value
+		return nil
+	}
+}
+// Helper method to construct NewClient()
 func WithLocale(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Config["locale"] = value
@@ -222,7 +224,7 @@ func WithCookie(value string) client.ClientOption {
 }
 // Helper method to construct NewClient()
 // 
-// Impersonate a user by ID on an already user-authenticated request. Requires the current request to be authenticated as a user with impersonator capability; X-Appwrite-Key alone is not sufficient. Impersonator users are intentionally granted users.read so they can discover a target before impersonation begins. Internal audit logs still attribute actions to the original impersonator and record the impersonated target only in internal audit payload data.
+// Impersonate a user by ID
 func WithImpersonateUserId(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Config["impersonateuserid"] = value
@@ -232,7 +234,7 @@ func WithImpersonateUserId(value string) client.ClientOption {
 }
 // Helper method to construct NewClient()
 // 
-// Impersonate a user by email on an already user-authenticated request. Requires the current request to be authenticated as a user with impersonator capability; X-Appwrite-Key alone is not sufficient. Impersonator users are intentionally granted users.read so they can discover a target before impersonation begins. Internal audit logs still attribute actions to the original impersonator and record the impersonated target only in internal audit payload data.
+// Impersonate a user by email
 func WithImpersonateUserEmail(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Config["impersonateuseremail"] = value
@@ -242,7 +244,7 @@ func WithImpersonateUserEmail(value string) client.ClientOption {
 }
 // Helper method to construct NewClient()
 // 
-// Impersonate a user by phone on an already user-authenticated request. Requires the current request to be authenticated as a user with impersonator capability; X-Appwrite-Key alone is not sufficient. Impersonator users are intentionally granted users.read so they can discover a target before impersonation begins. Internal audit logs still attribute actions to the original impersonator and record the impersonated target only in internal audit payload data.
+// Impersonate a user by phone
 func WithImpersonateUserPhone(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Config["impersonateuserphone"] = value

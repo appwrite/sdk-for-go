@@ -3,8 +3,8 @@ package proxy
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 	"strings"
 )
 
@@ -62,6 +62,7 @@ func (srv *Proxy) ListRules(optionalSetters ...ListRulesOption)(*models.ProxyRul
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -101,6 +102,7 @@ func (srv *Proxy) CreateAPIRule(Domain string)(*models.ProxyRule, error) {
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -165,6 +167,7 @@ func (srv *Proxy) CreateFunctionRule(Domain string, FunctionId string, optionalS
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -208,6 +211,7 @@ func (srv *Proxy) CreateRedirectRule(Domain string, Url string, StatusCode strin
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -272,6 +276,7 @@ func (srv *Proxy) CreateSiteRule(Domain string, SiteId string, optionalSetters .
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -307,6 +312,7 @@ func (srv *Proxy) GetRule(RuleId string)(*models.ProxyRule, error) {
 	params["ruleId"] = RuleId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -381,6 +387,7 @@ func (srv *Proxy) UpdateRuleStatus(RuleId string)(*models.ProxyRule, error) {
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)

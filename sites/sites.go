@@ -3,9 +3,9 @@ package sites
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
-	"github.com/appwrite/sdk-for-go/v5/file"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
+	"github.com/appwrite/sdk-for-go/v6/file"
 	"net/url"
 	"fmt"
 	"strings"
@@ -76,6 +76,7 @@ func (srv *Sites) List(optionalSetters ...ListOption)(*models.SiteList, error) {
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -336,6 +337,7 @@ func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRunt
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -370,6 +372,7 @@ func (srv *Sites) ListFrameworks()(*models.FrameworkList, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -396,13 +399,38 @@ func (srv *Sites) ListFrameworks()(*models.FrameworkList, error) {
 	return &parsed, nil
 
 }
-
+type ListSpecificationsOptions struct {
+	Type string
+	enabledSetters map[string]bool
+}
+func (options ListSpecificationsOptions) New() *ListSpecificationsOptions {
+	options.enabledSetters = map[string]bool{
+		"Type": false,
+	}
+	return &options
+}
+type ListSpecificationsOption func(*ListSpecificationsOptions)
+func (srv *Sites) WithListSpecificationsType(v string) ListSpecificationsOption {
+	return func(o *ListSpecificationsOptions) {
+		o.Type = v
+		o.enabledSetters["Type"] = true
+	}
+}
+	
 // ListSpecifications list allowed site specifications for this instance.
-func (srv *Sites) ListSpecifications()(*models.SpecificationList, error) {
+func (srv *Sites) ListSpecifications(optionalSetters ...ListSpecificationsOption)(*models.SpecificationList, error) {
 	path := "/sites/specifications"
+	options := ListSpecificationsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Type"] {
+		params["type"] = options.Type
+	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -438,6 +466,7 @@ func (srv *Sites) Get(SiteId string)(*models.Site, error) {
 	params["siteId"] = SiteId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -709,6 +738,7 @@ func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalS
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -783,6 +813,7 @@ func (srv *Sites) UpdateSiteDeployment(SiteId string, DeploymentId string)(*mode
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -865,6 +896,7 @@ func (srv *Sites) ListDeployments(SiteId string, optionalSetters ...ListDeployme
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -962,6 +994,7 @@ func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, optionalS
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "multipart/form-data",
+		"accept": "application/json",
 	}
 
     paramName := "code"
@@ -1005,6 +1038,7 @@ func (srv *Sites) CreateDuplicateDeployment(SiteId string, DeploymentId string)(
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1074,6 +1108,7 @@ func (srv *Sites) CreateTemplateDeployment(SiteId string, Repository string, Own
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1138,6 +1173,7 @@ func (srv *Sites) CreateVcsDeployment(SiteId string, Type string, Reference stri
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1174,6 +1210,7 @@ func (srv *Sites) GetDeployment(SiteId string, DeploymentId string)(*models.Depl
 	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1273,6 +1310,7 @@ func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, opti
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "*/*",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1338,6 +1376,7 @@ func (srv *Sites) UpdateDeploymentStatus(SiteId string, DeploymentId string)(*mo
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1409,6 +1448,7 @@ func (srv *Sites) ListLogs(SiteId string, optionalSetters ...ListLogsOption)(*mo
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1445,6 +1485,7 @@ func (srv *Sites) GetLog(SiteId string, LogId string)(*models.Execution, error) 
 	params["logId"] = LogId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1482,6 +1523,7 @@ func (srv *Sites) DeleteLog(SiteId string, LogId string)(*interface{}, error) {
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
@@ -1551,6 +1593,7 @@ func (srv *Sites) ListVariables(SiteId string, optionalSetters ...ListVariablesO
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1615,6 +1658,7 @@ func (srv *Sites) CreateVariable(SiteId string, VariableId string, Key string, V
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1651,6 +1695,7 @@ func (srv *Sites) GetVariable(SiteId string, VariableId string)(*models.Variable
 	params["variableId"] = VariableId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1734,6 +1779,7 @@ func (srv *Sites) UpdateVariable(SiteId string, VariableId string, optionalSette
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)

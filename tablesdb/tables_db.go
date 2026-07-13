@@ -3,8 +3,8 @@ package tablesdb
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v5/client"
-	"github.com/appwrite/sdk-for-go/v5/models"
+	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v6/models"
 	"fmt"
 	"strings"
 )
@@ -74,6 +74,7 @@ func (srv *TablesDB) List(optionalSetters ...ListOption)(*models.DatabaseList, e
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -102,11 +103,13 @@ func (srv *TablesDB) List(optionalSetters ...ListOption)(*models.DatabaseList, e
 }
 type CreateOptions struct {
 	Enabled bool
+	Specification string
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
 	options.enabledSetters = map[string]bool{
 		"Enabled": false,
+		"Specification": false,
 	}
 	return &options
 }
@@ -115,6 +118,12 @@ func (srv *TablesDB) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *TablesDB) WithCreateSpecification(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.Specification = v
+		o.enabledSetters["Specification"] = true
 	}
 }
 					
@@ -131,9 +140,13 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
+	if options.enabledSetters["Specification"] {
+		params["specification"] = options.Specification
+	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -191,6 +204,7 @@ func (srv *TablesDB) ListTransactions(optionalSetters ...ListTransactionsOption)
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -249,6 +263,7 @@ func (srv *TablesDB) CreateTransaction(optionalSetters ...CreateTransactionOptio
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -284,6 +299,7 @@ func (srv *TablesDB) GetTransaction(TransactionId string)(*models.Transaction, e
 	params["transactionId"] = TransactionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -356,6 +372,7 @@ func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -451,6 +468,7 @@ func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...C
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -487,6 +505,7 @@ func (srv *TablesDB) Get(DatabaseId string)(*models.Database, error) {
 	params["databaseId"] = DatabaseId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -558,6 +577,7 @@ func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -676,6 +696,7 @@ func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTables
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -785,6 +806,7 @@ func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string,
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -822,6 +844,7 @@ func (srv *TablesDB) GetTable(DatabaseId string, TableId string)(*models.Table, 
 	params["tableId"] = TableId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -927,6 +950,7 @@ func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSett
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -1035,6 +1059,7 @@ func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSett
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -1132,6 +1157,7 @@ func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key s
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1219,6 +1245,7 @@ func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key s
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1293,6 +1320,7 @@ func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1358,6 +1386,7 @@ func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1433,6 +1462,7 @@ func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1498,6 +1528,7 @@ func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1572,6 +1603,7 @@ func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1637,6 +1669,7 @@ func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1713,6 +1746,7 @@ func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1779,6 +1813,7 @@ func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -1876,6 +1911,7 @@ func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -1963,6 +1999,7 @@ func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2060,6 +2097,7 @@ func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2147,6 +2185,7 @@ func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2221,6 +2260,7 @@ func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key strin
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2286,6 +2326,7 @@ func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key strin
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2313,7 +2354,7 @@ func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key strin
 
 }
 type CreateLineColumnOptions struct {
-	Default []interface{}
+	Default [][]interface{}
 	enabledSetters map[string]bool
 }
 func (options CreateLineColumnOptions) New() *CreateLineColumnOptions {
@@ -2323,7 +2364,7 @@ func (options CreateLineColumnOptions) New() *CreateLineColumnOptions {
 	return &options
 }
 type CreateLineColumnOption func(*CreateLineColumnOptions)
-func (srv *TablesDB) WithCreateLineColumnDefault(v []interface{}) CreateLineColumnOption {
+func (srv *TablesDB) WithCreateLineColumnDefault(v [][]interface{}) CreateLineColumnOption {
 	return func(o *CreateLineColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2349,6 +2390,7 @@ func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2376,7 +2418,7 @@ func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key str
 
 }
 type UpdateLineColumnOptions struct {
-	Default []interface{}
+	Default [][]interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -2388,7 +2430,7 @@ func (options UpdateLineColumnOptions) New() *UpdateLineColumnOptions {
 	return &options
 }
 type UpdateLineColumnOption func(*UpdateLineColumnOptions)
-func (srv *TablesDB) WithUpdateLineColumnDefault(v []interface{}) UpdateLineColumnOption {
+func (srv *TablesDB) WithUpdateLineColumnDefault(v [][]interface{}) UpdateLineColumnOption {
 	return func(o *UpdateLineColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2424,6 +2466,7 @@ func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2509,6 +2552,7 @@ func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2574,6 +2618,7 @@ func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2659,6 +2704,7 @@ func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, K
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2724,6 +2770,7 @@ func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, K
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2751,7 +2798,7 @@ func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, K
 
 }
 type CreatePointColumnOptions struct {
-	Default []interface{}
+	Default []float64
 	enabledSetters map[string]bool
 }
 func (options CreatePointColumnOptions) New() *CreatePointColumnOptions {
@@ -2761,7 +2808,7 @@ func (options CreatePointColumnOptions) New() *CreatePointColumnOptions {
 	return &options
 }
 type CreatePointColumnOption func(*CreatePointColumnOptions)
-func (srv *TablesDB) WithCreatePointColumnDefault(v []interface{}) CreatePointColumnOption {
+func (srv *TablesDB) WithCreatePointColumnDefault(v []float64) CreatePointColumnOption {
 	return func(o *CreatePointColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2787,6 +2834,7 @@ func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2814,7 +2862,7 @@ func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key st
 
 }
 type UpdatePointColumnOptions struct {
-	Default []interface{}
+	Default []float64
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -2826,7 +2874,7 @@ func (options UpdatePointColumnOptions) New() *UpdatePointColumnOptions {
 	return &options
 }
 type UpdatePointColumnOption func(*UpdatePointColumnOptions)
-func (srv *TablesDB) WithUpdatePointColumnDefault(v []interface{}) UpdatePointColumnOption {
+func (srv *TablesDB) WithUpdatePointColumnDefault(v []float64) UpdatePointColumnOption {
 	return func(o *UpdatePointColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2862,6 +2910,7 @@ func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key st
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -2889,7 +2938,7 @@ func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key st
 
 }
 type CreatePolygonColumnOptions struct {
-	Default []interface{}
+	Default [][]interface{}
 	enabledSetters map[string]bool
 }
 func (options CreatePolygonColumnOptions) New() *CreatePolygonColumnOptions {
@@ -2899,7 +2948,7 @@ func (options CreatePolygonColumnOptions) New() *CreatePolygonColumnOptions {
 	return &options
 }
 type CreatePolygonColumnOption func(*CreatePolygonColumnOptions)
-func (srv *TablesDB) WithCreatePolygonColumnDefault(v []interface{}) CreatePolygonColumnOption {
+func (srv *TablesDB) WithCreatePolygonColumnDefault(v [][]interface{}) CreatePolygonColumnOption {
 	return func(o *CreatePolygonColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -2925,6 +2974,7 @@ func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -2952,7 +3002,7 @@ func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key 
 
 }
 type UpdatePolygonColumnOptions struct {
-	Default []interface{}
+	Default [][]interface{}
 	NewKey string
 	enabledSetters map[string]bool
 }
@@ -2964,7 +3014,7 @@ func (options UpdatePolygonColumnOptions) New() *UpdatePolygonColumnOptions {
 	return &options
 }
 type UpdatePolygonColumnOption func(*UpdatePolygonColumnOptions)
-func (srv *TablesDB) WithUpdatePolygonColumnDefault(v []interface{}) UpdatePolygonColumnOption {
+func (srv *TablesDB) WithUpdatePolygonColumnDefault(v [][]interface{}) UpdatePolygonColumnOption {
 	return func(o *UpdatePolygonColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
@@ -3000,6 +3050,7 @@ func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3098,6 +3149,7 @@ func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string,
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3186,6 +3238,7 @@ func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key s
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3264,6 +3317,7 @@ func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key s
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3349,6 +3403,7 @@ func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3414,6 +3469,7 @@ func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key str
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3488,6 +3544,7 @@ func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key stri
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3553,6 +3610,7 @@ func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key stri
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3639,6 +3697,7 @@ func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -3715,6 +3774,7 @@ func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -3752,6 +3812,7 @@ func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(mo
 	params["key"] = Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -3941,6 +4002,7 @@ func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string,
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -4012,6 +4074,7 @@ func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSett
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4089,6 +4152,7 @@ func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -4126,6 +4190,7 @@ func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string)(*mo
 	params["key"] = Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4257,6 +4322,7 @@ func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4334,6 +4400,7 @@ func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -4399,6 +4466,7 @@ func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interf
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("POST", path, headers, params)
@@ -4464,6 +4532,7 @@ func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interf
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -4549,6 +4618,7 @@ func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSette
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -4622,6 +4692,7 @@ func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSette
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
@@ -4695,6 +4766,7 @@ func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, opt
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("GET", path, headers, params)
@@ -4782,6 +4854,7 @@ func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
@@ -4867,6 +4940,7 @@ func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, 
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -5013,6 +5087,7 @@ func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
@@ -5098,6 +5173,7 @@ func (srv *TablesDB) IncrementRowColumn(DatabaseId string, TableId string, RowId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
+		"accept": "application/json",
 	}
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
