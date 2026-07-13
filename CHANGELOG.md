@@ -5,7 +5,7 @@
 * Breaking: Removed `Health` and `Usage` services and their models
 * Breaking: Removed `ListMessageLogs`, `ListProviderLogs`, `ListSubscriberLogs`, `ListTopicLogs` from `Messaging`
 * Breaking: Changed spatial default setter types to `[][]interface{}` and `[]float64` in `Databases`/`TablesDB`
-* Breaking: Removed OS, client, device, and country fields from `ActivityEvent` model
+* Breaking: Removed OS, client, and device fields plus `countryCode`/`countryName` from `ActivityEvent` (`country` remains)
 * Added: `Organization` `Get`, `Update`, `Delete`, and membership management methods
 * Added: `WithBearer` client option for OAuth bearer-token authentication
 * Added: `VectorDot`, `VectorCosine`, `VectorEuclidean` query helpers
