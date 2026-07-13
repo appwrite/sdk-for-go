@@ -170,7 +170,7 @@ func WithJWT(value string) client.ClientOption {
 func WithBearer(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Config["bearer"] = value
-		clt.Headers["Authorization"] = value
+		clt.Headers["Authorization"] = "Bearer " + value
 		return nil
 	}
 }
