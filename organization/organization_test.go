@@ -43,6 +43,7 @@ func TestOrganization(t *testing.T) {
         "screenshotsGenerated": 50,
         "members": 25,
         "webhooks": 25,
+        "wafRules": 2,
         "projects": 2,
         "platforms": 3,
         "users": 25,
@@ -282,6 +283,7 @@ func TestOrganization(t *testing.T) {
         "screenshotsGenerated": 50,
         "members": 25,
         "webhooks": 25,
+        "wafRules": 2,
         "projects": 2,
         "platforms": 3,
         "users": 25,
@@ -517,6 +519,173 @@ func TestOrganization(t *testing.T) {
 		_, err := srv.Delete()
 		if err != nil {
 			t.Errorf("Method Delete failed: %v", err)
+		}
+	})
+
+	t.Run("Test ListInstallations", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "installations": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "appId": "5e5ea5c16897e",
+            "teamId": "5e5ea5c16897e",
+            "scopes": [],
+            "authorizationDetails": {},
+            "createdById": "5e5ea5c16897e",
+            "createdByName": "Walter White"
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListInstallations()
+		if err != nil {
+			t.Errorf("Method ListInstallations failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateInstallation", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "appId": "5e5ea5c16897e",
+    "teamId": "5e5ea5c16897e",
+    "scopes": [],
+    "authorizationDetails": {},
+    "createdById": "5e5ea5c16897e",
+    "createdByName": "Walter White"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateInstallation("<APP_ID>")
+		if err != nil {
+			t.Errorf("Method CreateInstallation failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetInstallation", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "appId": "5e5ea5c16897e",
+    "teamId": "5e5ea5c16897e",
+    "scopes": [],
+    "authorizationDetails": {},
+    "createdById": "5e5ea5c16897e",
+    "createdByName": "Walter White"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetInstallation("<INSTALLATION_ID>")
+		if err != nil {
+			t.Errorf("Method GetInstallation failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateInstallation", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "appId": "5e5ea5c16897e",
+    "teamId": "5e5ea5c16897e",
+    "scopes": [],
+    "authorizationDetails": {},
+    "createdById": "5e5ea5c16897e",
+    "createdByName": "Walter White"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PUT" {
+				t.Errorf("Expected method PUT, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateInstallation("<INSTALLATION_ID>")
+		if err != nil {
+			t.Errorf("Method UpdateInstallation failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteInstallation", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteInstallation("<INSTALLATION_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteInstallation failed: %v", err)
 		}
 	})
 
@@ -948,7 +1117,8 @@ func TestOrganization(t *testing.T) {
                     "billingPlan": "pro"
                 }
             ],
-            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+            "wafEnabled": true
         }
     ]
 }
@@ -1040,7 +1210,8 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -1130,7 +1301,8 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -1220,7 +1392,8 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 

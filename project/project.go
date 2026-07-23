@@ -773,6 +773,7 @@ type UpdateOAuth2ServerOptions struct {
 	RefreshTokenDuration int
 	PublicAccessTokenDuration int
 	PublicRefreshTokenDuration int
+	InstallationAccessTokenDuration int
 	ConfidentialPkce bool
 	VerificationUrl string
 	UserCodeLength int
@@ -789,6 +790,7 @@ func (options UpdateOAuth2ServerOptions) New() *UpdateOAuth2ServerOptions {
 		"RefreshTokenDuration": false,
 		"PublicAccessTokenDuration": false,
 		"PublicRefreshTokenDuration": false,
+		"InstallationAccessTokenDuration": false,
 		"ConfidentialPkce": false,
 		"VerificationUrl": false,
 		"UserCodeLength": false,
@@ -833,6 +835,12 @@ func (srv *Project) WithUpdateOAuth2ServerPublicRefreshTokenDuration(v int) Upda
 	return func(o *UpdateOAuth2ServerOptions) {
 		o.PublicRefreshTokenDuration = v
 		o.enabledSetters["PublicRefreshTokenDuration"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2ServerInstallationAccessTokenDuration(v int) UpdateOAuth2ServerOption {
+	return func(o *UpdateOAuth2ServerOptions) {
+		o.InstallationAccessTokenDuration = v
+		o.enabledSetters["InstallationAccessTokenDuration"] = true
 	}
 }
 func (srv *Project) WithUpdateOAuth2ServerConfidentialPkce(v bool) UpdateOAuth2ServerOption {
@@ -899,6 +907,9 @@ func (srv *Project) UpdateOAuth2Server(Enabled bool, AuthorizationUrl string, op
 	}
 	if options.enabledSetters["PublicRefreshTokenDuration"] {
 		params["publicRefreshTokenDuration"] = options.PublicRefreshTokenDuration
+	}
+	if options.enabledSetters["InstallationAccessTokenDuration"] {
+		params["installationAccessTokenDuration"] = options.InstallationAccessTokenDuration
 	}
 	if options.enabledSetters["ConfidentialPkce"] {
 		params["confidentialPkce"] = options.ConfidentialPkce

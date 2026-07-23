@@ -28,35 +28,7 @@ func TestTablesDB(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
             "enabled": true,
-            "type": "legacy",
-            "policies": [
-                {
-                    "$id": "5e5ea5c16897e",
-                    "name": "Hourly backups",
-                    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-                    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-                    "services": [],
-                    "resources": [],
-                    "retention": 7,
-                    "schedule": "0 * * * *",
-                    "type": "full",
-                    "enabled": true
-                }
-            ],
-            "archives": [
-                {
-                    "$id": "5e5ea5c16897e",
-                    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-                    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-                    "policyId": "did8jx6ws45jana098ab7",
-                    "size": 100000,
-                    "status": "completed",
-                    "startedAt": "2020-10-15T06:38:00.000+00:00",
-                    "migrationId": "did8jx6ws45jana098ab7",
-                    "services": [],
-                    "resources": []
-                }
-            ]
+            "type": "legacy"
         }
     ]
 }
@@ -89,35 +61,7 @@ func TestTablesDB(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "enabled": true,
-    "type": "legacy",
-    "policies": [
-        {
-            "$id": "5e5ea5c16897e",
-            "name": "Hourly backups",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "services": [],
-            "resources": [],
-            "retention": 7,
-            "schedule": "0 * * * *",
-            "type": "full",
-            "enabled": true
-        }
-    ],
-    "archives": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "policyId": "did8jx6ws45jana098ab7",
-            "size": 100000,
-            "status": "completed",
-            "startedAt": "2020-10-15T06:38:00.000+00:00",
-            "migrationId": "did8jx6ws45jana098ab7",
-            "services": [],
-            "resources": []
-        }
-    ]
+    "type": "legacy"
 }
 `
 
@@ -137,6 +81,52 @@ func TestTablesDB(t *testing.T) {
 		_, err := srv.Create("<DATABASE_ID>", "<NAME>")
 		if err != nil {
 			t.Errorf("Method Create failed: %v", err)
+		}
+	})
+
+	t.Run("Test ListSpecifications", func(t *testing.T) {
+		mockResponse := `
+{
+    "specifications": [
+        {
+            "slug": "s-2vcpu-2gb",
+            "name": "Standard",
+            "price": 20,
+            "cpu": 2000,
+            "memory": 2048,
+            "maxConnections": 200,
+            "includedStorage": 25,
+            "includedBandwidth": 200,
+            "enabled": true
+        }
+    ],
+    "total": 9,
+    "pricing": {
+        "storageOverageRate": 0.125,
+        "bandwidthOverageRate": 0.08,
+        "replicaRate": 1,
+        "crossRegionReplicaRate": 1,
+        "pitrRate": 0.2
+    }
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListSpecifications()
+		if err != nil {
+			t.Errorf("Method ListSpecifications failed: %v", err)
 		}
 	})
 
@@ -334,35 +324,7 @@ func TestTablesDB(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "enabled": true,
-    "type": "legacy",
-    "policies": [
-        {
-            "$id": "5e5ea5c16897e",
-            "name": "Hourly backups",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "services": [],
-            "resources": [],
-            "retention": 7,
-            "schedule": "0 * * * *",
-            "type": "full",
-            "enabled": true
-        }
-    ],
-    "archives": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "policyId": "did8jx6ws45jana098ab7",
-            "size": 100000,
-            "status": "completed",
-            "startedAt": "2020-10-15T06:38:00.000+00:00",
-            "migrationId": "did8jx6ws45jana098ab7",
-            "services": [],
-            "resources": []
-        }
-    ]
+    "type": "legacy"
 }
 `
 
@@ -393,35 +355,7 @@ func TestTablesDB(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "enabled": true,
-    "type": "legacy",
-    "policies": [
-        {
-            "$id": "5e5ea5c16897e",
-            "name": "Hourly backups",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "services": [],
-            "resources": [],
-            "retention": 7,
-            "schedule": "0 * * * *",
-            "type": "full",
-            "enabled": true
-        }
-    ],
-    "archives": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "policyId": "did8jx6ws45jana098ab7",
-            "size": 100000,
-            "status": "completed",
-            "startedAt": "2020-10-15T06:38:00.000+00:00",
-            "migrationId": "did8jx6ws45jana098ab7",
-            "services": [],
-            "resources": []
-        }
-    ]
+    "type": "legacy"
 }
 `
 
@@ -467,6 +401,162 @@ func TestTablesDB(t *testing.T) {
 		_, err := srv.Delete("<DATABASE_ID>")
 		if err != nil {
 			t.Errorf("Method Delete failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateFailover", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "projectId": "5e5ea5c16897e",
+    "name": "My Production Database",
+    "api": "postgresql",
+    "engine": "postgresql",
+    "version": "16",
+    "specification": "s-2vcpu-2gb",
+    "backend": "edge",
+    "hostname": "db-myproject-mydb.fra.appwrite.center",
+    "connectionPort": 5432,
+    "connectionUser": "appwrite_user",
+    "connectionPassword": "••••••••",
+    "connectionString": "postgresql://user:pass@db-myproject-mydb.fra.appwrite.center:5432/postgres?sslmode=require",
+    "ssl": true,
+    "status": "ready",
+    "containerStatus": "active",
+    "lifecycleState": "active",
+    "idleTimeoutMinutes": 15,
+    "cpu": 2000,
+    "memory": 4096,
+    "storage": 100,
+    "storageClass": "ssd",
+    "storageMaxGb": 100,
+    "nodePool": "db-pool-4vcpu-8gb",
+    "replicas": 2,
+    "syncMode": "async",
+    "crossRegionReplicas": 1,
+    "networkMaxConnections": 500,
+    "networkIdleTimeoutSeconds": 900,
+    "networkIPAllowlist": [],
+    "backupEnabled": true,
+    "pitr": true,
+    "pitrRetentionDays": 14,
+    "storageAutoscaling": true,
+    "storageAutoscalingThresholdPercent": 85,
+    "storageAutoscalingMaxGb": 500,
+    "maintenanceWindowDay": "sun",
+    "maintenanceWindowHourUtc": 3,
+    "metricsEnabled": true,
+    "sqlApiEnabled": true,
+    "sqlApiAllowedStatements": [],
+    "sqlApiMaxRows": 10000,
+    "sqlApiMaxBytes": 10485760,
+    "sqlApiTimeoutSeconds": 30,
+    "error": "string"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateFailover("<DATABASE_ID>")
+		if err != nil {
+			t.Errorf("Method CreateFailover failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetReplicas", func(t *testing.T) {
+		mockResponse := `
+{
+    "replicas": 2,
+    "syncMode": "async",
+    "members": [
+        {
+            "$id": "1",
+            "role": "replica",
+            "status": "active",
+            "lagSeconds": 0.5
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetReplicas("<DATABASE_ID>")
+		if err != nil {
+			t.Errorf("Method GetReplicas failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetStatus", func(t *testing.T) {
+		mockResponse := `
+{
+    "health": "healthy",
+    "ready": true,
+    "engine": "postgresql",
+    "version": "17",
+    "uptime": 86400,
+    "connections": {
+        "current": 12,
+        "max": 100
+    },
+    "replicas": [
+        {
+            "index": 0,
+            "role": "primary",
+            "healthy": true
+        }
+    ],
+    "volumes": [
+        {
+            "path": "/var/lib/postgresql/data",
+            "usedPercent": "45%",
+            "available": "55GB",
+            "mounted": true
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetStatus("<DATABASE_ID>")
+		if err != nil {
+			t.Errorf("Method GetStatus failed: %v", err)
 		}
 	})
 

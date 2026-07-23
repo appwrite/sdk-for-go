@@ -11,7 +11,7 @@ func TestProjectListModel(t *testing.T) {
             },        Services: []ProjectService{ProjectService{        Id: "sites",        Enabled: true,    },
             },        Protocols: []ProjectProtocol{ProjectProtocol{        Id: "graphql",        Enabled: true,    },
             },        Blocks: []Block{Block{        CreatedAt: "2020-10-15T06:38:00.000+00:00",        ResourceType: "project",        ResourceId: "5e5ea5c16897e",        Mode: "readOnly",        ProjectName: "My Project",        Region: "fra",        OrganizationName: "Acme Inc.",        OrganizationId: "5e5ea5c16897e",        BillingPlan: "pro",    },
-            },        ConsoleAccessedAt: "2020-10-15T06:38:00.000+00:00",    },
+            },        ConsoleAccessedAt: "2020-10-15T06:38:00.000+00:00",        WafEnabled: true,    },
             },    }
 
     data, err := json.Marshal(model)

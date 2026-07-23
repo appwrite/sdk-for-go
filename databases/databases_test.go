@@ -28,35 +28,7 @@ func TestDatabases(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
             "enabled": true,
-            "type": "legacy",
-            "policies": [
-                {
-                    "$id": "5e5ea5c16897e",
-                    "name": "Hourly backups",
-                    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-                    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-                    "services": [],
-                    "resources": [],
-                    "retention": 7,
-                    "schedule": "0 * * * *",
-                    "type": "full",
-                    "enabled": true
-                }
-            ],
-            "archives": [
-                {
-                    "$id": "5e5ea5c16897e",
-                    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-                    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-                    "policyId": "did8jx6ws45jana098ab7",
-                    "size": 100000,
-                    "status": "completed",
-                    "startedAt": "2020-10-15T06:38:00.000+00:00",
-                    "migrationId": "did8jx6ws45jana098ab7",
-                    "services": [],
-                    "resources": []
-                }
-            ]
+            "type": "legacy"
         }
     ]
 }
@@ -89,35 +61,7 @@ func TestDatabases(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "enabled": true,
-    "type": "legacy",
-    "policies": [
-        {
-            "$id": "5e5ea5c16897e",
-            "name": "Hourly backups",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "services": [],
-            "resources": [],
-            "retention": 7,
-            "schedule": "0 * * * *",
-            "type": "full",
-            "enabled": true
-        }
-    ],
-    "archives": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "policyId": "did8jx6ws45jana098ab7",
-            "size": 100000,
-            "status": "completed",
-            "startedAt": "2020-10-15T06:38:00.000+00:00",
-            "migrationId": "did8jx6ws45jana098ab7",
-            "services": [],
-            "resources": []
-        }
-    ]
+    "type": "legacy"
 }
 `
 
@@ -334,35 +278,7 @@ func TestDatabases(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "enabled": true,
-    "type": "legacy",
-    "policies": [
-        {
-            "$id": "5e5ea5c16897e",
-            "name": "Hourly backups",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "services": [],
-            "resources": [],
-            "retention": 7,
-            "schedule": "0 * * * *",
-            "type": "full",
-            "enabled": true
-        }
-    ],
-    "archives": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "policyId": "did8jx6ws45jana098ab7",
-            "size": 100000,
-            "status": "completed",
-            "startedAt": "2020-10-15T06:38:00.000+00:00",
-            "migrationId": "did8jx6ws45jana098ab7",
-            "services": [],
-            "resources": []
-        }
-    ]
+    "type": "legacy"
 }
 `
 
@@ -393,35 +309,7 @@ func TestDatabases(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "enabled": true,
-    "type": "legacy",
-    "policies": [
-        {
-            "$id": "5e5ea5c16897e",
-            "name": "Hourly backups",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "services": [],
-            "resources": [],
-            "retention": 7,
-            "schedule": "0 * * * *",
-            "type": "full",
-            "enabled": true
-        }
-    ],
-    "archives": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "policyId": "did8jx6ws45jana098ab7",
-            "size": 100000,
-            "status": "completed",
-            "startedAt": "2020-10-15T06:38:00.000+00:00",
-            "migrationId": "did8jx6ws45jana098ab7",
-            "services": [],
-            "resources": []
-        }
-    ]
+    "type": "legacy"
 }
 `
 

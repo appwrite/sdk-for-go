@@ -84,7 +84,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -200,7 +201,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -491,7 +493,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -755,7 +758,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -2566,7 +2570,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -2656,7 +2661,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -2746,7 +2752,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -2836,7 +2843,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -2926,7 +2934,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3016,7 +3025,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3106,7 +3116,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3196,7 +3207,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3317,7 +3329,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3407,7 +3420,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3497,7 +3511,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3587,7 +3602,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3677,7 +3693,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3797,7 +3814,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3887,7 +3905,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 
@@ -3977,7 +3996,8 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
+    "wafEnabled": true
 }
 `
 

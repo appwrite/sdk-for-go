@@ -64,6 +64,8 @@ type Project struct {
     // Last time the project was accessed via console. Used with plan's
     // projectInactivityDays to determine if project is paused.
     ConsoleAccessedAt string `json:"consoleAccessedAt"`
+    // Whether WAF enforcement is enabled for the project.
+    WafEnabled bool `json:"wafEnabled"`
     // Billing limits reached
     BillingLimits BillingLimits `json:"billingLimits"`
     // OAuth2 server status
@@ -87,6 +89,9 @@ type Project struct {
     // OAuth2 server refresh token duration in seconds for public clients (SPAs,
     // mobile, native)
     OAuth2ServerPublicRefreshTokenDuration int `json:"oAuth2ServerPublicRefreshTokenDuration"`
+    // OAuth2 server access token duration in seconds for app installation access
+    // tokens
+    OAuth2ServerInstallationAccessTokenDuration int `json:"oAuth2ServerInstallationAccessTokenDuration"`
     // When enabled, PKCE is required for confidential clients (server-side flows
     // using client_secret). PKCE is always required for public clients regardless
     // of this setting.

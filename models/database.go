@@ -21,8 +21,20 @@ type Database struct {
     Enabled bool `json:"enabled"`
     // Database type.
     Type string `json:"type"`
-    // Database status. Possible values: `provisioning`, `ready` or `failed`
+    // Dedicated database lifecycle status. Null when the database has no valid
+    // dedicated backing.
     Status string `json:"status"`
+    // Underlying engine of the dedicated backing: postgresql, mysql, mariadb, or
+    // mongodb. A managed product (tablesdb, documentsdb, vectorsdb) reports the
+    // engine it runs on, so its type and engine can differ. Null when the
+    // database has no dedicated backing.
+    Engine string `json:"engine"`
+    // Compute specification identifier of the dedicated backing, e.g.
+    // s-2vcpu-2gb. Null when the database has no dedicated backing.
+    Specification string `json:"specification"`
+    // Number of secondary high availability replicas, excluding the primary. Null
+    // when backing configuration is unavailable.
+    Replicas int `json:"replicas"`
     // Database backup policies.
     Policies []BackupPolicy `json:"policies"`
     // Database backup archives.

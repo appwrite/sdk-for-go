@@ -19,5 +19,6 @@ response, error := service.GetDeploymentDownload(
     "<SITE_ID>",
     "<DEPLOYMENT_ID>",
     sites.WithGetDeploymentDownloadType("source"),
+    sites.WithGetDeploymentDownloadToken("<TOKEN>"),
 )
 ```

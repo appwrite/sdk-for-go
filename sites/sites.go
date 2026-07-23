@@ -1275,11 +1275,13 @@ func (srv *Sites) DeleteDeployment(SiteId string, DeploymentId string)(*interfac
 }
 type GetDeploymentDownloadOptions struct {
 	Type string
+	Token string
 	enabledSetters map[string]bool
 }
 func (options GetDeploymentDownloadOptions) New() *GetDeploymentDownloadOptions {
 	options.enabledSetters = map[string]bool{
 		"Type": false,
+		"Token": false,
 	}
 	return &options
 }
@@ -1288,6 +1290,12 @@ func (srv *Sites) WithGetDeploymentDownloadType(v string) GetDeploymentDownloadO
 	return func(o *GetDeploymentDownloadOptions) {
 		o.Type = v
 		o.enabledSetters["Type"] = true
+	}
+}
+func (srv *Sites) WithGetDeploymentDownloadToken(v string) GetDeploymentDownloadOption {
+	return func(o *GetDeploymentDownloadOptions) {
+		o.Token = v
+		o.enabledSetters["Token"] = true
 	}
 }
 					
@@ -1307,6 +1315,9 @@ func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, opti
 	params["deploymentId"] = DeploymentId
 	if options.enabledSetters["Type"] {
 		params["type"] = options.Type
+	}
+	if options.enabledSetters["Token"] {
+		params["token"] = options.Token
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -1355,6 +1366,9 @@ func (srv *Sites) GetDeploymentDownloadURL(SiteId string, DeploymentId string, o
 	q := u.Query()
 	if options.enabledSetters["Type"] {
 		q.Set("type", fmt.Sprintf("%v", options.Type))
+	}
+	if options.enabledSetters["Token"] {
+		q.Set("token", fmt.Sprintf("%v", options.Token))
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()

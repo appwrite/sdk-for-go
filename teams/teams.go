@@ -274,6 +274,285 @@ func (srv *Teams) Delete(TeamId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+type ListInstallationsOptions struct {
+	Queries []string
+	Total bool
+	enabledSetters map[string]bool
+}
+func (options ListInstallationsOptions) New() *ListInstallationsOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+		"Total": false,
+	}
+	return &options
+}
+type ListInstallationsOption func(*ListInstallationsOptions)
+func (srv *Teams) WithListInstallationsQueries(v []string) ListInstallationsOption {
+	return func(o *ListInstallationsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Teams) WithListInstallationsTotal(v bool) ListInstallationsOption {
+	return func(o *ListInstallationsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+			
+// ListInstallations list app installations on a team. Any team member can
+// read installations.
+func (srv *Teams) ListInstallations(TeamId string, optionalSetters ...ListInstallationsOption)(*models.AppInstallationList, error) {
+	r := strings.NewReplacer("{teamId}", TeamId)
+	path := r.Replace("/teams/{teamId}/installations")
+	options := ListInstallationsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["teamId"] = TeamId
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AppInstallationList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AppInstallationList
+	parsed, ok := resp.Result.(models.AppInstallationList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateInstallationOptions struct {
+	AuthorizationDetails string
+	enabledSetters map[string]bool
+}
+func (options CreateInstallationOptions) New() *CreateInstallationOptions {
+	options.enabledSetters = map[string]bool{
+		"AuthorizationDetails": false,
+	}
+	return &options
+}
+type CreateInstallationOption func(*CreateInstallationOptions)
+func (srv *Teams) WithCreateInstallationAuthorizationDetails(v string) CreateInstallationOption {
+	return func(o *CreateInstallationOptions) {
+		o.AuthorizationDetails = v
+		o.enabledSetters["AuthorizationDetails"] = true
+	}
+}
+					
+// CreateInstallation install an app on a team. When authenticated as a user,
+// only team members with the owner role can install apps. Requests using an
+// API key or in admin mode can install apps on any team. The installation is
+// granted the scopes the app currently requests.
+func (srv *Teams) CreateInstallation(TeamId string, AppId string, optionalSetters ...CreateInstallationOption)(*models.AppInstallation, error) {
+	r := strings.NewReplacer("{teamId}", TeamId)
+	path := r.Replace("/teams/{teamId}/installations")
+	options := CreateInstallationOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["teamId"] = TeamId
+	params["appId"] = AppId
+	if options.enabledSetters["AuthorizationDetails"] {
+		params["authorizationDetails"] = options.AuthorizationDetails
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AppInstallation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AppInstallation
+	parsed, ok := resp.Result.(models.AppInstallation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// GetInstallation get an app installation on a team by its unique ID. Any
+// team member can read installations.
+func (srv *Teams) GetInstallation(TeamId string, InstallationId string)(*models.AppInstallation, error) {
+	r := strings.NewReplacer("{teamId}", TeamId, "{installationId}", InstallationId)
+	path := r.Replace("/teams/{teamId}/installations/{installationId}")
+	params := map[string]interface{}{}
+	params["teamId"] = TeamId
+	params["installationId"] = InstallationId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AppInstallation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AppInstallation
+	parsed, ok := resp.Result.(models.AppInstallation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateInstallationOptions struct {
+	AuthorizationDetails string
+	enabledSetters map[string]bool
+}
+func (options UpdateInstallationOptions) New() *UpdateInstallationOptions {
+	options.enabledSetters = map[string]bool{
+		"AuthorizationDetails": false,
+	}
+	return &options
+}
+type UpdateInstallationOption func(*UpdateInstallationOptions)
+func (srv *Teams) WithUpdateInstallationAuthorizationDetails(v string) UpdateInstallationOption {
+	return func(o *UpdateInstallationOptions) {
+		o.AuthorizationDetails = v
+		o.enabledSetters["AuthorizationDetails"] = true
+	}
+}
+					
+// UpdateInstallation update an app installation on a team. Only team members
+// with the owner role can update installations. The installation's granted
+// scopes are refreshed to the scopes the app currently requests; previously
+// issued installation access tokens are revoked.
+func (srv *Teams) UpdateInstallation(TeamId string, InstallationId string, optionalSetters ...UpdateInstallationOption)(*models.AppInstallation, error) {
+	r := strings.NewReplacer("{teamId}", TeamId, "{installationId}", InstallationId)
+	path := r.Replace("/teams/{teamId}/installations/{installationId}")
+	options := UpdateInstallationOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["teamId"] = TeamId
+	params["installationId"] = InstallationId
+	if options.enabledSetters["AuthorizationDetails"] {
+		params["authorizationDetails"] = options.AuthorizationDetails
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.AppInstallation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AppInstallation
+	parsed, ok := resp.Result.(models.AppInstallation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// DeleteInstallation uninstall an app from a team by its installation ID.
+// Only team members with the owner role can remove installations. Previously
+// issued installation access tokens are revoked.
+func (srv *Teams) DeleteInstallation(TeamId string, InstallationId string)(*interface{}, error) {
+	r := strings.NewReplacer("{teamId}", TeamId, "{installationId}", InstallationId)
+	path := r.Replace("/teams/{teamId}/installations/{installationId}")
+	params := map[string]interface{}{}
+	params["teamId"] = TeamId
+	params["installationId"] = InstallationId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type ListMembershipsOptions struct {
 	Queries []string
 	Search string

@@ -20,6 +20,5 @@ response, error := service.CreateRestoration(
     []string{},
     backups.WithCreateRestorationNewResourceId("<NEW_RESOURCE_ID>"),
     backups.WithCreateRestorationNewResourceName("<NEW_RESOURCE_NAME>"),
-    backups.WithCreateRestorationNewSpecification("serverless"),
 )
 ```

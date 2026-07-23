@@ -6,6 +6,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v6/client"
 	"github.com/appwrite/sdk-for-go/v6/account"
 	"github.com/appwrite/sdk-for-go/v6/activities"
+	"github.com/appwrite/sdk-for-go/v6/apps"
 	"github.com/appwrite/sdk-for-go/v6/avatars"
 	"github.com/appwrite/sdk-for-go/v6/backups"
 	"github.com/appwrite/sdk-for-go/v6/databases"
@@ -13,6 +14,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v6/graphql"
 	"github.com/appwrite/sdk-for-go/v6/locale"
 	"github.com/appwrite/sdk-for-go/v6/messaging"
+	"github.com/appwrite/sdk-for-go/v6/oauth2"
 	"github.com/appwrite/sdk-for-go/v6/organization"
 	"github.com/appwrite/sdk-for-go/v6/presences"
 	"github.com/appwrite/sdk-for-go/v6/project"
@@ -32,6 +34,9 @@ func NewAccount(clt client.Client) *account.Account {
 }
 func NewActivities(clt client.Client) *activities.Activities {
 	return activities.New(clt)
+}
+func NewApps(clt client.Client) *apps.Apps {
+	return apps.New(clt)
 }
 func NewAvatars(clt client.Client) *avatars.Avatars {
 	return avatars.New(clt)
@@ -53,6 +58,9 @@ func NewLocale(clt client.Client) *locale.Locale {
 }
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
+}
+func NewOauth2(clt client.Client) *oauth2.Oauth2 {
+	return oauth2.New(clt)
 }
 func NewOrganization(clt client.Client) *organization.Organization {
 	return organization.New(clt)
