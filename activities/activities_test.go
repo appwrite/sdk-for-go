@@ -36,10 +36,21 @@ func TestActivities(t *testing.T) {
             "ip": "127.0.0.1",
             "mode": "admin",
             "country": "US",
+            "continentCode": "NA",
+            "city": "Mountain View",
+            "subdivisions": "California",
+            "isp": "Google",
+            "autonomousSystemNumber": "15169",
+            "autonomousSystemOrganization": "GOOGLE",
+            "connectionType": "cable",
+            "connectionUsageType": "residential",
+            "connectionOrganization": "Google LLC",
             "time": "2020-10-15T06:38:00.000+00:00",
             "projectId": "610fc2f985ee0",
             "teamId": "610fc2f985ee0",
-            "hostname": "appwrite.io"
+            "hostname": "appwrite.io",
+            "sdk": "web",
+            "sdkVersion": "14.0.0"
         }
     ]
 }
@@ -81,10 +92,21 @@ func TestActivities(t *testing.T) {
     "ip": "127.0.0.1",
     "mode": "admin",
     "country": "US",
+    "continentCode": "NA",
+    "city": "Mountain View",
+    "subdivisions": "California",
+    "isp": "Google",
+    "autonomousSystemNumber": "15169",
+    "autonomousSystemOrganization": "GOOGLE",
+    "connectionType": "cable",
+    "connectionUsageType": "residential",
+    "connectionOrganization": "Google LLC",
     "time": "2020-10-15T06:38:00.000+00:00",
     "projectId": "610fc2f985ee0",
     "teamId": "610fc2f985ee0",
-    "hostname": "appwrite.io"
+    "hostname": "appwrite.io",
+    "sdk": "web",
+    "sdkVersion": "14.0.0"
 }
 `
 

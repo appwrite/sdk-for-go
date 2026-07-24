@@ -31,6 +31,8 @@ type BillingPlan struct {
     Members int `json:"members"`
     // Webhooks
     Webhooks int `json:"webhooks"`
+    // Maximum WAF rules per project
+    WafRules int `json:"wafRules"`
     // Projects
     Projects int `json:"projects"`
     // Platforms

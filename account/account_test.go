@@ -122,6 +122,210 @@ func TestAccount(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ListConsents", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "consents": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "userId": "5e5ea5c16897e",
+            "appId": "5e5ea5c16897e",
+            "cimdUrl": "https://example.com/.well-known/client-metadata.json",
+            "scopes": [],
+            "resources": [],
+            "authorizationDetails": "[{\"type\":\"calendar\",\"identifier\":\"primary\",\"actions\":[\"read_events\",\"create_event\"]}]",
+            "expire": "2020-10-15T06:38:00.000+00:00"
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListConsents()
+		if err != nil {
+			t.Errorf("Method ListConsents failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetConsent", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c16897e",
+    "appId": "5e5ea5c16897e",
+    "cimdUrl": "https://example.com/.well-known/client-metadata.json",
+    "scopes": [],
+    "resources": [],
+    "authorizationDetails": "[{\"type\":\"calendar\",\"identifier\":\"primary\",\"actions\":[\"read_events\",\"create_event\"]}]",
+    "expire": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetConsent("<CONSENT_ID>")
+		if err != nil {
+			t.Errorf("Method GetConsent failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteConsent", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteConsent("<CONSENT_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteConsent failed: %v", err)
+		}
+	})
+
+	t.Run("Test ListConsentTokens", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "tokens": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "consentId": "5e5ea5c16897e",
+            "userId": "5e5ea5c16897e",
+            "appId": "5e5ea5c16897e",
+            "cimdUrl": "https://example.com/.well-known/client-metadata.json",
+            "scopes": [],
+            "resources": [],
+            "authorizationDetails": "[{\"type\":\"calendar\",\"identifier\":\"primary\",\"actions\":[\"read_events\",\"create_event\"]}]",
+            "expire": "2020-10-15T06:38:00.000+00:00"
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListConsentTokens("<CONSENT_ID>")
+		if err != nil {
+			t.Errorf("Method ListConsentTokens failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetConsentToken", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "consentId": "5e5ea5c16897e",
+    "userId": "5e5ea5c16897e",
+    "appId": "5e5ea5c16897e",
+    "cimdUrl": "https://example.com/.well-known/client-metadata.json",
+    "scopes": [],
+    "resources": [],
+    "authorizationDetails": "[{\"type\":\"calendar\",\"identifier\":\"primary\",\"actions\":[\"read_events\",\"create_event\"]}]",
+    "expire": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetConsentToken("<CONSENT_ID>", "<TOKEN_ID>")
+		if err != nil {
+			t.Errorf("Method GetConsentToken failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteConsentToken", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteConsentToken("<CONSENT_ID>", "<TOKEN_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteConsentToken failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateEmail", func(t *testing.T) {
 		mockResponse := `
 {

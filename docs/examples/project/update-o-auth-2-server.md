@@ -24,6 +24,7 @@ response, error := service.UpdateOAuth2Server(
     project.WithUpdateOAuth2ServerRefreshTokenDuration(60),
     project.WithUpdateOAuth2ServerPublicAccessTokenDuration(60),
     project.WithUpdateOAuth2ServerPublicRefreshTokenDuration(60),
+    project.WithUpdateOAuth2ServerInstallationAccessTokenDuration(60),
     project.WithUpdateOAuth2ServerConfidentialPkce(false),
     project.WithUpdateOAuth2ServerVerificationUrl("https://example.com"),
     project.WithUpdateOAuth2ServerUserCodeLength(6),

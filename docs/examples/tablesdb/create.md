@@ -20,5 +20,6 @@ response, error := service.Create(
     "<NAME>",
     tablesdb.WithCreateEnabled(false),
     tablesdb.WithCreateSpecification("serverless"),
+    tablesdb.WithCreateReplicas(0),
 )
 ```

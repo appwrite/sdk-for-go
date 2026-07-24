@@ -336,7 +336,7 @@ func TestBackups(t *testing.T) {
     "migrationId": "did8jx6ws45jana098ab7",
     "services": [],
     "resources": [],
-    "options": "{databases.database[{oldId, newId, newName, newSpecification}]}"
+    "options": "{databases.database[{oldId, newId, newName}]}"
 }
 `
 
@@ -375,7 +375,7 @@ func TestBackups(t *testing.T) {
             "migrationId": "did8jx6ws45jana098ab7",
             "services": [],
             "resources": [],
-            "options": "{databases.database[{oldId, newId, newName, newSpecification}]}"
+            "options": "{databases.database[{oldId, newId, newName}]}"
         }
     ]
 }
@@ -413,7 +413,7 @@ func TestBackups(t *testing.T) {
     "migrationId": "did8jx6ws45jana098ab7",
     "services": [],
     "resources": [],
-    "options": "{databases.database[{oldId, newId, newName, newSpecification}]}"
+    "options": "{databases.database[{oldId, newId, newName}]}"
 }
 `
 

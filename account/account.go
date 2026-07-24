@@ -121,6 +121,301 @@ func (srv *Account) Create(UserId string, Email string, Password string, optiona
 	return &parsed, nil
 
 }
+type ListConsentsOptions struct {
+	Queries []string
+	Total bool
+	enabledSetters map[string]bool
+}
+func (options ListConsentsOptions) New() *ListConsentsOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+		"Total": false,
+	}
+	return &options
+}
+type ListConsentsOption func(*ListConsentsOptions)
+func (srv *Account) WithListConsentsQueries(v []string) ListConsentsOption {
+	return func(o *ListConsentsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Account) WithListConsentsTotal(v bool) ListConsentsOption {
+	return func(o *ListConsentsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+	
+// ListConsents get a list of the OAuth2 consents the current user has given
+// to third-party apps.
+func (srv *Account) ListConsents(optionalSetters ...ListConsentsOption)(*models.Oauth2ConsentList, error) {
+	path := "/account/consents"
+	options := ListConsentsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Oauth2ConsentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Oauth2ConsentList
+	parsed, ok := resp.Result.(models.Oauth2ConsentList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// GetConsent get an OAuth2 consent the current user has given to a
+// third-party app by its unique ID.
+func (srv *Account) GetConsent(ConsentId string)(*models.Oauth2Consent, error) {
+	r := strings.NewReplacer("{consentId}", ConsentId)
+	path := r.Replace("/account/consents/{consentId}")
+	params := map[string]interface{}{}
+	params["consentId"] = ConsentId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Oauth2Consent{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Oauth2Consent
+	parsed, ok := resp.Result.(models.Oauth2Consent)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// DeleteConsent delete an OAuth2 consent by its unique ID. All token families
+// issued under the consent are revoked, and the app must ask for consent
+// again to regain access.
+func (srv *Account) DeleteConsent(ConsentId string)(*interface{}, error) {
+	r := strings.NewReplacer("{consentId}", ConsentId)
+	path := r.Replace("/account/consents/{consentId}")
+	params := map[string]interface{}{}
+	params["consentId"] = ConsentId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type ListConsentTokensOptions struct {
+	Queries []string
+	Total bool
+	enabledSetters map[string]bool
+}
+func (options ListConsentTokensOptions) New() *ListConsentTokensOptions {
+	options.enabledSetters = map[string]bool{
+		"Queries": false,
+		"Total": false,
+	}
+	return &options
+}
+type ListConsentTokensOption func(*ListConsentTokensOptions)
+func (srv *Account) WithListConsentTokensQueries(v []string) ListConsentTokensOption {
+	return func(o *ListConsentTokensOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Account) WithListConsentTokensTotal(v bool) ListConsentTokensOption {
+	return func(o *ListConsentTokensOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+			
+// ListConsentTokens get a list of the token families issued under an OAuth2
+// consent. Each entry represents one authorized device or session; the token
+// secrets themselves are never returned.
+func (srv *Account) ListConsentTokens(ConsentId string, optionalSetters ...ListConsentTokensOption)(*models.Oauth2ConsentTokenList, error) {
+	r := strings.NewReplacer("{consentId}", ConsentId)
+	path := r.Replace("/account/consents/{consentId}/tokens")
+	options := ListConsentTokensOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["consentId"] = ConsentId
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Oauth2ConsentTokenList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Oauth2ConsentTokenList
+	parsed, ok := resp.Result.(models.Oauth2ConsentTokenList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// GetConsentToken get a token family issued under an OAuth2 consent by its
+// unique ID. The token secrets themselves are never returned.
+func (srv *Account) GetConsentToken(ConsentId string, TokenId string)(*models.Oauth2ConsentToken, error) {
+	r := strings.NewReplacer("{consentId}", ConsentId, "{tokenId}", TokenId)
+	path := r.Replace("/account/consents/{consentId}/tokens/{tokenId}")
+	params := map[string]interface{}{}
+	params["consentId"] = ConsentId
+	params["tokenId"] = TokenId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.Oauth2ConsentToken{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Oauth2ConsentToken
+	parsed, ok := resp.Result.(models.Oauth2ConsentToken)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// DeleteConsentToken delete a token family issued under an OAuth2 consent by
+// its unique ID. The access and refresh tokens of the family stop working
+// immediately; other token families and the consent itself are unaffected.
+func (srv *Account) DeleteConsentToken(ConsentId string, TokenId string)(*interface{}, error) {
+	r := strings.NewReplacer("{consentId}", ConsentId, "{tokenId}", TokenId)
+	path := r.Replace("/account/consents/{consentId}/tokens/{tokenId}")
+	params := map[string]interface{}{}
+	params["consentId"] = ConsentId
+	params["tokenId"] = TokenId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 			
 // UpdateEmail update currently logged in user account email address. After
 // changing user address, the user confirmation status will get reset. A new

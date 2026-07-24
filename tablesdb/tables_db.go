@@ -104,12 +104,14 @@ func (srv *TablesDB) List(optionalSetters ...ListOption)(*models.DatabaseList, e
 type CreateOptions struct {
 	Enabled bool
 	Specification string
+	Replicas int
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
 	options.enabledSetters = map[string]bool{
 		"Enabled": false,
 		"Specification": false,
+		"Replicas": false,
 	}
 	return &options
 }
@@ -124,6 +126,12 @@ func (srv *TablesDB) WithCreateSpecification(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Specification = v
 		o.enabledSetters["Specification"] = true
+	}
+}
+func (srv *TablesDB) WithCreateReplicas(v int) CreateOption {
+	return func(o *CreateOptions) {
+		o.Replicas = v
+		o.enabledSetters["Replicas"] = true
 	}
 }
 					
@@ -142,6 +150,9 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 	}
 	if options.enabledSetters["Specification"] {
 		params["specification"] = options.Specification
+	}
+	if options.enabledSetters["Replicas"] {
+		params["replicas"] = options.Replicas
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -167,6 +178,42 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 	}
 	var parsed models.Database
 	parsed, ok := resp.Result.(models.Database)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// ListSpecifications list the dedicated database specifications available on
+// the current plan. Each specification reports its resource limits, pricing,
+// and whether it is enabled for the organization.
+func (srv *TablesDB) ListSpecifications()(*models.DedicatedDatabaseSpecificationList, error) {
+	path := "/tablesdb/specifications"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DedicatedDatabaseSpecificationList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DedicatedDatabaseSpecificationList
+	parsed, ok := resp.Result.(models.DedicatedDatabaseSpecificationList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -535,12 +582,14 @@ func (srv *TablesDB) Get(DatabaseId string)(*models.Database, error) {
 type UpdateOptions struct {
 	Name string
 	Enabled bool
+	Replicas int
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
 	options.enabledSetters = map[string]bool{
 		"Name": false,
 		"Enabled": false,
+		"Replicas": false,
 	}
 	return &options
 }
@@ -555,6 +604,12 @@ func (srv *TablesDB) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateReplicas(v int) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Replicas = v
+		o.enabledSetters["Replicas"] = true
 	}
 }
 			
@@ -573,6 +628,9 @@ func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Replicas"] {
+		params["replicas"] = options.Replicas
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -634,6 +692,144 @@ func (srv *TablesDB) Delete(DatabaseId string)(*interface{}, error) {
 	}
 	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateFailoverOptions struct {
+	TargetReplicaId string
+	enabledSetters map[string]bool
+}
+func (options CreateFailoverOptions) New() *CreateFailoverOptions {
+	options.enabledSetters = map[string]bool{
+		"TargetReplicaId": false,
+	}
+	return &options
+}
+type CreateFailoverOption func(*CreateFailoverOptions)
+func (srv *TablesDB) WithCreateFailoverTargetReplicaId(v string) CreateFailoverOption {
+	return func(o *CreateFailoverOptions) {
+		o.TargetReplicaId = v
+		o.enabledSetters["TargetReplicaId"] = true
+	}
+}
+			
+// CreateFailover trigger a manual failover for a dedicated database with high
+// availability enabled. Promotes a replica to primary. The failover runs
+// asynchronously; poll the database document for status updates.
+func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption)(*models.DedicatedDatabase, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	path := r.Replace("/tablesdb/{databaseId}/failovers")
+	options := CreateFailoverOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	if options.enabledSetters["TargetReplicaId"] {
+		params["targetReplicaId"] = options.TargetReplicaId
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DedicatedDatabase{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DedicatedDatabase
+	parsed, ok := resp.Result.(models.DedicatedDatabase)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// GetReplicas get high availability status for a dedicated database. Returns
+// replica statuses, replication lag, and sync mode.
+func (srv *TablesDB) GetReplicas(DatabaseId string)(*models.DedicatedDatabaseReplicas, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	path := r.Replace("/tablesdb/{databaseId}/replicas")
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DedicatedDatabaseReplicas{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DedicatedDatabaseReplicas
+	parsed, ok := resp.Result.(models.DedicatedDatabaseReplicas)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// GetStatus get real-time health and status information for a dedicated
+// database. Returns health status, readiness, uptime, connection info,
+// replica status, and volume information.
+func (srv *TablesDB) GetStatus(DatabaseId string)(*models.DatabaseStatus, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	path := r.Replace("/tablesdb/{databaseId}/status")
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DatabaseStatus{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DatabaseStatus
+	parsed, ok := resp.Result.(models.DatabaseStatus)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
