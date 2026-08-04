@@ -105,6 +105,7 @@ type CreateOptions struct {
 	Enabled bool
 	Specification string
 	Replicas int
+	SyncMode string
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
@@ -112,6 +113,7 @@ func (options CreateOptions) New() *CreateOptions {
 		"Enabled": false,
 		"Specification": false,
 		"Replicas": false,
+		"SyncMode": false,
 	}
 	return &options
 }
@@ -134,6 +136,12 @@ func (srv *TablesDB) WithCreateReplicas(v int) CreateOption {
 		o.enabledSetters["Replicas"] = true
 	}
 }
+func (srv *TablesDB) WithCreateSyncMode(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.SyncMode = v
+		o.enabledSetters["SyncMode"] = true
+	}
+}
 					
 // Create create a new Database.
 func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...CreateOption)(*models.Database, error) {
@@ -153,6 +161,9 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 	}
 	if options.enabledSetters["Replicas"] {
 		params["replicas"] = options.Replicas
+	}
+	if options.enabledSetters["SyncMode"] {
+		params["syncMode"] = options.SyncMode
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -582,14 +593,18 @@ func (srv *TablesDB) Get(DatabaseId string)(*models.Database, error) {
 type UpdateOptions struct {
 	Name string
 	Enabled bool
+	Specification string
 	Replicas int
+	SyncMode string
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
 	options.enabledSetters = map[string]bool{
 		"Name": false,
 		"Enabled": false,
+		"Specification": false,
 		"Replicas": false,
+		"SyncMode": false,
 	}
 	return &options
 }
@@ -606,10 +621,22 @@ func (srv *TablesDB) WithUpdateEnabled(v bool) UpdateOption {
 		o.enabledSetters["Enabled"] = true
 	}
 }
+func (srv *TablesDB) WithUpdateSpecification(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Specification = v
+		o.enabledSetters["Specification"] = true
+	}
+}
 func (srv *TablesDB) WithUpdateReplicas(v int) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Replicas = v
 		o.enabledSetters["Replicas"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateSyncMode(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.SyncMode = v
+		o.enabledSetters["SyncMode"] = true
 	}
 }
 			
@@ -629,8 +656,14 @@ func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
+	if options.enabledSetters["Specification"] {
+		params["specification"] = options.Specification
+	}
 	if options.enabledSetters["Replicas"] {
 		params["replicas"] = options.Replicas
+	}
+	if options.enabledSetters["SyncMode"] {
+		params["syncMode"] = options.SyncMode
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -718,7 +751,9 @@ func (srv *TablesDB) WithCreateFailoverTargetReplicaId(v string) CreateFailoverO
 			
 // CreateFailover trigger a manual failover for a dedicated database with high
 // availability enabled. Promotes a replica to primary. The failover runs
-// asynchronously; poll the database document for status updates.
+// asynchronously; poll the database document for status updates. A database
+// left mid-operation by a failover that did not finish also accepts this call
+// as a repair, provided `targetReplicaId` names the member to promote.
 func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption)(*models.DedicatedDatabase, error) {
 	r := strings.NewReplacer("{databaseId}", DatabaseId)
 	path := r.Replace("/tablesdb/{databaseId}/failovers")
@@ -755,6 +790,91 @@ func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...Create
 	}
 	var parsed models.DedicatedDatabase
 	parsed, ok := resp.Result.(models.DedicatedDatabase)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type ListOperationsOptions struct {
+	Status string
+	Limit int
+	Offset int
+	enabledSetters map[string]bool
+}
+func (options ListOperationsOptions) New() *ListOperationsOptions {
+	options.enabledSetters = map[string]bool{
+		"Status": false,
+		"Limit": false,
+		"Offset": false,
+	}
+	return &options
+}
+type ListOperationsOption func(*ListOperationsOptions)
+func (srv *TablesDB) WithListOperationsStatus(v string) ListOperationsOption {
+	return func(o *ListOperationsOptions) {
+		o.Status = v
+		o.enabledSetters["Status"] = true
+	}
+}
+func (srv *TablesDB) WithListOperationsLimit(v int) ListOperationsOption {
+	return func(o *ListOperationsOptions) {
+		o.Limit = v
+		o.enabledSetters["Limit"] = true
+	}
+}
+func (srv *TablesDB) WithListOperationsOffset(v int) ListOperationsOption {
+	return func(o *ListOperationsOptions) {
+		o.Offset = v
+		o.enabledSetters["Offset"] = true
+	}
+}
+			
+// ListOperations list the lifecycle operations recorded for a dedicated
+// database, newest first. Every provision, update, restore, backup and
+// replication action is recorded here with its outcome, including an attempt
+// that was abandoned because another worker took over the database.
+func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOperationsOption)(*models.DedicatedDatabaseOperationList, error) {
+	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	path := r.Replace("/tablesdb/{databaseId}/operations")
+	options := ListOperationsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["databaseId"] = DatabaseId
+	if options.enabledSetters["Status"] {
+		params["status"] = options.Status
+	}
+	if options.enabledSetters["Limit"] {
+		params["limit"] = options.Limit
+	}
+	if options.enabledSetters["Offset"] {
+		params["offset"] = options.Offset
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.DedicatedDatabaseOperationList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DedicatedDatabaseOperationList
+	parsed, ok := resp.Result.(models.DedicatedDatabaseOperationList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

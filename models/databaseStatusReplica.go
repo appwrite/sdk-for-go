@@ -7,9 +7,13 @@ import (
 
 // Replica Model
 type DatabaseStatusReplica struct {
-    // StatefulSet pod index (0 = primary, 1+ = replicas).
+    // Member index within the database. Read `role` for which member accepts
+    // writes: a failover moves the primary without renumbering the indexes.
     Index int `json:"index"`
-    // Replica role: primary or replica.
+    // Member role. Possible values: primary (accepts reads and writes), replica
+    // (read-only follower), unknown (placement not established; reported while a
+    // transition is moving or restarting the topology, so no member can be named
+    // the write target).
     Role string `json:"role"`
     // Whether the replica is healthy.
     Healthy bool `json:"healthy"`

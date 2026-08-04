@@ -6,7 +6,7 @@ import (
 )
 
 func TestBillingPlanAddonDetailsModel(t *testing.T) {
-    model := BillingPlanAddonDetails{        Supported: true,        PlanIncluded: 1,        Limit: 5,        Type: "numeric",        Currency: "USD",        Price: 5,        Value: 25,        InvoiceDesc: "string",    }
+    model := BillingPlanAddonDetails{        Supported: true,        PlanIncluded: 1,        Limit: 5,        Type: "numeric",        Price: 5,        Value: 25,        InvoiceDesc: "string",    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -29,9 +29,6 @@ func TestBillingPlanAddonDetailsModel(t *testing.T) {
     }
     if result.Type != model.Type {
         t.Errorf("Expected Type %v, got %v", model.Type, result.Type)
-    }
-    if result.Currency != model.Currency {
-        t.Errorf("Expected Currency %v, got %v", model.Currency, result.Currency)
     }
     if result.Price != model.Price {
         t.Errorf("Expected Price %v, got %v", model.Price, result.Price)

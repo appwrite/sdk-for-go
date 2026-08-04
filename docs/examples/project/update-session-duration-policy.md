@@ -16,6 +16,6 @@ client := client.New(
 service := project.New(client)
 
 response, error := service.UpdateSessionDurationPolicy(
-    5,
+    60,
 )
 ```

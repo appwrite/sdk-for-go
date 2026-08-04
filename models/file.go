@@ -20,6 +20,11 @@ type File struct {
     Permissions []string `json:"$permissions"`
     // File name.
     Name string `json:"name"`
+    // Virtual folder containing the file, with a trailing slash. Empty for the
+    // bucket root.
+    Folder string `json:"folder"`
+    // Full virtual path of the file: the folder followed by the file name.
+    Key string `json:"key"`
     // File MD5 signature.
     Signature string `json:"signature"`
     // File mime type.

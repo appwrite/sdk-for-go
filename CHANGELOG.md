@@ -1,5 +1,15 @@
 # Change Log
 
+## v6.2.0
+
+* Added: `Embeddings` service with `CreateTextEmbeddings`, plus `Embedding` and `EmbeddingList` models
+* Added: `TablesDB.ListOperations`, with `DedicatedDatabaseOperation` and `DedicatedDatabaseOperationList` models
+* Added: `Apps.DeleteInstallation`
+* Added: `SyncMode`, `EffectiveSyncMode`, and replication degradation fields to `DatabaseStatus`
+* Updated: `DedicatedDatabase.Engine` and `Port` are null until the backing reports them
+* Updated: `mariadb` is no longer a documented database engine
+* Fixed: `GetSession`, `UpdateSession`, and `DeleteSession` compile again
+
 ## v6.1.0
 
 * Added: `Apps` service for managing OAuth2 applications, keys, and installations

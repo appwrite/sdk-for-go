@@ -559,11 +559,13 @@ func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOptio
 }
 type CreateFileOptions struct {
 	Permissions []string
+	Folder string
 	enabledSetters map[string]bool
 }
 func (options CreateFileOptions) New() *CreateFileOptions {
 	options.enabledSetters = map[string]bool{
 		"Permissions": false,
+		"Folder": false,
 	}
 	return &options
 }
@@ -572,6 +574,12 @@ func (srv *Storage) WithCreateFilePermissions(v []string) CreateFileOption {
 	return func(o *CreateFileOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
+	}
+}
+func (srv *Storage) WithCreateFileFolder(v string) CreateFileOption {
+	return func(o *CreateFileOptions) {
+		o.Folder = v
+		o.enabledSetters["Folder"] = true
 	}
 }
 							
@@ -605,6 +613,9 @@ func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFi
 	params["file"] = File
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
+	}
+	if options.enabledSetters["Folder"] {
+		params["folder"] = options.Folder
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],

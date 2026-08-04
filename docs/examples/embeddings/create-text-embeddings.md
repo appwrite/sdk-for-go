@@ -4,7 +4,7 @@ package main
 import (
     "fmt"
     "github.com/appwrite/sdk-for-go/v6/client"
-    "github.com/appwrite/sdk-for-go/v6/activities"
+    "github.com/appwrite/sdk-for-go/v6/embeddings"
 )
 
 client := client.New(
@@ -13,9 +13,10 @@ client := client.New(
     client.WithKey("<YOUR_API_KEY>")
 )
 
-service := activities.New(client)
+service := embeddings.New(client)
 
-response, error := service.ListEvents(
-    activities.WithListEventsQueries([]string{}),
+response, error := service.CreateTextEmbeddings(
+    []string{},
+    embeddings.WithCreateTextEmbeddingsModel("nomic-embed-text"),
 )
 ```

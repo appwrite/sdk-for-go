@@ -10,6 +10,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v6/avatars"
 	"github.com/appwrite/sdk-for-go/v6/backups"
 	"github.com/appwrite/sdk-for-go/v6/databases"
+	"github.com/appwrite/sdk-for-go/v6/embeddings"
 	"github.com/appwrite/sdk-for-go/v6/functions"
 	"github.com/appwrite/sdk-for-go/v6/graphql"
 	"github.com/appwrite/sdk-for-go/v6/locale"
@@ -46,6 +47,9 @@ func NewBackups(clt client.Client) *backups.Backups {
 }
 func NewDatabases(clt client.Client) *databases.Databases {
 	return databases.New(clt)
+}
+func NewEmbeddings(clt client.Client) *embeddings.Embeddings {
+	return embeddings.New(clt)
 }
 func NewFunctions(clt client.Client) *functions.Functions {
 	return functions.New(clt)
@@ -159,6 +163,16 @@ func WithKey(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Config["key"] = value
 		clt.Headers["X-Appwrite-Key"] = value
+		return nil
+	}
+}
+// Helper method to construct NewClient()
+// 
+// Your organization ID
+func WithOrganization(value string) client.ClientOption {
+	return func(clt *client.Client) error {
+		clt.Config["organization"] = value
+		clt.Headers["X-Appwrite-Organization"] = value
 		return nil
 	}
 }

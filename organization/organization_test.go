@@ -26,7 +26,6 @@ func TestOrganization(t *testing.T) {
     "total": 7,
     "prefs": {
     },
-    "billingBudget": 50,
     "budgetAlerts": [],
     "billingPlan": "tier-1",
     "billingPlanId": "tier-1",
@@ -41,7 +40,6 @@ func TestOrganization(t *testing.T) {
         "storage": 25,
         "imageTransformations": 100,
         "screenshotsGenerated": 50,
-        "members": 25,
         "webhooks": 25,
         "wafRules": 2,
         "projects": 2,
@@ -65,7 +63,6 @@ func TestOrganization(t *testing.T) {
         "topics": 1,
         "authPhone": 10,
         "domains": 5,
-        "activityLogs": 7,
         "usageLogs": 30,
         "projectInactivityDays": 7,
         "alertLimit": 80,
@@ -86,14 +83,6 @@ func TestOrganization(t *testing.T) {
                 "value": 25,
                 "invoiceDesc": "string"
             },
-            "member": {
-                "name": "string",
-                "unit": "GB",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
-            },
             "realtime": {
                 "name": "string",
                 "unit": "GB",
@@ -103,14 +92,6 @@ func TestOrganization(t *testing.T) {
                 "invoiceDesc": "string"
             },
             "realtimeMessages": {
-                "name": "string",
-                "unit": "GB",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
-            },
-            "realtimeBandwidth": {
                 "name": "string",
                 "unit": "GB",
                 "currency": "USD",
@@ -149,37 +130,9 @@ func TestOrganization(t *testing.T) {
                 "price": 5,
                 "value": 25,
                 "invoiceDesc": "string"
-            },
-            "credits": {
-                "name": "string",
-                "unit": "GB",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
             }
         },
         "addons": {
-            "seats": {
-                "supported": true,
-                "planIncluded": 1,
-                "limit": 5,
-                "type": "numeric",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
-            },
-            "projects": {
-                "supported": true,
-                "planIncluded": 1,
-                "limit": 5,
-                "type": "numeric",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
-            }
         },
         "budgetCapEnabled": true,
         "customSmtp": true,
@@ -198,14 +151,12 @@ func TestOrganization(t *testing.T) {
         "supportsFreeEmailValidation": true,
         "supportsCorporateEmailValidation": true,
         "supportsProjectSpecificRoles": true,
-        "backupsEnabled": true,
         "usagePerProject": true,
         "supportedAddons": {
             "baa": true,
             "premiumGeoDB": true,
             "premiumGeoDBOrg": true
         },
-        "backupPolicies": 1,
         "deploymentSize": 30,
         "buildSize": 2000,
         "databasesAllowEncrypt": true,
@@ -215,22 +166,11 @@ func TestOrganization(t *testing.T) {
     "billingStartDate": "2020-10-15T06:38:00.000+00:00",
     "billingCurrentInvoiceDate": "2020-10-15T06:38:00.000+00:00",
     "billingNextInvoiceDate": "2020-10-15T06:38:00.000+00:00",
-    "billingTrialStartDate": "2020-10-15T06:38:00.000+00:00",
     "billingTrialDays": 14,
     "billingAggregationId": "adbc3de4rddfsd",
     "billingInvoiceId": "adbc3de4rddfsd",
     "paymentMethodId": "adbc3de4rddfsd",
-    "billingAddressId": "adbc3de4rddfsd",
-    "backupPaymentMethodId": "adbc3de4rddfsd",
     "status": "active",
-    "remarks": "Pending initial payment",
-    "agreementBAA": "string",
-    "programManagerName": "string",
-    "programManagerCalendar": "string",
-    "programDiscordChannelName": "string",
-    "programDiscordChannelUrl": "string",
-    "billingPlanDowngrade": "tier-1",
-    "billingTaxId": "string",
     "markedForDeletion": true,
     "platform": "imagine",
     "projects": []
@@ -266,7 +206,6 @@ func TestOrganization(t *testing.T) {
     "total": 7,
     "prefs": {
     },
-    "billingBudget": 50,
     "budgetAlerts": [],
     "billingPlan": "tier-1",
     "billingPlanId": "tier-1",
@@ -281,7 +220,6 @@ func TestOrganization(t *testing.T) {
         "storage": 25,
         "imageTransformations": 100,
         "screenshotsGenerated": 50,
-        "members": 25,
         "webhooks": 25,
         "wafRules": 2,
         "projects": 2,
@@ -305,7 +243,6 @@ func TestOrganization(t *testing.T) {
         "topics": 1,
         "authPhone": 10,
         "domains": 5,
-        "activityLogs": 7,
         "usageLogs": 30,
         "projectInactivityDays": 7,
         "alertLimit": 80,
@@ -326,14 +263,6 @@ func TestOrganization(t *testing.T) {
                 "value": 25,
                 "invoiceDesc": "string"
             },
-            "member": {
-                "name": "string",
-                "unit": "GB",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
-            },
             "realtime": {
                 "name": "string",
                 "unit": "GB",
@@ -343,14 +272,6 @@ func TestOrganization(t *testing.T) {
                 "invoiceDesc": "string"
             },
             "realtimeMessages": {
-                "name": "string",
-                "unit": "GB",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
-            },
-            "realtimeBandwidth": {
                 "name": "string",
                 "unit": "GB",
                 "currency": "USD",
@@ -389,37 +310,9 @@ func TestOrganization(t *testing.T) {
                 "price": 5,
                 "value": 25,
                 "invoiceDesc": "string"
-            },
-            "credits": {
-                "name": "string",
-                "unit": "GB",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
             }
         },
         "addons": {
-            "seats": {
-                "supported": true,
-                "planIncluded": 1,
-                "limit": 5,
-                "type": "numeric",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
-            },
-            "projects": {
-                "supported": true,
-                "planIncluded": 1,
-                "limit": 5,
-                "type": "numeric",
-                "currency": "USD",
-                "price": 5,
-                "value": 25,
-                "invoiceDesc": "string"
-            }
         },
         "budgetCapEnabled": true,
         "customSmtp": true,
@@ -438,14 +331,12 @@ func TestOrganization(t *testing.T) {
         "supportsFreeEmailValidation": true,
         "supportsCorporateEmailValidation": true,
         "supportsProjectSpecificRoles": true,
-        "backupsEnabled": true,
         "usagePerProject": true,
         "supportedAddons": {
             "baa": true,
             "premiumGeoDB": true,
             "premiumGeoDBOrg": true
         },
-        "backupPolicies": 1,
         "deploymentSize": 30,
         "buildSize": 2000,
         "databasesAllowEncrypt": true,
@@ -455,22 +346,11 @@ func TestOrganization(t *testing.T) {
     "billingStartDate": "2020-10-15T06:38:00.000+00:00",
     "billingCurrentInvoiceDate": "2020-10-15T06:38:00.000+00:00",
     "billingNextInvoiceDate": "2020-10-15T06:38:00.000+00:00",
-    "billingTrialStartDate": "2020-10-15T06:38:00.000+00:00",
     "billingTrialDays": 14,
     "billingAggregationId": "adbc3de4rddfsd",
     "billingInvoiceId": "adbc3de4rddfsd",
     "paymentMethodId": "adbc3de4rddfsd",
-    "billingAddressId": "adbc3de4rddfsd",
-    "backupPaymentMethodId": "adbc3de4rddfsd",
     "status": "active",
-    "remarks": "Pending initial payment",
-    "agreementBAA": "string",
-    "programManagerName": "string",
-    "programManagerCalendar": "string",
-    "programDiscordChannelName": "string",
-    "programDiscordChannelUrl": "string",
-    "billingPlanDowngrade": "tier-1",
-    "billingTaxId": "string",
     "markedForDeletion": true,
     "platform": "imagine",
     "projects": []

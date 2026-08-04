@@ -20,5 +20,6 @@ response, error := service.CreateFile(
     "<FILE_ID>",
     file.NewInputFile("/path/to/file.png", "file.png"),
     storage.WithCreateFilePermissions([]string{"read("any")"}),
+    storage.WithCreateFileFolder(""),
 )
 ```

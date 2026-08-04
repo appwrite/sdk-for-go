@@ -10,14 +10,18 @@ type DedicatedDatabaseMember struct {
     // Member identifier.
     Id string `json:"$id"`
     // Member role. Possible values: primary (accepts reads and writes), replica
-    // (read-only follower).
+    // (read-only follower), unknown (placement not established; reported while a
+    // transition is moving or restarting the topology and this member has not
+    // been probed, so no member can be named the write target).
     Role string `json:"role"`
-    // Member pod status. Possible values: provisioning (pod missing or Pending),
-    // starting (Running but not Ready), active (Running and Ready), failed
-    // (Failed phase or CrashLoopBackOff container), or the lowercased pod phase
-    // reported by the cluster.
+    // Member pod status. Possible values: pending (configured but absent from the
+    // backend topology, so nothing is bringing it up), provisioning (pod missing
+    // or Pending), starting (Running but not Ready), active (Running and Ready),
+    // failed (Failed phase or CrashLoopBackOff container), or the lowercased pod
+    // phase reported by the cluster.
     Status string `json:"status"`
-    // Replication lag in seconds.
+    // Replication lag in seconds. Null when the lag is not known: a primary has
+    // none to report, and a member the backend has not probed has none yet.
     LagSeconds float64 `json:"lagSeconds"`
 
     // Used by Decode() method

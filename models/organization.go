@@ -19,7 +19,7 @@ type Organization struct {
     Total int `json:"total"`
     // Team preferences as a key-value object
     Prefs Preferences `json:"prefs"`
-    // Project budget limit
+    // Project budget limit. Null when no budget is set.
     BillingBudget int `json:"billingBudget"`
     // Project budget limit
     BudgetAlerts []int `json:"budgetAlerts"`

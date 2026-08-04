@@ -15,7 +15,7 @@ client := client.New(
 
 service := apps.New(client)
 
-response, error := service.CreateInstallationToken(
+response, error := service.DeleteInstallation(
     "<APP_ID>",
     "<INSTALLATION_ID>",
 )
