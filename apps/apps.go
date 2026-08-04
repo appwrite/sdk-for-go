@@ -733,7 +733,8 @@ func (srv *Apps) WithListInstallationsTotal(v bool) ListInstallationsOption {
 }
 			
 // ListInstallations list installations of an application. Requires an app key
-// sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header.
+// sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header,
+// or a caller with update access to the app.
 func (srv *Apps) ListInstallations(AppId string, optionalSetters ...ListInstallationsOption)(*models.AppInstallationList, error) {
 	r := strings.NewReplacer("{appId}", AppId)
 	path := r.Replace("/apps/{appId}/installations")
@@ -781,7 +782,7 @@ func (srv *Apps) ListInstallations(AppId string, optionalSetters ...ListInstalla
 			
 // GetInstallation get an installation of an application by its unique ID.
 // Requires an app key sent in the `X-Appwrite-Key` header alongside the
-// `X-Appwrite-App` header.
+// `X-Appwrite-App` header, or a caller with update access to the app.
 func (srv *Apps) GetInstallation(AppId string, InstallationId string)(*models.AppInstallation, error) {
 	r := strings.NewReplacer("{appId}", AppId, "{installationId}", InstallationId)
 	path := r.Replace("/apps/{appId}/installations/{installationId}")
@@ -818,14 +819,53 @@ func (srv *Apps) GetInstallation(AppId string, InstallationId string)(*models.Ap
 
 }
 			
+// DeleteInstallation delete an installation of an application by its unique
+// ID. Requires a caller with update access to the app. Previously issued
+// installation access tokens are revoked.
+func (srv *Apps) DeleteInstallation(AppId string, InstallationId string)(*interface{}, error) {
+	r := strings.NewReplacer("{appId}", AppId, "{installationId}", InstallationId)
+	path := r.Replace("/apps/{appId}/installations/{installationId}")
+	params := map[string]interface{}{}
+	params["appId"] = AppId
+	params["installationId"] = InstallationId
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
 // CreateInstallationToken create a token for an installation of an
 // application. Requires an app key sent in the `X-Appwrite-Key` header
-// alongside the `X-Appwrite-App` header. The returned token carries the
-// scopes and authorization details granted to the installation, and can be
-// used as an `Authorization: Bearer` header everywhere OAuth2 access tokens
-// are accepted. Multiple tokens can be active for the same installation at
-// once; each token stays valid until it expires or the installation is
-// updated or deleted.
+// alongside the `X-Appwrite-App` header, or a caller with update access to
+// the app. The returned token carries the scopes and authorization details
+// granted to the installation, and can be used as an `Authorization: Bearer`
+// header everywhere OAuth2 access tokens are accepted. Multiple tokens can be
+// active for the same installation at once; each token stays valid until it
+// expires or the installation is updated or deleted.
 func (srv *Apps) CreateInstallationToken(AppId string, InstallationId string)(*models.Oauth2Token, error) {
 	r := strings.NewReplacer("{appId}", AppId, "{installationId}", InstallationId)
 	path := r.Replace("/apps/{appId}/installations/{installationId}/tokens")

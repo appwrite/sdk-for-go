@@ -15,12 +15,10 @@ client := client.New(
 
 service := tablesdb.New(client)
 
-response, error := service.Update(
+response, error := service.ListOperations(
     "<DATABASE_ID>",
-    tablesdb.WithUpdateName("<NAME>"),
-    tablesdb.WithUpdateEnabled(false),
-    tablesdb.WithUpdateSpecification("serverless"),
-    tablesdb.WithUpdateReplicas(0),
-    tablesdb.WithUpdateSyncMode("async"),
+    tablesdb.WithListOperationsStatus("running"),
+    tablesdb.WithListOperationsLimit(1),
+    tablesdb.WithListOperationsOffset(0),
 )
 ```

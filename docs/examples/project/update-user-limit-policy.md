@@ -16,6 +16,6 @@ client := client.New(
 service := project.New(client)
 
 response, error := service.UpdateUserLimitPolicy(
-    1,
+    0,
 )
 ```

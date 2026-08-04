@@ -20,7 +20,8 @@ type DedicatedDatabase struct {
     // Product API that owns this database: tablesdb, documentsdb, vectorsdb,
     // mysql, postgresql, or mongodb.
     Api string `json:"api"`
-    // Database engine: postgresql, mysql, mariadb, or mongodb.
+    // Database engine: postgresql, mysql, or mongodb. Null until the backing
+    // reports one.
     Engine string `json:"engine"`
     // Database engine version.
     Version string `json:"version"`
@@ -30,7 +31,8 @@ type DedicatedDatabase struct {
     Backend string `json:"backend"`
     // Database hostname for connections.
     Hostname string `json:"hostname"`
-    // Database port for connections.
+    // Database port for connections. Derived from the engine when the backing has
+    // not reported one yet.
     ConnectionPort int `json:"connectionPort"`
     // Database username for connections.
     ConnectionUser string `json:"connectionUser"`
@@ -78,7 +80,10 @@ type DedicatedDatabase struct {
     // Number of cross-region replicas. Cross-region availability is enabled when
     // greater than 0.
     CrossRegionReplicas int `json:"crossRegionReplicas"`
-    // Maximum concurrent connections.
+    // Maximum concurrent client connections. This is the limit a client pool may
+    // reach; the engine's own max_connections reported by the status endpoint is
+    // a smaller backend limit the pooler multiplexes onto and does not constrain
+    // a client pool.
     NetworkMaxConnections int `json:"networkMaxConnections"`
     // Connection idle timeout in seconds.
     NetworkIdleTimeoutSeconds int `json:"networkIdleTimeoutSeconds"`

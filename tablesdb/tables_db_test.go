@@ -476,17 +476,58 @@ func TestTablesDB(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ListOperations", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "operations": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "databaseId": "5e5ea5c16897e",
+            "type": "update",
+            "status": "completed",
+            "attempts": 1,
+            "errorCode": "LockLost",
+            "errorMessage": "string"
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListOperations("<DATABASE_ID>")
+		if err != nil {
+			t.Errorf("Method ListOperations failed: %v", err)
+		}
+	})
+
 	t.Run("Test GetReplicas", func(t *testing.T) {
 		mockResponse := `
 {
     "replicas": 2,
     "syncMode": "async",
+    "syncDegraded": true,
+    "syncAcknowledgements": 1,
+    "syncStandbyCount": 2,
+    "syncStateConfirmed": true,
     "members": [
         {
             "$id": "1",
             "role": "replica",
-            "status": "active",
-            "lagSeconds": 0.5
+            "status": "active"
         }
     ]
 }
@@ -523,6 +564,11 @@ func TestTablesDB(t *testing.T) {
         "current": 12,
         "max": 100
     },
+    "syncMode": "async",
+    "syncDegraded": true,
+    "syncAcknowledgements": 1,
+    "syncStandbyCount": 2,
+    "syncStateConfirmed": true,
     "replicas": [
         {
             "index": 0,

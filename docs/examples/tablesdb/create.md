@@ -21,5 +21,6 @@ response, error := service.Create(
     tablesdb.WithCreateEnabled(false),
     tablesdb.WithCreateSpecification("serverless"),
     tablesdb.WithCreateReplicas(0),
+    tablesdb.WithCreateSyncMode("async"),
 )
 ```

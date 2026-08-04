@@ -6,7 +6,7 @@ import (
 )
 
 func TestBillingPlanAddonModel(t *testing.T) {
-    model := BillingPlanAddon{        Seats: BillingPlanAddonDetails{        Supported: true,        PlanIncluded: 1,        Limit: 5,        Type: "numeric",        Currency: "USD",        Price: 5,        Value: 25,        InvoiceDesc: "string",    },        Projects: BillingPlanAddonDetails{        Supported: true,        PlanIncluded: 1,        Limit: 5,        Type: "numeric",        Currency: "USD",        Price: 5,        Value: 25,        InvoiceDesc: "string",    },    }
+    model := BillingPlanAddon{    }
 
     data, err := json.Marshal(model)
     if err != nil {

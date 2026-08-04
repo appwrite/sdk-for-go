@@ -24,10 +24,10 @@ type Database struct {
     // Dedicated database lifecycle status. Null when the database has no valid
     // dedicated backing.
     Status string `json:"status"`
-    // Underlying engine of the dedicated backing: postgresql, mysql, mariadb, or
-    // mongodb. A managed product (tablesdb, documentsdb, vectorsdb) reports the
-    // engine it runs on, so its type and engine can differ. Null when the
-    // database has no dedicated backing.
+    // Underlying engine of the dedicated backing: postgresql, mysql, or mongodb.
+    // A managed product (tablesdb, documentsdb, vectorsdb) reports the engine it
+    // runs on, so its type and engine can differ. Null when the database has no
+    // dedicated backing.
     Engine string `json:"engine"`
     // Compute specification identifier of the dedicated backing, e.g.
     // s-2vcpu-2gb. Null when the database has no dedicated backing.

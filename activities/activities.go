@@ -20,7 +20,7 @@ func New(clt client.Client) *Activities {
 }
 
 type ListEventsOptions struct {
-	Queries string
+	Queries []string
 	enabledSetters map[string]bool
 }
 func (options ListEventsOptions) New() *ListEventsOptions {
@@ -30,7 +30,7 @@ func (options ListEventsOptions) New() *ListEventsOptions {
 	return &options
 }
 type ListEventsOption func(*ListEventsOptions)
-func (srv *Activities) WithListEventsQueries(v string) ListEventsOption {
+func (srv *Activities) WithListEventsQueries(v []string) ListEventsOption {
 	return func(o *ListEventsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true

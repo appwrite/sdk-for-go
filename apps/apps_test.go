@@ -438,6 +438,32 @@ func TestApps(t *testing.T) {
 		}
 	})
 
+	t.Run("Test DeleteInstallation", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteInstallation("<APP_ID>", "<INSTALLATION_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteInstallation failed: %v", err)
+		}
+	})
+
 	t.Run("Test CreateInstallationToken", func(t *testing.T) {
 		mockResponse := `
 {

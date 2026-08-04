@@ -6,7 +6,7 @@ import (
 )
 
 func TestDatabaseStatusModel(t *testing.T) {
-    model := DatabaseStatus{        Health: "healthy",        Ready: true,        Engine: "postgresql",        Version: "17",        Uptime: 86400,        Connections: DatabaseStatusConnections{        Current: 12,        Max: 100,    },        Replicas: []DatabaseStatusReplica{DatabaseStatusReplica{        Index: 0,        Role: "primary",        Healthy: true,    },
+    model := DatabaseStatus{        Health: "healthy",        Ready: true,        Engine: "postgresql",        Version: "17",        Uptime: 86400,        Connections: DatabaseStatusConnections{        Current: 12,        Max: 100,    },        SyncMode: "async",        SyncDegraded: true,        SyncAcknowledgements: 1,        SyncStandbyCount: 2,        SyncStateConfirmed: true,        Replicas: []DatabaseStatusReplica{DatabaseStatusReplica{        Index: 0,        Role: "primary",        Healthy: true,    },
             },        Volumes: []DatabaseStatusVolume{DatabaseStatusVolume{        Path: "/var/lib/postgresql/data",        UsedPercent: "45%",        Available: "55GB",        Mounted: true,    },
             },    }
 
@@ -34,4 +34,19 @@ func TestDatabaseStatusModel(t *testing.T) {
     }
     if result.Uptime != model.Uptime {
         t.Errorf("Expected Uptime %v, got %v", model.Uptime, result.Uptime)
+    }
+    if result.SyncMode != model.SyncMode {
+        t.Errorf("Expected SyncMode %v, got %v", model.SyncMode, result.SyncMode)
+    }
+    if result.SyncDegraded != model.SyncDegraded {
+        t.Errorf("Expected SyncDegraded %v, got %v", model.SyncDegraded, result.SyncDegraded)
+    }
+    if result.SyncAcknowledgements != model.SyncAcknowledgements {
+        t.Errorf("Expected SyncAcknowledgements %v, got %v", model.SyncAcknowledgements, result.SyncAcknowledgements)
+    }
+    if result.SyncStandbyCount != model.SyncStandbyCount {
+        t.Errorf("Expected SyncStandbyCount %v, got %v", model.SyncStandbyCount, result.SyncStandbyCount)
+    }
+    if result.SyncStateConfirmed != model.SyncStateConfirmed {
+        t.Errorf("Expected SyncStateConfirmed %v, got %v", model.SyncStateConfirmed, result.SyncStateConfirmed)
     }}

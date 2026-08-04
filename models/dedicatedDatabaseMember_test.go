@@ -6,7 +6,7 @@ import (
 )
 
 func TestDedicatedDatabaseMemberModel(t *testing.T) {
-    model := DedicatedDatabaseMember{        Id: "1",        Role: "replica",        Status: "active",        LagSeconds: 0.5,    }
+    model := DedicatedDatabaseMember{        Id: "1",        Role: "replica",        Status: "active",    }
 
     data, err := json.Marshal(model)
     if err != nil {
@@ -26,7 +26,4 @@ func TestDedicatedDatabaseMemberModel(t *testing.T) {
     }
     if result.Status != model.Status {
         t.Errorf("Expected Status %v, got %v", model.Status, result.Status)
-    }
-    if result.LagSeconds != model.LagSeconds {
-        t.Errorf("Expected LagSeconds %v, got %v", model.LagSeconds, result.LagSeconds)
     }}
