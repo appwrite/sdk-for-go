@@ -1,5 +1,10 @@
 # Change Log
 
+## v6.3.0
+
+* Added: `Proxy.CreateInvalidation` to purge CDN cache for a domain by tag, path, or all
+* Added: `ProxyInvalidation` model
+
 ## v6.2.0
 
 * Added: `Embeddings` service with `CreateTextEmbeddings`, plus `Embedding` and `EmbeddingList` models

@@ -19,6 +19,71 @@ func New(clt client.Client) *Proxy {
 	}
 }
 
+type CreateInvalidationOptions struct {
+	Reference string
+	enabledSetters map[string]bool
+}
+func (options CreateInvalidationOptions) New() *CreateInvalidationOptions {
+	options.enabledSetters = map[string]bool{
+		"Reference": false,
+	}
+	return &options
+}
+type CreateInvalidationOption func(*CreateInvalidationOptions)
+func (srv *Proxy) WithCreateInvalidationReference(v string) CreateInvalidationOption {
+	return func(o *CreateInvalidationOptions) {
+		o.Reference = v
+		o.enabledSetters["Reference"] = true
+	}
+}
+					
+// CreateInvalidation create a new CDN cache invalidation for a domain.
+// Executes a hard purge of cached content.
+// 
+// Depending on type, the invalidation purges a single cache tag, a single URL
+// path, or all cached content for the domain.
+func (srv *Proxy) CreateInvalidation(Domain string, Type string, optionalSetters ...CreateInvalidationOption)(*models.ProxyInvalidation, error) {
+	path := "/proxy/invalidations"
+	options := CreateInvalidationOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["domain"] = Domain
+	params["type"] = Type
+	if options.enabledSetters["Reference"] {
+		params["reference"] = options.Reference
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes := []byte(resp.Result.(string))
+
+		parsed := models.ProxyInvalidation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ProxyInvalidation
+	parsed, ok := resp.Result.(models.ProxyInvalidation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
 type ListRulesOptions struct {
 	Queries []string
 	Total bool
