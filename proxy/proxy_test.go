@@ -16,6 +16,35 @@ func TestProxy(t *testing.T) {
 		return c
 	}
 
+	t.Run("Test CreateInvalidation", func(t *testing.T) {
+		mockResponse := `
+{
+    "domain": "appwrite.company.com",
+    "type": "tag",
+    "reference": "products",
+    "status": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateInvalidation("", "tag")
+		if err != nil {
+			t.Errorf("Method CreateInvalidation failed: %v", err)
+		}
+	})
+
 	t.Run("Test ListRules", func(t *testing.T) {
 		mockResponse := `
 {
