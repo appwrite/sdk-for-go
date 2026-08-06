@@ -90,10 +90,9 @@ func (srv *Project) Delete()(*interface{}, error) {
 // UpdateAuthMethod update properties of a specific auth method. Use this
 // endpoint to enable or disable a method in your project.
 func (srv *Project) UpdateAuthMethod(MethodId string, Enabled bool)(*models.Project, error) {
-	r := strings.NewReplacer("{methodId}", MethodId)
+	r := strings.NewReplacer("{methodId}", client.EncodePath(MethodId))
 	path := r.Replace("/project/auth-methods/{methodId}")
 	params := map[string]interface{}{}
-	params["methodId"] = MethodId
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -305,10 +304,9 @@ func (srv *Project) CreateEphemeralKey(Scopes []string, Duration int)(*models.Ep
 	
 // GetKey get a key by its unique ID.
 func (srv *Project) GetKey(KeyId string)(*models.Key, error) {
-	r := strings.NewReplacer("{keyId}", KeyId)
+	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/project/keys/{keyId}")
 	params := map[string]interface{}{}
-	params["keyId"] = KeyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -359,14 +357,13 @@ func (srv *Project) WithUpdateKeyExpire(v string) UpdateKeyOption {
 // UpdateKey update a key by its unique ID. Use this endpoint to update the
 // name, scopes, or expiration time of an API key.
 func (srv *Project) UpdateKey(KeyId string, Name string, Scopes []string, optionalSetters ...UpdateKeyOption)(*models.Key, error) {
-	r := strings.NewReplacer("{keyId}", KeyId)
+	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/project/keys/{keyId}")
 	options := UpdateKeyOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["keyId"] = KeyId
 	params["name"] = Name
 	params["scopes"] = Scopes
 	if options.enabledSetters["Expire"] {
@@ -406,10 +403,9 @@ func (srv *Project) UpdateKey(KeyId string, Name string, Scopes []string, option
 // DeleteKey delete a key by its unique ID. Once deleted, the key can no
 // longer be used to authenticate API calls.
 func (srv *Project) DeleteKey(KeyId string)(*interface{}, error) {
-	r := strings.NewReplacer("{keyId}", KeyId)
+	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/project/keys/{keyId}")
 	params := map[string]interface{}{}
-	params["keyId"] = KeyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -587,10 +583,9 @@ func (srv *Project) CreateMockPhone(Number string, Otp string)(*models.MockNumbe
 // GetMockPhone get a mock phone by its unique number. This endpoint returns
 // the mock phone's OTP.
 func (srv *Project) GetMockPhone(Number string)(*models.MockNumber, error) {
-	r := strings.NewReplacer("{number}", Number)
+	r := strings.NewReplacer("{number}", client.EncodePath(Number))
 	path := r.Replace("/project/mock-phones/{number}")
 	params := map[string]interface{}{}
-	params["number"] = Number
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -624,10 +619,9 @@ func (srv *Project) GetMockPhone(Number string)(*models.MockNumber, error) {
 // UpdateMockPhone update a mock phone by its unique number. Use this endpoint
 // to update the mock phone's OTP.
 func (srv *Project) UpdateMockPhone(Number string, Otp string)(*models.MockNumber, error) {
-	r := strings.NewReplacer("{number}", Number)
+	r := strings.NewReplacer("{number}", client.EncodePath(Number))
 	path := r.Replace("/project/mock-phones/{number}")
 	params := map[string]interface{}{}
-	params["number"] = Number
 	params["otp"] = Otp
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -663,10 +657,9 @@ func (srv *Project) UpdateMockPhone(Number string, Otp string)(*models.MockNumbe
 // DeleteMockPhone delete a mock phone by its unique number. This endpoint
 // removes the mock phone and its OTP configuration from the project.
 func (srv *Project) DeleteMockPhone(Number string)(*interface{}, error) {
-	r := strings.NewReplacer("{number}", Number)
+	r := strings.NewReplacer("{number}", client.EncodePath(Number))
 	path := r.Replace("/project/mock-phones/{number}")
 	params := map[string]interface{}{}
-	params["number"] = Number
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -4648,10 +4641,9 @@ func (srv *Project) UpdateOAuth2Zoom(optionalSetters ...UpdateOAuth2ZoomOption)(
 // fields (client secret, p8 file, key/team IDs) are write-only and always
 // returned empty.
 func (srv *Project) GetOAuth2Provider(ProviderId string)(models.Model, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/project/oauth2/{providerId}")
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -5112,10 +5104,9 @@ func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, Applic
 // UpdateAndroidPlatform update an Android platform by its unique ID. Use this
 // endpoint to update the platform's name or application ID.
 func (srv *Project) UpdateAndroidPlatform(PlatformId string, Name string, ApplicationId string)(*models.PlatformAndroid, error) {
-	r := strings.NewReplacer("{platformId}", PlatformId)
+	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/android/{platformId}")
 	params := map[string]interface{}{}
-	params["platformId"] = PlatformId
 	params["name"] = Name
 	params["applicationId"] = ApplicationId
 	headers := map[string]interface{}{
@@ -5192,10 +5183,9 @@ func (srv *Project) CreateApplePlatform(PlatformId string, Name string, BundleId
 // UpdateApplePlatform update an Apple platform by its unique ID. Use this
 // endpoint to update the platform's name or bundle identifier.
 func (srv *Project) UpdateApplePlatform(PlatformId string, Name string, BundleIdentifier string)(*models.PlatformApple, error) {
-	r := strings.NewReplacer("{platformId}", PlatformId)
+	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/apple/{platformId}")
 	params := map[string]interface{}{}
-	params["platformId"] = PlatformId
 	params["name"] = Name
 	params["bundleIdentifier"] = BundleIdentifier
 	headers := map[string]interface{}{
@@ -5272,10 +5262,9 @@ func (srv *Project) CreateLinuxPlatform(PlatformId string, Name string, PackageN
 // UpdateLinuxPlatform update a Linux platform by its unique ID. Use this
 // endpoint to update the platform's name or package name.
 func (srv *Project) UpdateLinuxPlatform(PlatformId string, Name string, PackageName string)(*models.PlatformLinux, error) {
-	r := strings.NewReplacer("{platformId}", PlatformId)
+	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/linux/{platformId}")
 	params := map[string]interface{}{}
-	params["platformId"] = PlatformId
 	params["name"] = Name
 	params["packageName"] = PackageName
 	headers := map[string]interface{}{
@@ -5352,10 +5341,9 @@ func (srv *Project) CreateWebPlatform(PlatformId string, Name string, Hostname s
 // UpdateWebPlatform update a web platform by its unique ID. Use this endpoint
 // to update the platform's name or hostname.
 func (srv *Project) UpdateWebPlatform(PlatformId string, Name string, Hostname string)(*models.PlatformWeb, error) {
-	r := strings.NewReplacer("{platformId}", PlatformId)
+	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/web/{platformId}")
 	params := map[string]interface{}{}
-	params["platformId"] = PlatformId
 	params["name"] = Name
 	params["hostname"] = Hostname
 	headers := map[string]interface{}{
@@ -5432,10 +5420,9 @@ func (srv *Project) CreateWindowsPlatform(PlatformId string, Name string, Packag
 // UpdateWindowsPlatform update a Windows platform by its unique ID. Use this
 // endpoint to update the platform's name or package identifier name.
 func (srv *Project) UpdateWindowsPlatform(PlatformId string, Name string, PackageIdentifierName string)(*models.PlatformWindows, error) {
-	r := strings.NewReplacer("{platformId}", PlatformId)
+	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/windows/{platformId}")
 	params := map[string]interface{}{}
-	params["platformId"] = PlatformId
 	params["name"] = Name
 	params["packageIdentifierName"] = PackageIdentifierName
 	headers := map[string]interface{}{
@@ -5472,10 +5459,9 @@ func (srv *Project) UpdateWindowsPlatform(PlatformId string, Name string, Packag
 // GetPlatform get a platform by its unique ID. This endpoint returns the
 // platform's details, including its name, type, and key configurations.
 func (srv *Project) GetPlatform(PlatformId string)(models.Model, error) {
-	r := strings.NewReplacer("{platformId}", PlatformId)
+	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/{platformId}")
 	params := map[string]interface{}{}
-	params["platformId"] = PlatformId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -5546,10 +5532,9 @@ func (srv *Project) GetPlatform(PlatformId string)(models.Model, error) {
 // DeletePlatform delete a platform by its unique ID. This endpoint removes
 // the platform and all its configurations from the project.
 func (srv *Project) DeletePlatform(PlatformId string)(*interface{}, error) {
-	r := strings.NewReplacer("{platformId}", PlatformId)
+	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/{platformId}")
 	params := map[string]interface{}{}
-	params["platformId"] = PlatformId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -6338,10 +6323,9 @@ func (srv *Project) UpdateUserLimitPolicy(Total int)(*models.Project, error) {
 // GetPolicy get a policy by its unique ID. This endpoint returns the current
 // configuration for the requested project policy.
 func (srv *Project) GetPolicy(PolicyId string)(models.Model, error) {
-	r := strings.NewReplacer("{policyId}", PolicyId)
+	r := strings.NewReplacer("{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/project/policies/{policyId}")
 	params := map[string]interface{}{}
-	params["policyId"] = PolicyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -6484,10 +6468,9 @@ func (srv *Project) GetPolicy(PolicyId string)(models.Model, error) {
 // UpdateProtocol update properties of a specific protocol. Use this endpoint
 // to enable or disable a protocol in your project.
 func (srv *Project) UpdateProtocol(ProtocolId string, Enabled bool)(*models.Project, error) {
-	r := strings.NewReplacer("{protocolId}", ProtocolId)
+	r := strings.NewReplacer("{protocolId}", client.EncodePath(ProtocolId))
 	path := r.Replace("/project/protocols/{protocolId}")
 	params := map[string]interface{}{}
-	params["protocolId"] = ProtocolId
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -6523,10 +6506,9 @@ func (srv *Project) UpdateProtocol(ProtocolId string, Enabled bool)(*models.Proj
 // UpdateService update properties of a specific service. Use this endpoint to
 // enable or disable a service in your project.
 func (srv *Project) UpdateService(ServiceId string, Enabled bool)(*models.Project, error) {
-	r := strings.NewReplacer("{serviceId}", ServiceId)
+	r := strings.NewReplacer("{serviceId}", client.EncodePath(ServiceId))
 	path := r.Replace("/project/services/{serviceId}")
 	params := map[string]interface{}{}
-	params["serviceId"] = ServiceId
 	params["enabled"] = Enabled
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -6972,14 +6954,13 @@ func (srv *Project) WithGetEmailTemplateLocale(v string) GetEmailTemplateOption 
 // type. This endpoint returns the template content, subject, and other
 // configuration details.
 func (srv *Project) GetEmailTemplate(TemplateId string, optionalSetters ...GetEmailTemplateOption)(*models.EmailTemplate, error) {
-	r := strings.NewReplacer("{templateId}", TemplateId)
+	r := strings.NewReplacer("{templateId}", client.EncodePath(TemplateId))
 	path := r.Replace("/project/templates/email/{templateId}")
 	options := GetEmailTemplateOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["templateId"] = TemplateId
 	if options.enabledSetters["Locale"] {
 		params["locale"] = options.Locale
 	}
@@ -7147,10 +7128,9 @@ func (srv *Project) CreateVariable(VariableId string, Key string, Value string, 
 	
 // GetVariable get a variable by its unique ID.
 func (srv *Project) GetVariable(VariableId string)(*models.Variable, error) {
-	r := strings.NewReplacer("{variableId}", VariableId)
+	r := strings.NewReplacer("{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/project/variables/{variableId}")
 	params := map[string]interface{}{}
-	params["variableId"] = VariableId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -7216,14 +7196,13 @@ func (srv *Project) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 			
 // UpdateVariable update variable by its unique ID.
 func (srv *Project) UpdateVariable(VariableId string, optionalSetters ...UpdateVariableOption)(*models.Variable, error) {
-	r := strings.NewReplacer("{variableId}", VariableId)
+	r := strings.NewReplacer("{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/project/variables/{variableId}")
 	options := UpdateVariableOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["variableId"] = VariableId
 	if options.enabledSetters["Key"] {
 		params["key"] = options.Key
 	}
@@ -7266,10 +7245,9 @@ func (srv *Project) UpdateVariable(VariableId string, optionalSetters ...UpdateV
 	
 // DeleteVariable delete a variable by its unique ID.
 func (srv *Project) DeleteVariable(VariableId string)(*interface{}, error) {
-	r := strings.NewReplacer("{variableId}", VariableId)
+	r := strings.NewReplacer("{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/project/variables/{variableId}")
 	params := map[string]interface{}{}
-	params["variableId"] = VariableId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",

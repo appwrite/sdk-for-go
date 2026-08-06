@@ -201,10 +201,9 @@ func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []
 // Get get a webhook by its unique ID. This endpoint returns details about a
 // specific webhook configured for a project.
 func (srv *Webhooks) Get(WebhookId string)(*models.Webhook, error) {
-	r := strings.NewReplacer("{webhookId}", WebhookId)
+	r := strings.NewReplacer("{webhookId}", client.EncodePath(WebhookId))
 	path := r.Replace("/webhooks/{webhookId}")
 	params := map[string]interface{}{}
-	params["webhookId"] = WebhookId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -279,14 +278,13 @@ func (srv *Webhooks) WithUpdateAuthPassword(v string) UpdateOption {
 // Update update a webhook by its unique ID. Use this endpoint to update the
 // URL, events, or status of an existing webhook.
 func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []string, optionalSetters ...UpdateOption)(*models.Webhook, error) {
-	r := strings.NewReplacer("{webhookId}", WebhookId)
+	r := strings.NewReplacer("{webhookId}", client.EncodePath(WebhookId))
 	path := r.Replace("/webhooks/{webhookId}")
 	options := UpdateOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["webhookId"] = WebhookId
 	params["name"] = Name
 	params["url"] = Url
 	params["events"] = Events
@@ -336,10 +334,9 @@ func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []
 // Delete delete a webhook by its unique ID. Once deleted, the webhook will no
 // longer receive project events.
 func (srv *Webhooks) Delete(WebhookId string)(*interface{}, error) {
-	r := strings.NewReplacer("{webhookId}", WebhookId)
+	r := strings.NewReplacer("{webhookId}", client.EncodePath(WebhookId))
 	path := r.Replace("/webhooks/{webhookId}")
 	params := map[string]interface{}{}
-	params["webhookId"] = WebhookId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -390,14 +387,13 @@ func (srv *Webhooks) WithUpdateSecretSecret(v string) UpdateSecretOption {
 // regenerate the signing key used to sign and validate payload deliveries for
 // a specific webhook.
 func (srv *Webhooks) UpdateSecret(WebhookId string, optionalSetters ...UpdateSecretOption)(*models.Webhook, error) {
-	r := strings.NewReplacer("{webhookId}", WebhookId)
+	r := strings.NewReplacer("{webhookId}", client.EncodePath(WebhookId))
 	path := r.Replace("/webhooks/{webhookId}/secret")
 	options := UpdateSecretOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["webhookId"] = WebhookId
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
 	}

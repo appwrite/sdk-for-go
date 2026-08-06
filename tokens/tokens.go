@@ -48,15 +48,13 @@ func (srv *Tokens) WithListTotal(v bool) ListOption {
 // List list all the tokens created for a specific file or bucket. You can use
 // the query params to filter your results.
 func (srv *Tokens) List(BucketId string, FileId string, optionalSetters ...ListOption)(*models.ResourceTokenList, error) {
-	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
+	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/tokens/buckets/{bucketId}/files/{fileId}")
 	options := ListOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["bucketId"] = BucketId
-	params["fileId"] = FileId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -113,15 +111,13 @@ func (srv *Tokens) WithCreateFileTokenExpire(v string) CreateFileTokenOption {
 // CreateFileToken create a new token. A token is linked to a file. Token can
 // be passed as a request URL search parameter.
 func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSetters ...CreateFileTokenOption)(*models.ResourceToken, error) {
-	r := strings.NewReplacer("{bucketId}", BucketId, "{fileId}", FileId)
+	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/tokens/buckets/{bucketId}/files/{fileId}")
 	options := CreateFileTokenOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["bucketId"] = BucketId
-	params["fileId"] = FileId
 	if options.enabledSetters["Expire"] {
 		params["expire"] = options.Expire
 	}
@@ -158,10 +154,9 @@ func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSette
 	
 // Get get a token by its unique ID.
 func (srv *Tokens) Get(TokenId string)(*models.ResourceToken, error) {
-	r := strings.NewReplacer("{tokenId}", TokenId)
+	r := strings.NewReplacer("{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/tokens/{tokenId}")
 	params := map[string]interface{}{}
-	params["tokenId"] = TokenId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -212,14 +207,13 @@ func (srv *Tokens) WithUpdateExpire(v string) UpdateOption {
 // Update update a token by its unique ID. Use this endpoint to update a
 // token's expiry date.
 func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption)(*models.ResourceToken, error) {
-	r := strings.NewReplacer("{tokenId}", TokenId)
+	r := strings.NewReplacer("{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/tokens/{tokenId}")
 	options := UpdateOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["tokenId"] = TokenId
 	if options.enabledSetters["Expire"] {
 		params["expire"] = options.Expire
 	}
@@ -256,10 +250,9 @@ func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption)(*mode
 	
 // Delete delete a token by its unique ID.
 func (srv *Tokens) Delete(TokenId string)(*interface{}, error) {
-	r := strings.NewReplacer("{tokenId}", TokenId)
+	r := strings.NewReplacer("{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/tokens/{tokenId}")
 	params := map[string]interface{}{}
-	params["tokenId"] = TokenId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",

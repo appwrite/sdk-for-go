@@ -236,7 +236,6 @@ func (srv *Apps) Create(AppId string, Name string, RedirectUris []string, option
 	params := map[string]interface{}{}
 	params["appId"] = AppId
 	params["name"] = Name
-	params["redirectUris"] = RedirectUris
 	if options.enabledSetters["Description"] {
 		params["description"] = options.Description
 	}
@@ -270,6 +269,7 @@ func (srv *Apps) Create(AppId string, Name string, RedirectUris []string, option
 	if options.enabledSetters["DataDeletionUrl"] {
 		params["dataDeletionUrl"] = options.DataDeletionUrl
 	}
+	params["redirectUris"] = RedirectUris
 	if options.enabledSetters["PostLogoutRedirectUris"] {
 		params["postLogoutRedirectUris"] = options.PostLogoutRedirectUris
 	}
@@ -388,10 +388,9 @@ func (srv *Apps) ListOAuth2Scopes()(*models.AppScopeList, error) {
 	
 // Get get an application by its unique ID.
 func (srv *Apps) Get(AppId string)(*models.App, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -577,14 +576,13 @@ func (srv *Apps) WithUpdateInstallationRedirectUrl(v string) UpdateOption {
 					
 // Update update an application by its unique ID.
 func (srv *Apps) Update(AppId string, Name string, optionalSetters ...UpdateOption)(*models.App, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}")
 	options := UpdateOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	params["name"] = Name
 	if options.enabledSetters["Description"] {
 		params["description"] = options.Description
@@ -673,10 +671,9 @@ func (srv *Apps) Update(AppId string, Name string, optionalSetters ...UpdateOpti
 	
 // Delete delete an application by its unique ID.
 func (srv *Apps) Delete(AppId string)(*interface{}, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -736,14 +733,13 @@ func (srv *Apps) WithListInstallationsTotal(v bool) ListInstallationsOption {
 // sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header,
 // or a caller with update access to the app.
 func (srv *Apps) ListInstallations(AppId string, optionalSetters ...ListInstallationsOption)(*models.AppInstallationList, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/installations")
 	options := ListInstallationsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -784,11 +780,9 @@ func (srv *Apps) ListInstallations(AppId string, optionalSetters ...ListInstalla
 // Requires an app key sent in the `X-Appwrite-Key` header alongside the
 // `X-Appwrite-App` header, or a caller with update access to the app.
 func (srv *Apps) GetInstallation(AppId string, InstallationId string)(*models.AppInstallation, error) {
-	r := strings.NewReplacer("{appId}", AppId, "{installationId}", InstallationId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/apps/{appId}/installations/{installationId}")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
-	params["installationId"] = InstallationId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -823,11 +817,9 @@ func (srv *Apps) GetInstallation(AppId string, InstallationId string)(*models.Ap
 // ID. Requires a caller with update access to the app. Previously issued
 // installation access tokens are revoked.
 func (srv *Apps) DeleteInstallation(AppId string, InstallationId string)(*interface{}, error) {
-	r := strings.NewReplacer("{appId}", AppId, "{installationId}", InstallationId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/apps/{appId}/installations/{installationId}")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
-	params["installationId"] = InstallationId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -867,11 +859,9 @@ func (srv *Apps) DeleteInstallation(AppId string, InstallationId string)(*interf
 // active for the same installation at once; each token stays valid until it
 // expires or the installation is updated or deleted.
 func (srv *Apps) CreateInstallationToken(AppId string, InstallationId string)(*models.Oauth2Token, error) {
-	r := strings.NewReplacer("{appId}", AppId, "{installationId}", InstallationId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/apps/{appId}/installations/{installationId}/tokens")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
-	params["installationId"] = InstallationId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -930,14 +920,13 @@ func (srv *Apps) WithListKeysTotal(v bool) ListKeysOption {
 			
 // ListKeys list app keys for an application.
 func (srv *Apps) ListKeys(AppId string, optionalSetters ...ListKeysOption)(*models.AppKeyList, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/keys")
 	options := ListKeysOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -979,10 +968,9 @@ func (srv *Apps) ListKeys(AppId string, optionalSetters ...ListKeysOption)(*mode
 // `X-Appwrite-App` header to list the application's installations and create
 // installation access tokens.
 func (srv *Apps) CreateKey(AppId string)(*models.AppKey, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/keys")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1016,11 +1004,9 @@ func (srv *Apps) CreateKey(AppId string)(*models.AppKey, error) {
 			
 // GetKey get an app key by its unique ID.
 func (srv *Apps) GetKey(AppId string, KeyId string)(*models.AppKey, error) {
-	r := strings.NewReplacer("{appId}", AppId, "{keyId}", KeyId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/apps/{appId}/keys/{keyId}")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
-	params["keyId"] = KeyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -1053,11 +1039,9 @@ func (srv *Apps) GetKey(AppId string, KeyId string)(*models.AppKey, error) {
 			
 // DeleteKey delete an app key by its unique ID.
 func (srv *Apps) DeleteKey(AppId string, KeyId string)(*interface{}, error) {
-	r := strings.NewReplacer("{appId}", AppId, "{keyId}", KeyId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/apps/{appId}/keys/{keyId}")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
-	params["keyId"] = KeyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1092,10 +1076,9 @@ func (srv *Apps) DeleteKey(AppId string, KeyId string)(*interface{}, error) {
 // clients; only a server SDK using a project API key can set them. Replaces
 // the previous labels.
 func (srv *Apps) UpdateLabels(AppId string, Labels []string)(*models.App, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/labels")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	params["labels"] = Labels
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -1155,14 +1138,13 @@ func (srv *Apps) WithListSecretsTotal(v bool) ListSecretsOption {
 			
 // ListSecrets list client secrets for an application.
 func (srv *Apps) ListSecrets(AppId string, optionalSetters ...ListSecretsOption)(*models.AppSecretList, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/secrets")
 	options := ListSecretsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -1201,10 +1183,9 @@ func (srv *Apps) ListSecrets(AppId string, optionalSetters ...ListSecretsOption)
 	
 // CreateSecret create a new client secret for an application.
 func (srv *Apps) CreateSecret(AppId string)(*models.AppSecretPlaintext, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/secrets")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1238,11 +1219,9 @@ func (srv *Apps) CreateSecret(AppId string)(*models.AppSecretPlaintext, error) {
 			
 // GetSecret get an application client secret by its unique ID.
 func (srv *Apps) GetSecret(AppId string, SecretId string)(*models.AppSecret, error) {
-	r := strings.NewReplacer("{appId}", AppId, "{secretId}", SecretId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{secretId}", client.EncodePath(SecretId))
 	path := r.Replace("/apps/{appId}/secrets/{secretId}")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
-	params["secretId"] = SecretId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -1275,11 +1254,9 @@ func (srv *Apps) GetSecret(AppId string, SecretId string)(*models.AppSecret, err
 			
 // DeleteSecret delete an application client secret by its unique ID.
 func (srv *Apps) DeleteSecret(AppId string, SecretId string)(*interface{}, error) {
-	r := strings.NewReplacer("{appId}", AppId, "{secretId}", SecretId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{secretId}", client.EncodePath(SecretId))
 	path := r.Replace("/apps/{appId}/secrets/{secretId}")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
-	params["secretId"] = SecretId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1312,10 +1289,9 @@ func (srv *Apps) DeleteSecret(AppId string, SecretId string)(*interface{}, error
 			
 // UpdateTeam transfer an application to another team by its unique ID.
 func (srv *Apps) UpdateTeam(AppId string, TeamId string)(*models.App, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/team")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	params["teamId"] = TeamId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -1350,10 +1326,9 @@ func (srv *Apps) UpdateTeam(AppId string, TeamId string)(*models.App, error) {
 	
 // DeleteTokens revoke all tokens for an application by its unique ID.
 func (srv *Apps) DeleteTokens(AppId string)(*interface{}, error) {
-	r := strings.NewReplacer("{appId}", AppId)
+	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/tokens")
 	params := map[string]interface{}{}
-	params["appId"] = AppId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",

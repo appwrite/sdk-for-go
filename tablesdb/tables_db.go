@@ -351,10 +351,9 @@ func (srv *TablesDB) CreateTransaction(optionalSetters ...CreateTransactionOptio
 	
 // GetTransaction get a transaction by its unique ID.
 func (srv *TablesDB) GetTransaction(TransactionId string)(*models.Transaction, error) {
-	r := strings.NewReplacer("{transactionId}", TransactionId)
+	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
-	params["transactionId"] = TransactionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -413,14 +412,13 @@ func (srv *TablesDB) WithUpdateTransactionRollback(v bool) UpdateTransactionOpti
 // UpdateTransaction update a transaction, to either commit or roll back its
 // operations.
 func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption)(*models.Transaction, error) {
-	r := strings.NewReplacer("{transactionId}", TransactionId)
+	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}")
 	options := UpdateTransactionOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["transactionId"] = TransactionId
 	if options.enabledSetters["Commit"] {
 		params["commit"] = options.Commit
 	}
@@ -460,10 +458,9 @@ func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...
 	
 // DeleteTransaction delete a transaction by its unique ID.
 func (srv *TablesDB) DeleteTransaction(TransactionId string)(*interface{}, error) {
-	r := strings.NewReplacer("{transactionId}", TransactionId)
+	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
-	params["transactionId"] = TransactionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -512,14 +509,13 @@ func (srv *TablesDB) WithCreateOperationsOperations(v []interface{}) CreateOpera
 			
 // CreateOperations create multiple operations in a single transaction.
 func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption)(*models.Transaction, error) {
-	r := strings.NewReplacer("{transactionId}", TransactionId)
+	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}/operations")
 	options := CreateOperationsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["transactionId"] = TransactionId
 	if options.enabledSetters["Operations"] {
 		params["operations"] = options.Operations
 	}
@@ -557,10 +553,9 @@ func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...C
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
 func (srv *TablesDB) Get(DatabaseId string)(*models.Database, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -642,14 +637,13 @@ func (srv *TablesDB) WithUpdateSyncMode(v string) UpdateOption {
 			
 // Update update a database by its unique ID.
 func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(*models.Database, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}")
 	options := UpdateOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -699,10 +693,9 @@ func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(
 // Delete delete a database by its unique ID. Only API keys with with
 // databases.write scope can delete a database.
 func (srv *TablesDB) Delete(DatabaseId string)(*interface{}, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -755,14 +748,13 @@ func (srv *TablesDB) WithCreateFailoverTargetReplicaId(v string) CreateFailoverO
 // left mid-operation by a failover that did not finish also accepts this call
 // as a repair, provided `targetReplicaId` names the member to promote.
 func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption)(*models.DedicatedDatabase, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/failovers")
 	options := CreateFailoverOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
 	if options.enabledSetters["TargetReplicaId"] {
 		params["targetReplicaId"] = options.TargetReplicaId
 	}
@@ -835,14 +827,13 @@ func (srv *TablesDB) WithListOperationsOffset(v int) ListOperationsOption {
 // replication action is recorded here with its outcome, including an attempt
 // that was abandoned because another worker took over the database.
 func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOperationsOption)(*models.DedicatedDatabaseOperationList, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/operations")
 	options := ListOperationsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
 	if options.enabledSetters["Status"] {
 		params["status"] = options.Status
 	}
@@ -885,10 +876,9 @@ func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOp
 // GetReplicas get high availability status for a dedicated database. Returns
 // replica statuses, replication lag, and sync mode.
 func (srv *TablesDB) GetReplicas(DatabaseId string)(*models.DedicatedDatabaseReplicas, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/replicas")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -923,10 +913,9 @@ func (srv *TablesDB) GetReplicas(DatabaseId string)(*models.DedicatedDatabaseRep
 // database. Returns health status, readiness, uptime, connection info,
 // replica status, and volume information.
 func (srv *TablesDB) GetStatus(DatabaseId string)(*models.DatabaseStatus, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/status")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -993,14 +982,13 @@ func (srv *TablesDB) WithListTablesTotal(v bool) ListTablesOption {
 // ListTables get a list of all tables that belong to the provided databaseId.
 // You can use the search parameter to filter your results.
 func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTablesOption)(*models.TableList, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/tables")
 	options := ListTablesOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -1094,14 +1082,13 @@ func (srv *TablesDB) WithCreateTableIndexes(v []interface{}) CreateTableOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string, optionalSetters ...CreateTableOption)(*models.Table, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/tables")
 	options := CreateTableOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
 	params["tableId"] = TableId
 	params["name"] = Name
 	if options.enabledSetters["Permissions"] {
@@ -1153,11 +1140,9 @@ func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string,
 // GetTable get a table by its unique ID. This endpoint response returns a
 // JSON object with the table metadata.
 func (srv *TablesDB) GetTable(DatabaseId string, TableId string)(*models.Table, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -1239,15 +1224,13 @@ func (srv *TablesDB) WithUpdateTablePurge(v bool) UpdateTableOption {
 					
 // UpdateTable update a table by its unique ID.
 func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSetters ...UpdateTableOption)(*models.Table, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	options := UpdateTableOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -1297,11 +1280,9 @@ func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSett
 // DeleteTable delete a table by its unique ID. Only users with write
 // permissions have access to delete this resource.
 func (srv *TablesDB) DeleteTable(DatabaseId string, TableId string)(*interface{}, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1358,15 +1339,13 @@ func (srv *TablesDB) WithListColumnsTotal(v bool) ListColumnsOption {
 					
 // ListColumns list columns in the table.
 func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSetters ...ListColumnsOption)(*models.ColumnList, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns")
 	options := ListColumnsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -1447,15 +1426,13 @@ func (srv *TablesDB) WithCreateBigIntColumnArray(v bool) CreateBigIntColumnOptio
 // CreateBigIntColumn create a bigint column. Optionally, minimum and maximum
 // values can be provided.
 func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBigIntColumnOption)(*models.ColumnBigint, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/bigint")
 	options := CreateBigIntColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Min"] {
@@ -1537,24 +1514,21 @@ func (srv *TablesDB) WithUpdateBigIntColumnNewKey(v string) UpdateBigIntColumnOp
 // UpdateBigIntColumn update a bigint column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateBigIntColumnOption)(*models.ColumnBigint, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}")
 	options := UpdateBigIntColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
-	params["default"] = Default
 	if options.enabledSetters["Min"] {
 		params["min"] = options.Min
 	}
 	if options.enabledSetters["Max"] {
 		params["max"] = options.Max
 	}
+	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
@@ -1616,15 +1590,13 @@ func (srv *TablesDB) WithCreateBooleanColumnArray(v bool) CreateBooleanColumnOpt
 									
 // CreateBooleanColumn create a boolean column.
 func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBooleanColumnOption)(*models.ColumnBoolean, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/boolean")
 	options := CreateBooleanColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -1684,16 +1656,13 @@ func (srv *TablesDB) WithUpdateBooleanColumnNewKey(v string) UpdateBooleanColumn
 // UpdateBooleanColumn update a boolean column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, Default bool, optionalSetters ...UpdateBooleanColumnOption)(*models.ColumnBoolean, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/boolean/{key}")
 	options := UpdateBooleanColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
@@ -1758,15 +1727,13 @@ func (srv *TablesDB) WithCreateDatetimeColumnArray(v bool) CreateDatetimeColumnO
 // CreateDatetimeColumn create a date time column according to the ISO 8601
 // standard.
 func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateDatetimeColumnOption)(*models.ColumnDatetime, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/datetime")
 	options := CreateDatetimeColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -1826,16 +1793,13 @@ func (srv *TablesDB) WithUpdateDatetimeColumnNewKey(v string) UpdateDatetimeColu
 // UpdateDatetimeColumn update a date time column. Changing the `default`
 // value will not update already existing rows.
 func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateDatetimeColumnOption)(*models.ColumnDatetime, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/datetime/{key}")
 	options := UpdateDatetimeColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
@@ -1899,15 +1863,13 @@ func (srv *TablesDB) WithCreateEmailColumnArray(v bool) CreateEmailColumnOption 
 									
 // CreateEmailColumn create an email column.
 func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateEmailColumnOption)(*models.ColumnEmail, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/email")
 	options := CreateEmailColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -1967,16 +1929,13 @@ func (srv *TablesDB) WithUpdateEmailColumnNewKey(v string) UpdateEmailColumnOpti
 // UpdateEmailColumn update an email column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateEmailColumnOption)(*models.ColumnEmail, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/email/{key}")
 	options := UpdateEmailColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
@@ -2041,15 +2000,13 @@ func (srv *TablesDB) WithCreateEnumColumnArray(v bool) CreateEnumColumnOption {
 // CreateEnumColumn create an enumeration column. The `elements` param acts as
 // a white-list of accepted values for this column.
 func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, optionalSetters ...CreateEnumColumnOption)(*models.ColumnEnum, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/enum")
 	options := CreateEnumColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["elements"] = Elements
 	params["required"] = Required
@@ -2110,16 +2067,13 @@ func (srv *TablesDB) WithUpdateEnumColumnNewKey(v string) UpdateEnumColumnOption
 // UpdateEnumColumn update an enum column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, Default string, optionalSetters ...UpdateEnumColumnOption)(*models.ColumnEnum, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/enum/{key}")
 	options := UpdateEnumColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["elements"] = Elements
 	params["required"] = Required
 	params["default"] = Default
@@ -2201,15 +2155,13 @@ func (srv *TablesDB) WithCreateFloatColumnArray(v bool) CreateFloatColumnOption 
 // CreateFloatColumn create a float column. Optionally, minimum and maximum
 // values can be provided.
 func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateFloatColumnOption)(*models.ColumnFloat, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/float")
 	options := CreateFloatColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Min"] {
@@ -2291,24 +2243,21 @@ func (srv *TablesDB) WithUpdateFloatColumnNewKey(v string) UpdateFloatColumnOpti
 // UpdateFloatColumn update a float column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, Default float64, optionalSetters ...UpdateFloatColumnOption)(*models.ColumnFloat, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/float/{key}")
 	options := UpdateFloatColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
-	params["default"] = Default
 	if options.enabledSetters["Min"] {
 		params["min"] = options.Min
 	}
 	if options.enabledSetters["Max"] {
 		params["max"] = options.Max
 	}
+	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
@@ -2387,15 +2336,13 @@ func (srv *TablesDB) WithCreateIntegerColumnArray(v bool) CreateIntegerColumnOpt
 // CreateIntegerColumn create an integer column. Optionally, minimum and
 // maximum values can be provided.
 func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIntegerColumnOption)(*models.ColumnInteger, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/integer")
 	options := CreateIntegerColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Min"] {
@@ -2477,24 +2424,21 @@ func (srv *TablesDB) WithUpdateIntegerColumnNewKey(v string) UpdateIntegerColumn
 // UpdateIntegerColumn update an integer column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateIntegerColumnOption)(*models.ColumnInteger, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/integer/{key}")
 	options := UpdateIntegerColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
-	params["default"] = Default
 	if options.enabledSetters["Min"] {
 		params["min"] = options.Min
 	}
 	if options.enabledSetters["Max"] {
 		params["max"] = options.Max
 	}
+	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
@@ -2556,15 +2500,13 @@ func (srv *TablesDB) WithCreateIpColumnArray(v bool) CreateIpColumnOption {
 									
 // CreateIpColumn create IP address column.
 func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIpColumnOption)(*models.ColumnIp, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/ip")
 	options := CreateIpColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -2624,16 +2566,13 @@ func (srv *TablesDB) WithUpdateIpColumnNewKey(v string) UpdateIpColumnOption {
 // UpdateIpColumn update an ip column. Changing the `default` value will not
 // update already existing rows.
 func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateIpColumnOption)(*models.ColumnIp, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/ip/{key}")
 	options := UpdateIpColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
@@ -2689,15 +2628,13 @@ func (srv *TablesDB) WithCreateLineColumnDefault(v [][]interface{}) CreateLineCo
 									
 // CreateLineColumn create a geometric line column.
 func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLineColumnOption)(*models.ColumnLine, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line")
 	options := CreateLineColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -2762,16 +2699,13 @@ func (srv *TablesDB) WithUpdateLineColumnNewKey(v string) UpdateLineColumnOption
 // UpdateLineColumn update a line column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdateLineColumnOption)(*models.ColumnLine, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}")
 	options := UpdateLineColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
 		params["default"] = options.Default
@@ -2845,15 +2779,13 @@ func (srv *TablesDB) WithCreateLongtextColumnEncrypt(v bool) CreateLongtextColum
 									
 // CreateLongtextColumn create a longtext column.
 func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLongtextColumnOption)(*models.ColumnLongtext, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/longtext")
 	options := CreateLongtextColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -2916,16 +2848,13 @@ func (srv *TablesDB) WithUpdateLongtextColumnNewKey(v string) UpdateLongtextColu
 // UpdateLongtextColumn update a longtext column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateLongtextColumnOption)(*models.ColumnLongtext, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/longtext/{key}")
 	options := UpdateLongtextColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
@@ -2997,15 +2926,13 @@ func (srv *TablesDB) WithCreateMediumtextColumnEncrypt(v bool) CreateMediumtextC
 									
 // CreateMediumtextColumn create a mediumtext column.
 func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateMediumtextColumnOption)(*models.ColumnMediumtext, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext")
 	options := CreateMediumtextColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -3068,16 +2995,13 @@ func (srv *TablesDB) WithUpdateMediumtextColumnNewKey(v string) UpdateMediumtext
 // UpdateMediumtextColumn update a mediumtext column. Changing the `default`
 // value will not update already existing rows.
 func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateMediumtextColumnOption)(*models.ColumnMediumtext, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext/{key}")
 	options := UpdateMediumtextColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
@@ -3133,15 +3057,13 @@ func (srv *TablesDB) WithCreatePointColumnDefault(v []float64) CreatePointColumn
 									
 // CreatePointColumn create a geometric point column.
 func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePointColumnOption)(*models.ColumnPoint, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point")
 	options := CreatePointColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -3206,16 +3128,13 @@ func (srv *TablesDB) WithUpdatePointColumnNewKey(v string) UpdatePointColumnOpti
 // UpdatePointColumn update a point column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePointColumnOption)(*models.ColumnPoint, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}")
 	options := UpdatePointColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
 		params["default"] = options.Default
@@ -3273,15 +3192,13 @@ func (srv *TablesDB) WithCreatePolygonColumnDefault(v [][]interface{}) CreatePol
 									
 // CreatePolygonColumn create a geometric polygon column.
 func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePolygonColumnOption)(*models.ColumnPolygon, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon")
 	options := CreatePolygonColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -3346,16 +3263,13 @@ func (srv *TablesDB) WithUpdatePolygonColumnNewKey(v string) UpdatePolygonColumn
 // UpdatePolygonColumn update a polygon column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePolygonColumnOption)(*models.ColumnPolygon, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}")
 	options := UpdatePolygonColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
 		params["default"] = options.Default
@@ -3439,15 +3353,13 @@ func (srv *TablesDB) WithCreateRelationshipColumnOnDelete(v string) CreateRelati
 // relationship
 // columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
 func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string, RelatedTableId string, Type string, optionalSetters ...CreateRelationshipColumnOption)(*models.ColumnRelationship, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/relationship")
 	options := CreateRelationshipColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["relatedTableId"] = RelatedTableId
 	params["type"] = Type
 	if options.enabledSetters["TwoWay"] {
@@ -3530,15 +3442,13 @@ func (srv *TablesDB) WithCreateStringColumnEncrypt(v bool) CreateStringColumnOpt
 //
 // Deprecated: This API has been deprecated since 1.9.0. Please use `TablesDB.createTextColumn` instead.
 func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateStringColumnOption)(*models.ColumnString, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string")
 	options := CreateStringColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["size"] = Size
 	params["required"] = Required
@@ -3612,16 +3522,13 @@ func (srv *TablesDB) WithUpdateStringColumnNewKey(v string) UpdateStringColumnOp
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTextColumn` instead.
 func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringColumnOption)(*models.ColumnString, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}")
 	options := UpdateStringColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["Size"] {
@@ -3696,15 +3603,13 @@ func (srv *TablesDB) WithCreateTextColumnEncrypt(v bool) CreateTextColumnOption 
 									
 // CreateTextColumn create a text column.
 func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateTextColumnOption)(*models.ColumnText, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/text")
 	options := CreateTextColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -3767,16 +3672,13 @@ func (srv *TablesDB) WithUpdateTextColumnNewKey(v string) UpdateTextColumnOption
 // UpdateTextColumn update a text column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateTextColumnOption)(*models.ColumnText, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/text/{key}")
 	options := UpdateTextColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
@@ -3840,15 +3742,13 @@ func (srv *TablesDB) WithCreateUrlColumnArray(v bool) CreateUrlColumnOption {
 									
 // CreateUrlColumn create a URL column.
 func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateUrlColumnOption)(*models.ColumnUrl, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/url")
 	options := CreateUrlColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
@@ -3908,16 +3808,13 @@ func (srv *TablesDB) WithUpdateUrlColumnNewKey(v string) UpdateUrlColumnOption {
 // UpdateUrlColumn update an url column. Changing the `default` value will not
 // update already existing rows.
 func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateUrlColumnOption)(*models.ColumnUrl, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/url/{key}")
 	options := UpdateUrlColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
@@ -3989,15 +3886,13 @@ func (srv *TablesDB) WithCreateVarcharColumnEncrypt(v bool) CreateVarcharColumnO
 											
 // CreateVarcharColumn create a varchar column.
 func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateVarcharColumnOption)(*models.ColumnVarchar, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/varchar")
 	options := CreateVarcharColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["size"] = Size
 	params["required"] = Required
@@ -4069,16 +3964,13 @@ func (srv *TablesDB) WithUpdateVarcharColumnNewKey(v string) UpdateVarcharColumn
 // UpdateVarcharColumn update a varchar column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateVarcharColumnOption)(*models.ColumnVarchar, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/varchar/{key}")
 	options := UpdateVarcharColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	params["required"] = Required
 	params["default"] = Default
 	if options.enabledSetters["Size"] {
@@ -4120,12 +4012,9 @@ func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key 
 					
 // GetColumn get column by ID.
 func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(models.Model, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -4235,12 +4124,9 @@ func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(mo
 					
 // DeleteColumn deletes a column.
 func (srv *TablesDB) DeleteColumn(DatabaseId string, TableId string, Key string)(*interface{}, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -4299,16 +4185,13 @@ func (srv *TablesDB) WithUpdateRelationshipColumnNewKey(v string) UpdateRelation
 // relationship
 // columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
 func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string, Key string, optionalSetters ...UpdateRelationshipColumnOption)(*models.ColumnRelationship, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}/relationship")
 	options := UpdateRelationshipColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	if options.enabledSetters["OnDelete"] {
 		params["onDelete"] = options.OnDelete
 	}
@@ -4373,15 +4256,13 @@ func (srv *TablesDB) WithListIndexesTotal(v bool) ListIndexesOption {
 					
 // ListIndexes list indexes on the table.
 func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSetters ...ListIndexesOption)(*models.ColumnIndexList, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")
 	options := ListIndexesOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -4447,15 +4328,13 @@ func (srv *TablesDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 // include all the columns you will query in a single request.
 // Type can be `key`, `fulltext`, or `unique`.
 func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, Type string, Columns []string, optionalSetters ...CreateIndexOption)(*models.ColumnIndex, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")
 	options := CreateIndexOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["key"] = Key
 	params["type"] = Type
 	params["columns"] = Columns
@@ -4498,12 +4377,9 @@ func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, 
 					
 // GetIndex get index by ID.
 func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string)(*models.ColumnIndex, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -4536,12 +4412,9 @@ func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string)(*mo
 					
 // DeleteIndex delete an index.
 func (srv *TablesDB) DeleteIndex(DatabaseId string, TableId string, Key string)(*interface{}, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{key}", Key)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}")
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["key"] = Key
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -4615,15 +4488,13 @@ func (srv *TablesDB) WithListRowsTtl(v int) ListRowsOption {
 // ListRows get a list of all the user's rows in a given table. You can use
 // the query params to filter your results.
 func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters ...ListRowsOption)(*models.RowList, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := ListRowsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -4696,15 +4567,13 @@ func (srv *TablesDB) WithCreateRowTransactionId(v string) CreateRowOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, Data interface{}, optionalSetters ...CreateRowOption)(*models.Row, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := CreateRowOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["rowId"] = RowId
 	params["data"] = Data
 	if options.enabledSetters["Permissions"] {
@@ -4766,15 +4635,13 @@ func (srv *TablesDB) WithCreateRowsTransactionId(v string) CreateRowsOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...CreateRowsOption)(*models.RowList, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := CreateRowsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["rows"] = Rows
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
@@ -4832,15 +4699,13 @@ func (srv *TablesDB) WithUpsertRowsTransactionId(v string) UpsertRowsOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...UpsertRowsOption)(*models.RowList, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := UpsertRowsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	params["rows"] = Rows
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
@@ -4913,15 +4778,13 @@ func (srv *TablesDB) WithUpdateRowsTransactionId(v string) UpdateRowsOption {
 // submitted then all rows are updated. You can pass only specific fields to
 // be updated.
 func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSetters ...UpdateRowsOption)(*models.RowList, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := UpdateRowsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	if options.enabledSetters["Data"] {
 		params["data"] = options.Data
 	}
@@ -4990,15 +4853,13 @@ func (srv *TablesDB) WithDeleteRowsTransactionId(v string) DeleteRowsOption {
 // DeleteRows bulk delete rows using queries, if no queries are passed then
 // all rows are deleted.
 func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSetters ...DeleteRowsOption)(*models.RowList, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := DeleteRowsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -5064,16 +4925,13 @@ func (srv *TablesDB) WithGetRowTransactionId(v string) GetRowOption {
 // GetRow get a row by its unique ID. This endpoint response returns a JSON
 // object with the row data.
 func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, optionalSetters ...GetRowOption)(*models.Row, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := GetRowOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["rowId"] = RowId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -5148,16 +5006,13 @@ func (srv *TablesDB) WithUpsertRowTransactionId(v string) UpsertRowOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpsertRowOption)(*models.Row, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := UpsertRowOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["rowId"] = RowId
 	if options.enabledSetters["Data"] {
 		params["data"] = options.Data
 	}
@@ -5234,16 +5089,13 @@ func (srv *TablesDB) WithUpdateRowTransactionId(v string) UpdateRowOption {
 // UpdateRow update a row by its unique ID. Using the patch method you can
 // pass only specific fields that will get updated.
 func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpdateRowOption)(*models.Row, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := UpdateRowOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["rowId"] = RowId
 	if options.enabledSetters["Data"] {
 		params["data"] = options.Data
 	}
@@ -5303,16 +5155,13 @@ func (srv *TablesDB) WithDeleteRowTransactionId(v string) DeleteRowOption {
 							
 // DeleteRow delete a row by its unique ID.
 func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string, optionalSetters ...DeleteRowOption)(*interface{}, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := DeleteRowOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["rowId"] = RowId
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
@@ -5380,17 +5229,13 @@ func (srv *TablesDB) WithDecrementRowColumnTransactionId(v string) DecrementRowC
 									
 // DecrementRowColumn decrement a specific column of a row by a given value.
 func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...DecrementRowColumnOption)(*models.Row, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId, "{column}", Column)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId), "{column}", client.EncodePath(Column))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/decrement")
 	options := DecrementRowColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["rowId"] = RowId
-	params["column"] = Column
 	if options.enabledSetters["Value"] {
 		params["value"] = options.Value
 	}
@@ -5466,17 +5311,13 @@ func (srv *TablesDB) WithIncrementRowColumnTransactionId(v string) IncrementRowC
 									
 // IncrementRowColumn increment a specific column of a row by a given value.
 func (srv *TablesDB) IncrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...IncrementRowColumnOption)(*models.Row, error) {
-	r := strings.NewReplacer("{databaseId}", DatabaseId, "{tableId}", TableId, "{rowId}", RowId, "{column}", Column)
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId), "{column}", client.EncodePath(Column))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/increment")
 	options := IncrementRowColumnOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["databaseId"] = DatabaseId
-	params["tableId"] = TableId
-	params["rowId"] = RowId
-	params["column"] = Column
 	if options.enabledSetters["Value"] {
 		params["value"] = options.Value
 	}

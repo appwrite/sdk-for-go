@@ -351,14 +351,13 @@ func (srv *Messaging) WithUpdateEmailAttachments(v []string) UpdateEmailOption {
 // works on messages that are in draft status. Messages that are already
 // processing, sent, or failed cannot be updated.
 func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEmailOption)(*models.Message, error) {
-	r := strings.NewReplacer("{messageId}", MessageId)
+	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/email/{messageId}")
 	options := UpdateEmailOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["messageId"] = MessageId
 	if options.enabledSetters["Topics"] {
 		params["topics"] = options.Topics
 	}
@@ -827,14 +826,13 @@ func (srv *Messaging) WithUpdatePushPriority(v string) UpdatePushOption {
 // works on messages that are in draft status. Messages that are already
 // processing, sent, or failed cannot be updated.
 func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePushOption)(*models.Message, error) {
-	r := strings.NewReplacer("{messageId}", MessageId)
+	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/push/{messageId}")
 	options := UpdatePushOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["messageId"] = MessageId
 	if options.enabledSetters["Topics"] {
 		params["topics"] = options.Topics
 	}
@@ -1195,14 +1193,13 @@ func (srv *Messaging) WithUpdateSmsScheduledAt(v string) UpdateSmsOption {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateSMS` instead.
 func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOption)(*models.Message, error) {
-	r := strings.NewReplacer("{messageId}", MessageId)
+	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/sms/{messageId}")
 	options := UpdateSmsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["messageId"] = MessageId
 	if options.enabledSetters["Topics"] {
 		params["topics"] = options.Topics
 	}
@@ -1313,14 +1310,13 @@ func (srv *Messaging) WithUpdateSMSScheduledAt(v string) UpdateSMSOption {
 // on messages that are in draft status. Messages that are already processing,
 // sent, or failed cannot be updated.
 func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOption)(*models.Message, error) {
-	r := strings.NewReplacer("{messageId}", MessageId)
+	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/sms/{messageId}")
 	options := UpdateSMSOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["messageId"] = MessageId
 	if options.enabledSetters["Topics"] {
 		params["topics"] = options.Topics
 	}
@@ -1372,10 +1368,9 @@ func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOp
 	
 // GetMessage get a message by its unique ID.
 func (srv *Messaging) GetMessage(MessageId string)(*models.Message, error) {
-	r := strings.NewReplacer("{messageId}", MessageId)
+	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/{messageId}")
 	params := map[string]interface{}{}
-	params["messageId"] = MessageId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -1409,10 +1404,9 @@ func (srv *Messaging) GetMessage(MessageId string)(*models.Message, error) {
 // Delete delete a message. If the message is not a draft or scheduled, but
 // has been sent, this will not recall the message.
 func (srv *Messaging) Delete(MessageId string)(*interface{}, error) {
-	r := strings.NewReplacer("{messageId}", MessageId)
+	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/{messageId}")
 	params := map[string]interface{}{}
-	params["messageId"] = MessageId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1469,14 +1463,13 @@ func (srv *Messaging) WithListTargetsTotal(v bool) ListTargetsOption {
 			
 // ListTargets get a list of the targets associated with a message.
 func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTargetsOption)(*models.TargetList, error) {
-	r := strings.NewReplacer("{messageId}", MessageId)
+	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/{messageId}/targets")
 	options := ListTargetsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["messageId"] = MessageId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -1898,14 +1891,13 @@ func (srv *Messaging) WithUpdateApnsProviderSandbox(v bool) UpdateApnsProviderOp
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateAPNSProvider` instead.
 func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...UpdateApnsProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/apns/{providerId}")
 	options := UpdateApnsProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -2026,14 +2018,13 @@ func (srv *Messaging) WithUpdateAPNSProviderSandbox(v bool) UpdateAPNSProviderOp
 // UpdateAPNSProvider update a Apple Push Notification service provider by its
 // unique ID.
 func (srv *Messaging) UpdateAPNSProvider(ProviderId string, optionalSetters ...UpdateAPNSProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/apns/{providerId}")
 	options := UpdateAPNSProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -2270,14 +2261,13 @@ func (srv *Messaging) WithUpdateFcmProviderServiceAccountJSON(v interface{}) Upd
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateFCMProvider` instead.
 func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...UpdateFcmProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/fcm/{providerId}")
 	options := UpdateFcmProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -2354,14 +2344,13 @@ func (srv *Messaging) WithUpdateFCMProviderServiceAccountJSON(v interface{}) Upd
 // UpdateFCMProvider update a Firebase Cloud Messaging provider by its unique
 // ID.
 func (srv *Messaging) UpdateFCMProvider(ProviderId string, optionalSetters ...UpdateFCMProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/fcm/{providerId}")
 	options := UpdateFCMProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -2623,14 +2612,13 @@ func (srv *Messaging) WithUpdateMailgunProviderReplyToEmail(v string) UpdateMail
 			
 // UpdateMailgunProvider update a Mailgun provider by its unique ID.
 func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters ...UpdateMailgunProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/mailgun/{providerId}")
 	options := UpdateMailgunProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -2834,14 +2822,13 @@ func (srv *Messaging) WithUpdateMsg91ProviderAuthKey(v string) UpdateMsg91Provid
 			
 // UpdateMsg91Provider update a MSG91 provider by its unique ID.
 func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...UpdateMsg91ProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/msg91/{providerId}")
 	options := UpdateMsg91ProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -3071,14 +3058,13 @@ func (srv *Messaging) WithUpdateResendProviderReplyToEmail(v string) UpdateResen
 			
 // UpdateResendProvider update a Resend provider by its unique ID.
 func (srv *Messaging) UpdateResendProvider(ProviderId string, optionalSetters ...UpdateResendProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/resend/{providerId}")
 	options := UpdateResendProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -3314,14 +3300,13 @@ func (srv *Messaging) WithUpdateSendgridProviderReplyToEmail(v string) UpdateSen
 			
 // UpdateSendgridProvider update a Sendgrid provider by its unique ID.
 func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters ...UpdateSendgridProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/sendgrid/{providerId}")
 	options := UpdateSendgridProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -3595,14 +3580,13 @@ func (srv *Messaging) WithUpdateSesProviderReplyToEmail(v string) UpdateSesProvi
 			
 // UpdateSesProvider update an Amazon SES provider by its unique ID.
 func (srv *Messaging) UpdateSesProvider(ProviderId string, optionalSetters ...UpdateSesProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/ses/{providerId}")
 	options := UpdateSesProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -4124,14 +4108,13 @@ func (srv *Messaging) WithUpdateSmtpProviderEnabled(v bool) UpdateSmtpProviderOp
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateSMTPProvider` instead.
 func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...UpdateSmtpProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/smtp/{providerId}")
 	options := UpdateSmtpProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -4317,14 +4300,13 @@ func (srv *Messaging) WithUpdateSMTPProviderEnabled(v bool) UpdateSMTPProviderOp
 			
 // UpdateSMTPProvider update a SMTP provider by its unique ID.
 func (srv *Messaging) UpdateSMTPProvider(ProviderId string, optionalSetters ...UpdateSMTPProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/smtp/{providerId}")
 	options := UpdateSMTPProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -4540,14 +4522,13 @@ func (srv *Messaging) WithUpdateTelesignProviderFrom(v string) UpdateTelesignPro
 			
 // UpdateTelesignProvider update a Telesign provider by its unique ID.
 func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters ...UpdateTelesignProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/telesign/{providerId}")
 	options := UpdateTelesignProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -4739,14 +4720,13 @@ func (srv *Messaging) WithUpdateTextmagicProviderFrom(v string) UpdateTextmagicP
 			
 // UpdateTextmagicProvider update a Textmagic provider by its unique ID.
 func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters ...UpdateTextmagicProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/textmagic/{providerId}")
 	options := UpdateTextmagicProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -4938,14 +4918,13 @@ func (srv *Messaging) WithUpdateTwilioProviderFrom(v string) UpdateTwilioProvide
 			
 // UpdateTwilioProvider update a Twilio provider by its unique ID.
 func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ...UpdateTwilioProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/twilio/{providerId}")
 	options := UpdateTwilioProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -5137,14 +5116,13 @@ func (srv *Messaging) WithUpdateVonageProviderFrom(v string) UpdateVonageProvide
 			
 // UpdateVonageProvider update a Vonage provider by its unique ID.
 func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ...UpdateVonageProviderOption)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/vonage/{providerId}")
 	options := UpdateVonageProviderOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -5193,10 +5171,9 @@ func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ..
 	
 // GetProvider get a provider by its unique ID.
 func (srv *Messaging) GetProvider(ProviderId string)(*models.Provider, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/{providerId}")
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -5229,10 +5206,9 @@ func (srv *Messaging) GetProvider(ProviderId string)(*models.Provider, error) {
 	
 // DeleteProvider delete a provider by its unique ID.
 func (srv *Messaging) DeleteProvider(ProviderId string)(*interface{}, error) {
-	r := strings.NewReplacer("{providerId}", ProviderId)
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/{providerId}")
 	params := map[string]interface{}{}
-	params["providerId"] = ProviderId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -5405,10 +5381,9 @@ func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters .
 	
 // GetTopic get a topic by its unique ID.
 func (srv *Messaging) GetTopic(TopicId string)(*models.Topic, error) {
-	r := strings.NewReplacer("{topicId}", TopicId)
+	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}")
 	params := map[string]interface{}{}
-	params["topicId"] = TopicId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -5466,14 +5441,13 @@ func (srv *Messaging) WithUpdateTopicSubscribe(v []string) UpdateTopicOption {
 			
 // UpdateTopic update a topic by its unique ID.
 func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopicOption)(*models.Topic, error) {
-	r := strings.NewReplacer("{topicId}", TopicId)
+	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}")
 	options := UpdateTopicOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["topicId"] = TopicId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -5513,10 +5487,9 @@ func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopic
 	
 // DeleteTopic delete a topic by its unique ID.
 func (srv *Messaging) DeleteTopic(TopicId string)(*interface{}, error) {
-	r := strings.NewReplacer("{topicId}", TopicId)
+	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}")
 	params := map[string]interface{}{}
-	params["topicId"] = TopicId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -5582,14 +5555,13 @@ func (srv *Messaging) WithListSubscribersTotal(v bool) ListSubscribersOption {
 // ListSubscribers get a list of all subscribers from the current Appwrite
 // project.
 func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSubscribersOption)(*models.SubscriberList, error) {
-	r := strings.NewReplacer("{topicId}", TopicId)
+	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}/subscribers")
 	options := ListSubscribersOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["topicId"] = TopicId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -5631,10 +5603,9 @@ func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSub
 					
 // CreateSubscriber create a new subscriber.
 func (srv *Messaging) CreateSubscriber(TopicId string, SubscriberId string, TargetId string)(*models.Subscriber, error) {
-	r := strings.NewReplacer("{topicId}", TopicId)
+	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}/subscribers")
 	params := map[string]interface{}{}
-	params["topicId"] = TopicId
 	params["subscriberId"] = SubscriberId
 	params["targetId"] = TargetId
 	headers := map[string]interface{}{
@@ -5670,11 +5641,9 @@ func (srv *Messaging) CreateSubscriber(TopicId string, SubscriberId string, Targ
 			
 // GetSubscriber get a subscriber by its unique ID.
 func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string)(*models.Subscriber, error) {
-	r := strings.NewReplacer("{topicId}", TopicId, "{subscriberId}", SubscriberId)
+	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId), "{subscriberId}", client.EncodePath(SubscriberId))
 	path := r.Replace("/messaging/topics/{topicId}/subscribers/{subscriberId}")
 	params := map[string]interface{}{}
-	params["topicId"] = TopicId
-	params["subscriberId"] = SubscriberId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -5707,11 +5676,9 @@ func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string)(*models
 			
 // DeleteSubscriber delete a subscriber by its unique ID.
 func (srv *Messaging) DeleteSubscriber(TopicId string, SubscriberId string)(*interface{}, error) {
-	r := strings.NewReplacer("{topicId}", TopicId, "{subscriberId}", SubscriberId)
+	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId), "{subscriberId}", client.EncodePath(SubscriberId))
 	path := r.Replace("/messaging/topics/{topicId}/subscribers/{subscriberId}")
 	params := map[string]interface{}{}
-	params["topicId"] = TopicId
-	params["subscriberId"] = SubscriberId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",

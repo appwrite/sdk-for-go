@@ -7,7 +7,6 @@ import (
 	"github.com/appwrite/sdk-for-go/v6/models"
 	"github.com/appwrite/sdk-for-go/v6/file"
 	"net/url"
-	"fmt"
 	"strings"
 )
 
@@ -462,10 +461,9 @@ func (srv *Functions) ListSpecifications(optionalSetters ...ListSpecificationsOp
 	
 // Get get a function by its unique ID.
 func (srv *Functions) Get(FunctionId string)(*models.Function, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -667,14 +665,13 @@ func (srv *Functions) WithUpdateDeploymentRetention(v int) UpdateOption {
 					
 // Update update function by its unique ID.
 func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...UpdateOption)(*models.Function, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}")
 	options := UpdateOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	params["name"] = Name
 	if options.enabledSetters["Runtime"] {
 		params["runtime"] = options.Runtime
@@ -769,10 +766,9 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	
 // Delete delete a function by its unique ID.
 func (srv *Functions) Delete(FunctionId string)(*interface{}, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -806,10 +802,9 @@ func (srv *Functions) Delete(FunctionId string)(*interface{}, error) {
 // endpoint to switch the code deployment that should be used when visitor
 // opens your function.
 func (srv *Functions) UpdateFunctionDeployment(FunctionId string, DeploymentId string)(*models.Function, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployment")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -878,14 +873,13 @@ func (srv *Functions) WithListDeploymentsTotal(v bool) ListDeploymentsOption {
 // ListDeployments get a list of all the function's code deployments. You can
 // use the query params to filter your results.
 func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...ListDeploymentsOption)(*models.DeploymentList, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments")
 	options := ListDeploymentsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -962,22 +956,21 @@ func (srv *Functions) WithCreateDeploymentCommands(v string) CreateDeploymentOpt
 // 
 // Use the "command" param to set the entrypoint used to execute your code.
 func (srv *Functions) CreateDeployment(FunctionId string, Code file.InputFile, Activate bool, optionalSetters ...CreateDeploymentOption)(*models.Deployment, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments")
 	options := CreateDeploymentOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["code"] = Code
-	params["activate"] = Activate
 	if options.enabledSetters["Entrypoint"] {
 		params["entrypoint"] = options.Entrypoint
 	}
 	if options.enabledSetters["Commands"] {
 		params["commands"] = options.Commands
 	}
+	params["code"] = Code
+	params["activate"] = Activate
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "multipart/form-data",
@@ -1034,14 +1027,13 @@ func (srv *Functions) WithCreateDuplicateDeploymentBuildId(v string) CreateDupli
 // asynchronously. The original deployment's code will be preserved and used
 // for the new build.
 func (srv *Functions) CreateDuplicateDeployment(FunctionId string, DeploymentId string, optionalSetters ...CreateDuplicateDeploymentOption)(*models.Deployment, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments/duplicate")
 	options := CreateDuplicateDeploymentOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	params["deploymentId"] = DeploymentId
 	if options.enabledSetters["BuildId"] {
 		params["buildId"] = options.BuildId
@@ -1100,14 +1092,13 @@ func (srv *Functions) WithCreateTemplateDeploymentActivate(v bool) CreateTemplat
 // [listTemplates](https://appwrite.io/docs/products/functions/templates) to
 // find the template details.
 func (srv *Functions) CreateTemplateDeployment(FunctionId string, Repository string, Owner string, RootDirectory string, Type string, Reference string, optionalSetters ...CreateTemplateDeploymentOption)(*models.Deployment, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments/template")
 	options := CreateTemplateDeploymentOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	params["repository"] = Repository
 	params["owner"] = Owner
 	params["rootDirectory"] = RootDirectory
@@ -1169,14 +1160,13 @@ func (srv *Functions) WithCreateVcsDeploymentActivate(v bool) CreateVcsDeploymen
 // 
 // This endpoint lets you create deployment from a branch, commit, or a tag.
 func (srv *Functions) CreateVcsDeployment(FunctionId string, Type string, Reference string, optionalSetters ...CreateVcsDeploymentOption)(*models.Deployment, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments/vcs")
 	options := CreateVcsDeploymentOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	params["type"] = Type
 	params["reference"] = Reference
 	if options.enabledSetters["Activate"] {
@@ -1215,11 +1205,9 @@ func (srv *Functions) CreateVcsDeployment(FunctionId string, Type string, Refere
 			
 // GetDeployment get a function deployment by its unique ID.
 func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)(*models.Deployment, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -1252,11 +1240,9 @@ func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)(*mod
 			
 // DeleteDeployment delete a code deployment by its unique ID.
 func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string)(*interface{}, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1316,15 +1302,13 @@ func (srv *Functions) WithGetDeploymentDownloadToken(v string) GetDeploymentDown
 // header that tells the browser to start downloading the file to user
 // downloads directory.
 func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption)(*[]byte, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/download")
 	options := GetDeploymentDownloadOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["deploymentId"] = DeploymentId
 	if options.enabledSetters["Type"] {
 		params["type"] = options.Type
 	}
@@ -1365,7 +1349,7 @@ func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId stri
 // downloads directory.
 // Returns the URL for the resource instead of the content.
 func (srv *Functions) GetDeploymentDownloadURL(FunctionId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*string, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/download")
 	options := GetDeploymentDownloadOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -1377,10 +1361,10 @@ func (srv *Functions) GetDeploymentDownloadURL(FunctionId string, DeploymentId s
 	}
 	q := u.Query()
 	if options.enabledSetters["Type"] {
-		q.Set("type", fmt.Sprintf("%v", options.Type))
+		client.AddQueryParam(q, "type", options.Type)
 	}
 	if options.enabledSetters["Token"] {
-		q.Set("token", fmt.Sprintf("%v", options.Token))
+		client.AddQueryParam(q, "token", options.Token)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -1394,11 +1378,9 @@ func (srv *Functions) GetDeploymentDownloadURL(FunctionId string, DeploymentId s
 // 'ready') or failed. The response includes the final build status and
 // details.
 func (srv *Functions) UpdateDeploymentStatus(FunctionId string, DeploymentId string)(*models.Deployment, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{deploymentId}", DeploymentId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/status")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["deploymentId"] = DeploymentId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1458,14 +1440,13 @@ func (srv *Functions) WithListExecutionsTotal(v bool) ListExecutionsOption {
 // ListExecutions get a list of all the current user function execution logs.
 // You can use the query params to filter your results.
 func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListExecutionsOption)(*models.ExecutionList, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/executions")
 	options := ListExecutionsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -1564,14 +1545,13 @@ func (srv *Functions) WithCreateExecutionScheduledAt(v string) CreateExecutionOp
 // endpoint to get updates on the current execution status. Once this endpoint
 // is called, your function execution process will start asynchronously.
 func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...CreateExecutionOption)(*models.Execution, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/executions")
 	options := CreateExecutionOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	if options.enabledSetters["Body"] {
 		params["body"] = options.Body
 	}
@@ -1623,11 +1603,9 @@ func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...Crea
 			
 // GetExecution get a function execution log by its unique ID.
 func (srv *Functions) GetExecution(FunctionId string, ExecutionId string)(*models.Execution, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{executionId}", ExecutionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{executionId}", client.EncodePath(ExecutionId))
 	path := r.Replace("/functions/{functionId}/executions/{executionId}")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["executionId"] = ExecutionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -1660,11 +1638,9 @@ func (srv *Functions) GetExecution(FunctionId string, ExecutionId string)(*model
 			
 // DeleteExecution delete a function execution by its unique ID.
 func (srv *Functions) DeleteExecution(FunctionId string, ExecutionId string)(*interface{}, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{executionId}", ExecutionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{executionId}", client.EncodePath(ExecutionId))
 	path := r.Replace("/functions/{functionId}/executions/{executionId}")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["executionId"] = ExecutionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1721,14 +1697,13 @@ func (srv *Functions) WithListVariablesTotal(v bool) ListVariablesOption {
 			
 // ListVariables get a list of all variables of a specific function.
 func (srv *Functions) ListVariables(FunctionId string, optionalSetters ...ListVariablesOption)(*models.VariableList, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/variables")
 	options := ListVariablesOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -1785,14 +1760,13 @@ func (srv *Functions) WithCreateVariableSecret(v bool) CreateVariableOption {
 // CreateVariable create a new function environment variable. These variables
 // can be accessed in the function at runtime as environment variables.
 func (srv *Functions) CreateVariable(FunctionId string, VariableId string, Key string, Value string, optionalSetters ...CreateVariableOption)(*models.Variable, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/variables")
 	options := CreateVariableOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
 	params["variableId"] = VariableId
 	params["key"] = Key
 	params["value"] = Value
@@ -1832,11 +1806,9 @@ func (srv *Functions) CreateVariable(FunctionId string, VariableId string, Key s
 			
 // GetVariable get a variable by its unique ID.
 func (srv *Functions) GetVariable(FunctionId string, VariableId string)(*models.Variable, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{variableId}", VariableId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["variableId"] = VariableId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -1902,15 +1874,13 @@ func (srv *Functions) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 					
 // UpdateVariable update variable by its unique ID.
 func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, optionalSetters ...UpdateVariableOption)(*models.Variable, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{variableId}", VariableId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	options := UpdateVariableOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["variableId"] = VariableId
 	if options.enabledSetters["Key"] {
 		params["key"] = options.Key
 	}
@@ -1953,11 +1923,9 @@ func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, optio
 			
 // DeleteVariable delete a variable by its unique ID.
 func (srv *Functions) DeleteVariable(FunctionId string, VariableId string)(*interface{}, error) {
-	r := strings.NewReplacer("{functionId}", FunctionId, "{variableId}", VariableId)
+	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	params := map[string]interface{}{}
-	params["functionId"] = FunctionId
-	params["variableId"] = VariableId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",

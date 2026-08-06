@@ -103,10 +103,9 @@ func (srv *Presences) List(optionalSetters ...ListOption)(*models.PresenceList, 
 // Get get a presence log by its unique ID. Entries whose `expiresAt` is in
 // the past are treated as not found.
 func (srv *Presences) Get(PresenceId string)(*models.Presence, error) {
-	r := strings.NewReplacer("{presenceId}", PresenceId)
+	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	params := map[string]interface{}{}
-	params["presenceId"] = PresenceId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -172,14 +171,13 @@ func (srv *Presences) WithUpsertMetadata(v interface{}) UpsertOption {
 							
 // Upsert create or update a presence log by its user ID.
 func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, optionalSetters ...UpsertOption)(*models.Presence, error) {
-	r := strings.NewReplacer("{presenceId}", PresenceId)
+	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	options := UpsertOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["presenceId"] = PresenceId
 	params["userId"] = UserId
 	params["status"] = Status
 	if options.enabledSetters["Permissions"] {
@@ -274,14 +272,13 @@ func (srv *Presences) WithUpdatePurge(v bool) UpdateOption {
 // Update update a presence log by its unique ID. Using the patch method you
 // can pass only specific fields that will get updated.
 func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters ...UpdateOption)(*models.Presence, error) {
-	r := strings.NewReplacer("{presenceId}", PresenceId)
+	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	options := UpdateOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["presenceId"] = PresenceId
 	params["userId"] = UserId
 	if options.enabledSetters["Status"] {
 		params["status"] = options.Status
@@ -331,10 +328,9 @@ func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters .
 	
 // Delete delete a presence log by its unique ID.
 func (srv *Presences) Delete(PresenceId string)(*interface{}, error) {
-	r := strings.NewReplacer("{presenceId}", PresenceId)
+	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	params := map[string]interface{}{}
-	params["presenceId"] = PresenceId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",

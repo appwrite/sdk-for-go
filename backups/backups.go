@@ -140,10 +140,9 @@ func (srv *Backups) CreateArchive(Services []string, optionalSetters ...CreateAr
 	
 // GetArchive get a backup archive using it's ID.
 func (srv *Backups) GetArchive(ArchiveId string)(*models.BackupArchive, error) {
-	r := strings.NewReplacer("{archiveId}", ArchiveId)
+	r := strings.NewReplacer("{archiveId}", client.EncodePath(ArchiveId))
 	path := r.Replace("/backups/archives/{archiveId}")
 	params := map[string]interface{}{}
-	params["archiveId"] = ArchiveId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -176,10 +175,9 @@ func (srv *Backups) GetArchive(ArchiveId string)(*models.BackupArchive, error) {
 	
 // DeleteArchive delete an existing archive for a project.
 func (srv *Backups) DeleteArchive(ArchiveId string)(*interface{}, error) {
-	r := strings.NewReplacer("{archiveId}", ArchiveId)
+	r := strings.NewReplacer("{archiveId}", client.EncodePath(ArchiveId))
 	path := r.Replace("/backups/archives/{archiveId}")
 	params := map[string]interface{}{}
-	params["archiveId"] = ArchiveId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -310,18 +308,18 @@ func (srv *Backups) CreatePolicy(PolicyId string, Services []string, Retention i
 	}
 	params := map[string]interface{}{}
 	params["policyId"] = PolicyId
-	params["services"] = Services
-	params["retention"] = Retention
-	params["schedule"] = Schedule
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
+	params["services"] = Services
 	if options.enabledSetters["ResourceId"] {
 		params["resourceId"] = options.ResourceId
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
+	params["retention"] = Retention
+	params["schedule"] = Schedule
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -355,10 +353,9 @@ func (srv *Backups) CreatePolicy(PolicyId string, Services []string, Retention i
 	
 // GetPolicy get a backup policy using it's ID.
 func (srv *Backups) GetPolicy(PolicyId string)(*models.BackupPolicy, error) {
-	r := strings.NewReplacer("{policyId}", PolicyId)
+	r := strings.NewReplacer("{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/backups/policies/{policyId}")
 	params := map[string]interface{}{}
-	params["policyId"] = PolicyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -432,14 +429,13 @@ func (srv *Backups) WithUpdatePolicyEnabled(v bool) UpdatePolicyOption {
 			
 // UpdatePolicy update an existing policy using it's ID.
 func (srv *Backups) UpdatePolicy(PolicyId string, optionalSetters ...UpdatePolicyOption)(*models.BackupPolicy, error) {
-	r := strings.NewReplacer("{policyId}", PolicyId)
+	r := strings.NewReplacer("{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/backups/policies/{policyId}")
 	options := UpdatePolicyOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["policyId"] = PolicyId
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
@@ -485,10 +481,9 @@ func (srv *Backups) UpdatePolicy(PolicyId string, optionalSetters ...UpdatePolic
 	
 // DeletePolicy delete a policy using it's ID.
 func (srv *Backups) DeletePolicy(PolicyId string)(*interface{}, error) {
-	r := strings.NewReplacer("{policyId}", PolicyId)
+	r := strings.NewReplacer("{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/backups/policies/{policyId}")
 	params := map[string]interface{}{}
-	params["policyId"] = PolicyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -682,10 +677,9 @@ func (srv *Backups) ListRestorations(optionalSetters ...ListRestorationsOption)(
 	
 // GetRestoration get the current status of a backup restoration.
 func (srv *Backups) GetRestoration(RestorationId string)(*models.BackupRestoration, error) {
-	r := strings.NewReplacer("{restorationId}", RestorationId)
+	r := strings.NewReplacer("{restorationId}", client.EncodePath(RestorationId))
 	path := r.Replace("/backups/restorations/{restorationId}")
 	params := map[string]interface{}{}
-	params["restorationId"] = RestorationId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",

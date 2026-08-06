@@ -1,5 +1,14 @@
 # Change Log
 
+## v6.4.0
+
+* Fixed: path parameters are percent-encoded, so an id containing `/`, `&`, or `?` stays in its segment
+* Fixed: path parameters are no longer also sent in the query string or request body
+* Fixed: `SelfSigned` no longer disables certificate verification on `http.DefaultTransport` process-wide
+* Fixed: `SelfSigned` now applies whatever order `WithSelfSigned` and `WithTimeout` are passed in
+* Updated: array query parameters are encoded as `key[0]`, `key[1]` instead of repeated `key[]`
+* Added: `client.EncodePath` and `client.AddQueryParam` helpers
+
 ## v6.3.0
 
 * Added: `Proxy.CreateInvalidation` to purge CDN cache for a domain by tag, path, or all
