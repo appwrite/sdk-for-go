@@ -195,10 +195,9 @@ func (srv *Account) ListConsents(optionalSetters ...ListConsentsOption)(*models.
 // GetConsent get an OAuth2 consent the current user has given to a
 // third-party app by its unique ID.
 func (srv *Account) GetConsent(ConsentId string)(*models.Oauth2Consent, error) {
-	r := strings.NewReplacer("{consentId}", ConsentId)
+	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId))
 	path := r.Replace("/account/consents/{consentId}")
 	params := map[string]interface{}{}
-	params["consentId"] = ConsentId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -233,10 +232,9 @@ func (srv *Account) GetConsent(ConsentId string)(*models.Oauth2Consent, error) {
 // issued under the consent are revoked, and the app must ask for consent
 // again to regain access.
 func (srv *Account) DeleteConsent(ConsentId string)(*interface{}, error) {
-	r := strings.NewReplacer("{consentId}", ConsentId)
+	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId))
 	path := r.Replace("/account/consents/{consentId}")
 	params := map[string]interface{}{}
-	params["consentId"] = ConsentId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -296,14 +294,13 @@ func (srv *Account) WithListConsentTokensTotal(v bool) ListConsentTokensOption {
 // consent. Each entry represents one authorized device or session; the token
 // secrets themselves are never returned.
 func (srv *Account) ListConsentTokens(ConsentId string, optionalSetters ...ListConsentTokensOption)(*models.Oauth2ConsentTokenList, error) {
-	r := strings.NewReplacer("{consentId}", ConsentId)
+	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId))
 	path := r.Replace("/account/consents/{consentId}/tokens")
 	options := ListConsentTokensOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["consentId"] = ConsentId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -343,11 +340,9 @@ func (srv *Account) ListConsentTokens(ConsentId string, optionalSetters ...ListC
 // GetConsentToken get a token family issued under an OAuth2 consent by its
 // unique ID. The token secrets themselves are never returned.
 func (srv *Account) GetConsentToken(ConsentId string, TokenId string)(*models.Oauth2ConsentToken, error) {
-	r := strings.NewReplacer("{consentId}", ConsentId, "{tokenId}", TokenId)
+	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId), "{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/account/consents/{consentId}/tokens/{tokenId}")
 	params := map[string]interface{}{}
-	params["consentId"] = ConsentId
-	params["tokenId"] = TokenId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -382,11 +377,9 @@ func (srv *Account) GetConsentToken(ConsentId string, TokenId string)(*models.Oa
 // its unique ID. The access and refresh tokens of the family stop working
 // immediately; other token families and the consent itself are unaffected.
 func (srv *Account) DeleteConsentToken(ConsentId string, TokenId string)(*interface{}, error) {
-	r := strings.NewReplacer("{consentId}", ConsentId, "{tokenId}", TokenId)
+	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId), "{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/account/consents/{consentId}/tokens/{tokenId}")
 	params := map[string]interface{}{}
-	params["consentId"] = ConsentId
-	params["tokenId"] = TokenId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -531,10 +524,9 @@ func (srv *Account) ListIdentities(optionalSetters ...ListIdentitiesOption)(*mod
 	
 // DeleteIdentity delete an identity by its unique ID.
 func (srv *Account) DeleteIdentity(IdentityId string)(*interface{}, error) {
-	r := strings.NewReplacer("{identityId}", IdentityId)
+	r := strings.NewReplacer("{identityId}", client.EncodePath(IdentityId))
 	path := r.Replace("/account/identities/{identityId}")
 	params := map[string]interface{}{}
-	params["identityId"] = IdentityId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -741,10 +733,9 @@ func (srv *Account) UpdateMFA(Mfa bool)(*models.User, error) {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createMFAAuthenticator` instead.
 func (srv *Account) CreateMfaAuthenticator(Type string)(*models.MfaType, error) {
-	r := strings.NewReplacer("{type}", Type)
+	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	params["type"] = Type
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -781,10 +772,9 @@ func (srv *Account) CreateMfaAuthenticator(Type string)(*models.MfaType, error) 
 // authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator)
 // method.
 func (srv *Account) CreateMFAAuthenticator(Type string)(*models.MfaType, error) {
-	r := strings.NewReplacer("{type}", Type)
+	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	params["type"] = Type
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -823,10 +813,9 @@ func (srv *Account) CreateMFAAuthenticator(Type string)(*models.MfaType, error) 
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateMFAAuthenticator` instead.
 func (srv *Account) UpdateMfaAuthenticator(Type string, Otp string)(*models.User, error) {
-	r := strings.NewReplacer("{type}", Type)
+	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	params["type"] = Type
 	params["otp"] = Otp
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -864,10 +853,9 @@ func (srv *Account) UpdateMfaAuthenticator(Type string, Otp string)(*models.User
 // authenticator](/docs/references/cloud/client-web/account#createMfaAuthenticator)
 // method.
 func (srv *Account) UpdateMFAAuthenticator(Type string, Otp string)(*models.User, error) {
-	r := strings.NewReplacer("{type}", Type)
+	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	params["type"] = Type
 	params["otp"] = Otp
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -904,10 +892,9 @@ func (srv *Account) UpdateMFAAuthenticator(Type string, Otp string)(*models.User
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.deleteMFAAuthenticator` instead.
 func (srv *Account) DeleteMfaAuthenticator(Type string)(*interface{}, error) {
-	r := strings.NewReplacer("{type}", Type)
+	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	params["type"] = Type
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -939,10 +926,9 @@ func (srv *Account) DeleteMfaAuthenticator(Type string)(*interface{}, error) {
 	
 // DeleteMFAAuthenticator delete an authenticator for a user by ID.
 func (srv *Account) DeleteMFAAuthenticator(Type string)(*interface{}, error) {
-	r := strings.NewReplacer("{type}", Type)
+	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	params["type"] = Type
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -2029,10 +2015,9 @@ func (srv *Account) CreateSession(UserId string, Secret string)(*models.Session,
 // GetSession use this endpoint to get a logged in user's session using a
 // Session ID. Inputting 'current' will return the current session being used.
 func (srv *Account) GetSession(SessionId string)(*models.Session, error) {
-	r := strings.NewReplacer("{sessionId}", SessionId)
+	r := strings.NewReplacer("{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
-	params["sessionId"] = SessionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -2068,10 +2053,9 @@ func (srv *Account) GetSession(SessionId string)(*models.Session, error) {
 // using an OAuth provider, this endpoint refreshes the access token from the
 // provider.
 func (srv *Account) UpdateSession(SessionId string)(*models.Session, error) {
-	r := strings.NewReplacer("{sessionId}", SessionId)
+	r := strings.NewReplacer("{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
-	params["sessionId"] = SessionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -2109,10 +2093,9 @@ func (srv *Account) UpdateSession(SessionId string)(*models.Session, error) {
 // Sessions](https://appwrite.io/docs/references/cloud/client-web/account#deleteSessions)
 // instead.
 func (srv *Account) DeleteSession(SessionId string)(*interface{}, error) {
-	r := strings.NewReplacer("{sessionId}", SessionId)
+	r := strings.NewReplacer("{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
-	params["sessionId"] = SessionId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -2384,14 +2367,13 @@ func (srv *Account) WithCreateOAuth2TokenScopes(v []string) CreateOAuth2TokenOpt
 // about session
 // limits](https://appwrite.io/docs/authentication-security#limits).
 func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...CreateOAuth2TokenOption)(*bool, error) {
-	r := strings.NewReplacer("{provider}", Provider)
+	r := strings.NewReplacer("{provider}", client.EncodePath(Provider))
 	path := r.Replace("/account/tokens/oauth2/{provider}")
 	options := CreateOAuth2TokenOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["provider"] = Provider
 	if options.enabledSetters["Success"] {
 		params["success"] = options.Success
 	}

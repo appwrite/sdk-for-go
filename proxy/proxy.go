@@ -371,10 +371,9 @@ func (srv *Proxy) CreateSiteRule(Domain string, SiteId string, optionalSetters .
 	
 // GetRule get a proxy rule by its unique ID.
 func (srv *Proxy) GetRule(RuleId string)(*models.ProxyRule, error) {
-	r := strings.NewReplacer("{ruleId}", RuleId)
+	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
 	path := r.Replace("/proxy/rules/{ruleId}")
 	params := map[string]interface{}{}
-	params["ruleId"] = RuleId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -407,10 +406,9 @@ func (srv *Proxy) GetRule(RuleId string)(*models.ProxyRule, error) {
 	
 // DeleteRule delete a proxy rule by its unique ID.
 func (srv *Proxy) DeleteRule(RuleId string)(*interface{}, error) {
-	r := strings.NewReplacer("{ruleId}", RuleId)
+	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
 	path := r.Replace("/proxy/rules/{ruleId}")
 	params := map[string]interface{}{}
-	params["ruleId"] = RuleId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -445,10 +443,9 @@ func (srv *Proxy) DeleteRule(RuleId string)(*interface{}, error) {
 // DNS records. If verification is successful, a TLS certificate will be
 // automatically provisioned for the domain asynchronously in the background.
 func (srv *Proxy) UpdateRuleStatus(RuleId string)(*models.ProxyRule, error) {
-	r := strings.NewReplacer("{ruleId}", RuleId)
+	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
 	path := r.Replace("/proxy/rules/{ruleId}/status")
 	params := map[string]interface{}{}
-	params["ruleId"] = RuleId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",

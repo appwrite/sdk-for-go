@@ -5,7 +5,6 @@ import (
 	"errors"
 	"github.com/appwrite/sdk-for-go/v6/client"
 	"net/url"
-	"fmt"
 	"strings"
 )
 
@@ -66,14 +65,13 @@ func (srv *Avatars) WithGetBrowserQuality(v int) GetBrowserOption {
 // image at source quality. If dimensions are not specified, the default size
 // of image returned is 100x100px.
 func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)(*[]byte, error) {
-	r := strings.NewReplacer("{code}", Code)
+	r := strings.NewReplacer("{code}", client.EncodePath(Code))
 	path := r.Replace("/avatars/browsers/{code}")
 	options := GetBrowserOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["code"] = Code
 	if options.enabledSetters["Width"] {
 		params["width"] = options.Width
 	}
@@ -124,7 +122,7 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 // of image returned is 100x100px.
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetBrowserURL(Code string, optionalSetters ...GetBrowserOption) (*string, error) {
-	r := strings.NewReplacer("{code}", Code)
+	r := strings.NewReplacer("{code}", client.EncodePath(Code))
 	path := r.Replace("/avatars/browsers/{code}")
 	options := GetBrowserOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -136,13 +134,13 @@ func (srv *Avatars) GetBrowserURL(Code string, optionalSetters ...GetBrowserOpti
 	}
 	q := u.Query()
 	if options.enabledSetters["Width"] {
-		q.Set("width", fmt.Sprintf("%v", options.Width))
+		client.AddQueryParam(q, "width", options.Width)
 	}
 	if options.enabledSetters["Height"] {
-		q.Set("height", fmt.Sprintf("%v", options.Height))
+		client.AddQueryParam(q, "height", options.Height)
 	}
 	if options.enabledSetters["Quality"] {
-		q.Set("quality", fmt.Sprintf("%v", options.Quality))
+		client.AddQueryParam(q, "quality", options.Quality)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -191,14 +189,13 @@ func (srv *Avatars) WithGetCreditCardQuality(v int) GetCreditCardOption {
 // image at source quality. If dimensions are not specified, the default size
 // of image returned is 100x100px.
 func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardOption)(*[]byte, error) {
-	r := strings.NewReplacer("{code}", Code)
+	r := strings.NewReplacer("{code}", client.EncodePath(Code))
 	path := r.Replace("/avatars/credit-cards/{code}")
 	options := GetCreditCardOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["code"] = Code
 	if options.enabledSetters["Width"] {
 		params["width"] = options.Width
 	}
@@ -246,7 +243,7 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 // of image returned is 100x100px.
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetCreditCardURL(Code string, optionalSetters ...GetCreditCardOption) (*string, error) {
-	r := strings.NewReplacer("{code}", Code)
+	r := strings.NewReplacer("{code}", client.EncodePath(Code))
 	path := r.Replace("/avatars/credit-cards/{code}")
 	options := GetCreditCardOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -258,13 +255,13 @@ func (srv *Avatars) GetCreditCardURL(Code string, optionalSetters ...GetCreditCa
 	}
 	q := u.Query()
 	if options.enabledSetters["Width"] {
-		q.Set("width", fmt.Sprintf("%v", options.Width))
+		client.AddQueryParam(q, "width", options.Width)
 	}
 	if options.enabledSetters["Height"] {
-		q.Set("height", fmt.Sprintf("%v", options.Height))
+		client.AddQueryParam(q, "height", options.Height)
 	}
 	if options.enabledSetters["Quality"] {
-		q.Set("quality", fmt.Sprintf("%v", options.Quality))
+		client.AddQueryParam(q, "quality", options.Quality)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -319,7 +316,7 @@ func (srv *Avatars) GetFaviconURL(Url string) (*string, error) {
 		return nil, err
 	}
 	q := u.Query()
-	q.Set("url", fmt.Sprintf("%v", Url))
+	client.AddQueryParam(q, "url", Url)
 	u.RawQuery = q.Encode()
 	result := u.String()
 	return &result, nil
@@ -369,14 +366,13 @@ func (srv *Avatars) WithGetFlagQuality(v int) GetFlagOption {
 // image at source quality. If dimensions are not specified, the default size
 // of image returned is 100x100px.
 func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption)(*[]byte, error) {
-	r := strings.NewReplacer("{code}", Code)
+	r := strings.NewReplacer("{code}", client.EncodePath(Code))
 	path := r.Replace("/avatars/flags/{code}")
 	options := GetFlagOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["code"] = Code
 	if options.enabledSetters["Width"] {
 		params["width"] = options.Width
 	}
@@ -426,7 +422,7 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption)(*[]by
 // of image returned is 100x100px.
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetFlagURL(Code string, optionalSetters ...GetFlagOption) (*string, error) {
-	r := strings.NewReplacer("{code}", Code)
+	r := strings.NewReplacer("{code}", client.EncodePath(Code))
 	path := r.Replace("/avatars/flags/{code}")
 	options := GetFlagOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -438,13 +434,13 @@ func (srv *Avatars) GetFlagURL(Code string, optionalSetters ...GetFlagOption) (*
 	}
 	q := u.Query()
 	if options.enabledSetters["Width"] {
-		q.Set("width", fmt.Sprintf("%v", options.Width))
+		client.AddQueryParam(q, "width", options.Width)
 	}
 	if options.enabledSetters["Height"] {
-		q.Set("height", fmt.Sprintf("%v", options.Height))
+		client.AddQueryParam(q, "height", options.Height)
 	}
 	if options.enabledSetters["Quality"] {
-		q.Set("quality", fmt.Sprintf("%v", options.Quality))
+		client.AddQueryParam(q, "quality", options.Quality)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -552,12 +548,12 @@ func (srv *Avatars) GetImageURL(Url string, optionalSetters ...GetImageOption) (
 		return nil, err
 	}
 	q := u.Query()
-	q.Set("url", fmt.Sprintf("%v", Url))
+	client.AddQueryParam(q, "url", Url)
 	if options.enabledSetters["Width"] {
-		q.Set("width", fmt.Sprintf("%v", options.Width))
+		client.AddQueryParam(q, "width", options.Width)
 	}
 	if options.enabledSetters["Height"] {
-		q.Set("height", fmt.Sprintf("%v", options.Height))
+		client.AddQueryParam(q, "height", options.Height)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -695,16 +691,16 @@ func (srv *Avatars) GetInitialsURL(optionalSetters ...GetInitialsOption) (*strin
 	}
 	q := u.Query()
 	if options.enabledSetters["Name"] {
-		q.Set("name", fmt.Sprintf("%v", options.Name))
+		client.AddQueryParam(q, "name", options.Name)
 	}
 	if options.enabledSetters["Width"] {
-		q.Set("width", fmt.Sprintf("%v", options.Width))
+		client.AddQueryParam(q, "width", options.Width)
 	}
 	if options.enabledSetters["Height"] {
-		q.Set("height", fmt.Sprintf("%v", options.Height))
+		client.AddQueryParam(q, "height", options.Height)
 	}
 	if options.enabledSetters["Background"] {
-		q.Set("background", fmt.Sprintf("%v", options.Background))
+		client.AddQueryParam(q, "background", options.Background)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -805,15 +801,15 @@ func (srv *Avatars) GetQRURL(Text string, optionalSetters ...GetQROption) (*stri
 		return nil, err
 	}
 	q := u.Query()
-	q.Set("text", fmt.Sprintf("%v", Text))
+	client.AddQueryParam(q, "text", Text)
 	if options.enabledSetters["Size"] {
-		q.Set("size", fmt.Sprintf("%v", options.Size))
+		client.AddQueryParam(q, "size", options.Size)
 	}
 	if options.enabledSetters["Margin"] {
-		q.Set("margin", fmt.Sprintf("%v", options.Margin))
+		client.AddQueryParam(q, "margin", options.Margin)
 	}
 	if options.enabledSetters["Download"] {
-		q.Set("download", fmt.Sprintf("%v", options.Download))
+		client.AddQueryParam(q, "download", options.Download)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -1108,63 +1104,63 @@ func (srv *Avatars) GetScreenshotURL(Url string, optionalSetters ...GetScreensho
 		return nil, err
 	}
 	q := u.Query()
-	q.Set("url", fmt.Sprintf("%v", Url))
+	client.AddQueryParam(q, "url", Url)
 	if options.enabledSetters["Headers"] {
-		q.Set("headers", fmt.Sprintf("%v", options.Headers))
+		client.AddQueryParam(q, "headers", options.Headers)
 	}
 	if options.enabledSetters["ViewportWidth"] {
-		q.Set("viewportWidth", fmt.Sprintf("%v", options.ViewportWidth))
+		client.AddQueryParam(q, "viewportWidth", options.ViewportWidth)
 	}
 	if options.enabledSetters["ViewportHeight"] {
-		q.Set("viewportHeight", fmt.Sprintf("%v", options.ViewportHeight))
+		client.AddQueryParam(q, "viewportHeight", options.ViewportHeight)
 	}
 	if options.enabledSetters["Scale"] {
-		q.Set("scale", fmt.Sprintf("%v", options.Scale))
+		client.AddQueryParam(q, "scale", options.Scale)
 	}
 	if options.enabledSetters["Theme"] {
-		q.Set("theme", fmt.Sprintf("%v", options.Theme))
+		client.AddQueryParam(q, "theme", options.Theme)
 	}
 	if options.enabledSetters["UserAgent"] {
-		q.Set("userAgent", fmt.Sprintf("%v", options.UserAgent))
+		client.AddQueryParam(q, "userAgent", options.UserAgent)
 	}
 	if options.enabledSetters["Fullpage"] {
-		q.Set("fullpage", fmt.Sprintf("%v", options.Fullpage))
+		client.AddQueryParam(q, "fullpage", options.Fullpage)
 	}
 	if options.enabledSetters["Locale"] {
-		q.Set("locale", fmt.Sprintf("%v", options.Locale))
+		client.AddQueryParam(q, "locale", options.Locale)
 	}
 	if options.enabledSetters["Timezone"] {
-		q.Set("timezone", fmt.Sprintf("%v", options.Timezone))
+		client.AddQueryParam(q, "timezone", options.Timezone)
 	}
 	if options.enabledSetters["Latitude"] {
-		q.Set("latitude", fmt.Sprintf("%v", options.Latitude))
+		client.AddQueryParam(q, "latitude", options.Latitude)
 	}
 	if options.enabledSetters["Longitude"] {
-		q.Set("longitude", fmt.Sprintf("%v", options.Longitude))
+		client.AddQueryParam(q, "longitude", options.Longitude)
 	}
 	if options.enabledSetters["Accuracy"] {
-		q.Set("accuracy", fmt.Sprintf("%v", options.Accuracy))
+		client.AddQueryParam(q, "accuracy", options.Accuracy)
 	}
 	if options.enabledSetters["Touch"] {
-		q.Set("touch", fmt.Sprintf("%v", options.Touch))
+		client.AddQueryParam(q, "touch", options.Touch)
 	}
 	if options.enabledSetters["Permissions"] {
-		q.Set("permissions", fmt.Sprintf("%v", options.Permissions))
+		client.AddQueryParam(q, "permissions", options.Permissions)
 	}
 	if options.enabledSetters["Sleep"] {
-		q.Set("sleep", fmt.Sprintf("%v", options.Sleep))
+		client.AddQueryParam(q, "sleep", options.Sleep)
 	}
 	if options.enabledSetters["Width"] {
-		q.Set("width", fmt.Sprintf("%v", options.Width))
+		client.AddQueryParam(q, "width", options.Width)
 	}
 	if options.enabledSetters["Height"] {
-		q.Set("height", fmt.Sprintf("%v", options.Height))
+		client.AddQueryParam(q, "height", options.Height)
 	}
 	if options.enabledSetters["Quality"] {
-		q.Set("quality", fmt.Sprintf("%v", options.Quality))
+		client.AddQueryParam(q, "quality", options.Quality)
 	}
 	if options.enabledSetters["Output"] {
-		q.Set("output", fmt.Sprintf("%v", options.Output))
+		client.AddQueryParam(q, "output", options.Output)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()

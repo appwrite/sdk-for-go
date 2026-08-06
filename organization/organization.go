@@ -259,10 +259,9 @@ func (srv *Organization) CreateInstallation(AppId string, optionalSetters ...Cre
 // GetInstallation get an app installation on the organization by its unique
 // ID. Any organization member can read installations.
 func (srv *Organization) GetInstallation(InstallationId string)(*models.AppInstallation, error) {
-	r := strings.NewReplacer("{installationId}", InstallationId)
+	r := strings.NewReplacer("{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/organization/installations/{installationId}")
 	params := map[string]interface{}{}
-	params["installationId"] = InstallationId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -315,14 +314,13 @@ func (srv *Organization) WithUpdateInstallationAuthorizationDetails(v string) Up
 // installation's granted scopes are refreshed to the scopes the app currently
 // requests; previously issued installation access tokens are revoked.
 func (srv *Organization) UpdateInstallation(InstallationId string, optionalSetters ...UpdateInstallationOption)(*models.AppInstallation, error) {
-	r := strings.NewReplacer("{installationId}", InstallationId)
+	r := strings.NewReplacer("{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/organization/installations/{installationId}")
 	options := UpdateInstallationOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["installationId"] = InstallationId
 	if options.enabledSetters["AuthorizationDetails"] {
 		params["authorizationDetails"] = options.AuthorizationDetails
 	}
@@ -361,10 +359,9 @@ func (srv *Organization) UpdateInstallation(InstallationId string, optionalSette
 // installation ID. Only organization members with the owner role can remove
 // installations. Previously issued installation access tokens are revoked.
 func (srv *Organization) DeleteInstallation(InstallationId string)(*interface{}, error) {
-	r := strings.NewReplacer("{installationId}", InstallationId)
+	r := strings.NewReplacer("{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/organization/installations/{installationId}")
 	params := map[string]interface{}{}
-	params["installationId"] = InstallationId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -529,10 +526,9 @@ func (srv *Organization) CreateKey(KeyId string, Name string, Scopes []string, o
 // GetKey get a key by its unique ID. This endpoint returns details about a
 // specific API key in your organization including its scopes.
 func (srv *Organization) GetKey(KeyId string)(*models.Key, error) {
-	r := strings.NewReplacer("{keyId}", KeyId)
+	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/organization/keys/{keyId}")
 	params := map[string]interface{}{}
-	params["keyId"] = KeyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -583,14 +579,13 @@ func (srv *Organization) WithUpdateKeyExpire(v string) UpdateKeyOption {
 // UpdateKey update a key by its unique ID. Use this endpoint to update the
 // name, scopes, or expiration time of an API key.
 func (srv *Organization) UpdateKey(KeyId string, Name string, Scopes []string, optionalSetters ...UpdateKeyOption)(*models.Key, error) {
-	r := strings.NewReplacer("{keyId}", KeyId)
+	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/organization/keys/{keyId}")
 	options := UpdateKeyOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["keyId"] = KeyId
 	params["name"] = Name
 	params["scopes"] = Scopes
 	if options.enabledSetters["Expire"] {
@@ -630,10 +625,9 @@ func (srv *Organization) UpdateKey(KeyId string, Name string, Scopes []string, o
 // DeleteKey delete a key by its unique ID. Once deleted, the key can no
 // longer be used to authenticate API calls.
 func (srv *Organization) DeleteKey(KeyId string)(*interface{}, error) {
-	r := strings.NewReplacer("{keyId}", KeyId)
+	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/organization/keys/{keyId}")
 	params := map[string]interface{}{}
-	params["keyId"] = KeyId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -804,7 +798,6 @@ func (srv *Organization) CreateMembership(Roles []string, optionalSetters ...Cre
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["roles"] = Roles
 	if options.enabledSetters["Email"] {
 		params["email"] = options.Email
 	}
@@ -814,6 +807,7 @@ func (srv *Organization) CreateMembership(Roles []string, optionalSetters ...Cre
 	if options.enabledSetters["Phone"] {
 		params["phone"] = options.Phone
 	}
+	params["roles"] = Roles
 	if options.enabledSetters["Url"] {
 		params["url"] = options.Url
 	}
@@ -854,10 +848,9 @@ func (srv *Organization) CreateMembership(Roles []string, optionalSetters ...Cre
 // GetMembership get a membership from the current organization by its unique
 // ID.
 func (srv *Organization) GetMembership(MembershipId string)(*models.Membership, error) {
-	r := strings.NewReplacer("{membershipId}", MembershipId)
+	r := strings.NewReplacer("{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/organization/memberships/{membershipId}")
 	params := map[string]interface{}{}
-	params["membershipId"] = MembershipId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -890,10 +883,9 @@ func (srv *Organization) GetMembership(MembershipId string)(*models.Membership, 
 			
 // UpdateMembership modify the roles of a member in the current organization.
 func (srv *Organization) UpdateMembership(MembershipId string, Roles []string)(*models.Membership, error) {
-	r := strings.NewReplacer("{membershipId}", MembershipId)
+	r := strings.NewReplacer("{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/organization/memberships/{membershipId}")
 	params := map[string]interface{}{}
-	params["membershipId"] = MembershipId
 	params["roles"] = Roles
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -930,10 +922,9 @@ func (srv *Organization) UpdateMembership(MembershipId string, Roles []string)(*
 // is removed whether they accepted the invitation or not; a pending
 // invitation is revoked.
 func (srv *Organization) DeleteMembership(MembershipId string)(*interface{}, error) {
-	r := strings.NewReplacer("{membershipId}", MembershipId)
+	r := strings.NewReplacer("{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/organization/memberships/{membershipId}")
 	params := map[string]interface{}{}
-	params["membershipId"] = MembershipId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -1107,10 +1098,9 @@ func (srv *Organization) CreateProject(ProjectId string, Name string, optionalSe
 	
 // GetProject get a project.
 func (srv *Organization) GetProject(ProjectId string)(*models.Project, error) {
-	r := strings.NewReplacer("{projectId}", ProjectId)
+	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId))
 	path := r.Replace("/organization/projects/{projectId}")
 	params := map[string]interface{}{}
-	params["projectId"] = ProjectId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 	}
@@ -1142,10 +1132,9 @@ func (srv *Organization) GetProject(ProjectId string)(*models.Project, error) {
 			
 // UpdateProject update a project by its unique ID.
 func (srv *Organization) UpdateProject(ProjectId string, Name string)(*models.Project, error) {
-	r := strings.NewReplacer("{projectId}", ProjectId)
+	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId))
 	path := r.Replace("/organization/projects/{projectId}")
 	params := map[string]interface{}{}
-	params["projectId"] = ProjectId
 	params["name"] = Name
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -1180,10 +1169,9 @@ func (srv *Organization) UpdateProject(ProjectId string, Name string)(*models.Pr
 	
 // DeleteProject delete a project by its unique ID.
 func (srv *Organization) DeleteProject(ProjectId string)(*interface{}, error) {
-	r := strings.NewReplacer("{projectId}", ProjectId)
+	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId))
 	path := r.Replace("/organization/projects/{projectId}")
 	params := map[string]interface{}{}
-	params["projectId"] = ProjectId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",

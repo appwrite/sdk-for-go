@@ -80,10 +80,9 @@ func (srv *Activities) ListEvents(optionalSetters ...ListEventsOption)(*models.A
 	
 // GetEvent get event by ID.
 func (srv *Activities) GetEvent(EventId string)(*models.ActivityEvent, error) {
-	r := strings.NewReplacer("{eventId}", EventId)
+	r := strings.NewReplacer("{eventId}", client.EncodePath(EventId))
 	path := r.Replace("/activities/events/{eventId}")
 	params := map[string]interface{}{}
-	params["eventId"] = EventId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",

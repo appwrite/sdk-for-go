@@ -93,10 +93,9 @@ func (srv *Advisor) ListReports(optionalSetters ...ListReportsOption)(*models.Re
 // GetReport get an analyzer report by its unique ID. The response includes
 // the report's metadata and the nested insights it produced.
 func (srv *Advisor) GetReport(ReportId string)(*models.Report, error) {
-	r := strings.NewReplacer("{reportId}", ReportId)
+	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId))
 	path := r.Replace("/reports/{reportId}")
 	params := map[string]interface{}{}
-	params["reportId"] = ReportId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",
@@ -130,10 +129,9 @@ func (srv *Advisor) GetReport(ReportId string)(*models.Report, error) {
 // DeleteReport delete an analyzer report by its unique ID. Nested insights
 // and CTA metadata are removed asynchronously by the deletes worker.
 func (srv *Advisor) DeleteReport(ReportId string)(*interface{}, error) {
-	r := strings.NewReplacer("{reportId}", ReportId)
+	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId))
 	path := r.Replace("/reports/{reportId}")
 	params := map[string]interface{}{}
-	params["reportId"] = ReportId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -191,14 +189,13 @@ func (srv *Advisor) WithListInsightsTotal(v bool) ListInsightsOption {
 // ListInsights list the insights produced under a single analyzer report. You
 // can use the query params to filter your results further.
 func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsightsOption)(*models.InsightList, error) {
-	r := strings.NewReplacer("{reportId}", ReportId)
+	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId))
 	path := r.Replace("/reports/{reportId}/insights")
 	options := ListInsightsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
 	}
 	params := map[string]interface{}{}
-	params["reportId"] = ReportId
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
@@ -237,11 +234,9 @@ func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsight
 			
 // GetInsight get an insight by its unique ID, scoped to its parent report.
 func (srv *Advisor) GetInsight(ReportId string, InsightId string)(*models.Insight, error) {
-	r := strings.NewReplacer("{reportId}", ReportId, "{insightId}", InsightId)
+	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId), "{insightId}", client.EncodePath(InsightId))
 	path := r.Replace("/reports/{reportId}/insights/{insightId}")
 	params := map[string]interface{}{}
-	params["reportId"] = ReportId
-	params["insightId"] = InsightId
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"accept": "application/json",

@@ -51,7 +51,7 @@ func (srv *Oauth2) WithApproveScope(v string) ApproveOption {
 // resources the user selected. You can pass Accept header of
 // `application/json` to receive a JSON response instead of a redirect.
 func (srv *Oauth2) Approve(GrantId string, optionalSetters ...ApproveOption)(*models.Oauth2Approve, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/approve")
 	options := ApproveOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -222,7 +222,7 @@ func (srv *Oauth2) WithAuthorizeRequestUri(v string) AuthorizeOption {
 // You can pass Accept header of `application/json` to receive a JSON response
 // instead of a redirect.
 func (srv *Oauth2) Authorize(optionalSetters ...AuthorizeOption)(*models.Oauth2Authorize, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/authorize")
 	options := AuthorizeOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -427,7 +427,7 @@ func (srv *Oauth2) WithAuthorizePostRequestUri(v string) AuthorizePostOption {
 // You can pass Accept header of `application/json` to receive a JSON response
 // instead of a redirect.
 func (srv *Oauth2) AuthorizePost(optionalSetters ...AuthorizePostOption)(*models.Oauth2Authorize, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/authorize")
 	options := AuthorizePostOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -559,7 +559,7 @@ func (srv *Oauth2) WithCreateDeviceAuthorizationAudience(v string) CreateDeviceA
 // Returns the device code, user code, verification URL, expiration, and
 // polling interval.
 func (srv *Oauth2) CreateDeviceAuthorization(optionalSetters ...CreateDeviceAuthorizationOption)(*models.Oauth2DeviceAuthorization, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/device_authorization")
 	options := CreateDeviceAuthorizationOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -616,7 +616,7 @@ func (srv *Oauth2) CreateDeviceAuthorization(optionalSetters ...CreateDeviceAuth
 // ID to the get grant endpoint to render the consent screen, then to the
 // approve or reject endpoint to complete the flow.
 func (srv *Oauth2) CreateGrant(UserCode string)(*models.Oauth2Grant, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/grants")
 	params := map[string]interface{}{}
 	params["user_code"] = UserCode
@@ -655,10 +655,9 @@ func (srv *Oauth2) CreateGrant(UserCode string)(*models.Oauth2Grant, error) {
 // approve. A grant can only be read by the user it belongs to, or by server
 // SDK.
 func (srv *Oauth2) GetGrant(GrantId string)(*models.Oauth2Grant, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"], "{grant_id}", GrantId)
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]), "{grant_id}", client.EncodePath(GrantId))
 	path := r.Replace("/oauth2/{project_id}/grants/{grant_id}")
 	params := map[string]interface{}{}
-	params["grant_id"] = GrantId
 	headers := map[string]interface{}{
 		"accept": "application/json",
 	}
@@ -726,7 +725,7 @@ func (srv *Oauth2) WithListOrganizationsSearch(v string) ListOrganizationsOption
 // expanding the `*` wildcard into the concrete set of organizations the user
 // can see.
 func (srv *Oauth2) ListOrganizations(optionalSetters ...ListOrganizationsOption)(*models.Oauth2OrganizationList, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/organizations")
 	options := ListOrganizationsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -863,7 +862,7 @@ func (srv *Oauth2) WithCreatePARAudience(v string) CreatePAROption {
 // CreatePAR store an OAuth2 authorization request server-side and receive a
 // short-lived request_uri handle for the authorize endpoint.
 func (srv *Oauth2) CreatePAR(ClientId string, RedirectUri string, ResponseType string, optionalSetters ...CreatePAROption)(*models.Oauth2PAR, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/par")
 	options := CreatePAROptions{}.New()
 	for _, opt := range optionalSetters {
@@ -970,7 +969,7 @@ func (srv *Oauth2) WithListProjectsSearch(v string) ListProjectsOption {
 // the token's `project` authorization details, expanding the `*` wildcard
 // into the concrete set of projects the user can see.
 func (srv *Oauth2) ListProjects(optionalSetters ...ListProjectsOption)(*models.Oauth2ProjectList, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/projects")
 	options := ListProjectsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -1020,7 +1019,7 @@ func (srv *Oauth2) ListProjects(optionalSetters ...ListProjectsOption)(*models.O
 // You can pass Accept header of `application/json` to receive a JSON response
 // instead of a redirect.
 func (srv *Oauth2) Reject(GrantId string)(*models.Oauth2Reject, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/reject")
 	params := map[string]interface{}{}
 	params["grant_id"] = GrantId
@@ -1089,7 +1088,7 @@ func (srv *Oauth2) WithRevokeClientSecret(v string) RevokeOption {
 			
 // Revoke revoke an OAuth2 access token or refresh token.
 func (srv *Oauth2) Revoke(Token string, optionalSetters ...RevokeOption)(*interface{}, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/revoke")
 	options := RevokeOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -1219,7 +1218,7 @@ func (srv *Oauth2) WithCreateTokenAudience(v string) CreateTokenOption {
 // CreateToken exchange an OAuth2 authorization code, refresh token, or device
 // code for access and refresh tokens.
 func (srv *Oauth2) CreateToken(GrantType string, optionalSetters ...CreateTokenOption)(*models.Oauth2Token, error) {
-	r := strings.NewReplacer("{project_id}", srv.client.Config["project"])
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/token")
 	options := CreateTokenOptions{}.New()
 	for _, opt := range optionalSetters {
