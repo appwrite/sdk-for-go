@@ -69,7 +69,10 @@ func (srv *Apps) List(optionalSetters ...ListOption)(*models.AppsList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppsList{}.New(bytes)
 
@@ -296,7 +299,10 @@ func (srv *Apps) Create(AppId string, Name string, RedirectUris []string, option
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.App{}.New(bytes)
 
@@ -331,7 +337,10 @@ func (srv *Apps) ListInstallationScopes()(*models.AppScopeList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppScopeList{}.New(bytes)
 
@@ -366,7 +375,10 @@ func (srv *Apps) ListOAuth2Scopes()(*models.AppScopeList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppScopeList{}.New(bytes)
 
@@ -401,7 +413,10 @@ func (srv *Apps) Get(AppId string)(*models.App, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.App{}.New(bytes)
 
@@ -649,7 +664,10 @@ func (srv *Apps) Update(AppId string, Name string, optionalSetters ...UpdateOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.App{}.New(bytes)
 
@@ -685,7 +703,10 @@ func (srv *Apps) Delete(AppId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -756,7 +777,10 @@ func (srv *Apps) ListInstallations(AppId string, optionalSetters ...ListInstalla
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallationList{}.New(bytes)
 
@@ -793,7 +817,10 @@ func (srv *Apps) GetInstallation(AppId string, InstallationId string)(*models.Ap
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallation{}.New(bytes)
 
@@ -831,7 +858,10 @@ func (srv *Apps) DeleteInstallation(AppId string, InstallationId string)(*interf
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -873,7 +903,10 @@ func (srv *Apps) CreateInstallationToken(AppId string, InstallationId string)(*m
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2Token{}.New(bytes)
 
@@ -943,7 +976,10 @@ func (srv *Apps) ListKeys(AppId string, optionalSetters ...ListKeysOption)(*mode
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppKeyList{}.New(bytes)
 
@@ -982,7 +1018,10 @@ func (srv *Apps) CreateKey(AppId string)(*models.AppKey, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppKey{}.New(bytes)
 
@@ -1017,7 +1056,10 @@ func (srv *Apps) GetKey(AppId string, KeyId string)(*models.AppKey, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppKey{}.New(bytes)
 
@@ -1053,7 +1095,10 @@ func (srv *Apps) DeleteKey(AppId string, KeyId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1091,7 +1136,10 @@ func (srv *Apps) UpdateLabels(AppId string, Labels []string)(*models.App, error)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.App{}.New(bytes)
 
@@ -1161,7 +1209,10 @@ func (srv *Apps) ListSecrets(AppId string, optionalSetters ...ListSecretsOption)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppSecretList{}.New(bytes)
 
@@ -1197,7 +1248,10 @@ func (srv *Apps) CreateSecret(AppId string)(*models.AppSecretPlaintext, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppSecretPlaintext{}.New(bytes)
 
@@ -1232,7 +1286,10 @@ func (srv *Apps) GetSecret(AppId string, SecretId string)(*models.AppSecret, err
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppSecret{}.New(bytes)
 
@@ -1268,7 +1325,10 @@ func (srv *Apps) DeleteSecret(AppId string, SecretId string)(*interface{}, error
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1304,7 +1364,10 @@ func (srv *Apps) UpdateTeam(AppId string, TeamId string)(*models.App, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.App{}.New(bytes)
 
@@ -1340,7 +1403,10 @@ func (srv *Apps) DeleteTokens(AppId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 

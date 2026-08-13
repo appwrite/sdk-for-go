@@ -80,7 +80,10 @@ func (srv *Presences) List(optionalSetters ...ListOption)(*models.PresenceList, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PresenceList{}.New(bytes)
 
@@ -116,7 +119,10 @@ func (srv *Presences) Get(PresenceId string)(*models.Presence, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Presence{}.New(bytes)
 
@@ -200,7 +206,10 @@ func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, op
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Presence{}.New(bytes)
 
@@ -306,7 +315,10 @@ func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Presence{}.New(bytes)
 
@@ -341,7 +353,10 @@ func (srv *Presences) Delete(PresenceId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 

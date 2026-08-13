@@ -82,7 +82,10 @@ func (srv *TablesDB) List(optionalSetters ...ListOption)(*models.DatabaseList, e
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.DatabaseList{}.New(bytes)
 
@@ -176,7 +179,10 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Database{}.New(bytes)
 
@@ -212,7 +218,10 @@ func (srv *TablesDB) ListSpecifications()(*models.DedicatedDatabaseSpecification
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.DedicatedDatabaseSpecificationList{}.New(bytes)
 
@@ -270,7 +279,10 @@ func (srv *TablesDB) ListTransactions(optionalSetters ...ListTransactionsOption)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.TransactionList{}.New(bytes)
 
@@ -329,7 +341,10 @@ func (srv *TablesDB) CreateTransaction(optionalSetters ...CreateTransactionOptio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Transaction{}.New(bytes)
 
@@ -364,7 +379,10 @@ func (srv *TablesDB) GetTransaction(TransactionId string)(*models.Transaction, e
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Transaction{}.New(bytes)
 
@@ -436,7 +454,10 @@ func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Transaction{}.New(bytes)
 
@@ -471,7 +492,10 @@ func (srv *TablesDB) DeleteTransaction(TransactionId string)(*interface{}, error
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -530,7 +554,10 @@ func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...C
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Transaction{}.New(bytes)
 
@@ -566,7 +593,10 @@ func (srv *TablesDB) Get(DatabaseId string)(*models.Database, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Database{}.New(bytes)
 
@@ -670,7 +700,10 @@ func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Database{}.New(bytes)
 
@@ -706,7 +739,10 @@ func (srv *TablesDB) Delete(DatabaseId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -769,7 +805,10 @@ func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...Create
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.DedicatedDatabase{}.New(bytes)
 
@@ -782,6 +821,234 @@ func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...Create
 	}
 	var parsed models.DedicatedDatabase
 	parsed, ok := resp.Result.(models.DedicatedDatabase)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+	
+// ListMigrations list the dedicated migrations for a TablesDB database. A
+// database has at most one in-flight migration.
+func (srv *TablesDB) ListMigrations(DatabaseId string)(*models.DatabaseMigrationList, error) {
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
+	path := r.Replace("/tablesdb/{databaseId}/migrations")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.DatabaseMigrationList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DatabaseMigrationList
+	parsed, ok := resp.Result.(models.DatabaseMigrationList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type CreateMigrationOptions struct {
+	AutoCutover bool
+	enabledSetters map[string]bool
+}
+func (options CreateMigrationOptions) New() *CreateMigrationOptions {
+	options.enabledSetters = map[string]bool{
+		"AutoCutover": false,
+	}
+	return &options
+}
+type CreateMigrationOption func(*CreateMigrationOptions)
+func (srv *TablesDB) WithCreateMigrationAutoCutover(v bool) CreateMigrationOption {
+	return func(o *CreateMigrationOptions) {
+		o.AutoCutover = v
+		o.enabledSetters["AutoCutover"] = true
+	}
+}
+					
+// CreateMigration start migrating a serverless TablesDB database onto a
+// dedicated MySQL compute. Data is copied to the target while the source
+// stays live, with a brief read-only window during cutover.
+func (srv *TablesDB) CreateMigration(DatabaseId string, Specification string, optionalSetters ...CreateMigrationOption)(*models.DatabaseMigration, error) {
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
+	path := r.Replace("/tablesdb/{databaseId}/migrations")
+	options := CreateMigrationOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["specification"] = Specification
+	if options.enabledSetters["AutoCutover"] {
+		params["autoCutover"] = options.AutoCutover
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.DatabaseMigration{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DatabaseMigration
+	parsed, ok := resp.Result.(models.DatabaseMigration)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// GetMigration get a single dedicated migration for a TablesDB database by
+// its ID.
+func (srv *TablesDB) GetMigration(DatabaseId string, MigrationId string)(*models.DatabaseMigration, error) {
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
+	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.DatabaseMigration{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DatabaseMigration
+	parsed, ok := resp.Result.(models.DatabaseMigration)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// DeleteMigration abort an in-flight TablesDB dedicated migration. Only
+// allowed before cutover; once the migration has cut over it cannot be
+// aborted.
+func (srv *TablesDB) DeleteMigration(DatabaseId string, MigrationId string)(*interface{}, error) {
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
+	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// CutoverMigration cut a verified TablesDB migration over to its dedicated
+// compute. Only applies to a migration created with `autoCutover` disabled,
+// which waits at `ready_to_cutover` until this is called. The routing flip
+// happens shortly after this returns, with a brief read-only window. One call
+// buys one attempt: a cutover that fails a check returns the migration to
+// `verifying` and parks it again, so call this once more to retry.
+func (srv *TablesDB) CutoverMigration(DatabaseId string, MigrationId string)(*models.DatabaseMigration, error) {
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
+	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}/cutover")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.DatabaseMigration{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DatabaseMigration
+	parsed, ok := resp.Result.(models.DatabaseMigration)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -853,7 +1120,10 @@ func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.DedicatedDatabaseOperationList{}.New(bytes)
 
@@ -889,7 +1159,10 @@ func (srv *TablesDB) GetReplicas(DatabaseId string)(*models.DedicatedDatabaseRep
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.DedicatedDatabaseReplicas{}.New(bytes)
 
@@ -926,7 +1199,10 @@ func (srv *TablesDB) GetStatus(DatabaseId string)(*models.DatabaseStatus, error)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.DatabaseStatus{}.New(bytes)
 
@@ -1008,7 +1284,10 @@ func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTables
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.TableList{}.New(bytes)
 
@@ -1117,7 +1396,10 @@ func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string,
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Table{}.New(bytes)
 
@@ -1153,7 +1435,10 @@ func (srv *TablesDB) GetTable(DatabaseId string, TableId string)(*models.Table, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Table{}.New(bytes)
 
@@ -1257,7 +1542,10 @@ func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSett
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Table{}.New(bytes)
 
@@ -1293,7 +1581,10 @@ func (srv *TablesDB) DeleteTable(DatabaseId string, TableId string)(*interface{}
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1362,7 +1653,10 @@ func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSett
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnList{}.New(bytes)
 
@@ -1458,7 +1752,10 @@ func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnBigint{}.New(bytes)
 
@@ -1543,7 +1840,10 @@ func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnBigint{}.New(bytes)
 
@@ -1616,7 +1916,10 @@ func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnBoolean{}.New(bytes)
 
@@ -1679,7 +1982,10 @@ func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnBoolean{}.New(bytes)
 
@@ -1753,7 +2059,10 @@ func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnDatetime{}.New(bytes)
 
@@ -1816,7 +2125,10 @@ func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnDatetime{}.New(bytes)
 
@@ -1889,7 +2201,10 @@ func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key st
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnEmail{}.New(bytes)
 
@@ -1952,7 +2267,10 @@ func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key st
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnEmail{}.New(bytes)
 
@@ -2027,7 +2345,10 @@ func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key str
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnEnum{}.New(bytes)
 
@@ -2091,7 +2412,10 @@ func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key str
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnEnum{}.New(bytes)
 
@@ -2187,7 +2511,10 @@ func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key st
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnFloat{}.New(bytes)
 
@@ -2272,7 +2599,10 @@ func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key st
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnFloat{}.New(bytes)
 
@@ -2368,7 +2698,10 @@ func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnInteger{}.New(bytes)
 
@@ -2453,7 +2786,10 @@ func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnInteger{}.New(bytes)
 
@@ -2526,7 +2862,10 @@ func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key strin
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnIp{}.New(bytes)
 
@@ -2589,7 +2928,10 @@ func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key strin
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnIp{}.New(bytes)
 
@@ -2651,7 +2993,10 @@ func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key str
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnLine{}.New(bytes)
 
@@ -2724,7 +3069,10 @@ func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key str
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnLine{}.New(bytes)
 
@@ -2808,7 +3156,10 @@ func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnLongtext{}.New(bytes)
 
@@ -2871,7 +3222,10 @@ func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnLongtext{}.New(bytes)
 
@@ -2955,7 +3309,10 @@ func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, K
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnMediumtext{}.New(bytes)
 
@@ -3018,7 +3375,10 @@ func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, K
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnMediumtext{}.New(bytes)
 
@@ -3080,7 +3440,10 @@ func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key st
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnPoint{}.New(bytes)
 
@@ -3153,7 +3516,10 @@ func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key st
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnPoint{}.New(bytes)
 
@@ -3215,7 +3581,10 @@ func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnPolygon{}.New(bytes)
 
@@ -3288,7 +3657,10 @@ func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnPolygon{}.New(bytes)
 
@@ -3385,7 +3757,10 @@ func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string,
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnRelationship{}.New(bytes)
 
@@ -3472,7 +3847,10 @@ func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnString{}.New(bytes)
 
@@ -3548,7 +3926,10 @@ func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnString{}.New(bytes)
 
@@ -3632,7 +4013,10 @@ func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key str
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnText{}.New(bytes)
 
@@ -3695,7 +4079,10 @@ func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key str
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnText{}.New(bytes)
 
@@ -3768,7 +4155,10 @@ func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key stri
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnUrl{}.New(bytes)
 
@@ -3831,7 +4221,10 @@ func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key stri
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnUrl{}.New(bytes)
 
@@ -3916,7 +4309,10 @@ func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnVarchar{}.New(bytes)
 
@@ -3990,7 +4386,10 @@ func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnVarchar{}.New(bytes)
 
@@ -4025,7 +4424,10 @@ func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(mo
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var response map[string]interface{}
 		if err := json.Unmarshal(bytes, &response); err != nil {
@@ -4137,7 +4539,10 @@ func (srv *TablesDB) DeleteColumn(DatabaseId string, TableId string, Key string)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -4209,7 +4614,10 @@ func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string,
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnRelationship{}.New(bytes)
 
@@ -4279,7 +4687,10 @@ func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSett
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnIndexList{}.New(bytes)
 
@@ -4355,7 +4766,10 @@ func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnIndex{}.New(bytes)
 
@@ -4390,7 +4804,10 @@ func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string)(*mo
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ColumnIndex{}.New(bytes)
 
@@ -4425,7 +4842,10 @@ func (srv *TablesDB) DeleteIndex(DatabaseId string, TableId string, Key string)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -4517,7 +4937,10 @@ func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.RowList{}.New(bytes)
 
@@ -4593,7 +5016,10 @@ func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Row{}.New(bytes)
 
@@ -4657,7 +5083,10 @@ func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interf
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.RowList{}.New(bytes)
 
@@ -4721,7 +5150,10 @@ func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interf
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.RowList{}.New(bytes)
 
@@ -4805,7 +5237,10 @@ func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSette
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.RowList{}.New(bytes)
 
@@ -4877,7 +5312,10 @@ func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSette
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.RowList{}.New(bytes)
 
@@ -4948,7 +5386,10 @@ func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, opt
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Row{}.New(bytes)
 
@@ -5033,7 +5474,10 @@ func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Row{}.New(bytes)
 
@@ -5116,7 +5560,10 @@ func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Row{}.New(bytes)
 
@@ -5175,7 +5622,10 @@ func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -5256,7 +5706,10 @@ func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Row{}.New(bytes)
 
@@ -5338,7 +5791,10 @@ func (srv *TablesDB) IncrementRowColumn(DatabaseId string, TableId string, RowId
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Row{}.New(bytes)
 

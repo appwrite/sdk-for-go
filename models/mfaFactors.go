@@ -15,6 +15,8 @@ type MfaFactors struct {
     Email bool `json:"email"`
     // Can recovery code be used for MFA challenge for this account.
     RecoveryCode bool `json:"recoveryCode"`
+    // Can custom factor be used for MFA challenge for this account.
+    Custom bool `json:"custom"`
 
     // Used by Decode() method
     data []byte

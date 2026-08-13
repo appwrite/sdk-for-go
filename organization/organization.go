@@ -34,7 +34,10 @@ func (srv *Organization) Get()(*models.Organization, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Organization{}.New(bytes)
 
@@ -70,7 +73,10 @@ func (srv *Organization) Update(Name string)(*models.Organization, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Organization{}.New(bytes)
 
@@ -105,7 +111,10 @@ func (srv *Organization) Delete()(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -174,7 +183,10 @@ func (srv *Organization) ListInstallations(optionalSetters ...ListInstallationsO
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallationList{}.New(bytes)
 
@@ -236,7 +248,10 @@ func (srv *Organization) CreateInstallation(AppId string, optionalSetters ...Cre
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallation{}.New(bytes)
 
@@ -272,7 +287,10 @@ func (srv *Organization) GetInstallation(InstallationId string)(*models.AppInsta
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallation{}.New(bytes)
 
@@ -335,7 +353,10 @@ func (srv *Organization) UpdateInstallation(InstallationId string, optionalSette
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallation{}.New(bytes)
 
@@ -373,7 +394,10 @@ func (srv *Organization) DeleteInstallation(InstallationId string)(*interface{},
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -441,7 +465,10 @@ func (srv *Organization) ListKeys(optionalSetters ...ListKeysOption)(*models.Key
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.KeyList{}.New(bytes)
 
@@ -503,7 +530,10 @@ func (srv *Organization) CreateKey(KeyId string, Name string, Scopes []string, o
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Key{}.New(bytes)
 
@@ -539,7 +569,10 @@ func (srv *Organization) GetKey(KeyId string)(*models.Key, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Key{}.New(bytes)
 
@@ -602,7 +635,10 @@ func (srv *Organization) UpdateKey(KeyId string, Name string, Scopes []string, o
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Key{}.New(bytes)
 
@@ -638,7 +674,10 @@ func (srv *Organization) DeleteKey(KeyId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -718,7 +757,10 @@ func (srv *Organization) ListMemberships(optionalSetters ...ListMembershipsOptio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MembershipList{}.New(bytes)
 
@@ -825,7 +867,10 @@ func (srv *Organization) CreateMembership(Roles []string, optionalSetters ...Cre
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Membership{}.New(bytes)
 
@@ -861,7 +906,10 @@ func (srv *Organization) GetMembership(MembershipId string)(*models.Membership, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Membership{}.New(bytes)
 
@@ -898,7 +946,10 @@ func (srv *Organization) UpdateMembership(MembershipId string, Roles []string)(*
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Membership{}.New(bytes)
 
@@ -935,7 +986,10 @@ func (srv *Organization) DeleteMembership(MembershipId string)(*interface{}, err
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1015,7 +1069,10 @@ func (srv *Organization) ListProjects(optionalSetters ...ListProjectsOption)(*mo
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProjectList{}.New(bytes)
 
@@ -1076,7 +1133,10 @@ func (srv *Organization) CreateProject(ProjectId string, Name string, optionalSe
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -1110,7 +1170,10 @@ func (srv *Organization) GetProject(ProjectId string)(*models.Project, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -1147,7 +1210,10 @@ func (srv *Organization) UpdateProject(ProjectId string, Name string)(*models.Pr
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -1182,7 +1248,10 @@ func (srv *Organization) DeleteProject(ProjectId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 

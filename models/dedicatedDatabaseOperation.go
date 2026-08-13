@@ -27,8 +27,8 @@ type DedicatedDatabaseOperation struct {
     StartedAt string `json:"startedAt"`
     // Time the operation reached a terminal state, in ISO 8601 format.
     CompletedAt string `json:"completedAt"`
-    // Machine-readable failure code. `LockLost` marks an attempt that was fenced
-    // and abandoned because another worker took over the database.
+    // Machine-readable failure code. `Interrupted` marks an attempt that ended
+    // before its outcome could be confirmed.
     ErrorCode string `json:"errorCode"`
     // Failure message if the operation failed.
     ErrorMessage string `json:"errorMessage"`

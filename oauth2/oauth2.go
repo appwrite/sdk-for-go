@@ -75,7 +75,10 @@ func (srv *Oauth2) Approve(GrantId string, optionalSetters ...ApproveOption)(*mo
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2Approve{}.New(bytes)
 
@@ -280,7 +283,10 @@ func (srv *Oauth2) Authorize(optionalSetters ...AuthorizeOption)(*models.Oauth2A
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2Authorize{}.New(bytes)
 
@@ -486,7 +492,10 @@ func (srv *Oauth2) AuthorizePost(optionalSetters ...AuthorizePostOption)(*models
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2Authorize{}.New(bytes)
 
@@ -591,7 +600,10 @@ func (srv *Oauth2) CreateDeviceAuthorization(optionalSetters ...CreateDeviceAuth
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2DeviceAuthorization{}.New(bytes)
 
@@ -630,7 +642,10 @@ func (srv *Oauth2) CreateGrant(UserCode string)(*models.Oauth2Grant, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2Grant{}.New(bytes)
 
@@ -667,7 +682,10 @@ func (srv *Oauth2) GetGrant(GrantId string)(*models.Oauth2Grant, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2Grant{}.New(bytes)
 
@@ -750,7 +768,10 @@ func (srv *Oauth2) ListOrganizations(optionalSetters ...ListOrganizationsOption)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2OrganizationList{}.New(bytes)
 
@@ -912,7 +933,10 @@ func (srv *Oauth2) CreatePAR(ClientId string, RedirectUri string, ResponseType s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2PAR{}.New(bytes)
 
@@ -994,7 +1018,10 @@ func (srv *Oauth2) ListProjects(optionalSetters ...ListProjectsOption)(*models.O
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2ProjectList{}.New(bytes)
 
@@ -1033,7 +1060,10 @@ func (srv *Oauth2) Reject(GrantId string)(*models.Oauth2Reject, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2Reject{}.New(bytes)
 
@@ -1115,7 +1145,10 @@ func (srv *Oauth2) Revoke(Token string, optionalSetters ...RevokeOption)(*interf
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1263,7 +1296,10 @@ func (srv *Oauth2) CreateToken(GrantType string, optionalSetters ...CreateTokenO
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Oauth2Token{}.New(bytes)
 

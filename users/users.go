@@ -81,7 +81,10 @@ func (srv *Users) List(optionalSetters ...ListOption)(*models.UserList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.UserList{}.New(bytes)
 
@@ -174,7 +177,10 @@ func (srv *Users) Create(UserId string, optionalSetters ...CreateOption)(*models
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -239,7 +245,10 @@ func (srv *Users) CreateArgon2User(UserId string, Email string, Password string,
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -304,7 +313,10 @@ func (srv *Users) CreateBcryptUser(UserId string, Email string, Password string,
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -384,7 +396,10 @@ func (srv *Users) ListIdentities(optionalSetters ...ListIdentitiesOption)(*model
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.IdentityList{}.New(bytes)
 
@@ -419,7 +434,10 @@ func (srv *Users) DeleteIdentity(IdentityId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -483,7 +501,10 @@ func (srv *Users) CreateMD5User(UserId string, Email string, Password string, op
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -548,7 +569,10 @@ func (srv *Users) CreatePHPassUser(UserId string, Email string, Password string,
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -618,7 +642,10 @@ func (srv *Users) CreateScryptUser(UserId string, Email string, Password string,
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -688,7 +715,10 @@ func (srv *Users) CreateScryptModifiedUser(UserId string, Email string, Password
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -764,7 +794,10 @@ func (srv *Users) CreateSHAUser(UserId string, Email string, Password string, op
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -799,7 +832,10 @@ func (srv *Users) Get(UserId string)(*models.User, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -839,7 +875,10 @@ func (srv *Users) Delete(UserId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -875,7 +914,10 @@ func (srv *Users) UpdateEmail(UserId string, Email string)(*models.User, error) 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -916,7 +958,10 @@ func (srv *Users) UpdateImpersonator(UserId string, Impersonator bool)(*models.U
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -990,7 +1035,10 @@ func (srv *Users) CreateJWT(UserId string, optionalSetters ...CreateJWTOption)(*
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Jwt{}.New(bytes)
 
@@ -1032,7 +1080,10 @@ func (srv *Users) UpdateLabels(UserId string, Labels []string)(*models.User, err
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -1102,7 +1153,10 @@ func (srv *Users) ListLogs(UserId string, optionalSetters ...ListLogsOption)(*mo
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.LogList{}.New(bytes)
 
@@ -1183,7 +1237,10 @@ func (srv *Users) ListMemberships(UserId string, optionalSetters ...ListMembersh
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MembershipList{}.New(bytes)
 
@@ -1222,7 +1279,10 @@ func (srv *Users) UpdateMfa(UserId string, Mfa bool)(*models.User, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -1259,7 +1319,10 @@ func (srv *Users) UpdateMFA(UserId string, Mfa bool)(*models.User, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -1296,7 +1359,10 @@ func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string)(*interface{
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1330,7 +1396,10 @@ func (srv *Users) DeleteMFAAuthenticator(UserId string, Type string)(*interface{
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1342,6 +1411,45 @@ func (srv *Users) DeleteMFAAuthenticator(UserId string, Type string)(*interface{
 	}
 	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+			
+// GetMFAChallenge get a custom MFA challenge for a user, including the code
+// to be delivered through your own channel.
+func (srv *Users) GetMFAChallenge(UserId string, ChallengeId string)(*models.MfaChallengeSecret, error) {
+	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{challengeId}", client.EncodePath(ChallengeId))
+	path := r.Replace("/users/{userId}/mfa/challenges/{challengeId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.MfaChallengeSecret{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.MfaChallengeSecret
+	parsed, ok := resp.Result.(models.MfaChallengeSecret)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -1367,7 +1475,10 @@ func (srv *Users) ListMfaFactors(UserId string)(*models.MfaFactors, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MfaFactors{}.New(bytes)
 
@@ -1403,7 +1514,10 @@ func (srv *Users) ListMFAFactors(UserId string)(*models.MfaFactors, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MfaFactors{}.New(bytes)
 
@@ -1443,7 +1557,10 @@ func (srv *Users) GetMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes, e
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MfaRecoveryCodes{}.New(bytes)
 
@@ -1481,7 +1598,10 @@ func (srv *Users) GetMFARecoveryCodes(UserId string)(*models.MfaRecoveryCodes, e
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MfaRecoveryCodes{}.New(bytes)
 
@@ -1523,7 +1643,10 @@ func (srv *Users) UpdateMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MfaRecoveryCodes{}.New(bytes)
 
@@ -1563,7 +1686,10 @@ func (srv *Users) UpdateMFARecoveryCodes(UserId string)(*models.MfaRecoveryCodes
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MfaRecoveryCodes{}.New(bytes)
 
@@ -1604,7 +1730,10 @@ func (srv *Users) CreateMfaRecoveryCodes(UserId string)(*models.MfaRecoveryCodes
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MfaRecoveryCodes{}.New(bytes)
 
@@ -1643,7 +1772,10 @@ func (srv *Users) CreateMFARecoveryCodes(UserId string)(*models.MfaRecoveryCodes
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MfaRecoveryCodes{}.New(bytes)
 
@@ -1680,7 +1812,10 @@ func (srv *Users) UpdateName(UserId string, Name string)(*models.User, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -1717,7 +1852,10 @@ func (srv *Users) UpdatePassword(UserId string, Password string)(*models.User, e
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -1754,7 +1892,10 @@ func (srv *Users) UpdatePhone(UserId string, Number string)(*models.User, error)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -1789,7 +1930,10 @@ func (srv *Users) GetPrefs(UserId string)(*models.Preferences, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Preferences{}.New(bytes)
 
@@ -1828,7 +1972,10 @@ func (srv *Users) UpdatePrefs(UserId string, Prefs interface{})(*models.Preferen
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Preferences{}.New(bytes)
 
@@ -1887,7 +2034,10 @@ func (srv *Users) ListSessions(UserId string, optionalSetters ...ListSessionsOpt
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.SessionList{}.New(bytes)
 
@@ -1929,7 +2079,10 @@ func (srv *Users) CreateSession(UserId string)(*models.Session, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Session{}.New(bytes)
 
@@ -1964,7 +2117,10 @@ func (srv *Users) DeleteSessions(UserId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1998,7 +2154,10 @@ func (srv *Users) DeleteSession(UserId string, SessionId string)(*interface{}, e
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -2035,7 +2194,10 @@ func (srv *Users) UpdateStatus(UserId string, Status bool)(*models.User, error) 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -2105,7 +2267,10 @@ func (srv *Users) ListTargets(UserId string, optionalSetters ...ListTargetsOptio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.TargetList{}.New(bytes)
 
@@ -2179,7 +2344,10 @@ func (srv *Users) CreateTarget(UserId string, TargetId string, ProviderType stri
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Target{}.New(bytes)
 
@@ -2214,7 +2382,10 @@ func (srv *Users) GetTarget(UserId string, TargetId string)(*models.Target, erro
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Target{}.New(bytes)
 
@@ -2296,7 +2467,10 @@ func (srv *Users) UpdateTarget(UserId string, TargetId string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Target{}.New(bytes)
 
@@ -2331,7 +2505,10 @@ func (srv *Users) DeleteTarget(UserId string, TargetId string)(*interface{}, err
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -2404,7 +2581,10 @@ func (srv *Users) CreateToken(UserId string, optionalSetters ...CreateTokenOptio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Token{}.New(bytes)
 
@@ -2442,7 +2622,10 @@ func (srv *Users) UpdateEmailVerification(UserId string, EmailVerification bool)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 
@@ -2480,7 +2663,10 @@ func (srv *Users) UpdatePhoneVerification(UserId string, PhoneVerification bool)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.User{}.New(bytes)
 

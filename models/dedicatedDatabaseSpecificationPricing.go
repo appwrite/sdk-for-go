@@ -13,8 +13,6 @@ type DedicatedDatabaseSpecificationPricing struct {
     BandwidthOverageRate float64 `json:"bandwidthOverageRate"`
     // High availability replica price as a fraction of the specification cost.
     ReplicaRate float64 `json:"replicaRate"`
-    // Cross-region replica price as a fraction of the specification cost.
-    CrossRegionReplicaRate float64 `json:"crossRegionReplicaRate"`
     // Point-in-time recovery price as a fraction of the specification cost.
     PitrRate float64 `json:"pitrRate"`
 

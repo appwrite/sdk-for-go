@@ -105,7 +105,6 @@ func TestTablesDB(t *testing.T) {
         "storageOverageRate": 0.125,
         "bandwidthOverageRate": 0.08,
         "replicaRate": 1,
-        "crossRegionReplicaRate": 1,
         "pitrRate": 0.2
     }
 }
@@ -435,7 +434,6 @@ func TestTablesDB(t *testing.T) {
     "nodePool": "db-pool-4vcpu-8gb",
     "replicas": 2,
     "syncMode": "async",
-    "crossRegionReplicas": 1,
     "networkMaxConnections": 500,
     "networkIdleTimeoutSeconds": 900,
     "networkIPAllowlist": [],
@@ -476,6 +474,201 @@ func TestTablesDB(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ListMigrations", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "migrations": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "projectId": "5e5ea5c16897e",
+            "databaseId": "5e5ea5c16897e",
+            "specification": "s-2vcpu-4gb",
+            "phase": "pending",
+            "attempt": 0,
+            "lastError": "string",
+            "lagDocuments": 0,
+            "verifiedAt": "2020-10-15T06:38:00.000+00:00",
+            "cutoverAt": "2020-10-15T06:38:00.000+00:00",
+            "soakUntil": "2020-10-15T06:38:00.000+00:00",
+            "autoCutover": true,
+            "cutoverRequested": true,
+            "paused": true
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListMigrations("<DATABASE_ID>")
+		if err != nil {
+			t.Errorf("Method ListMigrations failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateMigration", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "projectId": "5e5ea5c16897e",
+    "databaseId": "5e5ea5c16897e",
+    "specification": "s-2vcpu-4gb",
+    "phase": "pending",
+    "attempt": 0,
+    "lastError": "string",
+    "lagDocuments": 0,
+    "verifiedAt": "2020-10-15T06:38:00.000+00:00",
+    "cutoverAt": "2020-10-15T06:38:00.000+00:00",
+    "soakUntil": "2020-10-15T06:38:00.000+00:00",
+    "autoCutover": true,
+    "cutoverRequested": true,
+    "paused": true
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateMigration("<DATABASE_ID>", "s-1vcpu-1gb")
+		if err != nil {
+			t.Errorf("Method CreateMigration failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetMigration", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "projectId": "5e5ea5c16897e",
+    "databaseId": "5e5ea5c16897e",
+    "specification": "s-2vcpu-4gb",
+    "phase": "pending",
+    "attempt": 0,
+    "lastError": "string",
+    "lagDocuments": 0,
+    "verifiedAt": "2020-10-15T06:38:00.000+00:00",
+    "cutoverAt": "2020-10-15T06:38:00.000+00:00",
+    "soakUntil": "2020-10-15T06:38:00.000+00:00",
+    "autoCutover": true,
+    "cutoverRequested": true,
+    "paused": true
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetMigration("<DATABASE_ID>", "<MIGRATION_ID>")
+		if err != nil {
+			t.Errorf("Method GetMigration failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteMigration", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteMigration("<DATABASE_ID>", "<MIGRATION_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteMigration failed: %v", err)
+		}
+	})
+
+	t.Run("Test CutoverMigration", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "projectId": "5e5ea5c16897e",
+    "databaseId": "5e5ea5c16897e",
+    "specification": "s-2vcpu-4gb",
+    "phase": "pending",
+    "attempt": 0,
+    "lastError": "string",
+    "lagDocuments": 0,
+    "verifiedAt": "2020-10-15T06:38:00.000+00:00",
+    "cutoverAt": "2020-10-15T06:38:00.000+00:00",
+    "soakUntil": "2020-10-15T06:38:00.000+00:00",
+    "autoCutover": true,
+    "cutoverRequested": true,
+    "paused": true
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CutoverMigration("<DATABASE_ID>", "<MIGRATION_ID>")
+		if err != nil {
+			t.Errorf("Method CutoverMigration failed: %v", err)
+		}
+	})
+
 	t.Run("Test ListOperations", func(t *testing.T) {
 		mockResponse := `
 {
@@ -488,7 +681,7 @@ func TestTablesDB(t *testing.T) {
             "type": "update",
             "status": "completed",
             "attempts": 1,
-            "errorCode": "LockLost",
+            "errorCode": "Interrupted",
             "errorMessage": "string"
         }
     ]
@@ -522,7 +715,6 @@ func TestTablesDB(t *testing.T) {
     "syncDegraded": true,
     "syncAcknowledgements": 1,
     "syncStandbyCount": 2,
-    "syncStateConfirmed": true,
     "members": [
         {
             "$id": "1",
@@ -568,7 +760,6 @@ func TestTablesDB(t *testing.T) {
     "syncDegraded": true,
     "syncAcknowledgements": 1,
     "syncStandbyCount": 2,
-    "syncStateConfirmed": true,
     "replicas": [
         {
             "index": 0,

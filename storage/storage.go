@@ -83,7 +83,10 @@ func (srv *Storage) ListBuckets(optionalSetters ...ListBucketsOption)(*models.Bu
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BucketList{}.New(bytes)
 
@@ -232,7 +235,10 @@ func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Bucket{}.New(bytes)
 
@@ -268,7 +274,10 @@ func (srv *Storage) GetBucket(BucketId string)(*models.Bucket, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Bucket{}.New(bytes)
 
@@ -417,7 +426,10 @@ func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Bucket{}.New(bytes)
 
@@ -452,7 +464,10 @@ func (srv *Storage) DeleteBucket(BucketId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -533,7 +548,10 @@ func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOptio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.FileList{}.New(bytes)
 
@@ -628,8 +646,12 @@ func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFi
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 		var parsed models.File
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -660,7 +682,10 @@ func (srv *Storage) GetFile(BucketId string, FileId string)(*models.File, error)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.File{}.New(bytes)
 
@@ -732,7 +757,10 @@ func (srv *Storage) UpdateFile(BucketId string, FileId string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.File{}.New(bytes)
 
@@ -768,7 +796,10 @@ func (srv *Storage) DeleteFile(BucketId string, FileId string)(*interface{}, err
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -828,7 +859,10 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSett
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -1034,7 +1068,10 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -1152,7 +1189,10 @@ func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 

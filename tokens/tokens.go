@@ -71,7 +71,10 @@ func (srv *Tokens) List(BucketId string, FileId string, optionalSetters ...ListO
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ResourceTokenList{}.New(bytes)
 
@@ -132,7 +135,10 @@ func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSette
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ResourceToken{}.New(bytes)
 
@@ -167,7 +173,10 @@ func (srv *Tokens) Get(TokenId string)(*models.ResourceToken, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ResourceToken{}.New(bytes)
 
@@ -228,7 +237,10 @@ func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption)(*mode
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ResourceToken{}.New(bytes)
 
@@ -263,7 +275,10 @@ func (srv *Tokens) Delete(TokenId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 

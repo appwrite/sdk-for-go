@@ -1,5 +1,21 @@
 # Change Log
 
+## v6.5.0
+
+* Breaking: Removed `CrossRegionReplicas` from `DedicatedDatabase`, as cross-region replication was withdrawn
+* Breaking: Removed `CrossRegionReplicaRate` from `DedicatedDatabaseSpecificationPricing`
+* Breaking: `ClientResponse.Result` holds `[]byte` for JSON responses, not `string`; read it with `client.ResponseBody`
+* Added: `TablesDB` migration methods `CreateMigration`, `ListMigrations`, `GetMigration`, `CutoverMigration`, `DeleteMigration`
+* Added: `DatabaseMigration` and `DatabaseMigrationList` models
+* Added: `Project.UpdateMFAFactorsPolicy` with `Totp`, `Email`, `Phone`, and `Custom` options
+* Added: `PolicyMfaFactors` model, returned by `Project.GetPolicy` for `mfa-factors`
+* Added: `InstallationScopes` option to `Project.UpdateOAuth2Server`
+* Added: `OAuth2ServerInstallationScopes` field to the `Project` model
+* Added: `Users.GetMFAChallenge` and the `MfaChallengeSecret` model
+* Added: `Custom` field to `MfaFactors`
+* Added: `client.ResponseBody` helper for reading a response body of either type
+* Fixed: responses no longer panic when the body is not a string
+
 ## v6.4.0
 
 * Fixed: path parameters are percent-encoded, so an id containing `/`, `&`, or `?` stays in its segment

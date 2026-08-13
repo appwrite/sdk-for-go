@@ -70,7 +70,10 @@ func (srv *Advisor) ListReports(optionalSetters ...ListReportsOption)(*models.Re
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ReportList{}.New(bytes)
 
@@ -106,7 +109,10 @@ func (srv *Advisor) GetReport(ReportId string)(*models.Report, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Report{}.New(bytes)
 
@@ -142,7 +148,10 @@ func (srv *Advisor) DeleteReport(ReportId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -212,7 +221,10 @@ func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsight
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.InsightList{}.New(bytes)
 
@@ -247,7 +259,10 @@ func (srv *Advisor) GetInsight(ReportId string, InsightId string)(*models.Insigh
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Insight{}.New(bytes)
 

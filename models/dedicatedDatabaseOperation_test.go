@@ -6,7 +6,7 @@ import (
 )
 
 func TestDedicatedDatabaseOperationModel(t *testing.T) {
-    model := DedicatedDatabaseOperation{        Id: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        DatabaseId: "5e5ea5c16897e",        Type: "update",        Status: "completed",        Attempts: 1,        ErrorCode: "LockLost",        ErrorMessage: "string",    }
+    model := DedicatedDatabaseOperation{        Id: "5e5ea5c16897e",        CreatedAt: "2020-10-15T06:38:00.000+00:00",        DatabaseId: "5e5ea5c16897e",        Type: "update",        Status: "completed",        Attempts: 1,        ErrorCode: "Interrupted",        ErrorMessage: "string",    }
 
     data, err := json.Marshal(model)
     if err != nil {

@@ -58,7 +58,10 @@ func (srv *Backups) ListArchives(optionalSetters ...ListArchivesOption)(*models.
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupArchiveList{}.New(bytes)
 
@@ -118,7 +121,10 @@ func (srv *Backups) CreateArchive(Services []string, optionalSetters ...CreateAr
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupArchive{}.New(bytes)
 
@@ -153,7 +159,10 @@ func (srv *Backups) GetArchive(ArchiveId string)(*models.BackupArchive, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupArchive{}.New(bytes)
 
@@ -189,7 +198,10 @@ func (srv *Backups) DeleteArchive(ArchiveId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -246,7 +258,10 @@ func (srv *Backups) ListPolicies(optionalSetters ...ListPoliciesOption)(*models.
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupPolicyList{}.New(bytes)
 
@@ -331,7 +346,10 @@ func (srv *Backups) CreatePolicy(PolicyId string, Services []string, Retention i
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupPolicy{}.New(bytes)
 
@@ -366,7 +384,10 @@ func (srv *Backups) GetPolicy(PolicyId string)(*models.BackupPolicy, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupPolicy{}.New(bytes)
 
@@ -459,7 +480,10 @@ func (srv *Backups) UpdatePolicy(PolicyId string, optionalSetters ...UpdatePolic
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupPolicy{}.New(bytes)
 
@@ -495,7 +519,10 @@ func (srv *Backups) DeletePolicy(PolicyId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -597,7 +624,10 @@ func (srv *Backups) CreateRestoration(ArchiveId string, Services []string, optio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupRestoration{}.New(bytes)
 
@@ -655,7 +685,10 @@ func (srv *Backups) ListRestorations(optionalSetters ...ListRestorationsOption)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupRestorationList{}.New(bytes)
 
@@ -690,7 +723,10 @@ func (srv *Backups) GetRestoration(RestorationId string)(*models.BackupRestorati
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.BackupRestoration{}.New(bytes)
 

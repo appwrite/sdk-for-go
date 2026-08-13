@@ -77,9 +77,6 @@ type DedicatedDatabase struct {
     Replicas int `json:"replicas"`
     // Replication sync mode: async, sync, or quorum.
     SyncMode string `json:"syncMode"`
-    // Number of cross-region replicas. Cross-region availability is enabled when
-    // greater than 0.
-    CrossRegionReplicas int `json:"crossRegionReplicas"`
     // Maximum concurrent client connections. This is the limit a client pool may
     // reach; the engine's own max_connections reported by the status endpoint is
     // a smaller backend limit the pooler multiplexes onto and does not constrain

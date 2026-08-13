@@ -70,7 +70,10 @@ func (srv *Webhooks) List(optionalSetters ...ListOption)(*models.WebhookList, er
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.WebhookList{}.New(bytes)
 
@@ -178,7 +181,10 @@ func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Webhook{}.New(bytes)
 
@@ -214,7 +220,10 @@ func (srv *Webhooks) Get(WebhookId string)(*models.Webhook, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Webhook{}.New(bytes)
 
@@ -311,7 +320,10 @@ func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Webhook{}.New(bytes)
 
@@ -347,7 +359,10 @@ func (srv *Webhooks) Delete(WebhookId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -408,7 +423,10 @@ func (srv *Webhooks) UpdateSecret(WebhookId string, optionalSetters ...UpdateSec
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Webhook{}.New(bytes)
 
