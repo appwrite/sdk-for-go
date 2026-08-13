@@ -31,5 +31,6 @@ response, error := service.UpdateOAuth2Server(
     project.WithUpdateOAuth2ServerUserCodeFormat("numeric"),
     project.WithUpdateOAuth2ServerDeviceCodeDuration(60),
     project.WithUpdateOAuth2ServerDefaultScopes([]string{}),
+    project.WithUpdateOAuth2ServerInstallationScopes([]string{}),
 )
 ```

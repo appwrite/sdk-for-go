@@ -83,7 +83,10 @@ func (srv *Sites) List(optionalSetters ...ListOption)(*models.SiteList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.SiteList{}.New(bytes)
 
@@ -344,7 +347,10 @@ func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRunt
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Site{}.New(bytes)
 
@@ -379,7 +385,10 @@ func (srv *Sites) ListFrameworks()(*models.FrameworkList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.FrameworkList{}.New(bytes)
 
@@ -437,7 +446,10 @@ func (srv *Sites) ListSpecifications(optionalSetters ...ListSpecificationsOption
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.SpecificationList{}.New(bytes)
 
@@ -472,7 +484,10 @@ func (srv *Sites) Get(SiteId string)(*models.Site, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Site{}.New(bytes)
 
@@ -743,7 +758,10 @@ func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalS
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Site{}.New(bytes)
 
@@ -778,7 +796,10 @@ func (srv *Sites) Delete(SiteId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -816,7 +837,10 @@ func (srv *Sites) UpdateSiteDeployment(SiteId string, DeploymentId string)(*mode
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Site{}.New(bytes)
 
@@ -898,7 +922,10 @@ func (srv *Sites) ListDeployments(SiteId string, optionalSetters ...ListDeployme
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.DeploymentList{}.New(bytes)
 
@@ -1000,8 +1027,12 @@ func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, optionalS
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 		var parsed models.Deployment
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1038,7 +1069,10 @@ func (srv *Sites) CreateDuplicateDeployment(SiteId string, DeploymentId string)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1107,7 +1141,10 @@ func (srv *Sites) CreateTemplateDeployment(SiteId string, Repository string, Own
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1171,7 +1208,10 @@ func (srv *Sites) CreateVcsDeployment(SiteId string, Type string, Reference stri
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1206,7 +1246,10 @@ func (srv *Sites) GetDeployment(SiteId string, DeploymentId string)(*models.Depl
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1241,7 +1284,10 @@ func (srv *Sites) DeleteDeployment(SiteId string, DeploymentId string)(*interfac
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1313,7 +1359,10 @@ func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, opti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -1380,7 +1429,10 @@ func (srv *Sites) UpdateDeploymentStatus(SiteId string, DeploymentId string)(*mo
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1451,7 +1503,10 @@ func (srv *Sites) ListLogs(SiteId string, optionalSetters ...ListLogsOption)(*mo
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ExecutionList{}.New(bytes)
 
@@ -1486,7 +1541,10 @@ func (srv *Sites) GetLog(SiteId string, LogId string)(*models.Execution, error) 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Execution{}.New(bytes)
 
@@ -1522,7 +1580,10 @@ func (srv *Sites) DeleteLog(SiteId string, LogId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1591,7 +1652,10 @@ func (srv *Sites) ListVariables(SiteId string, optionalSetters ...ListVariablesO
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.VariableList{}.New(bytes)
 
@@ -1655,7 +1719,10 @@ func (srv *Sites) CreateVariable(SiteId string, VariableId string, Key string, V
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Variable{}.New(bytes)
 
@@ -1690,7 +1757,10 @@ func (srv *Sites) GetVariable(SiteId string, VariableId string)(*models.Variable
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Variable{}.New(bytes)
 
@@ -1772,7 +1842,10 @@ func (srv *Sites) UpdateVariable(SiteId string, VariableId string, optionalSette
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Variable{}.New(bytes)
 
@@ -1807,7 +1880,10 @@ func (srv *Sites) DeleteVariable(SiteId string, VariableId string)(*interface{},
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 

@@ -34,7 +34,10 @@ func (srv *Project) Get()(*models.Project, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -68,7 +71,10 @@ func (srv *Project) Delete()(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -105,7 +111,10 @@ func (srv *Project) UpdateAuthMethod(MethodId string, Enabled bool)(*models.Proj
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -174,7 +183,10 @@ func (srv *Project) ListKeys(optionalSetters ...ListKeysOption)(*models.KeyList,
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.KeyList{}.New(bytes)
 
@@ -240,7 +252,10 @@ func (srv *Project) CreateKey(KeyId string, Name string, Scopes []string, option
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Key{}.New(bytes)
 
@@ -282,7 +297,10 @@ func (srv *Project) CreateEphemeralKey(Scopes []string, Duration int)(*models.Ep
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.EphemeralKey{}.New(bytes)
 
@@ -317,7 +335,10 @@ func (srv *Project) GetKey(KeyId string)(*models.Key, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Key{}.New(bytes)
 
@@ -380,7 +401,10 @@ func (srv *Project) UpdateKey(KeyId string, Name string, Scopes []string, option
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Key{}.New(bytes)
 
@@ -416,7 +440,10 @@ func (srv *Project) DeleteKey(KeyId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -452,7 +479,10 @@ func (srv *Project) UpdateLabels(Labels []string)(*models.Project, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -522,7 +552,10 @@ func (srv *Project) ListMockPhones(optionalSetters ...ListMockPhonesOption)(*mod
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MockNumberList{}.New(bytes)
 
@@ -560,7 +593,10 @@ func (srv *Project) CreateMockPhone(Number string, Otp string)(*models.MockNumbe
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MockNumber{}.New(bytes)
 
@@ -596,7 +632,10 @@ func (srv *Project) GetMockPhone(Number string)(*models.MockNumber, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MockNumber{}.New(bytes)
 
@@ -634,7 +673,10 @@ func (srv *Project) UpdateMockPhone(Number string, Otp string)(*models.MockNumbe
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MockNumber{}.New(bytes)
 
@@ -670,7 +712,10 @@ func (srv *Project) DeleteMockPhone(Number string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -740,7 +785,10 @@ func (srv *Project) ListOAuth2Providers(optionalSetters ...ListOAuth2ProvidersOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2ProviderList{}.New(bytes)
 
@@ -773,6 +821,7 @@ type UpdateOAuth2ServerOptions struct {
 	UserCodeFormat string
 	DeviceCodeDuration int
 	DefaultScopes []string
+	InstallationScopes []string
 	enabledSetters map[string]bool
 }
 func (options UpdateOAuth2ServerOptions) New() *UpdateOAuth2ServerOptions {
@@ -790,6 +839,7 @@ func (options UpdateOAuth2ServerOptions) New() *UpdateOAuth2ServerOptions {
 		"UserCodeFormat": false,
 		"DeviceCodeDuration": false,
 		"DefaultScopes": false,
+		"InstallationScopes": false,
 	}
 	return &options
 }
@@ -872,6 +922,12 @@ func (srv *Project) WithUpdateOAuth2ServerDefaultScopes(v []string) UpdateOAuth2
 		o.enabledSetters["DefaultScopes"] = true
 	}
 }
+func (srv *Project) WithUpdateOAuth2ServerInstallationScopes(v []string) UpdateOAuth2ServerOption {
+	return func(o *UpdateOAuth2ServerOptions) {
+		o.InstallationScopes = v
+		o.enabledSetters["InstallationScopes"] = true
+	}
+}
 					
 // UpdateOAuth2Server update the OAuth2 server (OIDC provider) configuration.
 func (srv *Project) UpdateOAuth2Server(Enabled bool, AuthorizationUrl string, optionalSetters ...UpdateOAuth2ServerOption)(*models.Project, error) {
@@ -922,6 +978,9 @@ func (srv *Project) UpdateOAuth2Server(Enabled bool, AuthorizationUrl string, op
 	if options.enabledSetters["DefaultScopes"] {
 		params["defaultScopes"] = options.DefaultScopes
 	}
+	if options.enabledSetters["InstallationScopes"] {
+		params["installationScopes"] = options.InstallationScopes
+	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
 		"content-type": "application/json",
@@ -933,7 +992,10 @@ func (srv *Project) UpdateOAuth2Server(Enabled bool, AuthorizationUrl string, op
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -1014,7 +1076,10 @@ func (srv *Project) UpdateOAuth2Amazon(optionalSetters ...UpdateOAuth2AmazonOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Amazon{}.New(bytes)
 
@@ -1117,7 +1182,10 @@ func (srv *Project) UpdateOAuth2Apple(optionalSetters ...UpdateOAuth2AppleOption
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Apple{}.New(bytes)
 
@@ -1198,7 +1266,10 @@ func (srv *Project) UpdateOAuth2Appwrite(optionalSetters ...UpdateOAuth2Appwrite
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Appwrite{}.New(bytes)
 
@@ -1290,7 +1361,10 @@ func (srv *Project) UpdateOAuth2Auth0(optionalSetters ...UpdateOAuth2Auth0Option
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Auth0{}.New(bytes)
 
@@ -1382,7 +1456,10 @@ func (srv *Project) UpdateOAuth2Authentik(optionalSetters ...UpdateOAuth2Authent
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Authentik{}.New(bytes)
 
@@ -1463,7 +1540,10 @@ func (srv *Project) UpdateOAuth2Autodesk(optionalSetters ...UpdateOAuth2Autodesk
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Autodesk{}.New(bytes)
 
@@ -1544,7 +1624,10 @@ func (srv *Project) UpdateOAuth2Bitbucket(optionalSetters ...UpdateOAuth2Bitbuck
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Bitbucket{}.New(bytes)
 
@@ -1625,7 +1708,10 @@ func (srv *Project) UpdateOAuth2Bitly(optionalSetters ...UpdateOAuth2BitlyOption
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Bitly{}.New(bytes)
 
@@ -1706,7 +1792,10 @@ func (srv *Project) UpdateOAuth2Box(optionalSetters ...UpdateOAuth2BoxOption)(*m
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Box{}.New(bytes)
 
@@ -1788,7 +1877,10 @@ func (srv *Project) UpdateOAuth2Dailymotion(optionalSetters ...UpdateOAuth2Daily
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Dailymotion{}.New(bytes)
 
@@ -1869,7 +1961,10 @@ func (srv *Project) UpdateOAuth2Discord(optionalSetters ...UpdateOAuth2DiscordOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Discord{}.New(bytes)
 
@@ -1950,7 +2045,10 @@ func (srv *Project) UpdateOAuth2Disqus(optionalSetters ...UpdateOAuth2DisqusOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Disqus{}.New(bytes)
 
@@ -2031,7 +2129,10 @@ func (srv *Project) UpdateOAuth2Dropbox(optionalSetters ...UpdateOAuth2DropboxOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Dropbox{}.New(bytes)
 
@@ -2112,7 +2213,10 @@ func (srv *Project) UpdateOAuth2Etsy(optionalSetters ...UpdateOAuth2EtsyOption)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Etsy{}.New(bytes)
 
@@ -2193,7 +2297,10 @@ func (srv *Project) UpdateOAuth2Facebook(optionalSetters ...UpdateOAuth2Facebook
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Facebook{}.New(bytes)
 
@@ -2274,7 +2381,10 @@ func (srv *Project) UpdateOAuth2Figma(optionalSetters ...UpdateOAuth2FigmaOption
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Figma{}.New(bytes)
 
@@ -2366,7 +2476,10 @@ func (srv *Project) UpdateOAuth2FusionAuth(optionalSetters ...UpdateOAuth2Fusion
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2FusionAuth{}.New(bytes)
 
@@ -2447,7 +2560,10 @@ func (srv *Project) UpdateOAuth2GitHub(optionalSetters ...UpdateOAuth2GitHubOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Github{}.New(bytes)
 
@@ -2539,7 +2655,10 @@ func (srv *Project) UpdateOAuth2Gitlab(optionalSetters ...UpdateOAuth2GitlabOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Gitlab{}.New(bytes)
 
@@ -2631,7 +2750,10 @@ func (srv *Project) UpdateOAuth2Google(optionalSetters ...UpdateOAuth2GoogleOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Google{}.New(bytes)
 
@@ -2734,7 +2856,10 @@ func (srv *Project) UpdateOAuth2Keycloak(optionalSetters ...UpdateOAuth2Keycloak
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Keycloak{}.New(bytes)
 
@@ -2815,7 +2940,10 @@ func (srv *Project) UpdateOAuth2Kick(optionalSetters ...UpdateOAuth2KickOption)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Kick{}.New(bytes)
 
@@ -2896,7 +3024,10 @@ func (srv *Project) UpdateOAuth2Linkedin(optionalSetters ...UpdateOAuth2Linkedin
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Linkedin{}.New(bytes)
 
@@ -2988,7 +3119,10 @@ func (srv *Project) UpdateOAuth2Microsoft(optionalSetters ...UpdateOAuth2Microso
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Microsoft{}.New(bytes)
 
@@ -3069,7 +3203,10 @@ func (srv *Project) UpdateOAuth2Notion(optionalSetters ...UpdateOAuth2NotionOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Notion{}.New(bytes)
 
@@ -3216,7 +3353,10 @@ func (srv *Project) UpdateOAuth2Oidc(optionalSetters ...UpdateOAuth2OidcOption)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Oidc{}.New(bytes)
 
@@ -3319,7 +3459,10 @@ func (srv *Project) UpdateOAuth2Okta(optionalSetters ...UpdateOAuth2OktaOption)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Okta{}.New(bytes)
 
@@ -3400,7 +3543,10 @@ func (srv *Project) UpdateOAuth2Paypal(optionalSetters ...UpdateOAuth2PaypalOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Paypal{}.New(bytes)
 
@@ -3482,7 +3628,10 @@ func (srv *Project) UpdateOAuth2PaypalSandbox(optionalSetters ...UpdateOAuth2Pay
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Paypal{}.New(bytes)
 
@@ -3563,7 +3712,10 @@ func (srv *Project) UpdateOAuth2Podio(optionalSetters ...UpdateOAuth2PodioOption
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Podio{}.New(bytes)
 
@@ -3644,7 +3796,10 @@ func (srv *Project) UpdateOAuth2Salesforce(optionalSetters ...UpdateOAuth2Salesf
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Salesforce{}.New(bytes)
 
@@ -3725,7 +3880,10 @@ func (srv *Project) UpdateOAuth2Slack(optionalSetters ...UpdateOAuth2SlackOption
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Slack{}.New(bytes)
 
@@ -3806,7 +3964,10 @@ func (srv *Project) UpdateOAuth2Spotify(optionalSetters ...UpdateOAuth2SpotifyOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Spotify{}.New(bytes)
 
@@ -3887,7 +4048,10 @@ func (srv *Project) UpdateOAuth2Stripe(optionalSetters ...UpdateOAuth2StripeOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Stripe{}.New(bytes)
 
@@ -3968,7 +4132,10 @@ func (srv *Project) UpdateOAuth2Tradeshift(optionalSetters ...UpdateOAuth2Trades
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Tradeshift{}.New(bytes)
 
@@ -4050,7 +4217,10 @@ func (srv *Project) UpdateOAuth2TradeshiftSandbox(optionalSetters ...UpdateOAuth
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Tradeshift{}.New(bytes)
 
@@ -4131,7 +4301,10 @@ func (srv *Project) UpdateOAuth2Twitch(optionalSetters ...UpdateOAuth2TwitchOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Twitch{}.New(bytes)
 
@@ -4212,7 +4385,10 @@ func (srv *Project) UpdateOAuth2WordPress(optionalSetters ...UpdateOAuth2WordPre
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2WordPress{}.New(bytes)
 
@@ -4293,7 +4469,10 @@ func (srv *Project) UpdateOAuth2X(optionalSetters ...UpdateOAuth2XOption)(*model
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2X{}.New(bytes)
 
@@ -4374,7 +4553,10 @@ func (srv *Project) UpdateOAuth2Yahoo(optionalSetters ...UpdateOAuth2YahooOption
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Yahoo{}.New(bytes)
 
@@ -4455,7 +4637,10 @@ func (srv *Project) UpdateOAuth2Yandex(optionalSetters ...UpdateOAuth2YandexOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Yandex{}.New(bytes)
 
@@ -4536,7 +4721,10 @@ func (srv *Project) UpdateOAuth2Zoho(optionalSetters ...UpdateOAuth2ZohoOption)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Zoho{}.New(bytes)
 
@@ -4617,7 +4805,10 @@ func (srv *Project) UpdateOAuth2Zoom(optionalSetters ...UpdateOAuth2ZoomOption)(
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.OAuth2Zoom{}.New(bytes)
 
@@ -4654,7 +4845,10 @@ func (srv *Project) GetOAuth2Provider(ProviderId string)(models.Model, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var response map[string]interface{}
 		if err := json.Unmarshal(bytes, &response); err != nil {
@@ -5041,7 +5235,10 @@ func (srv *Project) ListPlatforms(optionalSetters ...ListPlatformsOption)(*model
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformList{}.New(bytes)
 
@@ -5081,7 +5278,10 @@ func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, Applic
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformAndroid{}.New(bytes)
 
@@ -5120,7 +5320,10 @@ func (srv *Project) UpdateAndroidPlatform(PlatformId string, Name string, Applic
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformAndroid{}.New(bytes)
 
@@ -5160,7 +5363,10 @@ func (srv *Project) CreateApplePlatform(PlatformId string, Name string, BundleId
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformApple{}.New(bytes)
 
@@ -5199,7 +5405,10 @@ func (srv *Project) UpdateApplePlatform(PlatformId string, Name string, BundleId
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformApple{}.New(bytes)
 
@@ -5239,7 +5448,10 @@ func (srv *Project) CreateLinuxPlatform(PlatformId string, Name string, PackageN
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformLinux{}.New(bytes)
 
@@ -5278,7 +5490,10 @@ func (srv *Project) UpdateLinuxPlatform(PlatformId string, Name string, PackageN
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformLinux{}.New(bytes)
 
@@ -5318,7 +5533,10 @@ func (srv *Project) CreateWebPlatform(PlatformId string, Name string, Hostname s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformWeb{}.New(bytes)
 
@@ -5357,7 +5575,10 @@ func (srv *Project) UpdateWebPlatform(PlatformId string, Name string, Hostname s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformWeb{}.New(bytes)
 
@@ -5397,7 +5618,10 @@ func (srv *Project) CreateWindowsPlatform(PlatformId string, Name string, Packag
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformWindows{}.New(bytes)
 
@@ -5436,7 +5660,10 @@ func (srv *Project) UpdateWindowsPlatform(PlatformId string, Name string, Packag
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PlatformWindows{}.New(bytes)
 
@@ -5472,7 +5699,10 @@ func (srv *Project) GetPlatform(PlatformId string)(models.Model, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var response map[string]interface{}
 		if err := json.Unmarshal(bytes, &response); err != nil {
@@ -5545,7 +5775,10 @@ func (srv *Project) DeletePlatform(PlatformId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -5614,7 +5847,10 @@ func (srv *Project) ListPolicies(optionalSetters ...ListPoliciesOption)(*models.
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PolicyList{}.New(bytes)
 
@@ -5652,7 +5888,10 @@ func (srv *Project) UpdateDenyAliasedEmailPolicy(Enabled bool)(*models.Project, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -5690,7 +5929,10 @@ func (srv *Project) UpdateDenyCorporateEmailPolicy(Enabled bool)(*models.Project
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -5727,7 +5969,10 @@ func (srv *Project) UpdateDenyDisposableEmailPolicy(Enabled bool)(*models.Projec
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -5764,7 +6009,10 @@ func (srv *Project) UpdateDenyFreeEmailPolicy(Enabled bool)(*models.Project, err
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -5881,7 +6129,110 @@ func (srv *Project) UpdateMembershipPrivacyPolicy(optionalSetters ...UpdateMembe
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+type UpdateMFAFactorsPolicyOptions struct {
+	Totp bool
+	Email bool
+	Phone bool
+	Custom bool
+	enabledSetters map[string]bool
+}
+func (options UpdateMFAFactorsPolicyOptions) New() *UpdateMFAFactorsPolicyOptions {
+	options.enabledSetters = map[string]bool{
+		"Totp": false,
+		"Email": false,
+		"Phone": false,
+		"Custom": false,
+	}
+	return &options
+}
+type UpdateMFAFactorsPolicyOption func(*UpdateMFAFactorsPolicyOptions)
+func (srv *Project) WithUpdateMFAFactorsPolicyTotp(v bool) UpdateMFAFactorsPolicyOption {
+	return func(o *UpdateMFAFactorsPolicyOptions) {
+		o.Totp = v
+		o.enabledSetters["Totp"] = true
+	}
+}
+func (srv *Project) WithUpdateMFAFactorsPolicyEmail(v bool) UpdateMFAFactorsPolicyOption {
+	return func(o *UpdateMFAFactorsPolicyOptions) {
+		o.Email = v
+		o.enabledSetters["Email"] = true
+	}
+}
+func (srv *Project) WithUpdateMFAFactorsPolicyPhone(v bool) UpdateMFAFactorsPolicyOption {
+	return func(o *UpdateMFAFactorsPolicyOptions) {
+		o.Phone = v
+		o.enabledSetters["Phone"] = true
+	}
+}
+func (srv *Project) WithUpdateMFAFactorsPolicyCustom(v bool) UpdateMFAFactorsPolicyOption {
+	return func(o *UpdateMFAFactorsPolicyOptions) {
+		o.Custom = v
+		o.enabledSetters["Custom"] = true
+	}
+}
+	
+// UpdateMFAFactorsPolicy updating this policy allows you to control which
+// factors users can use to complete an MFA challenge. Disabled factors cannot
+// be used to create a challenge and are reported as unavailable when listing
+// factors. The custom factor is disabled by default; enable it to deliver
+// challenge codes through your own channel. Recovery codes always remain
+// available as a fallback.
+func (srv *Project) UpdateMFAFactorsPolicy(optionalSetters ...UpdateMFAFactorsPolicyOption)(*models.Project, error) {
+	path := "/project/policies/mfa-factors"
+	options := UpdateMFAFactorsPolicyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Totp"] {
+		params["totp"] = options.Totp
+	}
+	if options.enabledSetters["Email"] {
+		params["email"] = options.Email
+	}
+	if options.enabledSetters["Phone"] {
+		params["phone"] = options.Phone
+	}
+	if options.enabledSetters["Custom"] {
+		params["custom"] = options.Custom
+	}
+	headers := map[string]interface{}{
+		"X-Appwrite-Project": srv.client.Config["project"],
+		"content-type": "application/json",
+		"accept": "application/json",
+	}
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -5920,7 +6271,10 @@ func (srv *Project) UpdatePasswordDictionaryPolicy(Enabled bool)(*models.Project
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -5965,7 +6319,10 @@ func (srv *Project) UpdatePasswordHistoryPolicy(Total int)(*models.Project, erro
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6004,7 +6361,10 @@ func (srv *Project) UpdatePasswordPersonalDataPolicy(Enabled bool)(*models.Proje
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6108,7 +6468,10 @@ func (srv *Project) UpdatePasswordStrengthPolicy(optionalSetters ...UpdatePasswo
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.PolicyPasswordStrength{}.New(bytes)
 
@@ -6148,7 +6511,10 @@ func (srv *Project) UpdateSessionAlertPolicy(Enabled bool)(*models.Project, erro
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6185,7 +6551,10 @@ func (srv *Project) UpdateSessionDurationPolicy(Duration int)(*models.Project, e
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6224,7 +6593,10 @@ func (srv *Project) UpdateSessionInvalidationPolicy(Enabled bool)(*models.Projec
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6262,7 +6634,10 @@ func (srv *Project) UpdateSessionLimitPolicy(Total int)(*models.Project, error) 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6300,7 +6675,10 @@ func (srv *Project) UpdateUserLimitPolicy(Total int)(*models.Project, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6336,7 +6714,10 @@ func (srv *Project) GetPolicy(PolicyId string)(models.Model, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var response map[string]interface{}
 		if err := json.Unmarshal(bytes, &response); err != nil {
@@ -6422,6 +6803,14 @@ func (srv *Project) GetPolicy(PolicyId string)(models.Model, error) {
 
 			return parsed, nil
 		}
+		if fmt.Sprint(response["$id"]) == "mfa-factors" {
+			parsed := models.PolicyMfaFactors{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
 		if fmt.Sprint(response["$id"]) == "deny-aliased-email" {
 			parsed := models.PolicyDenyAliasedEmail{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
@@ -6483,7 +6872,10 @@ func (srv *Project) UpdateProtocol(ProtocolId string, Enabled bool)(*models.Proj
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6521,7 +6913,10 @@ func (srv *Project) UpdateService(ServiceId string, Enabled bool)(*models.Projec
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6681,7 +7076,10 @@ func (srv *Project) UpdateSMTP(optionalSetters ...UpdateSMTPOption)(*models.Proj
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Project{}.New(bytes)
 
@@ -6716,7 +7114,10 @@ func (srv *Project) CreateSMTPTest(Emails []string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -6786,7 +7187,10 @@ func (srv *Project) ListEmailTemplates(optionalSetters ...ListEmailTemplatesOpti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.EmailTemplateList{}.New(bytes)
 
@@ -6913,7 +7317,10 @@ func (srv *Project) UpdateEmailTemplate(TemplateId string, optionalSetters ...Up
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.EmailTemplate{}.New(bytes)
 
@@ -6974,7 +7381,10 @@ func (srv *Project) GetEmailTemplate(TemplateId string, optionalSetters ...GetEm
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.EmailTemplate{}.New(bytes)
 
@@ -7043,7 +7453,10 @@ func (srv *Project) ListVariables(optionalSetters ...ListVariablesOption)(*model
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.VariableList{}.New(bytes)
 
@@ -7106,7 +7519,10 @@ func (srv *Project) CreateVariable(VariableId string, Key string, Value string, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Variable{}.New(bytes)
 
@@ -7141,7 +7557,10 @@ func (srv *Project) GetVariable(VariableId string)(*models.Variable, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Variable{}.New(bytes)
 
@@ -7223,7 +7642,10 @@ func (srv *Project) UpdateVariable(VariableId string, optionalSetters ...UpdateV
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Variable{}.New(bytes)
 
@@ -7258,7 +7680,10 @@ func (srv *Project) DeleteVariable(VariableId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 

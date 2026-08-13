@@ -58,7 +58,10 @@ func (srv *Activities) ListEvents(optionalSetters ...ListEventsOption)(*models.A
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ActivityEventList{}.New(bytes)
 
@@ -93,7 +96,10 @@ func (srv *Activities) GetEvent(EventId string)(*models.ActivityEvent, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ActivityEvent{}.New(bytes)
 

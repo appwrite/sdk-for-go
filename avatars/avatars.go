@@ -91,7 +91,10 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -215,7 +218,10 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -286,7 +292,10 @@ func (srv *Avatars) GetFavicon(Url string)(*[]byte, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -392,7 +401,10 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption)(*[]by
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -507,7 +519,10 @@ func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption)(*[]b
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -645,7 +660,10 @@ func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption)(*[]byte, e
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -769,7 +787,10 @@ func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption)(*[]byte, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -1063,7 +1084,10 @@ func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 

@@ -62,7 +62,10 @@ func (srv *Embeddings) CreateTextEmbeddings(Texts []string, optionalSetters ...C
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.EmbeddingList{}.New(bytes)
 

@@ -75,11 +75,11 @@ type Client struct {
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{
 		"X-Appwrite-Response-Format" : "1.9.6",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v6.4.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
+		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v6.5.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
 		"x-sdk-name": "Go",
 		"x-sdk-platform": "server",
 		"x-sdk-language": "go",
-		"x-sdk-version": "v6.4.0",
+		"x-sdk-version": "v6.5.0",
 	}
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
@@ -241,10 +241,8 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 		if err == nil {
 			result = resp
 			var result map[string]interface{}
-			if resStr, ok := resp.Result.(string); ok {
-				_ = json.Unmarshal([]byte(resStr), &result)
-			} else {
-				result, _ = resp.Result.(map[string]interface{})
+			if body, bodyErr := ResponseBody(resp); bodyErr == nil {
+				_ = json.Unmarshal(body, &result)
 			}
 			if result != nil && result["chunksUploaded"] != nil {
 				currentChunk = int64(result["chunksUploaded"].(float64))
@@ -270,9 +268,12 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 
 		var parsed map[string]interface{}
 		if strings.HasPrefix(result.Type, "application/json") {
-			err = json.Unmarshal([]byte(result.Result.(string)), &parsed)
-			if err == nil {
-				uploadId, _ = parsed["$id"].(string)
+			body, bodyErr := ResponseBody(result)
+			if bodyErr == nil {
+				err = json.Unmarshal(body, &parsed)
+				if err == nil {
+					uploadId, _ = parsed["$id"].(string)
+				}
 			}
 		}
 
@@ -282,9 +283,12 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 	parseUploadId := func(resp *ClientResponse) string {
 		var parsed map[string]interface{}
 		if resp != nil && strings.HasPrefix(resp.Type, "application/json") {
-			if unmarshalErr := json.Unmarshal([]byte(resp.Result.(string)), &parsed); unmarshalErr == nil {
-				id, _ := parsed["$id"].(string)
-				return id
+			body, bodyErr := ResponseBody(resp)
+			if bodyErr == nil {
+				if unmarshalErr := json.Unmarshal(body, &parsed); unmarshalErr == nil {
+					id, _ := parsed["$id"].(string)
+					return id
+				}
 			}
 		}
 		return ""
@@ -296,10 +300,8 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 		}
 
 		var parsed map[string]interface{}
-		if resStr, ok := resp.Result.(string); ok {
-			_ = json.Unmarshal([]byte(resStr), &parsed)
-		} else {
-			parsed, _ = resp.Result.(map[string]interface{})
+		if body, bodyErr := ResponseBody(resp); bodyErr == nil {
+			_ = json.Unmarshal(body, &parsed)
 		}
 		if parsed == nil || parsed["chunksUploaded"] == nil {
 			return false
@@ -572,7 +574,7 @@ func (client *Client) Call(method string, path string, headers map[string]interf
 			Status:     resp.Status,
 			StatusCode: resp.StatusCode,
 			Header:     resp.Header,
-			Result:     string(responseData),
+			Result:     responseData,
 			Type:	   contentType,
 		}, nil
 	}
@@ -591,6 +593,22 @@ func (client *Client) Call(method string, path string, headers map[string]interf
 		Result:     responseData,
 		Type:	   contentType,
 	}, nil
+}
+
+// ResponseBody returns the raw response body bytes.
+func ResponseBody(resp *ClientResponse) ([]byte, error) {
+	if resp == nil {
+		return nil, errors.New("response is nil")
+	}
+
+	switch body := resp.Result.(type) {
+	case []byte:
+		return body, nil
+	case string:
+		return []byte(body), nil
+	default:
+		return nil, errors.New("unexpected response body type")
+	}
 }
 
 // AddQueryParam writes one query parameter into q.

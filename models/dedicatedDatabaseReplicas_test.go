@@ -6,7 +6,7 @@ import (
 )
 
 func TestDedicatedDatabaseReplicasModel(t *testing.T) {
-    model := DedicatedDatabaseReplicas{        Replicas: 2,        SyncMode: "async",        SyncDegraded: true,        SyncAcknowledgements: 1,        SyncStandbyCount: 2,        SyncStateConfirmed: true,        Members: []DedicatedDatabaseMember{DedicatedDatabaseMember{        Id: "1",        Role: "replica",        Status: "active",    },
+    model := DedicatedDatabaseReplicas{        Replicas: 2,        SyncMode: "async",        SyncDegraded: true,        SyncAcknowledgements: 1,        SyncStandbyCount: 2,        Members: []DedicatedDatabaseMember{DedicatedDatabaseMember{        Id: "1",        Role: "replica",        Status: "active",    },
             },    }
 
     data, err := json.Marshal(model)
@@ -33,7 +33,4 @@ func TestDedicatedDatabaseReplicasModel(t *testing.T) {
     }
     if result.SyncStandbyCount != model.SyncStandbyCount {
         t.Errorf("Expected SyncStandbyCount %v, got %v", model.SyncStandbyCount, result.SyncStandbyCount)
-    }
-    if result.SyncStateConfirmed != model.SyncStateConfirmed {
-        t.Errorf("Expected SyncStateConfirmed %v, got %v", model.SyncStateConfirmed, result.SyncStateConfirmed)
     }}

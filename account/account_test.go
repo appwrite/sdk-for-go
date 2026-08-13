@@ -960,7 +960,8 @@ func TestAccount(t *testing.T) {
     "totp": true,
     "phone": true,
     "email": true,
-    "recoveryCode": true
+    "recoveryCode": true,
+    "custom": true
 }
 `
 
@@ -989,7 +990,8 @@ func TestAccount(t *testing.T) {
     "totp": true,
     "phone": true,
     "email": true,
-    "recoveryCode": true
+    "recoveryCode": true,
+    "custom": true
 }
 `
 

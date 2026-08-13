@@ -81,7 +81,10 @@ func (srv *Teams) List(optionalSetters ...ListOption)(*models.TeamList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.TeamList{}.New(bytes)
 
@@ -144,7 +147,10 @@ func (srv *Teams) Create(TeamId string, Name string, optionalSetters ...CreateOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Team{}.New(bytes)
 
@@ -180,7 +186,10 @@ func (srv *Teams) Get(TeamId string)(*models.Team, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Team{}.New(bytes)
 
@@ -217,7 +226,10 @@ func (srv *Teams) UpdateName(TeamId string, Name string)(*models.Team, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Team{}.New(bytes)
 
@@ -253,7 +265,10 @@ func (srv *Teams) Delete(TeamId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -323,7 +338,10 @@ func (srv *Teams) ListInstallations(TeamId string, optionalSetters ...ListInstal
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallationList{}.New(bytes)
 
@@ -387,7 +405,10 @@ func (srv *Teams) CreateInstallation(TeamId string, AppId string, optionalSetter
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallation{}.New(bytes)
 
@@ -423,7 +444,10 @@ func (srv *Teams) GetInstallation(TeamId string, InstallationId string)(*models.
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallation{}.New(bytes)
 
@@ -486,7 +510,10 @@ func (srv *Teams) UpdateInstallation(TeamId string, InstallationId string, optio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.AppInstallation{}.New(bytes)
 
@@ -524,7 +551,10 @@ func (srv *Teams) DeleteInstallation(TeamId string, InstallationId string)(*inte
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -606,7 +636,10 @@ func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembersh
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MembershipList{}.New(bytes)
 
@@ -730,7 +763,10 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetter
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Membership{}.New(bytes)
 
@@ -767,7 +803,10 @@ func (srv *Teams) GetMembership(TeamId string, MembershipId string)(*models.Memb
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Membership{}.New(bytes)
 
@@ -806,7 +845,10 @@ func (srv *Teams) UpdateMembership(TeamId string, MembershipId string, Roles []s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Membership{}.New(bytes)
 
@@ -843,7 +885,10 @@ func (srv *Teams) DeleteMembership(TeamId string, MembershipId string)(*interfac
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -885,7 +930,10 @@ func (srv *Teams) UpdateMembershipStatus(TeamId string, MembershipId string, Use
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Membership{}.New(bytes)
 
@@ -923,7 +971,10 @@ func (srv *Teams) GetPrefs(TeamId string)(*models.Preferences, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Preferences{}.New(bytes)
 
@@ -962,7 +1013,10 @@ func (srv *Teams) UpdatePrefs(TeamId string, Prefs interface{})(*models.Preferen
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Preferences{}.New(bytes)
 

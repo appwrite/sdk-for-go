@@ -1083,13 +1083,44 @@ func TestUsers(t *testing.T) {
 		}
 	})
 
+	t.Run("Test GetMFAChallenge", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "bb8ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c168bb8",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "code": "446372"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetMFAChallenge("<USER_ID>", "<CHALLENGE_ID>")
+		if err != nil {
+			t.Errorf("Method GetMFAChallenge failed: %v", err)
+		}
+	})
+
 	t.Run("Test ListMfaFactors", func(t *testing.T) {
 		mockResponse := `
 {
     "totp": true,
     "phone": true,
     "email": true,
-    "recoveryCode": true
+    "recoveryCode": true,
+    "custom": true
 }
 `
 
@@ -1118,7 +1149,8 @@ func TestUsers(t *testing.T) {
     "totp": true,
     "phone": true,
     "email": true,
-    "recoveryCode": true
+    "recoveryCode": true,
+    "custom": true
 }
 `
 

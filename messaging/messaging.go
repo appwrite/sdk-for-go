@@ -80,7 +80,10 @@ func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*model
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.MessageList{}.New(bytes)
 
@@ -230,7 +233,10 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Message{}.New(bytes)
 
@@ -402,7 +408,10 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Message{}.New(bytes)
 
@@ -649,7 +658,10 @@ func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePush
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Message{}.New(bytes)
 
@@ -898,7 +910,10 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Message{}.New(bytes)
 
@@ -1005,7 +1020,10 @@ func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetter
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Message{}.New(bytes)
 
@@ -1110,7 +1128,10 @@ func (srv *Messaging) CreateSMS(MessageId string, Content string, optionalSetter
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Message{}.New(bytes)
 
@@ -1229,7 +1250,10 @@ func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Message{}.New(bytes)
 
@@ -1346,7 +1370,10 @@ func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Message{}.New(bytes)
 
@@ -1381,7 +1408,10 @@ func (srv *Messaging) GetMessage(MessageId string)(*models.Message, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Message{}.New(bytes)
 
@@ -1417,7 +1447,10 @@ func (srv *Messaging) Delete(MessageId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1486,7 +1519,10 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.TargetList{}.New(bytes)
 
@@ -1567,7 +1603,10 @@ func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*mod
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProviderList{}.New(bytes)
 
@@ -1685,7 +1724,10 @@ func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optiona
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -1801,7 +1843,10 @@ func (srv *Messaging) CreateAPNSProvider(ProviderId string, Name string, optiona
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -1930,7 +1975,10 @@ func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...U
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2057,7 +2105,10 @@ func (srv *Messaging) UpdateAPNSProvider(ProviderId string, optionalSetters ...U
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2131,7 +2182,10 @@ func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optional
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2203,7 +2257,10 @@ func (srv *Messaging) CreateFCMProvider(ProviderId string, Name string, optional
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2288,7 +2345,10 @@ func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...Up
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2371,7 +2431,10 @@ func (srv *Messaging) UpdateFCMProvider(ProviderId string, optionalSetters ...Up
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2509,7 +2572,10 @@ func (srv *Messaging) CreateMailgunProvider(ProviderId string, Name string, opti
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2657,7 +2723,10 @@ func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2751,7 +2820,10 @@ func (srv *Messaging) CreateMsg91Provider(ProviderId string, Name string, option
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2855,7 +2927,10 @@ func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -2971,7 +3046,10 @@ func (srv *Messaging) CreateResendProvider(ProviderId string, Name string, optio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -3097,7 +3175,10 @@ func (srv *Messaging) UpdateResendProvider(ProviderId string, optionalSetters ..
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -3213,7 +3294,10 @@ func (srv *Messaging) CreateSendgridProvider(ProviderId string, Name string, opt
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -3339,7 +3423,10 @@ func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -3477,7 +3564,10 @@ func (srv *Messaging) CreateSesProvider(ProviderId string, Name string, optional
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -3625,7 +3715,10 @@ func (srv *Messaging) UpdateSesProvider(ProviderId string, optionalSetters ...Up
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -3799,7 +3892,10 @@ func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host st
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -3971,7 +4067,10 @@ func (srv *Messaging) CreateSMTPProvider(ProviderId string, Name string, Host st
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -4165,7 +4264,10 @@ func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...U
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -4357,7 +4459,10 @@ func (srv *Messaging) UpdateSMTPProvider(ProviderId string, optionalSetters ...U
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -4451,7 +4556,10 @@ func (srv *Messaging) CreateTelesignProvider(ProviderId string, Name string, opt
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -4555,7 +4663,10 @@ func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -4649,7 +4760,10 @@ func (srv *Messaging) CreateTextmagicProvider(ProviderId string, Name string, op
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -4753,7 +4867,10 @@ func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -4847,7 +4964,10 @@ func (srv *Messaging) CreateTwilioProvider(ProviderId string, Name string, optio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -4951,7 +5071,10 @@ func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ..
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -5045,7 +5168,10 @@ func (srv *Messaging) CreateVonageProvider(ProviderId string, Name string, optio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -5149,7 +5275,10 @@ func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ..
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -5184,7 +5313,10 @@ func (srv *Messaging) GetProvider(ProviderId string)(*models.Provider, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Provider{}.New(bytes)
 
@@ -5219,7 +5351,10 @@ func (srv *Messaging) DeleteProvider(ProviderId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -5298,7 +5433,10 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.To
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.TopicList{}.New(bytes)
 
@@ -5359,7 +5497,10 @@ func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Topic{}.New(bytes)
 
@@ -5394,7 +5535,10 @@ func (srv *Messaging) GetTopic(TopicId string)(*models.Topic, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Topic{}.New(bytes)
 
@@ -5465,7 +5609,10 @@ func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopic
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Topic{}.New(bytes)
 
@@ -5500,7 +5647,10 @@ func (srv *Messaging) DeleteTopic(TopicId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -5581,7 +5731,10 @@ func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSub
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.SubscriberList{}.New(bytes)
 
@@ -5619,7 +5772,10 @@ func (srv *Messaging) CreateSubscriber(TopicId string, SubscriberId string, Targ
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Subscriber{}.New(bytes)
 
@@ -5654,7 +5810,10 @@ func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string)(*models
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Subscriber{}.New(bytes)
 
@@ -5689,7 +5848,10 @@ func (srv *Messaging) DeleteSubscriber(TopicId string, SubscriberId string)(*int
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 

@@ -77,6 +77,8 @@ type Project struct {
     // OAuth2 server scopes used when an authorization request omits the scope
     // parameter
     OAuth2ServerDefaultScopes []string `json:"oAuth2ServerDefaultScopes"`
+    // Scopes an application may request when installed on a team
+    OAuth2ServerInstallationScopes []string `json:"oAuth2ServerInstallationScopes"`
     // OAuth2 server accepted RFC 9396 authorization_details types
     OAuth2ServerAuthorizationDetailsTypes []string `json:"oAuth2ServerAuthorizationDetailsTypes"`
     // OAuth2 server access token duration in seconds for confidential clients

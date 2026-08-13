@@ -83,7 +83,10 @@ func (srv *Functions) List(optionalSetters ...ListOption)(*models.FunctionList, 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.FunctionList{}.New(bytes)
 
@@ -346,7 +349,10 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Function{}.New(bytes)
 
@@ -381,7 +387,10 @@ func (srv *Functions) ListRuntimes()(*models.RuntimeList, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.RuntimeList{}.New(bytes)
 
@@ -439,7 +448,10 @@ func (srv *Functions) ListSpecifications(optionalSetters ...ListSpecificationsOp
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.SpecificationList{}.New(bytes)
 
@@ -474,7 +486,10 @@ func (srv *Functions) Get(FunctionId string)(*models.Function, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Function{}.New(bytes)
 
@@ -744,7 +759,10 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Function{}.New(bytes)
 
@@ -779,7 +797,10 @@ func (srv *Functions) Delete(FunctionId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -817,7 +838,10 @@ func (srv *Functions) UpdateFunctionDeployment(FunctionId string, DeploymentId s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Function{}.New(bytes)
 
@@ -899,7 +923,10 @@ func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...List
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.DeploymentList{}.New(bytes)
 
@@ -987,8 +1014,12 @@ func (srv *Functions) CreateDeployment(FunctionId string, Code file.InputFile, A
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 		var parsed models.Deployment
-		err = json.Unmarshal([]byte(resp.Result.(string)), &parsed)
+		err = json.Unmarshal(bytes, &parsed)
 		if err != nil {
 			return nil, err
 		}
@@ -1049,7 +1080,10 @@ func (srv *Functions) CreateDuplicateDeployment(FunctionId string, DeploymentId 
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1118,7 +1152,10 @@ func (srv *Functions) CreateTemplateDeployment(FunctionId string, Repository str
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1183,7 +1220,10 @@ func (srv *Functions) CreateVcsDeployment(FunctionId string, Type string, Refere
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1218,7 +1258,10 @@ func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string)(*mod
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1253,7 +1296,10 @@ func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string)(*
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1325,7 +1371,10 @@ func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId stri
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed []byte
 
@@ -1392,7 +1441,10 @@ func (srv *Functions) UpdateDeploymentStatus(FunctionId string, DeploymentId str
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Deployment{}.New(bytes)
 
@@ -1463,7 +1515,10 @@ func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListE
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ExecutionList{}.New(bytes)
 
@@ -1581,7 +1636,10 @@ func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...Crea
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Execution{}.New(bytes)
 
@@ -1616,7 +1674,10 @@ func (srv *Functions) GetExecution(FunctionId string, ExecutionId string)(*model
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Execution{}.New(bytes)
 
@@ -1651,7 +1712,10 @@ func (srv *Functions) DeleteExecution(FunctionId string, ExecutionId string)(*in
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -1720,7 +1784,10 @@ func (srv *Functions) ListVariables(FunctionId string, optionalSetters ...ListVa
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.VariableList{}.New(bytes)
 
@@ -1784,7 +1851,10 @@ func (srv *Functions) CreateVariable(FunctionId string, VariableId string, Key s
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Variable{}.New(bytes)
 
@@ -1819,7 +1889,10 @@ func (srv *Functions) GetVariable(FunctionId string, VariableId string)(*models.
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Variable{}.New(bytes)
 
@@ -1901,7 +1974,10 @@ func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, optio
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.Variable{}.New(bytes)
 
@@ -1936,7 +2012,10 @@ func (srv *Functions) DeleteVariable(FunctionId string, VariableId string)(*inte
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 

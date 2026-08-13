@@ -65,7 +65,10 @@ func (srv *Proxy) CreateInvalidation(Domain string, Type string, optionalSetters
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProxyInvalidation{}.New(bytes)
 
@@ -135,7 +138,10 @@ func (srv *Proxy) ListRules(optionalSetters ...ListRulesOption)(*models.ProxyRul
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProxyRuleList{}.New(bytes)
 
@@ -175,7 +181,10 @@ func (srv *Proxy) CreateAPIRule(Domain string)(*models.ProxyRule, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProxyRule{}.New(bytes)
 
@@ -240,7 +249,10 @@ func (srv *Proxy) CreateFunctionRule(Domain string, FunctionId string, optionalS
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProxyRule{}.New(bytes)
 
@@ -284,7 +296,10 @@ func (srv *Proxy) CreateRedirectRule(Domain string, Url string, StatusCode strin
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProxyRule{}.New(bytes)
 
@@ -349,7 +364,10 @@ func (srv *Proxy) CreateSiteRule(Domain string, SiteId string, optionalSetters .
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProxyRule{}.New(bytes)
 
@@ -384,7 +402,10 @@ func (srv *Proxy) GetRule(RuleId string)(*models.ProxyRule, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProxyRule{}.New(bytes)
 
@@ -419,7 +440,10 @@ func (srv *Proxy) DeleteRule(RuleId string)(*interface{}, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		var parsed interface{}
 
@@ -457,7 +481,10 @@ func (srv *Proxy) UpdateRuleStatus(RuleId string)(*models.ProxyRule, error) {
 		return nil, err
 	}
 	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes := []byte(resp.Result.(string))
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
 
 		parsed := models.ProxyRule{}.New(bytes)
 
