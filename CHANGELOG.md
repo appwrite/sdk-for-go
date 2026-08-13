@@ -4,6 +4,7 @@
 
 * Breaking: Removed `CrossRegionReplicas` from `DedicatedDatabase`, as cross-region replication was withdrawn
 * Breaking: Removed `CrossRegionReplicaRate` from `DedicatedDatabaseSpecificationPricing`
+* Breaking: `ClientResponse.Result` holds `[]byte` for JSON responses, not `string`; read it with `client.ResponseBody`
 * Added: `TablesDB` migration methods `CreateMigration`, `ListMigrations`, `GetMigration`, `CutoverMigration`, `DeleteMigration`
 * Added: `DatabaseMigration` and `DatabaseMigrationList` models
 * Added: `Project.UpdateMFAFactorsPolicy` with `Totp`, `Email`, `Phone`, and `Custom` options
