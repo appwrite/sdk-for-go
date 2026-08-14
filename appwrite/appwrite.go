@@ -10,6 +10,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/avatars"
 	"github.com/appwrite/sdk-for-go/v7/backups"
 	"github.com/appwrite/sdk-for-go/v7/databases"
+	"github.com/appwrite/sdk-for-go/v7/embeddings"
 	"github.com/appwrite/sdk-for-go/v7/functions"
 	"github.com/appwrite/sdk-for-go/v7/graphql"
 	"github.com/appwrite/sdk-for-go/v7/locale"
@@ -46,6 +47,9 @@ func NewBackups(clt client.Client) *backups.Backups {
 }
 func NewDatabases(clt client.Client) *databases.Databases {
 	return databases.New(clt)
+}
+func NewEmbeddings(clt client.Client) *embeddings.Embeddings {
+	return embeddings.New(clt)
 }
 func NewFunctions(clt client.Client) *functions.Functions {
 	return functions.New(clt)
