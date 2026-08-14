@@ -5,8 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v6/client"
-	"github.com/appwrite/sdk-for-go/v6/models"
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/models"
 )
 
 func TestProject(t *testing.T) {
@@ -261,40 +261,6 @@ func TestProject(t *testing.T) {
 		_, err := srv.ListKeys()
 		if err != nil {
 			t.Errorf("Method ListKeys failed: %v", err)
-		}
-	})
-
-	t.Run("Test CreateKey", func(t *testing.T) {
-		mockResponse := `
-{
-    "$id": "5e5ea5c16897e",
-    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-    "name": "My API Key",
-    "expire": "2020-10-15T06:38:00.000+00:00",
-    "scopes": [],
-    "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-    "accessedAt": "2020-10-15T06:38:00.000+00:00",
-    "sdks": []
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "POST" {
-				t.Errorf("Expected method POST, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.CreateKey("<KEY_ID>", "<NAME>", []string{})
-		if err != nil {
-			t.Errorf("Method CreateKey failed: %v", err)
 		}
 	})
 

@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v7/client"
 )
 
 func TestAccount(t *testing.T) {
@@ -442,32 +442,6 @@ func TestAccount(t *testing.T) {
 		_, err := srv.DeleteIdentity("<IDENTITY_ID>")
 		if err != nil {
 			t.Errorf("Method DeleteIdentity failed: %v", err)
-		}
-	})
-
-	t.Run("Test CreateJWT", func(t *testing.T) {
-		mockResponse := `
-{
-    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "POST" {
-				t.Errorf("Expected method POST, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.CreateJWT()
-		if err != nil {
-			t.Errorf("Method CreateJWT failed: %v", err)
 		}
 	})
 

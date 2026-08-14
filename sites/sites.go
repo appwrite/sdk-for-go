@@ -3,9 +3,9 @@ package sites
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v6/client"
-	"github.com/appwrite/sdk-for-go/v6/models"
-	"github.com/appwrite/sdk-for-go/v6/file"
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/models"
+	"github.com/appwrite/sdk-for-go/v7/file"
 	"net/url"
 	"strings"
 )

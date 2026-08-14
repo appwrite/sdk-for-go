@@ -1,5 +1,10 @@
 # Change Log
 
+## v7.0.0
+
+* Breaking: removed `account.createJWT`; use `users.createJWT` instead. A leaked JWT could mint further JWTs, letting a credential outlive its own expiry — a session cannot duplicate itself to live forever either
+* Breaking: removed `project.createKey`. A leaked key could mint further hidden keys, making a compromise far harder to contain and revoke
+
 ## v6.5.0
 
 * Breaking: Removed `CrossRegionReplicas` from `DedicatedDatabase`, as cross-region replication was withdrawn

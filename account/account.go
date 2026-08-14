@@ -3,8 +3,8 @@ package account
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v6/client"
-	"github.com/appwrite/sdk-for-go/v6/models"
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/models"
 	"strings"
 )
 
@@ -582,72 +582,6 @@ func (srv *Account) DeleteIdentity(IdentityId string)(*interface{}, error) {
 	}
 	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-type CreateJWTOptions struct {
-	Duration int
-	enabledSetters map[string]bool
-}
-func (options CreateJWTOptions) New() *CreateJWTOptions {
-	options.enabledSetters = map[string]bool{
-		"Duration": false,
-	}
-	return &options
-}
-type CreateJWTOption func(*CreateJWTOptions)
-func (srv *Account) WithCreateJWTDuration(v int) CreateJWTOption {
-	return func(o *CreateJWTOptions) {
-		o.Duration = v
-		o.enabledSetters["Duration"] = true
-	}
-}
-	
-// CreateJWT use this endpoint to create a JSON Web Token. You can use the
-// resulting JWT to authenticate on behalf of the current user when working
-// with the Appwrite server-side API and SDKs. The JWT secret is valid for 15
-// minutes from its creation and will be invalid if the user will logout in
-// that time frame.
-func (srv *Account) CreateJWT(optionalSetters ...CreateJWTOption)(*models.Jwt, error) {
-	path := "/account/jwts"
-	options := CreateJWTOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	if options.enabledSetters["Duration"] {
-		params["duration"] = options.Duration
-	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
-
-	resp, err := srv.client.Call("POST", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.Jwt{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.Jwt
-	parsed, ok := resp.Result.(models.Jwt)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

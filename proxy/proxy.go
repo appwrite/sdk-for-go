@@ -3,8 +3,8 @@ package proxy
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v6/client"
-	"github.com/appwrite/sdk-for-go/v6/models"
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/models"
 	"strings"
 )
 
