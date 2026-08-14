@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/appwrite/sdk-for-go/v6/client"
+	"github.com/appwrite/sdk-for-go/v7/client"
 )
 
 func TestWebhooks(t *testing.T) {

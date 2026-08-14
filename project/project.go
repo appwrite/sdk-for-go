@@ -3,8 +3,8 @@ package project
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v6/client"
-	"github.com/appwrite/sdk-for-go/v6/models"
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/models"
 	"fmt"
 	"strings"
 )
@@ -199,75 +199,6 @@ func (srv *Project) ListKeys(optionalSetters ...ListKeysOption)(*models.KeyList,
 	}
 	var parsed models.KeyList
 	parsed, ok := resp.Result.(models.KeyList)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-type CreateKeyOptions struct {
-	Expire string
-	enabledSetters map[string]bool
-}
-func (options CreateKeyOptions) New() *CreateKeyOptions {
-	options.enabledSetters = map[string]bool{
-		"Expire": false,
-	}
-	return &options
-}
-type CreateKeyOption func(*CreateKeyOptions)
-func (srv *Project) WithCreateKeyExpire(v string) CreateKeyOption {
-	return func(o *CreateKeyOptions) {
-		o.Expire = v
-		o.enabledSetters["Expire"] = true
-	}
-}
-							
-// CreateKey create a new API key. It's recommended to have multiple API keys
-// with strict scopes for separate functions within your project.
-// 
-// You can also create an ephemeral API key if you need a short-lived key
-// instead.
-func (srv *Project) CreateKey(KeyId string, Name string, Scopes []string, optionalSetters ...CreateKeyOption)(*models.Key, error) {
-	path := "/project/keys"
-	options := CreateKeyOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	params["keyId"] = KeyId
-	params["name"] = Name
-	params["scopes"] = Scopes
-	if options.enabledSetters["Expire"] {
-		params["expire"] = options.Expire
-	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
-
-	resp, err := srv.client.Call("POST", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.Key{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.Key
-	parsed, ok := resp.Result.(models.Key)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
