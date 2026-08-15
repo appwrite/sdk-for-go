@@ -46,6 +46,7 @@ func TestSites(t *testing.T) {
             "latestDeploymentId": "5e5ea5c16897e",
             "latestDeploymentCreatedAt": "2020-10-15T06:38:00.000+00:00",
             "latestDeploymentStatus": "ready",
+            "scopes": [],
             "vars": [
                 {
                     "$id": "5e5ea5c16897e",
@@ -118,6 +119,7 @@ func TestSites(t *testing.T) {
     "latestDeploymentId": "5e5ea5c16897e",
     "latestDeploymentCreatedAt": "2020-10-15T06:38:00.000+00:00",
     "latestDeploymentStatus": "ready",
+    "scopes": [],
     "vars": [
         {
             "$id": "5e5ea5c16897e",
@@ -265,6 +267,7 @@ func TestSites(t *testing.T) {
     "latestDeploymentId": "5e5ea5c16897e",
     "latestDeploymentCreatedAt": "2020-10-15T06:38:00.000+00:00",
     "latestDeploymentStatus": "ready",
+    "scopes": [],
     "vars": [
         {
             "$id": "5e5ea5c16897e",
@@ -335,6 +338,7 @@ func TestSites(t *testing.T) {
     "latestDeploymentId": "5e5ea5c16897e",
     "latestDeploymentCreatedAt": "2020-10-15T06:38:00.000+00:00",
     "latestDeploymentStatus": "ready",
+    "scopes": [],
     "vars": [
         {
             "$id": "5e5ea5c16897e",
@@ -431,6 +435,7 @@ func TestSites(t *testing.T) {
     "latestDeploymentId": "5e5ea5c16897e",
     "latestDeploymentCreatedAt": "2020-10-15T06:38:00.000+00:00",
     "latestDeploymentStatus": "ready",
+    "scopes": [],
     "vars": [
         {
             "$id": "5e5ea5c16897e",

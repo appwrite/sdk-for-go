@@ -45,6 +45,8 @@ type Site struct {
     // Status of latest deployment. Possible values are "waiting", "processing",
     // "building", "ready", and "failed".
     LatestDeploymentStatus string `json:"latestDeploymentStatus"`
+    // Allowed permission scopes.
+    Scopes []string `json:"scopes"`
     // Site variables.
     Vars []Variable `json:"vars"`
     // Site request timeout in seconds.

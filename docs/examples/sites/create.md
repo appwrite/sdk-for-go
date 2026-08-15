@@ -39,5 +39,6 @@ response, error := service.Create(
     sites.WithCreateBuildSpecification(""),
     sites.WithCreateRuntimeSpecification(""),
     sites.WithCreateDeploymentRetention(0),
+    sites.WithCreateScopes([]string{}),
 )
 ```

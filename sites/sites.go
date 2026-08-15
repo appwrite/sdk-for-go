@@ -125,6 +125,7 @@ type CreateOptions struct {
 	BuildSpecification string
 	RuntimeSpecification string
 	DeploymentRetention int
+	Scopes []string
 	enabledSetters map[string]bool
 }
 func (options CreateOptions) New() *CreateOptions {
@@ -148,6 +149,7 @@ func (options CreateOptions) New() *CreateOptions {
 		"BuildSpecification": false,
 		"RuntimeSpecification": false,
 		"DeploymentRetention": false,
+		"Scopes": false,
 	}
 	return &options
 }
@@ -266,6 +268,12 @@ func (srv *Sites) WithCreateDeploymentRetention(v int) CreateOption {
 		o.enabledSetters["DeploymentRetention"] = true
 	}
 }
+func (srv *Sites) WithCreateScopes(v []string) CreateOption {
+	return func(o *CreateOptions) {
+		o.Scopes = v
+		o.enabledSetters["Scopes"] = true
+	}
+}
 									
 // Create create a new site.
 func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRuntime string, optionalSetters ...CreateOption)(*models.Site, error) {
@@ -335,6 +343,9 @@ func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRunt
 	}
 	if options.enabledSetters["DeploymentRetention"] {
 		params["deploymentRetention"] = options.DeploymentRetention
+	}
+	if options.enabledSetters["Scopes"] {
+		params["scopes"] = options.Scopes
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
@@ -527,6 +538,7 @@ type UpdateOptions struct {
 	BuildSpecification string
 	RuntimeSpecification string
 	DeploymentRetention int
+	Scopes []string
 	enabledSetters map[string]bool
 }
 func (options UpdateOptions) New() *UpdateOptions {
@@ -551,6 +563,7 @@ func (options UpdateOptions) New() *UpdateOptions {
 		"BuildSpecification": false,
 		"RuntimeSpecification": false,
 		"DeploymentRetention": false,
+		"Scopes": false,
 	}
 	return &options
 }
@@ -675,6 +688,12 @@ func (srv *Sites) WithUpdateDeploymentRetention(v int) UpdateOption {
 		o.enabledSetters["DeploymentRetention"] = true
 	}
 }
+func (srv *Sites) WithUpdateScopes(v []string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Scopes = v
+		o.enabledSetters["Scopes"] = true
+	}
+}
 							
 // Update update site by its unique ID.
 func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalSetters ...UpdateOption)(*models.Site, error) {
@@ -746,6 +765,9 @@ func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalS
 	}
 	if options.enabledSetters["DeploymentRetention"] {
 		params["deploymentRetention"] = options.DeploymentRetention
+	}
+	if options.enabledSetters["Scopes"] {
+		params["scopes"] = options.Scopes
 	}
 	headers := map[string]interface{}{
 		"X-Appwrite-Project": srv.client.Config["project"],
