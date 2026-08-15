@@ -1,5 +1,9 @@
 # Change Log
 
+## v7.1.0
+
+* Added: `Scopes` support to `Sites.Create`, `Sites.Update`, and the `Site` model
+
 ## v7.0.0
 
 * Breaking: removed `account.createJWT`; use `users.createJWT` instead. A leaked JWT could mint further JWTs, letting a credential outlive its own expiry — a session cannot duplicate itself to live forever either

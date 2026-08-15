@@ -39,5 +39,6 @@ response, error := service.Update(
     sites.WithUpdateBuildSpecification(""),
     sites.WithUpdateRuntimeSpecification(""),
     sites.WithUpdateDeploymentRetention(0),
+    sites.WithUpdateScopes([]string{}),
 )
 ```
