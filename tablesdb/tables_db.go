@@ -3,10 +3,11 @@ package tablesdb
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v7/client"
-	"github.com/appwrite/sdk-for-go/v7/models"
 	"fmt"
 	"strings"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/models"
 )
 
 // TablesDB service
@@ -21,20 +22,19 @@ func New(clt client.Client) *TablesDB {
 }
 
 type ListOptions struct {
-	Queries []string
-	Search string
-	Total bool
+	Queries        []string
+	Search         string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListOptions) New() *ListOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Search": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Search": false, "Total": false}
 	return &options
 }
+
 type ListOption func(*ListOptions)
+
 func (srv *TablesDB) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
@@ -53,10 +53,10 @@ func (srv *TablesDB) WithListTotal(v bool) ListOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // List get a list of all databases from the current Appwrite project. You can
 // use the search parameter to filter your results.
-func (srv *TablesDB) List(optionalSetters ...ListOption)(*models.DatabaseList, error) {
+func (srv *TablesDB) List(optionalSetters ...ListOption) (*models.DatabaseList, error) {
 	path := "/tablesdb"
 	options := ListOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -72,10 +72,9 @@ func (srv *TablesDB) List(optionalSetters ...ListOption)(*models.DatabaseList, e
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -104,23 +103,22 @@ func (srv *TablesDB) List(optionalSetters ...ListOption)(*models.DatabaseList, e
 	return &parsed, nil
 
 }
+
 type CreateOptions struct {
-	Enabled bool
-	Specification string
-	Replicas int
-	SyncMode string
+	Enabled        bool
+	Specification  string
+	Replicas       int
+	SyncMode       string
 	enabledSetters map[string]bool
 }
+
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{
-		"Enabled": false,
-		"Specification": false,
-		"Replicas": false,
-		"SyncMode": false,
-	}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Specification": false, "Replicas": false, "SyncMode": false}
 	return &options
 }
+
 type CreateOption func(*CreateOptions)
+
 func (srv *TablesDB) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
@@ -145,9 +143,9 @@ func (srv *TablesDB) WithCreateSyncMode(v string) CreateOption {
 		o.enabledSetters["SyncMode"] = true
 	}
 }
-					
+
 // Create create a new Database.
-func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...CreateOption)(*models.Database, error) {
+func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...CreateOption) (*models.Database, error) {
 	path := "/tablesdb"
 	options := CreateOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -168,11 +166,10 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 	if options.enabledSetters["SyncMode"] {
 		params["syncMode"] = options.SyncMode
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -205,13 +202,12 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 // ListSpecifications list the dedicated database specifications available on
 // the current plan. Each specification reports its resource limits, pricing,
 // and whether it is enabled for the organization.
-func (srv *TablesDB) ListSpecifications()(*models.DedicatedDatabaseSpecificationList, error) {
+func (srv *TablesDB) ListSpecifications() (*models.DedicatedDatabaseSpecificationList, error) {
 	path := "/tablesdb/specifications"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -240,26 +236,28 @@ func (srv *TablesDB) ListSpecifications()(*models.DedicatedDatabaseSpecification
 	return &parsed, nil
 
 }
+
 type ListTransactionsOptions struct {
-	Queries []string
+	Queries        []string
 	enabledSetters map[string]bool
 }
+
 func (options ListTransactionsOptions) New() *ListTransactionsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false}
 	return &options
 }
+
 type ListTransactionsOption func(*ListTransactionsOptions)
+
 func (srv *TablesDB) WithListTransactionsQueries(v []string) ListTransactionsOption {
 	return func(o *ListTransactionsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-	
+
 // ListTransactions list transactions across all databases.
-func (srv *TablesDB) ListTransactions(optionalSetters ...ListTransactionsOption)(*models.TransactionList, error) {
+func (srv *TablesDB) ListTransactions(optionalSetters ...ListTransactionsOption) (*models.TransactionList, error) {
 	path := "/tablesdb/transactions"
 	options := ListTransactionsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -269,10 +267,9 @@ func (srv *TablesDB) ListTransactions(optionalSetters ...ListTransactionsOption)
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -301,26 +298,28 @@ func (srv *TablesDB) ListTransactions(optionalSetters ...ListTransactionsOption)
 	return &parsed, nil
 
 }
+
 type CreateTransactionOptions struct {
-	Ttl int
+	Ttl            int
 	enabledSetters map[string]bool
 }
+
 func (options CreateTransactionOptions) New() *CreateTransactionOptions {
-	options.enabledSetters = map[string]bool{
-		"Ttl": false,
-	}
+	options.enabledSetters = map[string]bool{"Ttl": false}
 	return &options
 }
+
 type CreateTransactionOption func(*CreateTransactionOptions)
+
 func (srv *TablesDB) WithCreateTransactionTtl(v int) CreateTransactionOption {
 	return func(o *CreateTransactionOptions) {
 		o.Ttl = v
 		o.enabledSetters["Ttl"] = true
 	}
 }
-	
+
 // CreateTransaction create a new transaction.
-func (srv *TablesDB) CreateTransaction(optionalSetters ...CreateTransactionOption)(*models.Transaction, error) {
+func (srv *TablesDB) CreateTransaction(optionalSetters ...CreateTransactionOption) (*models.Transaction, error) {
 	path := "/tablesdb/transactions"
 	options := CreateTransactionOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -330,11 +329,10 @@ func (srv *TablesDB) CreateTransaction(optionalSetters ...CreateTransactionOptio
 	if options.enabledSetters["Ttl"] {
 		params["ttl"] = options.Ttl
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -363,16 +361,15 @@ func (srv *TablesDB) CreateTransaction(optionalSetters ...CreateTransactionOptio
 	return &parsed, nil
 
 }
-	
+
 // GetTransaction get a transaction by its unique ID.
-func (srv *TablesDB) GetTransaction(TransactionId string)(*models.Transaction, error) {
+func (srv *TablesDB) GetTransaction(TransactionId string) (*models.Transaction, error) {
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -401,19 +398,20 @@ func (srv *TablesDB) GetTransaction(TransactionId string)(*models.Transaction, e
 	return &parsed, nil
 
 }
+
 type UpdateTransactionOptions struct {
-	Commit bool
-	Rollback bool
+	Commit         bool
+	Rollback       bool
 	enabledSetters map[string]bool
 }
+
 func (options UpdateTransactionOptions) New() *UpdateTransactionOptions {
-	options.enabledSetters = map[string]bool{
-		"Commit": false,
-		"Rollback": false,
-	}
+	options.enabledSetters = map[string]bool{"Commit": false, "Rollback": false}
 	return &options
 }
+
 type UpdateTransactionOption func(*UpdateTransactionOptions)
+
 func (srv *TablesDB) WithUpdateTransactionCommit(v bool) UpdateTransactionOption {
 	return func(o *UpdateTransactionOptions) {
 		o.Commit = v
@@ -426,10 +424,10 @@ func (srv *TablesDB) WithUpdateTransactionRollback(v bool) UpdateTransactionOpti
 		o.enabledSetters["Rollback"] = true
 	}
 }
-			
+
 // UpdateTransaction update a transaction, to either commit or roll back its
 // operations.
-func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption)(*models.Transaction, error) {
+func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption) (*models.Transaction, error) {
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}")
 	options := UpdateTransactionOptions{}.New()
@@ -443,11 +441,10 @@ func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...
 	if options.enabledSetters["Rollback"] {
 		params["rollback"] = options.Rollback
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -476,16 +473,15 @@ func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...
 	return &parsed, nil
 
 }
-	
+
 // DeleteTransaction delete a transaction by its unique ID.
-func (srv *TablesDB) DeleteTransaction(TransactionId string)(*interface{}, error) {
+func (srv *TablesDB) DeleteTransaction(TransactionId string) (*interface{}, error) {
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -513,26 +509,28 @@ func (srv *TablesDB) DeleteTransaction(TransactionId string)(*interface{}, error
 	return &parsed, nil
 
 }
+
 type CreateOperationsOptions struct {
-	Operations []interface{}
+	Operations     []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options CreateOperationsOptions) New() *CreateOperationsOptions {
-	options.enabledSetters = map[string]bool{
-		"Operations": false,
-	}
+	options.enabledSetters = map[string]bool{"Operations": false}
 	return &options
 }
+
 type CreateOperationsOption func(*CreateOperationsOptions)
+
 func (srv *TablesDB) WithCreateOperationsOperations(v []interface{}) CreateOperationsOption {
 	return func(o *CreateOperationsOptions) {
 		o.Operations = v
 		o.enabledSetters["Operations"] = true
 	}
 }
-			
+
 // CreateOperations create multiple operations in a single transaction.
-func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption)(*models.Transaction, error) {
+func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption) (*models.Transaction, error) {
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}/operations")
 	options := CreateOperationsOptions{}.New()
@@ -543,11 +541,10 @@ func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...C
 	if options.enabledSetters["Operations"] {
 		params["operations"] = options.Operations
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -576,17 +573,16 @@ func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...C
 	return &parsed, nil
 
 }
-	
+
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
-func (srv *TablesDB) Get(DatabaseId string)(*models.Database, error) {
+func (srv *TablesDB) Get(DatabaseId string) (*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -615,25 +611,23 @@ func (srv *TablesDB) Get(DatabaseId string)(*models.Database, error) {
 	return &parsed, nil
 
 }
+
 type UpdateOptions struct {
-	Name string
-	Enabled bool
-	Specification string
-	Replicas int
-	SyncMode string
+	Name           string
+	Enabled        bool
+	Specification  string
+	Replicas       int
+	SyncMode       string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"Specification": false,
-		"Replicas": false,
-		"SyncMode": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "Specification": false, "Replicas": false, "SyncMode": false}
 	return &options
 }
+
 type UpdateOption func(*UpdateOptions)
+
 func (srv *TablesDB) WithUpdateName(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Name = v
@@ -664,9 +658,9 @@ func (srv *TablesDB) WithUpdateSyncMode(v string) UpdateOption {
 		o.enabledSetters["SyncMode"] = true
 	}
 }
-			
+
 // Update update a database by its unique ID.
-func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(*models.Database, error) {
+func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption) (*models.Database, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -689,11 +683,10 @@ func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(
 	if options.enabledSetters["SyncMode"] {
 		params["syncMode"] = options.SyncMode
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -722,17 +715,16 @@ func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption)(
 	return &parsed, nil
 
 }
-	
+
 // Delete delete a database by its unique ID. Only API keys with with
 // databases.write scope can delete a database.
-func (srv *TablesDB) Delete(DatabaseId string)(*interface{}, error) {
+func (srv *TablesDB) Delete(DatabaseId string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -760,30 +752,32 @@ func (srv *TablesDB) Delete(DatabaseId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+
 type CreateFailoverOptions struct {
 	TargetReplicaId string
-	enabledSetters map[string]bool
+	enabledSetters  map[string]bool
 }
+
 func (options CreateFailoverOptions) New() *CreateFailoverOptions {
-	options.enabledSetters = map[string]bool{
-		"TargetReplicaId": false,
-	}
+	options.enabledSetters = map[string]bool{"TargetReplicaId": false}
 	return &options
 }
+
 type CreateFailoverOption func(*CreateFailoverOptions)
+
 func (srv *TablesDB) WithCreateFailoverTargetReplicaId(v string) CreateFailoverOption {
 	return func(o *CreateFailoverOptions) {
 		o.TargetReplicaId = v
 		o.enabledSetters["TargetReplicaId"] = true
 	}
 }
-			
+
 // CreateFailover trigger a manual failover for a dedicated database with high
 // availability enabled. Promotes a replica to primary. The failover runs
 // asynchronously; poll the database document for status updates. A database
 // left mid-operation by a failover that did not finish also accepts this call
 // as a repair, provided `targetReplicaId` names the member to promote.
-func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption)(*models.DedicatedDatabase, error) {
+func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption) (*models.DedicatedDatabase, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/failovers")
 	options := CreateFailoverOptions{}.New()
@@ -794,11 +788,10 @@ func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...Create
 	if options.enabledSetters["TargetReplicaId"] {
 		params["targetReplicaId"] = options.TargetReplicaId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -827,17 +820,16 @@ func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...Create
 	return &parsed, nil
 
 }
-	
+
 // ListMigrations list the dedicated migrations for a TablesDB database. A
 // database has at most one in-flight migration.
-func (srv *TablesDB) ListMigrations(DatabaseId string)(*models.DatabaseMigrationList, error) {
+func (srv *TablesDB) ListMigrations(DatabaseId string) (*models.DatabaseMigrationList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -866,28 +858,30 @@ func (srv *TablesDB) ListMigrations(DatabaseId string)(*models.DatabaseMigration
 	return &parsed, nil
 
 }
+
 type CreateMigrationOptions struct {
-	AutoCutover bool
+	AutoCutover    bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateMigrationOptions) New() *CreateMigrationOptions {
-	options.enabledSetters = map[string]bool{
-		"AutoCutover": false,
-	}
+	options.enabledSetters = map[string]bool{"AutoCutover": false}
 	return &options
 }
+
 type CreateMigrationOption func(*CreateMigrationOptions)
+
 func (srv *TablesDB) WithCreateMigrationAutoCutover(v bool) CreateMigrationOption {
 	return func(o *CreateMigrationOptions) {
 		o.AutoCutover = v
 		o.enabledSetters["AutoCutover"] = true
 	}
 }
-					
+
 // CreateMigration start migrating a serverless TablesDB database onto a
 // dedicated MySQL compute. Data is copied to the target while the source
 // stays live, with a brief read-only window during cutover.
-func (srv *TablesDB) CreateMigration(DatabaseId string, Specification string, optionalSetters ...CreateMigrationOption)(*models.DatabaseMigration, error) {
+func (srv *TablesDB) CreateMigration(DatabaseId string, Specification string, optionalSetters ...CreateMigrationOption) (*models.DatabaseMigration, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations")
 	options := CreateMigrationOptions{}.New()
@@ -899,11 +893,10 @@ func (srv *TablesDB) CreateMigration(DatabaseId string, Specification string, op
 	if options.enabledSetters["AutoCutover"] {
 		params["autoCutover"] = options.AutoCutover
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -932,17 +925,16 @@ func (srv *TablesDB) CreateMigration(DatabaseId string, Specification string, op
 	return &parsed, nil
 
 }
-			
+
 // GetMigration get a single dedicated migration for a TablesDB database by
 // its ID.
-func (srv *TablesDB) GetMigration(DatabaseId string, MigrationId string)(*models.DatabaseMigration, error) {
+func (srv *TablesDB) GetMigration(DatabaseId string, MigrationId string) (*models.DatabaseMigration, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -971,19 +963,18 @@ func (srv *TablesDB) GetMigration(DatabaseId string, MigrationId string)(*models
 	return &parsed, nil
 
 }
-			
+
 // DeleteMigration abort an in-flight TablesDB dedicated migration. Only
 // allowed before cutover; once the migration has cut over it cannot be
 // aborted.
-func (srv *TablesDB) DeleteMigration(DatabaseId string, MigrationId string)(*interface{}, error) {
+func (srv *TablesDB) DeleteMigration(DatabaseId string, MigrationId string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1011,22 +1002,21 @@ func (srv *TablesDB) DeleteMigration(DatabaseId string, MigrationId string)(*int
 	return &parsed, nil
 
 }
-			
+
 // CutoverMigration cut a verified TablesDB migration over to its dedicated
 // compute. Only applies to a migration created with `autoCutover` disabled,
 // which waits at `ready_to_cutover` until this is called. The routing flip
 // happens shortly after this returns, with a brief read-only window. One call
 // buys one attempt: a cutover that fails a check returns the migration to
 // `verifying` and parks it again, so call this once more to retry.
-func (srv *TablesDB) CutoverMigration(DatabaseId string, MigrationId string)(*models.DatabaseMigration, error) {
+func (srv *TablesDB) CutoverMigration(DatabaseId string, MigrationId string) (*models.DatabaseMigration, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}/cutover")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1055,21 +1045,21 @@ func (srv *TablesDB) CutoverMigration(DatabaseId string, MigrationId string)(*mo
 	return &parsed, nil
 
 }
+
 type ListOperationsOptions struct {
-	Status string
-	Limit int
-	Offset int
+	Status         string
+	Limit          int
+	Offset         int
 	enabledSetters map[string]bool
 }
+
 func (options ListOperationsOptions) New() *ListOperationsOptions {
-	options.enabledSetters = map[string]bool{
-		"Status": false,
-		"Limit": false,
-		"Offset": false,
-	}
+	options.enabledSetters = map[string]bool{"Status": false, "Limit": false, "Offset": false}
 	return &options
 }
+
 type ListOperationsOption func(*ListOperationsOptions)
+
 func (srv *TablesDB) WithListOperationsStatus(v string) ListOperationsOption {
 	return func(o *ListOperationsOptions) {
 		o.Status = v
@@ -1088,12 +1078,12 @@ func (srv *TablesDB) WithListOperationsOffset(v int) ListOperationsOption {
 		o.enabledSetters["Offset"] = true
 	}
 }
-			
+
 // ListOperations list the lifecycle operations recorded for a dedicated
 // database, newest first. Every provision, update, restore, backup and
 // replication action is recorded here with its outcome, including an attempt
 // that was abandoned because another worker took over the database.
-func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOperationsOption)(*models.DedicatedDatabaseOperationList, error) {
+func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOperationsOption) (*models.DedicatedDatabaseOperationList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/operations")
 	options := ListOperationsOptions{}.New()
@@ -1110,10 +1100,9 @@ func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOp
 	if options.enabledSetters["Offset"] {
 		params["offset"] = options.Offset
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1142,17 +1131,16 @@ func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOp
 	return &parsed, nil
 
 }
-	
+
 // GetReplicas get high availability status for a dedicated database. Returns
 // replica statuses, replication lag, and sync mode.
-func (srv *TablesDB) GetReplicas(DatabaseId string)(*models.DedicatedDatabaseReplicas, error) {
+func (srv *TablesDB) GetReplicas(DatabaseId string) (*models.DedicatedDatabaseReplicas, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/replicas")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1181,18 +1169,17 @@ func (srv *TablesDB) GetReplicas(DatabaseId string)(*models.DedicatedDatabaseRep
 	return &parsed, nil
 
 }
-	
+
 // GetStatus get real-time health and status information for a dedicated
 // database. Returns health status, readiness, uptime, connection info,
 // replica status, and volume information.
-func (srv *TablesDB) GetStatus(DatabaseId string)(*models.DatabaseStatus, error) {
+func (srv *TablesDB) GetStatus(DatabaseId string) (*models.DatabaseStatus, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/status")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1221,21 +1208,21 @@ func (srv *TablesDB) GetStatus(DatabaseId string)(*models.DatabaseStatus, error)
 	return &parsed, nil
 
 }
+
 type ListTablesOptions struct {
-	Queries []string
-	Search string
-	Total bool
+	Queries        []string
+	Search         string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListTablesOptions) New() *ListTablesOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Search": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Search": false, "Total": false}
 	return &options
 }
+
 type ListTablesOption func(*ListTablesOptions)
+
 func (srv *TablesDB) WithListTablesQueries(v []string) ListTablesOption {
 	return func(o *ListTablesOptions) {
 		o.Queries = v
@@ -1254,10 +1241,10 @@ func (srv *TablesDB) WithListTablesTotal(v bool) ListTablesOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-			
+
 // ListTables get a list of all tables that belong to the provided databaseId.
 // You can use the search parameter to filter your results.
-func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTablesOption)(*models.TableList, error) {
+func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTablesOption) (*models.TableList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/tables")
 	options := ListTablesOptions{}.New()
@@ -1274,10 +1261,9 @@ func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTables
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1306,25 +1292,23 @@ func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTables
 	return &parsed, nil
 
 }
+
 type CreateTableOptions struct {
-	Permissions []string
-	RowSecurity bool
-	Enabled bool
-	Columns []interface{}
-	Indexes []interface{}
+	Permissions    []string
+	RowSecurity    bool
+	Enabled        bool
+	Columns        []interface{}
+	Indexes        []interface{}
 	enabledSetters map[string]bool
 }
+
 func (options CreateTableOptions) New() *CreateTableOptions {
-	options.enabledSetters = map[string]bool{
-		"Permissions": false,
-		"RowSecurity": false,
-		"Enabled": false,
-		"Columns": false,
-		"Indexes": false,
-	}
+	options.enabledSetters = map[string]bool{"Permissions": false, "RowSecurity": false, "Enabled": false, "Columns": false, "Indexes": false}
 	return &options
 }
+
 type CreateTableOption func(*CreateTableOptions)
+
 func (srv *TablesDB) WithCreateTablePermissions(v []string) CreateTableOption {
 	return func(o *CreateTableOptions) {
 		o.Permissions = v
@@ -1355,12 +1339,12 @@ func (srv *TablesDB) WithCreateTableIndexes(v []interface{}) CreateTableOption {
 		o.enabledSetters["Indexes"] = true
 	}
 }
-							
+
 // CreateTable create a new Table. Before using this route, you should create
 // a new database resource using either a [server
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
-func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string, optionalSetters ...CreateTableOption)(*models.Table, error) {
+func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string, optionalSetters ...CreateTableOption) (*models.Table, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/tables")
 	options := CreateTableOptions{}.New()
@@ -1385,11 +1369,10 @@ func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string,
 	if options.enabledSetters["Indexes"] {
 		params["indexes"] = options.Indexes
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1418,17 +1401,16 @@ func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string,
 	return &parsed, nil
 
 }
-			
+
 // GetTable get a table by its unique ID. This endpoint response returns a
 // JSON object with the table metadata.
-func (srv *TablesDB) GetTable(DatabaseId string, TableId string)(*models.Table, error) {
+func (srv *TablesDB) GetTable(DatabaseId string, TableId string) (*models.Table, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1457,25 +1439,23 @@ func (srv *TablesDB) GetTable(DatabaseId string, TableId string)(*models.Table, 
 	return &parsed, nil
 
 }
+
 type UpdateTableOptions struct {
-	Name string
-	Permissions []string
-	RowSecurity bool
-	Enabled bool
-	Purge bool
+	Name           string
+	Permissions    []string
+	RowSecurity    bool
+	Enabled        bool
+	Purge          bool
 	enabledSetters map[string]bool
 }
+
 func (options UpdateTableOptions) New() *UpdateTableOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Permissions": false,
-		"RowSecurity": false,
-		"Enabled": false,
-		"Purge": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Permissions": false, "RowSecurity": false, "Enabled": false, "Purge": false}
 	return &options
 }
+
 type UpdateTableOption func(*UpdateTableOptions)
+
 func (srv *TablesDB) WithUpdateTableName(v string) UpdateTableOption {
 	return func(o *UpdateTableOptions) {
 		o.Name = v
@@ -1506,9 +1486,9 @@ func (srv *TablesDB) WithUpdateTablePurge(v bool) UpdateTableOption {
 		o.enabledSetters["Purge"] = true
 	}
 }
-					
+
 // UpdateTable update a table by its unique ID.
-func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSetters ...UpdateTableOption)(*models.Table, error) {
+func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSetters ...UpdateTableOption) (*models.Table, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	options := UpdateTableOptions{}.New()
@@ -1531,11 +1511,10 @@ func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSett
 	if options.enabledSetters["Purge"] {
 		params["purge"] = options.Purge
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -1564,17 +1543,16 @@ func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSett
 	return &parsed, nil
 
 }
-			
+
 // DeleteTable delete a table by its unique ID. Only users with write
 // permissions have access to delete this resource.
-func (srv *TablesDB) DeleteTable(DatabaseId string, TableId string)(*interface{}, error) {
+func (srv *TablesDB) DeleteTable(DatabaseId string, TableId string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1602,19 +1580,20 @@ func (srv *TablesDB) DeleteTable(DatabaseId string, TableId string)(*interface{}
 	return &parsed, nil
 
 }
+
 type ListColumnsOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListColumnsOptions) New() *ListColumnsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListColumnsOption func(*ListColumnsOptions)
+
 func (srv *TablesDB) WithListColumnsQueries(v []string) ListColumnsOption {
 	return func(o *ListColumnsOptions) {
 		o.Queries = v
@@ -1627,9 +1606,9 @@ func (srv *TablesDB) WithListColumnsTotal(v bool) ListColumnsOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-					
+
 // ListColumns list columns in the table.
-func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSetters ...ListColumnsOption)(*models.ColumnList, error) {
+func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSetters ...ListColumnsOption) (*models.ColumnList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns")
 	options := ListColumnsOptions{}.New()
@@ -1643,10 +1622,9 @@ func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSett
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1675,23 +1653,22 @@ func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSett
 	return &parsed, nil
 
 }
+
 type CreateBigIntColumnOptions struct {
-	Min int
-	Max int
-	Default int
-	Array bool
+	Min            int
+	Max            int
+	Default        int
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateBigIntColumnOptions) New() *CreateBigIntColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Min": false,
-		"Max": false,
-		"Default": false,
-		"Array": false,
-	}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "Default": false, "Array": false}
 	return &options
 }
+
 type CreateBigIntColumnOption func(*CreateBigIntColumnOptions)
+
 func (srv *TablesDB) WithCreateBigIntColumnMin(v int) CreateBigIntColumnOption {
 	return func(o *CreateBigIntColumnOptions) {
 		o.Min = v
@@ -1716,10 +1693,10 @@ func (srv *TablesDB) WithCreateBigIntColumnArray(v bool) CreateBigIntColumnOptio
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateBigIntColumn create a bigint column. Optionally, minimum and maximum
 // values can be provided.
-func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBigIntColumnOption)(*models.ColumnBigint, error) {
+func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBigIntColumnOption) (*models.ColumnBigint, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/bigint")
 	options := CreateBigIntColumnOptions{}.New()
@@ -1741,11 +1718,10 @@ func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key s
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1774,21 +1750,21 @@ func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key s
 	return &parsed, nil
 
 }
+
 type UpdateBigIntColumnOptions struct {
-	Min int
-	Max int
-	NewKey string
+	Min            int
+	Max            int
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateBigIntColumnOptions) New() *UpdateBigIntColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Min": false,
-		"Max": false,
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "NewKey": false}
 	return &options
 }
+
 type UpdateBigIntColumnOption func(*UpdateBigIntColumnOptions)
+
 func (srv *TablesDB) WithUpdateBigIntColumnMin(v int) UpdateBigIntColumnOption {
 	return func(o *UpdateBigIntColumnOptions) {
 		o.Min = v
@@ -1807,10 +1783,10 @@ func (srv *TablesDB) WithUpdateBigIntColumnNewKey(v string) UpdateBigIntColumnOp
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateBigIntColumn update a bigint column. Changing the `default` value
 // will not update already existing rows.
-func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateBigIntColumnOption)(*models.ColumnBigint, error) {
+func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateBigIntColumnOption) (*models.ColumnBigint, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}")
 	options := UpdateBigIntColumnOptions{}.New()
@@ -1829,11 +1805,10 @@ func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key s
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1862,19 +1837,20 @@ func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key s
 	return &parsed, nil
 
 }
+
 type CreateBooleanColumnOptions struct {
-	Default bool
-	Array bool
+	Default        bool
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateBooleanColumnOptions) New() *CreateBooleanColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
 	return &options
 }
+
 type CreateBooleanColumnOption func(*CreateBooleanColumnOptions)
+
 func (srv *TablesDB) WithCreateBooleanColumnDefault(v bool) CreateBooleanColumnOption {
 	return func(o *CreateBooleanColumnOptions) {
 		o.Default = v
@@ -1887,9 +1863,9 @@ func (srv *TablesDB) WithCreateBooleanColumnArray(v bool) CreateBooleanColumnOpt
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateBooleanColumn create a boolean column.
-func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBooleanColumnOption)(*models.ColumnBoolean, error) {
+func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBooleanColumnOption) (*models.ColumnBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/boolean")
 	options := CreateBooleanColumnOptions{}.New()
@@ -1905,11 +1881,10 @@ func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key 
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1938,27 +1913,29 @@ func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key 
 	return &parsed, nil
 
 }
+
 type UpdateBooleanColumnOptions struct {
-	NewKey string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateBooleanColumnOptions) New() *UpdateBooleanColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"NewKey": false}
 	return &options
 }
+
 type UpdateBooleanColumnOption func(*UpdateBooleanColumnOptions)
+
 func (srv *TablesDB) WithUpdateBooleanColumnNewKey(v string) UpdateBooleanColumnOption {
 	return func(o *UpdateBooleanColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateBooleanColumn update a boolean column. Changing the `default` value
 // will not update already existing rows.
-func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, Default bool, optionalSetters ...UpdateBooleanColumnOption)(*models.ColumnBoolean, error) {
+func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, Default bool, optionalSetters ...UpdateBooleanColumnOption) (*models.ColumnBoolean, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/boolean/{key}")
 	options := UpdateBooleanColumnOptions{}.New()
@@ -1971,11 +1948,10 @@ func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key 
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2004,19 +1980,20 @@ func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key 
 	return &parsed, nil
 
 }
+
 type CreateDatetimeColumnOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateDatetimeColumnOptions) New() *CreateDatetimeColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
 	return &options
 }
+
 type CreateDatetimeColumnOption func(*CreateDatetimeColumnOptions)
+
 func (srv *TablesDB) WithCreateDatetimeColumnDefault(v string) CreateDatetimeColumnOption {
 	return func(o *CreateDatetimeColumnOptions) {
 		o.Default = v
@@ -2029,10 +2006,10 @@ func (srv *TablesDB) WithCreateDatetimeColumnArray(v bool) CreateDatetimeColumnO
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateDatetimeColumn create a date time column according to the ISO 8601
 // standard.
-func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateDatetimeColumnOption)(*models.ColumnDatetime, error) {
+func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateDatetimeColumnOption) (*models.ColumnDatetime, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/datetime")
 	options := CreateDatetimeColumnOptions{}.New()
@@ -2048,11 +2025,10 @@ func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2081,27 +2057,29 @@ func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key
 	return &parsed, nil
 
 }
+
 type UpdateDatetimeColumnOptions struct {
-	NewKey string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateDatetimeColumnOptions) New() *UpdateDatetimeColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"NewKey": false}
 	return &options
 }
+
 type UpdateDatetimeColumnOption func(*UpdateDatetimeColumnOptions)
+
 func (srv *TablesDB) WithUpdateDatetimeColumnNewKey(v string) UpdateDatetimeColumnOption {
 	return func(o *UpdateDatetimeColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateDatetimeColumn update a date time column. Changing the `default`
 // value will not update already existing rows.
-func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateDatetimeColumnOption)(*models.ColumnDatetime, error) {
+func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateDatetimeColumnOption) (*models.ColumnDatetime, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/datetime/{key}")
 	options := UpdateDatetimeColumnOptions{}.New()
@@ -2114,11 +2092,10 @@ func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2147,19 +2124,20 @@ func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key
 	return &parsed, nil
 
 }
+
 type CreateEmailColumnOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateEmailColumnOptions) New() *CreateEmailColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
 	return &options
 }
+
 type CreateEmailColumnOption func(*CreateEmailColumnOptions)
+
 func (srv *TablesDB) WithCreateEmailColumnDefault(v string) CreateEmailColumnOption {
 	return func(o *CreateEmailColumnOptions) {
 		o.Default = v
@@ -2172,9 +2150,9 @@ func (srv *TablesDB) WithCreateEmailColumnArray(v bool) CreateEmailColumnOption 
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateEmailColumn create an email column.
-func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateEmailColumnOption)(*models.ColumnEmail, error) {
+func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateEmailColumnOption) (*models.ColumnEmail, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/email")
 	options := CreateEmailColumnOptions{}.New()
@@ -2190,11 +2168,10 @@ func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key st
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2223,27 +2200,29 @@ func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key st
 	return &parsed, nil
 
 }
+
 type UpdateEmailColumnOptions struct {
-	NewKey string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateEmailColumnOptions) New() *UpdateEmailColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"NewKey": false}
 	return &options
 }
+
 type UpdateEmailColumnOption func(*UpdateEmailColumnOptions)
+
 func (srv *TablesDB) WithUpdateEmailColumnNewKey(v string) UpdateEmailColumnOption {
 	return func(o *UpdateEmailColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateEmailColumn update an email column. Changing the `default` value will
 // not update already existing rows.
-func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateEmailColumnOption)(*models.ColumnEmail, error) {
+func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateEmailColumnOption) (*models.ColumnEmail, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/email/{key}")
 	options := UpdateEmailColumnOptions{}.New()
@@ -2256,11 +2235,10 @@ func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key st
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2289,19 +2267,20 @@ func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key st
 	return &parsed, nil
 
 }
+
 type CreateEnumColumnOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateEnumColumnOptions) New() *CreateEnumColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
 	return &options
 }
+
 type CreateEnumColumnOption func(*CreateEnumColumnOptions)
+
 func (srv *TablesDB) WithCreateEnumColumnDefault(v string) CreateEnumColumnOption {
 	return func(o *CreateEnumColumnOptions) {
 		o.Default = v
@@ -2314,10 +2293,10 @@ func (srv *TablesDB) WithCreateEnumColumnArray(v bool) CreateEnumColumnOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-											
+
 // CreateEnumColumn create an enumeration column. The `elements` param acts as
 // a white-list of accepted values for this column.
-func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, optionalSetters ...CreateEnumColumnOption)(*models.ColumnEnum, error) {
+func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, optionalSetters ...CreateEnumColumnOption) (*models.ColumnEnum, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/enum")
 	options := CreateEnumColumnOptions{}.New()
@@ -2334,11 +2313,10 @@ func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key str
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2367,27 +2345,29 @@ func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key str
 	return &parsed, nil
 
 }
+
 type UpdateEnumColumnOptions struct {
-	NewKey string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateEnumColumnOptions) New() *UpdateEnumColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"NewKey": false}
 	return &options
 }
+
 type UpdateEnumColumnOption func(*UpdateEnumColumnOptions)
+
 func (srv *TablesDB) WithUpdateEnumColumnNewKey(v string) UpdateEnumColumnOption {
 	return func(o *UpdateEnumColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-													
+
 // UpdateEnumColumn update an enum column. Changing the `default` value will
 // not update already existing rows.
-func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, Default string, optionalSetters ...UpdateEnumColumnOption)(*models.ColumnEnum, error) {
+func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, Default string, optionalSetters ...UpdateEnumColumnOption) (*models.ColumnEnum, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/enum/{key}")
 	options := UpdateEnumColumnOptions{}.New()
@@ -2401,11 +2381,10 @@ func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key str
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2434,23 +2413,22 @@ func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key str
 	return &parsed, nil
 
 }
+
 type CreateFloatColumnOptions struct {
-	Min float64
-	Max float64
-	Default float64
-	Array bool
+	Min            float64
+	Max            float64
+	Default        float64
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateFloatColumnOptions) New() *CreateFloatColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Min": false,
-		"Max": false,
-		"Default": false,
-		"Array": false,
-	}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "Default": false, "Array": false}
 	return &options
 }
+
 type CreateFloatColumnOption func(*CreateFloatColumnOptions)
+
 func (srv *TablesDB) WithCreateFloatColumnMin(v float64) CreateFloatColumnOption {
 	return func(o *CreateFloatColumnOptions) {
 		o.Min = v
@@ -2475,10 +2453,10 @@ func (srv *TablesDB) WithCreateFloatColumnArray(v bool) CreateFloatColumnOption 
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateFloatColumn create a float column. Optionally, minimum and maximum
 // values can be provided.
-func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateFloatColumnOption)(*models.ColumnFloat, error) {
+func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateFloatColumnOption) (*models.ColumnFloat, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/float")
 	options := CreateFloatColumnOptions{}.New()
@@ -2500,11 +2478,10 @@ func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key st
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2533,21 +2510,21 @@ func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key st
 	return &parsed, nil
 
 }
+
 type UpdateFloatColumnOptions struct {
-	Min float64
-	Max float64
-	NewKey string
+	Min            float64
+	Max            float64
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateFloatColumnOptions) New() *UpdateFloatColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Min": false,
-		"Max": false,
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "NewKey": false}
 	return &options
 }
+
 type UpdateFloatColumnOption func(*UpdateFloatColumnOptions)
+
 func (srv *TablesDB) WithUpdateFloatColumnMin(v float64) UpdateFloatColumnOption {
 	return func(o *UpdateFloatColumnOptions) {
 		o.Min = v
@@ -2566,10 +2543,10 @@ func (srv *TablesDB) WithUpdateFloatColumnNewKey(v string) UpdateFloatColumnOpti
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateFloatColumn update a float column. Changing the `default` value will
 // not update already existing rows.
-func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, Default float64, optionalSetters ...UpdateFloatColumnOption)(*models.ColumnFloat, error) {
+func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, Default float64, optionalSetters ...UpdateFloatColumnOption) (*models.ColumnFloat, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/float/{key}")
 	options := UpdateFloatColumnOptions{}.New()
@@ -2588,11 +2565,10 @@ func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key st
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2621,23 +2597,22 @@ func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key st
 	return &parsed, nil
 
 }
+
 type CreateIntegerColumnOptions struct {
-	Min int
-	Max int
-	Default int
-	Array bool
+	Min            int
+	Max            int
+	Default        int
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateIntegerColumnOptions) New() *CreateIntegerColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Min": false,
-		"Max": false,
-		"Default": false,
-		"Array": false,
-	}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "Default": false, "Array": false}
 	return &options
 }
+
 type CreateIntegerColumnOption func(*CreateIntegerColumnOptions)
+
 func (srv *TablesDB) WithCreateIntegerColumnMin(v int) CreateIntegerColumnOption {
 	return func(o *CreateIntegerColumnOptions) {
 		o.Min = v
@@ -2662,10 +2637,10 @@ func (srv *TablesDB) WithCreateIntegerColumnArray(v bool) CreateIntegerColumnOpt
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateIntegerColumn create an integer column. Optionally, minimum and
 // maximum values can be provided.
-func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIntegerColumnOption)(*models.ColumnInteger, error) {
+func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIntegerColumnOption) (*models.ColumnInteger, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/integer")
 	options := CreateIntegerColumnOptions{}.New()
@@ -2687,11 +2662,10 @@ func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key 
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2720,21 +2694,21 @@ func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key 
 	return &parsed, nil
 
 }
+
 type UpdateIntegerColumnOptions struct {
-	Min int
-	Max int
-	NewKey string
+	Min            int
+	Max            int
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateIntegerColumnOptions) New() *UpdateIntegerColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Min": false,
-		"Max": false,
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "NewKey": false}
 	return &options
 }
+
 type UpdateIntegerColumnOption func(*UpdateIntegerColumnOptions)
+
 func (srv *TablesDB) WithUpdateIntegerColumnMin(v int) UpdateIntegerColumnOption {
 	return func(o *UpdateIntegerColumnOptions) {
 		o.Min = v
@@ -2753,10 +2727,10 @@ func (srv *TablesDB) WithUpdateIntegerColumnNewKey(v string) UpdateIntegerColumn
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateIntegerColumn update an integer column. Changing the `default` value
 // will not update already existing rows.
-func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateIntegerColumnOption)(*models.ColumnInteger, error) {
+func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateIntegerColumnOption) (*models.ColumnInteger, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/integer/{key}")
 	options := UpdateIntegerColumnOptions{}.New()
@@ -2775,11 +2749,10 @@ func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key 
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2808,19 +2781,20 @@ func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key 
 	return &parsed, nil
 
 }
+
 type CreateIpColumnOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateIpColumnOptions) New() *CreateIpColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
 	return &options
 }
+
 type CreateIpColumnOption func(*CreateIpColumnOptions)
+
 func (srv *TablesDB) WithCreateIpColumnDefault(v string) CreateIpColumnOption {
 	return func(o *CreateIpColumnOptions) {
 		o.Default = v
@@ -2833,9 +2807,9 @@ func (srv *TablesDB) WithCreateIpColumnArray(v bool) CreateIpColumnOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateIpColumn create IP address column.
-func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIpColumnOption)(*models.ColumnIp, error) {
+func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIpColumnOption) (*models.ColumnIp, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/ip")
 	options := CreateIpColumnOptions{}.New()
@@ -2851,11 +2825,10 @@ func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key strin
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2884,27 +2857,29 @@ func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key strin
 	return &parsed, nil
 
 }
+
 type UpdateIpColumnOptions struct {
-	NewKey string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateIpColumnOptions) New() *UpdateIpColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"NewKey": false}
 	return &options
 }
+
 type UpdateIpColumnOption func(*UpdateIpColumnOptions)
+
 func (srv *TablesDB) WithUpdateIpColumnNewKey(v string) UpdateIpColumnOption {
 	return func(o *UpdateIpColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateIpColumn update an ip column. Changing the `default` value will not
 // update already existing rows.
-func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateIpColumnOption)(*models.ColumnIp, error) {
+func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateIpColumnOption) (*models.ColumnIp, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/ip/{key}")
 	options := UpdateIpColumnOptions{}.New()
@@ -2917,11 +2892,10 @@ func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key strin
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2950,26 +2924,28 @@ func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key strin
 	return &parsed, nil
 
 }
+
 type CreateLineColumnOptions struct {
-	Default [][]interface{}
+	Default        [][]interface{}
 	enabledSetters map[string]bool
 }
+
 func (options CreateLineColumnOptions) New() *CreateLineColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false}
 	return &options
 }
+
 type CreateLineColumnOption func(*CreateLineColumnOptions)
+
 func (srv *TablesDB) WithCreateLineColumnDefault(v [][]interface{}) CreateLineColumnOption {
 	return func(o *CreateLineColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-									
+
 // CreateLineColumn create a geometric line column.
-func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLineColumnOption)(*models.ColumnLine, error) {
+func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLineColumnOption) (*models.ColumnLine, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line")
 	options := CreateLineColumnOptions{}.New()
@@ -2982,11 +2958,10 @@ func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key str
 	if options.enabledSetters["Default"] {
 		params["default"] = options.Default
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3015,19 +2990,20 @@ func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key str
 	return &parsed, nil
 
 }
+
 type UpdateLineColumnOptions struct {
-	Default [][]interface{}
-	NewKey string
+	Default        [][]interface{}
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateLineColumnOptions) New() *UpdateLineColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "NewKey": false}
 	return &options
 }
+
 type UpdateLineColumnOption func(*UpdateLineColumnOptions)
+
 func (srv *TablesDB) WithUpdateLineColumnDefault(v [][]interface{}) UpdateLineColumnOption {
 	return func(o *UpdateLineColumnOptions) {
 		o.Default = v
@@ -3040,10 +3016,10 @@ func (srv *TablesDB) WithUpdateLineColumnNewKey(v string) UpdateLineColumnOption
 		o.enabledSetters["NewKey"] = true
 	}
 }
-									
+
 // UpdateLineColumn update a line column. Changing the `default` value will
 // not update already existing rows.
-func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdateLineColumnOption)(*models.ColumnLine, error) {
+func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdateLineColumnOption) (*models.ColumnLine, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}")
 	options := UpdateLineColumnOptions{}.New()
@@ -3058,11 +3034,10 @@ func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key str
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -3091,21 +3066,21 @@ func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key str
 	return &parsed, nil
 
 }
+
 type CreateLongtextColumnOptions struct {
-	Default string
-	Array bool
-	Encrypt bool
+	Default        string
+	Array          bool
+	Encrypt        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateLongtextColumnOptions) New() *CreateLongtextColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-		"Encrypt": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
 	return &options
 }
+
 type CreateLongtextColumnOption func(*CreateLongtextColumnOptions)
+
 func (srv *TablesDB) WithCreateLongtextColumnDefault(v string) CreateLongtextColumnOption {
 	return func(o *CreateLongtextColumnOptions) {
 		o.Default = v
@@ -3124,9 +3099,9 @@ func (srv *TablesDB) WithCreateLongtextColumnEncrypt(v bool) CreateLongtextColum
 		o.enabledSetters["Encrypt"] = true
 	}
 }
-									
+
 // CreateLongtextColumn create a longtext column.
-func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLongtextColumnOption)(*models.ColumnLongtext, error) {
+func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLongtextColumnOption) (*models.ColumnLongtext, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/longtext")
 	options := CreateLongtextColumnOptions{}.New()
@@ -3145,11 +3120,10 @@ func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3178,27 +3152,29 @@ func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key
 	return &parsed, nil
 
 }
+
 type UpdateLongtextColumnOptions struct {
-	NewKey string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateLongtextColumnOptions) New() *UpdateLongtextColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"NewKey": false}
 	return &options
 }
+
 type UpdateLongtextColumnOption func(*UpdateLongtextColumnOptions)
+
 func (srv *TablesDB) WithUpdateLongtextColumnNewKey(v string) UpdateLongtextColumnOption {
 	return func(o *UpdateLongtextColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateLongtextColumn update a longtext column. Changing the `default` value
 // will not update already existing rows.
-func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateLongtextColumnOption)(*models.ColumnLongtext, error) {
+func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateLongtextColumnOption) (*models.ColumnLongtext, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/longtext/{key}")
 	options := UpdateLongtextColumnOptions{}.New()
@@ -3211,11 +3187,10 @@ func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -3244,21 +3219,21 @@ func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key
 	return &parsed, nil
 
 }
+
 type CreateMediumtextColumnOptions struct {
-	Default string
-	Array bool
-	Encrypt bool
+	Default        string
+	Array          bool
+	Encrypt        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateMediumtextColumnOptions) New() *CreateMediumtextColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-		"Encrypt": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
 	return &options
 }
+
 type CreateMediumtextColumnOption func(*CreateMediumtextColumnOptions)
+
 func (srv *TablesDB) WithCreateMediumtextColumnDefault(v string) CreateMediumtextColumnOption {
 	return func(o *CreateMediumtextColumnOptions) {
 		o.Default = v
@@ -3277,9 +3252,9 @@ func (srv *TablesDB) WithCreateMediumtextColumnEncrypt(v bool) CreateMediumtextC
 		o.enabledSetters["Encrypt"] = true
 	}
 }
-									
+
 // CreateMediumtextColumn create a mediumtext column.
-func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateMediumtextColumnOption)(*models.ColumnMediumtext, error) {
+func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateMediumtextColumnOption) (*models.ColumnMediumtext, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext")
 	options := CreateMediumtextColumnOptions{}.New()
@@ -3298,11 +3273,10 @@ func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, K
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3331,27 +3305,29 @@ func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, K
 	return &parsed, nil
 
 }
+
 type UpdateMediumtextColumnOptions struct {
-	NewKey string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateMediumtextColumnOptions) New() *UpdateMediumtextColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"NewKey": false}
 	return &options
 }
+
 type UpdateMediumtextColumnOption func(*UpdateMediumtextColumnOptions)
+
 func (srv *TablesDB) WithUpdateMediumtextColumnNewKey(v string) UpdateMediumtextColumnOption {
 	return func(o *UpdateMediumtextColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateMediumtextColumn update a mediumtext column. Changing the `default`
 // value will not update already existing rows.
-func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateMediumtextColumnOption)(*models.ColumnMediumtext, error) {
+func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateMediumtextColumnOption) (*models.ColumnMediumtext, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext/{key}")
 	options := UpdateMediumtextColumnOptions{}.New()
@@ -3364,11 +3340,10 @@ func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, K
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -3397,26 +3372,28 @@ func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, K
 	return &parsed, nil
 
 }
+
 type CreatePointColumnOptions struct {
-	Default []float64
+	Default        []float64
 	enabledSetters map[string]bool
 }
+
 func (options CreatePointColumnOptions) New() *CreatePointColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false}
 	return &options
 }
+
 type CreatePointColumnOption func(*CreatePointColumnOptions)
+
 func (srv *TablesDB) WithCreatePointColumnDefault(v []float64) CreatePointColumnOption {
 	return func(o *CreatePointColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-									
+
 // CreatePointColumn create a geometric point column.
-func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePointColumnOption)(*models.ColumnPoint, error) {
+func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePointColumnOption) (*models.ColumnPoint, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point")
 	options := CreatePointColumnOptions{}.New()
@@ -3429,11 +3406,10 @@ func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key st
 	if options.enabledSetters["Default"] {
 		params["default"] = options.Default
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3462,19 +3438,20 @@ func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key st
 	return &parsed, nil
 
 }
+
 type UpdatePointColumnOptions struct {
-	Default []float64
-	NewKey string
+	Default        []float64
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdatePointColumnOptions) New() *UpdatePointColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "NewKey": false}
 	return &options
 }
+
 type UpdatePointColumnOption func(*UpdatePointColumnOptions)
+
 func (srv *TablesDB) WithUpdatePointColumnDefault(v []float64) UpdatePointColumnOption {
 	return func(o *UpdatePointColumnOptions) {
 		o.Default = v
@@ -3487,10 +3464,10 @@ func (srv *TablesDB) WithUpdatePointColumnNewKey(v string) UpdatePointColumnOpti
 		o.enabledSetters["NewKey"] = true
 	}
 }
-									
+
 // UpdatePointColumn update a point column. Changing the `default` value will
 // not update already existing rows.
-func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePointColumnOption)(*models.ColumnPoint, error) {
+func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePointColumnOption) (*models.ColumnPoint, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}")
 	options := UpdatePointColumnOptions{}.New()
@@ -3505,11 +3482,10 @@ func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key st
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -3538,26 +3514,28 @@ func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key st
 	return &parsed, nil
 
 }
+
 type CreatePolygonColumnOptions struct {
-	Default [][]interface{}
+	Default        [][]interface{}
 	enabledSetters map[string]bool
 }
+
 func (options CreatePolygonColumnOptions) New() *CreatePolygonColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false}
 	return &options
 }
+
 type CreatePolygonColumnOption func(*CreatePolygonColumnOptions)
+
 func (srv *TablesDB) WithCreatePolygonColumnDefault(v [][]interface{}) CreatePolygonColumnOption {
 	return func(o *CreatePolygonColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
 	}
 }
-									
+
 // CreatePolygonColumn create a geometric polygon column.
-func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePolygonColumnOption)(*models.ColumnPolygon, error) {
+func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePolygonColumnOption) (*models.ColumnPolygon, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon")
 	options := CreatePolygonColumnOptions{}.New()
@@ -3570,11 +3548,10 @@ func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key 
 	if options.enabledSetters["Default"] {
 		params["default"] = options.Default
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3603,19 +3580,20 @@ func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key 
 	return &parsed, nil
 
 }
+
 type UpdatePolygonColumnOptions struct {
-	Default [][]interface{}
-	NewKey string
+	Default        [][]interface{}
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdatePolygonColumnOptions) New() *UpdatePolygonColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "NewKey": false}
 	return &options
 }
+
 type UpdatePolygonColumnOption func(*UpdatePolygonColumnOptions)
+
 func (srv *TablesDB) WithUpdatePolygonColumnDefault(v [][]interface{}) UpdatePolygonColumnOption {
 	return func(o *UpdatePolygonColumnOptions) {
 		o.Default = v
@@ -3628,10 +3606,10 @@ func (srv *TablesDB) WithUpdatePolygonColumnNewKey(v string) UpdatePolygonColumn
 		o.enabledSetters["NewKey"] = true
 	}
 }
-									
+
 // UpdatePolygonColumn update a polygon column. Changing the `default` value
 // will not update already existing rows.
-func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePolygonColumnOption)(*models.ColumnPolygon, error) {
+func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePolygonColumnOption) (*models.ColumnPolygon, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}")
 	options := UpdatePolygonColumnOptions{}.New()
@@ -3646,11 +3624,10 @@ func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key 
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -3679,23 +3656,22 @@ func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key 
 	return &parsed, nil
 
 }
+
 type CreateRelationshipColumnOptions struct {
-	TwoWay bool
-	Key string
-	TwoWayKey string
-	OnDelete string
+	TwoWay         bool
+	Key            string
+	TwoWayKey      string
+	OnDelete       string
 	enabledSetters map[string]bool
 }
+
 func (options CreateRelationshipColumnOptions) New() *CreateRelationshipColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"TwoWay": false,
-		"Key": false,
-		"TwoWayKey": false,
-		"OnDelete": false,
-	}
+	options.enabledSetters = map[string]bool{"TwoWay": false, "Key": false, "TwoWayKey": false, "OnDelete": false}
 	return &options
 }
+
 type CreateRelationshipColumnOption func(*CreateRelationshipColumnOptions)
+
 func (srv *TablesDB) WithCreateRelationshipColumnTwoWay(v bool) CreateRelationshipColumnOption {
 	return func(o *CreateRelationshipColumnOptions) {
 		o.TwoWay = v
@@ -3720,11 +3696,11 @@ func (srv *TablesDB) WithCreateRelationshipColumnOnDelete(v string) CreateRelati
 		o.enabledSetters["OnDelete"] = true
 	}
 }
-									
+
 // CreateRelationshipColumn create relationship column. [Learn more about
 // relationship
 // columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
-func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string, RelatedTableId string, Type string, optionalSetters ...CreateRelationshipColumnOption)(*models.ColumnRelationship, error) {
+func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string, RelatedTableId string, Type string, optionalSetters ...CreateRelationshipColumnOption) (*models.ColumnRelationship, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/relationship")
 	options := CreateRelationshipColumnOptions{}.New()
@@ -3746,11 +3722,10 @@ func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string,
 	if options.enabledSetters["OnDelete"] {
 		params["onDelete"] = options.OnDelete
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3779,21 +3754,21 @@ func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string,
 	return &parsed, nil
 
 }
+
 type CreateStringColumnOptions struct {
-	Default string
-	Array bool
-	Encrypt bool
+	Default        string
+	Array          bool
+	Encrypt        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateStringColumnOptions) New() *CreateStringColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-		"Encrypt": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
 	return &options
 }
+
 type CreateStringColumnOption func(*CreateStringColumnOptions)
+
 func (srv *TablesDB) WithCreateStringColumnDefault(v string) CreateStringColumnOption {
 	return func(o *CreateStringColumnOptions) {
 		o.Default = v
@@ -3812,11 +3787,11 @@ func (srv *TablesDB) WithCreateStringColumnEncrypt(v bool) CreateStringColumnOpt
 		o.enabledSetters["Encrypt"] = true
 	}
 }
-											
+
 // CreateStringColumn create a string column.
 //
 // Deprecated: This API has been deprecated since 1.9.0. Please use `TablesDB.createTextColumn` instead.
-func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateStringColumnOption)(*models.ColumnString, error) {
+func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateStringColumnOption) (*models.ColumnString, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string")
 	options := CreateStringColumnOptions{}.New()
@@ -3836,11 +3811,10 @@ func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key s
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3869,19 +3843,20 @@ func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key s
 	return &parsed, nil
 
 }
+
 type UpdateStringColumnOptions struct {
-	Size int
-	NewKey string
+	Size           int
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateStringColumnOptions) New() *UpdateStringColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Size": false,
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"Size": false, "NewKey": false}
 	return &options
 }
+
 type UpdateStringColumnOption func(*UpdateStringColumnOptions)
+
 func (srv *TablesDB) WithUpdateStringColumnSize(v int) UpdateStringColumnOption {
 	return func(o *UpdateStringColumnOptions) {
 		o.Size = v
@@ -3894,12 +3869,12 @@ func (srv *TablesDB) WithUpdateStringColumnNewKey(v string) UpdateStringColumnOp
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateStringColumn update a string column. Changing the `default` value
 // will not update already existing rows.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTextColumn` instead.
-func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringColumnOption)(*models.ColumnString, error) {
+func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringColumnOption) (*models.ColumnString, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}")
 	options := UpdateStringColumnOptions{}.New()
@@ -3915,11 +3890,10 @@ func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key s
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -3948,21 +3922,21 @@ func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key s
 	return &parsed, nil
 
 }
+
 type CreateTextColumnOptions struct {
-	Default string
-	Array bool
-	Encrypt bool
+	Default        string
+	Array          bool
+	Encrypt        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateTextColumnOptions) New() *CreateTextColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-		"Encrypt": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
 	return &options
 }
+
 type CreateTextColumnOption func(*CreateTextColumnOptions)
+
 func (srv *TablesDB) WithCreateTextColumnDefault(v string) CreateTextColumnOption {
 	return func(o *CreateTextColumnOptions) {
 		o.Default = v
@@ -3981,9 +3955,9 @@ func (srv *TablesDB) WithCreateTextColumnEncrypt(v bool) CreateTextColumnOption 
 		o.enabledSetters["Encrypt"] = true
 	}
 }
-									
+
 // CreateTextColumn create a text column.
-func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateTextColumnOption)(*models.ColumnText, error) {
+func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateTextColumnOption) (*models.ColumnText, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/text")
 	options := CreateTextColumnOptions{}.New()
@@ -4002,11 +3976,10 @@ func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key str
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -4035,27 +4008,29 @@ func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key str
 	return &parsed, nil
 
 }
+
 type UpdateTextColumnOptions struct {
-	NewKey string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateTextColumnOptions) New() *UpdateTextColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"NewKey": false}
 	return &options
 }
+
 type UpdateTextColumnOption func(*UpdateTextColumnOptions)
+
 func (srv *TablesDB) WithUpdateTextColumnNewKey(v string) UpdateTextColumnOption {
 	return func(o *UpdateTextColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateTextColumn update a text column. Changing the `default` value will
 // not update already existing rows.
-func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateTextColumnOption)(*models.ColumnText, error) {
+func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateTextColumnOption) (*models.ColumnText, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/text/{key}")
 	options := UpdateTextColumnOptions{}.New()
@@ -4068,11 +4043,10 @@ func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key str
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -4101,19 +4075,20 @@ func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key str
 	return &parsed, nil
 
 }
+
 type CreateUrlColumnOptions struct {
-	Default string
-	Array bool
+	Default        string
+	Array          bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateUrlColumnOptions) New() *CreateUrlColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
 	return &options
 }
+
 type CreateUrlColumnOption func(*CreateUrlColumnOptions)
+
 func (srv *TablesDB) WithCreateUrlColumnDefault(v string) CreateUrlColumnOption {
 	return func(o *CreateUrlColumnOptions) {
 		o.Default = v
@@ -4126,9 +4101,9 @@ func (srv *TablesDB) WithCreateUrlColumnArray(v bool) CreateUrlColumnOption {
 		o.enabledSetters["Array"] = true
 	}
 }
-									
+
 // CreateUrlColumn create a URL column.
-func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateUrlColumnOption)(*models.ColumnUrl, error) {
+func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateUrlColumnOption) (*models.ColumnUrl, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/url")
 	options := CreateUrlColumnOptions{}.New()
@@ -4144,11 +4119,10 @@ func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key stri
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -4177,27 +4151,29 @@ func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key stri
 	return &parsed, nil
 
 }
+
 type UpdateUrlColumnOptions struct {
-	NewKey string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateUrlColumnOptions) New() *UpdateUrlColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"NewKey": false}
 	return &options
 }
+
 type UpdateUrlColumnOption func(*UpdateUrlColumnOptions)
+
 func (srv *TablesDB) WithUpdateUrlColumnNewKey(v string) UpdateUrlColumnOption {
 	return func(o *UpdateUrlColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateUrlColumn update an url column. Changing the `default` value will not
 // update already existing rows.
-func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateUrlColumnOption)(*models.ColumnUrl, error) {
+func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateUrlColumnOption) (*models.ColumnUrl, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/url/{key}")
 	options := UpdateUrlColumnOptions{}.New()
@@ -4210,11 +4186,10 @@ func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key stri
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -4243,21 +4218,21 @@ func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key stri
 	return &parsed, nil
 
 }
+
 type CreateVarcharColumnOptions struct {
-	Default string
-	Array bool
-	Encrypt bool
+	Default        string
+	Array          bool
+	Encrypt        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateVarcharColumnOptions) New() *CreateVarcharColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Default": false,
-		"Array": false,
-		"Encrypt": false,
-	}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
 	return &options
 }
+
 type CreateVarcharColumnOption func(*CreateVarcharColumnOptions)
+
 func (srv *TablesDB) WithCreateVarcharColumnDefault(v string) CreateVarcharColumnOption {
 	return func(o *CreateVarcharColumnOptions) {
 		o.Default = v
@@ -4276,9 +4251,9 @@ func (srv *TablesDB) WithCreateVarcharColumnEncrypt(v bool) CreateVarcharColumnO
 		o.enabledSetters["Encrypt"] = true
 	}
 }
-											
+
 // CreateVarcharColumn create a varchar column.
-func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateVarcharColumnOption)(*models.ColumnVarchar, error) {
+func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateVarcharColumnOption) (*models.ColumnVarchar, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/varchar")
 	options := CreateVarcharColumnOptions{}.New()
@@ -4298,11 +4273,10 @@ func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key 
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -4331,19 +4305,20 @@ func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key 
 	return &parsed, nil
 
 }
+
 type UpdateVarcharColumnOptions struct {
-	Size int
-	NewKey string
+	Size           int
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateVarcharColumnOptions) New() *UpdateVarcharColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Size": false,
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"Size": false, "NewKey": false}
 	return &options
 }
+
 type UpdateVarcharColumnOption func(*UpdateVarcharColumnOptions)
+
 func (srv *TablesDB) WithUpdateVarcharColumnSize(v int) UpdateVarcharColumnOption {
 	return func(o *UpdateVarcharColumnOptions) {
 		o.Size = v
@@ -4356,10 +4331,10 @@ func (srv *TablesDB) WithUpdateVarcharColumnNewKey(v string) UpdateVarcharColumn
 		o.enabledSetters["NewKey"] = true
 	}
 }
-											
+
 // UpdateVarcharColumn update a varchar column. Changing the `default` value
 // will not update already existing rows.
-func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateVarcharColumnOption)(*models.ColumnVarchar, error) {
+func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateVarcharColumnOption) (*models.ColumnVarchar, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/varchar/{key}")
 	options := UpdateVarcharColumnOptions{}.New()
@@ -4375,11 +4350,10 @@ func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key 
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -4408,16 +4382,15 @@ func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key 
 	return &parsed, nil
 
 }
-					
+
 // GetColumn get column by ID.
-func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(models.Model, error) {
+func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string) (models.Model, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -4523,16 +4496,15 @@ func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string)(mo
 	return parsed, nil
 
 }
-					
+
 // DeleteColumn deletes a column.
-func (srv *TablesDB) DeleteColumn(DatabaseId string, TableId string, Key string)(*interface{}, error) {
+func (srv *TablesDB) DeleteColumn(DatabaseId string, TableId string, Key string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -4560,19 +4532,20 @@ func (srv *TablesDB) DeleteColumn(DatabaseId string, TableId string, Key string)
 	return &parsed, nil
 
 }
+
 type UpdateRelationshipColumnOptions struct {
-	OnDelete string
-	NewKey string
+	OnDelete       string
+	NewKey         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateRelationshipColumnOptions) New() *UpdateRelationshipColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"OnDelete": false,
-		"NewKey": false,
-	}
+	options.enabledSetters = map[string]bool{"OnDelete": false, "NewKey": false}
 	return &options
 }
+
 type UpdateRelationshipColumnOption func(*UpdateRelationshipColumnOptions)
+
 func (srv *TablesDB) WithUpdateRelationshipColumnOnDelete(v string) UpdateRelationshipColumnOption {
 	return func(o *UpdateRelationshipColumnOptions) {
 		o.OnDelete = v
@@ -4585,11 +4558,11 @@ func (srv *TablesDB) WithUpdateRelationshipColumnNewKey(v string) UpdateRelation
 		o.enabledSetters["NewKey"] = true
 	}
 }
-							
+
 // UpdateRelationshipColumn update relationship column. [Learn more about
 // relationship
 // columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
-func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string, Key string, optionalSetters ...UpdateRelationshipColumnOption)(*models.ColumnRelationship, error) {
+func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string, Key string, optionalSetters ...UpdateRelationshipColumnOption) (*models.ColumnRelationship, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}/relationship")
 	options := UpdateRelationshipColumnOptions{}.New()
@@ -4603,11 +4576,10 @@ func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string,
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -4636,19 +4608,20 @@ func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string,
 	return &parsed, nil
 
 }
+
 type ListIndexesOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListIndexesOptions) New() *ListIndexesOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListIndexesOption func(*ListIndexesOptions)
+
 func (srv *TablesDB) WithListIndexesQueries(v []string) ListIndexesOption {
 	return func(o *ListIndexesOptions) {
 		o.Queries = v
@@ -4661,9 +4634,9 @@ func (srv *TablesDB) WithListIndexesTotal(v bool) ListIndexesOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-					
+
 // ListIndexes list indexes on the table.
-func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSetters ...ListIndexesOption)(*models.ColumnIndexList, error) {
+func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSetters ...ListIndexesOption) (*models.ColumnIndexList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")
 	options := ListIndexesOptions{}.New()
@@ -4677,10 +4650,9 @@ func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSett
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -4709,19 +4681,20 @@ func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSett
 	return &parsed, nil
 
 }
+
 type CreateIndexOptions struct {
-	Orders []string
-	Lengths []int
+	Orders         []string
+	Lengths        []int
 	enabledSetters map[string]bool
 }
+
 func (options CreateIndexOptions) New() *CreateIndexOptions {
-	options.enabledSetters = map[string]bool{
-		"Orders": false,
-		"Lengths": false,
-	}
+	options.enabledSetters = map[string]bool{"Orders": false, "Lengths": false}
 	return &options
 }
+
 type CreateIndexOption func(*CreateIndexOptions)
+
 func (srv *TablesDB) WithCreateIndexOrders(v []string) CreateIndexOption {
 	return func(o *CreateIndexOptions) {
 		o.Orders = v
@@ -4734,11 +4707,11 @@ func (srv *TablesDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 		o.enabledSetters["Lengths"] = true
 	}
 }
-											
+
 // CreateIndex creates an index on the columns listed. Your index should
 // include all the columns you will query in a single request.
 // Type can be `key`, `fulltext`, or `unique`.
-func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, Type string, Columns []string, optionalSetters ...CreateIndexOption)(*models.ColumnIndex, error) {
+func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, Type string, Columns []string, optionalSetters ...CreateIndexOption) (*models.ColumnIndex, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")
 	options := CreateIndexOptions{}.New()
@@ -4755,11 +4728,10 @@ func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, 
 	if options.enabledSetters["Lengths"] {
 		params["lengths"] = options.Lengths
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -4788,16 +4760,15 @@ func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, 
 	return &parsed, nil
 
 }
-					
+
 // GetIndex get index by ID.
-func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string)(*models.ColumnIndex, error) {
+func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string) (*models.ColumnIndex, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -4826,16 +4797,15 @@ func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string)(*mo
 	return &parsed, nil
 
 }
-					
+
 // DeleteIndex delete an index.
-func (srv *TablesDB) DeleteIndex(DatabaseId string, TableId string, Key string)(*interface{}, error) {
+func (srv *TablesDB) DeleteIndex(DatabaseId string, TableId string, Key string) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -4863,23 +4833,22 @@ func (srv *TablesDB) DeleteIndex(DatabaseId string, TableId string, Key string)(
 	return &parsed, nil
 
 }
+
 type ListRowsOptions struct {
-	Queries []string
-	TransactionId string
-	Total bool
-	Ttl int
+	Queries        []string
+	TransactionId  string
+	Total          bool
+	Ttl            int
 	enabledSetters map[string]bool
 }
+
 func (options ListRowsOptions) New() *ListRowsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"TransactionId": false,
-		"Total": false,
-		"Ttl": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "TransactionId": false, "Total": false, "Ttl": false}
 	return &options
 }
+
 type ListRowsOption func(*ListRowsOptions)
+
 func (srv *TablesDB) WithListRowsQueries(v []string) ListRowsOption {
 	return func(o *ListRowsOptions) {
 		o.Queries = v
@@ -4904,10 +4873,10 @@ func (srv *TablesDB) WithListRowsTtl(v int) ListRowsOption {
 		o.enabledSetters["Ttl"] = true
 	}
 }
-					
+
 // ListRows get a list of all the user's rows in a given table. You can use
 // the query params to filter your results.
-func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters ...ListRowsOption)(*models.RowList, error) {
+func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters ...ListRowsOption) (*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := ListRowsOptions{}.New()
@@ -4927,10 +4896,9 @@ func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters
 	if options.enabledSetters["Ttl"] {
 		params["ttl"] = options.Ttl
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -4959,19 +4927,20 @@ func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters
 	return &parsed, nil
 
 }
+
 type CreateRowOptions struct {
-	Permissions []string
-	TransactionId string
+	Permissions    []string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options CreateRowOptions) New() *CreateRowOptions {
-	options.enabledSetters = map[string]bool{
-		"Permissions": false,
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"Permissions": false, "TransactionId": false}
 	return &options
 }
+
 type CreateRowOption func(*CreateRowOptions)
+
 func (srv *TablesDB) WithCreateRowPermissions(v []string) CreateRowOption {
 	return func(o *CreateRowOptions) {
 		o.Permissions = v
@@ -4984,12 +4953,12 @@ func (srv *TablesDB) WithCreateRowTransactionId(v string) CreateRowOption {
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-									
+
 // CreateRow create a new Row. Before using this route, you should create a
 // new table resource using either a [server
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
-func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, Data interface{}, optionalSetters ...CreateRowOption)(*models.Row, error) {
+func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, Data interface{}, optionalSetters ...CreateRowOption) (*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := CreateRowOptions{}.New()
@@ -5005,11 +4974,10 @@ func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, 
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -5038,29 +5006,31 @@ func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, 
 	return &parsed, nil
 
 }
+
 type CreateRowsOptions struct {
-	TransactionId string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options CreateRowsOptions) New() *CreateRowsOptions {
-	options.enabledSetters = map[string]bool{
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"TransactionId": false}
 	return &options
 }
+
 type CreateRowsOption func(*CreateRowsOptions)
+
 func (srv *TablesDB) WithCreateRowsTransactionId(v string) CreateRowsOption {
 	return func(o *CreateRowsOptions) {
 		o.TransactionId = v
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-							
+
 // CreateRows create new Rows. Before using this route, you should create a
 // new table resource using either a [server
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
-func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...CreateRowsOption)(*models.RowList, error) {
+func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...CreateRowsOption) (*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := CreateRowsOptions{}.New()
@@ -5072,11 +5042,10 @@ func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interf
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -5105,29 +5074,31 @@ func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interf
 	return &parsed, nil
 
 }
+
 type UpsertRowsOptions struct {
-	TransactionId string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options UpsertRowsOptions) New() *UpsertRowsOptions {
-	options.enabledSetters = map[string]bool{
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"TransactionId": false}
 	return &options
 }
+
 type UpsertRowsOption func(*UpsertRowsOptions)
+
 func (srv *TablesDB) WithUpsertRowsTransactionId(v string) UpsertRowsOption {
 	return func(o *UpsertRowsOptions) {
 		o.TransactionId = v
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-							
+
 // UpsertRows create or update Rows. Before using this route, you should
 // create a new table resource using either a [server
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
-func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...UpsertRowsOption)(*models.RowList, error) {
+func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...UpsertRowsOption) (*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := UpsertRowsOptions{}.New()
@@ -5139,11 +5110,10 @@ func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interf
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -5172,21 +5142,21 @@ func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interf
 	return &parsed, nil
 
 }
+
 type UpdateRowsOptions struct {
-	Data interface{}
-	Queries []string
-	TransactionId string
+	Data           interface{}
+	Queries        []string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateRowsOptions) New() *UpdateRowsOptions {
-	options.enabledSetters = map[string]bool{
-		"Data": false,
-		"Queries": false,
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"Data": false, "Queries": false, "TransactionId": false}
 	return &options
 }
+
 type UpdateRowsOption func(*UpdateRowsOptions)
+
 func (srv *TablesDB) WithUpdateRowsData(v interface{}) UpdateRowsOption {
 	return func(o *UpdateRowsOptions) {
 		o.Data = v
@@ -5205,11 +5175,11 @@ func (srv *TablesDB) WithUpdateRowsTransactionId(v string) UpdateRowsOption {
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-					
+
 // UpdateRows update all rows that match your queries, if no queries are
 // submitted then all rows are updated. You can pass only specific fields to
 // be updated.
-func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSetters ...UpdateRowsOption)(*models.RowList, error) {
+func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSetters ...UpdateRowsOption) (*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := UpdateRowsOptions{}.New()
@@ -5226,11 +5196,10 @@ func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSette
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -5259,19 +5228,20 @@ func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSette
 	return &parsed, nil
 
 }
+
 type DeleteRowsOptions struct {
-	Queries []string
-	TransactionId string
+	Queries        []string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options DeleteRowsOptions) New() *DeleteRowsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "TransactionId": false}
 	return &options
 }
+
 type DeleteRowsOption func(*DeleteRowsOptions)
+
 func (srv *TablesDB) WithDeleteRowsQueries(v []string) DeleteRowsOption {
 	return func(o *DeleteRowsOptions) {
 		o.Queries = v
@@ -5284,10 +5254,10 @@ func (srv *TablesDB) WithDeleteRowsTransactionId(v string) DeleteRowsOption {
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-					
+
 // DeleteRows bulk delete rows using queries, if no queries are passed then
 // all rows are deleted.
-func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSetters ...DeleteRowsOption)(*models.RowList, error) {
+func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSetters ...DeleteRowsOption) (*models.RowList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := DeleteRowsOptions{}.New()
@@ -5301,11 +5271,10 @@ func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSette
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -5334,19 +5303,20 @@ func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSette
 	return &parsed, nil
 
 }
+
 type GetRowOptions struct {
-	Queries []string
-	TransactionId string
+	Queries        []string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options GetRowOptions) New() *GetRowOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "TransactionId": false}
 	return &options
 }
+
 type GetRowOption func(*GetRowOptions)
+
 func (srv *TablesDB) WithGetRowQueries(v []string) GetRowOption {
 	return func(o *GetRowOptions) {
 		o.Queries = v
@@ -5359,10 +5329,10 @@ func (srv *TablesDB) WithGetRowTransactionId(v string) GetRowOption {
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-							
+
 // GetRow get a row by its unique ID. This endpoint response returns a JSON
 // object with the row data.
-func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, optionalSetters ...GetRowOption)(*models.Row, error) {
+func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, optionalSetters ...GetRowOption) (*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := GetRowOptions{}.New()
@@ -5376,10 +5346,9 @@ func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, opt
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -5408,21 +5377,21 @@ func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, opt
 	return &parsed, nil
 
 }
+
 type UpsertRowOptions struct {
-	Data interface{}
-	Permissions []string
-	TransactionId string
+	Data           interface{}
+	Permissions    []string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options UpsertRowOptions) New() *UpsertRowOptions {
-	options.enabledSetters = map[string]bool{
-		"Data": false,
-		"Permissions": false,
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"Data": false, "Permissions": false, "TransactionId": false}
 	return &options
 }
+
 type UpsertRowOption func(*UpsertRowOptions)
+
 func (srv *TablesDB) WithUpsertRowData(v interface{}) UpsertRowOption {
 	return func(o *UpsertRowOptions) {
 		o.Data = v
@@ -5441,12 +5410,12 @@ func (srv *TablesDB) WithUpsertRowTransactionId(v string) UpsertRowOption {
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-							
+
 // UpsertRow create or update a Row. Before using this route, you should
 // create a new table resource using either a [server
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
-func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpsertRowOption)(*models.Row, error) {
+func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpsertRowOption) (*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := UpsertRowOptions{}.New()
@@ -5463,11 +5432,10 @@ func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, 
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -5496,21 +5464,21 @@ func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, 
 	return &parsed, nil
 
 }
+
 type UpdateRowOptions struct {
-	Data interface{}
-	Permissions []string
-	TransactionId string
+	Data           interface{}
+	Permissions    []string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateRowOptions) New() *UpdateRowOptions {
-	options.enabledSetters = map[string]bool{
-		"Data": false,
-		"Permissions": false,
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"Data": false, "Permissions": false, "TransactionId": false}
 	return &options
 }
+
 type UpdateRowOption func(*UpdateRowOptions)
+
 func (srv *TablesDB) WithUpdateRowData(v interface{}) UpdateRowOption {
 	return func(o *UpdateRowOptions) {
 		o.Data = v
@@ -5529,10 +5497,10 @@ func (srv *TablesDB) WithUpdateRowTransactionId(v string) UpdateRowOption {
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-							
+
 // UpdateRow update a row by its unique ID. Using the patch method you can
 // pass only specific fields that will get updated.
-func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpdateRowOption)(*models.Row, error) {
+func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpdateRowOption) (*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := UpdateRowOptions{}.New()
@@ -5549,11 +5517,10 @@ func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, 
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -5582,26 +5549,28 @@ func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, 
 	return &parsed, nil
 
 }
+
 type DeleteRowOptions struct {
-	TransactionId string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options DeleteRowOptions) New() *DeleteRowOptions {
-	options.enabledSetters = map[string]bool{
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"TransactionId": false}
 	return &options
 }
+
 type DeleteRowOption func(*DeleteRowOptions)
+
 func (srv *TablesDB) WithDeleteRowTransactionId(v string) DeleteRowOption {
 	return func(o *DeleteRowOptions) {
 		o.TransactionId = v
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-							
+
 // DeleteRow delete a row by its unique ID.
-func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string, optionalSetters ...DeleteRowOption)(*interface{}, error) {
+func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string, optionalSetters ...DeleteRowOption) (*interface{}, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := DeleteRowOptions{}.New()
@@ -5612,10 +5581,9 @@ func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string, 
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -5643,21 +5611,21 @@ func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string, 
 	return &parsed, nil
 
 }
+
 type DecrementRowColumnOptions struct {
-	Value float64
-	Min float64
-	TransactionId string
+	Value          float64
+	Min            float64
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options DecrementRowColumnOptions) New() *DecrementRowColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Value": false,
-		"Min": false,
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"Value": false, "Min": false, "TransactionId": false}
 	return &options
 }
+
 type DecrementRowColumnOption func(*DecrementRowColumnOptions)
+
 func (srv *TablesDB) WithDecrementRowColumnValue(v float64) DecrementRowColumnOption {
 	return func(o *DecrementRowColumnOptions) {
 		o.Value = v
@@ -5676,9 +5644,9 @@ func (srv *TablesDB) WithDecrementRowColumnTransactionId(v string) DecrementRowC
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-									
+
 // DecrementRowColumn decrement a specific column of a row by a given value.
-func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...DecrementRowColumnOption)(*models.Row, error) {
+func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...DecrementRowColumnOption) (*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId), "{column}", client.EncodePath(Column))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/decrement")
 	options := DecrementRowColumnOptions{}.New()
@@ -5695,11 +5663,10 @@ func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -5728,21 +5695,21 @@ func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId
 	return &parsed, nil
 
 }
+
 type IncrementRowColumnOptions struct {
-	Value float64
-	Max float64
-	TransactionId string
+	Value          float64
+	Max            float64
+	TransactionId  string
 	enabledSetters map[string]bool
 }
+
 func (options IncrementRowColumnOptions) New() *IncrementRowColumnOptions {
-	options.enabledSetters = map[string]bool{
-		"Value": false,
-		"Max": false,
-		"TransactionId": false,
-	}
+	options.enabledSetters = map[string]bool{"Value": false, "Max": false, "TransactionId": false}
 	return &options
 }
+
 type IncrementRowColumnOption func(*IncrementRowColumnOptions)
+
 func (srv *TablesDB) WithIncrementRowColumnValue(v float64) IncrementRowColumnOption {
 	return func(o *IncrementRowColumnOptions) {
 		o.Value = v
@@ -5761,9 +5728,9 @@ func (srv *TablesDB) WithIncrementRowColumnTransactionId(v string) IncrementRowC
 		o.enabledSetters["TransactionId"] = true
 	}
 }
-									
+
 // IncrementRowColumn increment a specific column of a row by a given value.
-func (srv *TablesDB) IncrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...IncrementRowColumnOption)(*models.Row, error) {
+func (srv *TablesDB) IncrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...IncrementRowColumnOption) (*models.Row, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId), "{column}", client.EncodePath(Column))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/increment")
 	options := IncrementRowColumnOptions{}.New()
@@ -5780,11 +5747,10 @@ func (srv *TablesDB) IncrementRowColumn(DatabaseId string, TableId string, RowId
 	if options.enabledSetters["TransactionId"] {
 		params["transactionId"] = options.TransactionId
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {

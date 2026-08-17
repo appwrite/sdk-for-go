@@ -3,9 +3,10 @@ package tokens
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Tokens service
@@ -20,18 +21,18 @@ func New(clt client.Client) *Tokens {
 }
 
 type ListOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListOptions) New() *ListOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListOption func(*ListOptions)
+
 func (srv *Tokens) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
@@ -44,10 +45,10 @@ func (srv *Tokens) WithListTotal(v bool) ListOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-					
+
 // List list all the tokens created for a specific file or bucket. You can use
 // the query params to filter your results.
-func (srv *Tokens) List(BucketId string, FileId string, optionalSetters ...ListOption)(*models.ResourceTokenList, error) {
+func (srv *Tokens) List(BucketId string, FileId string, optionalSetters ...ListOption) (*models.ResourceTokenList, error) {
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/tokens/buckets/{bucketId}/files/{fileId}")
 	options := ListOptions{}.New()
@@ -61,10 +62,9 @@ func (srv *Tokens) List(BucketId string, FileId string, optionalSetters ...ListO
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -93,27 +93,29 @@ func (srv *Tokens) List(BucketId string, FileId string, optionalSetters ...ListO
 	return &parsed, nil
 
 }
+
 type CreateFileTokenOptions struct {
-	Expire string
+	Expire         string
 	enabledSetters map[string]bool
 }
+
 func (options CreateFileTokenOptions) New() *CreateFileTokenOptions {
-	options.enabledSetters = map[string]bool{
-		"Expire": false,
-	}
+	options.enabledSetters = map[string]bool{"Expire": false}
 	return &options
 }
+
 type CreateFileTokenOption func(*CreateFileTokenOptions)
+
 func (srv *Tokens) WithCreateFileTokenExpire(v string) CreateFileTokenOption {
 	return func(o *CreateFileTokenOptions) {
 		o.Expire = v
 		o.enabledSetters["Expire"] = true
 	}
 }
-					
+
 // CreateFileToken create a new token. A token is linked to a file. Token can
 // be passed as a request URL search parameter.
-func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSetters ...CreateFileTokenOption)(*models.ResourceToken, error) {
+func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSetters ...CreateFileTokenOption) (*models.ResourceToken, error) {
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/tokens/buckets/{bucketId}/files/{fileId}")
 	options := CreateFileTokenOptions{}.New()
@@ -124,11 +126,10 @@ func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSette
 	if options.enabledSetters["Expire"] {
 		params["expire"] = options.Expire
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -157,16 +158,15 @@ func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSette
 	return &parsed, nil
 
 }
-	
+
 // Get get a token by its unique ID.
-func (srv *Tokens) Get(TokenId string)(*models.ResourceToken, error) {
+func (srv *Tokens) Get(TokenId string) (*models.ResourceToken, error) {
 	r := strings.NewReplacer("{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/tokens/{tokenId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -195,27 +195,29 @@ func (srv *Tokens) Get(TokenId string)(*models.ResourceToken, error) {
 	return &parsed, nil
 
 }
+
 type UpdateOptions struct {
-	Expire string
+	Expire         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{
-		"Expire": false,
-	}
+	options.enabledSetters = map[string]bool{"Expire": false}
 	return &options
 }
+
 type UpdateOption func(*UpdateOptions)
+
 func (srv *Tokens) WithUpdateExpire(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Expire = v
 		o.enabledSetters["Expire"] = true
 	}
 }
-			
+
 // Update update a token by its unique ID. Use this endpoint to update a
 // token's expiry date.
-func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption)(*models.ResourceToken, error) {
+func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption) (*models.ResourceToken, error) {
 	r := strings.NewReplacer("{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/tokens/{tokenId}")
 	options := UpdateOptions{}.New()
@@ -226,11 +228,10 @@ func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption)(*mode
 	if options.enabledSetters["Expire"] {
 		params["expire"] = options.Expire
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -259,16 +260,15 @@ func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption)(*mode
 	return &parsed, nil
 
 }
-	
+
 // Delete delete a token by its unique ID.
-func (srv *Tokens) Delete(TokenId string)(*interface{}, error) {
+func (srv *Tokens) Delete(TokenId string) (*interface{}, error) {
 	r := strings.NewReplacer("{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/tokens/{tokenId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {

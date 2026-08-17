@@ -3,9 +3,10 @@ package embeddings
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Embeddings service
@@ -20,27 +21,28 @@ func New(clt client.Client) *Embeddings {
 }
 
 type CreateTextEmbeddingsOptions struct {
-	Model string
+	Model          string
 	enabledSetters map[string]bool
 }
+
 func (options CreateTextEmbeddingsOptions) New() *CreateTextEmbeddingsOptions {
-	options.enabledSetters = map[string]bool{
-		"Model": false,
-	}
+	options.enabledSetters = map[string]bool{"Model": false}
 	return &options
 }
+
 type CreateTextEmbeddingsOption func(*CreateTextEmbeddingsOptions)
+
 func (srv *Embeddings) WithCreateTextEmbeddingsModel(v string) CreateTextEmbeddingsOption {
 	return func(o *CreateTextEmbeddingsOptions) {
 		o.Model = v
 		o.enabledSetters["Model"] = true
 	}
 }
-			
+
 // CreateTextEmbeddings generate vector embeddings for an array of text using
 // the selected embedding model. Use the returned vectors to power semantic
 // search and similarity queries against your vector collections.
-func (srv *Embeddings) CreateTextEmbeddings(Texts []string, optionalSetters ...CreateTextEmbeddingsOption)(*models.EmbeddingList, error) {
+func (srv *Embeddings) CreateTextEmbeddings(Texts []string, optionalSetters ...CreateTextEmbeddingsOption) (*models.EmbeddingList, error) {
 	path := "/embeddings/text"
 	options := CreateTextEmbeddingsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -51,11 +53,10 @@ func (srv *Embeddings) CreateTextEmbeddings(Texts []string, optionalSetters ...C
 	if options.enabledSetters["Model"] {
 		params["model"] = options.Model
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {

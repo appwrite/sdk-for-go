@@ -3,9 +3,10 @@ package presences
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Presences service
@@ -20,20 +21,19 @@ func New(clt client.Client) *Presences {
 }
 
 type ListOptions struct {
-	Queries []string
-	Total bool
-	Ttl int
+	Queries        []string
+	Total          bool
+	Ttl            int
 	enabledSetters map[string]bool
 }
+
 func (options ListOptions) New() *ListOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-		"Ttl": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false, "Ttl": false}
 	return &options
 }
+
 type ListOption func(*ListOptions)
+
 func (srv *Presences) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
@@ -52,9 +52,9 @@ func (srv *Presences) WithListTtl(v int) ListOption {
 		o.enabledSetters["Ttl"] = true
 	}
 }
-	
+
 // List list presence logs. Expired entries are filtered out automatically.
-func (srv *Presences) List(optionalSetters ...ListOption)(*models.PresenceList, error) {
+func (srv *Presences) List(optionalSetters ...ListOption) (*models.PresenceList, error) {
 	path := "/presences"
 	options := ListOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -70,10 +70,9 @@ func (srv *Presences) List(optionalSetters ...ListOption)(*models.PresenceList, 
 	if options.enabledSetters["Ttl"] {
 		params["ttl"] = options.Ttl
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -102,17 +101,16 @@ func (srv *Presences) List(optionalSetters ...ListOption)(*models.PresenceList, 
 	return &parsed, nil
 
 }
-	
+
 // Get get a presence log by its unique ID. Entries whose `expiresAt` is in
 // the past are treated as not found.
-func (srv *Presences) Get(PresenceId string)(*models.Presence, error) {
+func (srv *Presences) Get(PresenceId string) (*models.Presence, error) {
 	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -141,21 +139,21 @@ func (srv *Presences) Get(PresenceId string)(*models.Presence, error) {
 	return &parsed, nil
 
 }
+
 type UpsertOptions struct {
-	Permissions []string
-	ExpiresAt string
-	Metadata interface{}
+	Permissions    []string
+	ExpiresAt      string
+	Metadata       interface{}
 	enabledSetters map[string]bool
 }
+
 func (options UpsertOptions) New() *UpsertOptions {
-	options.enabledSetters = map[string]bool{
-		"Permissions": false,
-		"ExpiresAt": false,
-		"Metadata": false,
-	}
+	options.enabledSetters = map[string]bool{"Permissions": false, "ExpiresAt": false, "Metadata": false}
 	return &options
 }
+
 type UpsertOption func(*UpsertOptions)
+
 func (srv *Presences) WithUpsertPermissions(v []string) UpsertOption {
 	return func(o *UpsertOptions) {
 		o.Permissions = v
@@ -174,9 +172,9 @@ func (srv *Presences) WithUpsertMetadata(v interface{}) UpsertOption {
 		o.enabledSetters["Metadata"] = true
 	}
 }
-							
+
 // Upsert create or update a presence log by its user ID.
-func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, optionalSetters ...UpsertOption)(*models.Presence, error) {
+func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, optionalSetters ...UpsertOption) (*models.Presence, error) {
 	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	options := UpsertOptions{}.New()
@@ -195,11 +193,10 @@ func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, op
 	if options.enabledSetters["Metadata"] {
 		params["metadata"] = options.Metadata
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -228,25 +225,23 @@ func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, op
 	return &parsed, nil
 
 }
+
 type UpdateOptions struct {
-	Status string
-	ExpiresAt string
-	Metadata interface{}
-	Permissions []string
-	Purge bool
+	Status         string
+	ExpiresAt      string
+	Metadata       interface{}
+	Permissions    []string
+	Purge          bool
 	enabledSetters map[string]bool
 }
+
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{
-		"Status": false,
-		"ExpiresAt": false,
-		"Metadata": false,
-		"Permissions": false,
-		"Purge": false,
-	}
+	options.enabledSetters = map[string]bool{"Status": false, "ExpiresAt": false, "Metadata": false, "Permissions": false, "Purge": false}
 	return &options
 }
+
 type UpdateOption func(*UpdateOptions)
+
 func (srv *Presences) WithUpdateStatus(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Status = v
@@ -277,10 +272,10 @@ func (srv *Presences) WithUpdatePurge(v bool) UpdateOption {
 		o.enabledSetters["Purge"] = true
 	}
 }
-					
+
 // Update update a presence log by its unique ID. Using the patch method you
 // can pass only specific fields that will get updated.
-func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters ...UpdateOption)(*models.Presence, error) {
+func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters ...UpdateOption) (*models.Presence, error) {
 	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	options := UpdateOptions{}.New()
@@ -304,11 +299,10 @@ func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters .
 	if options.enabledSetters["Purge"] {
 		params["purge"] = options.Purge
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -337,16 +331,15 @@ func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters .
 	return &parsed, nil
 
 }
-	
+
 // Delete delete a presence log by its unique ID.
-func (srv *Presences) Delete(PresenceId string)(*interface{}, error) {
+func (srv *Presences) Delete(PresenceId string) (*interface{}, error) {
 	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {

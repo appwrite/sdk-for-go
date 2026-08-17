@@ -3,9 +3,10 @@ package activities
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Activities service
@@ -20,25 +21,26 @@ func New(clt client.Client) *Activities {
 }
 
 type ListEventsOptions struct {
-	Queries []string
+	Queries        []string
 	enabledSetters map[string]bool
 }
+
 func (options ListEventsOptions) New() *ListEventsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false}
 	return &options
 }
+
 type ListEventsOption func(*ListEventsOptions)
+
 func (srv *Activities) WithListEventsQueries(v []string) ListEventsOption {
 	return func(o *ListEventsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
 	}
 }
-	
+
 // ListEvents list all events for selected filters.
-func (srv *Activities) ListEvents(optionalSetters ...ListEventsOption)(*models.ActivityEventList, error) {
+func (srv *Activities) ListEvents(optionalSetters ...ListEventsOption) (*models.ActivityEventList, error) {
 	path := "/activities/events"
 	options := ListEventsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -48,10 +50,9 @@ func (srv *Activities) ListEvents(optionalSetters ...ListEventsOption)(*models.A
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -80,16 +81,15 @@ func (srv *Activities) ListEvents(optionalSetters ...ListEventsOption)(*models.A
 	return &parsed, nil
 
 }
-	
+
 // GetEvent get event by ID.
-func (srv *Activities) GetEvent(EventId string)(*models.ActivityEvent, error) {
+func (srv *Activities) GetEvent(EventId string) (*models.ActivityEvent, error) {
 	r := strings.NewReplacer("{eventId}", client.EncodePath(EventId))
 	path := r.Replace("/activities/events/{eventId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {

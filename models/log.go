@@ -1,81 +1,81 @@
 package models
 
 import (
-    "encoding/json"
-    "errors"
+	"encoding/json"
+	"errors"
 )
 
 // Log Model
 type Log struct {
-    // Event name.
-    Event string `json:"event"`
-    // User ID of the actor recorded for this log. During impersonation, this is
-    // the original impersonator, not the impersonated target user.
-    UserId string `json:"userId"`
-    // User email of the actor recorded for this log. During impersonation, this
-    // is the original impersonator.
-    UserEmail string `json:"userEmail"`
-    // User name of the actor recorded for this log. During impersonation, this is
-    // the original impersonator.
-    UserName string `json:"userName"`
-    // API mode when event triggered.
-    Mode string `json:"mode"`
-    // User type who triggered the audit log. Possible values: user, admin, guest,
-    // hidden, keyProject, keyAccount, keyOrganization.
-    UserType string `json:"userType"`
-    // IP session in use when the session was created.
-    Ip string `json:"ip"`
-    // Log creation date in ISO 8601 format.
-    Time string `json:"time"`
-    // Operating system code name. View list of [available
-    // options](https://github.com/appwrite/appwrite/blob/master/docs/lists/os.json).
-    OsCode string `json:"osCode"`
-    // Operating system name.
-    OsName string `json:"osName"`
-    // Operating system version.
-    OsVersion string `json:"osVersion"`
-    // Client type.
-    ClientType string `json:"clientType"`
-    // Client code name. View list of [available
-    // options](https://github.com/appwrite/appwrite/blob/master/docs/lists/clients.json).
-    ClientCode string `json:"clientCode"`
-    // Client name.
-    ClientName string `json:"clientName"`
-    // Client version.
-    ClientVersion string `json:"clientVersion"`
-    // Client engine name.
-    ClientEngine string `json:"clientEngine"`
-    // Client engine name.
-    ClientEngineVersion string `json:"clientEngineVersion"`
-    // Device name.
-    DeviceName string `json:"deviceName"`
-    // Device brand name.
-    DeviceBrand string `json:"deviceBrand"`
-    // Device model name.
-    DeviceModel string `json:"deviceModel"`
-    // Country two-character ISO 3166-1 alpha code.
-    CountryCode string `json:"countryCode"`
-    // Country name.
-    CountryName string `json:"countryName"`
+	// Event name.
+	Event string `json:"event"`
+	// User ID of the actor recorded for this log. During impersonation, this is
+	// the original impersonator, not the impersonated target user.
+	UserId string `json:"userId"`
+	// User email of the actor recorded for this log. During impersonation, this
+	// is the original impersonator.
+	UserEmail string `json:"userEmail"`
+	// User name of the actor recorded for this log. During impersonation, this is
+	// the original impersonator.
+	UserName string `json:"userName"`
+	// API mode when event triggered.
+	Mode string `json:"mode"`
+	// User type who triggered the audit log. Possible values: user, admin, guest,
+	// hidden, keyProject, keyAccount, keyOrganization.
+	UserType string `json:"userType"`
+	// IP session in use when the session was created.
+	Ip string `json:"ip"`
+	// Log creation date in ISO 8601 format.
+	Time string `json:"time"`
+	// Operating system code name. View list of [available
+	// options](https://github.com/appwrite/appwrite/blob/master/docs/lists/os.json).
+	OsCode string `json:"osCode"`
+	// Operating system name.
+	OsName string `json:"osName"`
+	// Operating system version.
+	OsVersion string `json:"osVersion"`
+	// Client type.
+	ClientType string `json:"clientType"`
+	// Client code name. View list of [available
+	// options](https://github.com/appwrite/appwrite/blob/master/docs/lists/clients.json).
+	ClientCode string `json:"clientCode"`
+	// Client name.
+	ClientName string `json:"clientName"`
+	// Client version.
+	ClientVersion string `json:"clientVersion"`
+	// Client engine name.
+	ClientEngine string `json:"clientEngine"`
+	// Client engine name.
+	ClientEngineVersion string `json:"clientEngineVersion"`
+	// Device name.
+	DeviceName string `json:"deviceName"`
+	// Device brand name.
+	DeviceBrand string `json:"deviceBrand"`
+	// Device model name.
+	DeviceModel string `json:"deviceModel"`
+	// Country two-character ISO 3166-1 alpha code.
+	CountryCode string `json:"countryCode"`
+	// Country name.
+	CountryName string `json:"countryName"`
 
-    // Used by Decode() method
-    data []byte
+	// Used by Decode() method
+	data []byte
 }
 
 func (model Log) New(data []byte) *Log {
-    model.data = data
-    return &model
+	model.data = data
+	return &model
 }
 
 func (model *Log) Decode(value interface{}) error {
-    if len(model.data) <= 0 {
-        return errors.New("method Decode() cannot be used on nested struct")
-    }
+	if len(model.data) <= 0 {
+		return errors.New("method Decode() cannot be used on nested struct")
+	}
 
-    err := json.Unmarshal(model.data, value)
-    if err != nil {
-        return err
-    }
+	err := json.Unmarshal(model.data, value)
+	if err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }

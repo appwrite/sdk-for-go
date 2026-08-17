@@ -3,9 +3,10 @@ package proxy
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Proxy service
@@ -20,29 +21,30 @@ func New(clt client.Client) *Proxy {
 }
 
 type CreateInvalidationOptions struct {
-	Reference string
+	Reference      string
 	enabledSetters map[string]bool
 }
+
 func (options CreateInvalidationOptions) New() *CreateInvalidationOptions {
-	options.enabledSetters = map[string]bool{
-		"Reference": false,
-	}
+	options.enabledSetters = map[string]bool{"Reference": false}
 	return &options
 }
+
 type CreateInvalidationOption func(*CreateInvalidationOptions)
+
 func (srv *Proxy) WithCreateInvalidationReference(v string) CreateInvalidationOption {
 	return func(o *CreateInvalidationOptions) {
 		o.Reference = v
 		o.enabledSetters["Reference"] = true
 	}
 }
-					
+
 // CreateInvalidation create a new CDN cache invalidation for a domain.
 // Executes a hard purge of cached content.
-// 
+//
 // Depending on type, the invalidation purges a single cache tag, a single URL
 // path, or all cached content for the domain.
-func (srv *Proxy) CreateInvalidation(Domain string, Type string, optionalSetters ...CreateInvalidationOption)(*models.ProxyInvalidation, error) {
+func (srv *Proxy) CreateInvalidation(Domain string, Type string, optionalSetters ...CreateInvalidationOption) (*models.ProxyInvalidation, error) {
 	path := "/proxy/invalidations"
 	options := CreateInvalidationOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -54,11 +56,10 @@ func (srv *Proxy) CreateInvalidation(Domain string, Type string, optionalSetters
 	if options.enabledSetters["Reference"] {
 		params["reference"] = options.Reference
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -87,19 +88,20 @@ func (srv *Proxy) CreateInvalidation(Domain string, Type string, optionalSetters
 	return &parsed, nil
 
 }
+
 type ListRulesOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListRulesOptions) New() *ListRulesOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListRulesOption func(*ListRulesOptions)
+
 func (srv *Proxy) WithListRulesQueries(v []string) ListRulesOption {
 	return func(o *ListRulesOptions) {
 		o.Queries = v
@@ -112,10 +114,10 @@ func (srv *Proxy) WithListRulesTotal(v bool) ListRulesOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // ListRules get a list of all the proxy rules. You can use the query params
 // to filter your results.
-func (srv *Proxy) ListRules(optionalSetters ...ListRulesOption)(*models.ProxyRuleList, error) {
+func (srv *Proxy) ListRules(optionalSetters ...ListRulesOption) (*models.ProxyRuleList, error) {
 	path := "/proxy/rules"
 	options := ListRulesOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -128,10 +130,9 @@ func (srv *Proxy) ListRules(optionalSetters ...ListRulesOption)(*models.ProxyRul
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -160,21 +161,20 @@ func (srv *Proxy) ListRules(optionalSetters ...ListRulesOption)(*models.ProxyRul
 	return &parsed, nil
 
 }
-	
+
 // CreateAPIRule create a new proxy rule for serving Appwrite's API on custom
 // domain.
-// 
+//
 // Rule ID is automatically generated as MD5 hash of a rule domain for
 // performance purposes.
-func (srv *Proxy) CreateAPIRule(Domain string)(*models.ProxyRule, error) {
+func (srv *Proxy) CreateAPIRule(Domain string) (*models.ProxyRule, error) {
 	path := "/proxy/rules/api"
 	params := map[string]interface{}{}
 	params["domain"] = Domain
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -203,30 +203,32 @@ func (srv *Proxy) CreateAPIRule(Domain string)(*models.ProxyRule, error) {
 	return &parsed, nil
 
 }
+
 type CreateFunctionRuleOptions struct {
-	Branch string
+	Branch         string
 	enabledSetters map[string]bool
 }
+
 func (options CreateFunctionRuleOptions) New() *CreateFunctionRuleOptions {
-	options.enabledSetters = map[string]bool{
-		"Branch": false,
-	}
+	options.enabledSetters = map[string]bool{"Branch": false}
 	return &options
 }
+
 type CreateFunctionRuleOption func(*CreateFunctionRuleOptions)
+
 func (srv *Proxy) WithCreateFunctionRuleBranch(v string) CreateFunctionRuleOption {
 	return func(o *CreateFunctionRuleOptions) {
 		o.Branch = v
 		o.enabledSetters["Branch"] = true
 	}
 }
-					
+
 // CreateFunctionRule create a new proxy rule for executing Appwrite Function
 // on custom domain.
-// 
+//
 // Rule ID is automatically generated as MD5 hash of a rule domain for
 // performance purposes.
-func (srv *Proxy) CreateFunctionRule(Domain string, FunctionId string, optionalSetters ...CreateFunctionRuleOption)(*models.ProxyRule, error) {
+func (srv *Proxy) CreateFunctionRule(Domain string, FunctionId string, optionalSetters ...CreateFunctionRuleOption) (*models.ProxyRule, error) {
 	path := "/proxy/rules/function"
 	options := CreateFunctionRuleOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -238,11 +240,10 @@ func (srv *Proxy) CreateFunctionRule(Domain string, FunctionId string, optionalS
 	if options.enabledSetters["Branch"] {
 		params["branch"] = options.Branch
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -271,13 +272,13 @@ func (srv *Proxy) CreateFunctionRule(Domain string, FunctionId string, optionalS
 	return &parsed, nil
 
 }
-									
+
 // CreateRedirectRule create a new proxy rule for to redirect from custom
 // domain to another domain.
-// 
+//
 // Rule ID is automatically generated as MD5 hash of a rule domain for
 // performance purposes.
-func (srv *Proxy) CreateRedirectRule(Domain string, Url string, StatusCode string, ResourceId string, ResourceType string)(*models.ProxyRule, error) {
+func (srv *Proxy) CreateRedirectRule(Domain string, Url string, StatusCode string, ResourceId string, ResourceType string) (*models.ProxyRule, error) {
 	path := "/proxy/rules/redirect"
 	params := map[string]interface{}{}
 	params["domain"] = Domain
@@ -285,11 +286,10 @@ func (srv *Proxy) CreateRedirectRule(Domain string, Url string, StatusCode strin
 	params["statusCode"] = StatusCode
 	params["resourceId"] = ResourceId
 	params["resourceType"] = ResourceType
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -318,30 +318,32 @@ func (srv *Proxy) CreateRedirectRule(Domain string, Url string, StatusCode strin
 	return &parsed, nil
 
 }
+
 type CreateSiteRuleOptions struct {
-	Branch string
+	Branch         string
 	enabledSetters map[string]bool
 }
+
 func (options CreateSiteRuleOptions) New() *CreateSiteRuleOptions {
-	options.enabledSetters = map[string]bool{
-		"Branch": false,
-	}
+	options.enabledSetters = map[string]bool{"Branch": false}
 	return &options
 }
+
 type CreateSiteRuleOption func(*CreateSiteRuleOptions)
+
 func (srv *Proxy) WithCreateSiteRuleBranch(v string) CreateSiteRuleOption {
 	return func(o *CreateSiteRuleOptions) {
 		o.Branch = v
 		o.enabledSetters["Branch"] = true
 	}
 }
-					
+
 // CreateSiteRule create a new proxy rule for serving Appwrite Site on custom
 // domain.
-// 
+//
 // Rule ID is automatically generated as MD5 hash of a rule domain for
 // performance purposes.
-func (srv *Proxy) CreateSiteRule(Domain string, SiteId string, optionalSetters ...CreateSiteRuleOption)(*models.ProxyRule, error) {
+func (srv *Proxy) CreateSiteRule(Domain string, SiteId string, optionalSetters ...CreateSiteRuleOption) (*models.ProxyRule, error) {
 	path := "/proxy/rules/site"
 	options := CreateSiteRuleOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -353,11 +355,10 @@ func (srv *Proxy) CreateSiteRule(Domain string, SiteId string, optionalSetters .
 	if options.enabledSetters["Branch"] {
 		params["branch"] = options.Branch
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -386,16 +387,15 @@ func (srv *Proxy) CreateSiteRule(Domain string, SiteId string, optionalSetters .
 	return &parsed, nil
 
 }
-	
+
 // GetRule get a proxy rule by its unique ID.
-func (srv *Proxy) GetRule(RuleId string)(*models.ProxyRule, error) {
+func (srv *Proxy) GetRule(RuleId string) (*models.ProxyRule, error) {
 	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
 	path := r.Replace("/proxy/rules/{ruleId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -424,16 +424,15 @@ func (srv *Proxy) GetRule(RuleId string)(*models.ProxyRule, error) {
 	return &parsed, nil
 
 }
-	
+
 // DeleteRule delete a proxy rule by its unique ID.
-func (srv *Proxy) DeleteRule(RuleId string)(*interface{}, error) {
+func (srv *Proxy) DeleteRule(RuleId string) (*interface{}, error) {
 	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
 	path := r.Replace("/proxy/rules/{ruleId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -461,20 +460,19 @@ func (srv *Proxy) DeleteRule(RuleId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-	
+
 // UpdateRuleStatus if not succeeded yet, retry verification process of a
 // proxy rule domain. This endpoint triggers domain verification by checking
 // DNS records. If verification is successful, a TLS certificate will be
 // automatically provisioned for the domain asynchronously in the background.
-func (srv *Proxy) UpdateRuleStatus(RuleId string)(*models.ProxyRule, error) {
+func (srv *Proxy) UpdateRuleStatus(RuleId string) (*models.ProxyRule, error) {
 	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
 	path := r.Replace("/proxy/rules/{ruleId}/status")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {

@@ -4,8 +4,10 @@ import (
 	"time"
 
 	"github.com/appwrite/sdk-for-go/v7/client"
+
 	"github.com/appwrite/sdk-for-go/v7/account"
 	"github.com/appwrite/sdk-for-go/v7/activities"
+	"github.com/appwrite/sdk-for-go/v7/advisor"
 	"github.com/appwrite/sdk-for-go/v7/apps"
 	"github.com/appwrite/sdk-for-go/v7/avatars"
 	"github.com/appwrite/sdk-for-go/v7/backups"
@@ -15,12 +17,14 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/graphql"
 	"github.com/appwrite/sdk-for-go/v7/locale"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
+	"github.com/appwrite/sdk-for-go/v7/mongo"
+	"github.com/appwrite/sdk-for-go/v7/mysql"
 	"github.com/appwrite/sdk-for-go/v7/oauth2"
 	"github.com/appwrite/sdk-for-go/v7/organization"
+	"github.com/appwrite/sdk-for-go/v7/postgresql"
 	"github.com/appwrite/sdk-for-go/v7/presences"
 	"github.com/appwrite/sdk-for-go/v7/project"
 	"github.com/appwrite/sdk-for-go/v7/proxy"
-	"github.com/appwrite/sdk-for-go/v7/advisor"
 	"github.com/appwrite/sdk-for-go/v7/sites"
 	"github.com/appwrite/sdk-for-go/v7/storage"
 	"github.com/appwrite/sdk-for-go/v7/tablesdb"
@@ -63,11 +67,20 @@ func NewLocale(clt client.Client) *locale.Locale {
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
 }
+func NewMongo(clt client.Client) *mongo.Mongo {
+	return mongo.New(clt)
+}
+func NewMysql(clt client.Client) *mysql.Mysql {
+	return mysql.New(clt)
+}
 func NewOauth2(clt client.Client) *oauth2.Oauth2 {
 	return oauth2.New(clt)
 }
 func NewOrganization(clt client.Client) *organization.Organization {
 	return organization.New(clt)
+}
+func NewPostgresql(clt client.Client) *postgresql.Postgresql {
+	return postgresql.New(clt)
 }
 func NewPresences(clt client.Client) *presences.Presences {
 	return presences.New(clt)
@@ -148,7 +161,7 @@ func WithChunkSize(size int64) client.ClientOption {
 }
 
 // Helper method to construct NewClient()
-// 
+//
 // Your project ID
 func WithProject(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -156,8 +169,9 @@ func WithProject(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // Your secret API key
 func WithKey(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -166,8 +180,9 @@ func WithKey(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // Your organization ID
 func WithOrganization(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -176,8 +191,9 @@ func WithOrganization(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // Your secret JSON Web Token
 func WithJWT(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -186,8 +202,9 @@ func WithJWT(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // The OAuth access token to authenticate with
 func WithBearer(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -196,6 +213,7 @@ func WithBearer(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
 func WithLocale(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -204,8 +222,9 @@ func WithLocale(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // The user session to authenticate with
 func WithSession(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -214,8 +233,9 @@ func WithSession(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // The user agent string of the client that made the request
 func WithForwardedUserAgent(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -224,8 +244,9 @@ func WithForwardedUserAgent(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // Your secret dev API key
 func WithDevKey(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -234,8 +255,9 @@ func WithDevKey(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // The user cookie to authenticate with. Used by SDKs that forward an incoming Cookie header in server-side runtimes.
 func WithCookie(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -244,8 +266,9 @@ func WithCookie(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // Impersonate a user by ID
 func WithImpersonateUserId(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -254,8 +277,9 @@ func WithImpersonateUserId(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // Impersonate a user by email
 func WithImpersonateUserEmail(value string) client.ClientOption {
 	return func(clt *client.Client) error {
@@ -264,8 +288,9 @@ func WithImpersonateUserEmail(value string) client.ClientOption {
 		return nil
 	}
 }
+
 // Helper method to construct NewClient()
-// 
+//
 // Impersonate a user by phone
 func WithImpersonateUserPhone(value string) client.ClientOption {
 	return func(clt *client.Client) error {

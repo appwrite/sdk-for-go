@@ -3,9 +3,10 @@ package oauth2
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Oauth2 service
@@ -21,17 +22,17 @@ func New(clt client.Client) *Oauth2 {
 
 type ApproveOptions struct {
 	AuthorizationDetails string
-	Scope string
-	enabledSetters map[string]bool
+	Scope                string
+	enabledSetters       map[string]bool
 }
+
 func (options ApproveOptions) New() *ApproveOptions {
-	options.enabledSetters = map[string]bool{
-		"AuthorizationDetails": false,
-		"Scope": false,
-	}
+	options.enabledSetters = map[string]bool{"AuthorizationDetails": false, "Scope": false}
 	return &options
 }
+
 type ApproveOption func(*ApproveOptions)
+
 func (srv *Oauth2) WithApproveAuthorizationDetails(v string) ApproveOption {
 	return func(o *ApproveOptions) {
 		o.AuthorizationDetails = v
@@ -44,13 +45,13 @@ func (srv *Oauth2) WithApproveScope(v string) ApproveOption {
 		o.enabledSetters["Scope"] = true
 	}
 }
-			
+
 // Approve approve an OAuth2 grant after the user gives consent. Returns the
 // `redirectUrl` the end user should be sent to. The consent screen may
 // optionally pass enriched `authorization_details` to record the concrete
 // resources the user selected. You can pass Accept header of
 // `application/json` to receive a JSON response instead of a redirect.
-func (srv *Oauth2) Approve(GrantId string, optionalSetters ...ApproveOption)(*models.Oauth2Approve, error) {
+func (srv *Oauth2) Approve(GrantId string, optionalSetters ...ApproveOption) (*models.Oauth2Approve, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/approve")
 	options := ApproveOptions{}.New()
@@ -65,10 +66,9 @@ func (srv *Oauth2) Approve(GrantId string, optionalSetters ...ApproveOption)(*mo
 	if options.enabledSetters["Scope"] {
 		params["scope"] = options.Scope
 	}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -97,43 +97,32 @@ func (srv *Oauth2) Approve(GrantId string, optionalSetters ...ApproveOption)(*mo
 	return &parsed, nil
 
 }
+
 type AuthorizeOptions struct {
-	ClientId string
-	RedirectUri string
-	ResponseType string
-	Scope string
-	State string
-	Nonce string
-	CodeChallenge string
-	CodeChallengeMethod string
-	Prompt string
-	MaxAge int
+	ClientId             string
+	RedirectUri          string
+	ResponseType         string
+	Scope                string
+	State                string
+	Nonce                string
+	CodeChallenge        string
+	CodeChallengeMethod  string
+	Prompt               string
+	MaxAge               int
 	AuthorizationDetails string
-	Resource string
-	Audience string
-	RequestUri string
-	enabledSetters map[string]bool
+	Resource             string
+	Audience             string
+	RequestUri           string
+	enabledSetters       map[string]bool
 }
+
 func (options AuthorizeOptions) New() *AuthorizeOptions {
-	options.enabledSetters = map[string]bool{
-		"ClientId": false,
-		"RedirectUri": false,
-		"ResponseType": false,
-		"Scope": false,
-		"State": false,
-		"Nonce": false,
-		"CodeChallenge": false,
-		"CodeChallengeMethod": false,
-		"Prompt": false,
-		"MaxAge": false,
-		"AuthorizationDetails": false,
-		"Resource": false,
-		"Audience": false,
-		"RequestUri": false,
-	}
+	options.enabledSetters = map[string]bool{"ClientId": false, "RedirectUri": false, "ResponseType": false, "Scope": false, "State": false, "Nonce": false, "CodeChallenge": false, "CodeChallengeMethod": false, "Prompt": false, "MaxAge": false, "AuthorizationDetails": false, "Resource": false, "Audience": false, "RequestUri": false}
 	return &options
 }
+
 type AuthorizeOption func(*AuthorizeOptions)
+
 func (srv *Oauth2) WithAuthorizeClientId(v string) AuthorizeOption {
 	return func(o *AuthorizeOptions) {
 		o.ClientId = v
@@ -218,13 +207,13 @@ func (srv *Oauth2) WithAuthorizeRequestUri(v string) AuthorizeOption {
 		o.enabledSetters["RequestUri"] = true
 	}
 }
-	
+
 // Authorize begin the OAuth2 authorization flow. When called without a
 // session, the user is redirected to the consent screen without grant ID.
 // When called with a session, the redirect URL includes param for grant ID.
 // You can pass Accept header of `application/json` to receive a JSON response
 // instead of a redirect.
-func (srv *Oauth2) Authorize(optionalSetters ...AuthorizeOption)(*models.Oauth2Authorize, error) {
+func (srv *Oauth2) Authorize(optionalSetters ...AuthorizeOption) (*models.Oauth2Authorize, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/authorize")
 	options := AuthorizeOptions{}.New()
@@ -274,9 +263,8 @@ func (srv *Oauth2) Authorize(optionalSetters ...AuthorizeOption)(*models.Oauth2A
 	if options.enabledSetters["RequestUri"] {
 		params["request_uri"] = options.RequestUri
 	}
-	headers := map[string]interface{}{
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -305,43 +293,32 @@ func (srv *Oauth2) Authorize(optionalSetters ...AuthorizeOption)(*models.Oauth2A
 	return &parsed, nil
 
 }
+
 type AuthorizePostOptions struct {
-	ClientId string
-	RedirectUri string
-	ResponseType string
-	Scope string
-	State string
-	Nonce string
-	CodeChallenge string
-	CodeChallengeMethod string
-	Prompt string
-	MaxAge int
+	ClientId             string
+	RedirectUri          string
+	ResponseType         string
+	Scope                string
+	State                string
+	Nonce                string
+	CodeChallenge        string
+	CodeChallengeMethod  string
+	Prompt               string
+	MaxAge               int
 	AuthorizationDetails string
-	Resource string
-	Audience string
-	RequestUri string
-	enabledSetters map[string]bool
+	Resource             string
+	Audience             string
+	RequestUri           string
+	enabledSetters       map[string]bool
 }
+
 func (options AuthorizePostOptions) New() *AuthorizePostOptions {
-	options.enabledSetters = map[string]bool{
-		"ClientId": false,
-		"RedirectUri": false,
-		"ResponseType": false,
-		"Scope": false,
-		"State": false,
-		"Nonce": false,
-		"CodeChallenge": false,
-		"CodeChallengeMethod": false,
-		"Prompt": false,
-		"MaxAge": false,
-		"AuthorizationDetails": false,
-		"Resource": false,
-		"Audience": false,
-		"RequestUri": false,
-	}
+	options.enabledSetters = map[string]bool{"ClientId": false, "RedirectUri": false, "ResponseType": false, "Scope": false, "State": false, "Nonce": false, "CodeChallenge": false, "CodeChallengeMethod": false, "Prompt": false, "MaxAge": false, "AuthorizationDetails": false, "Resource": false, "Audience": false, "RequestUri": false}
 	return &options
 }
+
 type AuthorizePostOption func(*AuthorizePostOptions)
+
 func (srv *Oauth2) WithAuthorizePostClientId(v string) AuthorizePostOption {
 	return func(o *AuthorizePostOptions) {
 		o.ClientId = v
@@ -426,13 +403,13 @@ func (srv *Oauth2) WithAuthorizePostRequestUri(v string) AuthorizePostOption {
 		o.enabledSetters["RequestUri"] = true
 	}
 }
-	
+
 // AuthorizePost begin the OAuth2 authorization flow. When called without a
 // session, the user is redirected to the consent screen without grant ID.
 // When called with a session, the redirect URL includes param for grant ID.
 // You can pass Accept header of `application/json` to receive a JSON response
 // instead of a redirect.
-func (srv *Oauth2) AuthorizePost(optionalSetters ...AuthorizePostOption)(*models.Oauth2Authorize, error) {
+func (srv *Oauth2) AuthorizePost(optionalSetters ...AuthorizePostOption) (*models.Oauth2Authorize, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/authorize")
 	options := AuthorizePostOptions{}.New()
@@ -482,10 +459,9 @@ func (srv *Oauth2) AuthorizePost(optionalSetters ...AuthorizePostOption)(*models
 	if options.enabledSetters["RequestUri"] {
 		params["request_uri"] = options.RequestUri
 	}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -514,25 +490,23 @@ func (srv *Oauth2) AuthorizePost(optionalSetters ...AuthorizePostOption)(*models
 	return &parsed, nil
 
 }
+
 type CreateDeviceAuthorizationOptions struct {
-	ClientId string
-	Scope string
+	ClientId             string
+	Scope                string
 	AuthorizationDetails string
-	Resource string
-	Audience string
-	enabledSetters map[string]bool
+	Resource             string
+	Audience             string
+	enabledSetters       map[string]bool
 }
+
 func (options CreateDeviceAuthorizationOptions) New() *CreateDeviceAuthorizationOptions {
-	options.enabledSetters = map[string]bool{
-		"ClientId": false,
-		"Scope": false,
-		"AuthorizationDetails": false,
-		"Resource": false,
-		"Audience": false,
-	}
+	options.enabledSetters = map[string]bool{"ClientId": false, "Scope": false, "AuthorizationDetails": false, "Resource": false, "Audience": false}
 	return &options
 }
+
 type CreateDeviceAuthorizationOption func(*CreateDeviceAuthorizationOptions)
+
 func (srv *Oauth2) WithCreateDeviceAuthorizationClientId(v string) CreateDeviceAuthorizationOption {
 	return func(o *CreateDeviceAuthorizationOptions) {
 		o.ClientId = v
@@ -563,11 +537,11 @@ func (srv *Oauth2) WithCreateDeviceAuthorizationAudience(v string) CreateDeviceA
 		o.enabledSetters["Audience"] = true
 	}
 }
-	
+
 // CreateDeviceAuthorization start the OAuth2 Device Authorization Grant.
 // Returns the device code, user code, verification URL, expiration, and
 // polling interval.
-func (srv *Oauth2) CreateDeviceAuthorization(optionalSetters ...CreateDeviceAuthorizationOption)(*models.Oauth2DeviceAuthorization, error) {
+func (srv *Oauth2) CreateDeviceAuthorization(optionalSetters ...CreateDeviceAuthorizationOption) (*models.Oauth2DeviceAuthorization, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/device_authorization")
 	options := CreateDeviceAuthorizationOptions{}.New()
@@ -590,10 +564,9 @@ func (srv *Oauth2) CreateDeviceAuthorization(optionalSetters ...CreateDeviceAuth
 	if options.enabledSetters["Audience"] {
 		params["audience"] = options.Audience
 	}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -622,20 +595,19 @@ func (srv *Oauth2) CreateDeviceAuthorization(optionalSetters ...CreateDeviceAuth
 	return &parsed, nil
 
 }
-	
+
 // CreateGrant exchange a device flow user code for an OAuth2 grant. The
 // authenticated user is bound to the pending grant. Pass the returned grant
 // ID to the get grant endpoint to render the consent screen, then to the
 // approve or reject endpoint to complete the flow.
-func (srv *Oauth2) CreateGrant(UserCode string)(*models.Oauth2Grant, error) {
+func (srv *Oauth2) CreateGrant(UserCode string) (*models.Oauth2Grant, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/grants")
 	params := map[string]interface{}{}
 	params["user_code"] = UserCode
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -664,18 +636,17 @@ func (srv *Oauth2) CreateGrant(UserCode string)(*models.Oauth2Grant, error) {
 	return &parsed, nil
 
 }
-	
+
 // GetGrant get an OAuth2 grant by its ID. Used by the consent screen to
 // display the details of the authorization the user is being asked to
 // approve. A grant can only be read by the user it belongs to, or by server
 // SDK.
-func (srv *Oauth2) GetGrant(GrantId string)(*models.Oauth2Grant, error) {
+func (srv *Oauth2) GetGrant(GrantId string) (*models.Oauth2Grant, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]), "{grant_id}", client.EncodePath(GrantId))
 	path := r.Replace("/oauth2/{project_id}/grants/{grant_id}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -704,21 +675,21 @@ func (srv *Oauth2) GetGrant(GrantId string)(*models.Oauth2Grant, error) {
 	return &parsed, nil
 
 }
+
 type ListOrganizationsOptions struct {
-	Limit int
-	Offset int
-	Search string
+	Limit          int
+	Offset         int
+	Search         string
 	enabledSetters map[string]bool
 }
+
 func (options ListOrganizationsOptions) New() *ListOrganizationsOptions {
-	options.enabledSetters = map[string]bool{
-		"Limit": false,
-		"Offset": false,
-		"Search": false,
-	}
+	options.enabledSetters = map[string]bool{"Limit": false, "Offset": false, "Search": false}
 	return &options
 }
+
 type ListOrganizationsOption func(*ListOrganizationsOptions)
+
 func (srv *Oauth2) WithListOrganizationsLimit(v int) ListOrganizationsOption {
 	return func(o *ListOrganizationsOptions) {
 		o.Limit = v
@@ -737,12 +708,12 @@ func (srv *Oauth2) WithListOrganizationsSearch(v string) ListOrganizationsOption
 		o.enabledSetters["Search"] = true
 	}
 }
-	
+
 // ListOrganizations list the organizations the OAuth2 access token can
 // access. Resolves the token's `organization` authorization details,
 // expanding the `*` wildcard into the concrete set of organizations the user
 // can see.
-func (srv *Oauth2) ListOrganizations(optionalSetters ...ListOrganizationsOption)(*models.Oauth2OrganizationList, error) {
+func (srv *Oauth2) ListOrganizations(optionalSetters ...ListOrganizationsOption) (*models.Oauth2OrganizationList, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/organizations")
 	options := ListOrganizationsOptions{}.New()
@@ -759,9 +730,8 @@ func (srv *Oauth2) ListOrganizations(optionalSetters ...ListOrganizationsOption)
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
 	}
-	headers := map[string]interface{}{
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -790,35 +760,28 @@ func (srv *Oauth2) ListOrganizations(optionalSetters ...ListOrganizationsOption)
 	return &parsed, nil
 
 }
+
 type CreatePAROptions struct {
-	Scope string
-	State string
-	Nonce string
-	CodeChallenge string
-	CodeChallengeMethod string
-	Prompt string
-	MaxAge int
+	Scope                string
+	State                string
+	Nonce                string
+	CodeChallenge        string
+	CodeChallengeMethod  string
+	Prompt               string
+	MaxAge               int
 	AuthorizationDetails string
-	Resource string
-	Audience string
-	enabledSetters map[string]bool
+	Resource             string
+	Audience             string
+	enabledSetters       map[string]bool
 }
+
 func (options CreatePAROptions) New() *CreatePAROptions {
-	options.enabledSetters = map[string]bool{
-		"Scope": false,
-		"State": false,
-		"Nonce": false,
-		"CodeChallenge": false,
-		"CodeChallengeMethod": false,
-		"Prompt": false,
-		"MaxAge": false,
-		"AuthorizationDetails": false,
-		"Resource": false,
-		"Audience": false,
-	}
+	options.enabledSetters = map[string]bool{"Scope": false, "State": false, "Nonce": false, "CodeChallenge": false, "CodeChallengeMethod": false, "Prompt": false, "MaxAge": false, "AuthorizationDetails": false, "Resource": false, "Audience": false}
 	return &options
 }
+
 type CreatePAROption func(*CreatePAROptions)
+
 func (srv *Oauth2) WithCreatePARScope(v string) CreatePAROption {
 	return func(o *CreatePAROptions) {
 		o.Scope = v
@@ -879,10 +842,10 @@ func (srv *Oauth2) WithCreatePARAudience(v string) CreatePAROption {
 		o.enabledSetters["Audience"] = true
 	}
 }
-							
+
 // CreatePAR store an OAuth2 authorization request server-side and receive a
 // short-lived request_uri handle for the authorize endpoint.
-func (srv *Oauth2) CreatePAR(ClientId string, RedirectUri string, ResponseType string, optionalSetters ...CreatePAROption)(*models.Oauth2PAR, error) {
+func (srv *Oauth2) CreatePAR(ClientId string, RedirectUri string, ResponseType string, optionalSetters ...CreatePAROption) (*models.Oauth2PAR, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/par")
 	options := CreatePAROptions{}.New()
@@ -923,10 +886,9 @@ func (srv *Oauth2) CreatePAR(ClientId string, RedirectUri string, ResponseType s
 	if options.enabledSetters["Audience"] {
 		params["audience"] = options.Audience
 	}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -955,21 +917,21 @@ func (srv *Oauth2) CreatePAR(ClientId string, RedirectUri string, ResponseType s
 	return &parsed, nil
 
 }
+
 type ListProjectsOptions struct {
-	Limit int
-	Offset int
-	Search string
+	Limit          int
+	Offset         int
+	Search         string
 	enabledSetters map[string]bool
 }
+
 func (options ListProjectsOptions) New() *ListProjectsOptions {
-	options.enabledSetters = map[string]bool{
-		"Limit": false,
-		"Offset": false,
-		"Search": false,
-	}
+	options.enabledSetters = map[string]bool{"Limit": false, "Offset": false, "Search": false}
 	return &options
 }
+
 type ListProjectsOption func(*ListProjectsOptions)
+
 func (srv *Oauth2) WithListProjectsLimit(v int) ListProjectsOption {
 	return func(o *ListProjectsOptions) {
 		o.Limit = v
@@ -988,11 +950,11 @@ func (srv *Oauth2) WithListProjectsSearch(v string) ListProjectsOption {
 		o.enabledSetters["Search"] = true
 	}
 }
-	
+
 // ListProjects list the projects the OAuth2 access token can access. Resolves
 // the token's `project` authorization details, expanding the `*` wildcard
 // into the concrete set of projects the user can see.
-func (srv *Oauth2) ListProjects(optionalSetters ...ListProjectsOption)(*models.Oauth2ProjectList, error) {
+func (srv *Oauth2) ListProjects(optionalSetters ...ListProjectsOption) (*models.Oauth2ProjectList, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/projects")
 	options := ListProjectsOptions{}.New()
@@ -1009,9 +971,8 @@ func (srv *Oauth2) ListProjects(optionalSetters ...ListProjectsOption)(*models.O
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
 	}
-	headers := map[string]interface{}{
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1040,20 +1001,19 @@ func (srv *Oauth2) ListProjects(optionalSetters ...ListProjectsOption)(*models.O
 	return &parsed, nil
 
 }
-	
+
 // Reject reject an OAuth2 grant when the user denies consent. Returns the
 // `redirectUrl` the end user should be sent to with an `access_denied` error.
 // You can pass Accept header of `application/json` to receive a JSON response
 // instead of a redirect.
-func (srv *Oauth2) Reject(GrantId string)(*models.Oauth2Reject, error) {
+func (srv *Oauth2) Reject(GrantId string) (*models.Oauth2Reject, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/reject")
 	params := map[string]interface{}{}
 	params["grant_id"] = GrantId
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1082,21 +1042,21 @@ func (srv *Oauth2) Reject(GrantId string)(*models.Oauth2Reject, error) {
 	return &parsed, nil
 
 }
+
 type RevokeOptions struct {
-	TokenTypeHint string
-	ClientId string
-	ClientSecret string
+	TokenTypeHint  string
+	ClientId       string
+	ClientSecret   string
 	enabledSetters map[string]bool
 }
+
 func (options RevokeOptions) New() *RevokeOptions {
-	options.enabledSetters = map[string]bool{
-		"TokenTypeHint": false,
-		"ClientId": false,
-		"ClientSecret": false,
-	}
+	options.enabledSetters = map[string]bool{"TokenTypeHint": false, "ClientId": false, "ClientSecret": false}
 	return &options
 }
+
 type RevokeOption func(*RevokeOptions)
+
 func (srv *Oauth2) WithRevokeTokenTypeHint(v string) RevokeOption {
 	return func(o *RevokeOptions) {
 		o.TokenTypeHint = v
@@ -1115,9 +1075,9 @@ func (srv *Oauth2) WithRevokeClientSecret(v string) RevokeOption {
 		o.enabledSetters["ClientSecret"] = true
 	}
 }
-			
+
 // Revoke revoke an OAuth2 access token or refresh token.
-func (srv *Oauth2) Revoke(Token string, optionalSetters ...RevokeOption)(*interface{}, error) {
+func (srv *Oauth2) Revoke(Token string, optionalSetters ...RevokeOption) (*interface{}, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/revoke")
 	options := RevokeOptions{}.New()
@@ -1135,10 +1095,9 @@ func (srv *Oauth2) Revoke(Token string, optionalSetters ...RevokeOption)(*interf
 	if options.enabledSetters["ClientSecret"] {
 		params["client_secret"] = options.ClientSecret
 	}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1166,33 +1125,27 @@ func (srv *Oauth2) Revoke(Token string, optionalSetters ...RevokeOption)(*interf
 	return &parsed, nil
 
 }
+
 type CreateTokenOptions struct {
-	Code string
-	RefreshToken string
-	DeviceCode string
-	ClientId string
-	ClientSecret string
-	CodeVerifier string
-	RedirectUri string
-	Resource string
-	Audience string
+	Code           string
+	RefreshToken   string
+	DeviceCode     string
+	ClientId       string
+	ClientSecret   string
+	CodeVerifier   string
+	RedirectUri    string
+	Resource       string
+	Audience       string
 	enabledSetters map[string]bool
 }
+
 func (options CreateTokenOptions) New() *CreateTokenOptions {
-	options.enabledSetters = map[string]bool{
-		"Code": false,
-		"RefreshToken": false,
-		"DeviceCode": false,
-		"ClientId": false,
-		"ClientSecret": false,
-		"CodeVerifier": false,
-		"RedirectUri": false,
-		"Resource": false,
-		"Audience": false,
-	}
+	options.enabledSetters = map[string]bool{"Code": false, "RefreshToken": false, "DeviceCode": false, "ClientId": false, "ClientSecret": false, "CodeVerifier": false, "RedirectUri": false, "Resource": false, "Audience": false}
 	return &options
 }
+
 type CreateTokenOption func(*CreateTokenOptions)
+
 func (srv *Oauth2) WithCreateTokenCode(v string) CreateTokenOption {
 	return func(o *CreateTokenOptions) {
 		o.Code = v
@@ -1247,10 +1200,10 @@ func (srv *Oauth2) WithCreateTokenAudience(v string) CreateTokenOption {
 		o.enabledSetters["Audience"] = true
 	}
 }
-			
+
 // CreateToken exchange an OAuth2 authorization code, refresh token, or device
 // code for access and refresh tokens.
-func (srv *Oauth2) CreateToken(GrantType string, optionalSetters ...CreateTokenOption)(*models.Oauth2Token, error) {
+func (srv *Oauth2) CreateToken(GrantType string, optionalSetters ...CreateTokenOption) (*models.Oauth2Token, error) {
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
 	path := r.Replace("/oauth2/{project_id}/token")
 	options := CreateTokenOptions{}.New()
@@ -1286,10 +1239,9 @@ func (srv *Oauth2) CreateToken(GrantType string, optionalSetters ...CreateTokenO
 	if options.enabledSetters["Audience"] {
 		params["audience"] = options.Audience
 	}
-	headers := map[string]interface{}{
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {

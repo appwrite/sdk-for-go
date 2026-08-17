@@ -3,9 +3,10 @@ package messaging
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Messaging service
@@ -20,20 +21,19 @@ func New(clt client.Client) *Messaging {
 }
 
 type ListMessagesOptions struct {
-	Queries []string
-	Search string
-	Total bool
+	Queries        []string
+	Search         string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListMessagesOptions) New() *ListMessagesOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Search": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Search": false, "Total": false}
 	return &options
 }
+
 type ListMessagesOption func(*ListMessagesOptions)
+
 func (srv *Messaging) WithListMessagesQueries(v []string) ListMessagesOption {
 	return func(o *ListMessagesOptions) {
 		o.Queries = v
@@ -52,9 +52,9 @@ func (srv *Messaging) WithListMessagesTotal(v bool) ListMessagesOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // ListMessages get a list of all messages from the current Appwrite project.
-func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*models.MessageList, error) {
+func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption) (*models.MessageList, error) {
 	path := "/messaging/messages"
 	options := ListMessagesOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -70,10 +70,9 @@ func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*model
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -102,33 +101,27 @@ func (srv *Messaging) ListMessages(optionalSetters ...ListMessagesOption)(*model
 	return &parsed, nil
 
 }
+
 type CreateEmailOptions struct {
-	Topics []string
-	Users []string
-	Targets []string
-	Cc []string
-	Bcc []string
-	Attachments []string
-	Draft bool
-	Html bool
-	ScheduledAt string
+	Topics         []string
+	Users          []string
+	Targets        []string
+	Cc             []string
+	Bcc            []string
+	Attachments    []string
+	Draft          bool
+	Html           bool
+	ScheduledAt    string
 	enabledSetters map[string]bool
 }
+
 func (options CreateEmailOptions) New() *CreateEmailOptions {
-	options.enabledSetters = map[string]bool{
-		"Topics": false,
-		"Users": false,
-		"Targets": false,
-		"Cc": false,
-		"Bcc": false,
-		"Attachments": false,
-		"Draft": false,
-		"Html": false,
-		"ScheduledAt": false,
-	}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Cc": false, "Bcc": false, "Attachments": false, "Draft": false, "Html": false, "ScheduledAt": false}
 	return &options
 }
+
 type CreateEmailOption func(*CreateEmailOptions)
+
 func (srv *Messaging) WithCreateEmailTopics(v []string) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Topics = v
@@ -183,9 +176,9 @@ func (srv *Messaging) WithCreateEmailScheduledAt(v string) CreateEmailOption {
 		o.enabledSetters["ScheduledAt"] = true
 	}
 }
-							
+
 // CreateEmail create a new email message.
-func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content string, optionalSetters ...CreateEmailOption)(*models.Message, error) {
+func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content string, optionalSetters ...CreateEmailOption) (*models.Message, error) {
 	path := "/messaging/messages/email"
 	options := CreateEmailOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -222,11 +215,10 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 	if options.enabledSetters["ScheduledAt"] {
 		params["scheduledAt"] = options.ScheduledAt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -255,37 +247,29 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 	return &parsed, nil
 
 }
+
 type UpdateEmailOptions struct {
-	Topics []string
-	Users []string
-	Targets []string
-	Subject string
-	Content string
-	Draft bool
-	Html bool
-	Cc []string
-	Bcc []string
-	ScheduledAt string
-	Attachments []string
+	Topics         []string
+	Users          []string
+	Targets        []string
+	Subject        string
+	Content        string
+	Draft          bool
+	Html           bool
+	Cc             []string
+	Bcc            []string
+	ScheduledAt    string
+	Attachments    []string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateEmailOptions) New() *UpdateEmailOptions {
-	options.enabledSetters = map[string]bool{
-		"Topics": false,
-		"Users": false,
-		"Targets": false,
-		"Subject": false,
-		"Content": false,
-		"Draft": false,
-		"Html": false,
-		"Cc": false,
-		"Bcc": false,
-		"ScheduledAt": false,
-		"Attachments": false,
-	}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Subject": false, "Content": false, "Draft": false, "Html": false, "Cc": false, "Bcc": false, "ScheduledAt": false, "Attachments": false}
 	return &options
 }
+
 type UpdateEmailOption func(*UpdateEmailOptions)
+
 func (srv *Messaging) WithUpdateEmailTopics(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Topics = v
@@ -352,11 +336,11 @@ func (srv *Messaging) WithUpdateEmailAttachments(v []string) UpdateEmailOption {
 		o.enabledSetters["Attachments"] = true
 	}
 }
-			
+
 // UpdateEmail update an email message by its unique ID. This endpoint only
 // works on messages that are in draft status. Messages that are already
 // processing, sent, or failed cannot be updated.
-func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEmailOption)(*models.Message, error) {
+func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEmailOption) (*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/email/{messageId}")
 	options := UpdateEmailOptions{}.New()
@@ -397,11 +381,10 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 	if options.enabledSetters["Attachments"] {
 		params["attachments"] = options.Attachments
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -430,51 +413,36 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 	return &parsed, nil
 
 }
+
 type CreatePushOptions struct {
-	Title string
-	Body string
-	Topics []string
-	Users []string
-	Targets []string
-	Data interface{}
-	Action string
-	Image string
-	Icon string
-	Sound string
-	Color string
-	Tag string
-	Badge int
-	Draft bool
-	ScheduledAt string
+	Title            string
+	Body             string
+	Topics           []string
+	Users            []string
+	Targets          []string
+	Data             interface{}
+	Action           string
+	Image            string
+	Icon             string
+	Sound            string
+	Color            string
+	Tag              string
+	Badge            int
+	Draft            bool
+	ScheduledAt      string
 	ContentAvailable bool
-	Critical bool
-	Priority string
-	enabledSetters map[string]bool
+	Critical         bool
+	Priority         string
+	enabledSetters   map[string]bool
 }
+
 func (options CreatePushOptions) New() *CreatePushOptions {
-	options.enabledSetters = map[string]bool{
-		"Title": false,
-		"Body": false,
-		"Topics": false,
-		"Users": false,
-		"Targets": false,
-		"Data": false,
-		"Action": false,
-		"Image": false,
-		"Icon": false,
-		"Sound": false,
-		"Color": false,
-		"Tag": false,
-		"Badge": false,
-		"Draft": false,
-		"ScheduledAt": false,
-		"ContentAvailable": false,
-		"Critical": false,
-		"Priority": false,
-	}
+	options.enabledSetters = map[string]bool{"Title": false, "Body": false, "Topics": false, "Users": false, "Targets": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false}
 	return &options
 }
+
 type CreatePushOption func(*CreatePushOptions)
+
 func (srv *Messaging) WithCreatePushTitle(v string) CreatePushOption {
 	return func(o *CreatePushOptions) {
 		o.Title = v
@@ -583,9 +551,9 @@ func (srv *Messaging) WithCreatePushPriority(v string) CreatePushOption {
 		o.enabledSetters["Priority"] = true
 	}
 }
-			
+
 // CreatePush create a new push notification.
-func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePushOption)(*models.Message, error) {
+func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePushOption) (*models.Message, error) {
 	path := "/messaging/messages/push"
 	options := CreatePushOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -647,11 +615,10 @@ func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePush
 	if options.enabledSetters["Priority"] {
 		params["priority"] = options.Priority
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -680,51 +647,36 @@ func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePush
 	return &parsed, nil
 
 }
+
 type UpdatePushOptions struct {
-	Topics []string
-	Users []string
-	Targets []string
-	Title string
-	Body string
-	Data interface{}
-	Action string
-	Image string
-	Icon string
-	Sound string
-	Color string
-	Tag string
-	Badge int
-	Draft bool
-	ScheduledAt string
+	Topics           []string
+	Users            []string
+	Targets          []string
+	Title            string
+	Body             string
+	Data             interface{}
+	Action           string
+	Image            string
+	Icon             string
+	Sound            string
+	Color            string
+	Tag              string
+	Badge            int
+	Draft            bool
+	ScheduledAt      string
 	ContentAvailable bool
-	Critical bool
-	Priority string
-	enabledSetters map[string]bool
+	Critical         bool
+	Priority         string
+	enabledSetters   map[string]bool
 }
+
 func (options UpdatePushOptions) New() *UpdatePushOptions {
-	options.enabledSetters = map[string]bool{
-		"Topics": false,
-		"Users": false,
-		"Targets": false,
-		"Title": false,
-		"Body": false,
-		"Data": false,
-		"Action": false,
-		"Image": false,
-		"Icon": false,
-		"Sound": false,
-		"Color": false,
-		"Tag": false,
-		"Badge": false,
-		"Draft": false,
-		"ScheduledAt": false,
-		"ContentAvailable": false,
-		"Critical": false,
-		"Priority": false,
-	}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Title": false, "Body": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false}
 	return &options
 }
+
 type UpdatePushOption func(*UpdatePushOptions)
+
 func (srv *Messaging) WithUpdatePushTopics(v []string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Topics = v
@@ -833,11 +785,11 @@ func (srv *Messaging) WithUpdatePushPriority(v string) UpdatePushOption {
 		o.enabledSetters["Priority"] = true
 	}
 }
-			
+
 // UpdatePush update a push notification by its unique ID. This endpoint only
 // works on messages that are in draft status. Messages that are already
 // processing, sent, or failed cannot be updated.
-func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePushOption)(*models.Message, error) {
+func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePushOption) (*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/push/{messageId}")
 	options := UpdatePushOptions{}.New()
@@ -899,11 +851,10 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 	if options.enabledSetters["Priority"] {
 		params["priority"] = options.Priority
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -932,25 +883,23 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 	return &parsed, nil
 
 }
+
 type CreateSmsOptions struct {
-	Topics []string
-	Users []string
-	Targets []string
-	Draft bool
-	ScheduledAt string
+	Topics         []string
+	Users          []string
+	Targets        []string
+	Draft          bool
+	ScheduledAt    string
 	enabledSetters map[string]bool
 }
+
 func (options CreateSmsOptions) New() *CreateSmsOptions {
-	options.enabledSetters = map[string]bool{
-		"Topics": false,
-		"Users": false,
-		"Targets": false,
-		"Draft": false,
-		"ScheduledAt": false,
-	}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Draft": false, "ScheduledAt": false}
 	return &options
 }
+
 type CreateSmsOption func(*CreateSmsOptions)
+
 func (srv *Messaging) WithCreateSmsTopics(v []string) CreateSmsOption {
 	return func(o *CreateSmsOptions) {
 		o.Topics = v
@@ -981,11 +930,11 @@ func (srv *Messaging) WithCreateSmsScheduledAt(v string) CreateSmsOption {
 		o.enabledSetters["ScheduledAt"] = true
 	}
 }
-					
+
 // CreateSms create a new SMS message.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createSMS` instead.
-func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetters ...CreateSmsOption)(*models.Message, error) {
+func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetters ...CreateSmsOption) (*models.Message, error) {
 	path := "/messaging/messages/sms"
 	options := CreateSmsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -1009,11 +958,10 @@ func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetter
 	if options.enabledSetters["ScheduledAt"] {
 		params["scheduledAt"] = options.ScheduledAt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1042,25 +990,23 @@ func (srv *Messaging) CreateSms(MessageId string, Content string, optionalSetter
 	return &parsed, nil
 
 }
+
 type CreateSMSOptions struct {
-	Topics []string
-	Users []string
-	Targets []string
-	Draft bool
-	ScheduledAt string
+	Topics         []string
+	Users          []string
+	Targets        []string
+	Draft          bool
+	ScheduledAt    string
 	enabledSetters map[string]bool
 }
+
 func (options CreateSMSOptions) New() *CreateSMSOptions {
-	options.enabledSetters = map[string]bool{
-		"Topics": false,
-		"Users": false,
-		"Targets": false,
-		"Draft": false,
-		"ScheduledAt": false,
-	}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Draft": false, "ScheduledAt": false}
 	return &options
 }
+
 type CreateSMSOption func(*CreateSMSOptions)
+
 func (srv *Messaging) WithCreateSMSTopics(v []string) CreateSMSOption {
 	return func(o *CreateSMSOptions) {
 		o.Topics = v
@@ -1091,9 +1037,9 @@ func (srv *Messaging) WithCreateSMSScheduledAt(v string) CreateSMSOption {
 		o.enabledSetters["ScheduledAt"] = true
 	}
 }
-					
+
 // CreateSMS create a new SMS message.
-func (srv *Messaging) CreateSMS(MessageId string, Content string, optionalSetters ...CreateSMSOption)(*models.Message, error) {
+func (srv *Messaging) CreateSMS(MessageId string, Content string, optionalSetters ...CreateSMSOption) (*models.Message, error) {
 	path := "/messaging/messages/sms"
 	options := CreateSMSOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -1117,11 +1063,10 @@ func (srv *Messaging) CreateSMS(MessageId string, Content string, optionalSetter
 	if options.enabledSetters["ScheduledAt"] {
 		params["scheduledAt"] = options.ScheduledAt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1150,27 +1095,24 @@ func (srv *Messaging) CreateSMS(MessageId string, Content string, optionalSetter
 	return &parsed, nil
 
 }
+
 type UpdateSmsOptions struct {
-	Topics []string
-	Users []string
-	Targets []string
-	Content string
-	Draft bool
-	ScheduledAt string
+	Topics         []string
+	Users          []string
+	Targets        []string
+	Content        string
+	Draft          bool
+	ScheduledAt    string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateSmsOptions) New() *UpdateSmsOptions {
-	options.enabledSetters = map[string]bool{
-		"Topics": false,
-		"Users": false,
-		"Targets": false,
-		"Content": false,
-		"Draft": false,
-		"ScheduledAt": false,
-	}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Content": false, "Draft": false, "ScheduledAt": false}
 	return &options
 }
+
 type UpdateSmsOption func(*UpdateSmsOptions)
+
 func (srv *Messaging) WithUpdateSmsTopics(v []string) UpdateSmsOption {
 	return func(o *UpdateSmsOptions) {
 		o.Topics = v
@@ -1207,13 +1149,13 @@ func (srv *Messaging) WithUpdateSmsScheduledAt(v string) UpdateSmsOption {
 		o.enabledSetters["ScheduledAt"] = true
 	}
 }
-			
+
 // UpdateSms update an SMS message by its unique ID. This endpoint only works
 // on messages that are in draft status. Messages that are already processing,
 // sent, or failed cannot be updated.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateSMS` instead.
-func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOption)(*models.Message, error) {
+func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOption) (*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/sms/{messageId}")
 	options := UpdateSmsOptions{}.New()
@@ -1239,11 +1181,10 @@ func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOp
 	if options.enabledSetters["ScheduledAt"] {
 		params["scheduledAt"] = options.ScheduledAt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1272,27 +1213,24 @@ func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOp
 	return &parsed, nil
 
 }
+
 type UpdateSMSOptions struct {
-	Topics []string
-	Users []string
-	Targets []string
-	Content string
-	Draft bool
-	ScheduledAt string
+	Topics         []string
+	Users          []string
+	Targets        []string
+	Content        string
+	Draft          bool
+	ScheduledAt    string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateSMSOptions) New() *UpdateSMSOptions {
-	options.enabledSetters = map[string]bool{
-		"Topics": false,
-		"Users": false,
-		"Targets": false,
-		"Content": false,
-		"Draft": false,
-		"ScheduledAt": false,
-	}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Content": false, "Draft": false, "ScheduledAt": false}
 	return &options
 }
+
 type UpdateSMSOption func(*UpdateSMSOptions)
+
 func (srv *Messaging) WithUpdateSMSTopics(v []string) UpdateSMSOption {
 	return func(o *UpdateSMSOptions) {
 		o.Topics = v
@@ -1329,11 +1267,11 @@ func (srv *Messaging) WithUpdateSMSScheduledAt(v string) UpdateSMSOption {
 		o.enabledSetters["ScheduledAt"] = true
 	}
 }
-			
+
 // UpdateSMS update an SMS message by its unique ID. This endpoint only works
 // on messages that are in draft status. Messages that are already processing,
 // sent, or failed cannot be updated.
-func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOption)(*models.Message, error) {
+func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOption) (*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/sms/{messageId}")
 	options := UpdateSMSOptions{}.New()
@@ -1359,11 +1297,10 @@ func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOp
 	if options.enabledSetters["ScheduledAt"] {
 		params["scheduledAt"] = options.ScheduledAt
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1392,16 +1329,15 @@ func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOp
 	return &parsed, nil
 
 }
-	
+
 // GetMessage get a message by its unique ID.
-func (srv *Messaging) GetMessage(MessageId string)(*models.Message, error) {
+func (srv *Messaging) GetMessage(MessageId string) (*models.Message, error) {
 	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/{messageId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1430,17 +1366,16 @@ func (srv *Messaging) GetMessage(MessageId string)(*models.Message, error) {
 	return &parsed, nil
 
 }
-	
+
 // Delete delete a message. If the message is not a draft or scheduled, but
 // has been sent, this will not recall the message.
-func (srv *Messaging) Delete(MessageId string)(*interface{}, error) {
+func (srv *Messaging) Delete(MessageId string) (*interface{}, error) {
 	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/{messageId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1468,19 +1403,20 @@ func (srv *Messaging) Delete(MessageId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+
 type ListTargetsOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListTargetsOptions) New() *ListTargetsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListTargetsOption func(*ListTargetsOptions)
+
 func (srv *Messaging) WithListTargetsQueries(v []string) ListTargetsOption {
 	return func(o *ListTargetsOptions) {
 		o.Queries = v
@@ -1493,9 +1429,9 @@ func (srv *Messaging) WithListTargetsTotal(v bool) ListTargetsOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-			
+
 // ListTargets get a list of the targets associated with a message.
-func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTargetsOption)(*models.TargetList, error) {
+func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTargetsOption) (*models.TargetList, error) {
 	r := strings.NewReplacer("{messageId}", client.EncodePath(MessageId))
 	path := r.Replace("/messaging/messages/{messageId}/targets")
 	options := ListTargetsOptions{}.New()
@@ -1509,10 +1445,9 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1541,21 +1476,21 @@ func (srv *Messaging) ListTargets(MessageId string, optionalSetters ...ListTarge
 	return &parsed, nil
 
 }
+
 type ListProvidersOptions struct {
-	Queries []string
-	Search string
-	Total bool
+	Queries        []string
+	Search         string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListProvidersOptions) New() *ListProvidersOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Search": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Search": false, "Total": false}
 	return &options
 }
+
 type ListProvidersOption func(*ListProvidersOptions)
+
 func (srv *Messaging) WithListProvidersQueries(v []string) ListProvidersOption {
 	return func(o *ListProvidersOptions) {
 		o.Queries = v
@@ -1574,10 +1509,10 @@ func (srv *Messaging) WithListProvidersTotal(v bool) ListProvidersOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // ListProviders get a list of all providers from the current Appwrite
 // project.
-func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*models.ProviderList, error) {
+func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption) (*models.ProviderList, error) {
 	path := "/messaging/providers"
 	options := ListProvidersOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -1593,10 +1528,9 @@ func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*mod
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1625,27 +1559,24 @@ func (srv *Messaging) ListProviders(optionalSetters ...ListProvidersOption)(*mod
 	return &parsed, nil
 
 }
+
 type CreateApnsProviderOptions struct {
-	AuthKey string
-	AuthKeyId string
-	TeamId string
-	BundleId string
-	Sandbox bool
-	Enabled bool
+	AuthKey        string
+	AuthKeyId      string
+	TeamId         string
+	BundleId       string
+	Sandbox        bool
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateApnsProviderOptions) New() *CreateApnsProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"AuthKey": false,
-		"AuthKeyId": false,
-		"TeamId": false,
-		"BundleId": false,
-		"Sandbox": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"AuthKey": false, "AuthKeyId": false, "TeamId": false, "BundleId": false, "Sandbox": false, "Enabled": false}
 	return &options
 }
+
 type CreateApnsProviderOption func(*CreateApnsProviderOptions)
+
 func (srv *Messaging) WithCreateApnsProviderAuthKey(v string) CreateApnsProviderOption {
 	return func(o *CreateApnsProviderOptions) {
 		o.AuthKey = v
@@ -1682,11 +1613,11 @@ func (srv *Messaging) WithCreateApnsProviderEnabled(v bool) CreateApnsProviderOp
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateApnsProvider create a new Apple Push Notification service provider.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createAPNSProvider` instead.
-func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optionalSetters ...CreateApnsProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optionalSetters ...CreateApnsProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/apns"
 	options := CreateApnsProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -1713,11 +1644,10 @@ func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optiona
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1746,27 +1676,24 @@ func (srv *Messaging) CreateApnsProvider(ProviderId string, Name string, optiona
 	return &parsed, nil
 
 }
+
 type CreateAPNSProviderOptions struct {
-	AuthKey string
-	AuthKeyId string
-	TeamId string
-	BundleId string
-	Sandbox bool
-	Enabled bool
+	AuthKey        string
+	AuthKeyId      string
+	TeamId         string
+	BundleId       string
+	Sandbox        bool
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateAPNSProviderOptions) New() *CreateAPNSProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"AuthKey": false,
-		"AuthKeyId": false,
-		"TeamId": false,
-		"BundleId": false,
-		"Sandbox": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"AuthKey": false, "AuthKeyId": false, "TeamId": false, "BundleId": false, "Sandbox": false, "Enabled": false}
 	return &options
 }
+
 type CreateAPNSProviderOption func(*CreateAPNSProviderOptions)
+
 func (srv *Messaging) WithCreateAPNSProviderAuthKey(v string) CreateAPNSProviderOption {
 	return func(o *CreateAPNSProviderOptions) {
 		o.AuthKey = v
@@ -1803,9 +1730,9 @@ func (srv *Messaging) WithCreateAPNSProviderEnabled(v bool) CreateAPNSProviderOp
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateAPNSProvider create a new Apple Push Notification service provider.
-func (srv *Messaging) CreateAPNSProvider(ProviderId string, Name string, optionalSetters ...CreateAPNSProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateAPNSProvider(ProviderId string, Name string, optionalSetters ...CreateAPNSProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/apns"
 	options := CreateAPNSProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -1832,11 +1759,10 @@ func (srv *Messaging) CreateAPNSProvider(ProviderId string, Name string, optiona
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1865,29 +1791,25 @@ func (srv *Messaging) CreateAPNSProvider(ProviderId string, Name string, optiona
 	return &parsed, nil
 
 }
+
 type UpdateApnsProviderOptions struct {
-	Name string
-	Enabled bool
-	AuthKey string
-	AuthKeyId string
-	TeamId string
-	BundleId string
-	Sandbox bool
+	Name           string
+	Enabled        bool
+	AuthKey        string
+	AuthKeyId      string
+	TeamId         string
+	BundleId       string
+	Sandbox        bool
 	enabledSetters map[string]bool
 }
+
 func (options UpdateApnsProviderOptions) New() *UpdateApnsProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"AuthKey": false,
-		"AuthKeyId": false,
-		"TeamId": false,
-		"BundleId": false,
-		"Sandbox": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "AuthKey": false, "AuthKeyId": false, "TeamId": false, "BundleId": false, "Sandbox": false}
 	return &options
 }
+
 type UpdateApnsProviderOption func(*UpdateApnsProviderOptions)
+
 func (srv *Messaging) WithUpdateApnsProviderName(v string) UpdateApnsProviderOption {
 	return func(o *UpdateApnsProviderOptions) {
 		o.Name = v
@@ -1930,12 +1852,12 @@ func (srv *Messaging) WithUpdateApnsProviderSandbox(v bool) UpdateApnsProviderOp
 		o.enabledSetters["Sandbox"] = true
 	}
 }
-			
+
 // UpdateApnsProvider update a Apple Push Notification service provider by its
 // unique ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateAPNSProvider` instead.
-func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...UpdateApnsProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...UpdateApnsProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/apns/{providerId}")
 	options := UpdateApnsProviderOptions{}.New()
@@ -1964,11 +1886,10 @@ func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...U
 	if options.enabledSetters["Sandbox"] {
 		params["sandbox"] = options.Sandbox
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1997,29 +1918,25 @@ func (srv *Messaging) UpdateApnsProvider(ProviderId string, optionalSetters ...U
 	return &parsed, nil
 
 }
+
 type UpdateAPNSProviderOptions struct {
-	Name string
-	Enabled bool
-	AuthKey string
-	AuthKeyId string
-	TeamId string
-	BundleId string
-	Sandbox bool
+	Name           string
+	Enabled        bool
+	AuthKey        string
+	AuthKeyId      string
+	TeamId         string
+	BundleId       string
+	Sandbox        bool
 	enabledSetters map[string]bool
 }
+
 func (options UpdateAPNSProviderOptions) New() *UpdateAPNSProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"AuthKey": false,
-		"AuthKeyId": false,
-		"TeamId": false,
-		"BundleId": false,
-		"Sandbox": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "AuthKey": false, "AuthKeyId": false, "TeamId": false, "BundleId": false, "Sandbox": false}
 	return &options
 }
+
 type UpdateAPNSProviderOption func(*UpdateAPNSProviderOptions)
+
 func (srv *Messaging) WithUpdateAPNSProviderName(v string) UpdateAPNSProviderOption {
 	return func(o *UpdateAPNSProviderOptions) {
 		o.Name = v
@@ -2062,10 +1979,10 @@ func (srv *Messaging) WithUpdateAPNSProviderSandbox(v bool) UpdateAPNSProviderOp
 		o.enabledSetters["Sandbox"] = true
 	}
 }
-			
+
 // UpdateAPNSProvider update a Apple Push Notification service provider by its
 // unique ID.
-func (srv *Messaging) UpdateAPNSProvider(ProviderId string, optionalSetters ...UpdateAPNSProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateAPNSProvider(ProviderId string, optionalSetters ...UpdateAPNSProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/apns/{providerId}")
 	options := UpdateAPNSProviderOptions{}.New()
@@ -2094,11 +2011,10 @@ func (srv *Messaging) UpdateAPNSProvider(ProviderId string, optionalSetters ...U
 	if options.enabledSetters["Sandbox"] {
 		params["sandbox"] = options.Sandbox
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2127,19 +2043,20 @@ func (srv *Messaging) UpdateAPNSProvider(ProviderId string, optionalSetters ...U
 	return &parsed, nil
 
 }
+
 type CreateFcmProviderOptions struct {
 	ServiceAccountJSON interface{}
-	Enabled bool
-	enabledSetters map[string]bool
+	Enabled            bool
+	enabledSetters     map[string]bool
 }
+
 func (options CreateFcmProviderOptions) New() *CreateFcmProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"ServiceAccountJSON": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"ServiceAccountJSON": false, "Enabled": false}
 	return &options
 }
+
 type CreateFcmProviderOption func(*CreateFcmProviderOptions)
+
 func (srv *Messaging) WithCreateFcmProviderServiceAccountJSON(v interface{}) CreateFcmProviderOption {
 	return func(o *CreateFcmProviderOptions) {
 		o.ServiceAccountJSON = v
@@ -2152,11 +2069,11 @@ func (srv *Messaging) WithCreateFcmProviderEnabled(v bool) CreateFcmProviderOpti
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateFcmProvider create a new Firebase Cloud Messaging provider.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createFCMProvider` instead.
-func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optionalSetters ...CreateFcmProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optionalSetters ...CreateFcmProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/fcm"
 	options := CreateFcmProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -2171,11 +2088,10 @@ func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optional
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2204,19 +2120,20 @@ func (srv *Messaging) CreateFcmProvider(ProviderId string, Name string, optional
 	return &parsed, nil
 
 }
+
 type CreateFCMProviderOptions struct {
 	ServiceAccountJSON interface{}
-	Enabled bool
-	enabledSetters map[string]bool
+	Enabled            bool
+	enabledSetters     map[string]bool
 }
+
 func (options CreateFCMProviderOptions) New() *CreateFCMProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"ServiceAccountJSON": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"ServiceAccountJSON": false, "Enabled": false}
 	return &options
 }
+
 type CreateFCMProviderOption func(*CreateFCMProviderOptions)
+
 func (srv *Messaging) WithCreateFCMProviderServiceAccountJSON(v interface{}) CreateFCMProviderOption {
 	return func(o *CreateFCMProviderOptions) {
 		o.ServiceAccountJSON = v
@@ -2229,9 +2146,9 @@ func (srv *Messaging) WithCreateFCMProviderEnabled(v bool) CreateFCMProviderOpti
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateFCMProvider create a new Firebase Cloud Messaging provider.
-func (srv *Messaging) CreateFCMProvider(ProviderId string, Name string, optionalSetters ...CreateFCMProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateFCMProvider(ProviderId string, Name string, optionalSetters ...CreateFCMProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/fcm"
 	options := CreateFCMProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -2246,11 +2163,10 @@ func (srv *Messaging) CreateFCMProvider(ProviderId string, Name string, optional
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2279,21 +2195,21 @@ func (srv *Messaging) CreateFCMProvider(ProviderId string, Name string, optional
 	return &parsed, nil
 
 }
+
 type UpdateFcmProviderOptions struct {
-	Name string
-	Enabled bool
+	Name               string
+	Enabled            bool
 	ServiceAccountJSON interface{}
-	enabledSetters map[string]bool
+	enabledSetters     map[string]bool
 }
+
 func (options UpdateFcmProviderOptions) New() *UpdateFcmProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"ServiceAccountJSON": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "ServiceAccountJSON": false}
 	return &options
 }
+
 type UpdateFcmProviderOption func(*UpdateFcmProviderOptions)
+
 func (srv *Messaging) WithUpdateFcmProviderName(v string) UpdateFcmProviderOption {
 	return func(o *UpdateFcmProviderOptions) {
 		o.Name = v
@@ -2312,12 +2228,12 @@ func (srv *Messaging) WithUpdateFcmProviderServiceAccountJSON(v interface{}) Upd
 		o.enabledSetters["ServiceAccountJSON"] = true
 	}
 }
-			
+
 // UpdateFcmProvider update a Firebase Cloud Messaging provider by its unique
 // ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateFCMProvider` instead.
-func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...UpdateFcmProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...UpdateFcmProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/fcm/{providerId}")
 	options := UpdateFcmProviderOptions{}.New()
@@ -2334,11 +2250,10 @@ func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...Up
 	if options.enabledSetters["ServiceAccountJSON"] {
 		params["serviceAccountJSON"] = options.ServiceAccountJSON
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2367,21 +2282,21 @@ func (srv *Messaging) UpdateFcmProvider(ProviderId string, optionalSetters ...Up
 	return &parsed, nil
 
 }
+
 type UpdateFCMProviderOptions struct {
-	Name string
-	Enabled bool
+	Name               string
+	Enabled            bool
 	ServiceAccountJSON interface{}
-	enabledSetters map[string]bool
+	enabledSetters     map[string]bool
 }
+
 func (options UpdateFCMProviderOptions) New() *UpdateFCMProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"ServiceAccountJSON": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "ServiceAccountJSON": false}
 	return &options
 }
+
 type UpdateFCMProviderOption func(*UpdateFCMProviderOptions)
+
 func (srv *Messaging) WithUpdateFCMProviderName(v string) UpdateFCMProviderOption {
 	return func(o *UpdateFCMProviderOptions) {
 		o.Name = v
@@ -2400,10 +2315,10 @@ func (srv *Messaging) WithUpdateFCMProviderServiceAccountJSON(v interface{}) Upd
 		o.enabledSetters["ServiceAccountJSON"] = true
 	}
 }
-			
+
 // UpdateFCMProvider update a Firebase Cloud Messaging provider by its unique
 // ID.
-func (srv *Messaging) UpdateFCMProvider(ProviderId string, optionalSetters ...UpdateFCMProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateFCMProvider(ProviderId string, optionalSetters ...UpdateFCMProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/fcm/{providerId}")
 	options := UpdateFCMProviderOptions{}.New()
@@ -2420,11 +2335,10 @@ func (srv *Messaging) UpdateFCMProvider(ProviderId string, optionalSetters ...Up
 	if options.enabledSetters["ServiceAccountJSON"] {
 		params["serviceAccountJSON"] = options.ServiceAccountJSON
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2453,31 +2367,26 @@ func (srv *Messaging) UpdateFCMProvider(ProviderId string, optionalSetters ...Up
 	return &parsed, nil
 
 }
+
 type CreateMailgunProviderOptions struct {
-	ApiKey string
-	Domain string
-	IsEuRegion bool
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
-	Enabled bool
+	ApiKey         string
+	Domain         string
+	IsEuRegion     bool
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateMailgunProviderOptions) New() *CreateMailgunProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"ApiKey": false,
-		"Domain": false,
-		"IsEuRegion": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"ApiKey": false, "Domain": false, "IsEuRegion": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false, "Enabled": false}
 	return &options
 }
+
 type CreateMailgunProviderOption func(*CreateMailgunProviderOptions)
+
 func (srv *Messaging) WithCreateMailgunProviderApiKey(v string) CreateMailgunProviderOption {
 	return func(o *CreateMailgunProviderOptions) {
 		o.ApiKey = v
@@ -2526,9 +2435,9 @@ func (srv *Messaging) WithCreateMailgunProviderEnabled(v bool) CreateMailgunProv
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateMailgunProvider create a new Mailgun provider.
-func (srv *Messaging) CreateMailgunProvider(ProviderId string, Name string, optionalSetters ...CreateMailgunProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateMailgunProvider(ProviderId string, Name string, optionalSetters ...CreateMailgunProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/mailgun"
 	options := CreateMailgunProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -2561,11 +2470,10 @@ func (srv *Messaging) CreateMailgunProvider(ProviderId string, Name string, opti
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2594,33 +2502,27 @@ func (srv *Messaging) CreateMailgunProvider(ProviderId string, Name string, opti
 	return &parsed, nil
 
 }
+
 type UpdateMailgunProviderOptions struct {
-	Name string
-	ApiKey string
-	Domain string
-	IsEuRegion bool
-	Enabled bool
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
+	Name           string
+	ApiKey         string
+	Domain         string
+	IsEuRegion     bool
+	Enabled        bool
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateMailgunProviderOptions) New() *UpdateMailgunProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"ApiKey": false,
-		"Domain": false,
-		"IsEuRegion": false,
-		"Enabled": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "ApiKey": false, "Domain": false, "IsEuRegion": false, "Enabled": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false}
 	return &options
 }
+
 type UpdateMailgunProviderOption func(*UpdateMailgunProviderOptions)
+
 func (srv *Messaging) WithUpdateMailgunProviderName(v string) UpdateMailgunProviderOption {
 	return func(o *UpdateMailgunProviderOptions) {
 		o.Name = v
@@ -2675,9 +2577,9 @@ func (srv *Messaging) WithUpdateMailgunProviderReplyToEmail(v string) UpdateMail
 		o.enabledSetters["ReplyToEmail"] = true
 	}
 }
-			
+
 // UpdateMailgunProvider update a Mailgun provider by its unique ID.
-func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters ...UpdateMailgunProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters ...UpdateMailgunProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/mailgun/{providerId}")
 	options := UpdateMailgunProviderOptions{}.New()
@@ -2712,11 +2614,10 @@ func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters .
 	if options.enabledSetters["ReplyToEmail"] {
 		params["replyToEmail"] = options.ReplyToEmail
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2745,23 +2646,22 @@ func (srv *Messaging) UpdateMailgunProvider(ProviderId string, optionalSetters .
 	return &parsed, nil
 
 }
+
 type CreateMsg91ProviderOptions struct {
-	TemplateId string
-	SenderId string
-	AuthKey string
-	Enabled bool
+	TemplateId     string
+	SenderId       string
+	AuthKey        string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateMsg91ProviderOptions) New() *CreateMsg91ProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"TemplateId": false,
-		"SenderId": false,
-		"AuthKey": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"TemplateId": false, "SenderId": false, "AuthKey": false, "Enabled": false}
 	return &options
 }
+
 type CreateMsg91ProviderOption func(*CreateMsg91ProviderOptions)
+
 func (srv *Messaging) WithCreateMsg91ProviderTemplateId(v string) CreateMsg91ProviderOption {
 	return func(o *CreateMsg91ProviderOptions) {
 		o.TemplateId = v
@@ -2786,9 +2686,9 @@ func (srv *Messaging) WithCreateMsg91ProviderEnabled(v bool) CreateMsg91Provider
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateMsg91Provider create a new MSG91 provider.
-func (srv *Messaging) CreateMsg91Provider(ProviderId string, Name string, optionalSetters ...CreateMsg91ProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateMsg91Provider(ProviderId string, Name string, optionalSetters ...CreateMsg91ProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/msg91"
 	options := CreateMsg91ProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -2809,11 +2709,10 @@ func (srv *Messaging) CreateMsg91Provider(ProviderId string, Name string, option
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2842,25 +2741,23 @@ func (srv *Messaging) CreateMsg91Provider(ProviderId string, Name string, option
 	return &parsed, nil
 
 }
+
 type UpdateMsg91ProviderOptions struct {
-	Name string
-	Enabled bool
-	TemplateId string
-	SenderId string
-	AuthKey string
+	Name           string
+	Enabled        bool
+	TemplateId     string
+	SenderId       string
+	AuthKey        string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateMsg91ProviderOptions) New() *UpdateMsg91ProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"TemplateId": false,
-		"SenderId": false,
-		"AuthKey": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "TemplateId": false, "SenderId": false, "AuthKey": false}
 	return &options
 }
+
 type UpdateMsg91ProviderOption func(*UpdateMsg91ProviderOptions)
+
 func (srv *Messaging) WithUpdateMsg91ProviderName(v string) UpdateMsg91ProviderOption {
 	return func(o *UpdateMsg91ProviderOptions) {
 		o.Name = v
@@ -2891,9 +2788,9 @@ func (srv *Messaging) WithUpdateMsg91ProviderAuthKey(v string) UpdateMsg91Provid
 		o.enabledSetters["AuthKey"] = true
 	}
 }
-			
+
 // UpdateMsg91Provider update a MSG91 provider by its unique ID.
-func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...UpdateMsg91ProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...UpdateMsg91ProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/msg91/{providerId}")
 	options := UpdateMsg91ProviderOptions{}.New()
@@ -2916,11 +2813,10 @@ func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...
 	if options.enabledSetters["AuthKey"] {
 		params["authKey"] = options.AuthKey
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2949,27 +2845,24 @@ func (srv *Messaging) UpdateMsg91Provider(ProviderId string, optionalSetters ...
 	return &parsed, nil
 
 }
+
 type CreateResendProviderOptions struct {
-	ApiKey string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
-	Enabled bool
+	ApiKey         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateResendProviderOptions) New() *CreateResendProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"ApiKey": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"ApiKey": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false, "Enabled": false}
 	return &options
 }
+
 type CreateResendProviderOption func(*CreateResendProviderOptions)
+
 func (srv *Messaging) WithCreateResendProviderApiKey(v string) CreateResendProviderOption {
 	return func(o *CreateResendProviderOptions) {
 		o.ApiKey = v
@@ -3006,9 +2899,9 @@ func (srv *Messaging) WithCreateResendProviderEnabled(v bool) CreateResendProvid
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateResendProvider create a new Resend provider.
-func (srv *Messaging) CreateResendProvider(ProviderId string, Name string, optionalSetters ...CreateResendProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateResendProvider(ProviderId string, Name string, optionalSetters ...CreateResendProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/resend"
 	options := CreateResendProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -3035,11 +2928,10 @@ func (srv *Messaging) CreateResendProvider(ProviderId string, Name string, optio
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3068,29 +2960,25 @@ func (srv *Messaging) CreateResendProvider(ProviderId string, Name string, optio
 	return &parsed, nil
 
 }
+
 type UpdateResendProviderOptions struct {
-	Name string
-	Enabled bool
-	ApiKey string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
+	Name           string
+	Enabled        bool
+	ApiKey         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateResendProviderOptions) New() *UpdateResendProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"ApiKey": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "ApiKey": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false}
 	return &options
 }
+
 type UpdateResendProviderOption func(*UpdateResendProviderOptions)
+
 func (srv *Messaging) WithUpdateResendProviderName(v string) UpdateResendProviderOption {
 	return func(o *UpdateResendProviderOptions) {
 		o.Name = v
@@ -3133,9 +3021,9 @@ func (srv *Messaging) WithUpdateResendProviderReplyToEmail(v string) UpdateResen
 		o.enabledSetters["ReplyToEmail"] = true
 	}
 }
-			
+
 // UpdateResendProvider update a Resend provider by its unique ID.
-func (srv *Messaging) UpdateResendProvider(ProviderId string, optionalSetters ...UpdateResendProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateResendProvider(ProviderId string, optionalSetters ...UpdateResendProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/resend/{providerId}")
 	options := UpdateResendProviderOptions{}.New()
@@ -3164,11 +3052,10 @@ func (srv *Messaging) UpdateResendProvider(ProviderId string, optionalSetters ..
 	if options.enabledSetters["ReplyToEmail"] {
 		params["replyToEmail"] = options.ReplyToEmail
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -3197,27 +3084,24 @@ func (srv *Messaging) UpdateResendProvider(ProviderId string, optionalSetters ..
 	return &parsed, nil
 
 }
+
 type CreateSendgridProviderOptions struct {
-	ApiKey string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
-	Enabled bool
+	ApiKey         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateSendgridProviderOptions) New() *CreateSendgridProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"ApiKey": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"ApiKey": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false, "Enabled": false}
 	return &options
 }
+
 type CreateSendgridProviderOption func(*CreateSendgridProviderOptions)
+
 func (srv *Messaging) WithCreateSendgridProviderApiKey(v string) CreateSendgridProviderOption {
 	return func(o *CreateSendgridProviderOptions) {
 		o.ApiKey = v
@@ -3254,9 +3138,9 @@ func (srv *Messaging) WithCreateSendgridProviderEnabled(v bool) CreateSendgridPr
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateSendgridProvider create a new Sendgrid provider.
-func (srv *Messaging) CreateSendgridProvider(ProviderId string, Name string, optionalSetters ...CreateSendgridProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateSendgridProvider(ProviderId string, Name string, optionalSetters ...CreateSendgridProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/sendgrid"
 	options := CreateSendgridProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -3283,11 +3167,10 @@ func (srv *Messaging) CreateSendgridProvider(ProviderId string, Name string, opt
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3316,29 +3199,25 @@ func (srv *Messaging) CreateSendgridProvider(ProviderId string, Name string, opt
 	return &parsed, nil
 
 }
+
 type UpdateSendgridProviderOptions struct {
-	Name string
-	Enabled bool
-	ApiKey string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
+	Name           string
+	Enabled        bool
+	ApiKey         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateSendgridProviderOptions) New() *UpdateSendgridProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"ApiKey": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "ApiKey": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false}
 	return &options
 }
+
 type UpdateSendgridProviderOption func(*UpdateSendgridProviderOptions)
+
 func (srv *Messaging) WithUpdateSendgridProviderName(v string) UpdateSendgridProviderOption {
 	return func(o *UpdateSendgridProviderOptions) {
 		o.Name = v
@@ -3381,9 +3260,9 @@ func (srv *Messaging) WithUpdateSendgridProviderReplyToEmail(v string) UpdateSen
 		o.enabledSetters["ReplyToEmail"] = true
 	}
 }
-			
+
 // UpdateSendgridProvider update a Sendgrid provider by its unique ID.
-func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters ...UpdateSendgridProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters ...UpdateSendgridProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/sendgrid/{providerId}")
 	options := UpdateSendgridProviderOptions{}.New()
@@ -3412,11 +3291,10 @@ func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters 
 	if options.enabledSetters["ReplyToEmail"] {
 		params["replyToEmail"] = options.ReplyToEmail
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -3445,31 +3323,26 @@ func (srv *Messaging) UpdateSendgridProvider(ProviderId string, optionalSetters 
 	return &parsed, nil
 
 }
+
 type CreateSesProviderOptions struct {
-	AccessKey string
-	SecretKey string
-	Region string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
-	Enabled bool
+	AccessKey      string
+	SecretKey      string
+	Region         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateSesProviderOptions) New() *CreateSesProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"AccessKey": false,
-		"SecretKey": false,
-		"Region": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"AccessKey": false, "SecretKey": false, "Region": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false, "Enabled": false}
 	return &options
 }
+
 type CreateSesProviderOption func(*CreateSesProviderOptions)
+
 func (srv *Messaging) WithCreateSesProviderAccessKey(v string) CreateSesProviderOption {
 	return func(o *CreateSesProviderOptions) {
 		o.AccessKey = v
@@ -3518,9 +3391,9 @@ func (srv *Messaging) WithCreateSesProviderEnabled(v bool) CreateSesProviderOpti
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateSesProvider create a new Amazon SES provider.
-func (srv *Messaging) CreateSesProvider(ProviderId string, Name string, optionalSetters ...CreateSesProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateSesProvider(ProviderId string, Name string, optionalSetters ...CreateSesProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/ses"
 	options := CreateSesProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -3553,11 +3426,10 @@ func (srv *Messaging) CreateSesProvider(ProviderId string, Name string, optional
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3586,33 +3458,27 @@ func (srv *Messaging) CreateSesProvider(ProviderId string, Name string, optional
 	return &parsed, nil
 
 }
+
 type UpdateSesProviderOptions struct {
-	Name string
-	Enabled bool
-	AccessKey string
-	SecretKey string
-	Region string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
+	Name           string
+	Enabled        bool
+	AccessKey      string
+	SecretKey      string
+	Region         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateSesProviderOptions) New() *UpdateSesProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"AccessKey": false,
-		"SecretKey": false,
-		"Region": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "AccessKey": false, "SecretKey": false, "Region": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false}
 	return &options
 }
+
 type UpdateSesProviderOption func(*UpdateSesProviderOptions)
+
 func (srv *Messaging) WithUpdateSesProviderName(v string) UpdateSesProviderOption {
 	return func(o *UpdateSesProviderOptions) {
 		o.Name = v
@@ -3667,9 +3533,9 @@ func (srv *Messaging) WithUpdateSesProviderReplyToEmail(v string) UpdateSesProvi
 		o.enabledSetters["ReplyToEmail"] = true
 	}
 }
-			
+
 // UpdateSesProvider update an Amazon SES provider by its unique ID.
-func (srv *Messaging) UpdateSesProvider(ProviderId string, optionalSetters ...UpdateSesProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateSesProvider(ProviderId string, optionalSetters ...UpdateSesProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/ses/{providerId}")
 	options := UpdateSesProviderOptions{}.New()
@@ -3704,11 +3570,10 @@ func (srv *Messaging) UpdateSesProvider(ProviderId string, optionalSetters ...Up
 	if options.enabledSetters["ReplyToEmail"] {
 		params["replyToEmail"] = options.ReplyToEmail
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -3737,37 +3602,29 @@ func (srv *Messaging) UpdateSesProvider(ProviderId string, optionalSetters ...Up
 	return &parsed, nil
 
 }
+
 type CreateSmtpProviderOptions struct {
-	Port int
-	Username string
-	Password string
-	Encryption string
-	AutoTLS bool
-	Mailer string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
-	Enabled bool
+	Port           int
+	Username       string
+	Password       string
+	Encryption     string
+	AutoTLS        bool
+	Mailer         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateSmtpProviderOptions) New() *CreateSmtpProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Port": false,
-		"Username": false,
-		"Password": false,
-		"Encryption": false,
-		"AutoTLS": false,
-		"Mailer": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"Port": false, "Username": false, "Password": false, "Encryption": false, "AutoTLS": false, "Mailer": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false, "Enabled": false}
 	return &options
 }
+
 type CreateSmtpProviderOption func(*CreateSmtpProviderOptions)
+
 func (srv *Messaging) WithCreateSmtpProviderPort(v int) CreateSmtpProviderOption {
 	return func(o *CreateSmtpProviderOptions) {
 		o.Port = v
@@ -3834,11 +3691,11 @@ func (srv *Messaging) WithCreateSmtpProviderEnabled(v bool) CreateSmtpProviderOp
 		o.enabledSetters["Enabled"] = true
 	}
 }
-							
+
 // CreateSmtpProvider create a new SMTP provider.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.createSMTPProvider` instead.
-func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host string, optionalSetters ...CreateSmtpProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host string, optionalSetters ...CreateSmtpProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/smtp"
 	options := CreateSmtpProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -3881,11 +3738,10 @@ func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host st
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -3914,37 +3770,29 @@ func (srv *Messaging) CreateSmtpProvider(ProviderId string, Name string, Host st
 	return &parsed, nil
 
 }
+
 type CreateSMTPProviderOptions struct {
-	Port int
-	Username string
-	Password string
-	Encryption string
-	AutoTLS bool
-	Mailer string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
-	Enabled bool
+	Port           int
+	Username       string
+	Password       string
+	Encryption     string
+	AutoTLS        bool
+	Mailer         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateSMTPProviderOptions) New() *CreateSMTPProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Port": false,
-		"Username": false,
-		"Password": false,
-		"Encryption": false,
-		"AutoTLS": false,
-		"Mailer": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"Port": false, "Username": false, "Password": false, "Encryption": false, "AutoTLS": false, "Mailer": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false, "Enabled": false}
 	return &options
 }
+
 type CreateSMTPProviderOption func(*CreateSMTPProviderOptions)
+
 func (srv *Messaging) WithCreateSMTPProviderPort(v int) CreateSMTPProviderOption {
 	return func(o *CreateSMTPProviderOptions) {
 		o.Port = v
@@ -4011,9 +3859,9 @@ func (srv *Messaging) WithCreateSMTPProviderEnabled(v bool) CreateSMTPProviderOp
 		o.enabledSetters["Enabled"] = true
 	}
 }
-							
+
 // CreateSMTPProvider create a new SMTP provider.
-func (srv *Messaging) CreateSMTPProvider(ProviderId string, Name string, Host string, optionalSetters ...CreateSMTPProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateSMTPProvider(ProviderId string, Name string, Host string, optionalSetters ...CreateSMTPProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/smtp"
 	options := CreateSMTPProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -4056,11 +3904,10 @@ func (srv *Messaging) CreateSMTPProvider(ProviderId string, Name string, Host st
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -4089,41 +3936,31 @@ func (srv *Messaging) CreateSMTPProvider(ProviderId string, Name string, Host st
 	return &parsed, nil
 
 }
+
 type UpdateSmtpProviderOptions struct {
-	Name string
-	Host string
-	Port int
-	Username string
-	Password string
-	Encryption string
-	AutoTLS bool
-	Mailer string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
-	Enabled bool
+	Name           string
+	Host           string
+	Port           int
+	Username       string
+	Password       string
+	Encryption     string
+	AutoTLS        bool
+	Mailer         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options UpdateSmtpProviderOptions) New() *UpdateSmtpProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Host": false,
-		"Port": false,
-		"Username": false,
-		"Password": false,
-		"Encryption": false,
-		"AutoTLS": false,
-		"Mailer": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Host": false, "Port": false, "Username": false, "Password": false, "Encryption": false, "AutoTLS": false, "Mailer": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false, "Enabled": false}
 	return &options
 }
+
 type UpdateSmtpProviderOption func(*UpdateSmtpProviderOptions)
+
 func (srv *Messaging) WithUpdateSmtpProviderName(v string) UpdateSmtpProviderOption {
 	return func(o *UpdateSmtpProviderOptions) {
 		o.Name = v
@@ -4202,11 +4039,11 @@ func (srv *Messaging) WithUpdateSmtpProviderEnabled(v bool) UpdateSmtpProviderOp
 		o.enabledSetters["Enabled"] = true
 	}
 }
-			
+
 // UpdateSmtpProvider update a SMTP provider by its unique ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Messaging.updateSMTPProvider` instead.
-func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...UpdateSmtpProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...UpdateSmtpProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/smtp/{providerId}")
 	options := UpdateSmtpProviderOptions{}.New()
@@ -4253,11 +4090,10 @@ func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...U
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -4286,41 +4122,31 @@ func (srv *Messaging) UpdateSmtpProvider(ProviderId string, optionalSetters ...U
 	return &parsed, nil
 
 }
+
 type UpdateSMTPProviderOptions struct {
-	Name string
-	Host string
-	Port int
-	Username string
-	Password string
-	Encryption string
-	AutoTLS bool
-	Mailer string
-	FromName string
-	FromEmail string
-	ReplyToName string
-	ReplyToEmail string
-	Enabled bool
+	Name           string
+	Host           string
+	Port           int
+	Username       string
+	Password       string
+	Encryption     string
+	AutoTLS        bool
+	Mailer         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options UpdateSMTPProviderOptions) New() *UpdateSMTPProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Host": false,
-		"Port": false,
-		"Username": false,
-		"Password": false,
-		"Encryption": false,
-		"AutoTLS": false,
-		"Mailer": false,
-		"FromName": false,
-		"FromEmail": false,
-		"ReplyToName": false,
-		"ReplyToEmail": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Host": false, "Port": false, "Username": false, "Password": false, "Encryption": false, "AutoTLS": false, "Mailer": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false, "Enabled": false}
 	return &options
 }
+
 type UpdateSMTPProviderOption func(*UpdateSMTPProviderOptions)
+
 func (srv *Messaging) WithUpdateSMTPProviderName(v string) UpdateSMTPProviderOption {
 	return func(o *UpdateSMTPProviderOptions) {
 		o.Name = v
@@ -4399,9 +4225,9 @@ func (srv *Messaging) WithUpdateSMTPProviderEnabled(v bool) UpdateSMTPProviderOp
 		o.enabledSetters["Enabled"] = true
 	}
 }
-			
+
 // UpdateSMTPProvider update a SMTP provider by its unique ID.
-func (srv *Messaging) UpdateSMTPProvider(ProviderId string, optionalSetters ...UpdateSMTPProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateSMTPProvider(ProviderId string, optionalSetters ...UpdateSMTPProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/smtp/{providerId}")
 	options := UpdateSMTPProviderOptions{}.New()
@@ -4448,11 +4274,10 @@ func (srv *Messaging) UpdateSMTPProvider(ProviderId string, optionalSetters ...U
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -4481,23 +4306,22 @@ func (srv *Messaging) UpdateSMTPProvider(ProviderId string, optionalSetters ...U
 	return &parsed, nil
 
 }
+
 type CreateTelesignProviderOptions struct {
-	From string
-	CustomerId string
-	ApiKey string
-	Enabled bool
+	From           string
+	CustomerId     string
+	ApiKey         string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateTelesignProviderOptions) New() *CreateTelesignProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"From": false,
-		"CustomerId": false,
-		"ApiKey": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"From": false, "CustomerId": false, "ApiKey": false, "Enabled": false}
 	return &options
 }
+
 type CreateTelesignProviderOption func(*CreateTelesignProviderOptions)
+
 func (srv *Messaging) WithCreateTelesignProviderFrom(v string) CreateTelesignProviderOption {
 	return func(o *CreateTelesignProviderOptions) {
 		o.From = v
@@ -4522,9 +4346,9 @@ func (srv *Messaging) WithCreateTelesignProviderEnabled(v bool) CreateTelesignPr
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateTelesignProvider create a new Telesign provider.
-func (srv *Messaging) CreateTelesignProvider(ProviderId string, Name string, optionalSetters ...CreateTelesignProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateTelesignProvider(ProviderId string, Name string, optionalSetters ...CreateTelesignProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/telesign"
 	options := CreateTelesignProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -4545,11 +4369,10 @@ func (srv *Messaging) CreateTelesignProvider(ProviderId string, Name string, opt
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -4578,25 +4401,23 @@ func (srv *Messaging) CreateTelesignProvider(ProviderId string, Name string, opt
 	return &parsed, nil
 
 }
+
 type UpdateTelesignProviderOptions struct {
-	Name string
-	Enabled bool
-	CustomerId string
-	ApiKey string
-	From string
+	Name           string
+	Enabled        bool
+	CustomerId     string
+	ApiKey         string
+	From           string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateTelesignProviderOptions) New() *UpdateTelesignProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"CustomerId": false,
-		"ApiKey": false,
-		"From": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "CustomerId": false, "ApiKey": false, "From": false}
 	return &options
 }
+
 type UpdateTelesignProviderOption func(*UpdateTelesignProviderOptions)
+
 func (srv *Messaging) WithUpdateTelesignProviderName(v string) UpdateTelesignProviderOption {
 	return func(o *UpdateTelesignProviderOptions) {
 		o.Name = v
@@ -4627,9 +4448,9 @@ func (srv *Messaging) WithUpdateTelesignProviderFrom(v string) UpdateTelesignPro
 		o.enabledSetters["From"] = true
 	}
 }
-			
+
 // UpdateTelesignProvider update a Telesign provider by its unique ID.
-func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters ...UpdateTelesignProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters ...UpdateTelesignProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/telesign/{providerId}")
 	options := UpdateTelesignProviderOptions{}.New()
@@ -4652,11 +4473,10 @@ func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters 
 	if options.enabledSetters["From"] {
 		params["from"] = options.From
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -4685,23 +4505,22 @@ func (srv *Messaging) UpdateTelesignProvider(ProviderId string, optionalSetters 
 	return &parsed, nil
 
 }
+
 type CreateTextmagicProviderOptions struct {
-	From string
-	Username string
-	ApiKey string
-	Enabled bool
+	From           string
+	Username       string
+	ApiKey         string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateTextmagicProviderOptions) New() *CreateTextmagicProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"From": false,
-		"Username": false,
-		"ApiKey": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"From": false, "Username": false, "ApiKey": false, "Enabled": false}
 	return &options
 }
+
 type CreateTextmagicProviderOption func(*CreateTextmagicProviderOptions)
+
 func (srv *Messaging) WithCreateTextmagicProviderFrom(v string) CreateTextmagicProviderOption {
 	return func(o *CreateTextmagicProviderOptions) {
 		o.From = v
@@ -4726,9 +4545,9 @@ func (srv *Messaging) WithCreateTextmagicProviderEnabled(v bool) CreateTextmagic
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateTextmagicProvider create a new Textmagic provider.
-func (srv *Messaging) CreateTextmagicProvider(ProviderId string, Name string, optionalSetters ...CreateTextmagicProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateTextmagicProvider(ProviderId string, Name string, optionalSetters ...CreateTextmagicProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/textmagic"
 	options := CreateTextmagicProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -4749,11 +4568,10 @@ func (srv *Messaging) CreateTextmagicProvider(ProviderId string, Name string, op
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -4782,25 +4600,23 @@ func (srv *Messaging) CreateTextmagicProvider(ProviderId string, Name string, op
 	return &parsed, nil
 
 }
+
 type UpdateTextmagicProviderOptions struct {
-	Name string
-	Enabled bool
-	Username string
-	ApiKey string
-	From string
+	Name           string
+	Enabled        bool
+	Username       string
+	ApiKey         string
+	From           string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateTextmagicProviderOptions) New() *UpdateTextmagicProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"Username": false,
-		"ApiKey": false,
-		"From": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "Username": false, "ApiKey": false, "From": false}
 	return &options
 }
+
 type UpdateTextmagicProviderOption func(*UpdateTextmagicProviderOptions)
+
 func (srv *Messaging) WithUpdateTextmagicProviderName(v string) UpdateTextmagicProviderOption {
 	return func(o *UpdateTextmagicProviderOptions) {
 		o.Name = v
@@ -4831,9 +4647,9 @@ func (srv *Messaging) WithUpdateTextmagicProviderFrom(v string) UpdateTextmagicP
 		o.enabledSetters["From"] = true
 	}
 }
-			
+
 // UpdateTextmagicProvider update a Textmagic provider by its unique ID.
-func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters ...UpdateTextmagicProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters ...UpdateTextmagicProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/textmagic/{providerId}")
 	options := UpdateTextmagicProviderOptions{}.New()
@@ -4856,11 +4672,10 @@ func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters
 	if options.enabledSetters["From"] {
 		params["from"] = options.From
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -4889,23 +4704,22 @@ func (srv *Messaging) UpdateTextmagicProvider(ProviderId string, optionalSetters
 	return &parsed, nil
 
 }
+
 type CreateTwilioProviderOptions struct {
-	From string
-	AccountSid string
-	AuthToken string
-	Enabled bool
+	From           string
+	AccountSid     string
+	AuthToken      string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateTwilioProviderOptions) New() *CreateTwilioProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"From": false,
-		"AccountSid": false,
-		"AuthToken": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"From": false, "AccountSid": false, "AuthToken": false, "Enabled": false}
 	return &options
 }
+
 type CreateTwilioProviderOption func(*CreateTwilioProviderOptions)
+
 func (srv *Messaging) WithCreateTwilioProviderFrom(v string) CreateTwilioProviderOption {
 	return func(o *CreateTwilioProviderOptions) {
 		o.From = v
@@ -4930,9 +4744,9 @@ func (srv *Messaging) WithCreateTwilioProviderEnabled(v bool) CreateTwilioProvid
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateTwilioProvider create a new Twilio provider.
-func (srv *Messaging) CreateTwilioProvider(ProviderId string, Name string, optionalSetters ...CreateTwilioProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateTwilioProvider(ProviderId string, Name string, optionalSetters ...CreateTwilioProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/twilio"
 	options := CreateTwilioProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -4953,11 +4767,10 @@ func (srv *Messaging) CreateTwilioProvider(ProviderId string, Name string, optio
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -4986,25 +4799,23 @@ func (srv *Messaging) CreateTwilioProvider(ProviderId string, Name string, optio
 	return &parsed, nil
 
 }
+
 type UpdateTwilioProviderOptions struct {
-	Name string
-	Enabled bool
-	AccountSid string
-	AuthToken string
-	From string
+	Name           string
+	Enabled        bool
+	AccountSid     string
+	AuthToken      string
+	From           string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateTwilioProviderOptions) New() *UpdateTwilioProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"AccountSid": false,
-		"AuthToken": false,
-		"From": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "AccountSid": false, "AuthToken": false, "From": false}
 	return &options
 }
+
 type UpdateTwilioProviderOption func(*UpdateTwilioProviderOptions)
+
 func (srv *Messaging) WithUpdateTwilioProviderName(v string) UpdateTwilioProviderOption {
 	return func(o *UpdateTwilioProviderOptions) {
 		o.Name = v
@@ -5035,9 +4846,9 @@ func (srv *Messaging) WithUpdateTwilioProviderFrom(v string) UpdateTwilioProvide
 		o.enabledSetters["From"] = true
 	}
 }
-			
+
 // UpdateTwilioProvider update a Twilio provider by its unique ID.
-func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ...UpdateTwilioProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ...UpdateTwilioProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/twilio/{providerId}")
 	options := UpdateTwilioProviderOptions{}.New()
@@ -5060,11 +4871,10 @@ func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ..
 	if options.enabledSetters["From"] {
 		params["from"] = options.From
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -5093,23 +4903,22 @@ func (srv *Messaging) UpdateTwilioProvider(ProviderId string, optionalSetters ..
 	return &parsed, nil
 
 }
+
 type CreateVonageProviderOptions struct {
-	From string
-	ApiKey string
-	ApiSecret string
-	Enabled bool
+	From           string
+	ApiKey         string
+	ApiSecret      string
+	Enabled        bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateVonageProviderOptions) New() *CreateVonageProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"From": false,
-		"ApiKey": false,
-		"ApiSecret": false,
-		"Enabled": false,
-	}
+	options.enabledSetters = map[string]bool{"From": false, "ApiKey": false, "ApiSecret": false, "Enabled": false}
 	return &options
 }
+
 type CreateVonageProviderOption func(*CreateVonageProviderOptions)
+
 func (srv *Messaging) WithCreateVonageProviderFrom(v string) CreateVonageProviderOption {
 	return func(o *CreateVonageProviderOptions) {
 		o.From = v
@@ -5134,9 +4943,9 @@ func (srv *Messaging) WithCreateVonageProviderEnabled(v bool) CreateVonageProvid
 		o.enabledSetters["Enabled"] = true
 	}
 }
-					
+
 // CreateVonageProvider create a new Vonage provider.
-func (srv *Messaging) CreateVonageProvider(ProviderId string, Name string, optionalSetters ...CreateVonageProviderOption)(*models.Provider, error) {
+func (srv *Messaging) CreateVonageProvider(ProviderId string, Name string, optionalSetters ...CreateVonageProviderOption) (*models.Provider, error) {
 	path := "/messaging/providers/vonage"
 	options := CreateVonageProviderOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -5157,11 +4966,10 @@ func (srv *Messaging) CreateVonageProvider(ProviderId string, Name string, optio
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -5190,25 +4998,23 @@ func (srv *Messaging) CreateVonageProvider(ProviderId string, Name string, optio
 	return &parsed, nil
 
 }
+
 type UpdateVonageProviderOptions struct {
-	Name string
-	Enabled bool
-	ApiKey string
-	ApiSecret string
-	From string
+	Name           string
+	Enabled        bool
+	ApiKey         string
+	ApiSecret      string
+	From           string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateVonageProviderOptions) New() *UpdateVonageProviderOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Enabled": false,
-		"ApiKey": false,
-		"ApiSecret": false,
-		"From": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "ApiKey": false, "ApiSecret": false, "From": false}
 	return &options
 }
+
 type UpdateVonageProviderOption func(*UpdateVonageProviderOptions)
+
 func (srv *Messaging) WithUpdateVonageProviderName(v string) UpdateVonageProviderOption {
 	return func(o *UpdateVonageProviderOptions) {
 		o.Name = v
@@ -5239,9 +5045,9 @@ func (srv *Messaging) WithUpdateVonageProviderFrom(v string) UpdateVonageProvide
 		o.enabledSetters["From"] = true
 	}
 }
-			
+
 // UpdateVonageProvider update a Vonage provider by its unique ID.
-func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ...UpdateVonageProviderOption)(*models.Provider, error) {
+func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ...UpdateVonageProviderOption) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/vonage/{providerId}")
 	options := UpdateVonageProviderOptions{}.New()
@@ -5264,11 +5070,10 @@ func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ..
 	if options.enabledSetters["From"] {
 		params["from"] = options.From
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -5297,16 +5102,15 @@ func (srv *Messaging) UpdateVonageProvider(ProviderId string, optionalSetters ..
 	return &parsed, nil
 
 }
-	
+
 // GetProvider get a provider by its unique ID.
-func (srv *Messaging) GetProvider(ProviderId string)(*models.Provider, error) {
+func (srv *Messaging) GetProvider(ProviderId string) (*models.Provider, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/{providerId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -5335,16 +5139,15 @@ func (srv *Messaging) GetProvider(ProviderId string)(*models.Provider, error) {
 	return &parsed, nil
 
 }
-	
+
 // DeleteProvider delete a provider by its unique ID.
-func (srv *Messaging) DeleteProvider(ProviderId string)(*interface{}, error) {
+func (srv *Messaging) DeleteProvider(ProviderId string) (*interface{}, error) {
 	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
 	path := r.Replace("/messaging/providers/{providerId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -5372,21 +5175,21 @@ func (srv *Messaging) DeleteProvider(ProviderId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+
 type ListTopicsOptions struct {
-	Queries []string
-	Search string
-	Total bool
+	Queries        []string
+	Search         string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListTopicsOptions) New() *ListTopicsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Search": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Search": false, "Total": false}
 	return &options
 }
+
 type ListTopicsOption func(*ListTopicsOptions)
+
 func (srv *Messaging) WithListTopicsQueries(v []string) ListTopicsOption {
 	return func(o *ListTopicsOptions) {
 		o.Queries = v
@@ -5405,9 +5208,9 @@ func (srv *Messaging) WithListTopicsTotal(v bool) ListTopicsOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // ListTopics get a list of all topics from the current Appwrite project.
-func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.TopicList, error) {
+func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption) (*models.TopicList, error) {
 	path := "/messaging/topics"
 	options := ListTopicsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -5423,10 +5226,9 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.To
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -5455,26 +5257,28 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption)(*models.To
 	return &parsed, nil
 
 }
+
 type CreateTopicOptions struct {
-	Subscribe []string
+	Subscribe      []string
 	enabledSetters map[string]bool
 }
+
 func (options CreateTopicOptions) New() *CreateTopicOptions {
-	options.enabledSetters = map[string]bool{
-		"Subscribe": false,
-	}
+	options.enabledSetters = map[string]bool{"Subscribe": false}
 	return &options
 }
+
 type CreateTopicOption func(*CreateTopicOptions)
+
 func (srv *Messaging) WithCreateTopicSubscribe(v []string) CreateTopicOption {
 	return func(o *CreateTopicOptions) {
 		o.Subscribe = v
 		o.enabledSetters["Subscribe"] = true
 	}
 }
-					
+
 // CreateTopic create a new topic.
-func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters ...CreateTopicOption)(*models.Topic, error) {
+func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters ...CreateTopicOption) (*models.Topic, error) {
 	path := "/messaging/topics"
 	options := CreateTopicOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -5486,11 +5290,10 @@ func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters .
 	if options.enabledSetters["Subscribe"] {
 		params["subscribe"] = options.Subscribe
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -5519,16 +5322,15 @@ func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters .
 	return &parsed, nil
 
 }
-	
+
 // GetTopic get a topic by its unique ID.
-func (srv *Messaging) GetTopic(TopicId string)(*models.Topic, error) {
+func (srv *Messaging) GetTopic(TopicId string) (*models.Topic, error) {
 	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -5557,19 +5359,20 @@ func (srv *Messaging) GetTopic(TopicId string)(*models.Topic, error) {
 	return &parsed, nil
 
 }
+
 type UpdateTopicOptions struct {
-	Name string
-	Subscribe []string
+	Name           string
+	Subscribe      []string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateTopicOptions) New() *UpdateTopicOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-		"Subscribe": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false, "Subscribe": false}
 	return &options
 }
+
 type UpdateTopicOption func(*UpdateTopicOptions)
+
 func (srv *Messaging) WithUpdateTopicName(v string) UpdateTopicOption {
 	return func(o *UpdateTopicOptions) {
 		o.Name = v
@@ -5582,9 +5385,9 @@ func (srv *Messaging) WithUpdateTopicSubscribe(v []string) UpdateTopicOption {
 		o.enabledSetters["Subscribe"] = true
 	}
 }
-			
+
 // UpdateTopic update a topic by its unique ID.
-func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopicOption)(*models.Topic, error) {
+func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopicOption) (*models.Topic, error) {
 	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}")
 	options := UpdateTopicOptions{}.New()
@@ -5598,11 +5401,10 @@ func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopic
 	if options.enabledSetters["Subscribe"] {
 		params["subscribe"] = options.Subscribe
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -5631,16 +5433,15 @@ func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopic
 	return &parsed, nil
 
 }
-	
+
 // DeleteTopic delete a topic by its unique ID.
-func (srv *Messaging) DeleteTopic(TopicId string)(*interface{}, error) {
+func (srv *Messaging) DeleteTopic(TopicId string) (*interface{}, error) {
 	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -5668,21 +5469,21 @@ func (srv *Messaging) DeleteTopic(TopicId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+
 type ListSubscribersOptions struct {
-	Queries []string
-	Search string
-	Total bool
+	Queries        []string
+	Search         string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListSubscribersOptions) New() *ListSubscribersOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Search": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Search": false, "Total": false}
 	return &options
 }
+
 type ListSubscribersOption func(*ListSubscribersOptions)
+
 func (srv *Messaging) WithListSubscribersQueries(v []string) ListSubscribersOption {
 	return func(o *ListSubscribersOptions) {
 		o.Queries = v
@@ -5701,10 +5502,10 @@ func (srv *Messaging) WithListSubscribersTotal(v bool) ListSubscribersOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-			
+
 // ListSubscribers get a list of all subscribers from the current Appwrite
 // project.
-func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSubscribersOption)(*models.SubscriberList, error) {
+func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSubscribersOption) (*models.SubscriberList, error) {
 	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}/subscribers")
 	options := ListSubscribersOptions{}.New()
@@ -5721,10 +5522,9 @@ func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSub
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -5753,19 +5553,18 @@ func (srv *Messaging) ListSubscribers(TopicId string, optionalSetters ...ListSub
 	return &parsed, nil
 
 }
-					
+
 // CreateSubscriber create a new subscriber.
-func (srv *Messaging) CreateSubscriber(TopicId string, SubscriberId string, TargetId string)(*models.Subscriber, error) {
+func (srv *Messaging) CreateSubscriber(TopicId string, SubscriberId string, TargetId string) (*models.Subscriber, error) {
 	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId))
 	path := r.Replace("/messaging/topics/{topicId}/subscribers")
 	params := map[string]interface{}{}
 	params["subscriberId"] = SubscriberId
 	params["targetId"] = TargetId
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -5794,16 +5593,15 @@ func (srv *Messaging) CreateSubscriber(TopicId string, SubscriberId string, Targ
 	return &parsed, nil
 
 }
-			
+
 // GetSubscriber get a subscriber by its unique ID.
-func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string)(*models.Subscriber, error) {
+func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string) (*models.Subscriber, error) {
 	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId), "{subscriberId}", client.EncodePath(SubscriberId))
 	path := r.Replace("/messaging/topics/{topicId}/subscribers/{subscriberId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -5832,16 +5630,15 @@ func (srv *Messaging) GetSubscriber(TopicId string, SubscriberId string)(*models
 	return &parsed, nil
 
 }
-			
+
 // DeleteSubscriber delete a subscriber by its unique ID.
-func (srv *Messaging) DeleteSubscriber(TopicId string, SubscriberId string)(*interface{}, error) {
+func (srv *Messaging) DeleteSubscriber(TopicId string, SubscriberId string) (*interface{}, error) {
 	r := strings.NewReplacer("{topicId}", client.EncodePath(TopicId), "{subscriberId}", client.EncodePath(SubscriberId))
 	path := r.Replace("/messaging/topics/{topicId}/subscribers/{subscriberId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {

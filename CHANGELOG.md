@@ -1,5 +1,19 @@
 # Change Log
 
+## v7.2.0-rc.1
+
+* Added: `Mysql`, `Postgresql`, and `Mongo` services for dedicated databases, reachable as `appwrite.NewMysql(client)` and siblings
+* Added: dedicated database lifecycle across all three engines — `List`, `Create`, `Get`, `Update`, `Delete`, `ListSpecifications`, `CreateUpgrade`, `UpdateMaintenance`, `UpdateCredentials`, `CreateFailover`, `CreateMigration`, `ListOperations`, `GetStatus`, `GetReplicas`
+* Added: backups and recovery — `ListBackups`, `CreateBackup`, `GetBackup`, `DeleteBackup`, `UpdateBackupStorage`, backup policy CRUD, `GetPitr`, `ListRestorations`, `CreateRestoration`, `GetRestoration`
+* Added: branches — `ListBranches`, `CreateBranch`, `DeleteBranch`
+* Added: `Mysql.GetPooler`/`UpdatePooler` and `Postgresql.GetPooler`/`UpdatePooler`
+* Added: `Mysql.CreateExecution` and `Postgresql.CreateExecution` for SQL over the API
+* Added: `Postgresql.ListExtensions`, `CreateExtension`, and `DeleteExtension`
+* Added: `DedicatedDatabase*` models, including backups, backup storage, branches, executions, PITR windows, poolers, restorations, and `PostgresExtension`
+* Added: `Replicating` to `DatabaseStatusReplica` and `DedicatedDatabaseMember`, true while the engine reports the replication link up
+* Fixed: model doc comments hold `"` and `'` again instead of `&quot;` and `&#039;`
+* Updated: generated sources are gofmt-clean
+
 ## v7.1.0
 
 * Added: `Scopes` support to `Sites.Create`, `Sites.Update`, and the `Site` model

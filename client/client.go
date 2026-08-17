@@ -14,10 +14,10 @@ import (
 	"net/url"
 	"os"
 	"reflect"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
-	"runtime"
 
 	"github.com/appwrite/sdk-for-go/v7/file"
 )
@@ -45,8 +45,8 @@ type ClientResponse struct {
 	// so a `Result.(string)` assertion that used to succeed now fails, and an
 	// unchecked one panics. Read it through ResponseBody, which accepts either
 	// and so keeps working across the change.
-	Result     interface{}
-	Type	   string
+	Result interface{}
+	Type   string
 }
 
 func (ce *AppwriteError) Error() string {
@@ -78,14 +78,13 @@ type Client struct {
 
 // Initialize a new Appwrite client with a given timeout
 func New(optionalSetters ...ClientOption) Client {
-	headers := map[string]string{
-		"X-Appwrite-Response-Format" : "1.9.6",
-		"user-agent" : fmt.Sprintf("AppwriteGoSDK/v7.1.0 (%s; %s)", runtime.GOOS, runtime.GOARCH),
-		"x-sdk-name": "Go",
-		"x-sdk-platform": "server",
-		"x-sdk-language": "go",
-		"x-sdk-version": "v7.1.0",
-	}
+	headers := map[string]string{}
+	headers["X-Appwrite-Response-Format"] = "1.9.6"
+	headers["user-agent"] = fmt.Sprintf("AppwriteGoSDK/v7.2.0-rc.1 (%s; %s)", runtime.GOOS, runtime.GOARCH)
+	headers["x-sdk-name"] = "Go"
+	headers["x-sdk-platform"] = "server"
+	headers["x-sdk-language"] = "go"
+	headers["x-sdk-version"] = "v7.2.0-rc.1"
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
 		panic(err)
@@ -580,7 +579,7 @@ func (client *Client) Call(method string, path string, headers map[string]interf
 			StatusCode: resp.StatusCode,
 			Header:     resp.Header,
 			Result:     responseData,
-			Type:	   contentType,
+			Type:       contentType,
 		}, nil
 	}
 
@@ -596,7 +595,7 @@ func (client *Client) Call(method string, path string, headers map[string]interf
 		StatusCode: resp.StatusCode,
 		Header:     resp.Header,
 		Result:     responseData,
-		Type:	   contentType,
+		Type:       contentType,
 	}, nil
 }
 
@@ -745,11 +744,11 @@ func flatten(params interface{}, prefix string, result *map[string]string) error
 				return err
 			}
 		}
-		default:
-			if prefix == "" {
-				return fmt.Errorf("prefix is empty for %s", params)
-			}
-			(*result)[prefix] = toString(params)
+	default:
+		if prefix == "" {
+			return fmt.Errorf("prefix is empty for %s", params)
+		}
+		(*result)[prefix] = toString(params)
 	}
 	return nil
 }

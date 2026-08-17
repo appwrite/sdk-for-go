@@ -1,20 +1,21 @@
 package models
 
 import (
-    "encoding/json"
-    "testing"
+	"encoding/json"
+	"testing"
 )
 
 func TestBillingLimitsModel(t *testing.T) {
-    model := BillingLimits{    }
+	model := BillingLimits{}
 
-    data, err := json.Marshal(model)
-    if err != nil {
-        t.Fatal(err)
-    }
+	data, err := json.Marshal(model)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-    var result BillingLimits
-    err = json.Unmarshal(data, &result)
-    if err != nil {
-        t.Fatal(err)
-    }}
+	var result BillingLimits
+	err = json.Unmarshal(data, &result)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
