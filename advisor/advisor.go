@@ -3,9 +3,10 @@ package advisor
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Advisor service
@@ -20,18 +21,18 @@ func New(clt client.Client) *Advisor {
 }
 
 type ListReportsOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListReportsOptions) New() *ListReportsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListReportsOption func(*ListReportsOptions)
+
 func (srv *Advisor) WithListReportsQueries(v []string) ListReportsOption {
 	return func(o *ListReportsOptions) {
 		o.Queries = v
@@ -44,10 +45,10 @@ func (srv *Advisor) WithListReportsTotal(v bool) ListReportsOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // ListReports get a list of all the project's analyzer reports. You can use
 // the query params to filter your results.
-func (srv *Advisor) ListReports(optionalSetters ...ListReportsOption)(*models.ReportList, error) {
+func (srv *Advisor) ListReports(optionalSetters ...ListReportsOption) (*models.ReportList, error) {
 	path := "/reports"
 	options := ListReportsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -60,10 +61,9 @@ func (srv *Advisor) ListReports(optionalSetters ...ListReportsOption)(*models.Re
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -92,17 +92,16 @@ func (srv *Advisor) ListReports(optionalSetters ...ListReportsOption)(*models.Re
 	return &parsed, nil
 
 }
-	
+
 // GetReport get an analyzer report by its unique ID. The response includes
 // the report's metadata and the nested insights it produced.
-func (srv *Advisor) GetReport(ReportId string)(*models.Report, error) {
+func (srv *Advisor) GetReport(ReportId string) (*models.Report, error) {
 	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId))
 	path := r.Replace("/reports/{reportId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -131,17 +130,16 @@ func (srv *Advisor) GetReport(ReportId string)(*models.Report, error) {
 	return &parsed, nil
 
 }
-	
+
 // DeleteReport delete an analyzer report by its unique ID. Nested insights
 // and CTA metadata are removed asynchronously by the deletes worker.
-func (srv *Advisor) DeleteReport(ReportId string)(*interface{}, error) {
+func (srv *Advisor) DeleteReport(ReportId string) (*interface{}, error) {
 	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId))
 	path := r.Replace("/reports/{reportId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -169,19 +167,20 @@ func (srv *Advisor) DeleteReport(ReportId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+
 type ListInsightsOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListInsightsOptions) New() *ListInsightsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListInsightsOption func(*ListInsightsOptions)
+
 func (srv *Advisor) WithListInsightsQueries(v []string) ListInsightsOption {
 	return func(o *ListInsightsOptions) {
 		o.Queries = v
@@ -194,10 +193,10 @@ func (srv *Advisor) WithListInsightsTotal(v bool) ListInsightsOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-			
+
 // ListInsights list the insights produced under a single analyzer report. You
 // can use the query params to filter your results further.
-func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsightsOption)(*models.InsightList, error) {
+func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsightsOption) (*models.InsightList, error) {
 	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId))
 	path := r.Replace("/reports/{reportId}/insights")
 	options := ListInsightsOptions{}.New()
@@ -211,10 +210,9 @@ func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsight
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -243,16 +241,15 @@ func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsight
 	return &parsed, nil
 
 }
-			
+
 // GetInsight get an insight by its unique ID, scoped to its parent report.
-func (srv *Advisor) GetInsight(ReportId string, InsightId string)(*models.Insight, error) {
+func (srv *Advisor) GetInsight(ReportId string, InsightId string) (*models.Insight, error) {
 	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId), "{insightId}", client.EncodePath(InsightId))
 	path := r.Replace("/reports/{reportId}/insights/{insightId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {

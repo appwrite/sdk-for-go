@@ -1,54 +1,54 @@
 package models
 
 import (
-    "encoding/json"
-    "errors"
+	"encoding/json"
+	"errors"
 )
 
 // Block Model
 type Block struct {
-    // Block creation date in ISO 8601 format.
-    CreatedAt string `json:"$createdAt"`
-    // Resource type that is blocked
-    ResourceType string `json:"resourceType"`
-    // Resource identifier that is blocked
-    ResourceId string `json:"resourceId"`
-    // Block mode. full blocks reads and writes; readOnly blocks writes only.
-    Mode string `json:"mode"`
-    // Reason for the block. Can be null if no reason was provided.
-    Reason string `json:"reason"`
-    // Block expiration date in ISO 8601 format. Can be null if the block does not
-    // expire.
-    ExpiredAt string `json:"expiredAt"`
-    // Name of the project this block applies to.
-    ProjectName string `json:"projectName"`
-    // Region of the project this block applies to.
-    Region string `json:"region"`
-    // Name of the organization that owns the project.
-    OrganizationName string `json:"organizationName"`
-    // ID of the organization that owns the project.
-    OrganizationId string `json:"organizationId"`
-    // Billing plan of the organization that owns the project.
-    BillingPlan string `json:"billingPlan"`
+	// Block creation date in ISO 8601 format.
+	CreatedAt string `json:"$createdAt"`
+	// Resource type that is blocked
+	ResourceType string `json:"resourceType"`
+	// Resource identifier that is blocked
+	ResourceId string `json:"resourceId"`
+	// Block mode. full blocks reads and writes; readOnly blocks writes only.
+	Mode string `json:"mode"`
+	// Reason for the block. Can be null if no reason was provided.
+	Reason string `json:"reason"`
+	// Block expiration date in ISO 8601 format. Can be null if the block does not
+	// expire.
+	ExpiredAt string `json:"expiredAt"`
+	// Name of the project this block applies to.
+	ProjectName string `json:"projectName"`
+	// Region of the project this block applies to.
+	Region string `json:"region"`
+	// Name of the organization that owns the project.
+	OrganizationName string `json:"organizationName"`
+	// ID of the organization that owns the project.
+	OrganizationId string `json:"organizationId"`
+	// Billing plan of the organization that owns the project.
+	BillingPlan string `json:"billingPlan"`
 
-    // Used by Decode() method
-    data []byte
+	// Used by Decode() method
+	data []byte
 }
 
 func (model Block) New(data []byte) *Block {
-    model.data = data
-    return &model
+	model.data = data
+	return &model
 }
 
 func (model *Block) Decode(value interface{}) error {
-    if len(model.data) <= 0 {
-        return errors.New("method Decode() cannot be used on nested struct")
-    }
+	if len(model.data) <= 0 {
+		return errors.New("method Decode() cannot be used on nested struct")
+	}
 
-    err := json.Unmarshal(model.data, value)
-    if err != nil {
-        return err
-    }
+	err := json.Unmarshal(model.data, value)
+	if err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }

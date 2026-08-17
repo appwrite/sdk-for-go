@@ -1,35 +1,35 @@
 package models
 
 import (
-    "encoding/json"
-    "errors"
+	"encoding/json"
+	"errors"
 )
 
 // EmailTemplatesList Model
 type EmailTemplateList struct {
-    // Total number of templates that matched your query.
-    Total int `json:"total"`
-    // List of templates.
-    Templates []EmailTemplate `json:"templates"`
+	// Total number of templates that matched your query.
+	Total int `json:"total"`
+	// List of templates.
+	Templates []EmailTemplate `json:"templates"`
 
-    // Used by Decode() method
-    data []byte
+	// Used by Decode() method
+	data []byte
 }
 
 func (model EmailTemplateList) New(data []byte) *EmailTemplateList {
-    model.data = data
-    return &model
+	model.data = data
+	return &model
 }
 
 func (model *EmailTemplateList) Decode(value interface{}) error {
-    if len(model.data) <= 0 {
-        return errors.New("method Decode() cannot be used on nested struct")
-    }
+	if len(model.data) <= 0 {
+		return errors.New("method Decode() cannot be used on nested struct")
+	}
 
-    err := json.Unmarshal(model.data, value)
-    if err != nil {
-        return err
-    }
+	err := json.Unmarshal(model.data, value)
+	if err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }

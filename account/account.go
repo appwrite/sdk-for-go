@@ -3,9 +3,10 @@ package account
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Account service
@@ -19,15 +20,13 @@ func New(clt client.Client) *Account {
 	}
 }
 
-
 // Get get the currently logged in user.
-func (srv *Account) Get()(*models.User, error) {
+func (srv *Account) Get() (*models.User, error) {
 	path := "/account"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -56,24 +55,26 @@ func (srv *Account) Get()(*models.User, error) {
 	return &parsed, nil
 
 }
+
 type CreateOptions struct {
-	Name string
+	Name           string
 	enabledSetters map[string]bool
 }
+
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{
-		"Name": false,
-	}
+	options.enabledSetters = map[string]bool{"Name": false}
 	return &options
 }
+
 type CreateOption func(*CreateOptions)
+
 func (srv *Account) WithCreateName(v string) CreateOption {
 	return func(o *CreateOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
 	}
 }
-							
+
 // Create use this endpoint to allow a new user to register a new account in
 // your project. After the user registration completes successfully, you can
 // use the
@@ -81,7 +82,7 @@ func (srv *Account) WithCreateName(v string) CreateOption {
 // route to start verifying the user email address. To allow the new user to
 // login to their new account, you need to create a new [account
 // session](https://appwrite.io/docs/references/cloud/client-web/account#createEmailSession).
-func (srv *Account) Create(UserId string, Email string, Password string, optionalSetters ...CreateOption)(*models.User, error) {
+func (srv *Account) Create(UserId string, Email string, Password string, optionalSetters ...CreateOption) (*models.User, error) {
 	path := "/account"
 	options := CreateOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -94,11 +95,10 @@ func (srv *Account) Create(UserId string, Email string, Password string, optiona
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -127,19 +127,20 @@ func (srv *Account) Create(UserId string, Email string, Password string, optiona
 	return &parsed, nil
 
 }
+
 type ListConsentsOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListConsentsOptions) New() *ListConsentsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListConsentsOption func(*ListConsentsOptions)
+
 func (srv *Account) WithListConsentsQueries(v []string) ListConsentsOption {
 	return func(o *ListConsentsOptions) {
 		o.Queries = v
@@ -152,10 +153,10 @@ func (srv *Account) WithListConsentsTotal(v bool) ListConsentsOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // ListConsents get a list of the OAuth2 consents the current user has given
 // to third-party apps.
-func (srv *Account) ListConsents(optionalSetters ...ListConsentsOption)(*models.Oauth2ConsentList, error) {
+func (srv *Account) ListConsents(optionalSetters ...ListConsentsOption) (*models.Oauth2ConsentList, error) {
 	path := "/account/consents"
 	options := ListConsentsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -168,10 +169,9 @@ func (srv *Account) ListConsents(optionalSetters ...ListConsentsOption)(*models.
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -200,17 +200,16 @@ func (srv *Account) ListConsents(optionalSetters ...ListConsentsOption)(*models.
 	return &parsed, nil
 
 }
-	
+
 // GetConsent get an OAuth2 consent the current user has given to a
 // third-party app by its unique ID.
-func (srv *Account) GetConsent(ConsentId string)(*models.Oauth2Consent, error) {
+func (srv *Account) GetConsent(ConsentId string) (*models.Oauth2Consent, error) {
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId))
 	path := r.Replace("/account/consents/{consentId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -239,19 +238,18 @@ func (srv *Account) GetConsent(ConsentId string)(*models.Oauth2Consent, error) {
 	return &parsed, nil
 
 }
-	
+
 // DeleteConsent delete an OAuth2 consent by its unique ID. All token families
 // issued under the consent are revoked, and the app must ask for consent
 // again to regain access.
-func (srv *Account) DeleteConsent(ConsentId string)(*interface{}, error) {
+func (srv *Account) DeleteConsent(ConsentId string) (*interface{}, error) {
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId))
 	path := r.Replace("/account/consents/{consentId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -279,19 +277,20 @@ func (srv *Account) DeleteConsent(ConsentId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+
 type ListConsentTokensOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListConsentTokensOptions) New() *ListConsentTokensOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListConsentTokensOption func(*ListConsentTokensOptions)
+
 func (srv *Account) WithListConsentTokensQueries(v []string) ListConsentTokensOption {
 	return func(o *ListConsentTokensOptions) {
 		o.Queries = v
@@ -304,11 +303,11 @@ func (srv *Account) WithListConsentTokensTotal(v bool) ListConsentTokensOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-			
+
 // ListConsentTokens get a list of the token families issued under an OAuth2
 // consent. Each entry represents one authorized device or session; the token
 // secrets themselves are never returned.
-func (srv *Account) ListConsentTokens(ConsentId string, optionalSetters ...ListConsentTokensOption)(*models.Oauth2ConsentTokenList, error) {
+func (srv *Account) ListConsentTokens(ConsentId string, optionalSetters ...ListConsentTokensOption) (*models.Oauth2ConsentTokenList, error) {
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId))
 	path := r.Replace("/account/consents/{consentId}/tokens")
 	options := ListConsentTokensOptions{}.New()
@@ -322,10 +321,9 @@ func (srv *Account) ListConsentTokens(ConsentId string, optionalSetters ...ListC
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -354,17 +352,16 @@ func (srv *Account) ListConsentTokens(ConsentId string, optionalSetters ...ListC
 	return &parsed, nil
 
 }
-			
+
 // GetConsentToken get a token family issued under an OAuth2 consent by its
 // unique ID. The token secrets themselves are never returned.
-func (srv *Account) GetConsentToken(ConsentId string, TokenId string)(*models.Oauth2ConsentToken, error) {
+func (srv *Account) GetConsentToken(ConsentId string, TokenId string) (*models.Oauth2ConsentToken, error) {
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId), "{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/account/consents/{consentId}/tokens/{tokenId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -393,19 +390,18 @@ func (srv *Account) GetConsentToken(ConsentId string, TokenId string)(*models.Oa
 	return &parsed, nil
 
 }
-			
+
 // DeleteConsentToken delete a token family issued under an OAuth2 consent by
 // its unique ID. The access and refresh tokens of the family stop working
 // immediately; other token families and the consent itself are unaffected.
-func (srv *Account) DeleteConsentToken(ConsentId string, TokenId string)(*interface{}, error) {
+func (srv *Account) DeleteConsentToken(ConsentId string, TokenId string) (*interface{}, error) {
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId), "{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/account/consents/{consentId}/tokens/{tokenId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -433,7 +429,7 @@ func (srv *Account) DeleteConsentToken(ConsentId string, TokenId string)(*interf
 	return &parsed, nil
 
 }
-			
+
 // UpdateEmail update currently logged in user account email address. After
 // changing user address, the user confirmation status will get reset. A new
 // confirmation email is not sent automatically however you can use the send
@@ -441,16 +437,15 @@ func (srv *Account) DeleteConsentToken(ConsentId string, TokenId string)(*interf
 // security measures, user password is required to complete this request.
 // This endpoint can also be used to convert an anonymous account to a normal
 // one, by passing an email address and a new password.
-func (srv *Account) UpdateEmail(Email string, Password string)(*models.User, error) {
+func (srv *Account) UpdateEmail(Email string, Password string) (*models.User, error) {
 	path := "/account/email"
 	params := map[string]interface{}{}
 	params["email"] = Email
 	params["password"] = Password
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -479,19 +474,20 @@ func (srv *Account) UpdateEmail(Email string, Password string)(*models.User, err
 	return &parsed, nil
 
 }
+
 type ListIdentitiesOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListIdentitiesOptions) New() *ListIdentitiesOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListIdentitiesOption func(*ListIdentitiesOptions)
+
 func (srv *Account) WithListIdentitiesQueries(v []string) ListIdentitiesOption {
 	return func(o *ListIdentitiesOptions) {
 		o.Queries = v
@@ -504,9 +500,9 @@ func (srv *Account) WithListIdentitiesTotal(v bool) ListIdentitiesOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // ListIdentities get the list of identities for the currently logged in user.
-func (srv *Account) ListIdentities(optionalSetters ...ListIdentitiesOption)(*models.IdentityList, error) {
+func (srv *Account) ListIdentities(optionalSetters ...ListIdentitiesOption) (*models.IdentityList, error) {
 	path := "/account/identities"
 	options := ListIdentitiesOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -519,10 +515,9 @@ func (srv *Account) ListIdentities(optionalSetters ...ListIdentitiesOption)(*mod
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -551,16 +546,15 @@ func (srv *Account) ListIdentities(optionalSetters ...ListIdentitiesOption)(*mod
 	return &parsed, nil
 
 }
-	
+
 // DeleteIdentity delete an identity by its unique ID.
-func (srv *Account) DeleteIdentity(IdentityId string)(*interface{}, error) {
+func (srv *Account) DeleteIdentity(IdentityId string) (*interface{}, error) {
 	r := strings.NewReplacer("{identityId}", client.EncodePath(IdentityId))
 	path := r.Replace("/account/identities/{identityId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -588,19 +582,20 @@ func (srv *Account) DeleteIdentity(IdentityId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+
 type ListLogsOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListLogsOptions) New() *ListLogsOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListLogsOption func(*ListLogsOptions)
+
 func (srv *Account) WithListLogsQueries(v []string) ListLogsOption {
 	return func(o *ListLogsOptions) {
 		o.Queries = v
@@ -613,11 +608,11 @@ func (srv *Account) WithListLogsTotal(v bool) ListLogsOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // ListLogs get the list of latest security activity logs for the currently
 // logged in user. Each log returns user IP address, location and date and
 // time of log.
-func (srv *Account) ListLogs(optionalSetters ...ListLogsOption)(*models.LogList, error) {
+func (srv *Account) ListLogs(optionalSetters ...ListLogsOption) (*models.LogList, error) {
 	path := "/account/logs"
 	options := ListLogsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -630,10 +625,9 @@ func (srv *Account) ListLogs(optionalSetters ...ListLogsOption)(*models.LogList,
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -662,17 +656,16 @@ func (srv *Account) ListLogs(optionalSetters ...ListLogsOption)(*models.LogList,
 	return &parsed, nil
 
 }
-	
+
 // UpdateMFA enable or disable MFA on an account.
-func (srv *Account) UpdateMFA(Mfa bool)(*models.User, error) {
+func (srv *Account) UpdateMFA(Mfa bool) (*models.User, error) {
 	path := "/account/mfa"
 	params := map[string]interface{}{}
 	params["mfa"] = Mfa
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -701,22 +694,21 @@ func (srv *Account) UpdateMFA(Mfa bool)(*models.User, error) {
 	return &parsed, nil
 
 }
-	
+
 // CreateMfaAuthenticator add an authenticator app to be used as an MFA
 // factor. Verify the authenticator using the [verify
 // authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator)
 // method.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createMFAAuthenticator` instead.
-func (srv *Account) CreateMfaAuthenticator(Type string)(*models.MfaType, error) {
+func (srv *Account) CreateMfaAuthenticator(Type string) (*models.MfaType, error) {
 	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -745,20 +737,19 @@ func (srv *Account) CreateMfaAuthenticator(Type string)(*models.MfaType, error) 
 	return &parsed, nil
 
 }
-	
+
 // CreateMFAAuthenticator add an authenticator app to be used as an MFA
 // factor. Verify the authenticator using the [verify
 // authenticator](/docs/references/cloud/client-web/account#updateMfaAuthenticator)
 // method.
-func (srv *Account) CreateMFAAuthenticator(Type string)(*models.MfaType, error) {
+func (srv *Account) CreateMFAAuthenticator(Type string) (*models.MfaType, error) {
 	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -787,23 +778,22 @@ func (srv *Account) CreateMFAAuthenticator(Type string)(*models.MfaType, error) 
 	return &parsed, nil
 
 }
-			
+
 // UpdateMfaAuthenticator verify an authenticator app after adding it using
 // the [add
 // authenticator](/docs/references/cloud/client-web/account#createMfaAuthenticator)
 // method.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateMFAAuthenticator` instead.
-func (srv *Account) UpdateMfaAuthenticator(Type string, Otp string)(*models.User, error) {
+func (srv *Account) UpdateMfaAuthenticator(Type string, Otp string) (*models.User, error) {
 	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
 	params["otp"] = Otp
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -832,21 +822,20 @@ func (srv *Account) UpdateMfaAuthenticator(Type string, Otp string)(*models.User
 	return &parsed, nil
 
 }
-			
+
 // UpdateMFAAuthenticator verify an authenticator app after adding it using
 // the [add
 // authenticator](/docs/references/cloud/client-web/account#createMfaAuthenticator)
 // method.
-func (srv *Account) UpdateMFAAuthenticator(Type string, Otp string)(*models.User, error) {
+func (srv *Account) UpdateMFAAuthenticator(Type string, Otp string) (*models.User, error) {
 	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
 	params["otp"] = Otp
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -875,18 +864,17 @@ func (srv *Account) UpdateMFAAuthenticator(Type string, Otp string)(*models.User
 	return &parsed, nil
 
 }
-	
+
 // DeleteMfaAuthenticator delete an authenticator for a user by ID.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.deleteMFAAuthenticator` instead.
-func (srv *Account) DeleteMfaAuthenticator(Type string)(*interface{}, error) {
+func (srv *Account) DeleteMfaAuthenticator(Type string) (*interface{}, error) {
 	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -914,16 +902,15 @@ func (srv *Account) DeleteMfaAuthenticator(Type string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-	
+
 // DeleteMFAAuthenticator delete an authenticator for a user by ID.
-func (srv *Account) DeleteMFAAuthenticator(Type string)(*interface{}, error) {
+func (srv *Account) DeleteMFAAuthenticator(Type string) (*interface{}, error) {
 	r := strings.NewReplacer("{type}", client.EncodePath(Type))
 	path := r.Replace("/account/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -951,22 +938,21 @@ func (srv *Account) DeleteMFAAuthenticator(Type string)(*interface{}, error) {
 	return &parsed, nil
 
 }
-	
+
 // CreateMfaChallenge begin the process of MFA verification after sign-in.
 // Finish the flow with
 // [updateMfaChallenge](/docs/references/cloud/client-web/account#updateMfaChallenge)
 // method.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createMFAChallenge` instead.
-func (srv *Account) CreateMfaChallenge(Factor string)(*models.MfaChallenge, error) {
+func (srv *Account) CreateMfaChallenge(Factor string) (*models.MfaChallenge, error) {
 	path := "/account/mfa/challenges"
 	params := map[string]interface{}{}
 	params["factor"] = Factor
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -995,20 +981,19 @@ func (srv *Account) CreateMfaChallenge(Factor string)(*models.MfaChallenge, erro
 	return &parsed, nil
 
 }
-	
+
 // CreateMFAChallenge begin the process of MFA verification after sign-in.
 // Finish the flow with
 // [updateMfaChallenge](/docs/references/cloud/client-web/account#updateMfaChallenge)
 // method.
-func (srv *Account) CreateMFAChallenge(Factor string)(*models.MfaChallenge, error) {
+func (srv *Account) CreateMFAChallenge(Factor string) (*models.MfaChallenge, error) {
 	path := "/account/mfa/challenges"
 	params := map[string]interface{}{}
 	params["factor"] = Factor
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1037,7 +1022,7 @@ func (srv *Account) CreateMFAChallenge(Factor string)(*models.MfaChallenge, erro
 	return &parsed, nil
 
 }
-			
+
 // UpdateMfaChallenge complete the MFA challenge by providing the one-time
 // password. Finish the process of MFA verification by providing the one-time
 // password. To begin the flow, use
@@ -1045,16 +1030,15 @@ func (srv *Account) CreateMFAChallenge(Factor string)(*models.MfaChallenge, erro
 // method.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateMFAChallenge` instead.
-func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string)(*models.Session, error) {
+func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string) (*models.Session, error) {
 	path := "/account/mfa/challenges"
 	params := map[string]interface{}{}
 	params["challengeId"] = ChallengeId
 	params["otp"] = Otp
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -1083,22 +1067,21 @@ func (srv *Account) UpdateMfaChallenge(ChallengeId string, Otp string)(*models.S
 	return &parsed, nil
 
 }
-			
+
 // UpdateMFAChallenge complete the MFA challenge by providing the one-time
 // password. Finish the process of MFA verification by providing the one-time
 // password. To begin the flow, use
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method.
-func (srv *Account) UpdateMFAChallenge(ChallengeId string, Otp string)(*models.Session, error) {
+func (srv *Account) UpdateMFAChallenge(ChallengeId string, Otp string) (*models.Session, error) {
 	path := "/account/mfa/challenges"
 	params := map[string]interface{}{}
 	params["challengeId"] = ChallengeId
 	params["otp"] = Otp
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -1132,13 +1115,12 @@ func (srv *Account) UpdateMFAChallenge(ChallengeId string, Otp string)(*models.S
 // MFA challange.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.listMFAFactors` instead.
-func (srv *Account) ListMfaFactors()(*models.MfaFactors, error) {
+func (srv *Account) ListMfaFactors() (*models.MfaFactors, error) {
 	path := "/account/mfa/factors"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1170,13 +1152,12 @@ func (srv *Account) ListMfaFactors()(*models.MfaFactors, error) {
 
 // ListMFAFactors list the factors available on the account to be used as a
 // MFA challange.
-func (srv *Account) ListMFAFactors()(*models.MfaFactors, error) {
+func (srv *Account) ListMFAFactors() (*models.MfaFactors, error) {
 	path := "/account/mfa/factors"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1212,13 +1193,12 @@ func (srv *Account) ListMFAFactors()(*models.MfaFactors, error) {
 // method. An OTP challenge is required to read recovery codes.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.getMFARecoveryCodes` instead.
-func (srv *Account) GetMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
+func (srv *Account) GetMfaRecoveryCodes() (*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1252,13 +1232,12 @@ func (srv *Account) GetMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 // flow. Before getting codes, they must be generated using
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method. An OTP challenge is required to read recovery codes.
-func (srv *Account) GetMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
+func (srv *Account) GetMFARecoveryCodes() (*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1296,14 +1275,13 @@ func (srv *Account) GetMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
 // method.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createMFARecoveryCodes` instead.
-func (srv *Account) CreateMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
+func (srv *Account) CreateMfaRecoveryCodes() (*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1339,14 +1317,13 @@ func (srv *Account) CreateMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 // type in
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method.
-func (srv *Account) CreateMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
+func (srv *Account) CreateMFARecoveryCodes() (*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1382,14 +1359,13 @@ func (srv *Account) CreateMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
 // method. An OTP challenge is required to regenreate recovery codes.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateMFARecoveryCodes` instead.
-func (srv *Account) UpdateMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
+func (srv *Account) UpdateMfaRecoveryCodes() (*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1423,14 +1399,13 @@ func (srv *Account) UpdateMfaRecoveryCodes()(*models.MfaRecoveryCodes, error) {
 // for MFA flow. Before regenerating codes, they must be first generated using
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method. An OTP challenge is required to regenreate recovery codes.
-func (srv *Account) UpdateMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
+func (srv *Account) UpdateMFARecoveryCodes() (*models.MfaRecoveryCodes, error) {
 	path := "/account/mfa/recovery-codes"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1459,17 +1434,16 @@ func (srv *Account) UpdateMFARecoveryCodes()(*models.MfaRecoveryCodes, error) {
 	return &parsed, nil
 
 }
-	
+
 // UpdateName update currently logged in user account name.
-func (srv *Account) UpdateName(Name string)(*models.User, error) {
+func (srv *Account) UpdateName(Name string) (*models.User, error) {
 	path := "/account/name"
 	params := map[string]interface{}{}
 	params["name"] = Name
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1498,29 +1472,31 @@ func (srv *Account) UpdateName(Name string)(*models.User, error) {
 	return &parsed, nil
 
 }
+
 type UpdatePasswordOptions struct {
-	OldPassword string
+	OldPassword    string
 	enabledSetters map[string]bool
 }
+
 func (options UpdatePasswordOptions) New() *UpdatePasswordOptions {
-	options.enabledSetters = map[string]bool{
-		"OldPassword": false,
-	}
+	options.enabledSetters = map[string]bool{"OldPassword": false}
 	return &options
 }
+
 type UpdatePasswordOption func(*UpdatePasswordOptions)
+
 func (srv *Account) WithUpdatePasswordOldPassword(v string) UpdatePasswordOption {
 	return func(o *UpdatePasswordOptions) {
 		o.OldPassword = v
 		o.enabledSetters["OldPassword"] = true
 	}
 }
-			
+
 // UpdatePassword update currently logged in user password. For validation,
 // user is required to pass in the new password, and the old password. For
 // users created with OAuth, Team Invites and Magic URL, oldPassword is
 // optional.
-func (srv *Account) UpdatePassword(Password string, optionalSetters ...UpdatePasswordOption)(*models.User, error) {
+func (srv *Account) UpdatePassword(Password string, optionalSetters ...UpdatePasswordOption) (*models.User, error) {
 	path := "/account/password"
 	options := UpdatePasswordOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -1531,11 +1507,10 @@ func (srv *Account) UpdatePassword(Password string, optionalSetters ...UpdatePas
 	if options.enabledSetters["OldPassword"] {
 		params["oldPassword"] = options.OldPassword
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1564,22 +1539,21 @@ func (srv *Account) UpdatePassword(Password string, optionalSetters ...UpdatePas
 	return &parsed, nil
 
 }
-			
+
 // UpdatePhone update the currently logged in user's phone number. After
 // updating the phone number, the phone verification status will be reset. A
 // confirmation SMS is not sent automatically, however you can use the [POST
 // /account/verification/phone](https://appwrite.io/docs/references/cloud/client-web/account#createPhoneVerification)
 // endpoint to send a confirmation SMS.
-func (srv *Account) UpdatePhone(Phone string, Password string)(*models.User, error) {
+func (srv *Account) UpdatePhone(Phone string, Password string) (*models.User, error) {
 	path := "/account/phone"
 	params := map[string]interface{}{}
 	params["phone"] = Phone
 	params["password"] = Password
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1611,13 +1585,12 @@ func (srv *Account) UpdatePhone(Phone string, Password string)(*models.User, err
 
 // GetPrefs get the preferences as a key-value object for the currently logged
 // in user.
-func (srv *Account) GetPrefs()(*models.Preferences, error) {
+func (srv *Account) GetPrefs() (*models.Preferences, error) {
 	path := "/account/prefs"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1646,19 +1619,18 @@ func (srv *Account) GetPrefs()(*models.Preferences, error) {
 	return &parsed, nil
 
 }
-	
+
 // UpdatePrefs update currently logged in user account preferences. The object
 // you pass is stored as is, and replaces any previous value. The maximum
 // allowed prefs size is 64kB and throws error if exceeded.
-func (srv *Account) UpdatePrefs(Prefs interface{})(*models.User, error) {
+func (srv *Account) UpdatePrefs(Prefs interface{}) (*models.User, error) {
 	path := "/account/prefs"
 	params := map[string]interface{}{}
 	params["prefs"] = Prefs
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -1687,7 +1659,7 @@ func (srv *Account) UpdatePrefs(Prefs interface{})(*models.User, error) {
 	return &parsed, nil
 
 }
-			
+
 // CreateRecovery sends the user an email with a temporary secret key for
 // password reset. When the user clicks the confirmation link he is redirected
 // back to your app password reset URL with the secret key and email address
@@ -1696,16 +1668,15 @@ func (srv *Account) UpdatePrefs(Prefs interface{})(*models.User, error) {
 // /account/recovery](https://appwrite.io/docs/references/cloud/client-web/account#updateRecovery)
 // endpoint to complete the process. The verification link sent to the user's
 // email address is valid for 1 hour.
-func (srv *Account) CreateRecovery(Email string, Url string)(*models.Token, error) {
+func (srv *Account) CreateRecovery(Email string, Url string) (*models.Token, error) {
 	path := "/account/recovery"
 	params := map[string]interface{}{}
 	params["email"] = Email
 	params["url"] = Url
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1734,29 +1705,28 @@ func (srv *Account) CreateRecovery(Email string, Url string)(*models.Token, erro
 	return &parsed, nil
 
 }
-					
+
 // UpdateRecovery use this endpoint to complete the user account password
 // reset. Both the **userId** and **secret** arguments will be passed as query
 // parameters to the redirect URL you have provided when sending your request
 // to the [POST
 // /account/recovery](https://appwrite.io/docs/references/cloud/client-web/account#createRecovery)
 // endpoint.
-// 
+//
 // Please note that in order to avoid a [Redirect
 // Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
 // the only valid redirect URLs are the ones from domains you have set when
 // adding your platforms in the console interface.
-func (srv *Account) UpdateRecovery(UserId string, Secret string, Password string)(*models.Token, error) {
+func (srv *Account) UpdateRecovery(UserId string, Secret string, Password string) (*models.Token, error) {
 	path := "/account/recovery"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
 	params["password"] = Password
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -1788,13 +1758,12 @@ func (srv *Account) UpdateRecovery(UserId string, Secret string, Password string
 
 // ListSessions get the list of active sessions across different devices for
 // the currently logged in user.
-func (srv *Account) ListSessions()(*models.SessionList, error) {
+func (srv *Account) ListSessions() (*models.SessionList, error) {
 	path := "/account/sessions"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1826,13 +1795,12 @@ func (srv *Account) ListSessions()(*models.SessionList, error) {
 
 // DeleteSessions delete all sessions from the user account and remove any
 // sessions cookies from the end client.
-func (srv *Account) DeleteSessions()(*interface{}, error) {
+func (srv *Account) DeleteSessions() (*interface{}, error) {
 	path := "/account/sessions"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1868,14 +1836,13 @@ func (srv *Account) DeleteSessions()(*interface{}, error) {
 // password](https://appwrite.io/docs/references/cloud/client-web/account#updateEmail)
 // or create an [OAuth2
 // session](https://appwrite.io/docs/references/cloud/client-web/account#CreateOAuth2Session).
-func (srv *Account) CreateAnonymousSession()(*models.Session, error) {
+func (srv *Account) CreateAnonymousSession() (*models.Session, error) {
 	path := "/account/sessions/anonymous"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1904,24 +1871,23 @@ func (srv *Account) CreateAnonymousSession()(*models.Session, error) {
 	return &parsed, nil
 
 }
-			
+
 // CreateEmailPasswordSession allow the user to login into their account by
 // providing a valid email and password combination. This route will create a
 // new session for the user.
-// 
+//
 // A user is limited to 10 active sessions at a time by default. [Learn more
 // about session
 // limits](https://appwrite.io/docs/authentication-security#limits).
-func (srv *Account) CreateEmailPasswordSession(Email string, Password string)(*models.Session, error) {
+func (srv *Account) CreateEmailPasswordSession(Email string, Password string) (*models.Session, error) {
 	path := "/account/sessions/email"
 	params := map[string]interface{}{}
 	params["email"] = Email
 	params["password"] = Password
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -1950,23 +1916,22 @@ func (srv *Account) CreateEmailPasswordSession(Email string, Password string)(*m
 	return &parsed, nil
 
 }
-			
+
 // UpdateMagicURLSession use this endpoint to create a session from token.
 // Provide the **userId** and **secret** parameters from the successful
 // response of authentication flows initiated by token creation. For example,
 // magic URL and phone login.
 //
 // Deprecated: This API has been deprecated since 1.6.0. Please use `Account.createSession` instead.
-func (srv *Account) UpdateMagicURLSession(UserId string, Secret string)(*models.Session, error) {
+func (srv *Account) UpdateMagicURLSession(UserId string, Secret string) (*models.Session, error) {
 	path := "/account/sessions/magic-url"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -1995,23 +1960,22 @@ func (srv *Account) UpdateMagicURLSession(UserId string, Secret string)(*models.
 	return &parsed, nil
 
 }
-			
+
 // UpdatePhoneSession use this endpoint to create a session from token.
 // Provide the **userId** and **secret** parameters from the successful
 // response of authentication flows initiated by token creation. For example,
 // magic URL and phone login.
 //
 // Deprecated: This API has been deprecated since 1.6.0. Please use `Account.createSession` instead.
-func (srv *Account) UpdatePhoneSession(UserId string, Secret string)(*models.Session, error) {
+func (srv *Account) UpdatePhoneSession(UserId string, Secret string) (*models.Session, error) {
 	path := "/account/sessions/phone"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -2040,21 +2004,20 @@ func (srv *Account) UpdatePhoneSession(UserId string, Secret string)(*models.Ses
 	return &parsed, nil
 
 }
-			
+
 // CreateSession use this endpoint to create a session from token. Provide the
 // **userId** and **secret** parameters from the successful response of
 // authentication flows initiated by token creation. For example, magic URL
 // and phone login.
-func (srv *Account) CreateSession(UserId string, Secret string)(*models.Session, error) {
+func (srv *Account) CreateSession(UserId string, Secret string) (*models.Session, error) {
 	path := "/account/sessions/token"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2083,17 +2046,16 @@ func (srv *Account) CreateSession(UserId string, Secret string)(*models.Session,
 	return &parsed, nil
 
 }
-	
+
 // GetSession use this endpoint to get a logged in user's session using a
 // Session ID. Inputting 'current' will return the current session being used.
-func (srv *Account) GetSession(SessionId string)(*models.Session, error) {
+func (srv *Account) GetSession(SessionId string) (*models.Session, error) {
 	r := strings.NewReplacer("{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -2122,20 +2084,19 @@ func (srv *Account) GetSession(SessionId string)(*models.Session, error) {
 	return &parsed, nil
 
 }
-	
+
 // UpdateSession use this endpoint to extend a session's length. Extending a
 // session is useful when session expiry is short. If the session was created
 // using an OAuth provider, this endpoint refreshes the access token from the
 // provider.
-func (srv *Account) UpdateSession(SessionId string)(*models.Session, error) {
+func (srv *Account) UpdateSession(SessionId string) (*models.Session, error) {
 	r := strings.NewReplacer("{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2164,20 +2125,19 @@ func (srv *Account) UpdateSession(SessionId string)(*models.Session, error) {
 	return &parsed, nil
 
 }
-	
+
 // DeleteSession logout the user. Use 'current' as the session ID to logout on
 // this device, use a session ID to logout on another device. If you're
 // looking to logout the user on all devices, use [Delete
 // Sessions](https://appwrite.io/docs/references/cloud/client-web/account#deleteSessions)
 // instead.
-func (srv *Account) DeleteSession(SessionId string)(*interface{}, error) {
+func (srv *Account) DeleteSession(SessionId string) (*interface{}, error) {
 	r := strings.NewReplacer("{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -2209,14 +2169,13 @@ func (srv *Account) DeleteSession(SessionId string)(*interface{}, error) {
 // UpdateStatus block the currently logged in user account. Behind the scene,
 // the user record is not deleted but permanently blocked from any access. To
 // completely delete a user, use the Users API instead.
-func (srv *Account) UpdateStatus()(*models.User, error) {
+func (srv *Account) UpdateStatus() (*models.User, error) {
 	path := "/account/status"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {
@@ -2245,24 +2204,26 @@ func (srv *Account) UpdateStatus()(*models.User, error) {
 	return &parsed, nil
 
 }
+
 type CreateEmailTokenOptions struct {
-	Phrase bool
+	Phrase         bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateEmailTokenOptions) New() *CreateEmailTokenOptions {
-	options.enabledSetters = map[string]bool{
-		"Phrase": false,
-	}
+	options.enabledSetters = map[string]bool{"Phrase": false}
 	return &options
 }
+
 type CreateEmailTokenOption func(*CreateEmailTokenOptions)
+
 func (srv *Account) WithCreateEmailTokenPhrase(v bool) CreateEmailTokenOption {
 	return func(o *CreateEmailTokenOptions) {
 		o.Phrase = v
 		o.enabledSetters["Phrase"] = true
 	}
 }
-					
+
 // CreateEmailToken sends the user an email with a secret key for creating a
 // session. If the email address has never been used, a **new account is
 // created** using the provided `userId`. Otherwise, if the email address is
@@ -2272,11 +2233,11 @@ func (srv *Account) WithCreateEmailTokenPhrase(v bool) CreateEmailTokenOption {
 // /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
 // endpoint to complete the login process. The secret sent to the user's email
 // is valid for 15 minutes.
-// 
+//
 // A user is limited to 10 active sessions at a time by default. [Learn more
 // about session
 // limits](https://appwrite.io/docs/authentication-security#limits).
-func (srv *Account) CreateEmailToken(UserId string, Email string, optionalSetters ...CreateEmailTokenOption)(*models.Token, error) {
+func (srv *Account) CreateEmailToken(UserId string, Email string, optionalSetters ...CreateEmailTokenOption) (*models.Token, error) {
 	path := "/account/tokens/email"
 	options := CreateEmailTokenOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -2288,11 +2249,10 @@ func (srv *Account) CreateEmailToken(UserId string, Email string, optionalSetter
 	if options.enabledSetters["Phrase"] {
 		params["phrase"] = options.Phrase
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2321,19 +2281,20 @@ func (srv *Account) CreateEmailToken(UserId string, Email string, optionalSetter
 	return &parsed, nil
 
 }
+
 type CreateMagicURLTokenOptions struct {
-	Url string
-	Phrase bool
+	Url            string
+	Phrase         bool
 	enabledSetters map[string]bool
 }
+
 func (options CreateMagicURLTokenOptions) New() *CreateMagicURLTokenOptions {
-	options.enabledSetters = map[string]bool{
-		"Url": false,
-		"Phrase": false,
-	}
+	options.enabledSetters = map[string]bool{"Url": false, "Phrase": false}
 	return &options
 }
+
 type CreateMagicURLTokenOption func(*CreateMagicURLTokenOptions)
+
 func (srv *Account) WithCreateMagicURLTokenUrl(v string) CreateMagicURLTokenOption {
 	return func(o *CreateMagicURLTokenOptions) {
 		o.Url = v
@@ -2346,7 +2307,7 @@ func (srv *Account) WithCreateMagicURLTokenPhrase(v bool) CreateMagicURLTokenOpt
 		o.enabledSetters["Phrase"] = true
 	}
 }
-					
+
 // CreateMagicURLToken sends the user an email with a secret key for creating
 // a session. If the provided user ID has not been registered, a new user will
 // be created. When the user clicks the link in the email, the user is
@@ -2356,11 +2317,11 @@ func (srv *Account) WithCreateMagicURLTokenPhrase(v bool) CreateMagicURLTokenOpt
 // /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
 // endpoint to complete the login process. The link sent to the user's email
 // address is valid for 1 hour.
-// 
+//
 // A user is limited to 10 active sessions at a time by default. [Learn more
 // about session
 // limits](https://appwrite.io/docs/authentication-security#limits).
-func (srv *Account) CreateMagicURLToken(UserId string, Email string, optionalSetters ...CreateMagicURLTokenOption)(*models.Token, error) {
+func (srv *Account) CreateMagicURLToken(UserId string, Email string, optionalSetters ...CreateMagicURLTokenOption) (*models.Token, error) {
 	path := "/account/tokens/magic-url"
 	options := CreateMagicURLTokenOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -2375,11 +2336,10 @@ func (srv *Account) CreateMagicURLToken(UserId string, Email string, optionalSet
 	if options.enabledSetters["Phrase"] {
 		params["phrase"] = options.Phrase
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2408,21 +2368,21 @@ func (srv *Account) CreateMagicURLToken(UserId string, Email string, optionalSet
 	return &parsed, nil
 
 }
+
 type CreateOAuth2TokenOptions struct {
-	Success string
-	Failure string
-	Scopes []string
+	Success        string
+	Failure        string
+	Scopes         []string
 	enabledSetters map[string]bool
 }
+
 func (options CreateOAuth2TokenOptions) New() *CreateOAuth2TokenOptions {
-	options.enabledSetters = map[string]bool{
-		"Success": false,
-		"Failure": false,
-		"Scopes": false,
-	}
+	options.enabledSetters = map[string]bool{"Success": false, "Failure": false, "Scopes": false}
 	return &options
 }
+
 type CreateOAuth2TokenOption func(*CreateOAuth2TokenOptions)
+
 func (srv *Account) WithCreateOAuth2TokenSuccess(v string) CreateOAuth2TokenOption {
 	return func(o *CreateOAuth2TokenOptions) {
 		o.Success = v
@@ -2441,22 +2401,22 @@ func (srv *Account) WithCreateOAuth2TokenScopes(v []string) CreateOAuth2TokenOpt
 		o.enabledSetters["Scopes"] = true
 	}
 }
-			
+
 // CreateOAuth2Token allow the user to login to their account using the OAuth2
 // provider of their choice. Each OAuth2 provider should be enabled from the
 // Appwrite console first. Use the success and failure arguments to provide a
 // redirect URL's back to your app when login is completed.
-// 
+//
 // If authentication succeeds, `userId` and `secret` of a token will be
 // appended to the success URL as query parameters. These can be used to
 // create a new session using the [Create
 // session](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
 // endpoint.
-// 
+//
 // A user is limited to 10 active sessions at a time by default. [Learn more
 // about session
 // limits](https://appwrite.io/docs/authentication-security#limits).
-func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...CreateOAuth2TokenOption)(*bool, error) {
+func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...CreateOAuth2TokenOption) (*bool, error) {
 	r := strings.NewReplacer("{provider}", client.EncodePath(Provider))
 	path := r.Replace("/account/tokens/oauth2/{provider}")
 	options := CreateOAuth2TokenOptions{}.New()
@@ -2473,10 +2433,9 @@ func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...Create
 	if options.enabledSetters["Scopes"] {
 		params["scopes"] = options.Scopes
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "text/html",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "text/html"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -2504,7 +2463,7 @@ func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...Create
 	return &parsed, nil
 
 }
-			
+
 // CreatePhoneToken sends the user an SMS with a secret key for creating a
 // session. If the provided user ID has not be registered, a new user will be
 // created. Use the returned user ID and secret and submit a request to the
@@ -2512,20 +2471,19 @@ func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...Create
 // /v1/account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
 // endpoint to complete the login process. The secret sent to the user's phone
 // is valid for 15 minutes.
-// 
+//
 // A user is limited to 10 active sessions at a time by default. [Learn more
 // about session
 // limits](https://appwrite.io/docs/authentication-security#limits).
-func (srv *Account) CreatePhoneToken(UserId string, Phone string)(*models.Token, error) {
+func (srv *Account) CreatePhoneToken(UserId string, Phone string) (*models.Token, error) {
 	path := "/account/tokens/phone"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["phone"] = Phone
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2554,7 +2512,7 @@ func (srv *Account) CreatePhoneToken(UserId string, Phone string)(*models.Token,
 	return &parsed, nil
 
 }
-	
+
 // CreateEmailVerification use this endpoint to send a verification message to
 // your user email address to confirm they are the valid owners of that
 // address. Both the **userId** and **secret** arguments will be passed as
@@ -2565,20 +2523,19 @@ func (srv *Account) CreatePhoneToken(UserId string, Phone string)(*models.Token,
 // the verification
 // process](https://appwrite.io/docs/references/cloud/client-web/account#updateVerification).
 // The verification link sent to the user's email address is valid for 7 days.
-// 
+//
 // Please note that in order to avoid a [Redirect
 // Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
 // the only valid redirect URLs are the ones from domains you have set when
 // adding your platforms in the console interface.
-func (srv *Account) CreateEmailVerification(Url string)(*models.Token, error) {
+func (srv *Account) CreateEmailVerification(Url string) (*models.Token, error) {
 	path := "/account/verifications/email"
 	params := map[string]interface{}{}
 	params["url"] = Url
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2607,7 +2564,7 @@ func (srv *Account) CreateEmailVerification(Url string)(*models.Token, error) {
 	return &parsed, nil
 
 }
-	
+
 // CreateVerification use this endpoint to send a verification message to your
 // user email address to confirm they are the valid owners of that address.
 // Both the **userId** and **secret** arguments will be passed as query
@@ -2618,22 +2575,21 @@ func (srv *Account) CreateEmailVerification(Url string)(*models.Token, error) {
 // verification
 // process](https://appwrite.io/docs/references/cloud/client-web/account#updateVerification).
 // The verification link sent to the user's email address is valid for 7 days.
-// 
+//
 // Please note that in order to avoid a [Redirect
 // Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md),
 // the only valid redirect URLs are the ones from domains you have set when
 // adding your platforms in the console interface.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.createEmailVerification` instead.
-func (srv *Account) CreateVerification(Url string)(*models.Token, error) {
+func (srv *Account) CreateVerification(Url string) (*models.Token, error) {
 	path := "/account/verifications/email"
 	params := map[string]interface{}{}
 	params["url"] = Url
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2662,21 +2618,20 @@ func (srv *Account) CreateVerification(Url string)(*models.Token, error) {
 	return &parsed, nil
 
 }
-			
+
 // UpdateEmailVerification use this endpoint to complete the user email
 // verification process. Use both the **userId** and **secret** parameters
 // that were attached to your app URL to verify the user email ownership. If
 // confirmed this route will return a 200 status code.
-func (srv *Account) UpdateEmailVerification(UserId string, Secret string)(*models.Token, error) {
+func (srv *Account) UpdateEmailVerification(UserId string, Secret string) (*models.Token, error) {
 	path := "/account/verifications/email"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -2705,23 +2660,22 @@ func (srv *Account) UpdateEmailVerification(UserId string, Secret string)(*model
 	return &parsed, nil
 
 }
-			
+
 // UpdateVerification use this endpoint to complete the user email
 // verification process. Use both the **userId** and **secret** parameters
 // that were attached to your app URL to verify the user email ownership. If
 // confirmed this route will return a 200 status code.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateEmailVerification` instead.
-func (srv *Account) UpdateVerification(UserId string, Secret string)(*models.Token, error) {
+func (srv *Account) UpdateVerification(UserId string, Secret string) (*models.Token, error) {
 	path := "/account/verifications/email"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -2759,14 +2713,13 @@ func (srv *Account) UpdateVerification(UserId string, Secret string)(*models.Tok
 // process](https://appwrite.io/docs/references/cloud/client-web/account#updatePhoneVerification).
 // The verification code sent to the user's phone number is valid for 15
 // minutes.
-func (srv *Account) CreatePhoneVerification()(*models.Token, error) {
+func (srv *Account) CreatePhoneVerification() (*models.Token, error) {
 	path := "/account/verifications/phone"
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -2795,21 +2748,20 @@ func (srv *Account) CreatePhoneVerification()(*models.Token, error) {
 	return &parsed, nil
 
 }
-			
+
 // UpdatePhoneVerification use this endpoint to complete the user phone
 // verification process. Use the **userId** and **secret** that were sent to
 // your user's phone number to verify the user email ownership. If confirmed
 // this route will return a 200 status code.
-func (srv *Account) UpdatePhoneVerification(UserId string, Secret string)(*models.Token, error) {
+func (srv *Account) UpdatePhoneVerification(UserId string, Secret string) (*models.Token, error) {
 	path := "/account/verifications/phone"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {

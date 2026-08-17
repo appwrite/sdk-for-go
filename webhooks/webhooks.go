@@ -3,9 +3,10 @@ package webhooks
 import (
 	"encoding/json"
 	"errors"
+	"strings"
+
 	"github.com/appwrite/sdk-for-go/v7/client"
 	"github.com/appwrite/sdk-for-go/v7/models"
-	"strings"
 )
 
 // Webhooks service
@@ -20,18 +21,18 @@ func New(clt client.Client) *Webhooks {
 }
 
 type ListOptions struct {
-	Queries []string
-	Total bool
+	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
+
 func (options ListOptions) New() *ListOptions {
-	options.enabledSetters = map[string]bool{
-		"Queries": false,
-		"Total": false,
-	}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
+
 type ListOption func(*ListOptions)
+
 func (srv *Webhooks) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
@@ -44,10 +45,10 @@ func (srv *Webhooks) WithListTotal(v bool) ListOption {
 		o.enabledSetters["Total"] = true
 	}
 }
-	
+
 // List get a list of all webhooks belonging to the project. You can use the
 // query params to filter your results.
-func (srv *Webhooks) List(optionalSetters ...ListOption)(*models.WebhookList, error) {
+func (srv *Webhooks) List(optionalSetters ...ListOption) (*models.WebhookList, error) {
 	path := "/webhooks"
 	options := ListOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -60,10 +61,9 @@ func (srv *Webhooks) List(optionalSetters ...ListOption)(*models.WebhookList, er
 	if options.enabledSetters["Total"] {
 		params["total"] = options.Total
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -92,25 +92,23 @@ func (srv *Webhooks) List(optionalSetters ...ListOption)(*models.WebhookList, er
 	return &parsed, nil
 
 }
+
 type CreateOptions struct {
-	Enabled bool
-	Tls bool
-	AuthUsername string
-	AuthPassword string
-	Secret string
+	Enabled        bool
+	Tls            bool
+	AuthUsername   string
+	AuthPassword   string
+	Secret         string
 	enabledSetters map[string]bool
 }
+
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{
-		"Enabled": false,
-		"Tls": false,
-		"AuthUsername": false,
-		"AuthPassword": false,
-		"Secret": false,
-	}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Tls": false, "AuthUsername": false, "AuthPassword": false, "Secret": false}
 	return &options
 }
+
 type CreateOption func(*CreateOptions)
+
 func (srv *Webhooks) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
@@ -141,10 +139,10 @@ func (srv *Webhooks) WithCreateSecret(v string) CreateOption {
 		o.enabledSetters["Secret"] = true
 	}
 }
-									
+
 // Create create a new webhook. Use this endpoint to configure a URL that will
 // receive events from Appwrite when specific events occur.
-func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []string, optionalSetters ...CreateOption)(*models.Webhook, error) {
+func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []string, optionalSetters ...CreateOption) (*models.Webhook, error) {
 	path := "/webhooks"
 	options := CreateOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -170,11 +168,10 @@ func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -203,17 +200,16 @@ func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []
 	return &parsed, nil
 
 }
-	
+
 // Get get a webhook by its unique ID. This endpoint returns details about a
 // specific webhook configured for a project.
-func (srv *Webhooks) Get(WebhookId string)(*models.Webhook, error) {
+func (srv *Webhooks) Get(WebhookId string) (*models.Webhook, error) {
 	r := strings.NewReplacer("{webhookId}", client.EncodePath(WebhookId))
 	path := r.Replace("/webhooks/{webhookId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -242,23 +238,22 @@ func (srv *Webhooks) Get(WebhookId string)(*models.Webhook, error) {
 	return &parsed, nil
 
 }
+
 type UpdateOptions struct {
-	Enabled bool
-	Tls bool
-	AuthUsername string
-	AuthPassword string
+	Enabled        bool
+	Tls            bool
+	AuthUsername   string
+	AuthPassword   string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{
-		"Enabled": false,
-		"Tls": false,
-		"AuthUsername": false,
-		"AuthPassword": false,
-	}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Tls": false, "AuthUsername": false, "AuthPassword": false}
 	return &options
 }
+
 type UpdateOption func(*UpdateOptions)
+
 func (srv *Webhooks) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
@@ -283,10 +278,10 @@ func (srv *Webhooks) WithUpdateAuthPassword(v string) UpdateOption {
 		o.enabledSetters["AuthPassword"] = true
 	}
 }
-									
+
 // Update update a webhook by its unique ID. Use this endpoint to update the
 // URL, events, or status of an existing webhook.
-func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []string, optionalSetters ...UpdateOption)(*models.Webhook, error) {
+func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []string, optionalSetters ...UpdateOption) (*models.Webhook, error) {
 	r := strings.NewReplacer("{webhookId}", client.EncodePath(WebhookId))
 	path := r.Replace("/webhooks/{webhookId}")
 	options := UpdateOptions{}.New()
@@ -309,11 +304,10 @@ func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []
 	if options.enabledSetters["AuthPassword"] {
 		params["authPassword"] = options.AuthPassword
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PUT", path, headers, params)
 	if err != nil {
@@ -342,17 +336,16 @@ func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []
 	return &parsed, nil
 
 }
-	
+
 // Delete delete a webhook by its unique ID. Once deleted, the webhook will no
 // longer receive project events.
-func (srv *Webhooks) Delete(WebhookId string)(*interface{}, error) {
+func (srv *Webhooks) Delete(WebhookId string) (*interface{}, error) {
 	r := strings.NewReplacer("{webhookId}", client.EncodePath(WebhookId))
 	path := r.Replace("/webhooks/{webhookId}")
 	params := map[string]interface{}{}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -380,28 +373,30 @@ func (srv *Webhooks) Delete(WebhookId string)(*interface{}, error) {
 	return &parsed, nil
 
 }
+
 type UpdateSecretOptions struct {
-	Secret string
+	Secret         string
 	enabledSetters map[string]bool
 }
+
 func (options UpdateSecretOptions) New() *UpdateSecretOptions {
-	options.enabledSetters = map[string]bool{
-		"Secret": false,
-	}
+	options.enabledSetters = map[string]bool{"Secret": false}
 	return &options
 }
+
 type UpdateSecretOption func(*UpdateSecretOptions)
+
 func (srv *Webhooks) WithUpdateSecretSecret(v string) UpdateSecretOption {
 	return func(o *UpdateSecretOptions) {
 		o.Secret = v
 		o.enabledSetters["Secret"] = true
 	}
 }
-			
+
 // UpdateSecret update the webhook signing key. This endpoint can be used to
 // regenerate the signing key used to sign and validate payload deliveries for
 // a specific webhook.
-func (srv *Webhooks) UpdateSecret(WebhookId string, optionalSetters ...UpdateSecretOption)(*models.Webhook, error) {
+func (srv *Webhooks) UpdateSecret(WebhookId string, optionalSetters ...UpdateSecretOption) (*models.Webhook, error) {
 	r := strings.NewReplacer("{webhookId}", client.EncodePath(WebhookId))
 	path := r.Replace("/webhooks/{webhookId}/secret")
 	options := UpdateSecretOptions{}.New()
@@ -412,11 +407,10 @@ func (srv *Webhooks) UpdateSecret(WebhookId string, optionalSetters ...UpdateSec
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
 	}
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("PATCH", path, headers, params)
 	if err != nil {

@@ -1,32 +1,33 @@
 package models
 
 import (
-    "encoding/json"
-    "testing"
+	"encoding/json"
+	"testing"
 )
 
 func TestOAuth2ZohoModel(t *testing.T) {
-    model := OAuth2Zoho{        Id: "github",        Enabled: true,        ClientId: "1000.83C178000000000000000000RPNX0B",        ClientSecret: "fb5cac000000000000000000000000000000a68f6e",    }
+	model := OAuth2Zoho{Id: "github", Enabled: true, ClientId: "1000.83C178000000000000000000RPNX0B", ClientSecret: "fb5cac000000000000000000000000000000a68f6e"}
 
-    data, err := json.Marshal(model)
-    if err != nil {
-        t.Fatal(err)
-    }
+	data, err := json.Marshal(model)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-    var result OAuth2Zoho
-    err = json.Unmarshal(data, &result)
-    if err != nil {
-        t.Fatal(err)
-    }
-    if result.Id != model.Id {
-        t.Errorf("Expected Id %v, got %v", model.Id, result.Id)
-    }
-    if result.Enabled != model.Enabled {
-        t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)
-    }
-    if result.ClientId != model.ClientId {
-        t.Errorf("Expected ClientId %v, got %v", model.ClientId, result.ClientId)
-    }
-    if result.ClientSecret != model.ClientSecret {
-        t.Errorf("Expected ClientSecret %v, got %v", model.ClientSecret, result.ClientSecret)
-    }}
+	var result OAuth2Zoho
+	err = json.Unmarshal(data, &result)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if result.Id != model.Id {
+		t.Errorf("Expected Id %v, got %v", model.Id, result.Id)
+	}
+	if result.Enabled != model.Enabled {
+		t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)
+	}
+	if result.ClientId != model.ClientId {
+		t.Errorf("Expected ClientId %v, got %v", model.ClientId, result.ClientId)
+	}
+	if result.ClientSecret != model.ClientSecret {
+		t.Errorf("Expected ClientSecret %v, got %v", model.ClientSecret, result.ClientSecret)
+	}
+}

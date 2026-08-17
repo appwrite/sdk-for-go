@@ -3,8 +3,9 @@ package graphql
 import (
 	"encoding/json"
 	"errors"
-	"github.com/appwrite/sdk-for-go/v7/client"
 	"strings"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
 )
 
 // Graphql service
@@ -18,18 +19,16 @@ func New(clt client.Client) *Graphql {
 	}
 }
 
-	
 // Query execute a GraphQL mutation.
-func (srv *Graphql) Query(Query interface{})(*interface{}, error) {
+func (srv *Graphql) Query(Query interface{}) (*interface{}, error) {
 	path := "/graphql"
 	params := map[string]interface{}{}
 	params["query"] = Query
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"x-sdk-graphql": "true",
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["x-sdk-graphql"] = "true"
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -57,18 +56,17 @@ func (srv *Graphql) Query(Query interface{})(*interface{}, error) {
 	return &parsed, nil
 
 }
-	
+
 // Mutation execute a GraphQL mutation.
-func (srv *Graphql) Mutation(Query interface{})(*interface{}, error) {
+func (srv *Graphql) Mutation(Query interface{}) (*interface{}, error) {
 	path := "/graphql/mutation"
 	params := map[string]interface{}{}
 	params["query"] = Query
-	headers := map[string]interface{}{
-		"X-Appwrite-Project": srv.client.Config["project"],
-		"x-sdk-graphql": "true",
-		"content-type": "application/json",
-		"accept": "application/json",
-	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["x-sdk-graphql"] = "true"
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {

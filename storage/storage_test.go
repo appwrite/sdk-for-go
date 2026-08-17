@@ -3,11 +3,12 @@ package storage
 import (
 	"net/http"
 	"net/http/httptest"
-	"testing"
 	"os"
+	"testing"
 
 	"github.com/appwrite/sdk-for-go/v7/client"
-	"github.com/appwrite/sdk-for-go/v7/file")
+	"github.com/appwrite/sdk-for-go/v7/file"
+)
 
 func TestStorage(t *testing.T) {
 	tmpFile, err := os.CreateTemp("", "test")
