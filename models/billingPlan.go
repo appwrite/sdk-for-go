@@ -114,6 +114,8 @@ type BillingPlan struct {
 	SupportsOrganizationRoles bool `json:"supportsOrganizationRoles"`
 	// Does plan support credit
 	SupportsCredits bool `json:"supportsCredits"`
+	// Does plan support dedicated databases.
+	SupportsDedicatedDatabases bool `json:"supportsDedicatedDatabases"`
 	// Does plan support blocking disposable email addresses.
 	SupportsDisposableEmailValidation bool `json:"supportsDisposableEmailValidation"`
 	// Does plan support requiring canonical email addresses.
@@ -144,6 +146,9 @@ type BillingPlan struct {
 	Group string `json:"group"`
 	// Details of the program this plan is a part of.
 	Program Program `json:"program"`
+	// Included monthly dedicated-database compute credit in USD. Resets each
+	// billing cycle with no roll-over.
+	DatabaseComputeCredit float64 `json:"databaseComputeCredit"`
 	// Dedicated database limits available to this plan.
 	DedicatedDatabases BillingPlanDedicatedDatabaseLimits `json:"dedicatedDatabases"`
 

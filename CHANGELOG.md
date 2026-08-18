@@ -1,5 +1,18 @@
 # Change Log
 
+## v7.2.0-rc.2
+
+* Added: `DocumentsDB` service for schemaless document databases, reachable as `appwrite.NewDocumentsDB(client)`
+* Added: `VectorsDB` service for vector databases, reachable as `appwrite.NewVectorsDB(client)`
+* Added: database, collection, document, and index lifecycle on both services
+* Added: transactions on both services — `CreateTransaction`, `GetTransaction`, `UpdateTransaction`, `DeleteTransaction`, `CreateOperations`
+* Added: bulk document writes — `CreateDocuments`, `UpsertDocuments`, `UpdateDocuments`, `DeleteDocuments`
+* Added: `DocumentsDB.IncrementDocumentAttribute` and `DecrementDocumentAttribute` for atomic counters
+* Added: `VectorsDB.CreateQuery` for vector search, and `Dimension` on vector collections
+* Added: replica controls on both services — `ListSpecifications`, `CreateFailover`, `ListOperations`, `GetReplicas`, `GetStatus`
+* Added: `AttributeObject`, `AttributeVector`, `VectorsdbCollection`, and `VectorsdbCollectionList` models
+* Added: `SupportsDedicatedDatabases` and `DatabaseComputeCredit` to the `BillingPlan` model
+
 ## v7.2.0-rc.1
 
 * Added: `Mysql`, `Postgresql`, and `Mongo` services for dedicated databases, reachable as `appwrite.NewMysql(client)` and siblings
