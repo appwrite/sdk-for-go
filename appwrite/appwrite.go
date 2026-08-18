@@ -12,6 +12,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/avatars"
 	"github.com/appwrite/sdk-for-go/v7/backups"
 	"github.com/appwrite/sdk-for-go/v7/databases"
+	"github.com/appwrite/sdk-for-go/v7/documentsdb"
 	"github.com/appwrite/sdk-for-go/v7/embeddings"
 	"github.com/appwrite/sdk-for-go/v7/functions"
 	"github.com/appwrite/sdk-for-go/v7/graphql"
@@ -31,6 +32,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/teams"
 	"github.com/appwrite/sdk-for-go/v7/tokens"
 	"github.com/appwrite/sdk-for-go/v7/users"
+	"github.com/appwrite/sdk-for-go/v7/vectorsdb"
 	"github.com/appwrite/sdk-for-go/v7/webhooks"
 )
 
@@ -51,6 +53,9 @@ func NewBackups(clt client.Client) *backups.Backups {
 }
 func NewDatabases(clt client.Client) *databases.Databases {
 	return databases.New(clt)
+}
+func NewDocumentsDB(clt client.Client) *documentsdb.DocumentsDB {
+	return documentsdb.New(clt)
 }
 func NewEmbeddings(clt client.Client) *embeddings.Embeddings {
 	return embeddings.New(clt)
@@ -111,6 +116,9 @@ func NewTokens(clt client.Client) *tokens.Tokens {
 }
 func NewUsers(clt client.Client) *users.Users {
 	return users.New(clt)
+}
+func NewVectorsDB(clt client.Client) *vectorsdb.VectorsDB {
+	return vectorsdb.New(clt)
 }
 func NewWebhooks(clt client.Client) *webhooks.Webhooks {
 	return webhooks.New(clt)

@@ -146,6 +146,7 @@ func TestOrganization(t *testing.T) {
         "supportsMockNumbers": true,
         "supportsOrganizationRoles": true,
         "supportsCredits": true,
+        "supportsDedicatedDatabases": true,
         "supportsDisposableEmailValidation": true,
         "supportsCanonicalEmailValidation": true,
         "supportsFreeEmailValidation": true,
@@ -160,7 +161,8 @@ func TestOrganization(t *testing.T) {
         "deploymentSize": 30,
         "buildSize": 2000,
         "databasesAllowEncrypt": true,
-        "group": "pro"
+        "group": "pro",
+        "databaseComputeCredit": 10
     },
     "billingEmail": "billing@org.example",
     "billingStartDate": "2020-10-15T06:38:00.000+00:00",
@@ -326,6 +328,7 @@ func TestOrganization(t *testing.T) {
         "supportsMockNumbers": true,
         "supportsOrganizationRoles": true,
         "supportsCredits": true,
+        "supportsDedicatedDatabases": true,
         "supportsDisposableEmailValidation": true,
         "supportsCanonicalEmailValidation": true,
         "supportsFreeEmailValidation": true,
@@ -340,7 +343,8 @@ func TestOrganization(t *testing.T) {
         "deploymentSize": 30,
         "buildSize": 2000,
         "databasesAllowEncrypt": true,
-        "group": "pro"
+        "group": "pro",
+        "databaseComputeCredit": 10
     },
     "billingEmail": "billing@org.example",
     "billingStartDate": "2020-10-15T06:38:00.000+00:00",
