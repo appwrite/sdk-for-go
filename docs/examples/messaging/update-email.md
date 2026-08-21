@@ -4,32 +4,32 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := messaging.New(client)
 
 	response, err := service.UpdateEmail(
 		"<MESSAGE_ID>",
-		messaging.WithUpdateEmailTopics([]string{}),
-		messaging.WithUpdateEmailUsers([]string{}),
-		messaging.WithUpdateEmailTargets([]string{}),
-		messaging.WithUpdateEmailSubject("<SUBJECT>"),
-		messaging.WithUpdateEmailContent("<CONTENT>"),
-		messaging.WithUpdateEmailDraft(false),
-		messaging.WithUpdateEmailHtml(false),
-		messaging.WithUpdateEmailCc([]string{}),
-		messaging.WithUpdateEmailBcc([]string{}),
-		messaging.WithUpdateEmailScheduledAt("2020-10-15T06:38:00.000+00:00"),
-		messaging.WithUpdateEmailAttachments([]string{}),
+		service.WithUpdateEmailTopics([]string{}),
+		service.WithUpdateEmailUsers([]string{}),
+		service.WithUpdateEmailTargets([]string{}),
+		service.WithUpdateEmailSubject("<SUBJECT>"),
+		service.WithUpdateEmailContent("<CONTENT>"),
+		service.WithUpdateEmailDraft(false),
+		service.WithUpdateEmailHtml(false),
+		service.WithUpdateEmailCc([]string{}),
+		service.WithUpdateEmailBcc([]string{}),
+		service.WithUpdateEmailScheduledAt("2020-10-15T06:38:00.000+00:00"),
+		service.WithUpdateEmailAttachments([]string{}),
 	)
 	fmt.Println(response, err)
 }

@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/databases"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := databases.New(client)
@@ -21,11 +21,11 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<NAME>",
-		databases.WithCreateCollectionPermissions([]string{"read(\"any\")"}),
-		databases.WithCreateCollectionDocumentSecurity(false),
-		databases.WithCreateCollectionEnabled(false),
-		databases.WithCreateCollectionAttributes([]interface{}{}),
-		databases.WithCreateCollectionIndexes([]interface{}{}),
+		service.WithCreateCollectionPermissions([]string{"read(\"any\")"}),
+		service.WithCreateCollectionDocumentSecurity(false),
+		service.WithCreateCollectionEnabled(false),
+		service.WithCreateCollectionAttributes([]interface{}{}),
+		service.WithCreateCollectionIndexes([]interface{}{}),
 	)
 	fmt.Println(response, err)
 }

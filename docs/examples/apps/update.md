@@ -5,14 +5,14 @@ import (
 	"fmt"
 
 	"github.com/appwrite/sdk-for-go/v7/apps"
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := apps.New(client)
@@ -20,24 +20,24 @@ func main() {
 	response, err := service.Update(
 		"<APP_ID>",
 		"<NAME>",
-		apps.WithUpdateDescription("<DESCRIPTION>"),
-		apps.WithUpdateClientUri("https://example.com"),
-		apps.WithUpdateLogoUri("https://example.com"),
-		apps.WithUpdatePrivacyPolicyUrl("https://example.com"),
-		apps.WithUpdateTermsUrl("https://example.com"),
-		apps.WithUpdateContacts([]string{}),
-		apps.WithUpdateTagline("<TAGLINE>"),
-		apps.WithUpdateTags([]string{}),
-		apps.WithUpdateImages([]string{}),
-		apps.WithUpdateSupportUrl("https://example.com"),
-		apps.WithUpdateDataDeletionUrl("https://example.com"),
-		apps.WithUpdateEnabled(false),
-		apps.WithUpdateRedirectUris([]string{}),
-		apps.WithUpdatePostLogoutRedirectUris([]string{}),
-		apps.WithUpdateType("public"),
-		apps.WithUpdateDeviceFlow(false),
-		apps.WithUpdateInstallationScopes([]string{}),
-		apps.WithUpdateInstallationRedirectUrl("https://example.com"),
+		service.WithUpdateDescription("<DESCRIPTION>"),
+		service.WithUpdateClientUri("https://example.com"),
+		service.WithUpdateLogoUri("https://example.com"),
+		service.WithUpdatePrivacyPolicyUrl("https://example.com"),
+		service.WithUpdateTermsUrl("https://example.com"),
+		service.WithUpdateContacts([]string{}),
+		service.WithUpdateTagline("<TAGLINE>"),
+		service.WithUpdateTags([]string{}),
+		service.WithUpdateImages([]string{}),
+		service.WithUpdateSupportUrl("https://example.com"),
+		service.WithUpdateDataDeletionUrl("https://example.com"),
+		service.WithUpdateEnabled(false),
+		service.WithUpdateRedirectUris([]string{}),
+		service.WithUpdatePostLogoutRedirectUris([]string{}),
+		service.WithUpdateType("public"),
+		service.WithUpdateDeviceFlow(false),
+		service.WithUpdateInstallationScopes([]string{}),
+		service.WithUpdateInstallationRedirectUrl("https://example.com"),
 	)
 	fmt.Println(response, err)
 }

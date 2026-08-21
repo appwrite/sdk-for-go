@@ -5,20 +5,20 @@ import (
 	"fmt"
 
 	"github.com/appwrite/sdk-for-go/v7/activities"
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := activities.New(client)
 
 	response, err := service.ListEvents(
-		activities.WithListEventsQueries([]string{}),
+		service.WithListEventsQueries([]string{}),
 	)
 	fmt.Println(response, err)
 }

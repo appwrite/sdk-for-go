@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/users"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := users.New(client)
@@ -21,7 +21,7 @@ func main() {
 		"<USER_ID>",
 		"email@example.com",
 		"password",
-		users.WithCreateBcryptUserName("<NAME>"),
+		service.WithCreateBcryptUserName("<NAME>"),
 	)
 	fmt.Println(response, err)
 }

@@ -4,23 +4,23 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := project.New(client)
 
 	response, err := service.UpdateOAuth2PaypalSandbox(
-		project.WithUpdateOAuth2PaypalSandboxClientId("<CLIENT_ID>"),
-		project.WithUpdateOAuth2PaypalSandboxSecretKey("<SECRET_KEY>"),
-		project.WithUpdateOAuth2PaypalSandboxEnabled(false),
+		service.WithUpdateOAuth2PaypalSandboxClientId("<CLIENT_ID>"),
+		service.WithUpdateOAuth2PaypalSandboxSecretKey("<SECRET_KEY>"),
+		service.WithUpdateOAuth2PaypalSandboxEnabled(false),
 	)
 	fmt.Println(response, err)
 }

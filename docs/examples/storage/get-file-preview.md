@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/storage"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := storage.New(client)
@@ -20,18 +20,18 @@ func main() {
 	response, err := service.GetFilePreview(
 		"<BUCKET_ID>",
 		"<FILE_ID>",
-		storage.WithGetFilePreviewWidth(0),
-		storage.WithGetFilePreviewHeight(0),
-		storage.WithGetFilePreviewGravity("center"),
-		storage.WithGetFilePreviewQuality(-1),
-		storage.WithGetFilePreviewBorderWidth(0),
-		storage.WithGetFilePreviewBorderColor(""),
-		storage.WithGetFilePreviewBorderRadius(0),
-		storage.WithGetFilePreviewOpacity(0),
-		storage.WithGetFilePreviewRotation(-360),
-		storage.WithGetFilePreviewBackground(""),
-		storage.WithGetFilePreviewOutput("jpg"),
-		storage.WithGetFilePreviewToken("<TOKEN>"),
+		service.WithGetFilePreviewWidth(0),
+		service.WithGetFilePreviewHeight(0),
+		service.WithGetFilePreviewGravity("center"),
+		service.WithGetFilePreviewQuality(-1),
+		service.WithGetFilePreviewBorderWidth(0),
+		service.WithGetFilePreviewBorderColor(""),
+		service.WithGetFilePreviewBorderRadius(0),
+		service.WithGetFilePreviewOpacity(0),
+		service.WithGetFilePreviewRotation(-360),
+		service.WithGetFilePreviewBackground(""),
+		service.WithGetFilePreviewOutput("jpg"),
+		service.WithGetFilePreviewToken("<TOKEN>"),
 	)
 	fmt.Println(response, err)
 }

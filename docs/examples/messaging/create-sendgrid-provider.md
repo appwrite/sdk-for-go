@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := messaging.New(client)
@@ -20,12 +20,12 @@ func main() {
 	response, err := service.CreateSendgridProvider(
 		"<PROVIDER_ID>",
 		"<NAME>",
-		messaging.WithCreateSendgridProviderApiKey("<API_KEY>"),
-		messaging.WithCreateSendgridProviderFromName("<FROM_NAME>"),
-		messaging.WithCreateSendgridProviderFromEmail("email@example.com"),
-		messaging.WithCreateSendgridProviderReplyToName("<REPLY_TO_NAME>"),
-		messaging.WithCreateSendgridProviderReplyToEmail("email@example.com"),
-		messaging.WithCreateSendgridProviderEnabled(false),
+		service.WithCreateSendgridProviderApiKey("<API_KEY>"),
+		service.WithCreateSendgridProviderFromName("<FROM_NAME>"),
+		service.WithCreateSendgridProviderFromEmail("email@example.com"),
+		service.WithCreateSendgridProviderReplyToName("<REPLY_TO_NAME>"),
+		service.WithCreateSendgridProviderReplyToEmail("email@example.com"),
+		service.WithCreateSendgridProviderEnabled(false),
 	)
 	fmt.Println(response, err)
 }

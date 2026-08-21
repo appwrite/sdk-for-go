@@ -4,25 +4,25 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/oauth2"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithSession(""),
-		client.WithProject("<YOUR_PROJECT_ID>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithSession(""),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
 	)
 
 	service := oauth2.New(client)
 
 	response, err := service.CreateDeviceAuthorization(
-		oauth2.WithCreateDeviceAuthorizationClientId("<CLIENT_ID>"),
-		oauth2.WithCreateDeviceAuthorizationScope("<SCOPE>"),
-		oauth2.WithCreateDeviceAuthorizationAuthorizationDetails("<AUTHORIZATION_DETAILS>"),
-		oauth2.WithCreateDeviceAuthorizationResource(""),
-		oauth2.WithCreateDeviceAuthorizationAudience("<AUDIENCE>"),
+		service.WithCreateDeviceAuthorizationClientId("<CLIENT_ID>"),
+		service.WithCreateDeviceAuthorizationScope("<SCOPE>"),
+		service.WithCreateDeviceAuthorizationAuthorizationDetails("<AUTHORIZATION_DETAILS>"),
+		service.WithCreateDeviceAuthorizationResource(""),
+		service.WithCreateDeviceAuthorizationAudience("<AUDIENCE>"),
 	)
 	fmt.Println(response, err)
 }

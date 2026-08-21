@@ -4,24 +4,24 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := messaging.New(client)
 
 	response, err := service.UpdateFCMProvider(
 		"<PROVIDER_ID>",
-		messaging.WithUpdateFCMProviderName("<NAME>"),
-		messaging.WithUpdateFCMProviderEnabled(false),
-		messaging.WithUpdateFCMProviderServiceAccountJSON(map[string]interface{}{}),
+		service.WithUpdateFCMProviderName("<NAME>"),
+		service.WithUpdateFCMProviderEnabled(false),
+		service.WithUpdateFCMProviderServiceAccountJSON([]interface{}{}),
 	)
 	fmt.Println(response, err)
 }

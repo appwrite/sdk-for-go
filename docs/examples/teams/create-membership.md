@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/teams"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := teams.New(client)
@@ -20,11 +20,11 @@ func main() {
 	response, err := service.CreateMembership(
 		"<TEAM_ID>",
 		[]string{},
-		teams.WithCreateMembershipEmail("email@example.com"),
-		teams.WithCreateMembershipUserId("<USER_ID>"),
-		teams.WithCreateMembershipPhone("+12065550100"),
-		teams.WithCreateMembershipUrl("https://example.com"),
-		teams.WithCreateMembershipName("<NAME>"),
+		service.WithCreateMembershipEmail("email@example.com"),
+		service.WithCreateMembershipUserId("<USER_ID>"),
+		service.WithCreateMembershipPhone("+12065550100"),
+		service.WithCreateMembershipUrl("https://example.com"),
+		service.WithCreateMembershipName("<NAME>"),
 	)
 	fmt.Println(response, err)
 }

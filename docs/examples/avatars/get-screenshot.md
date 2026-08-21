@@ -4,43 +4,40 @@ package main
 import (
 	"fmt"
 
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/avatars"
-	"github.com/appwrite/sdk-for-go/v7/client"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := avatars.New(client)
 
 	response, err := service.GetScreenshot(
 		"https://example.com",
-		avatars.WithGetScreenshotHeaders(map[string]interface{}{
-        "Authorization": "Bearer token123",
-        "X-Custom-Header": "value"
-    }),
-		avatars.WithGetScreenshotViewportWidth(1920),
-		avatars.WithGetScreenshotViewportHeight(1080),
-		avatars.WithGetScreenshotScale(2),
-		avatars.WithGetScreenshotTheme("dark"),
-		avatars.WithGetScreenshotUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15"),
-		avatars.WithGetScreenshotFullpage(true),
-		avatars.WithGetScreenshotLocale("en-US"),
-		avatars.WithGetScreenshotTimezone("America/New_York"),
-		avatars.WithGetScreenshotLatitude(37.7749),
-		avatars.WithGetScreenshotLongitude(-122.4194),
-		avatars.WithGetScreenshotAccuracy(100),
-		avatars.WithGetScreenshotTouch(true),
-		avatars.WithGetScreenshotPermissions([]string{"geolocation", "notifications"}),
-		avatars.WithGetScreenshotSleep(3),
-		avatars.WithGetScreenshotWidth(800),
-		avatars.WithGetScreenshotHeight(600),
-		avatars.WithGetScreenshotQuality(85),
-		avatars.WithGetScreenshotOutput("jpeg"),
+		service.WithGetScreenshotHeaders(map[string]interface{}{"Authorization": "Bearer token123", "X-Custom-Header": "value"}),
+		service.WithGetScreenshotViewportWidth(1920),
+		service.WithGetScreenshotViewportHeight(1080),
+		service.WithGetScreenshotScale(2),
+		service.WithGetScreenshotTheme("dark"),
+		service.WithGetScreenshotUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15"),
+		service.WithGetScreenshotFullpage(true),
+		service.WithGetScreenshotLocale("en-US"),
+		service.WithGetScreenshotTimezone("America/New_York"),
+		service.WithGetScreenshotLatitude(37.7749),
+		service.WithGetScreenshotLongitude(-122.4194),
+		service.WithGetScreenshotAccuracy(100),
+		service.WithGetScreenshotTouch(true),
+		service.WithGetScreenshotPermissions([]string{"geolocation", "notifications"}),
+		service.WithGetScreenshotSleep(3),
+		service.WithGetScreenshotWidth(800),
+		service.WithGetScreenshotHeight(600),
+		service.WithGetScreenshotQuality(85),
+		service.WithGetScreenshotOutput("jpeg"),
 	)
 	fmt.Println(response, err)
 }

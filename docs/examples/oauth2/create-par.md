@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/oauth2"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithSession(""),
-		client.WithProject("<YOUR_PROJECT_ID>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithSession(""),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
 	)
 
 	service := oauth2.New(client)
@@ -21,16 +21,16 @@ func main() {
 		"<CLIENT_ID>",
 		"https://example.com",
 		"code",
-		oauth2.WithCreatePARScope("<SCOPE>"),
-		oauth2.WithCreatePARState("<STATE>"),
-		oauth2.WithCreatePARNonce("<NONCE>"),
-		oauth2.WithCreatePARCodeChallenge("<CODE_CHALLENGE>"),
-		oauth2.WithCreatePARCodeChallengeMethod("s256"),
-		oauth2.WithCreatePARPrompt("<PROMPT>"),
-		oauth2.WithCreatePARMaxAge(0),
-		oauth2.WithCreatePARAuthorizationDetails("<AUTHORIZATION_DETAILS>"),
-		oauth2.WithCreatePARResource(""),
-		oauth2.WithCreatePARAudience("<AUDIENCE>"),
+		service.WithCreatePARScope("<SCOPE>"),
+		service.WithCreatePARState("<STATE>"),
+		service.WithCreatePARNonce("<NONCE>"),
+		service.WithCreatePARCodeChallenge("<CODE_CHALLENGE>"),
+		service.WithCreatePARCodeChallengeMethod("s256"),
+		service.WithCreatePARPrompt("<PROMPT>"),
+		service.WithCreatePARMaxAge(0),
+		service.WithCreatePARAuthorizationDetails("<AUTHORIZATION_DETAILS>"),
+		service.WithCreatePARResource(""),
+		service.WithCreatePARAudience("<AUDIENCE>"),
 	)
 	fmt.Println(response, err)
 }

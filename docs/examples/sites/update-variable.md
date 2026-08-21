@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/sites"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := sites.New(client)
@@ -20,9 +20,9 @@ func main() {
 	response, err := service.UpdateVariable(
 		"<SITE_ID>",
 		"<VARIABLE_ID>",
-		sites.WithUpdateVariableKey("<KEY>"),
-		sites.WithUpdateVariableValue("<VALUE>"),
-		sites.WithUpdateVariableSecret(false),
+		service.WithUpdateVariableKey("<KEY>"),
+		service.WithUpdateVariableValue("<VALUE>"),
+		service.WithUpdateVariableSecret(false),
 	)
 	fmt.Println(response, err)
 }

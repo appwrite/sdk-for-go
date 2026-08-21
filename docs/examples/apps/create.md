@@ -5,14 +5,14 @@ import (
 	"fmt"
 
 	"github.com/appwrite/sdk-for-go/v7/apps"
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := apps.New(client)
@@ -21,22 +21,22 @@ func main() {
 		"<APP_ID>",
 		"<NAME>",
 		[]string{},
-		apps.WithCreateDescription("<DESCRIPTION>"),
-		apps.WithCreateClientUri("https://example.com"),
-		apps.WithCreateLogoUri("https://example.com"),
-		apps.WithCreatePrivacyPolicyUrl("https://example.com"),
-		apps.WithCreateTermsUrl("https://example.com"),
-		apps.WithCreateContacts([]string{}),
-		apps.WithCreateTagline("<TAGLINE>"),
-		apps.WithCreateTags([]string{}),
-		apps.WithCreateImages([]string{}),
-		apps.WithCreateSupportUrl("https://example.com"),
-		apps.WithCreateDataDeletionUrl("https://example.com"),
-		apps.WithCreatePostLogoutRedirectUris([]string{}),
-		apps.WithCreateEnabled(false),
-		apps.WithCreateType("public"),
-		apps.WithCreateDeviceFlow(false),
-		apps.WithCreateTeamId("<TEAM_ID>"),
+		service.WithCreateDescription("<DESCRIPTION>"),
+		service.WithCreateClientUri("https://example.com"),
+		service.WithCreateLogoUri("https://example.com"),
+		service.WithCreatePrivacyPolicyUrl("https://example.com"),
+		service.WithCreateTermsUrl("https://example.com"),
+		service.WithCreateContacts([]string{}),
+		service.WithCreateTagline("<TAGLINE>"),
+		service.WithCreateTags([]string{}),
+		service.WithCreateImages([]string{}),
+		service.WithCreateSupportUrl("https://example.com"),
+		service.WithCreateDataDeletionUrl("https://example.com"),
+		service.WithCreatePostLogoutRedirectUris([]string{}),
+		service.WithCreateEnabled(false),
+		service.WithCreateType("public"),
+		service.WithCreateDeviceFlow(false),
+		service.WithCreateTeamId("<TEAM_ID>"),
 	)
 	fmt.Println(response, err)
 }

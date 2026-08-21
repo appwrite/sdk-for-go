@@ -4,29 +4,29 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := project.New(client)
 
 	response, err := service.UpdateOAuth2Oidc(
-		project.WithUpdateOAuth2OidcClientId("<CLIENT_ID>"),
-		project.WithUpdateOAuth2OidcClientSecret("<CLIENT_SECRET>"),
-		project.WithUpdateOAuth2OidcWellKnownURL("https://example.com"),
-		project.WithUpdateOAuth2OidcAuthorizationURL("https://example.com"),
-		project.WithUpdateOAuth2OidcTokenURL("https://example.com"),
-		project.WithUpdateOAuth2OidcUserInfoURL("https://example.com"),
-		project.WithUpdateOAuth2OidcPrompt([]string{}),
-		project.WithUpdateOAuth2OidcMaxAge(0),
-		project.WithUpdateOAuth2OidcEnabled(false),
+		service.WithUpdateOAuth2OidcClientId("<CLIENT_ID>"),
+		service.WithUpdateOAuth2OidcClientSecret("<CLIENT_SECRET>"),
+		service.WithUpdateOAuth2OidcWellKnownURL("https://example.com"),
+		service.WithUpdateOAuth2OidcAuthorizationURL("https://example.com"),
+		service.WithUpdateOAuth2OidcTokenURL("https://example.com"),
+		service.WithUpdateOAuth2OidcUserInfoURL("https://example.com"),
+		service.WithUpdateOAuth2OidcPrompt([]string{}),
+		service.WithUpdateOAuth2OidcMaxAge(0),
+		service.WithUpdateOAuth2OidcEnabled(false),
 	)
 	fmt.Println(response, err)
 }

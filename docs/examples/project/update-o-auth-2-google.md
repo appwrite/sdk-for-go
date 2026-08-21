@@ -4,24 +4,24 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := project.New(client)
 
 	response, err := service.UpdateOAuth2Google(
-		project.WithUpdateOAuth2GoogleClientId("<CLIENT_ID>"),
-		project.WithUpdateOAuth2GoogleClientSecret("<CLIENT_SECRET>"),
-		project.WithUpdateOAuth2GooglePrompt([]string{}),
-		project.WithUpdateOAuth2GoogleEnabled(false),
+		service.WithUpdateOAuth2GoogleClientId("<CLIENT_ID>"),
+		service.WithUpdateOAuth2GoogleClientSecret("<CLIENT_SECRET>"),
+		service.WithUpdateOAuth2GooglePrompt([]string{}),
+		service.WithUpdateOAuth2GoogleEnabled(false),
 	)
 	fmt.Println(response, err)
 }

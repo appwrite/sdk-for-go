@@ -4,26 +4,26 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := messaging.New(client)
 
 	response, err := service.UpdateTwilioProvider(
 		"<PROVIDER_ID>",
-		messaging.WithUpdateTwilioProviderName("<NAME>"),
-		messaging.WithUpdateTwilioProviderEnabled(false),
-		messaging.WithUpdateTwilioProviderAccountSid("<ACCOUNT_SID>"),
-		messaging.WithUpdateTwilioProviderAuthToken("<AUTH_TOKEN>"),
-		messaging.WithUpdateTwilioProviderFrom("<FROM>"),
+		service.WithUpdateTwilioProviderName("<NAME>"),
+		service.WithUpdateTwilioProviderEnabled(false),
+		service.WithUpdateTwilioProviderAccountSid("<ACCOUNT_SID>"),
+		service.WithUpdateTwilioProviderAuthToken("<AUTH_TOKEN>"),
+		service.WithUpdateTwilioProviderFrom("<FROM>"),
 	)
 	fmt.Println(response, err)
 }

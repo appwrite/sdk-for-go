@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := project.New(client)
@@ -20,20 +20,20 @@ func main() {
 	response, err := service.UpdateOAuth2Server(
 		false,
 		"https://example.com",
-		project.WithUpdateOAuth2ServerScopes([]string{}),
-		project.WithUpdateOAuth2ServerAuthorizationDetailsTypes([]string{}),
-		project.WithUpdateOAuth2ServerAccessTokenDuration(60),
-		project.WithUpdateOAuth2ServerRefreshTokenDuration(60),
-		project.WithUpdateOAuth2ServerPublicAccessTokenDuration(60),
-		project.WithUpdateOAuth2ServerPublicRefreshTokenDuration(60),
-		project.WithUpdateOAuth2ServerInstallationAccessTokenDuration(60),
-		project.WithUpdateOAuth2ServerConfidentialPkce(false),
-		project.WithUpdateOAuth2ServerVerificationUrl("https://example.com"),
-		project.WithUpdateOAuth2ServerUserCodeLength(6),
-		project.WithUpdateOAuth2ServerUserCodeFormat("numeric"),
-		project.WithUpdateOAuth2ServerDeviceCodeDuration(60),
-		project.WithUpdateOAuth2ServerDefaultScopes([]string{}),
-		project.WithUpdateOAuth2ServerInstallationScopes([]string{}),
+		service.WithUpdateOAuth2ServerScopes([]string{}),
+		service.WithUpdateOAuth2ServerAuthorizationDetailsTypes([]string{}),
+		service.WithUpdateOAuth2ServerAccessTokenDuration(60),
+		service.WithUpdateOAuth2ServerRefreshTokenDuration(60),
+		service.WithUpdateOAuth2ServerPublicAccessTokenDuration(60),
+		service.WithUpdateOAuth2ServerPublicRefreshTokenDuration(60),
+		service.WithUpdateOAuth2ServerInstallationAccessTokenDuration(60),
+		service.WithUpdateOAuth2ServerConfidentialPkce(false),
+		service.WithUpdateOAuth2ServerVerificationUrl("https://example.com"),
+		service.WithUpdateOAuth2ServerUserCodeLength(6),
+		service.WithUpdateOAuth2ServerUserCodeFormat("numeric"),
+		service.WithUpdateOAuth2ServerDeviceCodeDuration(60),
+		service.WithUpdateOAuth2ServerDefaultScopes([]string{}),
+		service.WithUpdateOAuth2ServerInstallationScopes([]string{}),
 	)
 	fmt.Println(response, err)
 }

@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/databases"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := databases.New(client)
@@ -22,10 +22,10 @@ func main() {
 		"<COLLECTION_ID>",
 		"",
 		false,
-		databases.WithCreateIntegerAttributeMin(0),
-		databases.WithCreateIntegerAttributeMax(0),
-		databases.WithCreateIntegerAttributeDefault(0),
-		databases.WithCreateIntegerAttributeArray(false),
+		service.WithCreateIntegerAttributeMin(0),
+		service.WithCreateIntegerAttributeMax(0),
+		service.WithCreateIntegerAttributeDefault(0),
+		service.WithCreateIntegerAttributeArray(false),
 	)
 	fmt.Println(response, err)
 }

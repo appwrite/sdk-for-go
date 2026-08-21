@@ -4,27 +4,27 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/functions"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := functions.New(client)
 
 	response, err := service.CreateExecution(
 		"<FUNCTION_ID>",
-		functions.WithCreateExecutionBody("<BODY>"),
-		functions.WithCreateExecutionAsync(false),
-		functions.WithCreateExecutionPath("<PATH>"),
-		functions.WithCreateExecutionMethod("GET"),
-		functions.WithCreateExecutionHeaders(map[string]interface{}{}),
-		functions.WithCreateExecutionScheduledAt("<SCHEDULED_AT>"),
+		service.WithCreateExecutionBody("<BODY>"),
+		service.WithCreateExecutionAsync(false),
+		service.WithCreateExecutionPath("<PATH>"),
+		service.WithCreateExecutionMethod("GET"),
+		service.WithCreateExecutionHeaders([]interface{}{}),
+		service.WithCreateExecutionScheduledAt("<SCHEDULED_AT>"),
 	)
 	fmt.Println(response, err)
 }

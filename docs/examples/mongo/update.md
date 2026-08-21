@@ -4,41 +4,41 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/mongo"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := mongo.New(client)
 
 	response, err := service.Update(
 		"<DATABASE_ID>",
-		mongo.WithUpdateName("<NAME>"),
-		mongo.WithUpdateStatus("ready"),
-		mongo.WithUpdateSpecification("<SPECIFICATION>"),
-		mongo.WithUpdateReplicas(0),
-		mongo.WithUpdateSyncMode("async"),
-		mongo.WithUpdateNetworkIdleTimeoutSeconds(60),
-		mongo.WithUpdateNetworkIPAllowlist([]string{}),
-		mongo.WithUpdateIdleTimeoutMinutes(5),
-		mongo.WithUpdatePitr(false),
-		mongo.WithUpdatePitrRetentionDays(1),
-		mongo.WithUpdateStorageAutoscaling(false),
-		mongo.WithUpdateStorageAutoscalingThresholdPercent(50),
-		mongo.WithUpdateStorageAutoscalingMaxGb(0),
-		mongo.WithUpdateMetricsTraceSampleRate(0),
-		mongo.WithUpdateMetricsSlowQueryLogThresholdMs(0),
-		mongo.WithUpdateSqlApiEnabled(false),
-		mongo.WithUpdateSqlApiAllowedStatements([]string{}),
-		mongo.WithUpdateSqlApiMaxRows(1),
-		mongo.WithUpdateSqlApiMaxBytes(1024),
-		mongo.WithUpdateSqlApiTimeoutSeconds(1),
+		service.WithUpdateName("<NAME>"),
+		service.WithUpdateStatus("ready"),
+		service.WithUpdateSpecification("<SPECIFICATION>"),
+		service.WithUpdateReplicas(0),
+		service.WithUpdateSyncMode("async"),
+		service.WithUpdateNetworkIdleTimeoutSeconds(60),
+		service.WithUpdateNetworkIPAllowlist([]string{}),
+		service.WithUpdateIdleTimeoutMinutes(5),
+		service.WithUpdatePitr(false),
+		service.WithUpdatePitrRetentionDays(1),
+		service.WithUpdateStorageAutoscaling(false),
+		service.WithUpdateStorageAutoscalingThresholdPercent(50),
+		service.WithUpdateStorageAutoscalingMaxGb(0),
+		service.WithUpdateMetricsTraceSampleRate(0),
+		service.WithUpdateMetricsSlowQueryLogThresholdMs(0),
+		service.WithUpdateSqlApiEnabled(false),
+		service.WithUpdateSqlApiAllowedStatements([]string{}),
+		service.WithUpdateSqlApiMaxRows(1),
+		service.WithUpdateSqlApiMaxBytes(1024),
+		service.WithUpdateSqlApiTimeoutSeconds(1),
 	)
 	fmt.Println(response, err)
 }

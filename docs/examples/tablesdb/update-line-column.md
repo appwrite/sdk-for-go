@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := tablesdb.New(client)
@@ -22,8 +22,8 @@ func main() {
 		"<TABLE_ID>",
 		"",
 		false,
-		tablesdb.WithUpdateLineColumnDefault([][]interface{}{[1, 2], [3, 4], [5, 6]}),
-		tablesdb.WithUpdateLineColumnNewKey(""),
+		service.WithUpdateLineColumnDefault([][]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}}),
+		service.WithUpdateLineColumnNewKey(""),
 	)
 	fmt.Println(response, err)
 }

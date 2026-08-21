@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := messaging.New(client)
@@ -20,14 +20,14 @@ func main() {
 	response, err := service.CreateMailgunProvider(
 		"<PROVIDER_ID>",
 		"<NAME>",
-		messaging.WithCreateMailgunProviderApiKey("<API_KEY>"),
-		messaging.WithCreateMailgunProviderDomain("<DOMAIN>"),
-		messaging.WithCreateMailgunProviderIsEuRegion(false),
-		messaging.WithCreateMailgunProviderFromName("<FROM_NAME>"),
-		messaging.WithCreateMailgunProviderFromEmail("email@example.com"),
-		messaging.WithCreateMailgunProviderReplyToName("<REPLY_TO_NAME>"),
-		messaging.WithCreateMailgunProviderReplyToEmail("email@example.com"),
-		messaging.WithCreateMailgunProviderEnabled(false),
+		service.WithCreateMailgunProviderApiKey("<API_KEY>"),
+		service.WithCreateMailgunProviderDomain("<DOMAIN>"),
+		service.WithCreateMailgunProviderIsEuRegion(false),
+		service.WithCreateMailgunProviderFromName("<FROM_NAME>"),
+		service.WithCreateMailgunProviderFromEmail("email@example.com"),
+		service.WithCreateMailgunProviderReplyToName("<REPLY_TO_NAME>"),
+		service.WithCreateMailgunProviderReplyToEmail("email@example.com"),
+		service.WithCreateMailgunProviderEnabled(false),
 	)
 	fmt.Println(response, err)
 }

@@ -1308,13 +1308,7 @@ func (srv *Sites) WithGetDeploymentDownloadToken(v string) GetDeploymentDownload
 	}
 }
 
-// GetDeploymentDownload get a site deployment content by its unique ID. The
-// endpoint response return with a 'Content-Disposition: attachment' header
-// that tells the browser to start downloading the file to user downloads
-// directory.
-func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*[]byte, error) {
-	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{deploymentId}", client.EncodePath(DeploymentId))
-	path := r.Replace("/sites/{siteId}/deployments/{deploymentId}/download")
+func (srv *Sites) getDeploymentDownloadParams(optionalSetters ...GetDeploymentDownloadOption) map[string]interface{} {
 	options := GetDeploymentDownloadOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -1326,6 +1320,17 @@ func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, opti
 	if options.enabledSetters["Token"] {
 		params["token"] = options.Token
 	}
+	return params
+}
+
+// GetDeploymentDownload get a site deployment content by its unique ID. The
+// endpoint response return with a 'Content-Disposition: attachment' header
+// that tells the browser to start downloading the file to user downloads
+// directory.
+func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*[]byte, error) {
+	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{deploymentId}", client.EncodePath(DeploymentId))
+	path := r.Replace("/sites/{siteId}/deployments/{deploymentId}/download")
+	params := srv.getDeploymentDownloadParams(optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "*/*"
@@ -1365,20 +1370,14 @@ func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, opti
 func (srv *Sites) GetDeploymentDownloadURL(SiteId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*string, error) {
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/sites/{siteId}/deployments/{deploymentId}/download")
-	options := GetDeploymentDownloadOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getDeploymentDownloadParams(optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	if options.enabledSetters["Type"] {
-		client.AddQueryParam(q, "type", options.Type)
-	}
-	if options.enabledSetters["Token"] {
-		client.AddQueryParam(q, "token", options.Token)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()

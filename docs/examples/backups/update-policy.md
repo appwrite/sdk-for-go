@@ -4,25 +4,25 @@ package main
 import (
 	"fmt"
 
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/backups"
-	"github.com/appwrite/sdk-for-go/v7/client"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := backups.New(client)
 
 	response, err := service.UpdatePolicy(
 		"<POLICY_ID>",
-		backups.WithUpdatePolicyName("<NAME>"),
-		backups.WithUpdatePolicyRetention(1),
-		backups.WithUpdatePolicySchedule(""),
-		backups.WithUpdatePolicyEnabled(false),
+		service.WithUpdatePolicyName("<NAME>"),
+		service.WithUpdatePolicyRetention(1),
+		service.WithUpdatePolicySchedule(""),
+		service.WithUpdatePolicyEnabled(false),
 	)
 	fmt.Println(response, err)
 }

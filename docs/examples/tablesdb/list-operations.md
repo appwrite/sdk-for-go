@@ -4,24 +4,24 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := tablesdb.New(client)
 
 	response, err := service.ListOperations(
 		"<DATABASE_ID>",
-		tablesdb.WithListOperationsStatus("running"),
-		tablesdb.WithListOperationsLimit(1),
-		tablesdb.WithListOperationsOffset(0),
+		service.WithListOperationsStatus("running"),
+		service.WithListOperationsLimit(1),
+		service.WithListOperationsOffset(0),
 	)
 	fmt.Println(response, err)
 }

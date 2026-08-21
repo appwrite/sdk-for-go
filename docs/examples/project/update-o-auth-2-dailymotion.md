@@ -4,23 +4,23 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := project.New(client)
 
 	response, err := service.UpdateOAuth2Dailymotion(
-		project.WithUpdateOAuth2DailymotionApiKey("<API_KEY>"),
-		project.WithUpdateOAuth2DailymotionApiSecret("<API_SECRET>"),
-		project.WithUpdateOAuth2DailymotionEnabled(false),
+		service.WithUpdateOAuth2DailymotionApiKey("<API_KEY>"),
+		service.WithUpdateOAuth2DailymotionApiSecret("<API_SECRET>"),
+		service.WithUpdateOAuth2DailymotionEnabled(false),
 	)
 	fmt.Println(response, err)
 }

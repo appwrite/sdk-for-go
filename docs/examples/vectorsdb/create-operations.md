@@ -4,32 +4,22 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/vectorsdb"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := vectorsdb.New(client)
 
 	response, err := service.CreateOperations(
 		"<TRANSACTION_ID>",
-		vectorsdb.WithCreateOperationsOperations([]interface{}{
-	    {
-	        "action": "create",
-	        "databaseId": "<DATABASE_ID>",
-	        "collectionId": "<COLLECTION_ID>",
-	        "documentId": "<DOCUMENT_ID>",
-	        "data": {
-	            "name": "Walter O'Brien"
-	        }
-	    }
-	}),
+		service.WithCreateOperationsOperations([]interface{}{map[string]interface{}{"action": "create", "databaseId": "<DATABASE_ID>", "collectionId": "<COLLECTION_ID>", "documentId": "<DOCUMENT_ID>", "data": map[string]interface{}{"name": "Walter O'Brien"}}}),
 	)
 	fmt.Println(response, err)
 }

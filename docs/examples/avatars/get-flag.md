@@ -4,24 +4,24 @@ package main
 import (
 	"fmt"
 
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/avatars"
-	"github.com/appwrite/sdk-for-go/v7/client"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := avatars.New(client)
 
 	response, err := service.GetFlag(
 		"af",
-		avatars.WithGetFlagWidth(0),
-		avatars.WithGetFlagHeight(0),
-		avatars.WithGetFlagQuality(-1),
+		service.WithGetFlagWidth(0),
+		service.WithGetFlagHeight(0),
+		service.WithGetFlagQuality(-1),
 	)
 	fmt.Println(response, err)
 }

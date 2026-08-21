@@ -4,23 +4,23 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/users"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := users.New(client)
 
 	response, err := service.CreateJWT(
 		"<USER_ID>",
-		users.WithCreateJWTSessionId("<SESSION_ID>"),
-		users.WithCreateJWTDuration(0),
+		service.WithCreateJWTSessionId("<SESSION_ID>"),
+		service.WithCreateJWTDuration(0),
 	)
 	fmt.Println(response, err)
 }

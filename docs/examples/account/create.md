@@ -5,14 +5,14 @@ import (
 	"fmt"
 
 	"github.com/appwrite/sdk-for-go/v7/account"
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := account.New(client)
@@ -21,7 +21,7 @@ func main() {
 		"<USER_ID>",
 		"email@example.com",
 		"password",
-		account.WithCreateName("<NAME>"),
+		service.WithCreateName("<NAME>"),
 	)
 	fmt.Println(response, err)
 }

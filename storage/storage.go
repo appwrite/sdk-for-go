@@ -816,12 +816,7 @@ func (srv *Storage) WithGetFileDownloadToken(v string) GetFileDownloadOption {
 	}
 }
 
-// GetFileDownload get a file content by its unique ID. The endpoint response
-// return with a 'Content-Disposition: attachment' header that tells the
-// browser to start downloading the file to user downloads directory.
-func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSetters ...GetFileDownloadOption) (*[]byte, error) {
-	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
-	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/download")
+func (srv *Storage) getFileDownloadParams(optionalSetters ...GetFileDownloadOption) map[string]interface{} {
 	options := GetFileDownloadOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -830,6 +825,16 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSett
 	if options.enabledSetters["Token"] {
 		params["token"] = options.Token
 	}
+	return params
+}
+
+// GetFileDownload get a file content by its unique ID. The endpoint response
+// return with a 'Content-Disposition: attachment' header that tells the
+// browser to start downloading the file to user downloads directory.
+func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSetters ...GetFileDownloadOption) (*[]byte, error) {
+	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
+	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/download")
+	params := srv.getFileDownloadParams(optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "*/*"
@@ -868,17 +873,14 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSett
 func (srv *Storage) GetFileDownloadURL(BucketId string, FileId string, optionalSetters ...GetFileDownloadOption) (*string, error) {
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/download")
-	options := GetFileDownloadOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getFileDownloadParams(optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	if options.enabledSetters["Token"] {
-		client.AddQueryParam(q, "token", options.Token)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -981,14 +983,7 @@ func (srv *Storage) WithGetFilePreviewToken(v string) GetFilePreviewOption {
 	}
 }
 
-// GetFilePreview get a file preview image. Currently, this method supports
-// preview for image files (jpg, png, and gif), other supported formats, like
-// pdf, docs, slides, and spreadsheets, will return the file icon image. You
-// can also pass query string arguments for cutting and resizing your preview
-// image. Preview is supported only for image files smaller than 10MB.
-func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption) (*[]byte, error) {
-	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
-	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/preview")
+func (srv *Storage) getFilePreviewParams(optionalSetters ...GetFilePreviewOption) map[string]interface{} {
 	options := GetFilePreviewOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -1030,6 +1025,18 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 	if options.enabledSetters["Token"] {
 		params["token"] = options.Token
 	}
+	return params
+}
+
+// GetFilePreview get a file preview image. Currently, this method supports
+// preview for image files (jpg, png, and gif), other supported formats, like
+// pdf, docs, slides, and spreadsheets, will return the file icon image. You
+// can also pass query string arguments for cutting and resizing your preview
+// image. Preview is supported only for image files smaller than 10MB.
+func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption) (*[]byte, error) {
+	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
+	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/preview")
+	params := srv.getFilePreviewParams(optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "image/*"
@@ -1070,50 +1077,14 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 func (srv *Storage) GetFilePreviewURL(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption) (*string, error) {
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/preview")
-	options := GetFilePreviewOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getFilePreviewParams(optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	if options.enabledSetters["Width"] {
-		client.AddQueryParam(q, "width", options.Width)
-	}
-	if options.enabledSetters["Height"] {
-		client.AddQueryParam(q, "height", options.Height)
-	}
-	if options.enabledSetters["Gravity"] {
-		client.AddQueryParam(q, "gravity", options.Gravity)
-	}
-	if options.enabledSetters["Quality"] {
-		client.AddQueryParam(q, "quality", options.Quality)
-	}
-	if options.enabledSetters["BorderWidth"] {
-		client.AddQueryParam(q, "borderWidth", options.BorderWidth)
-	}
-	if options.enabledSetters["BorderColor"] {
-		client.AddQueryParam(q, "borderColor", options.BorderColor)
-	}
-	if options.enabledSetters["BorderRadius"] {
-		client.AddQueryParam(q, "borderRadius", options.BorderRadius)
-	}
-	if options.enabledSetters["Opacity"] {
-		client.AddQueryParam(q, "opacity", options.Opacity)
-	}
-	if options.enabledSetters["Rotation"] {
-		client.AddQueryParam(q, "rotation", options.Rotation)
-	}
-	if options.enabledSetters["Background"] {
-		client.AddQueryParam(q, "background", options.Background)
-	}
-	if options.enabledSetters["Output"] {
-		client.AddQueryParam(q, "output", options.Output)
-	}
-	if options.enabledSetters["Token"] {
-		client.AddQueryParam(q, "token", options.Token)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -1139,12 +1110,7 @@ func (srv *Storage) WithGetFileViewToken(v string) GetFileViewOption {
 	}
 }
 
-// GetFileView get a file content by its unique ID. This endpoint is similar
-// to the download method but returns with no  'Content-Disposition:
-// attachment' header.
-func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters ...GetFileViewOption) (*[]byte, error) {
-	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
-	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/view")
+func (srv *Storage) getFileViewParams(optionalSetters ...GetFileViewOption) map[string]interface{} {
 	options := GetFileViewOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -1153,6 +1119,16 @@ func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters 
 	if options.enabledSetters["Token"] {
 		params["token"] = options.Token
 	}
+	return params
+}
+
+// GetFileView get a file content by its unique ID. This endpoint is similar
+// to the download method but returns with no  'Content-Disposition:
+// attachment' header.
+func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters ...GetFileViewOption) (*[]byte, error) {
+	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
+	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/view")
+	params := srv.getFileViewParams(optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "*/*"
@@ -1191,17 +1167,14 @@ func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters 
 func (srv *Storage) GetFileViewURL(BucketId string, FileId string, optionalSetters ...GetFileViewOption) (*string, error) {
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/view")
-	options := GetFileViewOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getFileViewParams(optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	if options.enabledSetters["Token"] {
-		client.AddQueryParam(q, "token", options.Token)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()

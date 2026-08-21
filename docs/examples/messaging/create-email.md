@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := messaging.New(client)
@@ -21,15 +21,15 @@ func main() {
 		"<MESSAGE_ID>",
 		"<SUBJECT>",
 		"<CONTENT>",
-		messaging.WithCreateEmailTopics([]string{}),
-		messaging.WithCreateEmailUsers([]string{}),
-		messaging.WithCreateEmailTargets([]string{}),
-		messaging.WithCreateEmailCc([]string{}),
-		messaging.WithCreateEmailBcc([]string{}),
-		messaging.WithCreateEmailAttachments([]string{}),
-		messaging.WithCreateEmailDraft(false),
-		messaging.WithCreateEmailHtml(false),
-		messaging.WithCreateEmailScheduledAt("2020-10-15T06:38:00.000+00:00"),
+		service.WithCreateEmailTopics([]string{}),
+		service.WithCreateEmailUsers([]string{}),
+		service.WithCreateEmailTargets([]string{}),
+		service.WithCreateEmailCc([]string{}),
+		service.WithCreateEmailBcc([]string{}),
+		service.WithCreateEmailAttachments([]string{}),
+		service.WithCreateEmailDraft(false),
+		service.WithCreateEmailHtml(false),
+		service.WithCreateEmailScheduledAt("2020-10-15T06:38:00.000+00:00"),
 	)
 	fmt.Println(response, err)
 }

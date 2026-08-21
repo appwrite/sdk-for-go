@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := messaging.New(client)
@@ -20,10 +20,10 @@ func main() {
 	response, err := service.CreateTelesignProvider(
 		"<PROVIDER_ID>",
 		"<NAME>",
-		messaging.WithCreateTelesignProviderFrom("+12065550100"),
-		messaging.WithCreateTelesignProviderCustomerId("<CUSTOMER_ID>"),
-		messaging.WithCreateTelesignProviderApiKey("<API_KEY>"),
-		messaging.WithCreateTelesignProviderEnabled(false),
+		service.WithCreateTelesignProviderFrom("+12065550100"),
+		service.WithCreateTelesignProviderCustomerId("<CUSTOMER_ID>"),
+		service.WithCreateTelesignProviderApiKey("<API_KEY>"),
+		service.WithCreateTelesignProviderEnabled(false),
 	)
 	fmt.Println(response, err)
 }

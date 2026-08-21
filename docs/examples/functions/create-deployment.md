@@ -4,16 +4,16 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/file"
 	"github.com/appwrite/sdk-for-go/v7/functions"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := functions.New(client)
@@ -22,8 +22,8 @@ func main() {
 		"<FUNCTION_ID>",
 		file.NewInputFile("/path/to/file.png", "file.png"),
 		false,
-		functions.WithCreateDeploymentEntrypoint("<ENTRYPOINT>"),
-		functions.WithCreateDeploymentCommands("<COMMANDS>"),
+		service.WithCreateDeploymentEntrypoint("<ENTRYPOINT>"),
+		service.WithCreateDeploymentCommands("<COMMANDS>"),
 	)
 	fmt.Println(response, err)
 }

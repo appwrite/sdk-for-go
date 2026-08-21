@@ -4,23 +4,23 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := messaging.New(client)
 
 	response, err := service.ListTargets(
 		"<MESSAGE_ID>",
-		messaging.WithListTargetsQueries([]string{}),
-		messaging.WithListTargetsTotal(false),
+		service.WithListTargetsQueries([]string{}),
+		service.WithListTargetsTotal(false),
 	)
 	fmt.Println(response, err)
 }

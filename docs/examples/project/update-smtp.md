@@ -4,30 +4,30 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := project.New(client)
 
 	response, err := service.UpdateSMTP(
-		project.WithUpdateSMTPHost(""),
-		project.WithUpdateSMTPPort(0),
-		project.WithUpdateSMTPUsername("<USERNAME>"),
-		project.WithUpdateSMTPPassword("password"),
-		project.WithUpdateSMTPSenderEmail("email@example.com"),
-		project.WithUpdateSMTPSenderName("<SENDER_NAME>"),
-		project.WithUpdateSMTPReplyToEmail("email@example.com"),
-		project.WithUpdateSMTPReplyToName("<REPLY_TO_NAME>"),
-		project.WithUpdateSMTPSecure("tls"),
-		project.WithUpdateSMTPEnabled(false),
+		service.WithUpdateSMTPHost(""),
+		service.WithUpdateSMTPPort(0),
+		service.WithUpdateSMTPUsername("<USERNAME>"),
+		service.WithUpdateSMTPPassword("password"),
+		service.WithUpdateSMTPSenderEmail("email@example.com"),
+		service.WithUpdateSMTPSenderName("<SENDER_NAME>"),
+		service.WithUpdateSMTPReplyToEmail("email@example.com"),
+		service.WithUpdateSMTPReplyToName("<REPLY_TO_NAME>"),
+		service.WithUpdateSMTPSecure("tls"),
+		service.WithUpdateSMTPEnabled(false),
 	)
 	fmt.Println(response, err)
 }

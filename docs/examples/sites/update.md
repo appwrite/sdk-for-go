@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/sites"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := sites.New(client)
@@ -21,27 +21,27 @@ func main() {
 		"<SITE_ID>",
 		"<NAME>",
 		"analog",
-		sites.WithUpdateEnabled(false),
-		sites.WithUpdateLogging(false),
-		sites.WithUpdateTimeout(1),
-		sites.WithUpdateInstallCommand("<INSTALL_COMMAND>"),
-		sites.WithUpdateBuildCommand("<BUILD_COMMAND>"),
-		sites.WithUpdateStartCommand("<START_COMMAND>"),
-		sites.WithUpdateOutputDirectory("<OUTPUT_DIRECTORY>"),
-		sites.WithUpdateBuildRuntime("node-14.5"),
-		sites.WithUpdateAdapter("static"),
-		sites.WithUpdateFallbackFile("<FALLBACK_FILE>"),
-		sites.WithUpdateInstallationId("<INSTALLATION_ID>"),
-		sites.WithUpdateProviderRepositoryId("<PROVIDER_REPOSITORY_ID>"),
-		sites.WithUpdateProviderBranch("<PROVIDER_BRANCH>"),
-		sites.WithUpdateProviderSilentMode(false),
-		sites.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-		sites.WithUpdateProviderBranches([]string{}),
-		sites.WithUpdateProviderPaths([]string{}),
-		sites.WithUpdateBuildSpecification(""),
-		sites.WithUpdateRuntimeSpecification(""),
-		sites.WithUpdateDeploymentRetention(0),
-		sites.WithUpdateScopes([]string{}),
+		service.WithUpdateEnabled(false),
+		service.WithUpdateLogging(false),
+		service.WithUpdateTimeout(1),
+		service.WithUpdateInstallCommand("<INSTALL_COMMAND>"),
+		service.WithUpdateBuildCommand("<BUILD_COMMAND>"),
+		service.WithUpdateStartCommand("<START_COMMAND>"),
+		service.WithUpdateOutputDirectory("<OUTPUT_DIRECTORY>"),
+		service.WithUpdateBuildRuntime("node-14.5"),
+		service.WithUpdateAdapter("static"),
+		service.WithUpdateFallbackFile("<FALLBACK_FILE>"),
+		service.WithUpdateInstallationId("<INSTALLATION_ID>"),
+		service.WithUpdateProviderRepositoryId("<PROVIDER_REPOSITORY_ID>"),
+		service.WithUpdateProviderBranch("<PROVIDER_BRANCH>"),
+		service.WithUpdateProviderSilentMode(false),
+		service.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
+		service.WithUpdateProviderBranches([]string{}),
+		service.WithUpdateProviderPaths([]string{}),
+		service.WithUpdateBuildSpecification(""),
+		service.WithUpdateRuntimeSpecification(""),
+		service.WithUpdateDeploymentRetention(0),
+		service.WithUpdateScopes([]string{}),
 	)
 	fmt.Println(response, err)
 }

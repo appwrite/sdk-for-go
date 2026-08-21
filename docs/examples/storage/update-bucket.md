@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/storage"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := storage.New(client)
@@ -20,15 +20,15 @@ func main() {
 	response, err := service.UpdateBucket(
 		"<BUCKET_ID>",
 		"<NAME>",
-		storage.WithUpdateBucketPermissions([]string{"read(\"any\")"}),
-		storage.WithUpdateBucketFileSecurity(false),
-		storage.WithUpdateBucketEnabled(false),
-		storage.WithUpdateBucketMaximumFileSize(1),
-		storage.WithUpdateBucketAllowedFileExtensions([]string{}),
-		storage.WithUpdateBucketCompression("none"),
-		storage.WithUpdateBucketEncryption(false),
-		storage.WithUpdateBucketAntivirus(false),
-		storage.WithUpdateBucketTransformations(false),
+		service.WithUpdateBucketPermissions([]string{"read(\"any\")"}),
+		service.WithUpdateBucketFileSecurity(false),
+		service.WithUpdateBucketEnabled(false),
+		service.WithUpdateBucketMaximumFileSize(1),
+		service.WithUpdateBucketAllowedFileExtensions([]string{}),
+		service.WithUpdateBucketCompression("none"),
+		service.WithUpdateBucketEncryption(false),
+		service.WithUpdateBucketAntivirus(false),
+		service.WithUpdateBucketTransformations(false),
 	)
 	fmt.Println(response, err)
 }

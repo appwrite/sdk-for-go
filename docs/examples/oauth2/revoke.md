@@ -4,24 +4,24 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/oauth2"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithSession(""),
-		client.WithProject("<YOUR_PROJECT_ID>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithSession(""),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
 	)
 
 	service := oauth2.New(client)
 
 	response, err := service.Revoke(
 		"<TOKEN>",
-		oauth2.WithRevokeTokenTypeHint("access_token"),
-		oauth2.WithRevokeClientId("<CLIENT_ID>"),
-		oauth2.WithRevokeClientSecret("<CLIENT_SECRET>"),
+		service.WithRevokeTokenTypeHint("access_token"),
+		service.WithRevokeClientId("<CLIENT_ID>"),
+		service.WithRevokeClientSecret("<CLIENT_SECRET>"),
 	)
 	fmt.Println(response, err)
 }

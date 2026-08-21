@@ -4,26 +4,26 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/organization"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := organization.New(client)
 
 	response, err := service.CreateMembership(
 		[]string{},
-		organization.WithCreateMembershipEmail("email@example.com"),
-		organization.WithCreateMembershipUserId("<USER_ID>"),
-		organization.WithCreateMembershipPhone("+12065550100"),
-		organization.WithCreateMembershipUrl("https://example.com"),
-		organization.WithCreateMembershipName("<NAME>"),
+		service.WithCreateMembershipEmail("email@example.com"),
+		service.WithCreateMembershipUserId("<USER_ID>"),
+		service.WithCreateMembershipPhone("+12065550100"),
+		service.WithCreateMembershipUrl("https://example.com"),
+		service.WithCreateMembershipName("<NAME>"),
 	)
 	fmt.Println(response, err)
 }

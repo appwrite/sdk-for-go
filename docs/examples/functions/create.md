@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/functions"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := functions.New(client)
@@ -21,25 +21,25 @@ func main() {
 		"<FUNCTION_ID>",
 		"<NAME>",
 		"node-14.5",
-		functions.WithCreateExecute([]string{"any"}),
-		functions.WithCreateEvents([]string{}),
-		functions.WithCreateSchedule(""),
-		functions.WithCreateTimeout(1),
-		functions.WithCreateEnabled(false),
-		functions.WithCreateLogging(false),
-		functions.WithCreateEntrypoint("<ENTRYPOINT>"),
-		functions.WithCreateCommands("<COMMANDS>"),
-		functions.WithCreateScopes([]string{}),
-		functions.WithCreateInstallationId("<INSTALLATION_ID>"),
-		functions.WithCreateProviderRepositoryId("<PROVIDER_REPOSITORY_ID>"),
-		functions.WithCreateProviderBranch("<PROVIDER_BRANCH>"),
-		functions.WithCreateProviderSilentMode(false),
-		functions.WithCreateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-		functions.WithCreateProviderBranches([]string{}),
-		functions.WithCreateProviderPaths([]string{}),
-		functions.WithCreateBuildSpecification(""),
-		functions.WithCreateRuntimeSpecification(""),
-		functions.WithCreateDeploymentRetention(0),
+		service.WithCreateExecute([]string{"any"}),
+		service.WithCreateEvents([]string{}),
+		service.WithCreateSchedule(""),
+		service.WithCreateTimeout(1),
+		service.WithCreateEnabled(false),
+		service.WithCreateLogging(false),
+		service.WithCreateEntrypoint("<ENTRYPOINT>"),
+		service.WithCreateCommands("<COMMANDS>"),
+		service.WithCreateScopes([]string{}),
+		service.WithCreateInstallationId("<INSTALLATION_ID>"),
+		service.WithCreateProviderRepositoryId("<PROVIDER_REPOSITORY_ID>"),
+		service.WithCreateProviderBranch("<PROVIDER_BRANCH>"),
+		service.WithCreateProviderSilentMode(false),
+		service.WithCreateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
+		service.WithCreateProviderBranches([]string{}),
+		service.WithCreateProviderPaths([]string{}),
+		service.WithCreateBuildSpecification(""),
+		service.WithCreateRuntimeSpecification(""),
+		service.WithCreateDeploymentRetention(0),
 	)
 	fmt.Println(response, err)
 }

@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/documentsdb"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := documentsdb.New(client)
@@ -21,8 +21,8 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<DOCUMENT_ID>",
-		documentsdb.WithGetDocumentQueries([]string{}),
-		documentsdb.WithGetDocumentTransactionId("<TRANSACTION_ID>"),
+		service.WithGetDocumentQueries([]string{}),
+		service.WithGetDocumentTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)
 }

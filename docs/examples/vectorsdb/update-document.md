@@ -4,15 +4,15 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/vectorsdb"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithSession(""),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := vectorsdb.New(client)
@@ -21,9 +21,9 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<DOCUMENT_ID>",
-		vectorsdb.WithUpdateDocumentData(map[string]interface{}{}),
-		vectorsdb.WithUpdateDocumentPermissions([]string{"read(\"any\")"}),
-		vectorsdb.WithUpdateDocumentTransactionId("<TRANSACTION_ID>"),
+		service.WithUpdateDocumentData([]interface{}{}),
+		service.WithUpdateDocumentPermissions([]string{"read(\"any\")"}),
+		service.WithUpdateDocumentTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)
 }

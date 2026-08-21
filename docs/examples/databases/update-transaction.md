@@ -4,23 +4,23 @@ package main
 import (
 	"fmt"
 
-	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 	"github.com/appwrite/sdk-for-go/v7/databases"
 )
 
 func main() {
-	client := client.New(
-		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		client.WithProject("<YOUR_PROJECT_ID>"),
-		client.WithKey("<YOUR_API_KEY>"),
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
 	service := databases.New(client)
 
 	response, err := service.UpdateTransaction(
 		"<TRANSACTION_ID>",
-		databases.WithUpdateTransactionCommit(false),
-		databases.WithUpdateTransactionRollback(false),
+		service.WithUpdateTransactionCommit(false),
+		service.WithUpdateTransactionRollback(false),
 	)
 	fmt.Println(response, err)
 }
