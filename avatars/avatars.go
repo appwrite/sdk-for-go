@@ -725,6 +725,146 @@ func (srv *Avatars) GetInitialsURL(optionalSetters ...GetInitialsOption) (*strin
 	return &result, nil
 }
 
+type GetPhotoOptions struct {
+	Width          int
+	Height         int
+	Quality        int
+	Output         string
+	Rating         string
+	enabledSetters map[string]bool
+}
+
+func (options GetPhotoOptions) New() *GetPhotoOptions {
+	options.enabledSetters = map[string]bool{"Width": false, "Height": false, "Quality": false, "Output": false, "Rating": false}
+	return &options
+}
+
+type GetPhotoOption func(*GetPhotoOptions)
+
+func (srv *Avatars) WithGetPhotoWidth(v int) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Width = v
+		o.enabledSetters["Width"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoHeight(v int) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Height = v
+		o.enabledSetters["Height"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoQuality(v int) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Quality = v
+		o.enabledSetters["Quality"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoOutput(v string) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Output = v
+		o.enabledSetters["Output"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoRating(v string) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Rating = v
+		o.enabledSetters["Rating"] = true
+	}
+}
+
+// GetPhoto returns the best available profile photo for the currently
+// authenticated user. The endpoint tries each source in priority order and
+// returns the first successful result: Gravatar, Libavatar, Appwrite
+// Initials, built-in static fallback file.
+func (srv *Avatars) GetPhoto(optionalSetters ...GetPhotoOption) (*[]byte, error) {
+	path := "/avatars/photo"
+	options := GetPhotoOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Width"] {
+		params["width"] = options.Width
+	}
+	if options.enabledSetters["Height"] {
+		params["height"] = options.Height
+	}
+	if options.enabledSetters["Quality"] {
+		params["quality"] = options.Quality
+	}
+	if options.enabledSetters["Output"] {
+		params["output"] = options.Output
+	}
+	if options.enabledSetters["Rating"] {
+		params["rating"] = options.Rating
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "image/*"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed []byte
+	parsed, ok := resp.Result.([]byte)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetPhotoURL returns the best available profile photo for the currently
+// authenticated user. The endpoint tries each source in priority order and
+// returns the first successful result: Gravatar, Libavatar, Appwrite
+// Initials, built-in static fallback file.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetPhotoURL(optionalSetters ...GetPhotoOption) (*string, error) {
+	path := "/avatars/photo"
+	options := GetPhotoOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	if options.enabledSetters["Width"] {
+		client.AddQueryParam(q, "width", options.Width)
+	}
+	if options.enabledSetters["Height"] {
+		client.AddQueryParam(q, "height", options.Height)
+	}
+	if options.enabledSetters["Quality"] {
+		client.AddQueryParam(q, "quality", options.Quality)
+	}
+	if options.enabledSetters["Output"] {
+		client.AddQueryParam(q, "output", options.Output)
+	}
+	if options.enabledSetters["Rating"] {
+		client.AddQueryParam(q, "rating", options.Rating)
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
+}
+
 type GetQROptions struct {
 	Size           int
 	Margin         int

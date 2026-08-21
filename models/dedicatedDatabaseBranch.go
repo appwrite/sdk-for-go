@@ -19,7 +19,8 @@ type DedicatedDatabaseBranch struct {
 	Host string `json:"host"`
 	// Branch port. Null until the backing reports one.
 	Port int `json:"port"`
-	// Database name the client sends for routing to the branch.
+	// Advertised catalog the client connects to. MySQL/MariaDB use default;
+	// Postgres uses the routing label.
 	Database string `json:"database"`
 	// Database username. Shared with the parent database.
 	Username string `json:"username"`

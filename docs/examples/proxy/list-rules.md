@@ -2,21 +2,25 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/proxy"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/proxy"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := proxy.New(client)
+	service := proxy.New(client)
 
-response, error := service.ListRules(
-    proxy.WithListRulesQueries([]string{}),
-    proxy.WithListRulesTotal(false),
-)
+	response, err := service.ListRules(
+		proxy.WithListRulesQueries([]string{}),
+		proxy.WithListRulesTotal(false),
+	)
+	fmt.Println(response, err)
+}
 ```

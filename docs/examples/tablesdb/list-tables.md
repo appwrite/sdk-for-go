@@ -2,23 +2,27 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/tablesdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := tablesdb.New(client)
+	service := tablesdb.New(client)
 
-response, error := service.ListTables(
-    "<DATABASE_ID>",
-    tablesdb.WithListTablesQueries([]string{}),
-    tablesdb.WithListTablesSearch("<SEARCH>"),
-    tablesdb.WithListTablesTotal(false),
-)
+	response, err := service.ListTables(
+		"<DATABASE_ID>",
+		tablesdb.WithListTablesQueries([]string{}),
+		tablesdb.WithListTablesSearch("<SEARCH>"),
+		tablesdb.WithListTablesTotal(false),
+	)
+	fmt.Println(response, err)
+}
 ```

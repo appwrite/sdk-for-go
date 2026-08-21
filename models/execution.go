@@ -15,14 +15,16 @@ type Execution struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// Execution roles.
 	Permissions []string `json:"$permissions"`
-	// Function ID.
-	FunctionId string `json:"functionId"`
-	// Function's deployment ID used to create the execution.
+	// Function or site ID.
+	ResourceId string `json:"resourceId"`
+	// Execution resource type.
+	ResourceType string `json:"resourceType"`
+	// Deployment ID used to create the execution.
 	DeploymentId string `json:"deploymentId"`
-	// The trigger that caused the function to execute. Possible values can be:
+	// The trigger that caused the resource to execute. Possible values can be:
 	// `http`, `schedule`, or `event`.
 	Trigger string `json:"trigger"`
-	// The status of the function execution. Possible values can be: `waiting`,
+	// The status of the resource execution. Possible values can be: `waiting`,
 	// `processing`, `completed`, `failed`, or `scheduled`.
 	Status string `json:"status"`
 	// HTTP request method type.
@@ -42,11 +44,11 @@ type Execution struct {
 	// whitelisted headers. All headers are returned if execution is created as
 	// synchronous.
 	ResponseHeaders []Headers `json:"responseHeaders"`
-	// Function logs. Includes the last 4,000 characters. This will return an
+	// Resource logs. Includes the last 4,000 characters. This will return an
 	// empty string unless the response is returned using an API key or as part of
 	// a webhook payload.
 	Logs string `json:"logs"`
-	// Function errors. Includes the last 4,000 characters. This will return an
+	// Resource errors. Includes the last 4,000 characters. This will return an
 	// empty string unless the response is returned using an API key or as part of
 	// a webhook payload.
 	Errors string `json:"errors"`

@@ -2,23 +2,27 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/project"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := project.New(client)
+	service := project.New(client)
 
-response, error := service.UpdateOAuth2Google(
-    project.WithUpdateOAuth2GoogleClientId("<CLIENT_ID>"),
-    project.WithUpdateOAuth2GoogleClientSecret("<CLIENT_SECRET>"),
-    project.WithUpdateOAuth2GooglePrompt([]string{}),
-    project.WithUpdateOAuth2GoogleEnabled(false),
-)
+	response, err := service.UpdateOAuth2Google(
+		project.WithUpdateOAuth2GoogleClientId("<CLIENT_ID>"),
+		project.WithUpdateOAuth2GoogleClientSecret("<CLIENT_SECRET>"),
+		project.WithUpdateOAuth2GooglePrompt([]string{}),
+		project.WithUpdateOAuth2GoogleEnabled(false),
+	)
+	fmt.Println(response, err)
+}
 ```

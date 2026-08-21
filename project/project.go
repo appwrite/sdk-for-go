@@ -2655,6 +2655,90 @@ func (srv *Project) UpdateOAuth2Google(optionalSetters ...UpdateOAuth2GoogleOpti
 
 }
 
+type UpdateOAuth2HuggingFaceOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2HuggingFaceOptions) New() *UpdateOAuth2HuggingFaceOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2HuggingFaceOption func(*UpdateOAuth2HuggingFaceOptions)
+
+func (srv *Project) WithUpdateOAuth2HuggingFaceClientId(v string) UpdateOAuth2HuggingFaceOption {
+	return func(o *UpdateOAuth2HuggingFaceOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2HuggingFaceClientSecret(v string) UpdateOAuth2HuggingFaceOption {
+	return func(o *UpdateOAuth2HuggingFaceOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2HuggingFaceEnabled(v bool) UpdateOAuth2HuggingFaceOption {
+	return func(o *UpdateOAuth2HuggingFaceOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2HuggingFace update the project OAuth2 Hugging Face
+// configuration.
+func (srv *Project) UpdateOAuth2HuggingFace(optionalSetters ...UpdateOAuth2HuggingFaceOption) (*models.OAuth2HuggingFace, error) {
+	path := "/project/oauth2/huggingface"
+	options := UpdateOAuth2HuggingFaceOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2HuggingFace{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2HuggingFace
+	parsed, ok := resp.Result.(models.OAuth2HuggingFace)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2KeycloakOptions struct {
 	ClientId       string
 	ClientSecret   string
@@ -4879,6 +4963,14 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "yahoo" {
 			parsed := models.OAuth2Yahoo{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "huggingface" {
+			parsed := models.OAuth2HuggingFace{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}

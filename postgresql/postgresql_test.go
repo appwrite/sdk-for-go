@@ -976,7 +976,7 @@ func TestPostgresql(t *testing.T) {
 	t.Run("Test CreateExecution", func(t *testing.T) {
 		mockResponse := `
 {
-    "rows": {},
+    "rows": [],
     "rowCount": 1,
     "columns": [
         {

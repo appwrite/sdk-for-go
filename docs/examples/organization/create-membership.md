@@ -2,25 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/organization"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/organization"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := organization.New(client)
+	service := organization.New(client)
 
-response, error := service.CreateMembership(
-    []string{},
-    organization.WithCreateMembershipEmail("email@example.com"),
-    organization.WithCreateMembershipUserId("<USER_ID>"),
-    organization.WithCreateMembershipPhone("+12065550100"),
-    organization.WithCreateMembershipUrl("https://example.com"),
-    organization.WithCreateMembershipName("<NAME>"),
-)
+	response, err := service.CreateMembership(
+		[]string{},
+		organization.WithCreateMembershipEmail("email@example.com"),
+		organization.WithCreateMembershipUserId("<USER_ID>"),
+		organization.WithCreateMembershipPhone("+12065550100"),
+		organization.WithCreateMembershipUrl("https://example.com"),
+		organization.WithCreateMembershipName("<NAME>"),
+	)
+	fmt.Println(response, err)
+}
 ```

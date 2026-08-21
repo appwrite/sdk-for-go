@@ -2,23 +2,27 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.ListSubscribers(
-    "<TOPIC_ID>",
-    messaging.WithListSubscribersQueries([]string{}),
-    messaging.WithListSubscribersSearch("<SEARCH>"),
-    messaging.WithListSubscribersTotal(false),
-)
+	response, err := service.ListSubscribers(
+		"<TOPIC_ID>",
+		messaging.WithListSubscribersQueries([]string{}),
+		messaging.WithListSubscribersSearch("<SEARCH>"),
+		messaging.WithListSubscribersTotal(false),
+	)
+	fmt.Println(response, err)
+}
 ```

@@ -2,26 +2,30 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/sites"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/sites"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := sites.New(client)
+	service := sites.New(client)
 
-response, error := service.CreateTemplateDeployment(
-    "<SITE_ID>",
-    "<REPOSITORY>",
-    "<OWNER>",
-    "<ROOT_DIRECTORY>",
-    "branch",
-    "<REFERENCE>",
-    sites.WithCreateTemplateDeploymentActivate(false),
-)
+	response, err := service.CreateTemplateDeployment(
+		"<SITE_ID>",
+		"<REPOSITORY>",
+		"<OWNER>",
+		"<ROOT_DIRECTORY>",
+		"branch",
+		"<REFERENCE>",
+		sites.WithCreateTemplateDeploymentActivate(false),
+	)
+	fmt.Println(response, err)
+}
 ```

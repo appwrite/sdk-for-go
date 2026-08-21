@@ -2,25 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/project"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := project.New(client)
+	service := project.New(client)
 
-response, error := service.UpdateMembershipPrivacyPolicy(
-    project.WithUpdateMembershipPrivacyPolicyUserId(false),
-    project.WithUpdateMembershipPrivacyPolicyUserEmail(false),
-    project.WithUpdateMembershipPrivacyPolicyUserPhone(false),
-    project.WithUpdateMembershipPrivacyPolicyUserName(false),
-    project.WithUpdateMembershipPrivacyPolicyUserMFA(false),
-    project.WithUpdateMembershipPrivacyPolicyUserAccessedAt(false),
-)
+	response, err := service.UpdateMembershipPrivacyPolicy(
+		project.WithUpdateMembershipPrivacyPolicyUserId(false),
+		project.WithUpdateMembershipPrivacyPolicyUserEmail(false),
+		project.WithUpdateMembershipPrivacyPolicyUserPhone(false),
+		project.WithUpdateMembershipPrivacyPolicyUserName(false),
+		project.WithUpdateMembershipPrivacyPolicyUserMFA(false),
+		project.WithUpdateMembershipPrivacyPolicyUserAccessedAt(false),
+	)
+	fmt.Println(response, err)
+}
 ```

@@ -2,27 +2,31 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.CreateResendProvider(
-    "<PROVIDER_ID>",
-    "<NAME>",
-    messaging.WithCreateResendProviderApiKey("<API_KEY>"),
-    messaging.WithCreateResendProviderFromName("<FROM_NAME>"),
-    messaging.WithCreateResendProviderFromEmail("email@example.com"),
-    messaging.WithCreateResendProviderReplyToName("<REPLY_TO_NAME>"),
-    messaging.WithCreateResendProviderReplyToEmail("email@example.com"),
-    messaging.WithCreateResendProviderEnabled(false),
-)
+	response, err := service.CreateResendProvider(
+		"<PROVIDER_ID>",
+		"<NAME>",
+		messaging.WithCreateResendProviderApiKey("<API_KEY>"),
+		messaging.WithCreateResendProviderFromName("<FROM_NAME>"),
+		messaging.WithCreateResendProviderFromEmail("email@example.com"),
+		messaging.WithCreateResendProviderReplyToName("<REPLY_TO_NAME>"),
+		messaging.WithCreateResendProviderReplyToEmail("email@example.com"),
+		messaging.WithCreateResendProviderEnabled(false),
+	)
+	fmt.Println(response, err)
+}
 ```

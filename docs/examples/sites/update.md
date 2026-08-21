@@ -2,43 +2,47 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/sites"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/sites"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := sites.New(client)
+	service := sites.New(client)
 
-response, error := service.Update(
-    "<SITE_ID>",
-    "<NAME>",
-    "analog",
-    sites.WithUpdateEnabled(false),
-    sites.WithUpdateLogging(false),
-    sites.WithUpdateTimeout(1),
-    sites.WithUpdateInstallCommand("<INSTALL_COMMAND>"),
-    sites.WithUpdateBuildCommand("<BUILD_COMMAND>"),
-    sites.WithUpdateStartCommand("<START_COMMAND>"),
-    sites.WithUpdateOutputDirectory("<OUTPUT_DIRECTORY>"),
-    sites.WithUpdateBuildRuntime("node-14.5"),
-    sites.WithUpdateAdapter("static"),
-    sites.WithUpdateFallbackFile("<FALLBACK_FILE>"),
-    sites.WithUpdateInstallationId("<INSTALLATION_ID>"),
-    sites.WithUpdateProviderRepositoryId("<PROVIDER_REPOSITORY_ID>"),
-    sites.WithUpdateProviderBranch("<PROVIDER_BRANCH>"),
-    sites.WithUpdateProviderSilentMode(false),
-    sites.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-    sites.WithUpdateProviderBranches([]string{}),
-    sites.WithUpdateProviderPaths([]string{}),
-    sites.WithUpdateBuildSpecification(""),
-    sites.WithUpdateRuntimeSpecification(""),
-    sites.WithUpdateDeploymentRetention(0),
-    sites.WithUpdateScopes([]string{}),
-)
+	response, err := service.Update(
+		"<SITE_ID>",
+		"<NAME>",
+		"analog",
+		sites.WithUpdateEnabled(false),
+		sites.WithUpdateLogging(false),
+		sites.WithUpdateTimeout(1),
+		sites.WithUpdateInstallCommand("<INSTALL_COMMAND>"),
+		sites.WithUpdateBuildCommand("<BUILD_COMMAND>"),
+		sites.WithUpdateStartCommand("<START_COMMAND>"),
+		sites.WithUpdateOutputDirectory("<OUTPUT_DIRECTORY>"),
+		sites.WithUpdateBuildRuntime("node-14.5"),
+		sites.WithUpdateAdapter("static"),
+		sites.WithUpdateFallbackFile("<FALLBACK_FILE>"),
+		sites.WithUpdateInstallationId("<INSTALLATION_ID>"),
+		sites.WithUpdateProviderRepositoryId("<PROVIDER_REPOSITORY_ID>"),
+		sites.WithUpdateProviderBranch("<PROVIDER_BRANCH>"),
+		sites.WithUpdateProviderSilentMode(false),
+		sites.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
+		sites.WithUpdateProviderBranches([]string{}),
+		sites.WithUpdateProviderPaths([]string{}),
+		sites.WithUpdateBuildSpecification(""),
+		sites.WithUpdateRuntimeSpecification(""),
+		sites.WithUpdateDeploymentRetention(0),
+		sites.WithUpdateScopes([]string{}),
+	)
+	fmt.Println(response, err)
+}
 ```

@@ -2,21 +2,25 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/teams"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/teams"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithSession("")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithSession(""),
+	)
 
-service := teams.New(client)
+	service := teams.New(client)
 
-response, error := service.UpdatePrefs(
-    "<TEAM_ID>",
-    map[string]interface{}{},
-)
+	response, err := service.UpdatePrefs(
+		"<TEAM_ID>",
+		map[string]interface{}{},
+	)
+	fmt.Println(response, err)
+}
 ```

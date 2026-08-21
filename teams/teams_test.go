@@ -187,7 +187,7 @@ func TestTeams(t *testing.T) {
             "appId": "5e5ea5c16897e",
             "teamId": "5e5ea5c16897e",
             "scopes": [],
-            "authorizationDetails": {},
+            "authorizationDetails": [],
             "createdById": "5e5ea5c16897e",
             "createdByName": "Walter White"
         }
@@ -223,7 +223,7 @@ func TestTeams(t *testing.T) {
     "appId": "5e5ea5c16897e",
     "teamId": "5e5ea5c16897e",
     "scopes": [],
-    "authorizationDetails": {},
+    "authorizationDetails": [],
     "createdById": "5e5ea5c16897e",
     "createdByName": "Walter White"
 }
@@ -257,7 +257,7 @@ func TestTeams(t *testing.T) {
     "appId": "5e5ea5c16897e",
     "teamId": "5e5ea5c16897e",
     "scopes": [],
-    "authorizationDetails": {},
+    "authorizationDetails": [],
     "createdById": "5e5ea5c16897e",
     "createdByName": "Walter White"
 }
@@ -291,7 +291,7 @@ func TestTeams(t *testing.T) {
     "appId": "5e5ea5c16897e",
     "teamId": "5e5ea5c16897e",
     "scopes": [],
-    "authorizationDetails": {},
+    "authorizationDetails": [],
     "createdById": "5e5ea5c16897e",
     "createdByName": "Walter White"
 }

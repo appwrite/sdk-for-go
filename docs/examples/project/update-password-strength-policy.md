@@ -2,24 +2,28 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/project"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := project.New(client)
+	service := project.New(client)
 
-response, error := service.UpdatePasswordStrengthPolicy(
-    project.WithUpdatePasswordStrengthPolicyMin(8),
-    project.WithUpdatePasswordStrengthPolicyUppercase(false),
-    project.WithUpdatePasswordStrengthPolicyLowercase(false),
-    project.WithUpdatePasswordStrengthPolicyNumber(false),
-    project.WithUpdatePasswordStrengthPolicySymbols(false),
-)
+	response, err := service.UpdatePasswordStrengthPolicy(
+		project.WithUpdatePasswordStrengthPolicyMin(8),
+		project.WithUpdatePasswordStrengthPolicyUppercase(false),
+		project.WithUpdatePasswordStrengthPolicyLowercase(false),
+		project.WithUpdatePasswordStrengthPolicyNumber(false),
+		project.WithUpdatePasswordStrengthPolicySymbols(false),
+	)
+	fmt.Println(response, err)
+}
 ```

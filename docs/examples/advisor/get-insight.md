@@ -2,21 +2,25 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/advisor"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/advisor"
+	"github.com/appwrite/sdk-for-go/v7/client"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := advisor.New(client)
+	service := advisor.New(client)
 
-response, error := service.GetInsight(
-    "<REPORT_ID>",
-    "<INSIGHT_ID>",
-)
+	response, err := service.GetInsight(
+		"<REPORT_ID>",
+		"<INSIGHT_ID>",
+	)
+	fmt.Println(response, err)
+}
 ```

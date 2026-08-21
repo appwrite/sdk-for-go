@@ -148,6 +148,28 @@ func TestAvatars(t *testing.T) {
 		}
 	})
 
+	t.Run("Test GetPhoto", func(t *testing.T) {
+		mockData := []byte("image_data")
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "image/png")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write(mockData)
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetPhoto()
+		if err != nil {
+			t.Errorf("Method GetPhoto failed: %v", err)
+		}
+	})
+
 	t.Run("Test GetQR", func(t *testing.T) {
 		mockData := []byte("image_data")
 

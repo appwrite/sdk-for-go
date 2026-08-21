@@ -2,26 +2,30 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/mongo"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/mongo"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := mongo.New(client)
+	service := mongo.New(client)
 
-response, error := service.CreateBackupPolicy(
-    "<DATABASE_ID>",
-    "<POLICY_ID>",
-    "<NAME>",
-    "",
-    1,
-    mongo.WithCreateBackupPolicyType("full"),
-    mongo.WithCreateBackupPolicyEnabled(false),
-)
+	response, err := service.CreateBackupPolicy(
+		"<DATABASE_ID>",
+		"<POLICY_ID>",
+		"<NAME>",
+		"",
+		1,
+		mongo.WithCreateBackupPolicyType("full"),
+		mongo.WithCreateBackupPolicyEnabled(false),
+	)
+	fmt.Println(response, err)
+}
 ```

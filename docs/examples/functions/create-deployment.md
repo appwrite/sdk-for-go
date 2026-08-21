@@ -2,24 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/functions"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/file"
+	"github.com/appwrite/sdk-for-go/v7/functions"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := client.New(
+		client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		client.WithProject("<YOUR_PROJECT_ID>"),
+		client.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := functions.New(client)
+	service := functions.New(client)
 
-response, error := service.CreateDeployment(
-    "<FUNCTION_ID>",
-    file.NewInputFile("/path/to/file.png", "file.png"),
-    false,
-    functions.WithCreateDeploymentEntrypoint("<ENTRYPOINT>"),
-    functions.WithCreateDeploymentCommands("<COMMANDS>"),
-)
+	response, err := service.CreateDeployment(
+		"<FUNCTION_ID>",
+		file.NewInputFile("/path/to/file.png", "file.png"),
+		false,
+		functions.WithCreateDeploymentEntrypoint("<ENTRYPOINT>"),
+		functions.WithCreateDeploymentCommands("<COMMANDS>"),
+	)
+	fmt.Println(response, err)
+}
 ```
