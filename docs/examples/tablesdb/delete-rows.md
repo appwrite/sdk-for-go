@@ -2,23 +2,27 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/tablesdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := tablesdb.New(client)
+	service := tablesdb.New(client)
 
-response, error := service.DeleteRows(
-    "<DATABASE_ID>",
-    "<TABLE_ID>",
-    tablesdb.WithDeleteRowsQueries([]string{}),
-    tablesdb.WithDeleteRowsTransactionId("<TRANSACTION_ID>"),
-)
+	response, err := service.DeleteRows(
+		"<DATABASE_ID>",
+		"<TABLE_ID>",
+		service.WithDeleteRowsQueries([]string{}),
+		service.WithDeleteRowsTransactionId("<TRANSACTION_ID>"),
+	)
+	fmt.Println(response, err)
+}
 ```

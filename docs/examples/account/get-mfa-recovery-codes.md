@@ -2,18 +2,22 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/account"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/account"
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithSession("")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
+	)
 
-service := account.New(client)
+	service := account.New(client)
 
-response, error := service.GetMFARecoveryCodes())
+	response, err := service.GetMFARecoveryCodes()
+	fmt.Println(response, err)
+}
 ```

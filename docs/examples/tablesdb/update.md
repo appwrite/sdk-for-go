@@ -2,25 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/tablesdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := tablesdb.New(client)
+	service := tablesdb.New(client)
 
-response, error := service.Update(
-    "<DATABASE_ID>",
-    tablesdb.WithUpdateName("<NAME>"),
-    tablesdb.WithUpdateEnabled(false),
-    tablesdb.WithUpdateSpecification("serverless"),
-    tablesdb.WithUpdateReplicas(0),
-    tablesdb.WithUpdateSyncMode("async"),
-)
+	response, err := service.Update(
+		"<DATABASE_ID>",
+		service.WithUpdateName("<NAME>"),
+		service.WithUpdateEnabled(false),
+		service.WithUpdateSpecification("serverless"),
+		service.WithUpdateReplicas(0),
+		service.WithUpdateSyncMode("async"),
+	)
+	fmt.Println(response, err)
+}
 ```

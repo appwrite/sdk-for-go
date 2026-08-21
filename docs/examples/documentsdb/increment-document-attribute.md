@@ -2,26 +2,30 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/documentsdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/documentsdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithSession("")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
+	)
 
-service := documentsdb.New(client)
+	service := documentsdb.New(client)
 
-response, error := service.IncrementDocumentAttribute(
-    "<DATABASE_ID>",
-    "<COLLECTION_ID>",
-    "<DOCUMENT_ID>",
-    "",
-    documentsdb.WithIncrementDocumentAttributeValue(0),
-    documentsdb.WithIncrementDocumentAttributeMax(0),
-    documentsdb.WithIncrementDocumentAttributeTransactionId("<TRANSACTION_ID>"),
-)
+	response, err := service.IncrementDocumentAttribute(
+		"<DATABASE_ID>",
+		"<COLLECTION_ID>",
+		"<DOCUMENT_ID>",
+		"",
+		service.WithIncrementDocumentAttributeValue(0),
+		service.WithIncrementDocumentAttributeMax(0),
+		service.WithIncrementDocumentAttributeTransactionId("<TRANSACTION_ID>"),
+	)
+	fmt.Println(response, err)
+}
 ```

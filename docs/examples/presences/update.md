@@ -2,26 +2,30 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/presences"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/presences"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := presences.New(client)
+	service := presences.New(client)
 
-response, error := service.Update(
-    "<PRESENCE_ID>",
-    "<USER_ID>",
-    presences.WithUpdateStatus("<STATUS>"),
-    presences.WithUpdateExpiresAt("2020-10-15T06:38:00.000+00:00"),
-    presences.WithUpdateMetadata(map[string]interface{}{}),
-    presences.WithUpdatePermissions([]string{"read("any")"}),
-    presences.WithUpdatePurge(false),
-)
+	response, err := service.Update(
+		"<PRESENCE_ID>",
+		"<USER_ID>",
+		service.WithUpdateStatus("<STATUS>"),
+		service.WithUpdateExpiresAt("2020-10-15T06:38:00.000+00:00"),
+		service.WithUpdateMetadata([]interface{}{}),
+		service.WithUpdatePermissions([]string{"read(\"any\")"}),
+		service.WithUpdatePurge(false),
+	)
+	fmt.Println(response, err)
+}
 ```

@@ -2,25 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.CreateMsg91Provider(
-    "<PROVIDER_ID>",
-    "<NAME>",
-    messaging.WithCreateMsg91ProviderTemplateId("<TEMPLATE_ID>"),
-    messaging.WithCreateMsg91ProviderSenderId("<SENDER_ID>"),
-    messaging.WithCreateMsg91ProviderAuthKey("<AUTH_KEY>"),
-    messaging.WithCreateMsg91ProviderEnabled(false),
-)
+	response, err := service.CreateMsg91Provider(
+		"<PROVIDER_ID>",
+		"<NAME>",
+		service.WithCreateMsg91ProviderTemplateId("<TEMPLATE_ID>"),
+		service.WithCreateMsg91ProviderSenderId("<SENDER_ID>"),
+		service.WithCreateMsg91ProviderAuthKey("<AUTH_KEY>"),
+		service.WithCreateMsg91ProviderEnabled(false),
+	)
+	fmt.Println(response, err)
+}
 ```

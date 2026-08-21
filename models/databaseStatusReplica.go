@@ -17,10 +17,11 @@ type DatabaseStatusReplica struct {
 	Role string `json:"role"`
 	// Whether the replica is healthy.
 	Healthy bool `json:"healthy"`
-	// Whether the member is streaming from the primary. True when the engine
-	// reports the replication link up, false when it reports the link down, and
-	// null when no reading was taken: a primary has no stream to report, and an
-	// unhealthy member is not probed.
+	// Whether the engine reports this member's replication stream as up. Null
+	// when no reading was taken: a primary has no stream to report, and a member
+	// that is not healthy, or whose probe did not answer, has none yet. `healthy`
+	// is a reachability probe of the member itself and says nothing about
+	// replication, so a healthy member may still not be replicating.
 	Replicating bool `json:"replicating"`
 	// Replication lag in seconds (null for primary). Also null against
 	// `replicating: true`, for a member that is streaming but whose engine

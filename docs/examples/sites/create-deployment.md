@@ -2,25 +2,30 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/sites"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/file"
+	"github.com/appwrite/sdk-for-go/v7/sites"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := sites.New(client)
+	service := sites.New(client)
 
-response, error := service.CreateDeployment(
-    "<SITE_ID>",
-    file.NewInputFile("/path/to/file.png", "file.png"),
-    sites.WithCreateDeploymentInstallCommand("<INSTALL_COMMAND>"),
-    sites.WithCreateDeploymentBuildCommand("<BUILD_COMMAND>"),
-    sites.WithCreateDeploymentOutputDirectory("<OUTPUT_DIRECTORY>"),
-    sites.WithCreateDeploymentActivate(false),
-)
+	response, err := service.CreateDeployment(
+		"<SITE_ID>",
+		file.NewInputFile("/path/to/file.png", "file.png"),
+		service.WithCreateDeploymentInstallCommand("<INSTALL_COMMAND>"),
+		service.WithCreateDeploymentBuildCommand("<BUILD_COMMAND>"),
+		service.WithCreateDeploymentOutputDirectory("<OUTPUT_DIRECTORY>"),
+		service.WithCreateDeploymentActivate(false),
+	)
+	fmt.Println(response, err)
+}
 ```

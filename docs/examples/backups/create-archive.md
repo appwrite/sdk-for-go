@@ -2,21 +2,25 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/backups"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/backups"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := backups.New(client)
+	service := backups.New(client)
 
-response, error := service.CreateArchive(
-    []string{},
-    backups.WithCreateArchiveResourceId("<RESOURCE_ID>"),
-)
+	response, err := service.CreateArchive(
+		[]string{},
+		service.WithCreateArchiveResourceId("<RESOURCE_ID>"),
+	)
+	fmt.Println(response, err)
+}
 ```

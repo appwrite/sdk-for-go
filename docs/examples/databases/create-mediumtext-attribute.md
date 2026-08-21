@@ -2,26 +2,30 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/databases"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/databases"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := databases.New(client)
+	service := databases.New(client)
 
-response, error := service.CreateMediumtextAttribute(
-    "<DATABASE_ID>",
-    "<COLLECTION_ID>",
-    "",
-    false,
-    databases.WithCreateMediumtextAttributeDefault("<DEFAULT>"),
-    databases.WithCreateMediumtextAttributeArray(false),
-    databases.WithCreateMediumtextAttributeEncrypt(false),
-)
+	response, err := service.CreateMediumtextAttribute(
+		"<DATABASE_ID>",
+		"<COLLECTION_ID>",
+		"",
+		false,
+		service.WithCreateMediumtextAttributeDefault("<DEFAULT>"),
+		service.WithCreateMediumtextAttributeArray(false),
+		service.WithCreateMediumtextAttributeEncrypt(false),
+	)
+	fmt.Println(response, err)
+}
 ```

@@ -2,27 +2,31 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/databases"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/databases"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := databases.New(client)
+	service := databases.New(client)
 
-response, error := service.CreateFloatAttribute(
-    "<DATABASE_ID>",
-    "<COLLECTION_ID>",
-    "",
-    false,
-    databases.WithCreateFloatAttributeMin(0),
-    databases.WithCreateFloatAttributeMax(0),
-    databases.WithCreateFloatAttributeDefault(0),
-    databases.WithCreateFloatAttributeArray(false),
-)
+	response, err := service.CreateFloatAttribute(
+		"<DATABASE_ID>",
+		"<COLLECTION_ID>",
+		"",
+		false,
+		service.WithCreateFloatAttributeMin(0),
+		service.WithCreateFloatAttributeMax(0),
+		service.WithCreateFloatAttributeDefault(0),
+		service.WithCreateFloatAttributeArray(false),
+	)
+	fmt.Println(response, err)
+}
 ```

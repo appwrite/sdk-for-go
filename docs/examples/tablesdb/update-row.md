@@ -2,31 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/tablesdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithSession("")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
+	)
 
-service := tablesdb.New(client)
+	service := tablesdb.New(client)
 
-response, error := service.UpdateRow(
-    "<DATABASE_ID>",
-    "<TABLE_ID>",
-    "<ROW_ID>",
-    tablesdb.WithUpdateRowData(map[string]interface{}{
-        "username": "walter.obrien",
-        "email": "walter.obrien@example.com",
-        "fullName": "Walter O'Brien",
-        "age": 33,
-        "isAdmin": false
-    }),
-    tablesdb.WithUpdateRowPermissions([]string{"read("any")"}),
-    tablesdb.WithUpdateRowTransactionId("<TRANSACTION_ID>"),
-)
+	response, err := service.UpdateRow(
+		"<DATABASE_ID>",
+		"<TABLE_ID>",
+		"<ROW_ID>",
+		service.WithUpdateRowData(map[string]interface{}{"username": "walter.obrien", "email": "walter.obrien@example.com", "fullName": "Walter O'Brien", "age": 33, "isAdmin": false}),
+		service.WithUpdateRowPermissions([]string{"read(\"any\")"}),
+		service.WithUpdateRowTransactionId("<TRANSACTION_ID>"),
+	)
+	fmt.Println(response, err)
+}
 ```

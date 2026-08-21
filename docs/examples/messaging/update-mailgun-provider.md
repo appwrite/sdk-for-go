@@ -2,29 +2,33 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.UpdateMailgunProvider(
-    "<PROVIDER_ID>",
-    messaging.WithUpdateMailgunProviderName("<NAME>"),
-    messaging.WithUpdateMailgunProviderApiKey("<API_KEY>"),
-    messaging.WithUpdateMailgunProviderDomain("<DOMAIN>"),
-    messaging.WithUpdateMailgunProviderIsEuRegion(false),
-    messaging.WithUpdateMailgunProviderEnabled(false),
-    messaging.WithUpdateMailgunProviderFromName("<FROM_NAME>"),
-    messaging.WithUpdateMailgunProviderFromEmail("email@example.com"),
-    messaging.WithUpdateMailgunProviderReplyToName("<REPLY_TO_NAME>"),
-    messaging.WithUpdateMailgunProviderReplyToEmail("<REPLY_TO_EMAIL>"),
-)
+	response, err := service.UpdateMailgunProvider(
+		"<PROVIDER_ID>",
+		service.WithUpdateMailgunProviderName("<NAME>"),
+		service.WithUpdateMailgunProviderApiKey("<API_KEY>"),
+		service.WithUpdateMailgunProviderDomain("<DOMAIN>"),
+		service.WithUpdateMailgunProviderIsEuRegion(false),
+		service.WithUpdateMailgunProviderEnabled(false),
+		service.WithUpdateMailgunProviderFromName("<FROM_NAME>"),
+		service.WithUpdateMailgunProviderFromEmail("email@example.com"),
+		service.WithUpdateMailgunProviderReplyToName("<REPLY_TO_NAME>"),
+		service.WithUpdateMailgunProviderReplyToEmail("<REPLY_TO_EMAIL>"),
+	)
+	fmt.Println(response, err)
+}
 ```

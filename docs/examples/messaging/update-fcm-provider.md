@@ -2,23 +2,27 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.UpdateFCMProvider(
-    "<PROVIDER_ID>",
-    messaging.WithUpdateFCMProviderName("<NAME>"),
-    messaging.WithUpdateFCMProviderEnabled(false),
-    messaging.WithUpdateFCMProviderServiceAccountJSON(map[string]interface{}{}),
-)
+	response, err := service.UpdateFCMProvider(
+		"<PROVIDER_ID>",
+		service.WithUpdateFCMProviderName("<NAME>"),
+		service.WithUpdateFCMProviderEnabled(false),
+		service.WithUpdateFCMProviderServiceAccountJSON([]interface{}{}),
+	)
+	fmt.Println(response, err)
+}
 ```

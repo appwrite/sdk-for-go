@@ -2,27 +2,31 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/tablesdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := tablesdb.New(client)
+	service := tablesdb.New(client)
 
-response, error := service.CreateFloatColumn(
-    "<DATABASE_ID>",
-    "<TABLE_ID>",
-    "",
-    false,
-    tablesdb.WithCreateFloatColumnMin(0),
-    tablesdb.WithCreateFloatColumnMax(0),
-    tablesdb.WithCreateFloatColumnDefault(0),
-    tablesdb.WithCreateFloatColumnArray(false),
-)
+	response, err := service.CreateFloatColumn(
+		"<DATABASE_ID>",
+		"<TABLE_ID>",
+		"",
+		false,
+		service.WithCreateFloatColumnMin(0),
+		service.WithCreateFloatColumnMax(0),
+		service.WithCreateFloatColumnDefault(0),
+		service.WithCreateFloatColumnArray(false),
+	)
+	fmt.Println(response, err)
+}
 ```

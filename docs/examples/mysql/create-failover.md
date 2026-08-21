@@ -2,21 +2,25 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/mysql"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/mysql"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := mysql.New(client)
+	service := mysql.New(client)
 
-response, error := service.CreateFailover(
-    "<DATABASE_ID>",
-    mysql.WithCreateFailoverTargetReplicaId("<TARGET_REPLICA_ID>"),
-)
+	response, err := service.CreateFailover(
+		"<DATABASE_ID>",
+		service.WithCreateFailoverTargetReplicaId("<TARGET_REPLICA_ID>"),
+	)
+	fmt.Println(response, err)
+}
 ```

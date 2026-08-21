@@ -2,23 +2,27 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/project"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := project.New(client)
+	service := project.New(client)
 
-response, error := service.UpdateOAuth2FusionAuth(
-    project.WithUpdateOAuth2FusionAuthClientId("<CLIENT_ID>"),
-    project.WithUpdateOAuth2FusionAuthClientSecret("<CLIENT_SECRET>"),
-    project.WithUpdateOAuth2FusionAuthEndpoint("<ENDPOINT>"),
-    project.WithUpdateOAuth2FusionAuthEnabled(false),
-)
+	response, err := service.UpdateOAuth2FusionAuth(
+		service.WithUpdateOAuth2FusionAuthClientId("<CLIENT_ID>"),
+		service.WithUpdateOAuth2FusionAuthClientSecret("<CLIENT_SECRET>"),
+		service.WithUpdateOAuth2FusionAuthEndpoint("<ENDPOINT>"),
+		service.WithUpdateOAuth2FusionAuthEnabled(false),
+	)
+	fmt.Println(response, err)
+}
 ```

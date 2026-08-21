@@ -2,23 +2,27 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/databases"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/databases"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := databases.New(client)
+	service := databases.New(client)
 
-response, error := service.ListCollections(
-    "<DATABASE_ID>",
-    databases.WithListCollectionsQueries([]string{}),
-    databases.WithListCollectionsSearch("<SEARCH>"),
-    databases.WithListCollectionsTotal(false),
-)
+	response, err := service.ListCollections(
+		"<DATABASE_ID>",
+		service.WithListCollectionsQueries([]string{}),
+		service.WithListCollectionsSearch("<SEARCH>"),
+		service.WithListCollectionsTotal(false),
+	)
+	fmt.Println(response, err)
+}
 ```

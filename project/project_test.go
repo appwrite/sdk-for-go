@@ -84,8 +84,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -201,8 +200,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -459,8 +457,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -724,8 +721,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -1332,6 +1328,35 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateOAuth2Google()
 		if err != nil {
 			t.Errorf("Method UpdateOAuth2Google failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2HuggingFace", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "2ab9cff9-d711-40ad-a91e-b08a49c42d24",
+    "clientSecret": "oauth_app_secret_wcLhRtl000000000000000000000xbNdLt"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2HuggingFace()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2HuggingFace failed: %v", err)
 		}
 	})
 
@@ -2536,8 +2561,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -2627,8 +2651,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -2718,8 +2741,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -2809,8 +2831,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -2900,8 +2921,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -2991,8 +3011,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3082,8 +3101,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3173,8 +3191,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3264,8 +3281,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3386,8 +3402,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3477,8 +3492,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3568,8 +3582,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3659,8 +3672,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3750,8 +3762,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3871,8 +3882,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -3962,8 +3972,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -4053,8 +4062,7 @@ func TestProject(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 

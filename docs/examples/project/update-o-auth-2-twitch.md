@@ -2,22 +2,26 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/project"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := project.New(client)
+	service := project.New(client)
 
-response, error := service.UpdateOAuth2Twitch(
-    project.WithUpdateOAuth2TwitchClientId("<CLIENT_ID>"),
-    project.WithUpdateOAuth2TwitchClientSecret("<CLIENT_SECRET>"),
-    project.WithUpdateOAuth2TwitchEnabled(false),
-)
+	response, err := service.UpdateOAuth2Twitch(
+		service.WithUpdateOAuth2TwitchClientId("<CLIENT_ID>"),
+		service.WithUpdateOAuth2TwitchClientSecret("<CLIENT_SECRET>"),
+		service.WithUpdateOAuth2TwitchEnabled(false),
+	)
+	fmt.Println(response, err)
+}
 ```

@@ -2,21 +2,25 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/webhooks"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/webhooks"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := webhooks.New(client)
+	service := webhooks.New(client)
 
-response, error := service.UpdateSecret(
-    "<WEBHOOK_ID>",
-    webhooks.WithUpdateSecretSecret("<SECRET>"),
-)
+	response, err := service.UpdateSecret(
+		"<WEBHOOK_ID>",
+		service.WithUpdateSecretSecret("<SECRET>"),
+	)
+	fmt.Println(response, err)
+}
 ```

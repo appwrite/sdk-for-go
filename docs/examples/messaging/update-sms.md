@@ -2,26 +2,30 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.UpdateSMS(
-    "<MESSAGE_ID>",
-    messaging.WithUpdateSMSTopics([]string{}),
-    messaging.WithUpdateSMSUsers([]string{}),
-    messaging.WithUpdateSMSTargets([]string{}),
-    messaging.WithUpdateSMSContent("<CONTENT>"),
-    messaging.WithUpdateSMSDraft(false),
-    messaging.WithUpdateSMSScheduledAt("2020-10-15T06:38:00.000+00:00"),
-)
+	response, err := service.UpdateSMS(
+		"<MESSAGE_ID>",
+		service.WithUpdateSMSTopics([]string{}),
+		service.WithUpdateSMSUsers([]string{}),
+		service.WithUpdateSMSTargets([]string{}),
+		service.WithUpdateSMSContent("<CONTENT>"),
+		service.WithUpdateSMSDraft(false),
+		service.WithUpdateSMSScheduledAt("2020-10-15T06:38:00.000+00:00"),
+	)
+	fmt.Println(response, err)
+}
 ```

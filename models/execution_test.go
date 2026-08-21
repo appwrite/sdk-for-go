@@ -6,7 +6,7 @@ import (
 )
 
 func TestExecutionModel(t *testing.T) {
-	model := Execution{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, FunctionId: "5e5ea6g16897e", DeploymentId: "5e5ea5c16897e", Trigger: "http", Status: "processing", RequestMethod: "GET", RequestPath: "/articles?id=5", RequestHeaders: []Headers{Headers{Name: "Content-Type", Value: "application/json"}}, ResponseStatusCode: 200, ResponseBody: "string", ResponseHeaders: []Headers{Headers{Name: "Content-Type", Value: "application/json"}}, Logs: "string", Errors: "string", Duration: 0.4}
+	model := Execution{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, ResourceId: "5e5ea6g16897e", ResourceType: "functions", DeploymentId: "5e5ea5c16897e", Trigger: "http", Status: "processing", RequestMethod: "GET", RequestPath: "/articles?id=5", RequestHeaders: []Headers{Headers{Name: "Content-Type", Value: "application/json"}}, ResponseStatusCode: 200, ResponseBody: "string", ResponseHeaders: []Headers{Headers{Name: "Content-Type", Value: "application/json"}}, Logs: "string", Errors: "string", Duration: 0.4}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -27,8 +27,11 @@ func TestExecutionModel(t *testing.T) {
 	if result.UpdatedAt != model.UpdatedAt {
 		t.Errorf("Expected UpdatedAt %v, got %v", model.UpdatedAt, result.UpdatedAt)
 	}
-	if result.FunctionId != model.FunctionId {
-		t.Errorf("Expected FunctionId %v, got %v", model.FunctionId, result.FunctionId)
+	if result.ResourceId != model.ResourceId {
+		t.Errorf("Expected ResourceId %v, got %v", model.ResourceId, result.ResourceId)
+	}
+	if result.ResourceType != model.ResourceType {
+		t.Errorf("Expected ResourceType %v, got %v", model.ResourceType, result.ResourceType)
 	}
 	if result.DeploymentId != model.DeploymentId {
 		t.Errorf("Expected DeploymentId %v, got %v", model.DeploymentId, result.DeploymentId)

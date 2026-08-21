@@ -2,27 +2,31 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/tablesdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := tablesdb.New(client)
+	service := tablesdb.New(client)
 
-response, error := service.CreateTable(
-    "<DATABASE_ID>",
-    "<TABLE_ID>",
-    "<NAME>",
-    tablesdb.WithCreateTablePermissions([]string{"read("any")"}),
-    tablesdb.WithCreateTableRowSecurity(false),
-    tablesdb.WithCreateTableEnabled(false),
-    tablesdb.WithCreateTableColumns([]interface{}{}),
-    tablesdb.WithCreateTableIndexes([]interface{}{}),
-)
+	response, err := service.CreateTable(
+		"<DATABASE_ID>",
+		"<TABLE_ID>",
+		"<NAME>",
+		service.WithCreateTablePermissions([]string{"read(\"any\")"}),
+		service.WithCreateTableRowSecurity(false),
+		service.WithCreateTableEnabled(false),
+		service.WithCreateTableColumns([]interface{}{}),
+		service.WithCreateTableIndexes([]interface{}{}),
+	)
+	fmt.Println(response, err)
+}
 ```

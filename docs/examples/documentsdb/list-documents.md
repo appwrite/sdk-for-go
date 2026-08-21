@@ -2,25 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/documentsdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/documentsdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithSession("")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
+	)
 
-service := documentsdb.New(client)
+	service := documentsdb.New(client)
 
-response, error := service.ListDocuments(
-    "<DATABASE_ID>",
-    "<COLLECTION_ID>",
-    documentsdb.WithListDocumentsQueries([]string{}),
-    documentsdb.WithListDocumentsTransactionId("<TRANSACTION_ID>"),
-    documentsdb.WithListDocumentsTotal(false),
-    documentsdb.WithListDocumentsTtl(0),
-)
+	response, err := service.ListDocuments(
+		"<DATABASE_ID>",
+		"<COLLECTION_ID>",
+		service.WithListDocumentsQueries([]string{}),
+		service.WithListDocumentsTransactionId("<TRANSACTION_ID>"),
+		service.WithListDocumentsTotal(false),
+		service.WithListDocumentsTtl(0),
+	)
+	fmt.Println(response, err)
+}
 ```

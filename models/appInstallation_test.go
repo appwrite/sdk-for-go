@@ -6,7 +6,7 @@ import (
 )
 
 func TestAppInstallationModel(t *testing.T) {
-	model := AppInstallation{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", AppId: "5e5ea5c16897e", TeamId: "5e5ea5c16897e", Scopes: []string{"test"}, AuthorizationDetails: map[string]interface{}{}, CreatedById: "5e5ea5c16897e", CreatedByName: "Walter White"}
+	model := AppInstallation{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", AppId: "5e5ea5c16897e", TeamId: "5e5ea5c16897e", Scopes: []string{"test"}, AuthorizationDetails: []interface{}{}, CreatedById: "5e5ea5c16897e", CreatedByName: "Walter White"}
 
 	data, err := json.Marshal(model)
 	if err != nil {

@@ -2,40 +2,44 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/mysql"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/mysql"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := mysql.New(client)
+	service := mysql.New(client)
 
-response, error := service.Update(
-    "<DATABASE_ID>",
-    mysql.WithUpdateName("<NAME>"),
-    mysql.WithUpdateStatus("ready"),
-    mysql.WithUpdateSpecification("<SPECIFICATION>"),
-    mysql.WithUpdateReplicas(0),
-    mysql.WithUpdateSyncMode("async"),
-    mysql.WithUpdateNetworkIdleTimeoutSeconds(60),
-    mysql.WithUpdateNetworkIPAllowlist([]string{}),
-    mysql.WithUpdateIdleTimeoutMinutes(5),
-    mysql.WithUpdatePitr(false),
-    mysql.WithUpdatePitrRetentionDays(1),
-    mysql.WithUpdateStorageAutoscaling(false),
-    mysql.WithUpdateStorageAutoscalingThresholdPercent(50),
-    mysql.WithUpdateStorageAutoscalingMaxGb(0),
-    mysql.WithUpdateMetricsTraceSampleRate(0),
-    mysql.WithUpdateMetricsSlowQueryLogThresholdMs(0),
-    mysql.WithUpdateSqlApiEnabled(false),
-    mysql.WithUpdateSqlApiAllowedStatements([]string{}),
-    mysql.WithUpdateSqlApiMaxRows(1),
-    mysql.WithUpdateSqlApiMaxBytes(1024),
-    mysql.WithUpdateSqlApiTimeoutSeconds(1),
-)
+	response, err := service.Update(
+		"<DATABASE_ID>",
+		service.WithUpdateName("<NAME>"),
+		service.WithUpdateStatus("ready"),
+		service.WithUpdateSpecification("<SPECIFICATION>"),
+		service.WithUpdateReplicas(0),
+		service.WithUpdateSyncMode("async"),
+		service.WithUpdateNetworkIdleTimeoutSeconds(60),
+		service.WithUpdateNetworkIPAllowlist([]string{}),
+		service.WithUpdateIdleTimeoutMinutes(5),
+		service.WithUpdatePitr(false),
+		service.WithUpdatePitrRetentionDays(1),
+		service.WithUpdateStorageAutoscaling(false),
+		service.WithUpdateStorageAutoscalingThresholdPercent(50),
+		service.WithUpdateStorageAutoscalingMaxGb(0),
+		service.WithUpdateMetricsTraceSampleRate(0),
+		service.WithUpdateMetricsSlowQueryLogThresholdMs(0),
+		service.WithUpdateSqlApiEnabled(false),
+		service.WithUpdateSqlApiAllowedStatements([]string{}),
+		service.WithUpdateSqlApiMaxRows(1),
+		service.WithUpdateSqlApiMaxBytes(1024),
+		service.WithUpdateSqlApiTimeoutSeconds(1),
+	)
+	fmt.Println(response, err)
+}
 ```

@@ -2,25 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.CreateTwilioProvider(
-    "<PROVIDER_ID>",
-    "<NAME>",
-    messaging.WithCreateTwilioProviderFrom("+12065550100"),
-    messaging.WithCreateTwilioProviderAccountSid("<ACCOUNT_SID>"),
-    messaging.WithCreateTwilioProviderAuthToken("<AUTH_TOKEN>"),
-    messaging.WithCreateTwilioProviderEnabled(false),
-)
+	response, err := service.CreateTwilioProvider(
+		"<PROVIDER_ID>",
+		"<NAME>",
+		service.WithCreateTwilioProviderFrom("+12065550100"),
+		service.WithCreateTwilioProviderAccountSid("<ACCOUNT_SID>"),
+		service.WithCreateTwilioProviderAuthToken("<AUTH_TOKEN>"),
+		service.WithCreateTwilioProviderEnabled(false),
+	)
+	fmt.Println(response, err)
+}
 ```

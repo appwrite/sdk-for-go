@@ -2,22 +2,26 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/storage"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/storage"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := storage.New(client)
+	service := storage.New(client)
 
-response, error := service.ListBuckets(
-    storage.WithListBucketsQueries([]string{}),
-    storage.WithListBucketsSearch("<SEARCH>"),
-    storage.WithListBucketsTotal(false),
-)
+	response, err := service.ListBuckets(
+		service.WithListBucketsQueries([]string{}),
+		service.WithListBucketsSearch("<SEARCH>"),
+		service.WithListBucketsTotal(false),
+	)
+	fmt.Println(response, err)
+}
 ```

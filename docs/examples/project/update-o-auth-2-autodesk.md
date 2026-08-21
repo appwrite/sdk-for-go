@@ -2,22 +2,26 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/project"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := project.New(client)
+	service := project.New(client)
 
-response, error := service.UpdateOAuth2Autodesk(
-    project.WithUpdateOAuth2AutodeskClientId("<CLIENT_ID>"),
-    project.WithUpdateOAuth2AutodeskClientSecret("<CLIENT_SECRET>"),
-    project.WithUpdateOAuth2AutodeskEnabled(false),
-)
+	response, err := service.UpdateOAuth2Autodesk(
+		service.WithUpdateOAuth2AutodeskClientId("<CLIENT_ID>"),
+		service.WithUpdateOAuth2AutodeskClientSecret("<CLIENT_SECRET>"),
+		service.WithUpdateOAuth2AutodeskEnabled(false),
+	)
+	fmt.Println(response, err)
+}
 ```

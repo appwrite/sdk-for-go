@@ -2,27 +2,31 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/tablesdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := tablesdb.New(client)
+	service := tablesdb.New(client)
 
-response, error := service.CreateVarcharColumn(
-    "<DATABASE_ID>",
-    "<TABLE_ID>",
-    "",
-    1,
-    false,
-    tablesdb.WithCreateVarcharColumnDefault("<DEFAULT>"),
-    tablesdb.WithCreateVarcharColumnArray(false),
-    tablesdb.WithCreateVarcharColumnEncrypt(false),
-)
+	response, err := service.CreateVarcharColumn(
+		"<DATABASE_ID>",
+		"<TABLE_ID>",
+		"",
+		1,
+		false,
+		service.WithCreateVarcharColumnDefault("<DEFAULT>"),
+		service.WithCreateVarcharColumnArray(false),
+		service.WithCreateVarcharColumnEncrypt(false),
+	)
+	fmt.Println(response, err)
+}
 ```

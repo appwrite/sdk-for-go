@@ -9,7 +9,7 @@ import (
 type DedicatedDatabaseExecution struct {
 	// Result rows as a list of column-name => value maps. Empty for non-returning
 	// statements.
-	Rows interface{} `json:"rows"`
+	Rows []interface{} `json:"rows"`
 	// Number of rows returned (for SELECT) or affected (for
 	// INSERT/UPDATE/DELETE).
 	RowCount int `json:"rowCount"`

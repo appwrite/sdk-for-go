@@ -20,11 +20,13 @@ type DedicatedDatabaseMember struct {
 	// failed (Failed phase or CrashLoopBackOff container), or the lowercased pod
 	// phase reported by the cluster.
 	Status string `json:"status"`
-	// Whether the member is streaming from the primary. True when the engine
-	// reports the replication link up, false when it reports the link down, and
-	// null when no reading was taken: a primary has no stream to report, an
-	// inactive member is not probed, and neither is any member while no primary
-	// is established.
+	// Whether the engine reports this member's replication stream as up. Null
+	// when no reading was taken: a primary has no stream to report, and a member
+	// that is not active, or whose probe did not answer, has none yet. False is a
+	// reading and null is the absence of one, so the two are not interchangeable.
+	// Read it beside lagSeconds before expecting a failover that names no target
+	// to find a promotable standby: a member streaming at a known lag is one, and
+	// a member reporting null is not evidence either way.
 	Replicating bool `json:"replicating"`
 	// Replication lag in seconds. Null when the lag is not known: a primary has
 	// none to report, and a member the backend has not probed has none yet. Also

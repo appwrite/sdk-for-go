@@ -2,27 +2,31 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/postgresql"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/postgresql"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := postgresql.New(client)
+	service := postgresql.New(client)
 
-response, error := service.UpdateBackupStorage(
-    "<DATABASE_ID>",
-    "s3",
-    "<BUCKET>",
-    "<ACCESS_KEY>",
-    "<SECRET_KEY>",
-    postgresql.WithUpdateBackupStorageRegion("<REGION>"),
-    postgresql.WithUpdateBackupStoragePrefix("<PREFIX>"),
-    postgresql.WithUpdateBackupStorageEndpoint("<ENDPOINT>"),
-)
+	response, err := service.UpdateBackupStorage(
+		"<DATABASE_ID>",
+		"s3",
+		"<BUCKET>",
+		"<ACCESS_KEY>",
+		"<SECRET_KEY>",
+		service.WithUpdateBackupStorageRegion("<REGION>"),
+		service.WithUpdateBackupStoragePrefix("<PREFIX>"),
+		service.WithUpdateBackupStorageEndpoint("<ENDPOINT>"),
+	)
+	fmt.Println(response, err)
+}
 ```

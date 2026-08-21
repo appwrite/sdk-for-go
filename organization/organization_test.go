@@ -418,7 +418,7 @@ func TestOrganization(t *testing.T) {
             "appId": "5e5ea5c16897e",
             "teamId": "5e5ea5c16897e",
             "scopes": [],
-            "authorizationDetails": {},
+            "authorizationDetails": [],
             "createdById": "5e5ea5c16897e",
             "createdByName": "Walter White"
         }
@@ -454,7 +454,7 @@ func TestOrganization(t *testing.T) {
     "appId": "5e5ea5c16897e",
     "teamId": "5e5ea5c16897e",
     "scopes": [],
-    "authorizationDetails": {},
+    "authorizationDetails": [],
     "createdById": "5e5ea5c16897e",
     "createdByName": "Walter White"
 }
@@ -488,7 +488,7 @@ func TestOrganization(t *testing.T) {
     "appId": "5e5ea5c16897e",
     "teamId": "5e5ea5c16897e",
     "scopes": [],
-    "authorizationDetails": {},
+    "authorizationDetails": [],
     "createdById": "5e5ea5c16897e",
     "createdByName": "Walter White"
 }
@@ -522,7 +522,7 @@ func TestOrganization(t *testing.T) {
     "appId": "5e5ea5c16897e",
     "teamId": "5e5ea5c16897e",
     "scopes": [],
-    "authorizationDetails": {},
+    "authorizationDetails": [],
     "createdById": "5e5ea5c16897e",
     "createdByName": "Walter White"
 }
@@ -1001,8 +1001,7 @@ func TestOrganization(t *testing.T) {
                     "billingPlan": "pro"
                 }
             ],
-            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-            "wafEnabled": true
+            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
         }
     ]
 }
@@ -1094,8 +1093,7 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -1185,8 +1183,7 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 
@@ -1276,8 +1273,7 @@ func TestOrganization(t *testing.T) {
             "billingPlan": "pro"
         }
     ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00",
-    "wafEnabled": true
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
 }
 `
 

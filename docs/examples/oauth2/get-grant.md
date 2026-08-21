@@ -2,20 +2,24 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/oauth2"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/oauth2"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithSession("")
-    client.WithProject("<YOUR_PROJECT_ID>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithSession(""),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+	)
 
-service := oauth2.New(client)
+	service := oauth2.New(client)
 
-response, error := service.GetGrant(
-    "<GRANT_ID>",
-)
+	response, err := service.GetGrant(
+		"<GRANT_ID>",
+	)
+	fmt.Println(response, err)
+}
 ```

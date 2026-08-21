@@ -2,22 +2,26 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/project"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := project.New(client)
+	service := project.New(client)
 
-response, error := service.UpdateOAuth2Spotify(
-    project.WithUpdateOAuth2SpotifyClientId("<CLIENT_ID>"),
-    project.WithUpdateOAuth2SpotifyClientSecret("<CLIENT_SECRET>"),
-    project.WithUpdateOAuth2SpotifyEnabled(false),
-)
+	response, err := service.UpdateOAuth2Spotify(
+		service.WithUpdateOAuth2SpotifyClientId("<CLIENT_ID>"),
+		service.WithUpdateOAuth2SpotifyClientSecret("<CLIENT_SECRET>"),
+		service.WithUpdateOAuth2SpotifyEnabled(false),
+	)
+	fmt.Println(response, err)
+}
 ```

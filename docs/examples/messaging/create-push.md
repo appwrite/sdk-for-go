@@ -2,38 +2,42 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.CreatePush(
-    "<MESSAGE_ID>",
-    messaging.WithCreatePushTitle("<TITLE>"),
-    messaging.WithCreatePushBody("<BODY>"),
-    messaging.WithCreatePushTopics([]string{}),
-    messaging.WithCreatePushUsers([]string{}),
-    messaging.WithCreatePushTargets([]string{}),
-    messaging.WithCreatePushData(map[string]interface{}{}),
-    messaging.WithCreatePushAction("<ACTION>"),
-    messaging.WithCreatePushImage("<ID1:ID2>"),
-    messaging.WithCreatePushIcon("<ICON>"),
-    messaging.WithCreatePushSound("<SOUND>"),
-    messaging.WithCreatePushColor("<COLOR>"),
-    messaging.WithCreatePushTag("<TAG>"),
-    messaging.WithCreatePushBadge(0),
-    messaging.WithCreatePushDraft(false),
-    messaging.WithCreatePushScheduledAt("2020-10-15T06:38:00.000+00:00"),
-    messaging.WithCreatePushContentAvailable(false),
-    messaging.WithCreatePushCritical(false),
-    messaging.WithCreatePushPriority("normal"),
-)
+	response, err := service.CreatePush(
+		"<MESSAGE_ID>",
+		service.WithCreatePushTitle("<TITLE>"),
+		service.WithCreatePushBody("<BODY>"),
+		service.WithCreatePushTopics([]string{}),
+		service.WithCreatePushUsers([]string{}),
+		service.WithCreatePushTargets([]string{}),
+		service.WithCreatePushData([]interface{}{}),
+		service.WithCreatePushAction("<ACTION>"),
+		service.WithCreatePushImage("<ID1:ID2>"),
+		service.WithCreatePushIcon("<ICON>"),
+		service.WithCreatePushSound("<SOUND>"),
+		service.WithCreatePushColor("<COLOR>"),
+		service.WithCreatePushTag("<TAG>"),
+		service.WithCreatePushBadge(0),
+		service.WithCreatePushDraft(false),
+		service.WithCreatePushScheduledAt("2020-10-15T06:38:00.000+00:00"),
+		service.WithCreatePushContentAvailable(false),
+		service.WithCreatePushCritical(false),
+		service.WithCreatePushPriority("normal"),
+	)
+	fmt.Println(response, err)
+}
 ```

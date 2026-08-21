@@ -2,22 +2,26 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/functions"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/functions"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithSession("")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
+	)
 
-service := functions.New(client)
+	service := functions.New(client)
 
-response, error := service.ListExecutions(
-    "<FUNCTION_ID>",
-    functions.WithListExecutionsQueries([]string{}),
-    functions.WithListExecutionsTotal(false),
-)
+	response, err := service.ListExecutions(
+		"<FUNCTION_ID>",
+		service.WithListExecutionsQueries([]string{}),
+		service.WithListExecutionsTotal(false),
+	)
+	fmt.Println(response, err)
+}
 ```

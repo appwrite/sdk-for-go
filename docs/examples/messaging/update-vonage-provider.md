@@ -2,25 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.UpdateVonageProvider(
-    "<PROVIDER_ID>",
-    messaging.WithUpdateVonageProviderName("<NAME>"),
-    messaging.WithUpdateVonageProviderEnabled(false),
-    messaging.WithUpdateVonageProviderApiKey("<API_KEY>"),
-    messaging.WithUpdateVonageProviderApiSecret("<API_SECRET>"),
-    messaging.WithUpdateVonageProviderFrom("<FROM>"),
-)
+	response, err := service.UpdateVonageProvider(
+		"<PROVIDER_ID>",
+		service.WithUpdateVonageProviderName("<NAME>"),
+		service.WithUpdateVonageProviderEnabled(false),
+		service.WithUpdateVonageProviderApiKey("<API_KEY>"),
+		service.WithUpdateVonageProviderApiSecret("<API_SECRET>"),
+		service.WithUpdateVonageProviderFrom("<FROM>"),
+	)
+	fmt.Println(response, err)
+}
 ```

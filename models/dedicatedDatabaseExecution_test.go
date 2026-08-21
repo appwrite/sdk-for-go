@@ -6,7 +6,7 @@ import (
 )
 
 func TestDedicatedDatabaseExecutionModel(t *testing.T) {
-	model := DedicatedDatabaseExecution{Rows: map[string]interface{}{}, RowCount: 1, Columns: []DedicatedDatabaseExecutionColumn{DedicatedDatabaseExecutionColumn{Name: "id", Type: "int4"}}, DurationMs: 12, Truncated: true, Bytes: 1024}
+	model := DedicatedDatabaseExecution{Rows: []interface{}{}, RowCount: 1, Columns: []DedicatedDatabaseExecutionColumn{DedicatedDatabaseExecutionColumn{Name: "id", Type: "int4"}}, DurationMs: 12, Truncated: true, Bytes: 1024}
 
 	data, err := json.Marshal(model)
 	if err != nil {

@@ -24,7 +24,7 @@ type AppInstallation struct {
 	// Authorization details granted to the application. Rich authorization
 	// request (RFC 9396) style entries; the Appwrite Console stores authorized
 	// project IDs here.
-	AuthorizationDetails interface{} `json:"authorizationDetails"`
+	AuthorizationDetails []interface{} `json:"authorizationDetails"`
 	// ID of the user who created the installation.
 	CreatedById string `json:"createdById"`
 	// Name of the user who created the installation.

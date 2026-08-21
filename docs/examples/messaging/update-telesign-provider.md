@@ -2,25 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/messaging"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/messaging"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := messaging.New(client)
+	service := messaging.New(client)
 
-response, error := service.UpdateTelesignProvider(
-    "<PROVIDER_ID>",
-    messaging.WithUpdateTelesignProviderName("<NAME>"),
-    messaging.WithUpdateTelesignProviderEnabled(false),
-    messaging.WithUpdateTelesignProviderCustomerId("<CUSTOMER_ID>"),
-    messaging.WithUpdateTelesignProviderApiKey("<API_KEY>"),
-    messaging.WithUpdateTelesignProviderFrom("<FROM>"),
-)
+	response, err := service.UpdateTelesignProvider(
+		"<PROVIDER_ID>",
+		service.WithUpdateTelesignProviderName("<NAME>"),
+		service.WithUpdateTelesignProviderEnabled(false),
+		service.WithUpdateTelesignProviderCustomerId("<CUSTOMER_ID>"),
+		service.WithUpdateTelesignProviderApiKey("<API_KEY>"),
+		service.WithUpdateTelesignProviderFrom("<FROM>"),
+	)
+	fmt.Println(response, err)
+}
 ```

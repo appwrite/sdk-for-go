@@ -1,5 +1,15 @@
 # Change Log
 
+## v7.2.0-rc.3
+
+* Added: `Avatars.GetPhoto` and `GetPhotoURL` returning the user's best available profile photo
+* Added: `Project.UpdateOAuth2HuggingFace` and the `OAuth2HuggingFace` model, resolved by `GetOAuth2Provider`
+* Breaking: `Execution.FunctionId` replaced by `ResourceId` and `ResourceType`, covering function and site executions
+* Breaking: `AppInstallation.AuthorizationDetails` is now `[]interface{}` instead of `interface{}`
+* Breaking: `DedicatedDatabaseExecution.Rows` is now `[]interface{}` instead of `interface{}`
+* Updated: `CreateFailover` docs describe repairing stranded operations and when `targetReplicaId` is required
+* Updated: examples are complete runnable programs with `func main()` and gofmt formatting
+
 ## v7.2.0-rc.2
 
 * Added: `DocumentsDB` service for schemaless document databases, reachable as `appwrite.NewDocumentsDB(client)`

@@ -53,20 +53,7 @@ func (srv *Avatars) WithGetBrowserQuality(v int) GetBrowserOption {
 	}
 }
 
-// GetBrowser you can use this endpoint to show different browser icons to
-// your users. The code argument receives the browser code as it appears in
-// your user [GET
-// /account/sessions](https://appwrite.io/docs/references/cloud/client-web/account#getSessions)
-// endpoint. Use width, height and quality arguments to change the output
-// settings.
-//
-// When one dimension is specified and the other is 0, the image is scaled
-// with preserved aspect ratio. If both dimensions are 0, the API provides an
-// image at source quality. If dimensions are not specified, the default size
-// of image returned is 100x100px.
-func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption) (*[]byte, error) {
-	r := strings.NewReplacer("{code}", client.EncodePath(Code))
-	path := r.Replace("/avatars/browsers/{code}")
+func (srv *Avatars) getBrowserParams(optionalSetters ...GetBrowserOption) map[string]interface{} {
 	options := GetBrowserOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -81,6 +68,24 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 	if options.enabledSetters["Quality"] {
 		params["quality"] = options.Quality
 	}
+	return params
+}
+
+// GetBrowser you can use this endpoint to show different browser icons to
+// your users. The code argument receives the browser code as it appears in
+// your user [GET
+// /account/sessions](https://appwrite.io/docs/references/cloud/client-web/account#getSessions)
+// endpoint. Use width, height and quality arguments to change the output
+// settings.
+//
+// When one dimension is specified and the other is 0, the image is scaled
+// with preserved aspect ratio. If both dimensions are 0, the API provides an
+// image at source quality. If dimensions are not specified, the default size
+// of image returned is 100x100px.
+func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption) (*[]byte, error) {
+	r := strings.NewReplacer("{code}", client.EncodePath(Code))
+	path := r.Replace("/avatars/browsers/{code}")
+	params := srv.getBrowserParams(optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "image/png"
@@ -127,23 +132,14 @@ func (srv *Avatars) GetBrowser(Code string, optionalSetters ...GetBrowserOption)
 func (srv *Avatars) GetBrowserURL(Code string, optionalSetters ...GetBrowserOption) (*string, error) {
 	r := strings.NewReplacer("{code}", client.EncodePath(Code))
 	path := r.Replace("/avatars/browsers/{code}")
-	options := GetBrowserOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getBrowserParams(optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	if options.enabledSetters["Width"] {
-		client.AddQueryParam(q, "width", options.Width)
-	}
-	if options.enabledSetters["Height"] {
-		client.AddQueryParam(q, "height", options.Height)
-	}
-	if options.enabledSetters["Quality"] {
-		client.AddQueryParam(q, "quality", options.Quality)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -183,17 +179,7 @@ func (srv *Avatars) WithGetCreditCardQuality(v int) GetCreditCardOption {
 	}
 }
 
-// GetCreditCard the credit card endpoint will return you the icon of the
-// credit card provider you need. Use width, height and quality arguments to
-// change the output settings.
-//
-// When one dimension is specified and the other is 0, the image is scaled
-// with preserved aspect ratio. If both dimensions are 0, the API provides an
-// image at source quality. If dimensions are not specified, the default size
-// of image returned is 100x100px.
-func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardOption) (*[]byte, error) {
-	r := strings.NewReplacer("{code}", client.EncodePath(Code))
-	path := r.Replace("/avatars/credit-cards/{code}")
+func (srv *Avatars) getCreditCardParams(optionalSetters ...GetCreditCardOption) map[string]interface{} {
 	options := GetCreditCardOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -208,6 +194,21 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 	if options.enabledSetters["Quality"] {
 		params["quality"] = options.Quality
 	}
+	return params
+}
+
+// GetCreditCard the credit card endpoint will return you the icon of the
+// credit card provider you need. Use width, height and quality arguments to
+// change the output settings.
+//
+// When one dimension is specified and the other is 0, the image is scaled
+// with preserved aspect ratio. If both dimensions are 0, the API provides an
+// image at source quality. If dimensions are not specified, the default size
+// of image returned is 100x100px.
+func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardOption) (*[]byte, error) {
+	r := strings.NewReplacer("{code}", client.EncodePath(Code))
+	path := r.Replace("/avatars/credit-cards/{code}")
+	params := srv.getCreditCardParams(optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "image/png"
@@ -251,27 +252,24 @@ func (srv *Avatars) GetCreditCard(Code string, optionalSetters ...GetCreditCardO
 func (srv *Avatars) GetCreditCardURL(Code string, optionalSetters ...GetCreditCardOption) (*string, error) {
 	r := strings.NewReplacer("{code}", client.EncodePath(Code))
 	path := r.Replace("/avatars/credit-cards/{code}")
-	options := GetCreditCardOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getCreditCardParams(optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	if options.enabledSetters["Width"] {
-		client.AddQueryParam(q, "width", options.Width)
-	}
-	if options.enabledSetters["Height"] {
-		client.AddQueryParam(q, "height", options.Height)
-	}
-	if options.enabledSetters["Quality"] {
-		client.AddQueryParam(q, "quality", options.Quality)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
 	return &result, nil
+}
+
+func (srv *Avatars) getFaviconParams(Url string) map[string]interface{} {
+	params := map[string]interface{}{}
+	params["url"] = Url
+	return params
 }
 
 // GetFavicon use this endpoint to fetch the favorite icon (AKA favicon) of
@@ -280,8 +278,7 @@ func (srv *Avatars) GetCreditCardURL(Code string, optionalSetters ...GetCreditCa
 // This endpoint does not follow HTTP redirects.
 func (srv *Avatars) GetFavicon(Url string) (*[]byte, error) {
 	path := "/avatars/favicon"
-	params := map[string]interface{}{}
-	params["url"] = Url
+	params := srv.getFaviconParams(Url)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "image/*"
@@ -320,12 +317,15 @@ func (srv *Avatars) GetFavicon(Url string) (*[]byte, error) {
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetFaviconURL(Url string) (*string, error) {
 	path := "/avatars/favicon"
+	params := srv.getFaviconParams(Url)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	client.AddQueryParam(q, "url", Url)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
+	}
 	u.RawQuery = q.Encode()
 	result := u.String()
 	return &result, nil
@@ -364,19 +364,7 @@ func (srv *Avatars) WithGetFlagQuality(v int) GetFlagOption {
 	}
 }
 
-// GetFlag you can use this endpoint to show different country flags icons to
-// your users. The code argument receives the 2 letter country code. Use
-// width, height and quality arguments to change the output settings. Country
-// codes follow the [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
-// standard.
-//
-// When one dimension is specified and the other is 0, the image is scaled
-// with preserved aspect ratio. If both dimensions are 0, the API provides an
-// image at source quality. If dimensions are not specified, the default size
-// of image returned is 100x100px.
-func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption) (*[]byte, error) {
-	r := strings.NewReplacer("{code}", client.EncodePath(Code))
-	path := r.Replace("/avatars/flags/{code}")
+func (srv *Avatars) getFlagParams(optionalSetters ...GetFlagOption) map[string]interface{} {
 	options := GetFlagOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -391,6 +379,23 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption) (*[]b
 	if options.enabledSetters["Quality"] {
 		params["quality"] = options.Quality
 	}
+	return params
+}
+
+// GetFlag you can use this endpoint to show different country flags icons to
+// your users. The code argument receives the 2 letter country code. Use
+// width, height and quality arguments to change the output settings. Country
+// codes follow the [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1)
+// standard.
+//
+// When one dimension is specified and the other is 0, the image is scaled
+// with preserved aspect ratio. If both dimensions are 0, the API provides an
+// image at source quality. If dimensions are not specified, the default size
+// of image returned is 100x100px.
+func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption) (*[]byte, error) {
+	r := strings.NewReplacer("{code}", client.EncodePath(Code))
+	path := r.Replace("/avatars/flags/{code}")
+	params := srv.getFlagParams(optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "image/png"
@@ -436,23 +441,14 @@ func (srv *Avatars) GetFlag(Code string, optionalSetters ...GetFlagOption) (*[]b
 func (srv *Avatars) GetFlagURL(Code string, optionalSetters ...GetFlagOption) (*string, error) {
 	r := strings.NewReplacer("{code}", client.EncodePath(Code))
 	path := r.Replace("/avatars/flags/{code}")
-	options := GetFlagOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getFlagParams(optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	if options.enabledSetters["Width"] {
-		client.AddQueryParam(q, "width", options.Width)
-	}
-	if options.enabledSetters["Height"] {
-		client.AddQueryParam(q, "height", options.Height)
-	}
-	if options.enabledSetters["Quality"] {
-		client.AddQueryParam(q, "quality", options.Quality)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -485,6 +481,22 @@ func (srv *Avatars) WithGetImageHeight(v int) GetImageOption {
 	}
 }
 
+func (srv *Avatars) getImageParams(Url string, optionalSetters ...GetImageOption) map[string]interface{} {
+	options := GetImageOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["url"] = Url
+	if options.enabledSetters["Width"] {
+		params["width"] = options.Width
+	}
+	if options.enabledSetters["Height"] {
+		params["height"] = options.Height
+	}
+	return params
+}
+
 // GetImage use this endpoint to fetch a remote image URL and crop it to any
 // image size you want. This endpoint is very useful if you need to crop and
 // display remote images in your app or in case you want to make sure a 3rd
@@ -498,18 +510,7 @@ func (srv *Avatars) WithGetImageHeight(v int) GetImageOption {
 // This endpoint does not follow HTTP redirects.
 func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption) (*[]byte, error) {
 	path := "/avatars/image"
-	options := GetImageOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	params["url"] = Url
-	if options.enabledSetters["Width"] {
-		params["width"] = options.Width
-	}
-	if options.enabledSetters["Height"] {
-		params["height"] = options.Height
-	}
+	params := srv.getImageParams(Url, optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "image/*"
@@ -555,21 +556,14 @@ func (srv *Avatars) GetImage(Url string, optionalSetters ...GetImageOption) (*[]
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetImageURL(Url string, optionalSetters ...GetImageOption) (*string, error) {
 	path := "/avatars/image"
-	options := GetImageOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getImageParams(Url, optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	client.AddQueryParam(q, "url", Url)
-	if options.enabledSetters["Width"] {
-		client.AddQueryParam(q, "width", options.Width)
-	}
-	if options.enabledSetters["Height"] {
-		client.AddQueryParam(q, "height", options.Height)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -616,23 +610,7 @@ func (srv *Avatars) WithGetInitialsBackground(v string) GetInitialsOption {
 	}
 }
 
-// GetInitials use this endpoint to show your user initials avatar icon on
-// your website or app. By default, this route will try to print your
-// logged-in user name or email initials. You can also overwrite the user name
-// if you pass the 'name' parameter. If no name is given and no user is
-// logged, an empty avatar will be returned.
-//
-// You can use the color and background params to change the avatar colors. By
-// default, a random theme will be selected. The random theme will persist for
-// the user's initials when reloading the same theme will always return for
-// the same initials.
-//
-// When one dimension is specified and the other is 0, the image is scaled
-// with preserved aspect ratio. If both dimensions are 0, the API provides an
-// image at source quality. If dimensions are not specified, the default size
-// of image returned is 100x100px.
-func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption) (*[]byte, error) {
-	path := "/avatars/initials"
+func (srv *Avatars) getInitialsParams(optionalSetters ...GetInitialsOption) map[string]interface{} {
 	options := GetInitialsOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -650,6 +628,27 @@ func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption) (*[]byte, 
 	if options.enabledSetters["Background"] {
 		params["background"] = options.Background
 	}
+	return params
+}
+
+// GetInitials use this endpoint to show your user initials avatar icon on
+// your website or app. By default, this route will try to print your
+// logged-in user name or email initials. You can also overwrite the user name
+// if you pass the 'name' parameter. If no name is given and no user is
+// logged, an empty avatar will be returned.
+//
+// You can use the color and background params to change the avatar colors. By
+// default, a random theme will be selected. The random theme will persist for
+// the user's initials when reloading the same theme will always return for
+// the same initials.
+//
+// When one dimension is specified and the other is 0, the image is scaled
+// with preserved aspect ratio. If both dimensions are 0, the API provides an
+// image at source quality. If dimensions are not specified, the default size
+// of image returned is 100x100px.
+func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption) (*[]byte, error) {
+	path := "/avatars/initials"
+	params := srv.getInitialsParams(optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "image/png"
@@ -699,26 +698,144 @@ func (srv *Avatars) GetInitials(optionalSetters ...GetInitialsOption) (*[]byte, 
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetInitialsURL(optionalSetters ...GetInitialsOption) (*string, error) {
 	path := "/avatars/initials"
-	options := GetInitialsOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getInitialsParams(optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	if options.enabledSetters["Name"] {
-		client.AddQueryParam(q, "name", options.Name)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
+}
+
+type GetPhotoOptions struct {
+	Width          int
+	Height         int
+	Quality        int
+	Output         string
+	Rating         string
+	enabledSetters map[string]bool
+}
+
+func (options GetPhotoOptions) New() *GetPhotoOptions {
+	options.enabledSetters = map[string]bool{"Width": false, "Height": false, "Quality": false, "Output": false, "Rating": false}
+	return &options
+}
+
+type GetPhotoOption func(*GetPhotoOptions)
+
+func (srv *Avatars) WithGetPhotoWidth(v int) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Width = v
+		o.enabledSetters["Width"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoHeight(v int) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Height = v
+		o.enabledSetters["Height"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoQuality(v int) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Quality = v
+		o.enabledSetters["Quality"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoOutput(v string) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Output = v
+		o.enabledSetters["Output"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoRating(v string) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Rating = v
+		o.enabledSetters["Rating"] = true
+	}
+}
+
+func (srv *Avatars) getPhotoParams(optionalSetters ...GetPhotoOption) map[string]interface{} {
+	options := GetPhotoOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
 	if options.enabledSetters["Width"] {
-		client.AddQueryParam(q, "width", options.Width)
+		params["width"] = options.Width
 	}
 	if options.enabledSetters["Height"] {
-		client.AddQueryParam(q, "height", options.Height)
+		params["height"] = options.Height
 	}
-	if options.enabledSetters["Background"] {
-		client.AddQueryParam(q, "background", options.Background)
+	if options.enabledSetters["Quality"] {
+		params["quality"] = options.Quality
+	}
+	if options.enabledSetters["Output"] {
+		params["output"] = options.Output
+	}
+	if options.enabledSetters["Rating"] {
+		params["rating"] = options.Rating
+	}
+	return params
+}
+
+// GetPhoto returns the best available profile photo for the currently
+// authenticated user. The endpoint tries each source in priority order and
+// returns the first successful result: Gravatar, Libavatar, Appwrite
+// Initials, built-in static fallback file.
+func (srv *Avatars) GetPhoto(optionalSetters ...GetPhotoOption) (*[]byte, error) {
+	path := "/avatars/photo"
+	params := srv.getPhotoParams(optionalSetters...)
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "image/*"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed []byte
+	parsed, ok := resp.Result.([]byte)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetPhotoURL returns the best available profile photo for the currently
+// authenticated user. The endpoint tries each source in priority order and
+// returns the first successful result: Gravatar, Libavatar, Appwrite
+// Initials, built-in static fallback file.
+// Returns the URL for the resource instead of the content.
+func (srv *Avatars) GetPhotoURL(optionalSetters ...GetPhotoOption) (*string, error) {
+	path := "/avatars/photo"
+	params := srv.getPhotoParams(optionalSetters...)
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -758,10 +875,7 @@ func (srv *Avatars) WithGetQRDownload(v bool) GetQROption {
 	}
 }
 
-// GetQR converts a given plain text to a QR code image. You can use the query
-// parameters to change the size and style of the resulting image.
-func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption) (*[]byte, error) {
-	path := "/avatars/qr"
+func (srv *Avatars) getQRParams(Text string, optionalSetters ...GetQROption) map[string]interface{} {
 	options := GetQROptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -777,6 +891,14 @@ func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption) (*[]byte,
 	if options.enabledSetters["Download"] {
 		params["download"] = options.Download
 	}
+	return params
+}
+
+// GetQR converts a given plain text to a QR code image. You can use the query
+// parameters to change the size and style of the resulting image.
+func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption) (*[]byte, error) {
+	path := "/avatars/qr"
+	params := srv.getQRParams(Text, optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "image/png"
@@ -813,24 +935,14 @@ func (srv *Avatars) GetQR(Text string, optionalSetters ...GetQROption) (*[]byte,
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetQRURL(Text string, optionalSetters ...GetQROption) (*string, error) {
 	path := "/avatars/qr"
-	options := GetQROptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getQRParams(Text, optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	client.AddQueryParam(q, "text", Text)
-	if options.enabledSetters["Size"] {
-		client.AddQueryParam(q, "size", options.Size)
-	}
-	if options.enabledSetters["Margin"] {
-		client.AddQueryParam(q, "margin", options.Margin)
-	}
-	if options.enabledSetters["Download"] {
-		client.AddQueryParam(q, "download", options.Download)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()
@@ -982,19 +1094,7 @@ func (srv *Avatars) WithGetScreenshotOutput(v string) GetScreenshotOption {
 	}
 }
 
-// GetScreenshot use this endpoint to capture a screenshot of any website URL.
-// This endpoint uses a headless browser to render the webpage and capture it
-// as an image.
-//
-// You can configure the browser viewport size, theme, user agent,
-// geolocation, permissions, and more. Capture either just the viewport or the
-// full page scroll.
-//
-// When width and height are specified, the image is resized accordingly. If
-// both dimensions are 0, the API provides an image at original size. If
-// dimensions are not specified, the default viewport size is 1280x720px.
-func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOption) (*[]byte, error) {
-	path := "/avatars/screenshots"
+func (srv *Avatars) getScreenshotParams(Url string, optionalSetters ...GetScreenshotOption) map[string]interface{} {
 	options := GetScreenshotOptions{}.New()
 	for _, opt := range optionalSetters {
 		opt(options)
@@ -1058,6 +1158,23 @@ func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOp
 	if options.enabledSetters["Output"] {
 		params["output"] = options.Output
 	}
+	return params
+}
+
+// GetScreenshot use this endpoint to capture a screenshot of any website URL.
+// This endpoint uses a headless browser to render the webpage and capture it
+// as an image.
+//
+// You can configure the browser viewport size, theme, user agent,
+// geolocation, permissions, and more. Capture either just the viewport or the
+// full page scroll.
+//
+// When width and height are specified, the image is resized accordingly. If
+// both dimensions are 0, the API provides an image at original size. If
+// dimensions are not specified, the default viewport size is 1280x720px.
+func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOption) (*[]byte, error) {
+	path := "/avatars/screenshots"
+	params := srv.getScreenshotParams(Url, optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "image/png"
@@ -1103,72 +1220,14 @@ func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOp
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetScreenshotURL(Url string, optionalSetters ...GetScreenshotOption) (*string, error) {
 	path := "/avatars/screenshots"
-	options := GetScreenshotOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
+	params := srv.getScreenshotParams(Url, optionalSetters...)
 	u, err := url.Parse(srv.client.Endpoint + path)
 	if err != nil {
 		return nil, err
 	}
 	q := u.Query()
-	client.AddQueryParam(q, "url", Url)
-	if options.enabledSetters["Headers"] {
-		client.AddQueryParam(q, "headers", options.Headers)
-	}
-	if options.enabledSetters["ViewportWidth"] {
-		client.AddQueryParam(q, "viewportWidth", options.ViewportWidth)
-	}
-	if options.enabledSetters["ViewportHeight"] {
-		client.AddQueryParam(q, "viewportHeight", options.ViewportHeight)
-	}
-	if options.enabledSetters["Scale"] {
-		client.AddQueryParam(q, "scale", options.Scale)
-	}
-	if options.enabledSetters["Theme"] {
-		client.AddQueryParam(q, "theme", options.Theme)
-	}
-	if options.enabledSetters["UserAgent"] {
-		client.AddQueryParam(q, "userAgent", options.UserAgent)
-	}
-	if options.enabledSetters["Fullpage"] {
-		client.AddQueryParam(q, "fullpage", options.Fullpage)
-	}
-	if options.enabledSetters["Locale"] {
-		client.AddQueryParam(q, "locale", options.Locale)
-	}
-	if options.enabledSetters["Timezone"] {
-		client.AddQueryParam(q, "timezone", options.Timezone)
-	}
-	if options.enabledSetters["Latitude"] {
-		client.AddQueryParam(q, "latitude", options.Latitude)
-	}
-	if options.enabledSetters["Longitude"] {
-		client.AddQueryParam(q, "longitude", options.Longitude)
-	}
-	if options.enabledSetters["Accuracy"] {
-		client.AddQueryParam(q, "accuracy", options.Accuracy)
-	}
-	if options.enabledSetters["Touch"] {
-		client.AddQueryParam(q, "touch", options.Touch)
-	}
-	if options.enabledSetters["Permissions"] {
-		client.AddQueryParam(q, "permissions", options.Permissions)
-	}
-	if options.enabledSetters["Sleep"] {
-		client.AddQueryParam(q, "sleep", options.Sleep)
-	}
-	if options.enabledSetters["Width"] {
-		client.AddQueryParam(q, "width", options.Width)
-	}
-	if options.enabledSetters["Height"] {
-		client.AddQueryParam(q, "height", options.Height)
-	}
-	if options.enabledSetters["Quality"] {
-		client.AddQueryParam(q, "quality", options.Quality)
-	}
-	if options.enabledSetters["Output"] {
-		client.AddQueryParam(q, "output", options.Output)
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
 	}
 	u.RawQuery = q.Encode()
 	result := u.String()

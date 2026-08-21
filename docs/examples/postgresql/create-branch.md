@@ -2,22 +2,26 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/postgresql"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/postgresql"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := postgresql.New(client)
+	service := postgresql.New(client)
 
-response, error := service.CreateBranch(
-    "<DATABASE_ID>",
-    postgresql.WithCreateBranchBranchId("<BRANCH_ID>"),
-    postgresql.WithCreateBranchTtl(300),
-)
+	response, err := service.CreateBranch(
+		"<DATABASE_ID>",
+		service.WithCreateBranchBranchId("<BRANCH_ID>"),
+		service.WithCreateBranchTtl(300),
+	)
+	fmt.Println(response, err)
+}
 ```

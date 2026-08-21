@@ -2,25 +2,29 @@
 package main
 
 import (
-    "fmt"
-    "github.com/appwrite/sdk-for-go/v7/client"
-    "github.com/appwrite/sdk-for-go/v7/tablesdb"
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/tablesdb"
 )
 
-client := client.New(
-    client.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1")
-    client.WithProject("<YOUR_PROJECT_ID>")
-    client.WithKey("<YOUR_API_KEY>")
-)
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
 
-service := tablesdb.New(client)
+	service := tablesdb.New(client)
 
-response, error := service.UpdatePolygonColumn(
-    "<DATABASE_ID>",
-    "<TABLE_ID>",
-    "",
-    false,
-    tablesdb.WithUpdatePolygonColumnDefault([][]interface{}{[[1, 2], [3, 4], [5, 6], [1, 2]]}),
-    tablesdb.WithUpdatePolygonColumnNewKey(""),
-)
+	response, err := service.UpdatePolygonColumn(
+		"<DATABASE_ID>",
+		"<TABLE_ID>",
+		"",
+		false,
+		service.WithUpdatePolygonColumnDefault([][]interface{}{[]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}, []interface{}{1, 2}}}),
+		service.WithUpdatePolygonColumnNewKey(""),
+	)
+	fmt.Println(response, err)
+}
 ```
