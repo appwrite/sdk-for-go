@@ -17,8 +17,7 @@ func main() {
 
 	service := account.New(client)
 
-	response, err := service.CreateAnonymousSession(
-	)
+	response, err := service.CreateAnonymousSession()
 	fmt.Println(response, err)
 }
 ```

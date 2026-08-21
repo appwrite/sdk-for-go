@@ -17,8 +17,7 @@ func main() {
 
 	service := organization.New(client)
 
-	response, err := service.Delete(
-	)
+	response, err := service.Delete()
 	fmt.Println(response, err)
 }
 ```

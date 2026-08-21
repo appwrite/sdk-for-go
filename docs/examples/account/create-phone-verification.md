@@ -17,8 +17,7 @@ func main() {
 
 	service := account.New(client)
 
-	response, err := service.CreatePhoneVerification(
-	)
+	response, err := service.CreatePhoneVerification()
 	fmt.Println(response, err)
 }
 ```

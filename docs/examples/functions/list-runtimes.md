@@ -17,8 +17,7 @@ func main() {
 
 	service := functions.New(client)
 
-	response, err := service.ListRuntimes(
-	)
+	response, err := service.ListRuntimes()
 	fmt.Println(response, err)
 }
 ```

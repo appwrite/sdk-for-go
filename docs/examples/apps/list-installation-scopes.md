@@ -17,8 +17,7 @@ func main() {
 
 	service := apps.New(client)
 
-	response, err := service.ListInstallationScopes(
-	)
+	response, err := service.ListInstallationScopes()
 	fmt.Println(response, err)
 }
 ```

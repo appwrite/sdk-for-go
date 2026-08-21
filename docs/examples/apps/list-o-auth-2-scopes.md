@@ -17,8 +17,7 @@ func main() {
 
 	service := apps.New(client)
 
-	response, err := service.ListOAuth2Scopes(
-	)
+	response, err := service.ListOAuth2Scopes()
 	fmt.Println(response, err)
 }
 ```

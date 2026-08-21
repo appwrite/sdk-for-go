@@ -17,8 +17,7 @@ func main() {
 
 	service := project.New(client)
 
-	response, err := service.Get(
-	)
+	response, err := service.Get()
 	fmt.Println(response, err)
 }
 ```

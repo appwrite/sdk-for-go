@@ -17,8 +17,7 @@ func main() {
 
 	service := documentsdb.New(client)
 
-	response, err := service.ListSpecifications(
-	)
+	response, err := service.ListSpecifications()
 	fmt.Println(response, err)
 }
 ```

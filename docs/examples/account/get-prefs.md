@@ -17,8 +17,7 @@ func main() {
 
 	service := account.New(client)
 
-	response, err := service.GetPrefs(
-	)
+	response, err := service.GetPrefs()
 	fmt.Println(response, err)
 }
 ```

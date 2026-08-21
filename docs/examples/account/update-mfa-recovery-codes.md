@@ -17,8 +17,7 @@ func main() {
 
 	service := account.New(client)
 
-	response, err := service.UpdateMFARecoveryCodes(
-	)
+	response, err := service.UpdateMFARecoveryCodes()
 	fmt.Println(response, err)
 }
 ```

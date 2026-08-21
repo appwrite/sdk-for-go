@@ -17,8 +17,7 @@ func main() {
 
 	service := locale.New(client)
 
-	response, err := service.ListContinents(
-	)
+	response, err := service.ListContinents()
 	fmt.Println(response, err)
 }
 ```

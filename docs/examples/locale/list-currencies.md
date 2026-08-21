@@ -17,8 +17,7 @@ func main() {
 
 	service := locale.New(client)
 
-	response, err := service.ListCurrencies(
-	)
+	response, err := service.ListCurrencies()
 	fmt.Println(response, err)
 }
 ```

@@ -17,8 +17,7 @@ func main() {
 
 	service := account.New(client)
 
-	response, err := service.ListMFAFactors(
-	)
+	response, err := service.ListMFAFactors()
 	fmt.Println(response, err)
 }
 ```

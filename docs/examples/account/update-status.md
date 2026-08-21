@@ -17,8 +17,7 @@ func main() {
 
 	service := account.New(client)
 
-	response, err := service.UpdateStatus(
-	)
+	response, err := service.UpdateStatus()
 	fmt.Println(response, err)
 }
 ```
