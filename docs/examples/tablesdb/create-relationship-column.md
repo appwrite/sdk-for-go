@@ -23,8 +23,8 @@ func main() {
 		"<RELATED_TABLE_ID>",
 		"oneToOne",
 		service.WithCreateRelationshipColumnTwoWay(false),
-		service.WithCreateRelationshipColumnKey(""),
-		service.WithCreateRelationshipColumnTwoWayKey(""),
+		service.WithCreateRelationshipColumnKey("<KEY>"),
+		service.WithCreateRelationshipColumnTwoWayKey("<TWO_WAY_KEY>"),
 		service.WithCreateRelationshipColumnOnDelete("cascade"),
 	)
 	fmt.Println(response, err)

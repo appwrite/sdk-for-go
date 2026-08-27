@@ -18,7 +18,7 @@ func main() {
 	service := proxy.New(client)
 
 	response, err := service.CreateInvalidation(
-		"",
+		"example.com",
 		"tag",
 		service.WithCreateInvalidationReference("<REFERENCE>"),
 	)

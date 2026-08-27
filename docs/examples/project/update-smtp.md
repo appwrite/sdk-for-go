@@ -18,8 +18,8 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.UpdateSMTP(
-		service.WithUpdateSMTPHost(""),
-		service.WithUpdateSMTPPort(0),
+		service.WithUpdateSMTPHost("example.com"),
+		service.WithUpdateSMTPPort(587),
 		service.WithUpdateSMTPUsername("<USERNAME>"),
 		service.WithUpdateSMTPPassword("password"),
 		service.WithUpdateSMTPSenderEmail("email@example.com"),

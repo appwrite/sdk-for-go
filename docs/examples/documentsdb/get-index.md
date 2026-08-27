@@ -20,7 +20,7 @@ func main() {
 	response, err := service.GetIndex(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 	)
 	fmt.Println(response, err)
 }

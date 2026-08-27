@@ -18,7 +18,7 @@ func main() {
 	service := organization.New(client)
 
 	response, err := service.CreateProject(
-		"",
+		"<PROJECT_ID>",
 		"<NAME>",
 		service.WithCreateProjectRegion("fra"),
 	)

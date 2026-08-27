@@ -20,9 +20,9 @@ func main() {
 	response, err := service.CreateMediumtextAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
-		service.WithCreateMediumtextAttributeDefault("<DEFAULT>"),
+		service.WithCreateMediumtextAttributeDefault("Hello World"),
 		service.WithCreateMediumtextAttributeArray(false),
 		service.WithCreateMediumtextAttributeEncrypt(false),
 	)

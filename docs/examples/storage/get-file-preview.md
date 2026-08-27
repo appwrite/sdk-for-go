@@ -25,11 +25,11 @@ func main() {
 		service.WithGetFilePreviewGravity("center"),
 		service.WithGetFilePreviewQuality(-1),
 		service.WithGetFilePreviewBorderWidth(0),
-		service.WithGetFilePreviewBorderColor(""),
+		service.WithGetFilePreviewBorderColor("FFFFFF"),
 		service.WithGetFilePreviewBorderRadius(0),
 		service.WithGetFilePreviewOpacity(0),
 		service.WithGetFilePreviewRotation(-360),
-		service.WithGetFilePreviewBackground(""),
+		service.WithGetFilePreviewBackground("FFFFFF"),
 		service.WithGetFilePreviewOutput("jpg"),
 		service.WithGetFilePreviewToken("<TOKEN>"),
 	)

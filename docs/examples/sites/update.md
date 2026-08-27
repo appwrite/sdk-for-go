@@ -38,8 +38,8 @@ func main() {
 		service.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
 		service.WithUpdateProviderBranches([]string{}),
 		service.WithUpdateProviderPaths([]string{}),
-		service.WithUpdateBuildSpecification(""),
-		service.WithUpdateRuntimeSpecification(""),
+		service.WithUpdateBuildSpecification("s-1vcpu-512mb"),
+		service.WithUpdateRuntimeSpecification("s-1vcpu-512mb"),
 		service.WithUpdateDeploymentRetention(0),
 		service.WithUpdateScopes([]string{}),
 	)

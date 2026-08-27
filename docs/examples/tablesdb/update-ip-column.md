@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateIpColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
-		"",
-		service.WithUpdateIpColumnNewKey(""),
+		"192.0.2.0",
+		service.WithUpdateIpColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

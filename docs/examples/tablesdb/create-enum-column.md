@@ -20,10 +20,10 @@ func main() {
 	response, err := service.CreateEnumColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
-		[]string{},
+		"<KEY>",
+		[]string{"active", "inactive"},
 		false,
-		service.WithCreateEnumColumnDefault("<DEFAULT>"),
+		service.WithCreateEnumColumnDefault("active"),
 		service.WithCreateEnumColumnArray(false),
 	)
 	fmt.Println(response, err)

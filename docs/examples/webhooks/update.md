@@ -20,7 +20,7 @@ func main() {
 	response, err := service.Update(
 		"<WEBHOOK_ID>",
 		"<NAME>",
-		"",
+		"https://example.com/webhook",
 		[]string{},
 		service.WithUpdateEnabled(false),
 		service.WithUpdateTls(false),

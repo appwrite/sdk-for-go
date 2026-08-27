@@ -20,11 +20,11 @@ func main() {
 	response, err := service.UpdateVarcharAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
-		"<DEFAULT>",
+		"Hello World",
 		service.WithUpdateVarcharAttributeSize(1),
-		service.WithUpdateVarcharAttributeNewKey(""),
+		service.WithUpdateVarcharAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

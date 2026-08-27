@@ -20,10 +20,10 @@ func main() {
 	response, err := service.CreateVarcharColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		1,
 		false,
-		service.WithCreateVarcharColumnDefault("<DEFAULT>"),
+		service.WithCreateVarcharColumnDefault("Hello World"),
 		service.WithCreateVarcharColumnArray(false),
 		service.WithCreateVarcharColumnEncrypt(false),
 	)

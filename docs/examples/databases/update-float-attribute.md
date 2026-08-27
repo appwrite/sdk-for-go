@@ -20,12 +20,12 @@ func main() {
 	response, err := service.UpdateFloatAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
-		0,
+		10.5,
 		service.WithUpdateFloatAttributeMin(0),
-		service.WithUpdateFloatAttributeMax(0),
-		service.WithUpdateFloatAttributeNewKey(""),
+		service.WithUpdateFloatAttributeMax(100),
+		service.WithUpdateFloatAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

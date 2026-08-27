@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListOperations(
 		"<DATABASE_ID>",
-		service.WithListOperationsStatus("running"),
+		service.WithListOperationsStatus("queued"),
 		service.WithListOperationsLimit(1),
 		service.WithListOperationsOffset(0),
 	)

@@ -29,6 +29,8 @@ type DatabaseMigration struct {
 	LastError string `json:"lastError"`
 	// Number of documents still pending replication to the target.
 	LagDocuments int `json:"lagDocuments"`
+	// Highest source changelog sequence applied to the target so far.
+	ChangelogWatermark int `json:"changelogWatermark"`
 	// Time the migrated data was verified against the source in ISO 8601 format.
 	VerifiedAt string `json:"verifiedAt"`
 	// Time routing was flipped to the target in ISO 8601 format.

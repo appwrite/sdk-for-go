@@ -718,11 +718,14 @@ type GetPhotoOptions struct {
 	Quality        int
 	Output         string
 	Rating         string
+	UserId         string
+	EmailHash      string
+	Name           string
 	enabledSetters map[string]bool
 }
 
 func (options GetPhotoOptions) New() *GetPhotoOptions {
-	options.enabledSetters = map[string]bool{"Width": false, "Height": false, "Quality": false, "Output": false, "Rating": false}
+	options.enabledSetters = map[string]bool{"Width": false, "Height": false, "Quality": false, "Output": false, "Rating": false, "UserId": false, "EmailHash": false, "Name": false}
 	return &options
 }
 
@@ -758,6 +761,24 @@ func (srv *Avatars) WithGetPhotoRating(v string) GetPhotoOption {
 		o.enabledSetters["Rating"] = true
 	}
 }
+func (srv *Avatars) WithGetPhotoUserId(v string) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.UserId = v
+		o.enabledSetters["UserId"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoEmailHash(v string) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.EmailHash = v
+		o.enabledSetters["EmailHash"] = true
+	}
+}
+func (srv *Avatars) WithGetPhotoName(v string) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
 
 func (srv *Avatars) getPhotoParams(optionalSetters ...GetPhotoOption) map[string]interface{} {
 	options := GetPhotoOptions{}.New()
@@ -780,13 +801,30 @@ func (srv *Avatars) getPhotoParams(optionalSetters ...GetPhotoOption) map[string
 	if options.enabledSetters["Rating"] {
 		params["rating"] = options.Rating
 	}
+	if options.enabledSetters["UserId"] {
+		params["userId"] = options.UserId
+	}
+	if options.enabledSetters["EmailHash"] {
+		params["emailHash"] = options.EmailHash
+	}
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
 	return params
 }
 
-// GetPhoto returns the best available profile photo for the currently
-// authenticated user. The endpoint tries each source in priority order and
-// returns the first successful result: Gravatar, Libavatar, Appwrite
-// Initials, built-in static fallback file.
+// GetPhoto returns the best available profile photo for a user. The endpoint
+// tries each source in priority order and returns the first successful
+// result: OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials,
+// built-in static fallback.
+//
+// The photo resolves for the currently authenticated user unless `userId`
+// points at another user. Passing `emailHash` and/or `name` resolves the
+// avatar from those values alone: the hash is looked up on Gravatar and
+// Libravatar, the name is rendered as initials, and the user's own identity
+// photos, email, and name leave the chain so they never shadow the avatar
+// being asked for. Emails are only ever accepted pre-hashed, so no address
+// ends up in a URL.
 func (srv *Avatars) GetPhoto(optionalSetters ...GetPhotoOption) (*[]byte, error) {
 	path := "/avatars/photo"
 	params := srv.getPhotoParams(optionalSetters...)
@@ -821,10 +859,18 @@ func (srv *Avatars) GetPhoto(optionalSetters ...GetPhotoOption) (*[]byte, error)
 
 }
 
-// GetPhotoURL returns the best available profile photo for the currently
-// authenticated user. The endpoint tries each source in priority order and
-// returns the first successful result: Gravatar, Libavatar, Appwrite
-// Initials, built-in static fallback file.
+// GetPhotoURL returns the best available profile photo for a user. The
+// endpoint tries each source in priority order and returns the first
+// successful result: OAuth2 identity photo, Gravatar, Libravatar, Appwrite
+// Initials, built-in static fallback.
+//
+// The photo resolves for the currently authenticated user unless `userId`
+// points at another user. Passing `emailHash` and/or `name` resolves the
+// avatar from those values alone: the hash is looked up on Gravatar and
+// Libravatar, the name is rendered as initials, and the user's own identity
+// photos, email, and name leave the chain so they never shadow the avatar
+// being asked for. Emails are only ever accepted pre-hashed, so no address
+// ends up in a URL.
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetPhotoURL(optionalSetters ...GetPhotoOption) (*string, error) {
 	path := "/avatars/photo"

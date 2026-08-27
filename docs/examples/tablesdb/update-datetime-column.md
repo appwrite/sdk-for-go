@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateDatetimeColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		"2020-10-15T06:38:00.000+00:00",
-		service.WithUpdateDatetimeColumnNewKey(""),
+		service.WithUpdateDatetimeColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

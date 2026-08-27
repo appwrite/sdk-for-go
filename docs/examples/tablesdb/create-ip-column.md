@@ -20,9 +20,9 @@ func main() {
 	response, err := service.CreateIpColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
-		service.WithCreateIpColumnDefault(""),
+		service.WithCreateIpColumnDefault("192.0.2.0"),
 		service.WithCreateIpColumnArray(false),
 	)
 	fmt.Println(response, err)

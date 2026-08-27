@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateMediumtextAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
-		"<DEFAULT>",
-		service.WithUpdateMediumtextAttributeNewKey(""),
+		"Hello World",
+		service.WithUpdateMediumtextAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

@@ -21,9 +21,9 @@ func main() {
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
 		"<ROW_ID>",
-		"",
-		service.WithIncrementRowColumnValue(0),
-		service.WithIncrementRowColumnMax(0),
+		"<COLUMN>",
+		service.WithIncrementRowColumnValue(1),
+		service.WithIncrementRowColumnMax(100),
 		service.WithIncrementRowColumnTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)

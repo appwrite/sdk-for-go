@@ -20,12 +20,12 @@ func main() {
 	response, err := service.UpdateIntegerColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
-		0,
+		10,
 		service.WithUpdateIntegerColumnMin(0),
-		service.WithUpdateIntegerColumnMax(0),
-		service.WithUpdateIntegerColumnNewKey(""),
+		service.WithUpdateIntegerColumnMax(100),
+		service.WithUpdateIntegerColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

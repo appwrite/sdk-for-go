@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.Create(
 		"<WEBHOOK_ID>",
-		"",
+		"https://example.com/webhook",
 		"<NAME>",
 		[]string{},
 		service.WithCreateEnabled(false),

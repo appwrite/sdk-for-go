@@ -20,12 +20,12 @@ func main() {
 	response, err := service.UpdateIntegerAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
-		0,
+		10,
 		service.WithUpdateIntegerAttributeMin(0),
-		service.WithUpdateIntegerAttributeMax(0),
-		service.WithUpdateIntegerAttributeNewKey(""),
+		service.WithUpdateIntegerAttributeMax(100),
+		service.WithUpdateIntegerAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

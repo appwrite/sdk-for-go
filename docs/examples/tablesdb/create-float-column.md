@@ -20,11 +20,11 @@ func main() {
 	response, err := service.CreateFloatColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateFloatColumnMin(0),
-		service.WithCreateFloatColumnMax(0),
-		service.WithCreateFloatColumnDefault(0),
+		service.WithCreateFloatColumnMax(100),
+		service.WithCreateFloatColumnDefault(10.5),
 		service.WithCreateFloatColumnArray(false),
 	)
 	fmt.Println(response, err)

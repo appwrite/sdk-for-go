@@ -21,9 +21,9 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<DOCUMENT_ID>",
-		"",
-		service.WithIncrementDocumentAttributeValue(0),
-		service.WithIncrementDocumentAttributeMax(0),
+		"<ATTRIBUTE>",
+		service.WithIncrementDocumentAttributeValue(1),
+		service.WithIncrementDocumentAttributeMax(100),
 		service.WithIncrementDocumentAttributeTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)

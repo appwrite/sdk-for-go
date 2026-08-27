@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateEmailAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		"email@example.com",
-		service.WithUpdateEmailAttributeNewKey(""),
+		service.WithUpdateEmailAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

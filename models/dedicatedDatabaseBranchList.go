@@ -7,6 +7,8 @@ import (
 
 // BranchList Model
 type DedicatedDatabaseBranchList struct {
+	// Total number of branches.
+	Total int `json:"total"`
 	// List of branches.
 	Branches []DedicatedDatabaseBranch `json:"branches"`
 

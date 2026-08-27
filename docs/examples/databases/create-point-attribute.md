@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreatePointAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreatePointAttributeDefault([]float64{1, 2}),
 	)

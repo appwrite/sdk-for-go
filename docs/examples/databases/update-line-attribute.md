@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateLineAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithUpdateLineAttributeDefault([][]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}}),
-		service.WithUpdateLineAttributeNewKey(""),
+		service.WithUpdateLineAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

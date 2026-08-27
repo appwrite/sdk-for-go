@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateIndex(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		"hnsw_euclidean",
 		[]string{},
 		service.WithCreateIndexOrders([]string{}),

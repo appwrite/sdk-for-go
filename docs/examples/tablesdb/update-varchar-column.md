@@ -20,11 +20,11 @@ func main() {
 	response, err := service.UpdateVarcharColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
-		"<DEFAULT>",
+		"Hello World",
 		service.WithUpdateVarcharColumnSize(1),
-		service.WithUpdateVarcharColumnNewKey(""),
+		service.WithUpdateVarcharColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

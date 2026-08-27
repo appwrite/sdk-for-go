@@ -20,7 +20,7 @@ func main() {
 	response, err := service.GetAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 	)
 	fmt.Println(response, err)
 }

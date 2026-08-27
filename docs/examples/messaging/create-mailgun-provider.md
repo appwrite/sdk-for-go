@@ -21,7 +21,7 @@ func main() {
 		"<PROVIDER_ID>",
 		"<NAME>",
 		service.WithCreateMailgunProviderApiKey("<API_KEY>"),
-		service.WithCreateMailgunProviderDomain("<DOMAIN>"),
+		service.WithCreateMailgunProviderDomain("example.com"),
 		service.WithCreateMailgunProviderIsEuRegion(false),
 		service.WithCreateMailgunProviderFromName("<FROM_NAME>"),
 		service.WithCreateMailgunProviderFromEmail("email@example.com"),

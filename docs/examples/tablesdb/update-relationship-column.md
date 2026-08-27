@@ -20,9 +20,9 @@ func main() {
 	response, err := service.UpdateRelationshipColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		service.WithUpdateRelationshipColumnOnDelete("cascade"),
-		service.WithUpdateRelationshipColumnNewKey(""),
+		service.WithUpdateRelationshipColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

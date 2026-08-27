@@ -20,11 +20,11 @@ func main() {
 	response, err := service.CreateFloatAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateFloatAttributeMin(0),
-		service.WithCreateFloatAttributeMax(0),
-		service.WithCreateFloatAttributeDefault(0),
+		service.WithCreateFloatAttributeMax(100),
+		service.WithCreateFloatAttributeDefault(10.5),
 		service.WithCreateFloatAttributeArray(false),
 	)
 	fmt.Println(response, err)

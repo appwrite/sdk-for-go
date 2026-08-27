@@ -39,7 +39,7 @@ func TestProxy(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateInvalidation("", "tag")
+		_, err := srv.CreateInvalidation("example.com", "tag")
 		if err != nil {
 			t.Errorf("Method CreateInvalidation failed: %v", err)
 		}
@@ -122,7 +122,7 @@ func TestProxy(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateAPIRule("")
+		_, err := srv.CreateAPIRule("example.com")
 		if err != nil {
 			t.Errorf("Method CreateAPIRule failed: %v", err)
 		}
@@ -161,7 +161,7 @@ func TestProxy(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateFunctionRule("", "<FUNCTION_ID>")
+		_, err := srv.CreateFunctionRule("example.com", "<FUNCTION_ID>")
 		if err != nil {
 			t.Errorf("Method CreateFunctionRule failed: %v", err)
 		}
@@ -200,7 +200,7 @@ func TestProxy(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRedirectRule("", "https://example.com", "301", "<RESOURCE_ID>", "site")
+		_, err := srv.CreateRedirectRule("example.com", "https://example.com", "301", "<RESOURCE_ID>", "site")
 		if err != nil {
 			t.Errorf("Method CreateRedirectRule failed: %v", err)
 		}
@@ -239,7 +239,7 @@ func TestProxy(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateSiteRule("", "<SITE_ID>")
+		_, err := srv.CreateSiteRule("example.com", "<SITE_ID>")
 		if err != nil {
 			t.Errorf("Method CreateSiteRule failed: %v", err)
 		}

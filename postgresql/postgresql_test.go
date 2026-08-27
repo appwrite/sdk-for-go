@@ -722,6 +722,7 @@ func TestPostgresql(t *testing.T) {
 	t.Run("Test ListBranches", func(t *testing.T) {
 		mockResponse := `
 {
+    "total": 2,
     "branches": [
         {
             "branchId": "a1b2c3d4",

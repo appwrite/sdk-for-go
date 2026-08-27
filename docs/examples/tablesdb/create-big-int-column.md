@@ -20,10 +20,10 @@ func main() {
 	response, err := service.CreateBigIntColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateBigIntColumnMin(0),
-		service.WithCreateBigIntColumnMax(0),
+		service.WithCreateBigIntColumnMax(1000000),
 		service.WithCreateBigIntColumnDefault(0),
 		service.WithCreateBigIntColumnArray(false),
 	)

@@ -91,7 +91,7 @@ func TestWebhooks(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.Create("<WEBHOOK_ID>", "", "<NAME>", []string{})
+		_, err := srv.Create("<WEBHOOK_ID>", "https://example.com/webhook", "<NAME>", []string{})
 		if err != nil {
 			t.Errorf("Method Create failed: %v", err)
 		}
@@ -167,7 +167,7 @@ func TestWebhooks(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.Update("<WEBHOOK_ID>", "<NAME>", "", []string{})
+		_, err := srv.Update("<WEBHOOK_ID>", "<NAME>", "https://example.com/webhook", []string{})
 		if err != nil {
 			t.Errorf("Method Update failed: %v", err)
 		}
