@@ -6,7 +6,6 @@
 * Added: `Error`, `ContainerStatus`, and `LifecycleState` on the `Database` model
 * Added: `ChangelogWatermark` on the `DatabaseMigration` model
 * Added: `Total` on the `DedicatedDatabaseBranchList` model
-* Fixed: chunked file uploads now resume from the `fileId` parameter instead of the raw argument
 * Updated: `DedicatedDatabaseOperation.Status` documents the new `queued` state
 
 ## v7.2.0-rc.3
