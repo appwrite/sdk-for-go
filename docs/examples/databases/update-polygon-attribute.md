@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdatePolygonAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithUpdatePolygonAttributeDefault([][]interface{}{[]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}, []interface{}{1, 2}}}),
-		service.WithUpdatePolygonAttributeNewKey(""),
+		service.WithUpdatePolygonAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

@@ -1,5 +1,13 @@
 # Change Log
 
+## v7.2.0-rc.4
+
+* Added: `UserId`, `EmailHash`, and `Name` options on `Avatars.GetPhoto`
+* Added: `Error`, `ContainerStatus`, and `LifecycleState` on the `Database` model
+* Added: `ChangelogWatermark` on the `DatabaseMigration` model
+* Added: `Total` on the `DedicatedDatabaseBranchList` model
+* Updated: `DedicatedDatabaseOperation.Status` documents the new `queued` state
+
 ## v7.2.0-rc.3
 
 * Added: `Avatars.GetPhoto` and `GetPhotoURL` returning the user's best available profile photo

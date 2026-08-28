@@ -20,9 +20,9 @@ func main() {
 	response, err := service.CreateTextColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
-		service.WithCreateTextColumnDefault("<DEFAULT>"),
+		service.WithCreateTextColumnDefault("Hello World"),
 		service.WithCreateTextColumnArray(false),
 		service.WithCreateTextColumnEncrypt(false),
 	)

@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateEmailAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateEmailAttributeDefault("email@example.com"),
 		service.WithCreateEmailAttributeArray(false),

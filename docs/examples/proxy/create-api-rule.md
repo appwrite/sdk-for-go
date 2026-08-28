@@ -18,7 +18,7 @@ func main() {
 	service := proxy.New(client)
 
 	response, err := service.CreateAPIRule(
-		"",
+		"example.com",
 	)
 	fmt.Println(response, err)
 }

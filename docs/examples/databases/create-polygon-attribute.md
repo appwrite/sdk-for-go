@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreatePolygonAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreatePolygonAttributeDefault([][]interface{}{[]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}, []interface{}{1, 2}}}),
 	)

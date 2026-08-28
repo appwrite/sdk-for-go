@@ -638,7 +638,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateBigIntAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateBigIntAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateBigIntAttribute failed: %v", err)
 		}
@@ -670,7 +670,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateBigIntAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, 1)
+		_, err := srv.UpdateBigIntAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, 1)
 		if err != nil {
 			t.Errorf("Method UpdateBigIntAttribute failed: %v", err)
 		}
@@ -702,7 +702,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateBooleanAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateBooleanAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateBooleanAttribute failed: %v", err)
 		}
@@ -734,7 +734,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateBooleanAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, true)
+		_, err := srv.UpdateBooleanAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, true)
 		if err != nil {
 			t.Errorf("Method UpdateBooleanAttribute failed: %v", err)
 		}
@@ -767,7 +767,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateDatetimeAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateDatetimeAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateDatetimeAttribute failed: %v", err)
 		}
@@ -800,7 +800,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateDatetimeAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, "2020-10-15T06:38:00.000+00:00")
+		_, err := srv.UpdateDatetimeAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, "2020-10-15T06:38:00.000+00:00")
 		if err != nil {
 			t.Errorf("Method UpdateDatetimeAttribute failed: %v", err)
 		}
@@ -833,7 +833,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateEmailAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateEmailAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateEmailAttribute failed: %v", err)
 		}
@@ -866,7 +866,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateEmailAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, "email@example.com")
+		_, err := srv.UpdateEmailAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, "email@example.com")
 		if err != nil {
 			t.Errorf("Method UpdateEmailAttribute failed: %v", err)
 		}
@@ -900,7 +900,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateEnumAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", []string{}, true)
+		_, err := srv.CreateEnumAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", []string{}, true)
 		if err != nil {
 			t.Errorf("Method CreateEnumAttribute failed: %v", err)
 		}
@@ -934,7 +934,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateEnumAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", []string{}, true, "<DEFAULT>")
+		_, err := srv.UpdateEnumAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", []string{}, true, "active")
 		if err != nil {
 			t.Errorf("Method UpdateEnumAttribute failed: %v", err)
 		}
@@ -966,7 +966,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateFloatAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateFloatAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateFloatAttribute failed: %v", err)
 		}
@@ -998,7 +998,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateFloatAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, 1.0)
+		_, err := srv.UpdateFloatAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, 1.0)
 		if err != nil {
 			t.Errorf("Method UpdateFloatAttribute failed: %v", err)
 		}
@@ -1030,7 +1030,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateIntegerAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateIntegerAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateIntegerAttribute failed: %v", err)
 		}
@@ -1062,7 +1062,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateIntegerAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, 1)
+		_, err := srv.UpdateIntegerAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, 1)
 		if err != nil {
 			t.Errorf("Method UpdateIntegerAttribute failed: %v", err)
 		}
@@ -1095,7 +1095,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateIpAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateIpAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateIpAttribute failed: %v", err)
 		}
@@ -1128,7 +1128,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateIpAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, "")
+		_, err := srv.UpdateIpAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, "192.0.2.0")
 		if err != nil {
 			t.Errorf("Method UpdateIpAttribute failed: %v", err)
 		}
@@ -1160,7 +1160,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateLineAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateLineAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateLineAttribute failed: %v", err)
 		}
@@ -1192,7 +1192,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateLineAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.UpdateLineAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method UpdateLineAttribute failed: %v", err)
 		}
@@ -1224,7 +1224,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateLongtextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateLongtextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateLongtextAttribute failed: %v", err)
 		}
@@ -1256,7 +1256,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateLongtextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateLongtextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateLongtextAttribute failed: %v", err)
 		}
@@ -1288,7 +1288,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateMediumtextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateMediumtextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateMediumtextAttribute failed: %v", err)
 		}
@@ -1320,7 +1320,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateMediumtextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateMediumtextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateMediumtextAttribute failed: %v", err)
 		}
@@ -1352,7 +1352,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreatePointAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreatePointAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreatePointAttribute failed: %v", err)
 		}
@@ -1384,7 +1384,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdatePointAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.UpdatePointAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method UpdatePointAttribute failed: %v", err)
 		}
@@ -1416,7 +1416,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreatePolygonAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreatePolygonAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreatePolygonAttribute failed: %v", err)
 		}
@@ -1448,7 +1448,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdatePolygonAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.UpdatePolygonAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method UpdatePolygonAttribute failed: %v", err)
 		}
@@ -1524,7 +1524,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRelationshipAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		_, err := srv.UpdateRelationshipAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method UpdateRelationshipAttribute failed: %v", err)
 		}
@@ -1557,7 +1557,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateStringAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", 1, true)
+		_, err := srv.CreateStringAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", 1, true)
 		if err != nil {
 			t.Errorf("Method CreateStringAttribute failed: %v", err)
 		}
@@ -1590,7 +1590,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateStringAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateStringAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateStringAttribute failed: %v", err)
 		}
@@ -1622,7 +1622,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateTextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateTextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateTextAttribute failed: %v", err)
 		}
@@ -1654,7 +1654,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateTextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateTextAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateTextAttribute failed: %v", err)
 		}
@@ -1687,7 +1687,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateUrlAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true)
+		_, err := srv.CreateUrlAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateUrlAttribute failed: %v", err)
 		}
@@ -1720,7 +1720,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateUrlAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, "https://example.com")
+		_, err := srv.UpdateUrlAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, "https://example.com")
 		if err != nil {
 			t.Errorf("Method UpdateUrlAttribute failed: %v", err)
 		}
@@ -1753,7 +1753,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateVarcharAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", 1, true)
+		_, err := srv.CreateVarcharAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", 1, true)
 		if err != nil {
 			t.Errorf("Method CreateVarcharAttribute failed: %v", err)
 		}
@@ -1786,7 +1786,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateVarcharAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateVarcharAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateVarcharAttribute failed: %v", err)
 		}
@@ -1819,7 +1819,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		response, err := srv.GetAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		response, err := srv.GetAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method GetAttribute failed: %v", err)
 		}
@@ -1848,7 +1848,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.DeleteAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		_, err := srv.DeleteAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method DeleteAttribute failed: %v", err)
 		}
@@ -2219,7 +2219,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.DecrementDocumentAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<DOCUMENT_ID>", "")
+		_, err := srv.DecrementDocumentAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<DOCUMENT_ID>", "<ATTRIBUTE>")
 		if err != nil {
 			t.Errorf("Method DecrementDocumentAttribute failed: %v", err)
 		}
@@ -2251,7 +2251,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.IncrementDocumentAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<DOCUMENT_ID>", "")
+		_, err := srv.IncrementDocumentAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<DOCUMENT_ID>", "<ATTRIBUTE>")
 		if err != nil {
 			t.Errorf("Method IncrementDocumentAttribute failed: %v", err)
 		}
@@ -2324,7 +2324,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateIndex("<DATABASE_ID>", "<COLLECTION_ID>", "", "key", []string{})
+		_, err := srv.CreateIndex("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", "key", []string{})
 		if err != nil {
 			t.Errorf("Method CreateIndex failed: %v", err)
 		}
@@ -2358,7 +2358,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.GetIndex("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		_, err := srv.GetIndex("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method GetIndex failed: %v", err)
 		}
@@ -2384,7 +2384,7 @@ func TestDatabases(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.DeleteIndex("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		_, err := srv.DeleteIndex("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method DeleteIndex failed: %v", err)
 		}

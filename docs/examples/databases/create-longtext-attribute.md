@@ -20,9 +20,9 @@ func main() {
 	response, err := service.CreateLongtextAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
-		service.WithCreateLongtextAttributeDefault("<DEFAULT>"),
+		service.WithCreateLongtextAttributeDefault("Hello World"),
 		service.WithCreateLongtextAttributeArray(false),
 		service.WithCreateLongtextAttributeEncrypt(false),
 	)

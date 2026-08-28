@@ -20,10 +20,10 @@ func main() {
 	response, err := service.CreateBigIntAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateBigIntAttributeMin(0),
-		service.WithCreateBigIntAttributeMax(0),
+		service.WithCreateBigIntAttributeMax(1000000),
 		service.WithCreateBigIntAttributeDefault(0),
 		service.WithCreateBigIntAttributeArray(false),
 	)

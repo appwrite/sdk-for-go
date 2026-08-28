@@ -20,11 +20,11 @@ func main() {
 	response, err := service.CreateIntegerAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateIntegerAttributeMin(0),
-		service.WithCreateIntegerAttributeMax(0),
-		service.WithCreateIntegerAttributeDefault(0),
+		service.WithCreateIntegerAttributeMax(100),
+		service.WithCreateIntegerAttributeDefault(10),
 		service.WithCreateIntegerAttributeArray(false),
 	)
 	fmt.Println(response, err)

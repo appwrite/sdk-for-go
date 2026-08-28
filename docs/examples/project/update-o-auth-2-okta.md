@@ -20,7 +20,7 @@ func main() {
 	response, err := service.UpdateOAuth2Okta(
 		service.WithUpdateOAuth2OktaClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2OktaClientSecret("<CLIENT_SECRET>"),
-		service.WithUpdateOAuth2OktaDomain(""),
+		service.WithUpdateOAuth2OktaDomain("example.com"),
 		service.WithUpdateOAuth2OktaAuthorizationServerId("<AUTHORIZATION_SERVER_ID>"),
 		service.WithUpdateOAuth2OktaEnabled(false),
 	)

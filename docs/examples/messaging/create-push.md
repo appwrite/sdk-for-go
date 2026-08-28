@@ -31,7 +31,7 @@ func main() {
 		service.WithCreatePushSound("<SOUND>"),
 		service.WithCreatePushColor("<COLOR>"),
 		service.WithCreatePushTag("<TAG>"),
-		service.WithCreatePushBadge(0),
+		service.WithCreatePushBadge(1),
 		service.WithCreatePushDraft(false),
 		service.WithCreatePushScheduledAt("2020-10-15T06:38:00.000+00:00"),
 		service.WithCreatePushContentAvailable(false),

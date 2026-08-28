@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateUrlAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateUrlAttributeDefault("https://example.com"),
 		service.WithCreateUrlAttributeArray(false),

@@ -23,6 +23,9 @@ func main() {
 		service.WithGetPhotoQuality(0),
 		service.WithGetPhotoOutput("png"),
 		service.WithGetPhotoRating("g"),
+		service.WithGetPhotoUserId("current()"),
+		service.WithGetPhotoEmailHash("<EMAIL_HASH>"),
+		service.WithGetPhotoName("<NAME>"),
 	)
 	fmt.Println(response, err)
 }

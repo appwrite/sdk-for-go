@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateMediumtextColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
-		"<DEFAULT>",
-		service.WithUpdateMediumtextColumnNewKey(""),
+		"Hello World",
+		service.WithUpdateMediumtextColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateLineColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithUpdateLineColumnDefault([][]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}}),
-		service.WithUpdateLineColumnNewKey(""),
+		service.WithUpdateLineColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

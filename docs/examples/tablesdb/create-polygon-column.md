@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreatePolygonColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreatePolygonColumnDefault([][]interface{}{[]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}, []interface{}{1, 2}}}),
 	)

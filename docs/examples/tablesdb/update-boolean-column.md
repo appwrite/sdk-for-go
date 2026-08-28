@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateBooleanColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		false,
-		service.WithUpdateBooleanColumnNewKey(""),
+		service.WithUpdateBooleanColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

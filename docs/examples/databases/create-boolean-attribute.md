@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateBooleanAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateBooleanAttributeDefault(false),
 		service.WithCreateBooleanAttributeArray(false),

@@ -18,7 +18,7 @@ func main() {
 	service := proxy.New(client)
 
 	response, err := service.CreateFunctionRule(
-		"",
+		"example.com",
 		"<FUNCTION_ID>",
 		service.WithCreateFunctionRuleBranch("<BRANCH>"),
 	)

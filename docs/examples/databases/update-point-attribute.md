@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdatePointAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithUpdatePointAttributeDefault([]float64{1, 2}),
-		service.WithUpdatePointAttributeNewKey(""),
+		service.WithUpdatePointAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

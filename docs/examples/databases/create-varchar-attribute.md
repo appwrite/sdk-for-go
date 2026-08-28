@@ -20,10 +20,10 @@ func main() {
 	response, err := service.CreateVarcharAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		1,
 		false,
-		service.WithCreateVarcharAttributeDefault("<DEFAULT>"),
+		service.WithCreateVarcharAttributeDefault("Hello World"),
 		service.WithCreateVarcharAttributeArray(false),
 		service.WithCreateVarcharAttributeEncrypt(false),
 	)

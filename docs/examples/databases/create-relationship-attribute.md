@@ -23,8 +23,8 @@ func main() {
 		"<RELATED_COLLECTION_ID>",
 		"oneToOne",
 		service.WithCreateRelationshipAttributeTwoWay(false),
-		service.WithCreateRelationshipAttributeKey(""),
-		service.WithCreateRelationshipAttributeTwoWayKey(""),
+		service.WithCreateRelationshipAttributeKey("<KEY>"),
+		service.WithCreateRelationshipAttributeTwoWayKey("<TWO_WAY_KEY>"),
 		service.WithCreateRelationshipAttributeOnDelete("cascade"),
 	)
 	fmt.Println(response, err)

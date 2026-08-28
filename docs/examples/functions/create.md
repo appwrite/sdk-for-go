@@ -23,7 +23,7 @@ func main() {
 		"node-14.5",
 		service.WithCreateExecute([]string{"any"}),
 		service.WithCreateEvents([]string{}),
-		service.WithCreateSchedule(""),
+		service.WithCreateSchedule("0 0 * * *"),
 		service.WithCreateTimeout(1),
 		service.WithCreateEnabled(false),
 		service.WithCreateLogging(false),
@@ -37,8 +37,8 @@ func main() {
 		service.WithCreateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
 		service.WithCreateProviderBranches([]string{}),
 		service.WithCreateProviderPaths([]string{}),
-		service.WithCreateBuildSpecification(""),
-		service.WithCreateRuntimeSpecification(""),
+		service.WithCreateBuildSpecification("s-1vcpu-512mb"),
+		service.WithCreateRuntimeSpecification("s-1vcpu-512mb"),
 		service.WithCreateDeploymentRetention(0),
 	)
 	fmt.Println(response, err)

@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateUrlColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		"https://example.com",
-		service.WithUpdateUrlColumnNewKey(""),
+		service.WithUpdateUrlColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

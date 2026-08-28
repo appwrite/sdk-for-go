@@ -20,10 +20,10 @@ func main() {
 	response, err := service.CreateStringAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		1,
 		false,
-		service.WithCreateStringAttributeDefault("<DEFAULT>"),
+		service.WithCreateStringAttributeDefault("Hello World"),
 		service.WithCreateStringAttributeArray(false),
 		service.WithCreateStringAttributeEncrypt(false),
 	)

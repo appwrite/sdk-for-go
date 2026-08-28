@@ -22,10 +22,10 @@ func main() {
 		"email@example.com",
 		"password",
 		"<PASSWORD_SALT>",
-		0,
-		0,
-		0,
-		0,
+		8,
+		65536,
+		1,
+		64,
 		service.WithCreateScryptUserName("<NAME>"),
 	)
 	fmt.Println(response, err)

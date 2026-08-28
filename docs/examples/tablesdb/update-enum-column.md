@@ -20,11 +20,11 @@ func main() {
 	response, err := service.UpdateEnumColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
-		[]string{},
+		"<KEY>",
+		[]string{"active", "inactive"},
 		false,
-		"<DEFAULT>",
-		service.WithUpdateEnumColumnNewKey(""),
+		"active",
+		service.WithUpdateEnumColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

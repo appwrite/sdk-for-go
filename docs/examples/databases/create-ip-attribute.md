@@ -20,9 +20,9 @@ func main() {
 	response, err := service.CreateIpAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
-		service.WithCreateIpAttributeDefault(""),
+		service.WithCreateIpAttributeDefault("192.0.2.0"),
 		service.WithCreateIpAttributeArray(false),
 	)
 	fmt.Println(response, err)

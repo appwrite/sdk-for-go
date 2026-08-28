@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateDatetimeAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateDatetimeAttributeDefault("2020-10-15T06:38:00.000+00:00"),
 		service.WithCreateDatetimeAttributeArray(false),

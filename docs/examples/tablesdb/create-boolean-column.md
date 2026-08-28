@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateBooleanColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateBooleanColumnDefault(false),
 		service.WithCreateBooleanColumnArray(false),

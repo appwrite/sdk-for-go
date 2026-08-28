@@ -21,7 +21,7 @@ func main() {
 		"<PROVIDER_ID>",
 		"<NAME>",
 		"<HOST>",
-		service.WithCreateSMTPProviderPort(1),
+		service.WithCreateSMTPProviderPort(587),
 		service.WithCreateSMTPProviderUsername("<USERNAME>"),
 		service.WithCreateSMTPProviderPassword("password"),
 		service.WithCreateSMTPProviderEncryption("none"),

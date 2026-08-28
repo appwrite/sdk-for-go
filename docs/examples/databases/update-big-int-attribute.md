@@ -20,12 +20,12 @@ func main() {
 	response, err := service.UpdateBigIntAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		0,
 		service.WithUpdateBigIntAttributeMin(0),
-		service.WithUpdateBigIntAttributeMax(0),
-		service.WithUpdateBigIntAttributeNewKey(""),
+		service.WithUpdateBigIntAttributeMax(1000000),
+		service.WithUpdateBigIntAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

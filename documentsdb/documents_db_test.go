@@ -994,7 +994,7 @@ func TestDocumentsDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.DecrementDocumentAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<DOCUMENT_ID>", "")
+		_, err := srv.DecrementDocumentAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<DOCUMENT_ID>", "<ATTRIBUTE>")
 		if err != nil {
 			t.Errorf("Method DecrementDocumentAttribute failed: %v", err)
 		}
@@ -1026,7 +1026,7 @@ func TestDocumentsDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.IncrementDocumentAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<DOCUMENT_ID>", "")
+		_, err := srv.IncrementDocumentAttribute("<DATABASE_ID>", "<COLLECTION_ID>", "<DOCUMENT_ID>", "<ATTRIBUTE>")
 		if err != nil {
 			t.Errorf("Method IncrementDocumentAttribute failed: %v", err)
 		}
@@ -1099,7 +1099,7 @@ func TestDocumentsDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateIndex("<DATABASE_ID>", "<COLLECTION_ID>", "", "key", []string{})
+		_, err := srv.CreateIndex("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", "key", []string{})
 		if err != nil {
 			t.Errorf("Method CreateIndex failed: %v", err)
 		}
@@ -1133,7 +1133,7 @@ func TestDocumentsDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.GetIndex("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		_, err := srv.GetIndex("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method GetIndex failed: %v", err)
 		}
@@ -1159,7 +1159,7 @@ func TestDocumentsDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.DeleteIndex("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		_, err := srv.DeleteIndex("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method DeleteIndex failed: %v", err)
 		}

@@ -21,8 +21,8 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<DOCUMENT_ID>",
-		"",
-		service.WithDecrementDocumentAttributeValue(0),
+		"<ATTRIBUTE>",
+		service.WithDecrementDocumentAttributeValue(1),
 		service.WithDecrementDocumentAttributeMin(0),
 		service.WithDecrementDocumentAttributeTransactionId("<TRANSACTION_ID>"),
 	)

@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateEmailColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		"email@example.com",
-		service.WithUpdateEmailColumnNewKey(""),
+		service.WithUpdateEmailColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

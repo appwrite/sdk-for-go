@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateLongtextColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
-		"<DEFAULT>",
-		service.WithUpdateLongtextColumnNewKey(""),
+		"Hello World",
+		service.WithUpdateLongtextColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

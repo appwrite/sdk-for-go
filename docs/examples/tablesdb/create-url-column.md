@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateUrlColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateUrlColumnDefault("https://example.com"),
 		service.WithCreateUrlColumnArray(false),

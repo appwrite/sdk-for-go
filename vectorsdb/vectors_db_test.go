@@ -1076,7 +1076,7 @@ func TestVectorsDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateIndex("<DATABASE_ID>", "<COLLECTION_ID>", "", "hnsw_euclidean", []string{})
+		_, err := srv.CreateIndex("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>", "hnsw_euclidean", []string{})
 		if err != nil {
 			t.Errorf("Method CreateIndex failed: %v", err)
 		}
@@ -1110,7 +1110,7 @@ func TestVectorsDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.GetIndex("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		_, err := srv.GetIndex("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method GetIndex failed: %v", err)
 		}
@@ -1136,7 +1136,7 @@ func TestVectorsDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.DeleteIndex("<DATABASE_ID>", "<COLLECTION_ID>", "")
+		_, err := srv.DeleteIndex("<DATABASE_ID>", "<COLLECTION_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method DeleteIndex failed: %v", err)
 		}

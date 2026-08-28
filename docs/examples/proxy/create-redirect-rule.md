@@ -18,7 +18,7 @@ func main() {
 	service := proxy.New(client)
 
 	response, err := service.CreateRedirectRule(
-		"",
+		"example.com",
 		"https://example.com",
 		"301",
 		"<RESOURCE_ID>",

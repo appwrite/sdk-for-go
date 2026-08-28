@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateEmailColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateEmailColumnDefault("email@example.com"),
 		service.WithCreateEmailColumnArray(false),

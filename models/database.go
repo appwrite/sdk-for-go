@@ -35,6 +35,16 @@ type Database struct {
 	// Number of secondary high availability replicas, excluding the primary. Null
 	// when backing configuration is unavailable.
 	Replicas int `json:"replicas"`
+	// Error message when the dedicated backing failed. Null when the database has
+	// no dedicated backing or has not failed.
+	Error string `json:"error"`
+	// Container status of the dedicated backing: active or inactive. Null when
+	// the database has no dedicated backing or the runtime has not reported one.
+	ContainerStatus string `json:"containerStatus"`
+	// Idle-lifecycle state of the dedicated backing: active, warm, cold, or
+	// hibernated. Null when the database has no dedicated backing or the runtime
+	// has not reported one.
+	LifecycleState string `json:"lifecycleState"`
 	// Database backup policies.
 	Policies []BackupPolicy `json:"policies"`
 	// Database backup archives.

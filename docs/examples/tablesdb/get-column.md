@@ -20,7 +20,7 @@ func main() {
 	response, err := service.GetColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 	)
 	fmt.Println(response, err)
 }

@@ -23,7 +23,7 @@ func main() {
 		service.WithUpdateRuntime("node-14.5"),
 		service.WithUpdateExecute([]string{"any"}),
 		service.WithUpdateEvents([]string{}),
-		service.WithUpdateSchedule(""),
+		service.WithUpdateSchedule("0 0 * * *"),
 		service.WithUpdateTimeout(1),
 		service.WithUpdateEnabled(false),
 		service.WithUpdateLogging(false),
@@ -37,8 +37,8 @@ func main() {
 		service.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
 		service.WithUpdateProviderBranches([]string{}),
 		service.WithUpdateProviderPaths([]string{}),
-		service.WithUpdateBuildSpecification(""),
-		service.WithUpdateRuntimeSpecification(""),
+		service.WithUpdateBuildSpecification("s-1vcpu-512mb"),
+		service.WithUpdateRuntimeSpecification("s-1vcpu-512mb"),
 		service.WithUpdateDeploymentRetention(0),
 	)
 	fmt.Println(response, err)

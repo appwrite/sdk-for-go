@@ -23,7 +23,7 @@ func main() {
 		"<FILE_ID>",
 		file.NewInputFile("/path/to/file.png", "file.png"),
 		service.WithCreateFilePermissions([]string{"read(\"any\")"}),
-		service.WithCreateFileFolder(""),
+		service.WithCreateFileFolder("photos/2026"),
 	)
 	fmt.Println(response, err)
 }

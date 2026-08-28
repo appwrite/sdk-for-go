@@ -1110,7 +1110,7 @@ func TestOrganization(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateProject("", "<NAME>")
+		_, err := srv.CreateProject("<PROJECT_ID>", "<NAME>")
 		if err != nil {
 			t.Errorf("Method CreateProject failed: %v", err)
 		}

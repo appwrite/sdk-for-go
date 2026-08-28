@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateUrlAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
 		"https://example.com",
-		service.WithUpdateUrlAttributeNewKey(""),
+		service.WithUpdateUrlAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

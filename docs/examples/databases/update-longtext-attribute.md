@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateLongtextAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
-		"<DEFAULT>",
-		service.WithUpdateLongtextAttributeNewKey(""),
+		"Hello World",
+		service.WithUpdateLongtextAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

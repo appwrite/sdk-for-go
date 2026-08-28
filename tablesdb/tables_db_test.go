@@ -490,6 +490,7 @@ func TestTablesDB(t *testing.T) {
             "attempt": 0,
             "lastError": "string",
             "lagDocuments": 0,
+            "changelogWatermark": 0,
             "verifiedAt": "2020-10-15T06:38:00.000+00:00",
             "cutoverAt": "2020-10-15T06:38:00.000+00:00",
             "soakUntil": "2020-10-15T06:38:00.000+00:00",
@@ -533,6 +534,7 @@ func TestTablesDB(t *testing.T) {
     "attempt": 0,
     "lastError": "string",
     "lagDocuments": 0,
+    "changelogWatermark": 0,
     "verifiedAt": "2020-10-15T06:38:00.000+00:00",
     "cutoverAt": "2020-10-15T06:38:00.000+00:00",
     "soakUntil": "2020-10-15T06:38:00.000+00:00",
@@ -574,6 +576,7 @@ func TestTablesDB(t *testing.T) {
     "attempt": 0,
     "lastError": "string",
     "lagDocuments": 0,
+    "changelogWatermark": 0,
     "verifiedAt": "2020-10-15T06:38:00.000+00:00",
     "cutoverAt": "2020-10-15T06:38:00.000+00:00",
     "soakUntil": "2020-10-15T06:38:00.000+00:00",
@@ -641,6 +644,7 @@ func TestTablesDB(t *testing.T) {
     "attempt": 0,
     "lastError": "string",
     "lagDocuments": 0,
+    "changelogWatermark": 0,
     "verifiedAt": "2020-10-15T06:38:00.000+00:00",
     "cutoverAt": "2020-10-15T06:38:00.000+00:00",
     "soakUntil": "2020-10-15T06:38:00.000+00:00",
@@ -1077,7 +1081,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateBigIntColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateBigIntColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateBigIntColumn failed: %v", err)
 		}
@@ -1109,7 +1113,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateBigIntColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, 1)
+		_, err := srv.UpdateBigIntColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, 1)
 		if err != nil {
 			t.Errorf("Method UpdateBigIntColumn failed: %v", err)
 		}
@@ -1141,7 +1145,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateBooleanColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateBooleanColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateBooleanColumn failed: %v", err)
 		}
@@ -1173,7 +1177,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateBooleanColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, true)
+		_, err := srv.UpdateBooleanColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, true)
 		if err != nil {
 			t.Errorf("Method UpdateBooleanColumn failed: %v", err)
 		}
@@ -1206,7 +1210,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateDatetimeColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateDatetimeColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateDatetimeColumn failed: %v", err)
 		}
@@ -1239,7 +1243,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateDatetimeColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, "2020-10-15T06:38:00.000+00:00")
+		_, err := srv.UpdateDatetimeColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, "2020-10-15T06:38:00.000+00:00")
 		if err != nil {
 			t.Errorf("Method UpdateDatetimeColumn failed: %v", err)
 		}
@@ -1272,7 +1276,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateEmailColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateEmailColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateEmailColumn failed: %v", err)
 		}
@@ -1305,7 +1309,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateEmailColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, "email@example.com")
+		_, err := srv.UpdateEmailColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, "email@example.com")
 		if err != nil {
 			t.Errorf("Method UpdateEmailColumn failed: %v", err)
 		}
@@ -1339,7 +1343,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateEnumColumn("<DATABASE_ID>", "<TABLE_ID>", "", []string{}, true)
+		_, err := srv.CreateEnumColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", []string{}, true)
 		if err != nil {
 			t.Errorf("Method CreateEnumColumn failed: %v", err)
 		}
@@ -1373,7 +1377,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateEnumColumn("<DATABASE_ID>", "<TABLE_ID>", "", []string{}, true, "<DEFAULT>")
+		_, err := srv.UpdateEnumColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", []string{}, true, "active")
 		if err != nil {
 			t.Errorf("Method UpdateEnumColumn failed: %v", err)
 		}
@@ -1405,7 +1409,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateFloatColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateFloatColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateFloatColumn failed: %v", err)
 		}
@@ -1437,7 +1441,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateFloatColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, 1.0)
+		_, err := srv.UpdateFloatColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, 1.0)
 		if err != nil {
 			t.Errorf("Method UpdateFloatColumn failed: %v", err)
 		}
@@ -1469,7 +1473,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateIntegerColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateIntegerColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateIntegerColumn failed: %v", err)
 		}
@@ -1501,7 +1505,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateIntegerColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, 1)
+		_, err := srv.UpdateIntegerColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, 1)
 		if err != nil {
 			t.Errorf("Method UpdateIntegerColumn failed: %v", err)
 		}
@@ -1534,7 +1538,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateIpColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateIpColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateIpColumn failed: %v", err)
 		}
@@ -1567,7 +1571,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateIpColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, "")
+		_, err := srv.UpdateIpColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, "192.0.2.0")
 		if err != nil {
 			t.Errorf("Method UpdateIpColumn failed: %v", err)
 		}
@@ -1599,7 +1603,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateLineColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateLineColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateLineColumn failed: %v", err)
 		}
@@ -1631,7 +1635,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateLineColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.UpdateLineColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method UpdateLineColumn failed: %v", err)
 		}
@@ -1663,7 +1667,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateLongtextColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateLongtextColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateLongtextColumn failed: %v", err)
 		}
@@ -1695,7 +1699,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateLongtextColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateLongtextColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateLongtextColumn failed: %v", err)
 		}
@@ -1727,7 +1731,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateMediumtextColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateMediumtextColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateMediumtextColumn failed: %v", err)
 		}
@@ -1759,7 +1763,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateMediumtextColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateMediumtextColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateMediumtextColumn failed: %v", err)
 		}
@@ -1791,7 +1795,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreatePointColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreatePointColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreatePointColumn failed: %v", err)
 		}
@@ -1823,7 +1827,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdatePointColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.UpdatePointColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method UpdatePointColumn failed: %v", err)
 		}
@@ -1855,7 +1859,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreatePolygonColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreatePolygonColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreatePolygonColumn failed: %v", err)
 		}
@@ -1887,7 +1891,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdatePolygonColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.UpdatePolygonColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method UpdatePolygonColumn failed: %v", err)
 		}
@@ -1958,7 +1962,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateStringColumn("<DATABASE_ID>", "<TABLE_ID>", "", 1, true)
+		_, err := srv.CreateStringColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", 1, true)
 		if err != nil {
 			t.Errorf("Method CreateStringColumn failed: %v", err)
 		}
@@ -1991,7 +1995,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateStringColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateStringColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateStringColumn failed: %v", err)
 		}
@@ -2023,7 +2027,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateTextColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateTextColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateTextColumn failed: %v", err)
 		}
@@ -2055,7 +2059,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateTextColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateTextColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateTextColumn failed: %v", err)
 		}
@@ -2088,7 +2092,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateUrlColumn("<DATABASE_ID>", "<TABLE_ID>", "", true)
+		_, err := srv.CreateUrlColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true)
 		if err != nil {
 			t.Errorf("Method CreateUrlColumn failed: %v", err)
 		}
@@ -2121,7 +2125,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateUrlColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, "https://example.com")
+		_, err := srv.UpdateUrlColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, "https://example.com")
 		if err != nil {
 			t.Errorf("Method UpdateUrlColumn failed: %v", err)
 		}
@@ -2154,7 +2158,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateVarcharColumn("<DATABASE_ID>", "<TABLE_ID>", "", 1, true)
+		_, err := srv.CreateVarcharColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", 1, true)
 		if err != nil {
 			t.Errorf("Method CreateVarcharColumn failed: %v", err)
 		}
@@ -2187,7 +2191,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateVarcharColumn("<DATABASE_ID>", "<TABLE_ID>", "", true, "<DEFAULT>")
+		_, err := srv.UpdateVarcharColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", true, "Hello World")
 		if err != nil {
 			t.Errorf("Method UpdateVarcharColumn failed: %v", err)
 		}
@@ -2220,7 +2224,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		response, err := srv.GetColumn("<DATABASE_ID>", "<TABLE_ID>", "")
+		response, err := srv.GetColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method GetColumn failed: %v", err)
 		}
@@ -2249,7 +2253,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.DeleteColumn("<DATABASE_ID>", "<TABLE_ID>", "")
+		_, err := srv.DeleteColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method DeleteColumn failed: %v", err)
 		}
@@ -2287,7 +2291,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRelationshipColumn("<DATABASE_ID>", "<TABLE_ID>", "")
+		_, err := srv.UpdateRelationshipColumn("<DATABASE_ID>", "<TABLE_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method UpdateRelationshipColumn failed: %v", err)
 		}
@@ -2360,7 +2364,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateIndex("<DATABASE_ID>", "<TABLE_ID>", "", "key", []string{})
+		_, err := srv.CreateIndex("<DATABASE_ID>", "<TABLE_ID>", "<KEY>", "key", []string{})
 		if err != nil {
 			t.Errorf("Method CreateIndex failed: %v", err)
 		}
@@ -2394,7 +2398,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.GetIndex("<DATABASE_ID>", "<TABLE_ID>", "")
+		_, err := srv.GetIndex("<DATABASE_ID>", "<TABLE_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method GetIndex failed: %v", err)
 		}
@@ -2420,7 +2424,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.DeleteIndex("<DATABASE_ID>", "<TABLE_ID>", "")
+		_, err := srv.DeleteIndex("<DATABASE_ID>", "<TABLE_ID>", "<KEY>")
 		if err != nil {
 			t.Errorf("Method DeleteIndex failed: %v", err)
 		}
@@ -2791,7 +2795,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.DecrementRowColumn("<DATABASE_ID>", "<TABLE_ID>", "<ROW_ID>", "")
+		_, err := srv.DecrementRowColumn("<DATABASE_ID>", "<TABLE_ID>", "<ROW_ID>", "<COLUMN>")
 		if err != nil {
 			t.Errorf("Method DecrementRowColumn failed: %v", err)
 		}
@@ -2823,7 +2827,7 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.IncrementRowColumn("<DATABASE_ID>", "<TABLE_ID>", "<ROW_ID>", "")
+		_, err := srv.IncrementRowColumn("<DATABASE_ID>", "<TABLE_ID>", "<ROW_ID>", "<COLUMN>")
 		if err != nil {
 			t.Errorf("Method IncrementRowColumn failed: %v", err)
 		}

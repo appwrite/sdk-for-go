@@ -20,11 +20,11 @@ func main() {
 	response, err := service.CreateIntegerColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreateIntegerColumnMin(0),
-		service.WithCreateIntegerColumnMax(0),
-		service.WithCreateIntegerColumnDefault(0),
+		service.WithCreateIntegerColumnMax(100),
+		service.WithCreateIntegerColumnDefault(10),
 		service.WithCreateIntegerColumnArray(false),
 	)
 	fmt.Println(response, err)

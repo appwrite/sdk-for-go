@@ -620,7 +620,9 @@ func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFi
 	paramName := "file"
 
 	uploadId := ""
-	uploadId = FileId
+	if value, ok := params["fileId"].(string); ok {
+		uploadId = value
+	}
 
 	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
 	if err != nil {

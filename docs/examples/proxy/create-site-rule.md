@@ -18,7 +18,7 @@ func main() {
 	service := proxy.New(client)
 
 	response, err := service.CreateSiteRule(
-		"",
+		"example.com",
 		"<SITE_ID>",
 		service.WithCreateSiteRuleBranch("<BRANCH>"),
 	)

@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdateIpAttribute(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		"",
+		"<KEY>",
 		false,
-		"",
-		service.WithUpdateIpAttributeNewKey(""),
+		"192.0.2.0",
+		service.WithUpdateIpAttributeNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

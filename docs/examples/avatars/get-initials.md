@@ -21,7 +21,7 @@ func main() {
 		service.WithGetInitialsName("<NAME>"),
 		service.WithGetInitialsWidth(0),
 		service.WithGetInitialsHeight(0),
-		service.WithGetInitialsBackground(""),
+		service.WithGetInitialsBackground("FFFFFF"),
 	)
 	fmt.Println(response, err)
 }

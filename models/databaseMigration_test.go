@@ -6,7 +6,7 @@ import (
 )
 
 func TestDatabaseMigrationModel(t *testing.T) {
-	model := DatabaseMigration{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", ProjectId: "5e5ea5c16897e", DatabaseId: "5e5ea5c16897e", Specification: "s-2vcpu-4gb", Phase: "pending", Attempt: 0, LastError: "string", LagDocuments: 0, VerifiedAt: "2020-10-15T06:38:00.000+00:00", CutoverAt: "2020-10-15T06:38:00.000+00:00", SoakUntil: "2020-10-15T06:38:00.000+00:00", AutoCutover: true, CutoverRequested: true, Paused: true}
+	model := DatabaseMigration{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", ProjectId: "5e5ea5c16897e", DatabaseId: "5e5ea5c16897e", Specification: "s-2vcpu-4gb", Phase: "pending", Attempt: 0, LastError: "string", LagDocuments: 0, ChangelogWatermark: 0, VerifiedAt: "2020-10-15T06:38:00.000+00:00", CutoverAt: "2020-10-15T06:38:00.000+00:00", SoakUntil: "2020-10-15T06:38:00.000+00:00", AutoCutover: true, CutoverRequested: true, Paused: true}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -47,6 +47,9 @@ func TestDatabaseMigrationModel(t *testing.T) {
 	}
 	if result.LagDocuments != model.LagDocuments {
 		t.Errorf("Expected LagDocuments %v, got %v", model.LagDocuments, result.LagDocuments)
+	}
+	if result.ChangelogWatermark != model.ChangelogWatermark {
+		t.Errorf("Expected ChangelogWatermark %v, got %v", model.ChangelogWatermark, result.ChangelogWatermark)
 	}
 	if result.VerifiedAt != model.VerifiedAt {
 		t.Errorf("Expected VerifiedAt %v, got %v", model.VerifiedAt, result.VerifiedAt)

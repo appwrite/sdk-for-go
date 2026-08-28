@@ -21,7 +21,7 @@ func main() {
 		"<PROVIDER_ID>",
 		service.WithUpdateMailgunProviderName("<NAME>"),
 		service.WithUpdateMailgunProviderApiKey("<API_KEY>"),
-		service.WithUpdateMailgunProviderDomain("<DOMAIN>"),
+		service.WithUpdateMailgunProviderDomain("example.com"),
 		service.WithUpdateMailgunProviderIsEuRegion(false),
 		service.WithUpdateMailgunProviderEnabled(false),
 		service.WithUpdateMailgunProviderFromName("<FROM_NAME>"),

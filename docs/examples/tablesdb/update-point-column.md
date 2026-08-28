@@ -20,10 +20,10 @@ func main() {
 	response, err := service.UpdatePointColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithUpdatePointColumnDefault([]float64{1, 2}),
-		service.WithUpdatePointColumnNewKey(""),
+		service.WithUpdatePointColumnNewKey("<NEW_KEY>"),
 	)
 	fmt.Println(response, err)
 }

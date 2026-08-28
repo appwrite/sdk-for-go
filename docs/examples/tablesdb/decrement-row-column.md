@@ -21,8 +21,8 @@ func main() {
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
 		"<ROW_ID>",
-		"",
-		service.WithDecrementRowColumnValue(0),
+		"<COLUMN>",
+		service.WithDecrementRowColumnValue(1),
 		service.WithDecrementRowColumnMin(0),
 		service.WithDecrementRowColumnTransactionId("<TRANSACTION_ID>"),
 	)

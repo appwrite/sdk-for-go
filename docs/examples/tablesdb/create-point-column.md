@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreatePointColumn(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		"",
+		"<KEY>",
 		false,
 		service.WithCreatePointColumnDefault([]float64{1, 2}),
 	)

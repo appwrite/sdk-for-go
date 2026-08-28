@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.CreateJWT(
 		"<USER_ID>",
-		service.WithCreateJWTSessionId("<SESSION_ID>"),
+		service.WithCreateJWTSessionId("recent()"),
 		service.WithCreateJWTDuration(0),
 	)
 	fmt.Println(response, err)
