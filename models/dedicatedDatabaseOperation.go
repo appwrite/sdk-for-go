@@ -13,8 +13,8 @@ type DedicatedDatabaseOperation struct {
 	CreatedAt string `json:"$createdAt"`
 	// Database ID the operation ran against.
 	DatabaseId string `json:"databaseId"`
-	// Operation type, such as provision, update, restore, pausing, resuming,
-	// failover, backup-create or cross-region-enable.
+	// Operation type, such as provision, update, credentials-update, restore,
+	// pausing, resuming, failover, backup-create or cross-region-enable.
 	Type string `json:"type"`
 	// Operation status. Possible values: queued (accepted and waiting to resume),
 	// running (in progress), completed (finished successfully), failed (ended in

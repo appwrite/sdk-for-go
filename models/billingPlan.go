@@ -81,6 +81,10 @@ type BillingPlan struct {
 	UsageLogs int `json:"usageLogs"`
 	// Usage log time intervals allowed for this plan (e.g. 15m, 1h, 1d).
 	UsageLogsIntervals []string `json:"usageLogsIntervals"`
+	// Metrics this plan only records as a total. They cannot be broken down by
+	// dimension or filtered, because the stored events cover a fraction of the
+	// real traffic.
+	UsageAggregateOnlyMetrics []string `json:"usageAggregateOnlyMetrics"`
 	// Number of days of console inactivity before a project is paused. 0 means
 	// pausing is disabled.
 	ProjectInactivityDays int `json:"projectInactivityDays"`

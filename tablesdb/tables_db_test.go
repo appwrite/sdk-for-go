@@ -420,6 +420,7 @@ func TestTablesDB(t *testing.T) {
     "connectionPort": 5432,
     "connectionUser": "appwrite_user",
     "connectionPassword": "••••••••",
+    "credentialGeneration": 1,
     "connectionString": "postgresql://user:pass@db-myproject-mydb.fra.appwrite.center:5432/postgres?sslmode=require",
     "ssl": true,
     "status": "ready",
@@ -631,7 +632,7 @@ func TestTablesDB(t *testing.T) {
 		}
 	})
 
-	t.Run("Test CutoverMigration", func(t *testing.T) {
+	t.Run("Test CreateCutover", func(t *testing.T) {
 		mockResponse := `
 {
     "$id": "5e5ea5c16897e",
@@ -667,9 +668,9 @@ func TestTablesDB(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CutoverMigration("<DATABASE_ID>", "<MIGRATION_ID>")
+		_, err := srv.CreateCutover("<DATABASE_ID>", "<MIGRATION_ID>")
 		if err != nil {
-			t.Errorf("Method CutoverMigration failed: %v", err)
+			t.Errorf("Method CreateCutover failed: %v", err)
 		}
 	})
 

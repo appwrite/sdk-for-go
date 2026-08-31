@@ -1009,6 +1009,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Cloudflare", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "4b866000000000000000000000c9e4e2",
+    "clientSecret": "cfoc_5Q6YRl0000000000000000000000000000000000003d214f"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Cloudflare()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Cloudflare failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Dailymotion", func(t *testing.T) {
 		mockResponse := `
 {
@@ -1657,6 +1686,35 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateOAuth2Podio()
 		if err != nil {
 			t.Errorf("Method UpdateOAuth2Podio failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2Resend", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+    "clientSecret": "9c1e4b00000000000000000000000000000000000000000000000000a72d5f4"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Resend()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Resend failed: %v", err)
 		}
 	})
 

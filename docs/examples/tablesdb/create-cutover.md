@@ -17,7 +17,7 @@ func main() {
 
 	service := tablesdb.New(client)
 
-	response, err := service.CutoverMigration(
+	response, err := service.CreateCutover(
 		"<DATABASE_ID>",
 		"<MIGRATION_ID>",
 	)

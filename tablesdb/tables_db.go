@@ -1007,15 +1007,15 @@ func (srv *TablesDB) DeleteMigration(DatabaseId string, MigrationId string) (*in
 
 }
 
-// CutoverMigration cut a verified TablesDB migration over to its dedicated
+// CreateCutover cut a verified TablesDB migration over to its dedicated
 // compute. Only applies to a migration created with `autoCutover` disabled,
 // which waits at `ready_to_cutover` until this is called. The routing flip
 // happens shortly after this returns, with a brief read-only window. One call
 // buys one attempt: a cutover that fails a check returns the migration to
 // `verifying` and parks it again, so call this once more to retry.
-func (srv *TablesDB) CutoverMigration(DatabaseId string, MigrationId string) (*models.DatabaseMigration, error) {
+func (srv *TablesDB) CreateCutover(DatabaseId string, MigrationId string) (*models.DatabaseMigration, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
-	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}/cutover")
+	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}/cutovers")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

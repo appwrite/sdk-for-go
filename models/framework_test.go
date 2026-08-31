@@ -6,7 +6,7 @@ import (
 )
 
 func TestFrameworkModel(t *testing.T) {
-	model := Framework{Key: "sveltekit", Name: "SvelteKit", BuildRuntime: "node-22", Runtimes: []string{"test"}, Adapters: []FrameworkAdapter{FrameworkAdapter{Key: "static", InstallCommand: "npm install", BuildCommand: "npm run build", OutputDirectory: "./dist", FallbackFile: "index.html"}}}
+	model := Framework{Key: "sveltekit", Name: "SvelteKit", BuildRuntime: "node-22", Runtimes: []string{"test"}, Adapters: []FrameworkAdapter{FrameworkAdapter{Key: "static", InstallCommand: "npm install", BuildCommand: "npm run build", OutputDirectory: "./dist"}}}
 
 	data, err := json.Marshal(model)
 	if err != nil {

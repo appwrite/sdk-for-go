@@ -27,7 +27,7 @@ type DedicatedDatabase struct {
 	Version string `json:"version"`
 	// Specification identifier.
 	Specification string `json:"specification"`
-	// Database backend provider. Possible values: prisma, edge.
+	// Database backend provider. Possible values: edge.
 	Backend string `json:"backend"`
 	// Database hostname for connections.
 	Hostname string `json:"hostname"`
@@ -38,6 +38,9 @@ type DedicatedDatabase struct {
 	ConnectionUser string `json:"connectionUser"`
 	// Database password for connections.
 	ConnectionPassword string `json:"connectionPassword"`
+	// Committed generation of the primary connection credentials. Null until the
+	// rotation contract has been initialized.
+	CredentialGeneration int `json:"credentialGeneration"`
 	// Full database connection string (URI format).
 	ConnectionString string `json:"connectionString"`
 	// Whether SSL/TLS is required for client connections.
