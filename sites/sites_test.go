@@ -187,8 +187,7 @@ func TestSites(t *testing.T) {
                     "key": "static",
                     "installCommand": "npm install",
                     "buildCommand": "npm run build",
-                    "outputDirectory": "./dist",
-                    "fallbackFile": "index.html"
+                    "outputDirectory": "./dist"
                 }
             ]
         }

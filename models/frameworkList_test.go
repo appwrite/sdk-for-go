@@ -6,7 +6,7 @@ import (
 )
 
 func TestFrameworkListModel(t *testing.T) {
-	model := FrameworkList{Total: 5, Frameworks: []Framework{Framework{Key: "sveltekit", Name: "SvelteKit", BuildRuntime: "node-22", Runtimes: []string{"test"}, Adapters: []FrameworkAdapter{FrameworkAdapter{Key: "static", InstallCommand: "npm install", BuildCommand: "npm run build", OutputDirectory: "./dist", FallbackFile: "index.html"}}}}}
+	model := FrameworkList{Total: 5, Frameworks: []Framework{Framework{Key: "sveltekit", Name: "SvelteKit", BuildRuntime: "node-22", Runtimes: []string{"test"}, Adapters: []FrameworkAdapter{FrameworkAdapter{Key: "static", InstallCommand: "npm install", BuildCommand: "npm run build", OutputDirectory: "./dist"}}}}}
 
 	data, err := json.Marshal(model)
 	if err != nil {

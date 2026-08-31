@@ -1,5 +1,16 @@
 # Change Log
 
+## v7.2.0-rc.5
+
+* Breaking: `TablesDB.CutoverMigration` renamed to `TablesDB.CreateCutover`
+* Breaking: `Mysql`, `Postgresql`, and `Mongo` `UpdateCredentials` now return `DedicatedDatabaseOperation`
+* Added: `Project.UpdateOAuth2Cloudflare` and `UpdateOAuth2Resend`, with `OAuth2Cloudflare` and `OAuth2Resend` models
+* Added: `UsageAggregateOnlyMetrics` on the `BillingPlan` model
+* Added: `CredentialGeneration` on the `DedicatedDatabase` model
+* Updated: `X-Appwrite-Response-Format` is now `2.0.0`
+* Updated: `Avatars.GetPhoto` docs explain how `userId`, `emailHash`, and `name` combine
+* Updated: `DedicatedDatabaseOperation.Type` documents the new `credentials-update` type
+
 ## v7.2.0-rc.4
 
 * Added: `UserId`, `EmailHash`, and `Name` options on `Avatars.GetPhoto`

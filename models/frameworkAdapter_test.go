@@ -6,7 +6,7 @@ import (
 )
 
 func TestFrameworkAdapterModel(t *testing.T) {
-	model := FrameworkAdapter{Key: "static", InstallCommand: "npm install", BuildCommand: "npm run build", OutputDirectory: "./dist", FallbackFile: "index.html"}
+	model := FrameworkAdapter{Key: "static", InstallCommand: "npm install", BuildCommand: "npm run build", OutputDirectory: "./dist"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -29,8 +29,5 @@ func TestFrameworkAdapterModel(t *testing.T) {
 	}
 	if result.OutputDirectory != model.OutputDirectory {
 		t.Errorf("Expected OutputDirectory %v, got %v", model.OutputDirectory, result.OutputDirectory)
-	}
-	if result.FallbackFile != model.FallbackFile {
-		t.Errorf("Expected FallbackFile %v, got %v", model.FallbackFile, result.FallbackFile)
 	}
 }

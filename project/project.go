@@ -1711,6 +1711,89 @@ func (srv *Project) UpdateOAuth2Box(optionalSetters ...UpdateOAuth2BoxOption) (*
 
 }
 
+type UpdateOAuth2CloudflareOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2CloudflareOptions) New() *UpdateOAuth2CloudflareOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2CloudflareOption func(*UpdateOAuth2CloudflareOptions)
+
+func (srv *Project) WithUpdateOAuth2CloudflareClientId(v string) UpdateOAuth2CloudflareOption {
+	return func(o *UpdateOAuth2CloudflareOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2CloudflareClientSecret(v string) UpdateOAuth2CloudflareOption {
+	return func(o *UpdateOAuth2CloudflareOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2CloudflareEnabled(v bool) UpdateOAuth2CloudflareOption {
+	return func(o *UpdateOAuth2CloudflareOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Cloudflare update the project OAuth2 Cloudflare configuration.
+func (srv *Project) UpdateOAuth2Cloudflare(optionalSetters ...UpdateOAuth2CloudflareOption) (*models.OAuth2Cloudflare, error) {
+	path := "/project/oauth2/cloudflare"
+	options := UpdateOAuth2CloudflareOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Cloudflare{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Cloudflare
+	parsed, ok := resp.Result.(models.OAuth2Cloudflare)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2DailymotionOptions struct {
 	ApiKey         string
 	ApiSecret      string
@@ -3680,6 +3763,89 @@ func (srv *Project) UpdateOAuth2Podio(optionalSetters ...UpdateOAuth2PodioOption
 
 }
 
+type UpdateOAuth2ResendOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2ResendOptions) New() *UpdateOAuth2ResendOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2ResendOption func(*UpdateOAuth2ResendOptions)
+
+func (srv *Project) WithUpdateOAuth2ResendClientId(v string) UpdateOAuth2ResendOption {
+	return func(o *UpdateOAuth2ResendOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2ResendClientSecret(v string) UpdateOAuth2ResendOption {
+	return func(o *UpdateOAuth2ResendOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2ResendEnabled(v bool) UpdateOAuth2ResendOption {
+	return func(o *UpdateOAuth2ResendOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Resend update the project OAuth2 Resend configuration.
+func (srv *Project) UpdateOAuth2Resend(optionalSetters ...UpdateOAuth2ResendOption) (*models.OAuth2Resend, error) {
+	path := "/project/oauth2/resend"
+	options := UpdateOAuth2ResendOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Resend{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Resend
+	parsed, ok := resp.Result.(models.OAuth2Resend)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2SalesforceOptions struct {
 	CustomerKey    string
 	CustomerSecret string
@@ -4971,6 +5137,22 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "huggingface" {
 			parsed := models.OAuth2HuggingFace{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "resend" {
+			parsed := models.OAuth2Resend{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "cloudflare" {
+			parsed := models.OAuth2Cloudflare{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}

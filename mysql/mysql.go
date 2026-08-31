@@ -1397,11 +1397,12 @@ func (srv *Mysql) DeleteBranch(DatabaseId string, BranchId string) (*models.Dedi
 
 }
 
-// UpdateCredentials rotate the primary connection credentials for a dedicated
-// database. Generates a new password and updates the database atomically.
-// Previous credentials stop working immediately. Returns the database with a
-// refreshed connection string carrying the new password.
-func (srv *Mysql) UpdateCredentials(DatabaseId string) (*models.DedicatedDatabase, error) {
+// UpdateCredentials queue a rotation of the primary connection credentials
+// for a dedicated database. A hibernated database is woken by the worker
+// before rotation. List database operations until the returned operation
+// reaches a terminal status, then fetch the database again for the refreshed
+// connection string.
+func (srv *Mysql) UpdateCredentials(DatabaseId string) (*models.DedicatedDatabaseOperation, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/credentials")
 	params := map[string]interface{}{}
@@ -1420,7 +1421,7 @@ func (srv *Mysql) UpdateCredentials(DatabaseId string) (*models.DedicatedDatabas
 			return nil, err
 		}
 
-		parsed := models.DedicatedDatabase{}.New(bytes)
+		parsed := models.DedicatedDatabaseOperation{}.New(bytes)
 
 		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
@@ -1429,8 +1430,8 @@ func (srv *Mysql) UpdateCredentials(DatabaseId string) (*models.DedicatedDatabas
 
 		return parsed, nil
 	}
-	var parsed models.DedicatedDatabase
-	parsed, ok := resp.Result.(models.DedicatedDatabase)
+	var parsed models.DedicatedDatabaseOperation
+	parsed, ok := resp.Result.(models.DedicatedDatabaseOperation)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
