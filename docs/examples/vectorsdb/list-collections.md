@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListCollections(
 		"<DATABASE_ID>",
-		service.WithListCollectionsQueries([]string{}),
+		service.WithListCollectionsQueries([]string{"example"}),
 		service.WithListCollectionsSearch("<SEARCH>"),
 		service.WithListCollectionsTotal(false),
 	)

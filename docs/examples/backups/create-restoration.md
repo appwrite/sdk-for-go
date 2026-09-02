@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.CreateRestoration(
 		"<ARCHIVE_ID>",
-		[]string{},
+		[]string{"example"},
 		service.WithCreateRestorationNewResourceId("<NEW_RESOURCE_ID>"),
 		service.WithCreateRestorationNewResourceName("<NEW_RESOURCE_NAME>"),
 	)

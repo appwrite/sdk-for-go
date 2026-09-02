@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListMemberships(
 		"<USER_ID>",
-		service.WithListMembershipsQueries([]string{}),
+		service.WithListMembershipsQueries([]string{"example"}),
 		service.WithListMembershipsSearch("<SEARCH>"),
 		service.WithListMembershipsTotal(false),
 	)

@@ -22,9 +22,9 @@ func main() {
 		"<COLLECTION_ID>",
 		"<KEY>",
 		"hnsw_euclidean",
-		[]string{},
-		service.WithCreateIndexOrders([]string{}),
-		service.WithCreateIndexLengths([]int{}),
+		[]string{"example"},
+		service.WithCreateIndexOrders([]string{"example"}),
+		service.WithCreateIndexLengths([]int{0}),
 	)
 	fmt.Println(response, err)
 }

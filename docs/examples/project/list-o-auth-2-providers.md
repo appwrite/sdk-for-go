@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.ListOAuth2Providers(
-		service.WithListOAuth2ProvidersQueries([]string{}),
+		service.WithListOAuth2ProvidersQueries([]string{"example"}),
 		service.WithListOAuth2ProvidersTotal(false),
 	)
 	fmt.Println(response, err)

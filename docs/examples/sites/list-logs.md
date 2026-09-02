@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListLogs(
 		"<SITE_ID>",
-		service.WithListLogsQueries([]string{}),
+		service.WithListLogsQueries([]string{"example"}),
 		service.WithListLogsTotal(false),
 	)
 	fmt.Println(response, err)

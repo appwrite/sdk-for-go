@@ -20,7 +20,7 @@ func main() {
 	response, err := service.DeleteDocuments(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		service.WithDeleteDocumentsQueries([]string{}),
+		service.WithDeleteDocumentsQueries([]string{"example"}),
 		service.WithDeleteDocumentsTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)

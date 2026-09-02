@@ -20,7 +20,7 @@ func main() {
 	response, err := service.ListRows(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		service.WithListRowsQueries([]string{}),
+		service.WithListRowsQueries([]string{"example"}),
 		service.WithListRowsTransactionId("<TRANSACTION_ID>"),
 		service.WithListRowsTotal(false),
 		service.WithListRowsTtl(0),

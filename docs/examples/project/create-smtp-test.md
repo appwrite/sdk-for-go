@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.CreateSMTPTest(
-		[]string{},
+		[]string{"example"},
 	)
 	fmt.Println(response, err)
 }

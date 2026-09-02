@@ -1,5 +1,15 @@
 # Change Log
 
+## v7.2.0
+
+* Stable release of the dedicated database APIs: `Mysql`, `Postgresql`, `Mongo`, `DocumentsDB`, and `VectorsDB` services, previously released as release candidates
+* Breaking: `TablesDB.CutoverMigration` renamed to `TablesDB.CreateCutover`
+* Breaking: `Execution.FunctionId` replaced by `ResourceId` and `ResourceType`, covering function and site executions
+* Added: Cloudflare, Resend, and Hugging Face OAuth providers
+* Added: `UsageAggregateOnlyMetrics` on the `BillingPlan` model
+* Fixed: `TransactionId` is accepted again by `DocumentsDB` and `VectorsDB` `CreateDocument` and `CreateDocuments`
+* Updated: `X-Appwrite-Response-Format` is now `2.0.0`
+
 ## v7.2.0-rc.5
 
 * Breaking: `TablesDB.CutoverMigration` renamed to `TablesDB.CreateCutover`

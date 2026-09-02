@@ -21,7 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
 		service.WithUpdateRowsData(map[string]interface{}{"username": "walter.obrien", "email": "walter.obrien@example.com", "fullName": "Walter O'Brien", "age": 33, "isAdmin": false}),
-		service.WithUpdateRowsQueries([]string{}),
+		service.WithUpdateRowsQueries([]string{"example"}),
 		service.WithUpdateRowsTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)

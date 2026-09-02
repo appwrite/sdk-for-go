@@ -21,7 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
 		"<ROW_ID>",
-		service.WithGetRowQueries([]string{}),
+		service.WithGetRowQueries([]string{"example"}),
 		service.WithGetRowTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)

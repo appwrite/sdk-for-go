@@ -36,12 +36,12 @@ func main() {
 		service.WithUpdateProviderBranch("<PROVIDER_BRANCH>"),
 		service.WithUpdateProviderSilentMode(false),
 		service.WithUpdateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-		service.WithUpdateProviderBranches([]string{}),
-		service.WithUpdateProviderPaths([]string{}),
+		service.WithUpdateProviderBranches([]string{"example"}),
+		service.WithUpdateProviderPaths([]string{"example"}),
 		service.WithUpdateBuildSpecification("s-1vcpu-512mb"),
 		service.WithUpdateRuntimeSpecification("s-1vcpu-512mb"),
 		service.WithUpdateDeploymentRetention(0),
-		service.WithUpdateScopes([]string{}),
+		service.WithUpdateScopes([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListKeys(
 		"<APP_ID>",
-		service.WithListKeysQueries([]string{}),
+		service.WithListKeysQueries([]string{"example"}),
 		service.WithListKeysTotal(false),
 	)
 	fmt.Println(response, err)

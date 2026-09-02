@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.ListEmailTemplates(
-		service.WithListEmailTemplatesQueries([]string{}),
+		service.WithListEmailTemplatesQueries([]string{"example"}),
 		service.WithListEmailTemplatesTotal(false),
 	)
 	fmt.Println(response, err)

@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.UpdateLabels(
 		"<USER_ID>",
-		[]string{},
+		[]string{"example"},
 	)
 	fmt.Println(response, err)
 }

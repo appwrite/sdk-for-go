@@ -18,7 +18,7 @@ func main() {
 	service := vectorsdb.New(client)
 
 	response, err := service.ListTransactions(
-		service.WithListTransactionsQueries([]string{}),
+		service.WithListTransactionsQueries([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

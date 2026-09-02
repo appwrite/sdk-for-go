@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListFiles(
 		"<BUCKET_ID>",
-		service.WithListFilesQueries([]string{}),
+		service.WithListFilesQueries([]string{"example"}),
 		service.WithListFilesSearch("<SEARCH>"),
 		service.WithListFilesTotal(false),
 	)

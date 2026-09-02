@@ -18,7 +18,7 @@ func main() {
 	service := users.New(client)
 
 	response, err := service.ListIdentities(
-		service.WithListIdentitiesQueries([]string{}),
+		service.WithListIdentitiesQueries([]string{"example"}),
 		service.WithListIdentitiesSearch("<SEARCH>"),
 		service.WithListIdentitiesTotal(false),
 	)

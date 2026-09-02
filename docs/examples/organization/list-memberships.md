@@ -18,7 +18,7 @@ func main() {
 	service := organization.New(client)
 
 	response, err := service.ListMemberships(
-		service.WithListMembershipsQueries([]string{}),
+		service.WithListMembershipsQueries([]string{"example"}),
 		service.WithListMembershipsSearch("<SEARCH>"),
 		service.WithListMembershipsTotal(false),
 	)

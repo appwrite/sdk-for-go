@@ -20,7 +20,7 @@ func main() {
 	response, err := service.UpdateMembership(
 		"<TEAM_ID>",
 		"<MEMBERSHIP_ID>",
-		[]string{},
+		[]string{"example"},
 	)
 	fmt.Println(response, err)
 }

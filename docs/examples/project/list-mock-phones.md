@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.ListMockPhones(
-		service.WithListMockPhonesQueries([]string{}),
+		service.WithListMockPhonesQueries([]string{"example"}),
 		service.WithListMockPhonesTotal(false),
 	)
 	fmt.Println(response, err)

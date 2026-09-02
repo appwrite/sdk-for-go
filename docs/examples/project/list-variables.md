@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.ListVariables(
-		service.WithListVariablesQueries([]string{}),
+		service.WithListVariablesQueries([]string{"example"}),
 		service.WithListVariablesTotal(false),
 	)
 	fmt.Println(response, err)

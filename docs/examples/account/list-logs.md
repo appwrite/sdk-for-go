@@ -18,7 +18,7 @@ func main() {
 	service := account.New(client)
 
 	response, err := service.ListLogs(
-		service.WithListLogsQueries([]string{}),
+		service.WithListLogsQueries([]string{"example"}),
 		service.WithListLogsTotal(false),
 	)
 	fmt.Println(response, err)

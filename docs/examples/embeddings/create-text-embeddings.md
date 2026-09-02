@@ -18,7 +18,7 @@ func main() {
 	service := embeddings.New(client)
 
 	response, err := service.CreateTextEmbeddings(
-		[]string{},
+		[]string{"example"},
 		service.WithCreateTextEmbeddingsModel("nomic-embed-text"),
 	)
 	fmt.Println(response, err)

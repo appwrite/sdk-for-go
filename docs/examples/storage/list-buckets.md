@@ -18,7 +18,7 @@ func main() {
 	service := storage.New(client)
 
 	response, err := service.ListBuckets(
-		service.WithListBucketsQueries([]string{}),
+		service.WithListBucketsQueries([]string{"example"}),
 		service.WithListBucketsSearch("<SEARCH>"),
 		service.WithListBucketsTotal(false),
 	)

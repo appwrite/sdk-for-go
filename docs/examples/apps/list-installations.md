@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListInstallations(
 		"<APP_ID>",
-		service.WithListInstallationsQueries([]string{}),
+		service.WithListInstallationsQueries([]string{"example"}),
 		service.WithListInstallationsTotal(false),
 	)
 	fmt.Println(response, err)

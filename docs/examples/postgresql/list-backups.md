@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListBackups(
 		"<DATABASE_ID>",
-		service.WithListBackupsQueries([]string{}),
+		service.WithListBackupsQueries([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

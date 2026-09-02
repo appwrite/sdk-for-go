@@ -20,7 +20,7 @@ func main() {
 	response, err := service.List(
 		"<BUCKET_ID>",
 		"<FILE_ID>",
-		service.WithListQueries([]string{}),
+		service.WithListQueries([]string{"example"}),
 		service.WithListTotal(false),
 	)
 	fmt.Println(response, err)

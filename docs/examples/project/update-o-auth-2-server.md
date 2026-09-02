@@ -20,8 +20,8 @@ func main() {
 	response, err := service.UpdateOAuth2Server(
 		false,
 		"https://example.com",
-		service.WithUpdateOAuth2ServerScopes([]string{}),
-		service.WithUpdateOAuth2ServerAuthorizationDetailsTypes([]string{}),
+		service.WithUpdateOAuth2ServerScopes([]string{"example"}),
+		service.WithUpdateOAuth2ServerAuthorizationDetailsTypes([]string{"example"}),
 		service.WithUpdateOAuth2ServerAccessTokenDuration(60),
 		service.WithUpdateOAuth2ServerRefreshTokenDuration(60),
 		service.WithUpdateOAuth2ServerPublicAccessTokenDuration(60),
@@ -32,8 +32,8 @@ func main() {
 		service.WithUpdateOAuth2ServerUserCodeLength(6),
 		service.WithUpdateOAuth2ServerUserCodeFormat("numeric"),
 		service.WithUpdateOAuth2ServerDeviceCodeDuration(60),
-		service.WithUpdateOAuth2ServerDefaultScopes([]string{}),
-		service.WithUpdateOAuth2ServerInstallationScopes([]string{}),
+		service.WithUpdateOAuth2ServerDefaultScopes([]string{"example"}),
+		service.WithUpdateOAuth2ServerInstallationScopes([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

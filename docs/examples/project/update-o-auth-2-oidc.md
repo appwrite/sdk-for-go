@@ -24,7 +24,7 @@ func main() {
 		service.WithUpdateOAuth2OidcAuthorizationURL("https://example.com"),
 		service.WithUpdateOAuth2OidcTokenURL("https://example.com"),
 		service.WithUpdateOAuth2OidcUserInfoURL("https://example.com"),
-		service.WithUpdateOAuth2OidcPrompt([]string{}),
+		service.WithUpdateOAuth2OidcPrompt([]string{"example"}),
 		service.WithUpdateOAuth2OidcMaxAge(0),
 		service.WithUpdateOAuth2OidcEnabled(false),
 	)

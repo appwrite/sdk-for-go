@@ -19,9 +19,9 @@ func main() {
 
 	response, err := service.UpdatePush(
 		"<MESSAGE_ID>",
-		service.WithUpdatePushTopics([]string{}),
-		service.WithUpdatePushUsers([]string{}),
-		service.WithUpdatePushTargets([]string{}),
+		service.WithUpdatePushTopics([]string{"example"}),
+		service.WithUpdatePushUsers([]string{"example"}),
+		service.WithUpdatePushTargets([]string{"example"}),
 		service.WithUpdatePushTitle("<TITLE>"),
 		service.WithUpdatePushBody("<BODY>"),
 		service.WithUpdatePushData([]interface{}{}),

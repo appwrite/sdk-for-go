@@ -18,7 +18,7 @@ func main() {
 	service := messaging.New(client)
 
 	response, err := service.ListTopics(
-		service.WithListTopicsQueries([]string{}),
+		service.WithListTopicsQueries([]string{"example"}),
 		service.WithListTopicsSearch("<SEARCH>"),
 		service.WithListTopicsTotal(false),
 	)

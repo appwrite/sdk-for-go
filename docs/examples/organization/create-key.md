@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateKey(
 		"<KEY_ID>",
 		"<NAME>",
-		[]string{},
+		[]string{"example"},
 		service.WithCreateKeyExpire("2020-10-15T06:38:00.000+00:00"),
 	)
 	fmt.Println(response, err)

@@ -18,7 +18,7 @@ func main() {
 	service := mongo.New(client)
 
 	response, err := service.List(
-		service.WithListQueries([]string{}),
+		service.WithListQueries([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }
