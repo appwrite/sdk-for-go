@@ -21,7 +21,7 @@ func main() {
 		"<WEBHOOK_ID>",
 		"<NAME>",
 		"https://example.com/webhook",
-		[]string{},
+		[]string{"example"},
 		service.WithUpdateEnabled(false),
 		service.WithUpdateTls(false),
 		service.WithUpdateAuthUsername("<AUTH_USERNAME>"),

@@ -18,7 +18,7 @@ func main() {
 	service := documentsdb.New(client)
 
 	response, err := service.List(
-		service.WithListQueries([]string{}),
+		service.WithListQueries([]string{"example"}),
 		service.WithListTotal(false),
 	)
 	fmt.Println(response, err)

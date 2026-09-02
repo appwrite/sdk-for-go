@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListTables(
 		"<DATABASE_ID>",
-		service.WithListTablesQueries([]string{}),
+		service.WithListTablesQueries([]string{"example"}),
 		service.WithListTablesSearch("<SEARCH>"),
 		service.WithListTablesTotal(false),
 	)

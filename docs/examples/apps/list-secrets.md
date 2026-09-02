@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListSecrets(
 		"<APP_ID>",
-		service.WithListSecretsQueries([]string{}),
+		service.WithListSecretsQueries([]string{"example"}),
 		service.WithListSecretsTotal(false),
 	)
 	fmt.Println(response, err)

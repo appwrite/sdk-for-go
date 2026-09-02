@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.CreateMembership(
 		"<TEAM_ID>",
-		[]string{},
+		[]string{"example"},
 		service.WithCreateMembershipEmail("email@example.com"),
 		service.WithCreateMembershipUserId("<USER_ID>"),
 		service.WithCreateMembershipPhone("+12065550100"),

@@ -18,7 +18,7 @@ func main() {
 	service := backups.New(client)
 
 	response, err := service.CreateArchive(
-		[]string{},
+		[]string{"example"},
 		service.WithCreateArchiveResourceId("<RESOURCE_ID>"),
 	)
 	fmt.Println(response, err)

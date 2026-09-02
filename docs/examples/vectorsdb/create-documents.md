@@ -21,6 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		[]interface{}{},
+		service.WithCreateDocumentsTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)
 }

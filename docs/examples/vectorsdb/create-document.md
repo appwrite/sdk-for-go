@@ -23,6 +23,7 @@ func main() {
 		"<DOCUMENT_ID>",
 		map[string]interface{}{"embeddings": []interface{}{0.12, -0.55, 0.88, 1.02}, "metadata": map[string]interface{}{"key": "value"}},
 		service.WithCreateDocumentPermissions([]string{"read(\"any\")"}),
+		service.WithCreateDocumentTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)
 }

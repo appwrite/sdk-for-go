@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListInsights(
 		"<REPORT_ID>",
-		service.WithListInsightsQueries([]string{}),
+		service.WithListInsightsQueries([]string{"example"}),
 		service.WithListInsightsTotal(false),
 	)
 	fmt.Println(response, err)

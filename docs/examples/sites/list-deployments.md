@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListDeployments(
 		"<SITE_ID>",
-		service.WithListDeploymentsQueries([]string{}),
+		service.WithListDeploymentsQueries([]string{"example"}),
 		service.WithListDeploymentsSearch("<SEARCH>"),
 		service.WithListDeploymentsTotal(false),
 	)

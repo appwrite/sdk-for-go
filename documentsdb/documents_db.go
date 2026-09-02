@@ -1192,11 +1192,12 @@ func (srv *DocumentsDB) ListDocuments(DatabaseId string, CollectionId string, op
 
 type CreateDocumentOptions struct {
 	Permissions    []string
+	TransactionId  string
 	enabledSetters map[string]bool
 }
 
 func (options CreateDocumentOptions) New() *CreateDocumentOptions {
-	options.enabledSetters = map[string]bool{"Permissions": false}
+	options.enabledSetters = map[string]bool{"Permissions": false, "TransactionId": false}
 	return &options
 }
 
@@ -1206,6 +1207,12 @@ func (srv *DocumentsDB) WithCreateDocumentPermissions(v []string) CreateDocument
 	return func(o *CreateDocumentOptions) {
 		o.Permissions = v
 		o.enabledSetters["Permissions"] = true
+	}
+}
+func (srv *DocumentsDB) WithCreateDocumentTransactionId(v string) CreateDocumentOption {
+	return func(o *CreateDocumentOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
 	}
 }
 
@@ -1225,6 +1232,9 @@ func (srv *DocumentsDB) CreateDocument(DatabaseId string, CollectionId string, D
 	params["data"] = Data
 	if options.enabledSetters["Permissions"] {
 		params["permissions"] = options.Permissions
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1259,15 +1269,41 @@ func (srv *DocumentsDB) CreateDocument(DatabaseId string, CollectionId string, D
 
 }
 
+type CreateDocumentsOptions struct {
+	TransactionId  string
+	enabledSetters map[string]bool
+}
+
+func (options CreateDocumentsOptions) New() *CreateDocumentsOptions {
+	options.enabledSetters = map[string]bool{"TransactionId": false}
+	return &options
+}
+
+type CreateDocumentsOption func(*CreateDocumentsOptions)
+
+func (srv *DocumentsDB) WithCreateDocumentsTransactionId(v string) CreateDocumentsOption {
+	return func(o *CreateDocumentsOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
+	}
+}
+
 // CreateDocuments create new Documents. Before using this route, you should
 // create a new collection resource using either a [server
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
-func (srv *DocumentsDB) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{}) (*models.DocumentList, error) {
+func (srv *DocumentsDB) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{}, optionalSetters ...CreateDocumentsOption) (*models.DocumentList, error) {
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents")
+	options := CreateDocumentsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["documents"] = Documents
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"

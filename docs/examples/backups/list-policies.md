@@ -18,7 +18,7 @@ func main() {
 	service := backups.New(client)
 
 	response, err := service.ListPolicies(
-		service.WithListPoliciesQueries([]string{}),
+		service.WithListPoliciesQueries([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

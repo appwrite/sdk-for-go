@@ -21,7 +21,7 @@ func main() {
 		"amazon",
 		service.WithCreateOAuth2TokenSuccess("https://example.com"),
 		service.WithCreateOAuth2TokenFailure("https://example.com"),
-		service.WithCreateOAuth2TokenScopes([]string{}),
+		service.WithCreateOAuth2TokenScopes([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

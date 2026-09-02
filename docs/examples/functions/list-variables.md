@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListVariables(
 		"<FUNCTION_ID>",
-		service.WithListVariablesQueries([]string{}),
+		service.WithListVariablesQueries([]string{"example"}),
 		service.WithListVariablesTotal(false),
 	)
 	fmt.Println(response, err)

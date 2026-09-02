@@ -18,7 +18,7 @@ func main() {
 	service := organization.New(client)
 
 	response, err := service.ListKeys(
-		service.WithListKeysQueries([]string{}),
+		service.WithListKeysQueries([]string{"example"}),
 		service.WithListKeysTotal(false),
 	)
 	fmt.Println(response, err)

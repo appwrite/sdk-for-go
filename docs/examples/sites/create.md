@@ -36,12 +36,12 @@ func main() {
 		service.WithCreateProviderBranch("<PROVIDER_BRANCH>"),
 		service.WithCreateProviderSilentMode(false),
 		service.WithCreateProviderRootDirectory("<PROVIDER_ROOT_DIRECTORY>"),
-		service.WithCreateProviderBranches([]string{}),
-		service.WithCreateProviderPaths([]string{}),
+		service.WithCreateProviderBranches([]string{"example"}),
+		service.WithCreateProviderPaths([]string{"example"}),
 		service.WithCreateBuildSpecification("s-1vcpu-512mb"),
 		service.WithCreateRuntimeSpecification("s-1vcpu-512mb"),
 		service.WithCreateDeploymentRetention(0),
-		service.WithCreateScopes([]string{}),
+		service.WithCreateScopes([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

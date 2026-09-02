@@ -20,9 +20,9 @@ func main() {
 	response, err := service.CreateSMS(
 		"<MESSAGE_ID>",
 		"<CONTENT>",
-		service.WithCreateSMSTopics([]string{}),
-		service.WithCreateSMSUsers([]string{}),
-		service.WithCreateSMSTargets([]string{}),
+		service.WithCreateSMSTopics([]string{"example"}),
+		service.WithCreateSMSUsers([]string{"example"}),
+		service.WithCreateSMSTargets([]string{"example"}),
 		service.WithCreateSMSDraft(false),
 		service.WithCreateSMSScheduledAt("2020-10-15T06:38:00.000+00:00"),
 	)

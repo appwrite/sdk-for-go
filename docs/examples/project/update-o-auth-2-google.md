@@ -20,7 +20,7 @@ func main() {
 	response, err := service.UpdateOAuth2Google(
 		service.WithUpdateOAuth2GoogleClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2GoogleClientSecret("<CLIENT_SECRET>"),
-		service.WithUpdateOAuth2GooglePrompt([]string{}),
+		service.WithUpdateOAuth2GooglePrompt([]string{"example"}),
 		service.WithUpdateOAuth2GoogleEnabled(false),
 	)
 	fmt.Println(response, err)

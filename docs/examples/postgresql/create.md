@@ -25,7 +25,7 @@ func main() {
 		service.WithCreateReplicas(0),
 		service.WithCreateSyncMode("async"),
 		service.WithCreateNetworkIdleTimeoutSeconds(60),
-		service.WithCreateNetworkIPAllowlist([]string{}),
+		service.WithCreateNetworkIPAllowlist([]string{"example"}),
 		service.WithCreateIdleTimeoutMinutes(5),
 		service.WithCreatePitr(false),
 		service.WithCreatePitrRetentionDays(1),

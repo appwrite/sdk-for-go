@@ -20,7 +20,7 @@ func main() {
 	response, err := service.ListColumns(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		service.WithListColumnsQueries([]string{}),
+		service.WithListColumnsQueries([]string{"example"}),
 		service.WithListColumnsTotal(false),
 	)
 	fmt.Println(response, err)

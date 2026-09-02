@@ -21,7 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<DOCUMENT_ID>",
-		service.WithGetDocumentQueries([]string{}),
+		service.WithGetDocumentQueries([]string{"example"}),
 		service.WithGetDocumentTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)

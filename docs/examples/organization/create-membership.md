@@ -18,7 +18,7 @@ func main() {
 	service := organization.New(client)
 
 	response, err := service.CreateMembership(
-		[]string{},
+		[]string{"example"},
 		service.WithCreateMembershipEmail("email@example.com"),
 		service.WithCreateMembershipUserId("<USER_ID>"),
 		service.WithCreateMembershipPhone("+12065550100"),

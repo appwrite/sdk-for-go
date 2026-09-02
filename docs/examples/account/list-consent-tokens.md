@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListConsentTokens(
 		"<CONSENT_ID>",
-		service.WithListConsentTokensQueries([]string{}),
+		service.WithListConsentTokensQueries([]string{"example"}),
 		service.WithListConsentTokensTotal(false),
 	)
 	fmt.Println(response, err)

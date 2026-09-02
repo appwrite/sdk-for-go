@@ -18,7 +18,7 @@ func main() {
 	service := advisor.New(client)
 
 	response, err := service.ListReports(
-		service.WithListReportsQueries([]string{}),
+		service.WithListReportsQueries([]string{"example"}),
 		service.WithListReportsTotal(false),
 	)
 	fmt.Println(response, err)

@@ -18,7 +18,7 @@ func main() {
 	service := functions.New(client)
 
 	response, err := service.List(
-		service.WithListQueries([]string{}),
+		service.WithListQueries([]string{"example"}),
 		service.WithListSearch("<SEARCH>"),
 		service.WithListTotal(false),
 	)

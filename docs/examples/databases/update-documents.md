@@ -21,7 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		service.WithUpdateDocumentsData(map[string]interface{}{"username": "walter.obrien", "email": "walter.obrien@example.com", "fullName": "Walter O'Brien", "age": 33, "isAdmin": false}),
-		service.WithUpdateDocumentsQueries([]string{}),
+		service.WithUpdateDocumentsQueries([]string{"example"}),
 		service.WithUpdateDocumentsTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)
