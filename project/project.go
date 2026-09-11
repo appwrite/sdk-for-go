@@ -27,6 +27,7 @@ func (srv *Project) Get() (*models.Project, error) {
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -63,6 +64,7 @@ func (srv *Project) Delete() (*interface{}, error) {
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -249,6 +251,10 @@ func (srv *Project) CreateEphemeralKey(Scopes []string, Duration int) (*models.E
 
 // GetKey get a key by its unique ID.
 func (srv *Project) GetKey(KeyId string) (*models.Key, error) {
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
 	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/project/keys/{keyId}")
 	params := map[string]interface{}{}
@@ -306,6 +312,10 @@ func (srv *Project) WithUpdateKeyExpire(v string) UpdateKeyOption {
 // UpdateKey update a key by its unique ID. Use this endpoint to update the
 // name, scopes, or expiration time of an API key.
 func (srv *Project) UpdateKey(KeyId string, Name string, Scopes []string, optionalSetters ...UpdateKeyOption) (*models.Key, error) {
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
 	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/project/keys/{keyId}")
 	options := UpdateKeyOptions{}.New()
@@ -354,12 +364,17 @@ func (srv *Project) UpdateKey(KeyId string, Name string, Scopes []string, option
 // DeleteKey delete a key by its unique ID. Once deleted, the key can no
 // longer be used to authenticate API calls.
 func (srv *Project) DeleteKey(KeyId string) (*interface{}, error) {
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
 	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/project/keys/{keyId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -543,6 +558,10 @@ func (srv *Project) CreateMockPhone(Number string, Otp string) (*models.MockNumb
 // GetMockPhone get a mock phone by its unique number. This endpoint returns
 // the mock phone's OTP.
 func (srv *Project) GetMockPhone(Number string) (*models.MockNumber, error) {
+	if Number == "" {
+		return nil, errors.New("Missing required parameter: \"number\"")
+	}
+
 	r := strings.NewReplacer("{number}", client.EncodePath(Number))
 	path := r.Replace("/project/mock-phones/{number}")
 	params := map[string]interface{}{}
@@ -581,6 +600,10 @@ func (srv *Project) GetMockPhone(Number string) (*models.MockNumber, error) {
 // UpdateMockPhone update a mock phone by its unique number. Use this endpoint
 // to update the mock phone's OTP.
 func (srv *Project) UpdateMockPhone(Number string, Otp string) (*models.MockNumber, error) {
+	if Number == "" {
+		return nil, errors.New("Missing required parameter: \"number\"")
+	}
+
 	r := strings.NewReplacer("{number}", client.EncodePath(Number))
 	path := r.Replace("/project/mock-phones/{number}")
 	params := map[string]interface{}{}
@@ -621,12 +644,17 @@ func (srv *Project) UpdateMockPhone(Number string, Otp string) (*models.MockNumb
 // DeleteMockPhone delete a mock phone by its unique number. This endpoint
 // removes the mock phone and its OTP configuration from the project.
 func (srv *Project) DeleteMockPhone(Number string) (*interface{}, error) {
+	if Number == "" {
+		return nil, errors.New("Missing required parameter: \"number\"")
+	}
+
 	r := strings.NewReplacer("{number}", client.EncodePath(Number))
 	path := r.Replace("/project/mock-phones/{number}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -2822,6 +2850,89 @@ func (srv *Project) UpdateOAuth2HuggingFace(optionalSetters ...UpdateOAuth2Huggi
 
 }
 
+type UpdateOAuth2KakaoOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2KakaoOptions) New() *UpdateOAuth2KakaoOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2KakaoOption func(*UpdateOAuth2KakaoOptions)
+
+func (srv *Project) WithUpdateOAuth2KakaoClientId(v string) UpdateOAuth2KakaoOption {
+	return func(o *UpdateOAuth2KakaoOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2KakaoClientSecret(v string) UpdateOAuth2KakaoOption {
+	return func(o *UpdateOAuth2KakaoOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2KakaoEnabled(v bool) UpdateOAuth2KakaoOption {
+	return func(o *UpdateOAuth2KakaoOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Kakao update the project OAuth2 Kakao configuration.
+func (srv *Project) UpdateOAuth2Kakao(optionalSetters ...UpdateOAuth2KakaoOption) (*models.OAuth2Kakao, error) {
+	path := "/project/oauth2/kakao"
+	options := UpdateOAuth2KakaoOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Kakao{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Kakao
+	parsed, ok := resp.Result.(models.OAuth2Kakao)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2KeycloakOptions struct {
 	ClientId       string
 	ClientSecret   string
@@ -4178,6 +4289,89 @@ func (srv *Project) UpdateOAuth2Stripe(optionalSetters ...UpdateOAuth2StripeOpti
 
 }
 
+type UpdateOAuth2TikTokOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2TikTokOptions) New() *UpdateOAuth2TikTokOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2TikTokOption func(*UpdateOAuth2TikTokOptions)
+
+func (srv *Project) WithUpdateOAuth2TikTokClientId(v string) UpdateOAuth2TikTokOption {
+	return func(o *UpdateOAuth2TikTokOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2TikTokClientSecret(v string) UpdateOAuth2TikTokOption {
+	return func(o *UpdateOAuth2TikTokOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2TikTokEnabled(v bool) UpdateOAuth2TikTokOption {
+	return func(o *UpdateOAuth2TikTokOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2TikTok update the project OAuth2 TikTok configuration.
+func (srv *Project) UpdateOAuth2TikTok(optionalSetters ...UpdateOAuth2TikTokOption) (*models.OAuth2TikTok, error) {
+	path := "/project/oauth2/tiktok"
+	options := UpdateOAuth2TikTokOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2TikTok{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2TikTok
+	parsed, ok := resp.Result.(models.OAuth2TikTok)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2TradeshiftOptions struct {
 	Oauth2ClientId     string
 	Oauth2ClientSecret string
@@ -5295,6 +5489,22 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 
 			return parsed, nil
 		}
+		if fmt.Sprint(response["$id"]) == "tiktok" {
+			parsed := models.OAuth2TikTok{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "kakao" {
+			parsed := models.OAuth2Kakao{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
 
 		return nil, errors.New("unable to match response to any expected response model")
 	}
@@ -5424,6 +5634,10 @@ func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, Applic
 // UpdateAndroidPlatform update an Android platform by its unique ID. Use this
 // endpoint to update the platform's name or application ID.
 func (srv *Project) UpdateAndroidPlatform(PlatformId string, Name string, ApplicationId string) (*models.PlatformAndroid, error) {
+	if PlatformId == "" {
+		return nil, errors.New("Missing required parameter: \"platformId\"")
+	}
+
 	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/android/{platformId}")
 	params := map[string]interface{}{}
@@ -5507,6 +5721,10 @@ func (srv *Project) CreateApplePlatform(PlatformId string, Name string, BundleId
 // UpdateApplePlatform update an Apple platform by its unique ID. Use this
 // endpoint to update the platform's name or bundle identifier.
 func (srv *Project) UpdateApplePlatform(PlatformId string, Name string, BundleIdentifier string) (*models.PlatformApple, error) {
+	if PlatformId == "" {
+		return nil, errors.New("Missing required parameter: \"platformId\"")
+	}
+
 	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/apple/{platformId}")
 	params := map[string]interface{}{}
@@ -5590,6 +5808,10 @@ func (srv *Project) CreateLinuxPlatform(PlatformId string, Name string, PackageN
 // UpdateLinuxPlatform update a Linux platform by its unique ID. Use this
 // endpoint to update the platform's name or package name.
 func (srv *Project) UpdateLinuxPlatform(PlatformId string, Name string, PackageName string) (*models.PlatformLinux, error) {
+	if PlatformId == "" {
+		return nil, errors.New("Missing required parameter: \"platformId\"")
+	}
+
 	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/linux/{platformId}")
 	params := map[string]interface{}{}
@@ -5673,6 +5895,10 @@ func (srv *Project) CreateWebPlatform(PlatformId string, Name string, Hostname s
 // UpdateWebPlatform update a web platform by its unique ID. Use this endpoint
 // to update the platform's name or hostname.
 func (srv *Project) UpdateWebPlatform(PlatformId string, Name string, Hostname string) (*models.PlatformWeb, error) {
+	if PlatformId == "" {
+		return nil, errors.New("Missing required parameter: \"platformId\"")
+	}
+
 	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/web/{platformId}")
 	params := map[string]interface{}{}
@@ -5756,6 +5982,10 @@ func (srv *Project) CreateWindowsPlatform(PlatformId string, Name string, Packag
 // UpdateWindowsPlatform update a Windows platform by its unique ID. Use this
 // endpoint to update the platform's name or package identifier name.
 func (srv *Project) UpdateWindowsPlatform(PlatformId string, Name string, PackageIdentifierName string) (*models.PlatformWindows, error) {
+	if PlatformId == "" {
+		return nil, errors.New("Missing required parameter: \"platformId\"")
+	}
+
 	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/windows/{platformId}")
 	params := map[string]interface{}{}
@@ -5797,6 +6027,10 @@ func (srv *Project) UpdateWindowsPlatform(PlatformId string, Name string, Packag
 // GetPlatform get a platform by its unique ID. This endpoint returns the
 // platform's details, including its name, type, and key configurations.
 func (srv *Project) GetPlatform(PlatformId string) (models.Model, error) {
+	if PlatformId == "" {
+		return nil, errors.New("Missing required parameter: \"platformId\"")
+	}
+
 	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/{platformId}")
 	params := map[string]interface{}{}
@@ -5872,12 +6106,17 @@ func (srv *Project) GetPlatform(PlatformId string) (models.Model, error) {
 // DeletePlatform delete a platform by its unique ID. This endpoint removes
 // the platform and all its configurations from the project.
 func (srv *Project) DeletePlatform(PlatformId string) (*interface{}, error) {
+	if PlatformId == "" {
+		return nil, errors.New("Missing required parameter: \"platformId\"")
+	}
+
 	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/{platformId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -7184,6 +7423,7 @@ func (srv *Project) CreateSMTPTest(Emails []string) (*interface{}, error) {
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
@@ -7617,6 +7857,10 @@ func (srv *Project) CreateVariable(VariableId string, Key string, Value string, 
 
 // GetVariable get a variable by its unique ID.
 func (srv *Project) GetVariable(VariableId string) (*models.Variable, error) {
+	if VariableId == "" {
+		return nil, errors.New("Missing required parameter: \"variableId\"")
+	}
+
 	r := strings.NewReplacer("{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/project/variables/{variableId}")
 	params := map[string]interface{}{}
@@ -7687,6 +7931,10 @@ func (srv *Project) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 
 // UpdateVariable update variable by its unique ID.
 func (srv *Project) UpdateVariable(VariableId string, optionalSetters ...UpdateVariableOption) (*models.Variable, error) {
+	if VariableId == "" {
+		return nil, errors.New("Missing required parameter: \"variableId\"")
+	}
+
 	r := strings.NewReplacer("{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/project/variables/{variableId}")
 	options := UpdateVariableOptions{}.New()
@@ -7738,12 +7986,17 @@ func (srv *Project) UpdateVariable(VariableId string, optionalSetters ...UpdateV
 
 // DeleteVariable delete a variable by its unique ID.
 func (srv *Project) DeleteVariable(VariableId string) (*interface{}, error) {
+	if VariableId == "" {
+		return nil, errors.New("Missing required parameter: \"variableId\"")
+	}
+
 	r := strings.NewReplacer("{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/project/variables/{variableId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {

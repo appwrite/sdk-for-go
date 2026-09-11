@@ -96,6 +96,10 @@ func (srv *Advisor) ListReports(optionalSetters ...ListReportsOption) (*models.R
 // GetReport get an analyzer report by its unique ID. The response includes
 // the report's metadata and the nested insights it produced.
 func (srv *Advisor) GetReport(ReportId string) (*models.Report, error) {
+	if ReportId == "" {
+		return nil, errors.New("Missing required parameter: \"reportId\"")
+	}
+
 	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId))
 	path := r.Replace("/reports/{reportId}")
 	params := map[string]interface{}{}
@@ -134,12 +138,17 @@ func (srv *Advisor) GetReport(ReportId string) (*models.Report, error) {
 // DeleteReport delete an analyzer report by its unique ID. Nested insights
 // and CTA metadata are removed asynchronously by the deletes worker.
 func (srv *Advisor) DeleteReport(ReportId string) (*interface{}, error) {
+	if ReportId == "" {
+		return nil, errors.New("Missing required parameter: \"reportId\"")
+	}
+
 	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId))
 	path := r.Replace("/reports/{reportId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -197,6 +206,10 @@ func (srv *Advisor) WithListInsightsTotal(v bool) ListInsightsOption {
 // ListInsights list the insights produced under a single analyzer report. You
 // can use the query params to filter your results further.
 func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsightsOption) (*models.InsightList, error) {
+	if ReportId == "" {
+		return nil, errors.New("Missing required parameter: \"reportId\"")
+	}
+
 	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId))
 	path := r.Replace("/reports/{reportId}/insights")
 	options := ListInsightsOptions{}.New()
@@ -244,6 +257,13 @@ func (srv *Advisor) ListInsights(ReportId string, optionalSetters ...ListInsight
 
 // GetInsight get an insight by its unique ID, scoped to its parent report.
 func (srv *Advisor) GetInsight(ReportId string, InsightId string) (*models.Insight, error) {
+	if ReportId == "" {
+		return nil, errors.New("Missing required parameter: \"reportId\"")
+	}
+	if InsightId == "" {
+		return nil, errors.New("Missing required parameter: \"insightId\"")
+	}
+
 	r := strings.NewReplacer("{reportId}", client.EncodePath(ReportId), "{insightId}", client.EncodePath(InsightId))
 	path := r.Replace("/reports/{reportId}/insights/{insightId}")
 	params := map[string]interface{}{}

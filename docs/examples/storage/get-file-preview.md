@@ -22,7 +22,7 @@ func main() {
 		"<FILE_ID>",
 		service.WithGetFilePreviewWidth(0),
 		service.WithGetFilePreviewHeight(0),
-		service.WithGetFilePreviewGravity("center"),
+		service.WithGetFilePreviewGravity("auto"),
 		service.WithGetFilePreviewQuality(-1),
 		service.WithGetFilePreviewBorderWidth(0),
 		service.WithGetFilePreviewBorderColor("FFFFFF"),

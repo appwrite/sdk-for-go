@@ -384,6 +384,10 @@ func (srv *Apps) ListOAuth2Scopes() (*models.AppScopeList, error) {
 
 // Get get an application by its unique ID.
 func (srv *Apps) Get(AppId string) (*models.App, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}")
 	params := map[string]interface{}{}
@@ -559,6 +563,10 @@ func (srv *Apps) WithUpdateInstallationRedirectUrl(v string) UpdateOption {
 
 // Update update an application by its unique ID.
 func (srv *Apps) Update(AppId string, Name string, optionalSetters ...UpdateOption) (*models.App, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}")
 	options := UpdateOptions{}.New()
@@ -656,6 +664,10 @@ func (srv *Apps) Update(AppId string, Name string, optionalSetters ...UpdateOpti
 
 // Delete delete an application by its unique ID.
 func (srv *Apps) Delete(AppId string) (*interface{}, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}")
 	params := map[string]interface{}{}
@@ -721,6 +733,10 @@ func (srv *Apps) WithListInstallationsTotal(v bool) ListInstallationsOption {
 // sent in the `X-Appwrite-Key` header alongside the `X-Appwrite-App` header,
 // or a caller with update access to the app.
 func (srv *Apps) ListInstallations(AppId string, optionalSetters ...ListInstallationsOption) (*models.AppInstallationList, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/installations")
 	options := ListInstallationsOptions{}.New()
@@ -770,6 +786,13 @@ func (srv *Apps) ListInstallations(AppId string, optionalSetters ...ListInstalla
 // Requires an app key sent in the `X-Appwrite-Key` header alongside the
 // `X-Appwrite-App` header, or a caller with update access to the app.
 func (srv *Apps) GetInstallation(AppId string, InstallationId string) (*models.AppInstallation, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+	if InstallationId == "" {
+		return nil, errors.New("Missing required parameter: \"installationId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/apps/{appId}/installations/{installationId}")
 	params := map[string]interface{}{}
@@ -809,6 +832,13 @@ func (srv *Apps) GetInstallation(AppId string, InstallationId string) (*models.A
 // ID. Requires a caller with update access to the app. Previously issued
 // installation access tokens are revoked.
 func (srv *Apps) DeleteInstallation(AppId string, InstallationId string) (*interface{}, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+	if InstallationId == "" {
+		return nil, errors.New("Missing required parameter: \"installationId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/apps/{appId}/installations/{installationId}")
 	params := map[string]interface{}{}
@@ -853,6 +883,13 @@ func (srv *Apps) DeleteInstallation(AppId string, InstallationId string) (*inter
 // active for the same installation at once; each token stays valid until it
 // expires or the installation is updated or deleted.
 func (srv *Apps) CreateInstallationToken(AppId string, InstallationId string) (*models.Oauth2Token, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+	if InstallationId == "" {
+		return nil, errors.New("Missing required parameter: \"installationId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/apps/{appId}/installations/{installationId}/tokens")
 	params := map[string]interface{}{}
@@ -917,6 +954,10 @@ func (srv *Apps) WithListKeysTotal(v bool) ListKeysOption {
 
 // ListKeys list app keys for an application.
 func (srv *Apps) ListKeys(AppId string, optionalSetters ...ListKeysOption) (*models.AppKeyList, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/keys")
 	options := ListKeysOptions{}.New()
@@ -967,6 +1008,10 @@ func (srv *Apps) ListKeys(AppId string, optionalSetters ...ListKeysOption) (*mod
 // `X-Appwrite-App` header to list the application's installations and create
 // installation access tokens.
 func (srv *Apps) CreateKey(AppId string) (*models.AppKey, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/keys")
 	params := map[string]interface{}{}
@@ -1005,6 +1050,13 @@ func (srv *Apps) CreateKey(AppId string) (*models.AppKey, error) {
 
 // GetKey get an app key by its unique ID.
 func (srv *Apps) GetKey(AppId string, KeyId string) (*models.AppKey, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/apps/{appId}/keys/{keyId}")
 	params := map[string]interface{}{}
@@ -1042,6 +1094,13 @@ func (srv *Apps) GetKey(AppId string, KeyId string) (*models.AppKey, error) {
 
 // DeleteKey delete an app key by its unique ID.
 func (srv *Apps) DeleteKey(AppId string, KeyId string) (*interface{}, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/apps/{appId}/keys/{keyId}")
 	params := map[string]interface{}{}
@@ -1081,6 +1140,10 @@ func (srv *Apps) DeleteKey(AppId string, KeyId string) (*interface{}, error) {
 // clients; only a server SDK using a project API key can set them. Replaces
 // the previous labels.
 func (srv *Apps) UpdateLabels(AppId string, Labels []string) (*models.App, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/labels")
 	params := map[string]interface{}{}
@@ -1146,6 +1209,10 @@ func (srv *Apps) WithListSecretsTotal(v bool) ListSecretsOption {
 
 // ListSecrets list client secrets for an application.
 func (srv *Apps) ListSecrets(AppId string, optionalSetters ...ListSecretsOption) (*models.AppSecretList, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/secrets")
 	options := ListSecretsOptions{}.New()
@@ -1193,6 +1260,10 @@ func (srv *Apps) ListSecrets(AppId string, optionalSetters ...ListSecretsOption)
 
 // CreateSecret create a new client secret for an application.
 func (srv *Apps) CreateSecret(AppId string) (*models.AppSecretPlaintext, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/secrets")
 	params := map[string]interface{}{}
@@ -1231,6 +1302,13 @@ func (srv *Apps) CreateSecret(AppId string) (*models.AppSecretPlaintext, error) 
 
 // GetSecret get an application client secret by its unique ID.
 func (srv *Apps) GetSecret(AppId string, SecretId string) (*models.AppSecret, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+	if SecretId == "" {
+		return nil, errors.New("Missing required parameter: \"secretId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{secretId}", client.EncodePath(SecretId))
 	path := r.Replace("/apps/{appId}/secrets/{secretId}")
 	params := map[string]interface{}{}
@@ -1268,6 +1346,13 @@ func (srv *Apps) GetSecret(AppId string, SecretId string) (*models.AppSecret, er
 
 // DeleteSecret delete an application client secret by its unique ID.
 func (srv *Apps) DeleteSecret(AppId string, SecretId string) (*interface{}, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+	if SecretId == "" {
+		return nil, errors.New("Missing required parameter: \"secretId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId), "{secretId}", client.EncodePath(SecretId))
 	path := r.Replace("/apps/{appId}/secrets/{secretId}")
 	params := map[string]interface{}{}
@@ -1305,6 +1390,10 @@ func (srv *Apps) DeleteSecret(AppId string, SecretId string) (*interface{}, erro
 
 // UpdateTeam transfer an application to another team by its unique ID.
 func (srv *Apps) UpdateTeam(AppId string, TeamId string) (*models.App, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/team")
 	params := map[string]interface{}{}
@@ -1344,6 +1433,10 @@ func (srv *Apps) UpdateTeam(AppId string, TeamId string) (*models.App, error) {
 
 // DeleteTokens revoke all tokens for an application by its unique ID.
 func (srv *Apps) DeleteTokens(AppId string) (*interface{}, error) {
+	if AppId == "" {
+		return nil, errors.New("Missing required parameter: \"appId\"")
+	}
+
 	r := strings.NewReplacer("{appId}", client.EncodePath(AppId))
 	path := r.Replace("/apps/{appId}/tokens")
 	params := map[string]interface{}{}

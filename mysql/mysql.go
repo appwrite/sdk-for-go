@@ -259,8 +259,8 @@ func (srv *Mysql) Create(DatabaseId string, Name string, optionalSetters ...Crea
 }
 
 // ListSpecifications list the dedicated database specifications available on
-// the current plan. Each specification reports its resource limits, pricing,
-// and whether it is enabled for the organization.
+// the current plan. Each specification reports its resource limits, its own
+// prices and overage rates, and whether it is enabled for the organization.
 func (srv *Mysql) ListSpecifications() (*models.DedicatedDatabaseSpecificationList, error) {
 	path := "/mysql/specifications"
 	params := map[string]interface{}{}
@@ -299,6 +299,10 @@ func (srv *Mysql) ListSpecifications() (*models.DedicatedDatabaseSpecificationLi
 // Get get a dedicated database by its unique ID. Returns the database
 // configuration and current status.
 func (srv *Mysql) Get(DatabaseId string) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}")
 	params := map[string]interface{}{}
@@ -491,6 +495,10 @@ func (srv *Mysql) WithUpdateSqlApiTimeoutSeconds(v int) UpdateOption {
 // handled via rolling cutover. Storage expansion is done online. All other
 // settings are applied in-place.
 func (srv *Mysql) Update(DatabaseId string, optionalSetters ...UpdateOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -596,6 +604,10 @@ func (srv *Mysql) Update(DatabaseId string, optionalSetters ...UpdateOption) (*m
 // up. Deletion is allowed from any state, and repeating the call
 // re-dispatches the cleanup.
 func (srv *Mysql) Delete(DatabaseId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}")
 	params := map[string]interface{}{}
@@ -653,6 +665,10 @@ func (srv *Mysql) WithListBackupsQueries(v []string) ListBackupsOption {
 // ListBackups list all backups for a dedicated database. Results can be
 // filtered by status and type.
 func (srv *Mysql) ListBackups(DatabaseId string, optionalSetters ...ListBackupsOption) (*models.DedicatedDatabaseBackupList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/backups")
 	options := ListBackupsOptions{}.New()
@@ -718,6 +734,10 @@ func (srv *Mysql) WithCreateBackupType(v string) CreateBackupOption {
 // will be created asynchronously and its status can be checked via the get
 // backup endpoint.
 func (srv *Mysql) CreateBackup(DatabaseId string, optionalSetters ...CreateBackupOption) (*models.DedicatedDatabaseBackup, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/backups")
 	options := CreateBackupOptions{}.New()
@@ -782,6 +802,10 @@ func (srv *Mysql) WithListBackupPoliciesQueries(v []string) ListBackupPoliciesOp
 
 // ListBackupPolicies list scheduled backup policies for a dedicated database.
 func (srv *Mysql) ListBackupPolicies(DatabaseId string, optionalSetters ...ListBackupPoliciesOption) (*models.BackupPolicyList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/backups/policies")
 	options := ListBackupPoliciesOptions{}.New()
@@ -853,6 +877,10 @@ func (srv *Mysql) WithCreateBackupPolicyEnabled(v bool) CreateBackupPolicyOption
 // CreateBackupPolicy create a scheduled backup policy for a dedicated
 // database.
 func (srv *Mysql) CreateBackupPolicy(DatabaseId string, PolicyId string, Name string, Schedule string, Retention int, optionalSetters ...CreateBackupPolicyOption) (*models.BackupPolicy, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/backups/policies")
 	options := CreateBackupPolicyOptions{}.New()
@@ -905,6 +933,13 @@ func (srv *Mysql) CreateBackupPolicy(DatabaseId string, PolicyId string, Name st
 
 // GetBackupPolicy get a scheduled backup policy for a dedicated database.
 func (srv *Mysql) GetBackupPolicy(DatabaseId string, PolicyId string) (*models.BackupPolicy, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if PolicyId == "" {
+		return nil, errors.New("Missing required parameter: \"policyId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/mysql/{databaseId}/backups/policies/{policyId}")
 	params := map[string]interface{}{}
@@ -983,6 +1018,13 @@ func (srv *Mysql) WithUpdateBackupPolicyEnabled(v bool) UpdateBackupPolicyOption
 // UpdateBackupPolicy update a scheduled backup policy for a dedicated
 // database.
 func (srv *Mysql) UpdateBackupPolicy(DatabaseId string, PolicyId string, optionalSetters ...UpdateBackupPolicyOption) (*models.BackupPolicy, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if PolicyId == "" {
+		return nil, errors.New("Missing required parameter: \"policyId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/mysql/{databaseId}/backups/policies/{policyId}")
 	options := UpdateBackupPolicyOptions{}.New()
@@ -1039,6 +1081,13 @@ func (srv *Mysql) UpdateBackupPolicy(DatabaseId string, PolicyId string, optiona
 // database. Backups already taken by the policy are kept until their
 // retention expires.
 func (srv *Mysql) DeleteBackupPolicy(DatabaseId string, PolicyId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if PolicyId == "" {
+		return nil, errors.New("Missing required parameter: \"policyId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/mysql/{databaseId}/backups/policies/{policyId}")
 	params := map[string]interface{}{}
@@ -1112,6 +1161,10 @@ func (srv *Mysql) WithUpdateBackupStorageEndpoint(v string) UpdateBackupStorageO
 // will be stored to the configured destination in addition to on-cluster
 // storage.
 func (srv *Mysql) UpdateBackupStorage(DatabaseId string, Provider string, Bucket string, AccessKey string, SecretKey string, optionalSetters ...UpdateBackupStorageOption) (*models.DedicatedDatabaseBackupStorage, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/backups/storage")
 	options := UpdateBackupStorageOptions{}.New()
@@ -1168,6 +1221,13 @@ func (srv *Mysql) UpdateBackupStorage(DatabaseId string, Provider string, Bucket
 // GetBackup get details of a specific database backup including its status,
 // size, and timestamps.
 func (srv *Mysql) GetBackup(DatabaseId string, BackupId string) (*models.DedicatedDatabaseBackup, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if BackupId == "" {
+		return nil, errors.New("Missing required parameter: \"backupId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{backupId}", client.EncodePath(BackupId))
 	path := r.Replace("/mysql/{databaseId}/backups/{backupId}")
 	params := map[string]interface{}{}
@@ -1206,6 +1266,13 @@ func (srv *Mysql) GetBackup(DatabaseId string, BackupId string) (*models.Dedicat
 // DeleteBackup delete a database backup. This will permanently remove the
 // backup from storage and cannot be undone.
 func (srv *Mysql) DeleteBackup(DatabaseId string, BackupId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if BackupId == "" {
+		return nil, errors.New("Missing required parameter: \"backupId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{backupId}", client.EncodePath(BackupId))
 	path := r.Replace("/mysql/{databaseId}/backups/{backupId}")
 	params := map[string]interface{}{}
@@ -1244,6 +1311,10 @@ func (srv *Mysql) DeleteBackup(DatabaseId string, BackupId string) (*interface{}
 // ListBranches list all ephemeral branches for a dedicated database. Returns
 // branch metadata including ID, name, namespace, and expiration time.
 func (srv *Mysql) ListBranches(DatabaseId string) (*models.DedicatedDatabaseBranchList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/branches")
 	params := map[string]interface{}{}
@@ -1311,6 +1382,10 @@ func (srv *Mysql) WithCreateBranchTtl(v int) CreateBranchOption {
 // affecting production data. Branches expire after the configured TTL
 // (default 24 hours). The branch is created asynchronously.
 func (srv *Mysql) CreateBranch(DatabaseId string, optionalSetters ...CreateBranchOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/branches")
 	options := CreateBranchOptions{}.New()
@@ -1361,6 +1436,13 @@ func (srv *Mysql) CreateBranch(DatabaseId string, optionalSetters ...CreateBranc
 // namespace, its PVC, and the associated VolumeSnapshot. The deletion runs
 // asynchronously and is irreversible.
 func (srv *Mysql) DeleteBranch(DatabaseId string, BranchId string) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if BranchId == "" {
+		return nil, errors.New("Missing required parameter: \"branchId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{branchId}", client.EncodePath(BranchId))
 	path := r.Replace("/mysql/{databaseId}/branches/{branchId}")
 	params := map[string]interface{}{}
@@ -1403,6 +1485,10 @@ func (srv *Mysql) DeleteBranch(DatabaseId string, BranchId string) (*models.Dedi
 // reaches a terminal status, then fetch the database again for the refreshed
 // connection string.
 func (srv *Mysql) UpdateCredentials(DatabaseId string) (*models.DedicatedDatabaseOperation, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/credentials")
 	params := map[string]interface{}{}
@@ -1475,6 +1561,10 @@ func (srv *Mysql) WithCreateExecutionTimeoutSeconds(v int) CreateExecutionOption
 // database's configured allow-list. Use bound parameters for any
 // user-supplied values — the API does not interpolate raw strings.
 func (srv *Mysql) CreateExecution(DatabaseId string, Sql string, optionalSetters ...CreateExecutionOption) (*models.DedicatedDatabaseExecution, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/executions")
 	options := CreateExecutionOptions{}.New()
@@ -1551,6 +1641,10 @@ func (srv *Mysql) WithCreateFailoverTargetReplicaId(v string) CreateFailoverOpti
 // to promote, because the default target may be the member that operation
 // already promoted.
 func (srv *Mysql) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/failovers")
 	options := CreateFailoverOptions{}.New()
@@ -1598,6 +1692,10 @@ func (srv *Mysql) CreateFailover(DatabaseId string, optionalSetters ...CreateFai
 // Maintenance operations like minor version upgrades will be performed during
 // this window.
 func (srv *Mysql) UpdateMaintenance(DatabaseId string, Day string, HourUtc int) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/maintenance")
 	params := map[string]interface{}{}
@@ -1660,6 +1758,10 @@ func (srv *Mysql) WithCreateMigrationSpecification(v string) CreateMigrationOpti
 // to shared converts to a serverless instance that scales to zero when idle.
 // Data is copied to the target with a brief read-only window during cutover.
 func (srv *Mysql) CreateMigration(DatabaseId string, TargetType string, optionalSetters ...CreateMigrationOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/migrations")
 	options := CreateMigrationOptions{}.New()
@@ -1742,6 +1844,10 @@ func (srv *Mysql) WithListOperationsOffset(v int) ListOperationsOption {
 // replication action is recorded here with its outcome, including an attempt
 // that was abandoned because another worker took over the database.
 func (srv *Mysql) ListOperations(DatabaseId string, optionalSetters ...ListOperationsOption) (*models.DedicatedDatabaseOperationList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/operations")
 	options := ListOperationsOptions{}.New()
@@ -1793,6 +1899,10 @@ func (srv *Mysql) ListOperations(DatabaseId string, optionalSetters ...ListOpera
 // GetPitr get available point-in-time recovery windows for a dedicated
 // database. Returns the earliest and latest recovery points.
 func (srv *Mysql) GetPitr(DatabaseId string) (*models.DedicatedDatabasePITRWindows, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/pitr")
 	params := map[string]interface{}{}
@@ -1831,6 +1941,10 @@ func (srv *Mysql) GetPitr(DatabaseId string) (*models.DedicatedDatabasePITRWindo
 // GetPooler get the connection pooler configuration for a dedicated database.
 // Returns pooler mode, max connections, and pool size settings.
 func (srv *Mysql) GetPooler(DatabaseId string) (*models.DedicatedDatabasePooler, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/pooler")
 	params := map[string]interface{}{}
@@ -1937,6 +2051,10 @@ func (srv *Mysql) WithUpdatePoolerPoolerMemoryLimit(v string) UpdatePoolerOption
 // UpdatePooler update the connection pooler configuration for a dedicated
 // database. Configure pool mode, max connections, and pool sizes.
 func (srv *Mysql) UpdatePooler(DatabaseId string, optionalSetters ...UpdatePoolerOption) (*models.DedicatedDatabasePooler, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/pooler")
 	options := UpdatePoolerOptions{}.New()
@@ -2004,6 +2122,10 @@ func (srv *Mysql) UpdatePooler(DatabaseId string, optionalSetters ...UpdatePoole
 // GetReplicas get high availability status for a dedicated database. Returns
 // replica statuses, replication lag, and sync mode.
 func (srv *Mysql) GetReplicas(DatabaseId string) (*models.DedicatedDatabaseReplicas, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/replicas")
 	params := map[string]interface{}{}
@@ -2082,6 +2204,10 @@ func (srv *Mysql) WithListRestorationsOffset(v int) ListRestorationsOption {
 // ListRestorations list all restorations for a dedicated database. Results
 // can be filtered by status and type.
 func (srv *Mysql) ListRestorations(DatabaseId string, optionalSetters ...ListRestorationsOption) (*models.DedicatedDatabaseRestorationList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/restorations")
 	options := ListRestorationsOptions{}.New()
@@ -2178,6 +2304,10 @@ func (srv *Mysql) WithCreateRestorationTargetTime(v string) CreateRestorationOpt
 // provide a targetTime as an ISO 8601 datetime. PITR requires the database to
 // have PITR enabled and is only available for enterprise databases.
 func (srv *Mysql) CreateRestoration(DatabaseId string, optionalSetters ...CreateRestorationOption) (*models.DedicatedDatabaseRestoration, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/restorations")
 	options := CreateRestorationOptions{}.New()
@@ -2233,6 +2363,13 @@ func (srv *Mysql) CreateRestoration(DatabaseId string, optionalSetters ...Create
 // GetRestoration get details of a specific database restoration including its
 // status, type, and timestamps.
 func (srv *Mysql) GetRestoration(DatabaseId string, RestorationId string) (*models.DedicatedDatabaseRestoration, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if RestorationId == "" {
+		return nil, errors.New("Missing required parameter: \"restorationId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{restorationId}", client.EncodePath(RestorationId))
 	path := r.Replace("/mysql/{databaseId}/restorations/{restorationId}")
 	params := map[string]interface{}{}
@@ -2272,6 +2409,10 @@ func (srv *Mysql) GetRestoration(DatabaseId string, RestorationId string) (*mode
 // database. Returns health status, readiness, uptime, connection info,
 // replica status, and volume information.
 func (srv *Mysql) GetStatus(DatabaseId string) (*models.DatabaseStatus, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/status")
 	params := map[string]interface{}{}
@@ -2310,6 +2451,10 @@ func (srv *Mysql) GetStatus(DatabaseId string) (*models.DatabaseStatus, error) {
 // CreateUpgrade upgrade a dedicated database to a new engine version. Uses
 // blue-green deployment for zero-downtime cutover.
 func (srv *Mysql) CreateUpgrade(DatabaseId string, TargetVersion string) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/mysql/{databaseId}/upgrades")
 	params := map[string]interface{}{}

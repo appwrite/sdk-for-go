@@ -49,6 +49,13 @@ func (srv *Tokens) WithListTotal(v bool) ListOption {
 // List list all the tokens created for a specific file or bucket. You can use
 // the query params to filter your results.
 func (srv *Tokens) List(BucketId string, FileId string, optionalSetters ...ListOption) (*models.ResourceTokenList, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/tokens/buckets/{bucketId}/files/{fileId}")
 	options := ListOptions{}.New()
@@ -116,6 +123,13 @@ func (srv *Tokens) WithCreateFileTokenExpire(v string) CreateFileTokenOption {
 // CreateFileToken create a new token. A token is linked to a file. Token can
 // be passed as a request URL search parameter.
 func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSetters ...CreateFileTokenOption) (*models.ResourceToken, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/tokens/buckets/{bucketId}/files/{fileId}")
 	options := CreateFileTokenOptions{}.New()
@@ -161,6 +175,10 @@ func (srv *Tokens) CreateFileToken(BucketId string, FileId string, optionalSette
 
 // Get get a token by its unique ID.
 func (srv *Tokens) Get(TokenId string) (*models.ResourceToken, error) {
+	if TokenId == "" {
+		return nil, errors.New("Missing required parameter: \"tokenId\"")
+	}
+
 	r := strings.NewReplacer("{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/tokens/{tokenId}")
 	params := map[string]interface{}{}
@@ -218,6 +236,10 @@ func (srv *Tokens) WithUpdateExpire(v string) UpdateOption {
 // Update update a token by its unique ID. Use this endpoint to update a
 // token's expiry date.
 func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption) (*models.ResourceToken, error) {
+	if TokenId == "" {
+		return nil, errors.New("Missing required parameter: \"tokenId\"")
+	}
+
 	r := strings.NewReplacer("{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/tokens/{tokenId}")
 	options := UpdateOptions{}.New()
@@ -263,12 +285,17 @@ func (srv *Tokens) Update(TokenId string, optionalSetters ...UpdateOption) (*mod
 
 // Delete delete a token by its unique ID.
 func (srv *Tokens) Delete(TokenId string) (*interface{}, error) {
+	if TokenId == "" {
+		return nil, errors.New("Missing required parameter: \"tokenId\"")
+	}
+
 	r := strings.NewReplacer("{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/tokens/{tokenId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {

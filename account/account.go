@@ -204,6 +204,10 @@ func (srv *Account) ListConsents(optionalSetters ...ListConsentsOption) (*models
 // GetConsent get an OAuth2 consent the current user has given to a
 // third-party app by its unique ID.
 func (srv *Account) GetConsent(ConsentId string) (*models.Oauth2Consent, error) {
+	if ConsentId == "" {
+		return nil, errors.New("Missing required parameter: \"consentId\"")
+	}
+
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId))
 	path := r.Replace("/account/consents/{consentId}")
 	params := map[string]interface{}{}
@@ -243,6 +247,10 @@ func (srv *Account) GetConsent(ConsentId string) (*models.Oauth2Consent, error) 
 // issued under the consent are revoked, and the app must ask for consent
 // again to regain access.
 func (srv *Account) DeleteConsent(ConsentId string) (*interface{}, error) {
+	if ConsentId == "" {
+		return nil, errors.New("Missing required parameter: \"consentId\"")
+	}
+
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId))
 	path := r.Replace("/account/consents/{consentId}")
 	params := map[string]interface{}{}
@@ -308,6 +316,10 @@ func (srv *Account) WithListConsentTokensTotal(v bool) ListConsentTokensOption {
 // consent. Each entry represents one authorized device or session; the token
 // secrets themselves are never returned.
 func (srv *Account) ListConsentTokens(ConsentId string, optionalSetters ...ListConsentTokensOption) (*models.Oauth2ConsentTokenList, error) {
+	if ConsentId == "" {
+		return nil, errors.New("Missing required parameter: \"consentId\"")
+	}
+
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId))
 	path := r.Replace("/account/consents/{consentId}/tokens")
 	options := ListConsentTokensOptions{}.New()
@@ -356,6 +368,13 @@ func (srv *Account) ListConsentTokens(ConsentId string, optionalSetters ...ListC
 // GetConsentToken get a token family issued under an OAuth2 consent by its
 // unique ID. The token secrets themselves are never returned.
 func (srv *Account) GetConsentToken(ConsentId string, TokenId string) (*models.Oauth2ConsentToken, error) {
+	if ConsentId == "" {
+		return nil, errors.New("Missing required parameter: \"consentId\"")
+	}
+	if TokenId == "" {
+		return nil, errors.New("Missing required parameter: \"tokenId\"")
+	}
+
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId), "{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/account/consents/{consentId}/tokens/{tokenId}")
 	params := map[string]interface{}{}
@@ -395,6 +414,13 @@ func (srv *Account) GetConsentToken(ConsentId string, TokenId string) (*models.O
 // its unique ID. The access and refresh tokens of the family stop working
 // immediately; other token families and the consent itself are unaffected.
 func (srv *Account) DeleteConsentToken(ConsentId string, TokenId string) (*interface{}, error) {
+	if ConsentId == "" {
+		return nil, errors.New("Missing required parameter: \"consentId\"")
+	}
+	if TokenId == "" {
+		return nil, errors.New("Missing required parameter: \"tokenId\"")
+	}
+
 	r := strings.NewReplacer("{consentId}", client.EncodePath(ConsentId), "{tokenId}", client.EncodePath(TokenId))
 	path := r.Replace("/account/consents/{consentId}/tokens/{tokenId}")
 	params := map[string]interface{}{}
@@ -549,12 +575,17 @@ func (srv *Account) ListIdentities(optionalSetters ...ListIdentitiesOption) (*mo
 
 // DeleteIdentity delete an identity by its unique ID.
 func (srv *Account) DeleteIdentity(IdentityId string) (*interface{}, error) {
+	if IdentityId == "" {
+		return nil, errors.New("Missing required parameter: \"identityId\"")
+	}
+
 	r := strings.NewReplacer("{identityId}", client.EncodePath(IdentityId))
 	path := r.Replace("/account/identities/{identityId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -875,6 +906,7 @@ func (srv *Account) DeleteMfaAuthenticator(Type string) (*interface{}, error) {
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -911,6 +943,7 @@ func (srv *Account) DeleteMFAAuthenticator(Type string) (*interface{}, error) {
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1801,6 +1834,7 @@ func (srv *Account) DeleteSessions() (*interface{}, error) {
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -2050,6 +2084,10 @@ func (srv *Account) CreateSession(UserId string, Secret string) (*models.Session
 // GetSession use this endpoint to get a logged in user's session using a
 // Session ID. Inputting 'current' will return the current session being used.
 func (srv *Account) GetSession(SessionId string) (*models.Session, error) {
+	if SessionId == "" {
+		return nil, errors.New("Missing required parameter: \"sessionId\"")
+	}
+
 	r := strings.NewReplacer("{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
@@ -2090,6 +2128,10 @@ func (srv *Account) GetSession(SessionId string) (*models.Session, error) {
 // using an OAuth provider, this endpoint refreshes the access token from the
 // provider.
 func (srv *Account) UpdateSession(SessionId string) (*models.Session, error) {
+	if SessionId == "" {
+		return nil, errors.New("Missing required parameter: \"sessionId\"")
+	}
+
 	r := strings.NewReplacer("{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
@@ -2132,12 +2174,17 @@ func (srv *Account) UpdateSession(SessionId string) (*models.Session, error) {
 // Sessions](https://appwrite.io/docs/references/cloud/client-web/account#deleteSessions)
 // instead.
 func (srv *Account) DeleteSession(SessionId string) (*interface{}, error) {
+	if SessionId == "" {
+		return nil, errors.New("Missing required parameter: \"sessionId\"")
+	}
+
 	r := strings.NewReplacer("{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/account/sessions/{sessionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -2412,6 +2459,10 @@ func (srv *Account) WithCreateOAuth2TokenScopes(v []string) CreateOAuth2TokenOpt
 // create a new session using the [Create
 // session](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
 // endpoint.
+//
+// If there is already an active session, the OAuth2 identity is attached to
+// the logged-in account and that session stays active until the token is
+// exchanged for a new one.
 //
 // A user is limited to 10 active sessions at a time by default. [Learn more
 // about session

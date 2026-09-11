@@ -419,12 +419,17 @@ func (srv *Users) ListIdentities(optionalSetters ...ListIdentitiesOption) (*mode
 
 // DeleteIdentity delete an identity by its unique ID.
 func (srv *Users) DeleteIdentity(IdentityId string) (*interface{}, error) {
+	if IdentityId == "" {
+		return nil, errors.New("Missing required parameter: \"identityId\"")
+	}
+
 	r := strings.NewReplacer("{identityId}", client.EncodePath(IdentityId))
 	path := r.Replace("/users/identities/{identityId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -820,6 +825,10 @@ func (srv *Users) CreateSHAUser(UserId string, Email string, Password string, op
 
 // Get get a user by its unique ID.
 func (srv *Users) Get(UserId string) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}")
 	params := map[string]interface{}{}
@@ -862,12 +871,17 @@ func (srv *Users) Get(UserId string) (*models.User, error) {
 // [updateStatus](https://appwrite.io/docs/server/users#usersUpdateStatus)
 // endpoint instead.
 func (srv *Users) Delete(UserId string) (*interface{}, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -898,6 +912,10 @@ func (srv *Users) Delete(UserId string) (*interface{}, error) {
 
 // UpdateEmail update the user email by its unique ID.
 func (srv *Users) UpdateEmail(UserId string, Email string) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/email")
 	params := map[string]interface{}{}
@@ -941,6 +959,10 @@ func (srv *Users) UpdateEmail(UserId string, Email string) (*models.User, error)
 // to the original impersonator and store the impersonated target details only
 // in internal audit payload data.
 func (srv *Users) UpdateImpersonator(UserId string, Impersonator bool) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/impersonator")
 	params := map[string]interface{}{}
@@ -1009,6 +1031,10 @@ func (srv *Users) WithCreateJWTDuration(v int) CreateJWTOption {
 // user. The JWT secret will become invalid if the session it uses gets
 // deleted.
 func (srv *Users) CreateJWT(UserId string, optionalSetters ...CreateJWTOption) (*models.Jwt, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/jwts")
 	options := CreateJWTOptions{}.New()
@@ -1062,6 +1088,10 @@ func (srv *Users) CreateJWT(UserId string, optionalSetters ...CreateJWTOption) (
 // developer to grant access without an invitation. See the [Permissions
 // docs](https://appwrite.io/docs/permissions) for more info.
 func (srv *Users) UpdateLabels(UserId string, Labels []string) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/labels")
 	params := map[string]interface{}{}
@@ -1127,6 +1157,10 @@ func (srv *Users) WithListLogsTotal(v bool) ListLogsOption {
 
 // ListLogs get the user activity logs list by its unique ID.
 func (srv *Users) ListLogs(UserId string, optionalSetters ...ListLogsOption) (*models.LogList, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/logs")
 	options := ListLogsOptions{}.New()
@@ -1207,6 +1241,10 @@ func (srv *Users) WithListMembershipsTotal(v bool) ListMembershipsOption {
 
 // ListMemberships get the user membership list by its unique ID.
 func (srv *Users) ListMemberships(UserId string, optionalSetters ...ListMembershipsOption) (*models.MembershipList, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/memberships")
 	options := ListMembershipsOptions{}.New()
@@ -1259,6 +1297,10 @@ func (srv *Users) ListMemberships(UserId string, optionalSetters ...ListMembersh
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Users.updateMFA` instead.
 func (srv *Users) UpdateMfa(UserId string, Mfa bool) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa")
 	params := map[string]interface{}{}
@@ -1298,6 +1340,10 @@ func (srv *Users) UpdateMfa(UserId string, Mfa bool) (*models.User, error) {
 
 // UpdateMFA enable or disable MFA on a user account.
 func (srv *Users) UpdateMFA(UserId string, Mfa bool) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa")
 	params := map[string]interface{}{}
@@ -1339,12 +1385,17 @@ func (srv *Users) UpdateMFA(UserId string, Mfa bool) (*models.User, error) {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Users.deleteMFAAuthenticator` instead.
 func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string) (*interface{}, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{type}", client.EncodePath(Type))
 	path := r.Replace("/users/{userId}/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1375,12 +1426,17 @@ func (srv *Users) DeleteMfaAuthenticator(UserId string, Type string) (*interface
 
 // DeleteMFAAuthenticator delete an authenticator app.
 func (srv *Users) DeleteMFAAuthenticator(UserId string, Type string) (*interface{}, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{type}", client.EncodePath(Type))
 	path := r.Replace("/users/{userId}/mfa/authenticators/{type}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1412,6 +1468,13 @@ func (srv *Users) DeleteMFAAuthenticator(UserId string, Type string) (*interface
 // GetMFAChallenge get a custom MFA challenge for a user, including the code
 // to be delivered through your own channel.
 func (srv *Users) GetMFAChallenge(UserId string, ChallengeId string) (*models.MfaChallengeSecret, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+	if ChallengeId == "" {
+		return nil, errors.New("Missing required parameter: \"challengeId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{challengeId}", client.EncodePath(ChallengeId))
 	path := r.Replace("/users/{userId}/mfa/challenges/{challengeId}")
 	params := map[string]interface{}{}
@@ -1452,6 +1515,10 @@ func (srv *Users) GetMFAChallenge(UserId string, ChallengeId string) (*models.Mf
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Users.listMFAFactors` instead.
 func (srv *Users) ListMfaFactors(UserId string) (*models.MfaFactors, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa/factors")
 	params := map[string]interface{}{}
@@ -1490,6 +1557,10 @@ func (srv *Users) ListMfaFactors(UserId string) (*models.MfaFactors, error) {
 // ListMFAFactors list the factors available on the account to be used as a
 // MFA challange.
 func (srv *Users) ListMFAFactors(UserId string) (*models.MfaFactors, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa/factors")
 	params := map[string]interface{}{}
@@ -1532,6 +1603,10 @@ func (srv *Users) ListMFAFactors(UserId string) (*models.MfaFactors, error) {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Users.getMFARecoveryCodes` instead.
 func (srv *Users) GetMfaRecoveryCodes(UserId string) (*models.MfaRecoveryCodes, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
 	params := map[string]interface{}{}
@@ -1572,6 +1647,10 @@ func (srv *Users) GetMfaRecoveryCodes(UserId string) (*models.MfaRecoveryCodes, 
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method.
 func (srv *Users) GetMFARecoveryCodes(UserId string) (*models.MfaRecoveryCodes, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
 	params := map[string]interface{}{}
@@ -1615,6 +1694,10 @@ func (srv *Users) GetMFARecoveryCodes(UserId string) (*models.MfaRecoveryCodes, 
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Users.updateMFARecoveryCodes` instead.
 func (srv *Users) UpdateMfaRecoveryCodes(UserId string) (*models.MfaRecoveryCodes, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
 	params := map[string]interface{}{}
@@ -1657,6 +1740,10 @@ func (srv *Users) UpdateMfaRecoveryCodes(UserId string) (*models.MfaRecoveryCode
 // [createMfaRecoveryCodes](/docs/references/cloud/client-web/account#createMfaRecoveryCodes)
 // method.
 func (srv *Users) UpdateMFARecoveryCodes(UserId string) (*models.MfaRecoveryCodes, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
 	params := map[string]interface{}{}
@@ -1700,6 +1787,10 @@ func (srv *Users) UpdateMFARecoveryCodes(UserId string) (*models.MfaRecoveryCode
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Users.createMFARecoveryCodes` instead.
 func (srv *Users) CreateMfaRecoveryCodes(UserId string) (*models.MfaRecoveryCodes, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
 	params := map[string]interface{}{}
@@ -1741,6 +1832,10 @@ func (srv *Users) CreateMfaRecoveryCodes(UserId string) (*models.MfaRecoveryCode
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method by client SDK.
 func (srv *Users) CreateMFARecoveryCodes(UserId string) (*models.MfaRecoveryCodes, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/mfa/recovery-codes")
 	params := map[string]interface{}{}
@@ -1779,6 +1874,10 @@ func (srv *Users) CreateMFARecoveryCodes(UserId string) (*models.MfaRecoveryCode
 
 // UpdateName update the user name by its unique ID.
 func (srv *Users) UpdateName(UserId string, Name string) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/name")
 	params := map[string]interface{}{}
@@ -1818,6 +1917,10 @@ func (srv *Users) UpdateName(UserId string, Name string) (*models.User, error) {
 
 // UpdatePassword update the user password by its unique ID.
 func (srv *Users) UpdatePassword(UserId string, Password string) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/password")
 	params := map[string]interface{}{}
@@ -1857,6 +1960,10 @@ func (srv *Users) UpdatePassword(UserId string, Password string) (*models.User, 
 
 // UpdatePhone update the user phone by its unique ID.
 func (srv *Users) UpdatePhone(UserId string, Number string) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/phone")
 	params := map[string]interface{}{}
@@ -1896,6 +2003,10 @@ func (srv *Users) UpdatePhone(UserId string, Number string) (*models.User, error
 
 // GetPrefs get the user preferences by its unique ID.
 func (srv *Users) GetPrefs(UserId string) (*models.Preferences, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/prefs")
 	params := map[string]interface{}{}
@@ -1935,6 +2046,10 @@ func (srv *Users) GetPrefs(UserId string) (*models.Preferences, error) {
 // pass is stored as is, and replaces any previous value. The maximum allowed
 // prefs size is 64kB and throws error if exceeded.
 func (srv *Users) UpdatePrefs(UserId string, Prefs interface{}) (*models.Preferences, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/prefs")
 	params := map[string]interface{}{}
@@ -1993,6 +2108,10 @@ func (srv *Users) WithListSessionsTotal(v bool) ListSessionsOption {
 
 // ListSessions get the user sessions list by its unique ID.
 func (srv *Users) ListSessions(UserId string, optionalSetters ...ListSessionsOption) (*models.SessionList, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/sessions")
 	options := ListSessionsOptions{}.New()
@@ -2043,6 +2162,10 @@ func (srv *Users) ListSessions(UserId string, optionalSetters ...ListSessionsOpt
 // /users/{userId}/tokens](https://appwrite.io/docs/server/users#createToken)
 // endpoint.
 func (srv *Users) CreateSession(UserId string) (*models.Session, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/sessions")
 	params := map[string]interface{}{}
@@ -2081,12 +2204,17 @@ func (srv *Users) CreateSession(UserId string) (*models.Session, error) {
 
 // DeleteSessions delete all user's sessions by using the user's unique ID.
 func (srv *Users) DeleteSessions(UserId string) (*interface{}, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/sessions")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -2117,12 +2245,20 @@ func (srv *Users) DeleteSessions(UserId string) (*interface{}, error) {
 
 // DeleteSession delete a user sessions by its unique ID.
 func (srv *Users) DeleteSession(UserId string, SessionId string) (*interface{}, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+	if SessionId == "" {
+		return nil, errors.New("Missing required parameter: \"sessionId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{sessionId}", client.EncodePath(SessionId))
 	path := r.Replace("/users/{userId}/sessions/{sessionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -2154,6 +2290,10 @@ func (srv *Users) DeleteSession(UserId string, SessionId string) (*interface{}, 
 // UpdateStatus update the user status by its unique ID. Use this endpoint as
 // an alternative to deleting a user if you want to keep user's ID reserved.
 func (srv *Users) UpdateStatus(UserId string, Status bool) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/status")
 	params := map[string]interface{}{}
@@ -2219,6 +2359,10 @@ func (srv *Users) WithListTargetsTotal(v bool) ListTargetsOption {
 
 // ListTargets list the messaging targets that are associated with a user.
 func (srv *Users) ListTargets(UserId string, optionalSetters ...ListTargetsOption) (*models.TargetList, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/targets")
 	options := ListTargetsOptions{}.New()
@@ -2292,6 +2436,10 @@ func (srv *Users) WithCreateTargetName(v string) CreateTargetOption {
 
 // CreateTarget create a messaging target.
 func (srv *Users) CreateTarget(UserId string, TargetId string, ProviderType string, Identifier string, optionalSetters ...CreateTargetOption) (*models.Target, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/targets")
 	options := CreateTargetOptions{}.New()
@@ -2343,6 +2491,13 @@ func (srv *Users) CreateTarget(UserId string, TargetId string, ProviderType stri
 
 // GetTarget get a user's push notification target by ID.
 func (srv *Users) GetTarget(UserId string, TargetId string) (*models.Target, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+	if TargetId == "" {
+		return nil, errors.New("Missing required parameter: \"targetId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{targetId}", client.EncodePath(TargetId))
 	path := r.Replace("/users/{userId}/targets/{targetId}")
 	params := map[string]interface{}{}
@@ -2413,6 +2568,13 @@ func (srv *Users) WithUpdateTargetName(v string) UpdateTargetOption {
 
 // UpdateTarget update a messaging target.
 func (srv *Users) UpdateTarget(UserId string, TargetId string, optionalSetters ...UpdateTargetOption) (*models.Target, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+	if TargetId == "" {
+		return nil, errors.New("Missing required parameter: \"targetId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{targetId}", client.EncodePath(TargetId))
 	path := r.Replace("/users/{userId}/targets/{targetId}")
 	options := UpdateTargetOptions{}.New()
@@ -2464,12 +2626,20 @@ func (srv *Users) UpdateTarget(UserId string, TargetId string, optionalSetters .
 
 // DeleteTarget delete a messaging target.
 func (srv *Users) DeleteTarget(UserId string, TargetId string) (*interface{}, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+	if TargetId == "" {
+		return nil, errors.New("Missing required parameter: \"targetId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{targetId}", client.EncodePath(TargetId))
 	path := r.Replace("/users/{userId}/targets/{targetId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -2529,6 +2699,10 @@ func (srv *Users) WithCreateTokenExpire(v int) CreateTokenOption {
 // /account/sessions/token](https://appwrite.io/docs/references/cloud/client-web/account#createSession)
 // endpoint to complete the login process.
 func (srv *Users) CreateToken(UserId string, optionalSetters ...CreateTokenOption) (*models.Token, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/tokens")
 	options := CreateTokenOptions{}.New()
@@ -2578,6 +2752,10 @@ func (srv *Users) CreateToken(UserId string, optionalSetters ...CreateTokenOptio
 // UpdateEmailVerification update the user email verification status by its
 // unique ID.
 func (srv *Users) UpdateEmailVerification(UserId string, EmailVerification bool) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/verification")
 	params := map[string]interface{}{}
@@ -2618,6 +2796,10 @@ func (srv *Users) UpdateEmailVerification(UserId string, EmailVerification bool)
 // UpdatePhoneVerification update the user phone verification status by its
 // unique ID.
 func (srv *Users) UpdatePhoneVerification(UserId string, PhoneVerification bool) (*models.User, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
 	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
 	path := r.Replace("/users/{userId}/verification/phone")
 	params := map[string]interface{}{}

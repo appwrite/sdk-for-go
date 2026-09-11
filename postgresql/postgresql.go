@@ -259,8 +259,8 @@ func (srv *Postgresql) Create(DatabaseId string, Name string, optionalSetters ..
 }
 
 // ListSpecifications list the dedicated database specifications available on
-// the current plan. Each specification reports its resource limits, pricing,
-// and whether it is enabled for the organization.
+// the current plan. Each specification reports its resource limits, its own
+// prices and overage rates, and whether it is enabled for the organization.
 func (srv *Postgresql) ListSpecifications() (*models.DedicatedDatabaseSpecificationList, error) {
 	path := "/postgresql/specifications"
 	params := map[string]interface{}{}
@@ -299,6 +299,10 @@ func (srv *Postgresql) ListSpecifications() (*models.DedicatedDatabaseSpecificat
 // Get get a dedicated database by its unique ID. Returns the database
 // configuration and current status.
 func (srv *Postgresql) Get(DatabaseId string) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}")
 	params := map[string]interface{}{}
@@ -491,6 +495,10 @@ func (srv *Postgresql) WithUpdateSqlApiTimeoutSeconds(v int) UpdateOption {
 // handled via rolling cutover. Storage expansion is done online. All other
 // settings are applied in-place.
 func (srv *Postgresql) Update(DatabaseId string, optionalSetters ...UpdateOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -596,6 +604,10 @@ func (srv *Postgresql) Update(DatabaseId string, optionalSetters ...UpdateOption
 // up. Deletion is allowed from any state, and repeating the call
 // re-dispatches the cleanup.
 func (srv *Postgresql) Delete(DatabaseId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}")
 	params := map[string]interface{}{}
@@ -653,6 +665,10 @@ func (srv *Postgresql) WithListBackupsQueries(v []string) ListBackupsOption {
 // ListBackups list all backups for a dedicated database. Results can be
 // filtered by status and type.
 func (srv *Postgresql) ListBackups(DatabaseId string, optionalSetters ...ListBackupsOption) (*models.DedicatedDatabaseBackupList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/backups")
 	options := ListBackupsOptions{}.New()
@@ -718,6 +734,10 @@ func (srv *Postgresql) WithCreateBackupType(v string) CreateBackupOption {
 // will be created asynchronously and its status can be checked via the get
 // backup endpoint.
 func (srv *Postgresql) CreateBackup(DatabaseId string, optionalSetters ...CreateBackupOption) (*models.DedicatedDatabaseBackup, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/backups")
 	options := CreateBackupOptions{}.New()
@@ -782,6 +802,10 @@ func (srv *Postgresql) WithListBackupPoliciesQueries(v []string) ListBackupPolic
 
 // ListBackupPolicies list scheduled backup policies for a dedicated database.
 func (srv *Postgresql) ListBackupPolicies(DatabaseId string, optionalSetters ...ListBackupPoliciesOption) (*models.BackupPolicyList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/backups/policies")
 	options := ListBackupPoliciesOptions{}.New()
@@ -853,6 +877,10 @@ func (srv *Postgresql) WithCreateBackupPolicyEnabled(v bool) CreateBackupPolicyO
 // CreateBackupPolicy create a scheduled backup policy for a dedicated
 // database.
 func (srv *Postgresql) CreateBackupPolicy(DatabaseId string, PolicyId string, Name string, Schedule string, Retention int, optionalSetters ...CreateBackupPolicyOption) (*models.BackupPolicy, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/backups/policies")
 	options := CreateBackupPolicyOptions{}.New()
@@ -905,6 +933,13 @@ func (srv *Postgresql) CreateBackupPolicy(DatabaseId string, PolicyId string, Na
 
 // GetBackupPolicy get a scheduled backup policy for a dedicated database.
 func (srv *Postgresql) GetBackupPolicy(DatabaseId string, PolicyId string) (*models.BackupPolicy, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if PolicyId == "" {
+		return nil, errors.New("Missing required parameter: \"policyId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/postgresql/{databaseId}/backups/policies/{policyId}")
 	params := map[string]interface{}{}
@@ -983,6 +1018,13 @@ func (srv *Postgresql) WithUpdateBackupPolicyEnabled(v bool) UpdateBackupPolicyO
 // UpdateBackupPolicy update a scheduled backup policy for a dedicated
 // database.
 func (srv *Postgresql) UpdateBackupPolicy(DatabaseId string, PolicyId string, optionalSetters ...UpdateBackupPolicyOption) (*models.BackupPolicy, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if PolicyId == "" {
+		return nil, errors.New("Missing required parameter: \"policyId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/postgresql/{databaseId}/backups/policies/{policyId}")
 	options := UpdateBackupPolicyOptions{}.New()
@@ -1039,6 +1081,13 @@ func (srv *Postgresql) UpdateBackupPolicy(DatabaseId string, PolicyId string, op
 // database. Backups already taken by the policy are kept until their
 // retention expires.
 func (srv *Postgresql) DeleteBackupPolicy(DatabaseId string, PolicyId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if PolicyId == "" {
+		return nil, errors.New("Missing required parameter: \"policyId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/postgresql/{databaseId}/backups/policies/{policyId}")
 	params := map[string]interface{}{}
@@ -1112,6 +1161,10 @@ func (srv *Postgresql) WithUpdateBackupStorageEndpoint(v string) UpdateBackupSto
 // will be stored to the configured destination in addition to on-cluster
 // storage.
 func (srv *Postgresql) UpdateBackupStorage(DatabaseId string, Provider string, Bucket string, AccessKey string, SecretKey string, optionalSetters ...UpdateBackupStorageOption) (*models.DedicatedDatabaseBackupStorage, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/backups/storage")
 	options := UpdateBackupStorageOptions{}.New()
@@ -1168,6 +1221,13 @@ func (srv *Postgresql) UpdateBackupStorage(DatabaseId string, Provider string, B
 // GetBackup get details of a specific database backup including its status,
 // size, and timestamps.
 func (srv *Postgresql) GetBackup(DatabaseId string, BackupId string) (*models.DedicatedDatabaseBackup, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if BackupId == "" {
+		return nil, errors.New("Missing required parameter: \"backupId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{backupId}", client.EncodePath(BackupId))
 	path := r.Replace("/postgresql/{databaseId}/backups/{backupId}")
 	params := map[string]interface{}{}
@@ -1206,6 +1266,13 @@ func (srv *Postgresql) GetBackup(DatabaseId string, BackupId string) (*models.De
 // DeleteBackup delete a database backup. This will permanently remove the
 // backup from storage and cannot be undone.
 func (srv *Postgresql) DeleteBackup(DatabaseId string, BackupId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if BackupId == "" {
+		return nil, errors.New("Missing required parameter: \"backupId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{backupId}", client.EncodePath(BackupId))
 	path := r.Replace("/postgresql/{databaseId}/backups/{backupId}")
 	params := map[string]interface{}{}
@@ -1244,6 +1311,10 @@ func (srv *Postgresql) DeleteBackup(DatabaseId string, BackupId string) (*interf
 // ListBranches list all ephemeral branches for a dedicated database. Returns
 // branch metadata including ID, name, namespace, and expiration time.
 func (srv *Postgresql) ListBranches(DatabaseId string) (*models.DedicatedDatabaseBranchList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/branches")
 	params := map[string]interface{}{}
@@ -1311,6 +1382,10 @@ func (srv *Postgresql) WithCreateBranchTtl(v int) CreateBranchOption {
 // affecting production data. Branches expire after the configured TTL
 // (default 24 hours). The branch is created asynchronously.
 func (srv *Postgresql) CreateBranch(DatabaseId string, optionalSetters ...CreateBranchOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/branches")
 	options := CreateBranchOptions{}.New()
@@ -1361,6 +1436,13 @@ func (srv *Postgresql) CreateBranch(DatabaseId string, optionalSetters ...Create
 // namespace, its PVC, and the associated VolumeSnapshot. The deletion runs
 // asynchronously and is irreversible.
 func (srv *Postgresql) DeleteBranch(DatabaseId string, BranchId string) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if BranchId == "" {
+		return nil, errors.New("Missing required parameter: \"branchId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{branchId}", client.EncodePath(BranchId))
 	path := r.Replace("/postgresql/{databaseId}/branches/{branchId}")
 	params := map[string]interface{}{}
@@ -1403,6 +1485,10 @@ func (srv *Postgresql) DeleteBranch(DatabaseId string, BranchId string) (*models
 // reaches a terminal status, then fetch the database again for the refreshed
 // connection string.
 func (srv *Postgresql) UpdateCredentials(DatabaseId string) (*models.DedicatedDatabaseOperation, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/credentials")
 	params := map[string]interface{}{}
@@ -1475,6 +1561,10 @@ func (srv *Postgresql) WithCreateExecutionTimeoutSeconds(v int) CreateExecutionO
 // database's configured allow-list. Use bound parameters for any
 // user-supplied values — the API does not interpolate raw strings.
 func (srv *Postgresql) CreateExecution(DatabaseId string, Sql string, optionalSetters ...CreateExecutionOption) (*models.DedicatedDatabaseExecution, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/executions")
 	options := CreateExecutionOptions{}.New()
@@ -1525,6 +1615,10 @@ func (srv *Postgresql) CreateExecution(DatabaseId string, Sql string, optionalSe
 // ListExtensions list installed and available extensions for a PostgreSQL
 // database.
 func (srv *Postgresql) ListExtensions(DatabaseId string) (*models.DedicatedDatabaseExtensions, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/extensions")
 	params := map[string]interface{}{}
@@ -1564,6 +1658,10 @@ func (srv *Postgresql) ListExtensions(DatabaseId string) (*models.DedicatedDatab
 // databases. The install runs asynchronously; poll the extensions list
 // endpoint for status.
 func (srv *Postgresql) CreateExtension(DatabaseId string, Name string) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/extensions")
 	params := map[string]interface{}{}
@@ -1605,6 +1703,13 @@ func (srv *Postgresql) CreateExtension(DatabaseId string, Name string) (*models.
 // The uninstall runs asynchronously; poll the extensions list endpoint for
 // status.
 func (srv *Postgresql) DeleteExtension(DatabaseId string, ExtensionName string) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if ExtensionName == "" {
+		return nil, errors.New("Missing required parameter: \"extensionName\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{extensionName}", client.EncodePath(ExtensionName))
 	path := r.Replace("/postgresql/{databaseId}/extensions/{extensionName}")
 	params := map[string]interface{}{}
@@ -1670,6 +1775,10 @@ func (srv *Postgresql) WithCreateFailoverTargetReplicaId(v string) CreateFailove
 // to promote, because the default target may be the member that operation
 // already promoted.
 func (srv *Postgresql) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/failovers")
 	options := CreateFailoverOptions{}.New()
@@ -1717,6 +1826,10 @@ func (srv *Postgresql) CreateFailover(DatabaseId string, optionalSetters ...Crea
 // Maintenance operations like minor version upgrades will be performed during
 // this window.
 func (srv *Postgresql) UpdateMaintenance(DatabaseId string, Day string, HourUtc int) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/maintenance")
 	params := map[string]interface{}{}
@@ -1779,6 +1892,10 @@ func (srv *Postgresql) WithCreateMigrationSpecification(v string) CreateMigratio
 // to shared converts to a serverless instance that scales to zero when idle.
 // Data is copied to the target with a brief read-only window during cutover.
 func (srv *Postgresql) CreateMigration(DatabaseId string, TargetType string, optionalSetters ...CreateMigrationOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/migrations")
 	options := CreateMigrationOptions{}.New()
@@ -1861,6 +1978,10 @@ func (srv *Postgresql) WithListOperationsOffset(v int) ListOperationsOption {
 // replication action is recorded here with its outcome, including an attempt
 // that was abandoned because another worker took over the database.
 func (srv *Postgresql) ListOperations(DatabaseId string, optionalSetters ...ListOperationsOption) (*models.DedicatedDatabaseOperationList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/operations")
 	options := ListOperationsOptions{}.New()
@@ -1912,6 +2033,10 @@ func (srv *Postgresql) ListOperations(DatabaseId string, optionalSetters ...List
 // GetPitr get available point-in-time recovery windows for a dedicated
 // database. Returns the earliest and latest recovery points.
 func (srv *Postgresql) GetPitr(DatabaseId string) (*models.DedicatedDatabasePITRWindows, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/pitr")
 	params := map[string]interface{}{}
@@ -1950,6 +2075,10 @@ func (srv *Postgresql) GetPitr(DatabaseId string) (*models.DedicatedDatabasePITR
 // GetPooler get the connection pooler configuration for a dedicated database.
 // Returns pooler mode, max connections, and pool size settings.
 func (srv *Postgresql) GetPooler(DatabaseId string) (*models.DedicatedDatabasePooler, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/pooler")
 	params := map[string]interface{}{}
@@ -2056,6 +2185,10 @@ func (srv *Postgresql) WithUpdatePoolerPoolerMemoryLimit(v string) UpdatePoolerO
 // UpdatePooler update the connection pooler configuration for a dedicated
 // database. Configure pool mode, max connections, and pool sizes.
 func (srv *Postgresql) UpdatePooler(DatabaseId string, optionalSetters ...UpdatePoolerOption) (*models.DedicatedDatabasePooler, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/pooler")
 	options := UpdatePoolerOptions{}.New()
@@ -2123,6 +2256,10 @@ func (srv *Postgresql) UpdatePooler(DatabaseId string, optionalSetters ...Update
 // GetReplicas get high availability status for a dedicated database. Returns
 // replica statuses, replication lag, and sync mode.
 func (srv *Postgresql) GetReplicas(DatabaseId string) (*models.DedicatedDatabaseReplicas, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/replicas")
 	params := map[string]interface{}{}
@@ -2201,6 +2338,10 @@ func (srv *Postgresql) WithListRestorationsOffset(v int) ListRestorationsOption 
 // ListRestorations list all restorations for a dedicated database. Results
 // can be filtered by status and type.
 func (srv *Postgresql) ListRestorations(DatabaseId string, optionalSetters ...ListRestorationsOption) (*models.DedicatedDatabaseRestorationList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/restorations")
 	options := ListRestorationsOptions{}.New()
@@ -2297,6 +2438,10 @@ func (srv *Postgresql) WithCreateRestorationTargetTime(v string) CreateRestorati
 // provide a targetTime as an ISO 8601 datetime. PITR requires the database to
 // have PITR enabled and is only available for enterprise databases.
 func (srv *Postgresql) CreateRestoration(DatabaseId string, optionalSetters ...CreateRestorationOption) (*models.DedicatedDatabaseRestoration, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/restorations")
 	options := CreateRestorationOptions{}.New()
@@ -2352,6 +2497,13 @@ func (srv *Postgresql) CreateRestoration(DatabaseId string, optionalSetters ...C
 // GetRestoration get details of a specific database restoration including its
 // status, type, and timestamps.
 func (srv *Postgresql) GetRestoration(DatabaseId string, RestorationId string) (*models.DedicatedDatabaseRestoration, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if RestorationId == "" {
+		return nil, errors.New("Missing required parameter: \"restorationId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{restorationId}", client.EncodePath(RestorationId))
 	path := r.Replace("/postgresql/{databaseId}/restorations/{restorationId}")
 	params := map[string]interface{}{}
@@ -2391,6 +2543,10 @@ func (srv *Postgresql) GetRestoration(DatabaseId string, RestorationId string) (
 // database. Returns health status, readiness, uptime, connection info,
 // replica status, and volume information.
 func (srv *Postgresql) GetStatus(DatabaseId string) (*models.DatabaseStatus, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/status")
 	params := map[string]interface{}{}
@@ -2429,6 +2585,10 @@ func (srv *Postgresql) GetStatus(DatabaseId string) (*models.DatabaseStatus, err
 // CreateUpgrade upgrade a dedicated database to a new engine version. Uses
 // blue-green deployment for zero-downtime cutover.
 func (srv *Postgresql) CreateUpgrade(DatabaseId string, TargetVersion string) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/postgresql/{databaseId}/upgrades")
 	params := map[string]interface{}{}

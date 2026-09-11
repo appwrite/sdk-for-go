@@ -91,6 +91,10 @@ func TestDocumentsDB(t *testing.T) {
             "slug": "s-2vcpu-2gb",
             "name": "Standard",
             "price": 20,
+            "storageOverageRate": 0.125,
+            "bandwidthOverageRate": 0.08,
+            "replicaRate": 1,
+            "pitrRate": 0.2,
             "cpu": 2000,
             "memory": 2048,
             "maxConnections": 200,
@@ -99,13 +103,7 @@ func TestDocumentsDB(t *testing.T) {
             "enabled": true
         }
     ],
-    "total": 9,
-    "pricing": {
-        "storageOverageRate": 0.125,
-        "bandwidthOverageRate": 0.08,
-        "replicaRate": 1,
-        "pitrRate": 0.2
-    }
+    "total": 9
 }
 `
 
@@ -1192,6 +1190,8 @@ func TestDocumentsDB(t *testing.T) {
     "cpu": 2000,
     "memory": 4096,
     "storage": 100,
+    "storageStatus": "resizing",
+    "storageTargetGb": 120,
     "storageClass": "ssd",
     "storageMaxGb": 100,
     "nodePool": "db-pool-4vcpu-8gb",
@@ -1205,7 +1205,7 @@ func TestDocumentsDB(t *testing.T) {
     "pitrRetentionDays": 14,
     "storageAutoscaling": true,
     "storageAutoscalingThresholdPercent": 85,
-    "storageAutoscalingMaxGb": 500,
+    "storageAutoscalingMaxGb": 30,
     "maintenanceWindowDay": "sun",
     "maintenanceWindowHourUtc": 3,
     "metricsEnabled": true,

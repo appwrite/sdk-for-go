@@ -1,5 +1,16 @@
 # Change Log
 
+## v7.3.0
+
+* Breaking: `DedicatedDatabaseSpecificationList.Pricing` removed; rates now live on each `DedicatedDatabaseSpecification`
+* Added: `StorageOverageRate`, `BandwidthOverageRate`, `ReplicaRate`, and `PitrRate` on `DedicatedDatabaseSpecification`
+* Added: `StorageStatus`, `StorageTargetGb`, and `StorageResizeStartedAt` on `DedicatedDatabase` for in-flight storage resizes
+* Added: `Project.UpdateOAuth2Kakao` and `Project.UpdateOAuth2TikTok` with `OAuth2Kakao` and `OAuth2TikTok` models
+* Added: `failed` container status on `Database` and `DedicatedDatabase`
+* Fixed: required path parameters are validated before the request is sent
+* Fixed: JSON response methods now send an explicit `accept: application/json` header
+* Updated: SDK now targets Appwrite `2.0.x`
+
 ## v7.2.0
 
 * Stable release of the dedicated database APIs: `Mysql`, `Postgresql`, `Mongo`, `DocumentsDB`, and `VectorsDB` services, previously released as release candidates

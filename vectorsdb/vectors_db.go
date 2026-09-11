@@ -189,8 +189,8 @@ func (srv *VectorsDB) Create(DatabaseId string, Name string, optionalSetters ...
 }
 
 // ListSpecifications list the dedicated database specifications available on
-// the current plan. Each specification reports its resource limits, pricing,
-// and whether it is enabled for the organization.
+// the current plan. Each specification reports its resource limits, its own
+// prices and overage rates, and whether it is enabled for the organization.
 func (srv *VectorsDB) ListSpecifications() (*models.DedicatedDatabaseSpecificationList, error) {
 	path := "/vectorsdb/specifications"
 	params := map[string]interface{}{}
@@ -353,6 +353,10 @@ func (srv *VectorsDB) CreateTransaction(optionalSetters ...CreateTransactionOpti
 
 // GetTransaction get a transaction by its unique ID.
 func (srv *VectorsDB) GetTransaction(TransactionId string) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/vectorsdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
@@ -417,6 +421,10 @@ func (srv *VectorsDB) WithUpdateTransactionRollback(v bool) UpdateTransactionOpt
 // UpdateTransaction update a transaction, to either commit or roll back its
 // operations.
 func (srv *VectorsDB) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/vectorsdb/transactions/{transactionId}")
 	options := UpdateTransactionOptions{}.New()
@@ -465,12 +473,17 @@ func (srv *VectorsDB) UpdateTransaction(TransactionId string, optionalSetters ..
 
 // DeleteTransaction delete a transaction by its unique ID.
 func (srv *VectorsDB) DeleteTransaction(TransactionId string) (*interface{}, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/vectorsdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -520,6 +533,10 @@ func (srv *VectorsDB) WithCreateOperationsOperations(v []interface{}) CreateOper
 
 // CreateOperations create multiple operations in a single transaction.
 func (srv *VectorsDB) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/vectorsdb/transactions/{transactionId}/operations")
 	options := CreateOperationsOptions{}.New()
@@ -566,6 +583,10 @@ func (srv *VectorsDB) CreateOperations(TransactionId string, optionalSetters ...
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
 func (srv *VectorsDB) Get(DatabaseId string) (*models.Database, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/vectorsdb/{databaseId}")
 	params := map[string]interface{}{}
@@ -643,6 +664,10 @@ func (srv *VectorsDB) WithUpdateSyncMode(v string) UpdateOption {
 
 // Update update a database by its unique ID.
 func (srv *VectorsDB) Update(DatabaseId string, Name string, optionalSetters ...UpdateOption) (*models.Database, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/vectorsdb/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -699,12 +724,17 @@ func (srv *VectorsDB) Update(DatabaseId string, Name string, optionalSetters ...
 // Delete delete a database by its unique ID. Only API keys with with
 // databases.write scope can delete a database.
 func (srv *VectorsDB) Delete(DatabaseId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/vectorsdb/{databaseId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -769,6 +799,10 @@ func (srv *VectorsDB) WithListCollectionsTotal(v bool) ListCollectionsOption {
 // ListCollections get a list of all collections that belong to the provided
 // databaseId. You can use the search parameter to filter your results.
 func (srv *VectorsDB) ListCollections(DatabaseId string, optionalSetters ...ListCollectionsOption) (*models.VectorsdbCollectionList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections")
 	options := ListCollectionsOptions{}.New()
@@ -855,6 +889,10 @@ func (srv *VectorsDB) WithCreateCollectionEnabled(v bool) CreateCollectionOption
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *VectorsDB) CreateCollection(DatabaseId string, CollectionId string, Name string, Dimension int, optionalSetters ...CreateCollectionOption) (*models.VectorsdbCollection, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections")
 	options := CreateCollectionOptions{}.New()
@@ -910,6 +948,13 @@ func (srv *VectorsDB) CreateCollection(DatabaseId string, CollectionId string, N
 // GetCollection get a collection by its unique ID. This endpoint response
 // returns a JSON object with the collection metadata.
 func (srv *VectorsDB) GetCollection(DatabaseId string, CollectionId string) (*models.VectorsdbCollection, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}")
 	params := map[string]interface{}{}
@@ -987,6 +1032,13 @@ func (srv *VectorsDB) WithUpdateCollectionEnabled(v bool) UpdateCollectionOption
 
 // UpdateCollection update a collection by its unique ID.
 func (srv *VectorsDB) UpdateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...UpdateCollectionOption) (*models.VectorsdbCollection, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}")
 	options := UpdateCollectionOptions{}.New()
@@ -1043,12 +1095,20 @@ func (srv *VectorsDB) UpdateCollection(DatabaseId string, CollectionId string, N
 // DeleteCollection delete a collection by its unique ID. Only users with
 // write permissions have access to delete this resource.
 func (srv *VectorsDB) DeleteCollection(DatabaseId string, CollectionId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1120,6 +1180,13 @@ func (srv *VectorsDB) WithListDocumentsTtl(v int) ListDocumentsOption {
 // ListDocuments get a list of all the user's documents in a given collection.
 // You can use the query params to filter your results.
 func (srv *VectorsDB) ListDocuments(DatabaseId string, CollectionId string, optionalSetters ...ListDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents")
 	options := ListDocumentsOptions{}.New()
@@ -1202,6 +1269,13 @@ func (srv *VectorsDB) WithCreateDocumentTransactionId(v string) CreateDocumentOp
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *VectorsDB) CreateDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...CreateDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents")
 	options := CreateDocumentOptions{}.New()
@@ -1274,6 +1348,13 @@ func (srv *VectorsDB) WithCreateDocumentsTransactionId(v string) CreateDocuments
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *VectorsDB) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{}, optionalSetters ...CreateDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents")
 	options := CreateDocumentsOptions{}.New()
@@ -1342,6 +1423,13 @@ func (srv *VectorsDB) WithUpsertDocumentsTransactionId(v string) UpsertDocuments
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *VectorsDB) UpsertDocuments(DatabaseId string, CollectionId string, Documents []interface{}, optionalSetters ...UpsertDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents")
 	options := UpsertDocumentsOptions{}.New()
@@ -1423,6 +1511,13 @@ func (srv *VectorsDB) WithUpdateDocumentsTransactionId(v string) UpdateDocuments
 // are submitted then all documents are updated. You can pass only specific
 // fields to be updated.
 func (srv *VectorsDB) UpdateDocuments(DatabaseId string, CollectionId string, optionalSetters ...UpdateDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents")
 	options := UpdateDocumentsOptions{}.New()
@@ -1501,6 +1596,13 @@ func (srv *VectorsDB) WithDeleteDocumentsTransactionId(v string) DeleteDocuments
 // DeleteDocuments bulk delete documents using queries, if no queries are
 // passed then all documents are deleted.
 func (srv *VectorsDB) DeleteDocuments(DatabaseId string, CollectionId string, optionalSetters ...DeleteDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents")
 	options := DeleteDocumentsOptions{}.New()
@@ -1592,6 +1694,13 @@ func (srv *VectorsDB) WithCreateQueryTtl(v int) CreateQueryOption {
 // endpoint but accepts the queries in the request body, allowing much larger
 // `queries` arrays than can fit in a URL query string.
 func (srv *VectorsDB) CreateQuery(DatabaseId string, CollectionId string, optionalSetters ...CreateQueryOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents/query")
 	options := CreateQueryOptions{}.New()
@@ -1673,6 +1782,16 @@ func (srv *VectorsDB) WithGetDocumentTransactionId(v string) GetDocumentOption {
 // GetDocument get a document by its unique ID. This endpoint response returns
 // a JSON object with the document data.
 func (srv *VectorsDB) GetDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...GetDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := GetDocumentOptions{}.New()
@@ -1756,6 +1875,16 @@ func (srv *VectorsDB) WithUpsertDocumentTransactionId(v string) UpsertDocumentOp
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *VectorsDB) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpsertDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpsertDocumentOptions{}.New()
@@ -1841,6 +1970,16 @@ func (srv *VectorsDB) WithUpdateDocumentTransactionId(v string) UpdateDocumentOp
 // UpdateDocument update a document by its unique ID. Using the patch method
 // you can pass only specific fields that will get updated.
 func (srv *VectorsDB) UpdateDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpdateDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpdateDocumentOptions{}.New()
@@ -1911,6 +2050,16 @@ func (srv *VectorsDB) WithDeleteDocumentTransactionId(v string) DeleteDocumentOp
 
 // DeleteDocument delete a document by its unique ID.
 func (srv *VectorsDB) DeleteDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...DeleteDocumentOption) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := DeleteDocumentOptions{}.New()
@@ -1924,6 +2073,7 @@ func (srv *VectorsDB) DeleteDocument(DatabaseId string, CollectionId string, Doc
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1980,6 +2130,13 @@ func (srv *VectorsDB) WithListIndexesTotal(v bool) ListIndexesOption {
 
 // ListIndexes list indexes in the collection.
 func (srv *VectorsDB) ListIndexes(DatabaseId string, CollectionId string, optionalSetters ...ListIndexesOption) (*models.IndexList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/indexes")
 	options := ListIndexesOptions{}.New()
@@ -2055,6 +2212,13 @@ func (srv *VectorsDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 // include all the attributes you will query in a single request.
 // Attributes can be `key`, `fulltext`, and `unique`.
 func (srv *VectorsDB) CreateIndex(DatabaseId string, CollectionId string, Key string, Type string, Attributes []string, optionalSetters ...CreateIndexOption) (*models.Index, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/indexes")
 	options := CreateIndexOptions{}.New()
@@ -2106,6 +2270,16 @@ func (srv *VectorsDB) CreateIndex(DatabaseId string, CollectionId string, Key st
 
 // GetIndex get index by ID.
 func (srv *VectorsDB) GetIndex(DatabaseId string, CollectionId string, Key string) (*models.Index, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/indexes/{key}")
 	params := map[string]interface{}{}
@@ -2143,12 +2317,23 @@ func (srv *VectorsDB) GetIndex(DatabaseId string, CollectionId string, Key strin
 
 // DeleteIndex delete an index.
 func (srv *VectorsDB) DeleteIndex(DatabaseId string, CollectionId string, Key string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/vectorsdb/{databaseId}/collections/{collectionId}/indexes/{key}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -2206,6 +2391,10 @@ func (srv *VectorsDB) WithCreateFailoverTargetReplicaId(v string) CreateFailover
 // to promote, because the default target may be the member that operation
 // already promoted.
 func (srv *VectorsDB) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/vectorsdb/{databaseId}/failovers")
 	options := CreateFailoverOptions{}.New()
@@ -2287,6 +2476,10 @@ func (srv *VectorsDB) WithListOperationsOffset(v int) ListOperationsOption {
 // replication action is recorded here with its outcome, including an attempt
 // that was abandoned because another worker took over the database.
 func (srv *VectorsDB) ListOperations(DatabaseId string, optionalSetters ...ListOperationsOption) (*models.DedicatedDatabaseOperationList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/vectorsdb/{databaseId}/operations")
 	options := ListOperationsOptions{}.New()
@@ -2338,6 +2531,10 @@ func (srv *VectorsDB) ListOperations(DatabaseId string, optionalSetters ...ListO
 // GetReplicas get high availability status for a dedicated database. Returns
 // replica statuses, replication lag, and sync mode.
 func (srv *VectorsDB) GetReplicas(DatabaseId string) (*models.DedicatedDatabaseReplicas, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/vectorsdb/{databaseId}/replicas")
 	params := map[string]interface{}{}
@@ -2377,6 +2574,10 @@ func (srv *VectorsDB) GetReplicas(DatabaseId string) (*models.DedicatedDatabaseR
 // database. Returns health status, readiness, uptime, connection info,
 // replica status, and volume information.
 func (srv *VectorsDB) GetStatus(DatabaseId string) (*models.DatabaseStatus, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/vectorsdb/{databaseId}/status")
 	params := map[string]interface{}{}

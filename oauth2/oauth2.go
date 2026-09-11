@@ -642,6 +642,10 @@ func (srv *Oauth2) CreateGrant(UserCode string) (*models.Oauth2Grant, error) {
 // approve. A grant can only be read by the user it belongs to, or by server
 // SDK.
 func (srv *Oauth2) GetGrant(GrantId string) (*models.Oauth2Grant, error) {
+	if GrantId == "" {
+		return nil, errors.New("Missing required parameter: \"grantId\"")
+	}
+
 	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]), "{grant_id}", client.EncodePath(GrantId))
 	path := r.Replace("/oauth2/{project_id}/grants/{grant_id}")
 	params := map[string]interface{}{}
