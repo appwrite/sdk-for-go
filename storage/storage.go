@@ -253,6 +253,10 @@ func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters .
 // GetBucket get a storage bucket by its unique ID. This endpoint response
 // returns a JSON object with the storage bucket metadata.
 func (srv *Storage) GetBucket(BucketId string) (*models.Bucket, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId))
 	path := r.Replace("/storage/buckets/{bucketId}")
 	params := map[string]interface{}{}
@@ -365,6 +369,10 @@ func (srv *Storage) WithUpdateBucketTransformations(v bool) UpdateBucketOption {
 
 // UpdateBucket update a storage bucket by its unique ID.
 func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters ...UpdateBucketOption) (*models.Bucket, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId))
 	path := r.Replace("/storage/buckets/{bucketId}")
 	options := UpdateBucketOptions{}.New()
@@ -435,12 +443,17 @@ func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters .
 
 // DeleteBucket delete a storage bucket by its unique ID.
 func (srv *Storage) DeleteBucket(BucketId string) (*interface{}, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId))
 	path := r.Replace("/storage/buckets/{bucketId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -505,6 +518,10 @@ func (srv *Storage) WithListFilesTotal(v bool) ListFilesOption {
 // ListFiles get a list of all the user files. You can use the query params to
 // filter your results.
 func (srv *Storage) ListFiles(BucketId string, optionalSetters ...ListFilesOption) (*models.FileList, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId))
 	path := r.Replace("/storage/buckets/{bucketId}/files")
 	options := ListFilesOptions{}.New()
@@ -597,6 +614,10 @@ func (srv *Storage) WithCreateFileFolder(v string) CreateFileOption {
 // If you're creating a new file using one of the Appwrite SDKs, all the
 // chunking logic will be managed by the SDK internally.
 func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFile, optionalSetters ...CreateFileOption) (*models.File, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId))
 	path := r.Replace("/storage/buckets/{bucketId}/files")
 	options := CreateFileOptions{}.New()
@@ -652,6 +673,13 @@ func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFi
 // GetFile get a file by its unique ID. This endpoint response returns a JSON
 // object with the file metadata.
 func (srv *Storage) GetFile(BucketId string, FileId string) (*models.File, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}")
 	params := map[string]interface{}{}
@@ -716,6 +744,13 @@ func (srv *Storage) WithUpdateFilePermissions(v []string) UpdateFileOption {
 // UpdateFile update a file by its unique ID. Only users with write
 // permissions have access to update this resource.
 func (srv *Storage) UpdateFile(BucketId string, FileId string, optionalSetters ...UpdateFileOption) (*models.File, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}")
 	options := UpdateFileOptions{}.New()
@@ -765,12 +800,20 @@ func (srv *Storage) UpdateFile(BucketId string, FileId string, optionalSetters .
 // DeleteFile delete a file by its unique ID. Only users with write
 // permissions have access to delete this resource.
 func (srv *Storage) DeleteFile(BucketId string, FileId string) (*interface{}, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -834,6 +877,13 @@ func (srv *Storage) getFileDownloadParams(optionalSetters ...GetFileDownloadOpti
 // return with a 'Content-Disposition: attachment' header that tells the
 // browser to start downloading the file to user downloads directory.
 func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSetters ...GetFileDownloadOption) (*[]byte, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/download")
 	params := srv.getFileDownloadParams(optionalSetters...)
@@ -873,6 +923,13 @@ func (srv *Storage) GetFileDownload(BucketId string, FileId string, optionalSett
 // the browser to start downloading the file to user downloads directory.
 // Returns the URL for the resource instead of the content.
 func (srv *Storage) GetFileDownloadURL(BucketId string, FileId string, optionalSetters ...GetFileDownloadOption) (*string, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/download")
 	params := srv.getFileDownloadParams(optionalSetters...)
@@ -1036,6 +1093,13 @@ func (srv *Storage) getFilePreviewParams(optionalSetters ...GetFilePreviewOption
 // can also pass query string arguments for cutting and resizing your preview
 // image. Preview is supported only for image files smaller than 10MB.
 func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption) (*[]byte, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/preview")
 	params := srv.getFilePreviewParams(optionalSetters...)
@@ -1077,6 +1141,13 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 // image. Preview is supported only for image files smaller than 10MB.
 // Returns the URL for the resource instead of the content.
 func (srv *Storage) GetFilePreviewURL(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption) (*string, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/preview")
 	params := srv.getFilePreviewParams(optionalSetters...)
@@ -1128,6 +1199,13 @@ func (srv *Storage) getFileViewParams(optionalSetters ...GetFileViewOption) map[
 // to the download method but returns with no  'Content-Disposition:
 // attachment' header.
 func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters ...GetFileViewOption) (*[]byte, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/view")
 	params := srv.getFileViewParams(optionalSetters...)
@@ -1167,6 +1245,13 @@ func (srv *Storage) GetFileView(BucketId string, FileId string, optionalSetters 
 // attachment' header.
 // Returns the URL for the resource instead of the content.
 func (srv *Storage) GetFileViewURL(BucketId string, FileId string, optionalSetters ...GetFileViewOption) (*string, error) {
+	if BucketId == "" {
+		return nil, errors.New("Missing required parameter: \"bucketId\"")
+	}
+	if FileId == "" {
+		return nil, errors.New("Missing required parameter: \"fileId\"")
+	}
+
 	r := strings.NewReplacer("{bucketId}", client.EncodePath(BucketId), "{fileId}", client.EncodePath(FileId))
 	path := r.Replace("/storage/buckets/{bucketId}/files/{fileId}/view")
 	params := srv.getFileViewParams(optionalSetters...)

@@ -11,8 +11,6 @@ type DedicatedDatabaseSpecificationList struct {
 	Specifications []DedicatedDatabaseSpecification `json:"specifications"`
 	// Total number of specifications.
 	Total int `json:"total"`
-	// Overage and add-on pricing shared across all specifications.
-	Pricing DedicatedDatabaseSpecificationPricing `json:"pricing"`
 
 	// Used by Decode() method
 	data []byte

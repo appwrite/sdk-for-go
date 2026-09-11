@@ -189,8 +189,8 @@ func (srv *DocumentsDB) Create(DatabaseId string, Name string, optionalSetters .
 }
 
 // ListSpecifications list the dedicated database specifications available on
-// the current plan. Each specification reports its resource limits, pricing,
-// and whether it is enabled for the organization.
+// the current plan. Each specification reports its resource limits, its own
+// prices and overage rates, and whether it is enabled for the organization.
 func (srv *DocumentsDB) ListSpecifications() (*models.DedicatedDatabaseSpecificationList, error) {
 	path := "/documentsdb/specifications"
 	params := map[string]interface{}{}
@@ -353,6 +353,10 @@ func (srv *DocumentsDB) CreateTransaction(optionalSetters ...CreateTransactionOp
 
 // GetTransaction get a transaction by its unique ID.
 func (srv *DocumentsDB) GetTransaction(TransactionId string) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/documentsdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
@@ -417,6 +421,10 @@ func (srv *DocumentsDB) WithUpdateTransactionRollback(v bool) UpdateTransactionO
 // UpdateTransaction update a transaction, to either commit or roll back its
 // operations.
 func (srv *DocumentsDB) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/documentsdb/transactions/{transactionId}")
 	options := UpdateTransactionOptions{}.New()
@@ -465,12 +473,17 @@ func (srv *DocumentsDB) UpdateTransaction(TransactionId string, optionalSetters 
 
 // DeleteTransaction delete a transaction by its unique ID.
 func (srv *DocumentsDB) DeleteTransaction(TransactionId string) (*interface{}, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/documentsdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -520,6 +533,10 @@ func (srv *DocumentsDB) WithCreateOperationsOperations(v []interface{}) CreateOp
 
 // CreateOperations create multiple operations in a single transaction.
 func (srv *DocumentsDB) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/documentsdb/transactions/{transactionId}/operations")
 	options := CreateOperationsOptions{}.New()
@@ -566,6 +583,10 @@ func (srv *DocumentsDB) CreateOperations(TransactionId string, optionalSetters .
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
 func (srv *DocumentsDB) Get(DatabaseId string) (*models.Database, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/documentsdb/{databaseId}")
 	params := map[string]interface{}{}
@@ -643,6 +664,10 @@ func (srv *DocumentsDB) WithUpdateSyncMode(v string) UpdateOption {
 
 // Update update a database by its unique ID.
 func (srv *DocumentsDB) Update(DatabaseId string, Name string, optionalSetters ...UpdateOption) (*models.Database, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/documentsdb/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -699,12 +724,17 @@ func (srv *DocumentsDB) Update(DatabaseId string, Name string, optionalSetters .
 // Delete delete a database by its unique ID. Only API keys with with
 // databases.write scope can delete a database.
 func (srv *DocumentsDB) Delete(DatabaseId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/documentsdb/{databaseId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -769,6 +799,10 @@ func (srv *DocumentsDB) WithListCollectionsTotal(v bool) ListCollectionsOption {
 // ListCollections get a list of all collections that belong to the provided
 // databaseId. You can use the search parameter to filter your results.
 func (srv *DocumentsDB) ListCollections(DatabaseId string, optionalSetters ...ListCollectionsOption) (*models.CollectionList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/documentsdb/{databaseId}/collections")
 	options := ListCollectionsOptions{}.New()
@@ -869,6 +903,10 @@ func (srv *DocumentsDB) WithCreateCollectionIndexes(v []interface{}) CreateColle
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *DocumentsDB) CreateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...CreateCollectionOption) (*models.Collection, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/documentsdb/{databaseId}/collections")
 	options := CreateCollectionOptions{}.New()
@@ -929,6 +967,13 @@ func (srv *DocumentsDB) CreateCollection(DatabaseId string, CollectionId string,
 // GetCollection get a collection by its unique ID. This endpoint response
 // returns a JSON object with the collection metadata.
 func (srv *DocumentsDB) GetCollection(DatabaseId string, CollectionId string) (*models.Collection, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}")
 	params := map[string]interface{}{}
@@ -1006,6 +1051,13 @@ func (srv *DocumentsDB) WithUpdateCollectionPurge(v bool) UpdateCollectionOption
 
 // UpdateCollection update a collection by its unique ID.
 func (srv *DocumentsDB) UpdateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...UpdateCollectionOption) (*models.Collection, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}")
 	options := UpdateCollectionOptions{}.New()
@@ -1062,12 +1114,20 @@ func (srv *DocumentsDB) UpdateCollection(DatabaseId string, CollectionId string,
 // DeleteCollection delete a collection by its unique ID. Only users with
 // write permissions have access to delete this resource.
 func (srv *DocumentsDB) DeleteCollection(DatabaseId string, CollectionId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1139,6 +1199,13 @@ func (srv *DocumentsDB) WithListDocumentsTtl(v int) ListDocumentsOption {
 // ListDocuments get a list of all the user's documents in a given collection.
 // You can use the query params to filter your results.
 func (srv *DocumentsDB) ListDocuments(DatabaseId string, CollectionId string, optionalSetters ...ListDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents")
 	options := ListDocumentsOptions{}.New()
@@ -1221,6 +1288,13 @@ func (srv *DocumentsDB) WithCreateDocumentTransactionId(v string) CreateDocument
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *DocumentsDB) CreateDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...CreateDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents")
 	options := CreateDocumentOptions{}.New()
@@ -1293,6 +1367,13 @@ func (srv *DocumentsDB) WithCreateDocumentsTransactionId(v string) CreateDocumen
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *DocumentsDB) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{}, optionalSetters ...CreateDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents")
 	options := CreateDocumentsOptions{}.New()
@@ -1361,6 +1442,13 @@ func (srv *DocumentsDB) WithUpsertDocumentsTransactionId(v string) UpsertDocumen
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *DocumentsDB) UpsertDocuments(DatabaseId string, CollectionId string, Documents []interface{}, optionalSetters ...UpsertDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents")
 	options := UpsertDocumentsOptions{}.New()
@@ -1442,6 +1530,13 @@ func (srv *DocumentsDB) WithUpdateDocumentsTransactionId(v string) UpdateDocumen
 // are submitted then all documents are updated. You can pass only specific
 // fields to be updated.
 func (srv *DocumentsDB) UpdateDocuments(DatabaseId string, CollectionId string, optionalSetters ...UpdateDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents")
 	options := UpdateDocumentsOptions{}.New()
@@ -1520,6 +1615,13 @@ func (srv *DocumentsDB) WithDeleteDocumentsTransactionId(v string) DeleteDocumen
 // DeleteDocuments bulk delete documents using queries, if no queries are
 // passed then all documents are deleted.
 func (srv *DocumentsDB) DeleteDocuments(DatabaseId string, CollectionId string, optionalSetters ...DeleteDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents")
 	options := DeleteDocumentsOptions{}.New()
@@ -1595,6 +1697,16 @@ func (srv *DocumentsDB) WithGetDocumentTransactionId(v string) GetDocumentOption
 // GetDocument get a document by its unique ID. This endpoint response returns
 // a JSON object with the document data.
 func (srv *DocumentsDB) GetDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...GetDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := GetDocumentOptions{}.New()
@@ -1678,6 +1790,16 @@ func (srv *DocumentsDB) WithUpsertDocumentTransactionId(v string) UpsertDocument
 // integration](https://appwrite.io/docs/server/databases#documentsDBCreateCollection)
 // API or directly from your database console.
 func (srv *DocumentsDB) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpsertDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpsertDocumentOptions{}.New()
@@ -1763,6 +1885,16 @@ func (srv *DocumentsDB) WithUpdateDocumentTransactionId(v string) UpdateDocument
 // UpdateDocument update a document by its unique ID. Using the patch method
 // you can pass only specific fields that will get updated.
 func (srv *DocumentsDB) UpdateDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpdateDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpdateDocumentOptions{}.New()
@@ -1833,6 +1965,16 @@ func (srv *DocumentsDB) WithDeleteDocumentTransactionId(v string) DeleteDocument
 
 // DeleteDocument delete a document by its unique ID.
 func (srv *DocumentsDB) DeleteDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...DeleteDocumentOption) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := DeleteDocumentOptions{}.New()
@@ -1846,6 +1988,7 @@ func (srv *DocumentsDB) DeleteDocument(DatabaseId string, CollectionId string, D
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1910,6 +2053,19 @@ func (srv *DocumentsDB) WithDecrementDocumentAttributeTransactionId(v string) De
 // DecrementDocumentAttribute decrement a specific column of a row by a given
 // value.
 func (srv *DocumentsDB) DecrementDocumentAttribute(DatabaseId string, CollectionId string, DocumentId string, Attribute string, optionalSetters ...DecrementDocumentAttributeOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+	if Attribute == "" {
+		return nil, errors.New("Missing required parameter: \"attribute\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId), "{attribute}", client.EncodePath(Attribute))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/decrement")
 	options := DecrementDocumentAttributeOptions{}.New()
@@ -1995,6 +2151,19 @@ func (srv *DocumentsDB) WithIncrementDocumentAttributeTransactionId(v string) In
 // IncrementDocumentAttribute increment a specific column of a row by a given
 // value.
 func (srv *DocumentsDB) IncrementDocumentAttribute(DatabaseId string, CollectionId string, DocumentId string, Attribute string, optionalSetters ...IncrementDocumentAttributeOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+	if Attribute == "" {
+		return nil, errors.New("Missing required parameter: \"attribute\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId), "{attribute}", client.EncodePath(Attribute))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/increment")
 	options := IncrementDocumentAttributeOptions{}.New()
@@ -2072,6 +2241,13 @@ func (srv *DocumentsDB) WithListIndexesTotal(v bool) ListIndexesOption {
 
 // ListIndexes list indexes in the collection.
 func (srv *DocumentsDB) ListIndexes(DatabaseId string, CollectionId string, optionalSetters ...ListIndexesOption) (*models.IndexList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/indexes")
 	options := ListIndexesOptions{}.New()
@@ -2147,6 +2323,13 @@ func (srv *DocumentsDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 // include all the attributes you will query in a single request.
 // Attributes can be `key`, `fulltext`, and `unique`.
 func (srv *DocumentsDB) CreateIndex(DatabaseId string, CollectionId string, Key string, Type string, Attributes []string, optionalSetters ...CreateIndexOption) (*models.Index, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/indexes")
 	options := CreateIndexOptions{}.New()
@@ -2198,6 +2381,16 @@ func (srv *DocumentsDB) CreateIndex(DatabaseId string, CollectionId string, Key 
 
 // GetIndex get index by ID.
 func (srv *DocumentsDB) GetIndex(DatabaseId string, CollectionId string, Key string) (*models.Index, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/indexes/{key}")
 	params := map[string]interface{}{}
@@ -2235,12 +2428,23 @@ func (srv *DocumentsDB) GetIndex(DatabaseId string, CollectionId string, Key str
 
 // DeleteIndex delete an index.
 func (srv *DocumentsDB) DeleteIndex(DatabaseId string, CollectionId string, Key string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/indexes/{key}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -2298,6 +2502,10 @@ func (srv *DocumentsDB) WithCreateFailoverTargetReplicaId(v string) CreateFailov
 // to promote, because the default target may be the member that operation
 // already promoted.
 func (srv *DocumentsDB) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/documentsdb/{databaseId}/failovers")
 	options := CreateFailoverOptions{}.New()
@@ -2379,6 +2587,10 @@ func (srv *DocumentsDB) WithListOperationsOffset(v int) ListOperationsOption {
 // replication action is recorded here with its outcome, including an attempt
 // that was abandoned because another worker took over the database.
 func (srv *DocumentsDB) ListOperations(DatabaseId string, optionalSetters ...ListOperationsOption) (*models.DedicatedDatabaseOperationList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/documentsdb/{databaseId}/operations")
 	options := ListOperationsOptions{}.New()
@@ -2430,6 +2642,10 @@ func (srv *DocumentsDB) ListOperations(DatabaseId string, optionalSetters ...Lis
 // GetReplicas get high availability status for a dedicated database. Returns
 // replica statuses, replication lag, and sync mode.
 func (srv *DocumentsDB) GetReplicas(DatabaseId string) (*models.DedicatedDatabaseReplicas, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/documentsdb/{databaseId}/replicas")
 	params := map[string]interface{}{}
@@ -2469,6 +2685,10 @@ func (srv *DocumentsDB) GetReplicas(DatabaseId string) (*models.DedicatedDatabas
 // database. Returns health status, readiness, uptime, connection info,
 // replica status, and volume information.
 func (srv *DocumentsDB) GetStatus(DatabaseId string) (*models.DatabaseStatus, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/documentsdb/{databaseId}/status")
 	params := map[string]interface{}{}

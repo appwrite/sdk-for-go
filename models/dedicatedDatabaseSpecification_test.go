@@ -6,7 +6,7 @@ import (
 )
 
 func TestDedicatedDatabaseSpecificationModel(t *testing.T) {
-	model := DedicatedDatabaseSpecification{Slug: "s-2vcpu-2gb", Name: "Standard", Price: 20, Cpu: 2000, Memory: 2048, MaxConnections: 200, IncludedStorage: 25, IncludedBandwidth: 200, Enabled: true}
+	model := DedicatedDatabaseSpecification{Slug: "s-2vcpu-2gb", Name: "Standard", Price: 20, StorageOverageRate: 0.125, BandwidthOverageRate: 0.08, ReplicaRate: 1, PitrRate: 0.2, Cpu: 2000, Memory: 2048, MaxConnections: 200, IncludedStorage: 25, IncludedBandwidth: 200, Enabled: true}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -26,6 +26,18 @@ func TestDedicatedDatabaseSpecificationModel(t *testing.T) {
 	}
 	if result.Price != model.Price {
 		t.Errorf("Expected Price %v, got %v", model.Price, result.Price)
+	}
+	if result.StorageOverageRate != model.StorageOverageRate {
+		t.Errorf("Expected StorageOverageRate %v, got %v", model.StorageOverageRate, result.StorageOverageRate)
+	}
+	if result.BandwidthOverageRate != model.BandwidthOverageRate {
+		t.Errorf("Expected BandwidthOverageRate %v, got %v", model.BandwidthOverageRate, result.BandwidthOverageRate)
+	}
+	if result.ReplicaRate != model.ReplicaRate {
+		t.Errorf("Expected ReplicaRate %v, got %v", model.ReplicaRate, result.ReplicaRate)
+	}
+	if result.PitrRate != model.PitrRate {
+		t.Errorf("Expected PitrRate %v, got %v", model.PitrRate, result.PitrRate)
 	}
 	if result.Cpu != model.Cpu {
 		t.Errorf("Expected Cpu %v, got %v", model.Cpu, result.Cpu)

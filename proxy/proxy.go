@@ -390,6 +390,10 @@ func (srv *Proxy) CreateSiteRule(Domain string, SiteId string, optionalSetters .
 
 // GetRule get a proxy rule by its unique ID.
 func (srv *Proxy) GetRule(RuleId string) (*models.ProxyRule, error) {
+	if RuleId == "" {
+		return nil, errors.New("Missing required parameter: \"ruleId\"")
+	}
+
 	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
 	path := r.Replace("/proxy/rules/{ruleId}")
 	params := map[string]interface{}{}
@@ -427,12 +431,17 @@ func (srv *Proxy) GetRule(RuleId string) (*models.ProxyRule, error) {
 
 // DeleteRule delete a proxy rule by its unique ID.
 func (srv *Proxy) DeleteRule(RuleId string) (*interface{}, error) {
+	if RuleId == "" {
+		return nil, errors.New("Missing required parameter: \"ruleId\"")
+	}
+
 	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
 	path := r.Replace("/proxy/rules/{ruleId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -466,6 +475,10 @@ func (srv *Proxy) DeleteRule(RuleId string) (*interface{}, error) {
 // DNS records. If verification is successful, a TLS certificate will be
 // automatically provisioned for the domain asynchronously in the background.
 func (srv *Proxy) UpdateRuleStatus(RuleId string) (*models.ProxyRule, error) {
+	if RuleId == "" {
+		return nil, errors.New("Missing required parameter: \"ruleId\"")
+	}
+
 	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
 	path := r.Replace("/proxy/rules/{ruleId}/status")
 	params := map[string]interface{}{}

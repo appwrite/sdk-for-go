@@ -48,8 +48,8 @@ type DedicatedDatabase struct {
 	// Database status. Possible values: provisioning, ready, inactive, paused,
 	// failed, deleted, restoring, scaling.
 	Status string `json:"status"`
-	// Container status for lifecycle-managed database runtimes: active or
-	// inactive.
+	// Container status for lifecycle-managed database runtimes: active, inactive,
+	// or failed (a wake was declined because the backing namespace is gone).
 	ContainerStatus string `json:"containerStatus"`
 	// Last activity timestamp in ISO 8601 format.
 	LastAccessedAt string `json:"lastAccessedAt"`
@@ -68,6 +68,14 @@ type DedicatedDatabase struct {
 	Memory int `json:"memory"`
 	// Storage allocated in GB.
 	Storage int `json:"storage"`
+	// Storage resize status. Possible values: idle (no resize in flight),
+	// resizing (the volume is growing towards storageTargetGb).
+	StorageStatus string `json:"storageStatus"`
+	// Size in GB the volume is growing towards while storageStatus is resizing. 0
+	// when no resize is in flight.
+	StorageTargetGb int `json:"storageTargetGb"`
+	// Time the in-flight storage resize started, in ISO 8601 format.
+	StorageResizeStartedAt string `json:"storageResizeStartedAt"`
 	// Storage class. Currently always 'ssd'; DigitalOcean exposes a single
 	// block-storage class.
 	StorageClass string `json:"storageClass"`
@@ -99,7 +107,8 @@ type DedicatedDatabase struct {
 	StorageAutoscaling bool `json:"storageAutoscaling"`
 	// Storage usage percentage that triggers automatic expansion.
 	StorageAutoscalingThresholdPercent int `json:"storageAutoscalingThresholdPercent"`
-	// Maximum storage size in GB for autoscaling. 0 means no limit.
+	// Maximum storage size in GB for autoscaling. Defaults to 3 times the
+	// specification's storage. 0 means no limit.
 	StorageAutoscalingMaxGb int `json:"storageAutoscalingMaxGb"`
 	// Day of the week for the maintenance window. Possible values: sun, mon, tue,
 	// wed, thu, fri, sat.

@@ -306,6 +306,10 @@ func (srv *Databases) CreateTransaction(optionalSetters ...CreateTransactionOpti
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getTransaction` instead.
 func (srv *Databases) GetTransaction(TransactionId string) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/databases/transactions/{transactionId}")
 	params := map[string]interface{}{}
@@ -372,6 +376,10 @@ func (srv *Databases) WithUpdateTransactionRollback(v bool) UpdateTransactionOpt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTransaction` instead.
 func (srv *Databases) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/databases/transactions/{transactionId}")
 	options := UpdateTransactionOptions{}.New()
@@ -422,12 +430,17 @@ func (srv *Databases) UpdateTransaction(TransactionId string, optionalSetters ..
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteTransaction` instead.
 func (srv *Databases) DeleteTransaction(TransactionId string) (*interface{}, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/databases/transactions/{transactionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -479,6 +492,10 @@ func (srv *Databases) WithCreateOperationsOperations(v []interface{}) CreateOper
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createOperations` instead.
 func (srv *Databases) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/databases/transactions/{transactionId}/operations")
 	options := CreateOperationsOptions{}.New()
@@ -527,6 +544,10 @@ func (srv *Databases) CreateOperations(TransactionId string, optionalSetters ...
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.get` instead.
 func (srv *Databases) Get(DatabaseId string) (*models.Database, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/databases/{databaseId}")
 	params := map[string]interface{}{}
@@ -592,6 +613,10 @@ func (srv *Databases) WithUpdateEnabled(v bool) UpdateOption {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.update` instead.
 func (srv *Databases) Update(DatabaseId string, optionalSetters ...UpdateOption) (*models.Database, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/databases/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -643,12 +668,17 @@ func (srv *Databases) Update(DatabaseId string, optionalSetters ...UpdateOption)
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.delete` instead.
 func (srv *Databases) Delete(DatabaseId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/databases/{databaseId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -715,6 +745,10 @@ func (srv *Databases) WithListCollectionsTotal(v bool) ListCollectionsOption {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listTables` instead.
 func (srv *Databases) ListCollections(DatabaseId string, optionalSetters ...ListCollectionsOption) (*models.CollectionList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/databases/{databaseId}/collections")
 	options := ListCollectionsOptions{}.New()
@@ -817,6 +851,10 @@ func (srv *Databases) WithCreateCollectionIndexes(v []interface{}) CreateCollect
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createTable` instead.
 func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, Name string, optionalSetters ...CreateCollectionOption) (*models.Collection, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/databases/{databaseId}/collections")
 	options := CreateCollectionOptions{}.New()
@@ -879,6 +917,13 @@ func (srv *Databases) CreateCollection(DatabaseId string, CollectionId string, N
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getTable` instead.
 func (srv *Databases) GetCollection(DatabaseId string, CollectionId string) (*models.Collection, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
 	params := map[string]interface{}{}
@@ -965,6 +1010,13 @@ func (srv *Databases) WithUpdateCollectionPurge(v bool) UpdateCollectionOption {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTable` instead.
 func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, optionalSetters ...UpdateCollectionOption) (*models.Collection, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
 	options := UpdateCollectionOptions{}.New()
@@ -1025,12 +1077,20 @@ func (srv *Databases) UpdateCollection(DatabaseId string, CollectionId string, o
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteTable` instead.
 func (srv *Databases) DeleteCollection(DatabaseId string, CollectionId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1089,6 +1149,13 @@ func (srv *Databases) WithListAttributesTotal(v bool) ListAttributesOption {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listColumns` instead.
 func (srv *Databases) ListAttributes(DatabaseId string, CollectionId string, optionalSetters ...ListAttributesOption) (*models.AttributeList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes")
 	options := ListAttributesOptions{}.New()
@@ -1179,6 +1246,13 @@ func (srv *Databases) WithCreateBigIntAttributeArray(v bool) CreateBigIntAttribu
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createBigIntColumn` instead.
 func (srv *Databases) CreateBigIntAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateBigIntAttributeOption) (*models.AttributeBigint, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/bigint")
 	options := CreateBigIntAttributeOptions{}.New()
@@ -1271,6 +1345,16 @@ func (srv *Databases) WithUpdateBigIntAttributeNewKey(v string) UpdateBigIntAttr
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateBigIntColumn` instead.
 func (srv *Databases) UpdateBigIntAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default int, optionalSetters ...UpdateBigIntAttributeOption) (*models.AttributeBigint, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/bigint/{key}")
 	options := UpdateBigIntAttributeOptions{}.New()
@@ -1352,6 +1436,13 @@ func (srv *Databases) WithCreateBooleanAttributeArray(v bool) CreateBooleanAttri
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createBooleanColumn` instead.
 func (srv *Databases) CreateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateBooleanAttributeOption) (*models.AttributeBoolean, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/boolean")
 	options := CreateBooleanAttributeOptions{}.New()
@@ -1424,6 +1515,16 @@ func (srv *Databases) WithUpdateBooleanAttributeNewKey(v string) UpdateBooleanAt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateBooleanColumn` instead.
 func (srv *Databases) UpdateBooleanAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default bool, optionalSetters ...UpdateBooleanAttributeOption) (*models.AttributeBoolean, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/boolean/{key}")
 	options := UpdateBooleanAttributeOptions{}.New()
@@ -1500,6 +1601,13 @@ func (srv *Databases) WithCreateDatetimeAttributeArray(v bool) CreateDatetimeAtt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createDatetimeColumn` instead.
 func (srv *Databases) CreateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateDatetimeAttributeOption) (*models.AttributeDatetime, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/datetime")
 	options := CreateDatetimeAttributeOptions{}.New()
@@ -1572,6 +1680,16 @@ func (srv *Databases) WithUpdateDatetimeAttributeNewKey(v string) UpdateDatetime
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateDatetimeColumn` instead.
 func (srv *Databases) UpdateDatetimeAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateDatetimeAttributeOption) (*models.AttributeDatetime, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/datetime/{key}")
 	options := UpdateDatetimeAttributeOptions{}.New()
@@ -1647,6 +1765,13 @@ func (srv *Databases) WithCreateEmailAttributeArray(v bool) CreateEmailAttribute
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createEmailColumn` instead.
 func (srv *Databases) CreateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateEmailAttributeOption) (*models.AttributeEmail, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/email")
 	options := CreateEmailAttributeOptions{}.New()
@@ -1719,6 +1844,16 @@ func (srv *Databases) WithUpdateEmailAttributeNewKey(v string) UpdateEmailAttrib
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateEmailColumn` instead.
 func (srv *Databases) UpdateEmailAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateEmailAttributeOption) (*models.AttributeEmail, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/email/{key}")
 	options := UpdateEmailAttributeOptions{}.New()
@@ -1795,6 +1930,13 @@ func (srv *Databases) WithCreateEnumAttributeArray(v bool) CreateEnumAttributeOp
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createEnumColumn` instead.
 func (srv *Databases) CreateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []string, Required bool, optionalSetters ...CreateEnumAttributeOption) (*models.AttributeEnum, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/enum")
 	options := CreateEnumAttributeOptions{}.New()
@@ -1868,6 +2010,16 @@ func (srv *Databases) WithUpdateEnumAttributeNewKey(v string) UpdateEnumAttribut
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateEnumColumn` instead.
 func (srv *Databases) UpdateEnumAttribute(DatabaseId string, CollectionId string, Key string, Elements []string, Required bool, Default string, optionalSetters ...UpdateEnumAttributeOption) (*models.AttributeEnum, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/enum/{key}")
 	options := UpdateEnumAttributeOptions{}.New()
@@ -1959,6 +2111,13 @@ func (srv *Databases) WithCreateFloatAttributeArray(v bool) CreateFloatAttribute
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createFloatColumn` instead.
 func (srv *Databases) CreateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateFloatAttributeOption) (*models.AttributeFloat, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/float")
 	options := CreateFloatAttributeOptions{}.New()
@@ -2051,6 +2210,16 @@ func (srv *Databases) WithUpdateFloatAttributeNewKey(v string) UpdateFloatAttrib
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateFloatColumn` instead.
 func (srv *Databases) UpdateFloatAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default float64, optionalSetters ...UpdateFloatAttributeOption) (*models.AttributeFloat, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/float/{key}")
 	options := UpdateFloatAttributeOptions{}.New()
@@ -2147,6 +2316,13 @@ func (srv *Databases) WithCreateIntegerAttributeArray(v bool) CreateIntegerAttri
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createIntegerColumn` instead.
 func (srv *Databases) CreateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateIntegerAttributeOption) (*models.AttributeInteger, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/integer")
 	options := CreateIntegerAttributeOptions{}.New()
@@ -2239,6 +2415,16 @@ func (srv *Databases) WithUpdateIntegerAttributeNewKey(v string) UpdateIntegerAt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateIntegerColumn` instead.
 func (srv *Databases) UpdateIntegerAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default int, optionalSetters ...UpdateIntegerAttributeOption) (*models.AttributeInteger, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/integer/{key}")
 	options := UpdateIntegerAttributeOptions{}.New()
@@ -2320,6 +2506,13 @@ func (srv *Databases) WithCreateIpAttributeArray(v bool) CreateIpAttributeOption
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createIpColumn` instead.
 func (srv *Databases) CreateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateIpAttributeOption) (*models.AttributeIp, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/ip")
 	options := CreateIpAttributeOptions{}.New()
@@ -2392,6 +2585,16 @@ func (srv *Databases) WithUpdateIpAttributeNewKey(v string) UpdateIpAttributeOpt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateIpColumn` instead.
 func (srv *Databases) UpdateIpAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateIpAttributeOption) (*models.AttributeIp, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/ip/{key}")
 	options := UpdateIpAttributeOptions{}.New()
@@ -2460,6 +2663,13 @@ func (srv *Databases) WithCreateLineAttributeDefault(v [][]interface{}) CreateLi
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createLineColumn` instead.
 func (srv *Databases) CreateLineAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateLineAttributeOption) (*models.AttributeLine, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/line")
 	options := CreateLineAttributeOptions{}.New()
@@ -2536,6 +2746,16 @@ func (srv *Databases) WithUpdateLineAttributeNewKey(v string) UpdateLineAttribut
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateLineColumn` instead.
 func (srv *Databases) UpdateLineAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...UpdateLineAttributeOption) (*models.AttributeLine, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/line/{key}")
 	options := UpdateLineAttributeOptions{}.New()
@@ -2620,6 +2840,13 @@ func (srv *Databases) WithCreateLongtextAttributeEncrypt(v bool) CreateLongtextA
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createLongtextColumn` instead.
 func (srv *Databases) CreateLongtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateLongtextAttributeOption) (*models.AttributeLongtext, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/longtext")
 	options := CreateLongtextAttributeOptions{}.New()
@@ -2695,6 +2922,16 @@ func (srv *Databases) WithUpdateLongtextAttributeNewKey(v string) UpdateLongtext
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateLongtextColumn` instead.
 func (srv *Databases) UpdateLongtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateLongtextAttributeOption) (*models.AttributeLongtext, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/longtext/{key}")
 	options := UpdateLongtextAttributeOptions{}.New()
@@ -2777,6 +3014,13 @@ func (srv *Databases) WithCreateMediumtextAttributeEncrypt(v bool) CreateMediumt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createMediumtextColumn` instead.
 func (srv *Databases) CreateMediumtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateMediumtextAttributeOption) (*models.AttributeMediumtext, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext")
 	options := CreateMediumtextAttributeOptions{}.New()
@@ -2852,6 +3096,16 @@ func (srv *Databases) WithUpdateMediumtextAttributeNewKey(v string) UpdateMedium
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateMediumtextColumn` instead.
 func (srv *Databases) UpdateMediumtextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateMediumtextAttributeOption) (*models.AttributeMediumtext, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/mediumtext/{key}")
 	options := UpdateMediumtextAttributeOptions{}.New()
@@ -2920,6 +3174,13 @@ func (srv *Databases) WithCreatePointAttributeDefault(v []float64) CreatePointAt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createPointColumn` instead.
 func (srv *Databases) CreatePointAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreatePointAttributeOption) (*models.AttributePoint, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/point")
 	options := CreatePointAttributeOptions{}.New()
@@ -2996,6 +3257,16 @@ func (srv *Databases) WithUpdatePointAttributeNewKey(v string) UpdatePointAttrib
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updatePointColumn` instead.
 func (srv *Databases) UpdatePointAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...UpdatePointAttributeOption) (*models.AttributePoint, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/point/{key}")
 	options := UpdatePointAttributeOptions{}.New()
@@ -3066,6 +3337,13 @@ func (srv *Databases) WithCreatePolygonAttributeDefault(v [][]interface{}) Creat
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createPolygonColumn` instead.
 func (srv *Databases) CreatePolygonAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreatePolygonAttributeOption) (*models.AttributePolygon, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/polygon")
 	options := CreatePolygonAttributeOptions{}.New()
@@ -3142,6 +3420,16 @@ func (srv *Databases) WithUpdatePolygonAttributeNewKey(v string) UpdatePolygonAt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updatePolygonColumn` instead.
 func (srv *Databases) UpdatePolygonAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...UpdatePolygonAttributeOption) (*models.AttributePolygon, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/polygon/{key}")
 	options := UpdatePolygonAttributeOptions{}.New()
@@ -3235,6 +3523,13 @@ func (srv *Databases) WithCreateRelationshipAttributeOnDelete(v string) CreateRe
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createRelationshipColumn` instead.
 func (srv *Databases) CreateRelationshipAttribute(DatabaseId string, CollectionId string, RelatedCollectionId string, Type string, optionalSetters ...CreateRelationshipAttributeOption) (*models.AttributeRelationship, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/relationship")
 	options := CreateRelationshipAttributeOptions{}.New()
@@ -3321,6 +3616,16 @@ func (srv *Databases) WithUpdateRelationshipAttributeNewKey(v string) UpdateRela
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateRelationshipColumn` instead.
 func (srv *Databases) UpdateRelationshipAttribute(DatabaseId string, CollectionId string, Key string, optionalSetters ...UpdateRelationshipAttributeOption) (*models.AttributeRelationship, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/relationship/{key}")
 	options := UpdateRelationshipAttributeOptions{}.New()
@@ -3404,6 +3709,13 @@ func (srv *Databases) WithCreateStringAttributeEncrypt(v bool) CreateStringAttri
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createStringColumn` instead.
 func (srv *Databases) CreateStringAttribute(DatabaseId string, CollectionId string, Key string, Size int, Required bool, optionalSetters ...CreateStringAttributeOption) (*models.AttributeString, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/string")
 	options := CreateStringAttributeOptions{}.New()
@@ -3487,6 +3799,16 @@ func (srv *Databases) WithUpdateStringAttributeNewKey(v string) UpdateStringAttr
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateStringColumn` instead.
 func (srv *Databases) UpdateStringAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringAttributeOption) (*models.AttributeString, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/string/{key}")
 	options := UpdateStringAttributeOptions{}.New()
@@ -3572,6 +3894,13 @@ func (srv *Databases) WithCreateTextAttributeEncrypt(v bool) CreateTextAttribute
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createTextColumn` instead.
 func (srv *Databases) CreateTextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateTextAttributeOption) (*models.AttributeText, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/text")
 	options := CreateTextAttributeOptions{}.New()
@@ -3647,6 +3976,16 @@ func (srv *Databases) WithUpdateTextAttributeNewKey(v string) UpdateTextAttribut
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTextColumn` instead.
 func (srv *Databases) UpdateTextAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateTextAttributeOption) (*models.AttributeText, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/text/{key}")
 	options := UpdateTextAttributeOptions{}.New()
@@ -3722,6 +4061,13 @@ func (srv *Databases) WithCreateUrlAttributeArray(v bool) CreateUrlAttributeOpti
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createUrlColumn` instead.
 func (srv *Databases) CreateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, optionalSetters ...CreateUrlAttributeOption) (*models.AttributeUrl, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/url")
 	options := CreateUrlAttributeOptions{}.New()
@@ -3794,6 +4140,16 @@ func (srv *Databases) WithUpdateUrlAttributeNewKey(v string) UpdateUrlAttributeO
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateUrlColumn` instead.
 func (srv *Databases) UpdateUrlAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateUrlAttributeOption) (*models.AttributeUrl, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/url/{key}")
 	options := UpdateUrlAttributeOptions{}.New()
@@ -3876,6 +4232,13 @@ func (srv *Databases) WithCreateVarcharAttributeEncrypt(v bool) CreateVarcharAtt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createVarcharColumn` instead.
 func (srv *Databases) CreateVarcharAttribute(DatabaseId string, CollectionId string, Key string, Size int, Required bool, optionalSetters ...CreateVarcharAttributeOption) (*models.AttributeVarchar, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/varchar")
 	options := CreateVarcharAttributeOptions{}.New()
@@ -3959,6 +4322,16 @@ func (srv *Databases) WithUpdateVarcharAttributeNewKey(v string) UpdateVarcharAt
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateVarcharColumn` instead.
 func (srv *Databases) UpdateVarcharAttribute(DatabaseId string, CollectionId string, Key string, Required bool, Default string, optionalSetters ...UpdateVarcharAttributeOption) (*models.AttributeVarchar, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/varchar/{key}")
 	options := UpdateVarcharAttributeOptions{}.New()
@@ -4011,6 +4384,16 @@ func (srv *Databases) UpdateVarcharAttribute(DatabaseId string, CollectionId str
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getColumn` instead.
 func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key string) (models.Model, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}")
 	params := map[string]interface{}{}
@@ -4127,12 +4510,23 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteColumn` instead.
 func (srv *Databases) DeleteAttribute(DatabaseId string, CollectionId string, Key string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/attributes/{key}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -4206,6 +4600,13 @@ func (srv *Databases) WithListDocumentsTtl(v int) ListDocumentsOption {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listRows` instead.
 func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, optionalSetters ...ListDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
 	options := ListDocumentsOptions{}.New()
@@ -4290,6 +4691,13 @@ func (srv *Databases) WithCreateDocumentTransactionId(v string) CreateDocumentOp
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createRow` instead.
 func (srv *Databases) CreateDocument(DatabaseId string, CollectionId string, DocumentId string, Data interface{}, optionalSetters ...CreateDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
 	options := CreateDocumentOptions{}.New()
@@ -4364,6 +4772,13 @@ func (srv *Databases) WithCreateDocumentsTransactionId(v string) CreateDocuments
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createRows` instead.
 func (srv *Databases) CreateDocuments(DatabaseId string, CollectionId string, Documents []interface{}, optionalSetters ...CreateDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
 	options := CreateDocumentsOptions{}.New()
@@ -4434,6 +4849,13 @@ func (srv *Databases) WithUpsertDocumentsTransactionId(v string) UpsertDocuments
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.upsertRows` instead.
 func (srv *Databases) UpsertDocuments(DatabaseId string, CollectionId string, Documents []interface{}, optionalSetters ...UpsertDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
 	options := UpsertDocumentsOptions{}.New()
@@ -4517,6 +4939,13 @@ func (srv *Databases) WithUpdateDocumentsTransactionId(v string) UpdateDocuments
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateRows` instead.
 func (srv *Databases) UpdateDocuments(DatabaseId string, CollectionId string, optionalSetters ...UpdateDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
 	options := UpdateDocumentsOptions{}.New()
@@ -4597,6 +5026,13 @@ func (srv *Databases) WithDeleteDocumentsTransactionId(v string) DeleteDocuments
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteRows` instead.
 func (srv *Databases) DeleteDocuments(DatabaseId string, CollectionId string, optionalSetters ...DeleteDocumentsOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents")
 	options := DeleteDocumentsOptions{}.New()
@@ -4674,6 +5110,16 @@ func (srv *Databases) WithGetDocumentTransactionId(v string) GetDocumentOption {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getRow` instead.
 func (srv *Databases) GetDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...GetDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := GetDocumentOptions{}.New()
@@ -4759,6 +5205,16 @@ func (srv *Databases) WithUpsertDocumentTransactionId(v string) UpsertDocumentOp
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.upsertRow` instead.
 func (srv *Databases) UpsertDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpsertDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpsertDocumentOptions{}.New()
@@ -4846,6 +5302,16 @@ func (srv *Databases) WithUpdateDocumentTransactionId(v string) UpdateDocumentOp
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateRow` instead.
 func (srv *Databases) UpdateDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...UpdateDocumentOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := UpdateDocumentOptions{}.New()
@@ -4918,6 +5384,16 @@ func (srv *Databases) WithDeleteDocumentTransactionId(v string) DeleteDocumentOp
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteRow` instead.
 func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, DocumentId string, optionalSetters ...DeleteDocumentOption) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}")
 	options := DeleteDocumentOptions{}.New()
@@ -4931,6 +5407,7 @@ func (srv *Databases) DeleteDocument(DatabaseId string, CollectionId string, Doc
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -4997,6 +5474,19 @@ func (srv *Databases) WithDecrementDocumentAttributeTransactionId(v string) Decr
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.decrementRowColumn` instead.
 func (srv *Databases) DecrementDocumentAttribute(DatabaseId string, CollectionId string, DocumentId string, Attribute string, optionalSetters ...DecrementDocumentAttributeOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+	if Attribute == "" {
+		return nil, errors.New("Missing required parameter: \"attribute\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId), "{attribute}", client.EncodePath(Attribute))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/decrement")
 	options := DecrementDocumentAttributeOptions{}.New()
@@ -5084,6 +5574,19 @@ func (srv *Databases) WithIncrementDocumentAttributeTransactionId(v string) Incr
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.incrementRowColumn` instead.
 func (srv *Databases) IncrementDocumentAttribute(DatabaseId string, CollectionId string, DocumentId string, Attribute string, optionalSetters ...IncrementDocumentAttributeOption) (*models.Document, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if DocumentId == "" {
+		return nil, errors.New("Missing required parameter: \"documentId\"")
+	}
+	if Attribute == "" {
+		return nil, errors.New("Missing required parameter: \"attribute\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{documentId}", client.EncodePath(DocumentId), "{attribute}", client.EncodePath(Attribute))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/{documentId}/{attribute}/increment")
 	options := IncrementDocumentAttributeOptions{}.New()
@@ -5163,6 +5666,13 @@ func (srv *Databases) WithListIndexesTotal(v bool) ListIndexesOption {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listIndexes` instead.
 func (srv *Databases) ListIndexes(DatabaseId string, CollectionId string, optionalSetters ...ListIndexesOption) (*models.IndexList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes")
 	options := ListIndexesOptions{}.New()
@@ -5240,6 +5750,13 @@ func (srv *Databases) WithCreateIndexLengths(v []int) CreateIndexOption {
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createIndex` instead.
 func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key string, Type string, Attributes []string, optionalSetters ...CreateIndexOption) (*models.Index, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes")
 	options := CreateIndexOptions{}.New()
@@ -5293,6 +5810,16 @@ func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key st
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.getIndex` instead.
 func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key string) (*models.Index, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes/{key}")
 	params := map[string]interface{}{}
@@ -5332,12 +5859,23 @@ func (srv *Databases) GetIndex(DatabaseId string, CollectionId string, Key strin
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.deleteIndex` instead.
 func (srv *Databases) DeleteIndex(DatabaseId string, CollectionId string, Key string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/indexes/{key}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {

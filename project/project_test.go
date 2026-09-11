@@ -1389,6 +1389,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Kakao", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "839ff5000000000000000000013206de",
+    "clientSecret": "jLNVOK00000000000000000000yJebea"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Kakao()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Kakao failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Keycloak", func(t *testing.T) {
 		mockResponse := `
 {
@@ -1834,6 +1863,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2TikTok", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "awz000000000tyw0",
+    "clientSecret": "6wXewM00000000000000000000yXnite"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2TikTok()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2TikTok failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Tradeshift", func(t *testing.T) {
 		mockResponse := `
 {
@@ -2098,11 +2156,10 @@ func TestProject(t *testing.T) {
 	t.Run("Test GetOAuth2Provider", func(t *testing.T) {
 		mockResponse := `
 {
-    "$id": "microsoft",
+    "$id": "kakao",
     "enabled": true,
-    "applicationId": "00001111-aaaa-2222-bbbb-3333cccc4444",
-    "applicationSecret": "A1bC2dE3fH4iJ5kL6mN7oP8qR9sT0u",
-    "tenant": "common"
+    "clientId": "839ff5000000000000000000013206de",
+    "clientSecret": "jLNVOK00000000000000000000yJebea"
 }
 `
 
@@ -2123,8 +2180,8 @@ func TestProject(t *testing.T) {
 		if err != nil {
 			t.Errorf("Method GetOAuth2Provider failed: %v", err)
 		}
-		if _, ok := response.(*models.OAuth2Microsoft); !ok {
-			t.Errorf("Expected response type *models.OAuth2Microsoft, got %T", response)
+		if _, ok := response.(*models.OAuth2Kakao); !ok {
+			t.Errorf("Expected response type *models.OAuth2Kakao, got %T", response)
 		}
 	})
 

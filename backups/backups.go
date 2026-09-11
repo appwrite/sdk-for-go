@@ -148,6 +148,10 @@ func (srv *Backups) CreateArchive(Services []string, optionalSetters ...CreateAr
 
 // GetArchive get a backup archive using it's ID.
 func (srv *Backups) GetArchive(ArchiveId string) (*models.BackupArchive, error) {
+	if ArchiveId == "" {
+		return nil, errors.New("Missing required parameter: \"archiveId\"")
+	}
+
 	r := strings.NewReplacer("{archiveId}", client.EncodePath(ArchiveId))
 	path := r.Replace("/backups/archives/{archiveId}")
 	params := map[string]interface{}{}
@@ -185,6 +189,10 @@ func (srv *Backups) GetArchive(ArchiveId string) (*models.BackupArchive, error) 
 
 // DeleteArchive delete an existing archive for a project.
 func (srv *Backups) DeleteArchive(ArchiveId string) (*interface{}, error) {
+	if ArchiveId == "" {
+		return nil, errors.New("Missing required parameter: \"archiveId\"")
+	}
+
 	r := strings.NewReplacer("{archiveId}", client.EncodePath(ArchiveId))
 	path := r.Replace("/backups/archives/{archiveId}")
 	params := map[string]interface{}{}
@@ -371,6 +379,10 @@ func (srv *Backups) CreatePolicy(PolicyId string, Services []string, Retention i
 
 // GetPolicy get a backup policy using it's ID.
 func (srv *Backups) GetPolicy(PolicyId string) (*models.BackupPolicy, error) {
+	if PolicyId == "" {
+		return nil, errors.New("Missing required parameter: \"policyId\"")
+	}
+
 	r := strings.NewReplacer("{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/backups/policies/{policyId}")
 	params := map[string]interface{}{}
@@ -448,6 +460,10 @@ func (srv *Backups) WithUpdatePolicyEnabled(v bool) UpdatePolicyOption {
 
 // UpdatePolicy update an existing policy using it's ID.
 func (srv *Backups) UpdatePolicy(PolicyId string, optionalSetters ...UpdatePolicyOption) (*models.BackupPolicy, error) {
+	if PolicyId == "" {
+		return nil, errors.New("Missing required parameter: \"policyId\"")
+	}
+
 	r := strings.NewReplacer("{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/backups/policies/{policyId}")
 	options := UpdatePolicyOptions{}.New()
@@ -502,6 +518,10 @@ func (srv *Backups) UpdatePolicy(PolicyId string, optionalSetters ...UpdatePolic
 
 // DeletePolicy delete a policy using it's ID.
 func (srv *Backups) DeletePolicy(PolicyId string) (*interface{}, error) {
+	if PolicyId == "" {
+		return nil, errors.New("Missing required parameter: \"policyId\"")
+	}
+
 	r := strings.NewReplacer("{policyId}", client.EncodePath(PolicyId))
 	path := r.Replace("/backups/policies/{policyId}")
 	params := map[string]interface{}{}
@@ -707,6 +727,10 @@ func (srv *Backups) ListRestorations(optionalSetters ...ListRestorationsOption) 
 
 // GetRestoration get the current status of a backup restoration.
 func (srv *Backups) GetRestoration(RestorationId string) (*models.BackupRestoration, error) {
+	if RestorationId == "" {
+		return nil, errors.New("Missing required parameter: \"restorationId\"")
+	}
+
 	r := strings.NewReplacer("{restorationId}", client.EncodePath(RestorationId))
 	path := r.Replace("/backups/restorations/{restorationId}")
 	params := map[string]interface{}{}

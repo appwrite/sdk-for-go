@@ -84,6 +84,10 @@ func (srv *Activities) ListEvents(optionalSetters ...ListEventsOption) (*models.
 
 // GetEvent get event by ID.
 func (srv *Activities) GetEvent(EventId string) (*models.ActivityEvent, error) {
+	if EventId == "" {
+		return nil, errors.New("Missing required parameter: \"eventId\"")
+	}
+
 	r := strings.NewReplacer("{eventId}", client.EncodePath(EventId))
 	path := r.Replace("/activities/events/{eventId}")
 	params := map[string]interface{}{}

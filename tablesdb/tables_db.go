@@ -200,8 +200,8 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 }
 
 // ListSpecifications list the dedicated database specifications available on
-// the current plan. Each specification reports its resource limits, pricing,
-// and whether it is enabled for the organization.
+// the current plan. Each specification reports its resource limits, its own
+// prices and overage rates, and whether it is enabled for the organization.
 func (srv *TablesDB) ListSpecifications() (*models.DedicatedDatabaseSpecificationList, error) {
 	path := "/tablesdb/specifications"
 	params := map[string]interface{}{}
@@ -364,6 +364,10 @@ func (srv *TablesDB) CreateTransaction(optionalSetters ...CreateTransactionOptio
 
 // GetTransaction get a transaction by its unique ID.
 func (srv *TablesDB) GetTransaction(TransactionId string) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
@@ -428,6 +432,10 @@ func (srv *TablesDB) WithUpdateTransactionRollback(v bool) UpdateTransactionOpti
 // UpdateTransaction update a transaction, to either commit or roll back its
 // operations.
 func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...UpdateTransactionOption) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}")
 	options := UpdateTransactionOptions{}.New()
@@ -476,12 +484,17 @@ func (srv *TablesDB) UpdateTransaction(TransactionId string, optionalSetters ...
 
 // DeleteTransaction delete a transaction by its unique ID.
 func (srv *TablesDB) DeleteTransaction(TransactionId string) (*interface{}, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -531,6 +544,10 @@ func (srv *TablesDB) WithCreateOperationsOperations(v []interface{}) CreateOpera
 
 // CreateOperations create multiple operations in a single transaction.
 func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...CreateOperationsOption) (*models.Transaction, error) {
+	if TransactionId == "" {
+		return nil, errors.New("Missing required parameter: \"transactionId\"")
+	}
+
 	r := strings.NewReplacer("{transactionId}", client.EncodePath(TransactionId))
 	path := r.Replace("/tablesdb/transactions/{transactionId}/operations")
 	options := CreateOperationsOptions{}.New()
@@ -577,6 +594,10 @@ func (srv *TablesDB) CreateOperations(TransactionId string, optionalSetters ...C
 // Get get a database by its unique ID. This endpoint response returns a JSON
 // object with the database metadata.
 func (srv *TablesDB) Get(DatabaseId string) (*models.Database, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}")
 	params := map[string]interface{}{}
@@ -661,6 +682,10 @@ func (srv *TablesDB) WithUpdateSyncMode(v string) UpdateOption {
 
 // Update update a database by its unique ID.
 func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption) (*models.Database, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}")
 	options := UpdateOptions{}.New()
@@ -719,12 +744,17 @@ func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption) 
 // Delete delete a database by its unique ID. Only API keys with with
 // databases.write scope can delete a database.
 func (srv *TablesDB) Delete(DatabaseId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -782,6 +812,10 @@ func (srv *TablesDB) WithCreateFailoverTargetReplicaId(v string) CreateFailoverO
 // to promote, because the default target may be the member that operation
 // already promoted.
 func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...CreateFailoverOption) (*models.DedicatedDatabase, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/failovers")
 	options := CreateFailoverOptions{}.New()
@@ -828,6 +862,10 @@ func (srv *TablesDB) CreateFailover(DatabaseId string, optionalSetters ...Create
 // ListMigrations list the dedicated migrations for a TablesDB database. A
 // database has at most one in-flight migration.
 func (srv *TablesDB) ListMigrations(DatabaseId string) (*models.DatabaseMigrationList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations")
 	params := map[string]interface{}{}
@@ -886,6 +924,10 @@ func (srv *TablesDB) WithCreateMigrationAutoCutover(v bool) CreateMigrationOptio
 // dedicated MySQL compute. Data is copied to the target while the source
 // stays live, with a brief read-only window during cutover.
 func (srv *TablesDB) CreateMigration(DatabaseId string, Specification string, optionalSetters ...CreateMigrationOption) (*models.DatabaseMigration, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations")
 	options := CreateMigrationOptions{}.New()
@@ -933,6 +975,13 @@ func (srv *TablesDB) CreateMigration(DatabaseId string, Specification string, op
 // GetMigration get a single dedicated migration for a TablesDB database by
 // its ID.
 func (srv *TablesDB) GetMigration(DatabaseId string, MigrationId string) (*models.DatabaseMigration, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if MigrationId == "" {
+		return nil, errors.New("Missing required parameter: \"migrationId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}")
 	params := map[string]interface{}{}
@@ -972,6 +1021,13 @@ func (srv *TablesDB) GetMigration(DatabaseId string, MigrationId string) (*model
 // allowed before cutover; once the migration has cut over it cannot be
 // aborted.
 func (srv *TablesDB) DeleteMigration(DatabaseId string, MigrationId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if MigrationId == "" {
+		return nil, errors.New("Missing required parameter: \"migrationId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}")
 	params := map[string]interface{}{}
@@ -1014,6 +1070,13 @@ func (srv *TablesDB) DeleteMigration(DatabaseId string, MigrationId string) (*in
 // buys one attempt: a cutover that fails a check returns the migration to
 // `verifying` and parks it again, so call this once more to retry.
 func (srv *TablesDB) CreateCutover(DatabaseId string, MigrationId string) (*models.DatabaseMigration, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if MigrationId == "" {
+		return nil, errors.New("Missing required parameter: \"migrationId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{migrationId}", client.EncodePath(MigrationId))
 	path := r.Replace("/tablesdb/{databaseId}/migrations/{migrationId}/cutovers")
 	params := map[string]interface{}{}
@@ -1088,6 +1151,10 @@ func (srv *TablesDB) WithListOperationsOffset(v int) ListOperationsOption {
 // replication action is recorded here with its outcome, including an attempt
 // that was abandoned because another worker took over the database.
 func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOperationsOption) (*models.DedicatedDatabaseOperationList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/operations")
 	options := ListOperationsOptions{}.New()
@@ -1139,6 +1206,10 @@ func (srv *TablesDB) ListOperations(DatabaseId string, optionalSetters ...ListOp
 // GetReplicas get high availability status for a dedicated database. Returns
 // replica statuses, replication lag, and sync mode.
 func (srv *TablesDB) GetReplicas(DatabaseId string) (*models.DedicatedDatabaseReplicas, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/replicas")
 	params := map[string]interface{}{}
@@ -1178,6 +1249,10 @@ func (srv *TablesDB) GetReplicas(DatabaseId string) (*models.DedicatedDatabaseRe
 // database. Returns health status, readiness, uptime, connection info,
 // replica status, and volume information.
 func (srv *TablesDB) GetStatus(DatabaseId string) (*models.DatabaseStatus, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/status")
 	params := map[string]interface{}{}
@@ -1249,6 +1324,10 @@ func (srv *TablesDB) WithListTablesTotal(v bool) ListTablesOption {
 // ListTables get a list of all tables that belong to the provided databaseId.
 // You can use the search parameter to filter your results.
 func (srv *TablesDB) ListTables(DatabaseId string, optionalSetters ...ListTablesOption) (*models.TableList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/tables")
 	options := ListTablesOptions{}.New()
@@ -1349,6 +1428,10 @@ func (srv *TablesDB) WithCreateTableIndexes(v []interface{}) CreateTableOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string, optionalSetters ...CreateTableOption) (*models.Table, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId))
 	path := r.Replace("/tablesdb/{databaseId}/tables")
 	options := CreateTableOptions{}.New()
@@ -1409,6 +1492,13 @@ func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string,
 // GetTable get a table by its unique ID. This endpoint response returns a
 // JSON object with the table metadata.
 func (srv *TablesDB) GetTable(DatabaseId string, TableId string) (*models.Table, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	params := map[string]interface{}{}
@@ -1493,6 +1583,13 @@ func (srv *TablesDB) WithUpdateTablePurge(v bool) UpdateTableOption {
 
 // UpdateTable update a table by its unique ID.
 func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSetters ...UpdateTableOption) (*models.Table, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	options := UpdateTableOptions{}.New()
@@ -1551,12 +1648,20 @@ func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSett
 // DeleteTable delete a table by its unique ID. Only users with write
 // permissions have access to delete this resource.
 func (srv *TablesDB) DeleteTable(DatabaseId string, TableId string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1613,6 +1718,13 @@ func (srv *TablesDB) WithListColumnsTotal(v bool) ListColumnsOption {
 
 // ListColumns list columns in the table.
 func (srv *TablesDB) ListColumns(DatabaseId string, TableId string, optionalSetters ...ListColumnsOption) (*models.ColumnList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns")
 	options := ListColumnsOptions{}.New()
@@ -1701,6 +1813,13 @@ func (srv *TablesDB) WithCreateBigIntColumnArray(v bool) CreateBigIntColumnOptio
 // CreateBigIntColumn create a bigint column. Optionally, minimum and maximum
 // values can be provided.
 func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBigIntColumnOption) (*models.ColumnBigint, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/bigint")
 	options := CreateBigIntColumnOptions{}.New()
@@ -1791,6 +1910,16 @@ func (srv *TablesDB) WithUpdateBigIntColumnNewKey(v string) UpdateBigIntColumnOp
 // UpdateBigIntColumn update a bigint column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateBigIntColumnOption) (*models.ColumnBigint, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/bigint/{key}")
 	options := UpdateBigIntColumnOptions{}.New()
@@ -1870,6 +1999,13 @@ func (srv *TablesDB) WithCreateBooleanColumnArray(v bool) CreateBooleanColumnOpt
 
 // CreateBooleanColumn create a boolean column.
 func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateBooleanColumnOption) (*models.ColumnBoolean, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/boolean")
 	options := CreateBooleanColumnOptions{}.New()
@@ -1940,6 +2076,16 @@ func (srv *TablesDB) WithUpdateBooleanColumnNewKey(v string) UpdateBooleanColumn
 // UpdateBooleanColumn update a boolean column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key string, Required bool, Default bool, optionalSetters ...UpdateBooleanColumnOption) (*models.ColumnBoolean, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/boolean/{key}")
 	options := UpdateBooleanColumnOptions{}.New()
@@ -2014,6 +2160,13 @@ func (srv *TablesDB) WithCreateDatetimeColumnArray(v bool) CreateDatetimeColumnO
 // CreateDatetimeColumn create a date time column according to the ISO 8601
 // standard.
 func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateDatetimeColumnOption) (*models.ColumnDatetime, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/datetime")
 	options := CreateDatetimeColumnOptions{}.New()
@@ -2084,6 +2237,16 @@ func (srv *TablesDB) WithUpdateDatetimeColumnNewKey(v string) UpdateDatetimeColu
 // UpdateDatetimeColumn update a date time column. Changing the `default`
 // value will not update already existing rows.
 func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateDatetimeColumnOption) (*models.ColumnDatetime, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/datetime/{key}")
 	options := UpdateDatetimeColumnOptions{}.New()
@@ -2157,6 +2320,13 @@ func (srv *TablesDB) WithCreateEmailColumnArray(v bool) CreateEmailColumnOption 
 
 // CreateEmailColumn create an email column.
 func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateEmailColumnOption) (*models.ColumnEmail, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/email")
 	options := CreateEmailColumnOptions{}.New()
@@ -2227,6 +2397,16 @@ func (srv *TablesDB) WithUpdateEmailColumnNewKey(v string) UpdateEmailColumnOpti
 // UpdateEmailColumn update an email column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateEmailColumnOption) (*models.ColumnEmail, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/email/{key}")
 	options := UpdateEmailColumnOptions{}.New()
@@ -2301,6 +2481,13 @@ func (srv *TablesDB) WithCreateEnumColumnArray(v bool) CreateEnumColumnOption {
 // CreateEnumColumn create an enumeration column. The `elements` param acts as
 // a white-list of accepted values for this column.
 func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, optionalSetters ...CreateEnumColumnOption) (*models.ColumnEnum, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/enum")
 	options := CreateEnumColumnOptions{}.New()
@@ -2372,6 +2559,16 @@ func (srv *TablesDB) WithUpdateEnumColumnNewKey(v string) UpdateEnumColumnOption
 // UpdateEnumColumn update an enum column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key string, Elements []string, Required bool, Default string, optionalSetters ...UpdateEnumColumnOption) (*models.ColumnEnum, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/enum/{key}")
 	options := UpdateEnumColumnOptions{}.New()
@@ -2461,6 +2658,13 @@ func (srv *TablesDB) WithCreateFloatColumnArray(v bool) CreateFloatColumnOption 
 // CreateFloatColumn create a float column. Optionally, minimum and maximum
 // values can be provided.
 func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateFloatColumnOption) (*models.ColumnFloat, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/float")
 	options := CreateFloatColumnOptions{}.New()
@@ -2551,6 +2755,16 @@ func (srv *TablesDB) WithUpdateFloatColumnNewKey(v string) UpdateFloatColumnOpti
 // UpdateFloatColumn update a float column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key string, Required bool, Default float64, optionalSetters ...UpdateFloatColumnOption) (*models.ColumnFloat, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/float/{key}")
 	options := UpdateFloatColumnOptions{}.New()
@@ -2645,6 +2859,13 @@ func (srv *TablesDB) WithCreateIntegerColumnArray(v bool) CreateIntegerColumnOpt
 // CreateIntegerColumn create an integer column. Optionally, minimum and
 // maximum values can be provided.
 func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIntegerColumnOption) (*models.ColumnInteger, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/integer")
 	options := CreateIntegerColumnOptions{}.New()
@@ -2735,6 +2956,16 @@ func (srv *TablesDB) WithUpdateIntegerColumnNewKey(v string) UpdateIntegerColumn
 // UpdateIntegerColumn update an integer column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key string, Required bool, Default int, optionalSetters ...UpdateIntegerColumnOption) (*models.ColumnInteger, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/integer/{key}")
 	options := UpdateIntegerColumnOptions{}.New()
@@ -2814,6 +3045,13 @@ func (srv *TablesDB) WithCreateIpColumnArray(v bool) CreateIpColumnOption {
 
 // CreateIpColumn create IP address column.
 func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateIpColumnOption) (*models.ColumnIp, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/ip")
 	options := CreateIpColumnOptions{}.New()
@@ -2884,6 +3122,16 @@ func (srv *TablesDB) WithUpdateIpColumnNewKey(v string) UpdateIpColumnOption {
 // UpdateIpColumn update an ip column. Changing the `default` value will not
 // update already existing rows.
 func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateIpColumnOption) (*models.ColumnIp, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/ip/{key}")
 	options := UpdateIpColumnOptions{}.New()
@@ -2950,6 +3198,13 @@ func (srv *TablesDB) WithCreateLineColumnDefault(v [][]interface{}) CreateLineCo
 
 // CreateLineColumn create a geometric line column.
 func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLineColumnOption) (*models.ColumnLine, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line")
 	options := CreateLineColumnOptions{}.New()
@@ -3024,6 +3279,16 @@ func (srv *TablesDB) WithUpdateLineColumnNewKey(v string) UpdateLineColumnOption
 // UpdateLineColumn update a line column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdateLineColumnOption) (*models.ColumnLine, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/line/{key}")
 	options := UpdateLineColumnOptions{}.New()
@@ -3106,6 +3371,13 @@ func (srv *TablesDB) WithCreateLongtextColumnEncrypt(v bool) CreateLongtextColum
 
 // CreateLongtextColumn create a longtext column.
 func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateLongtextColumnOption) (*models.ColumnLongtext, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/longtext")
 	options := CreateLongtextColumnOptions{}.New()
@@ -3179,6 +3451,16 @@ func (srv *TablesDB) WithUpdateLongtextColumnNewKey(v string) UpdateLongtextColu
 // UpdateLongtextColumn update a longtext column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateLongtextColumnOption) (*models.ColumnLongtext, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/longtext/{key}")
 	options := UpdateLongtextColumnOptions{}.New()
@@ -3259,6 +3541,13 @@ func (srv *TablesDB) WithCreateMediumtextColumnEncrypt(v bool) CreateMediumtextC
 
 // CreateMediumtextColumn create a mediumtext column.
 func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateMediumtextColumnOption) (*models.ColumnMediumtext, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext")
 	options := CreateMediumtextColumnOptions{}.New()
@@ -3332,6 +3621,16 @@ func (srv *TablesDB) WithUpdateMediumtextColumnNewKey(v string) UpdateMediumtext
 // UpdateMediumtextColumn update a mediumtext column. Changing the `default`
 // value will not update already existing rows.
 func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateMediumtextColumnOption) (*models.ColumnMediumtext, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/mediumtext/{key}")
 	options := UpdateMediumtextColumnOptions{}.New()
@@ -3398,6 +3697,13 @@ func (srv *TablesDB) WithCreatePointColumnDefault(v []float64) CreatePointColumn
 
 // CreatePointColumn create a geometric point column.
 func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePointColumnOption) (*models.ColumnPoint, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point")
 	options := CreatePointColumnOptions{}.New()
@@ -3472,6 +3778,16 @@ func (srv *TablesDB) WithUpdatePointColumnNewKey(v string) UpdatePointColumnOpti
 // UpdatePointColumn update a point column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePointColumnOption) (*models.ColumnPoint, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/point/{key}")
 	options := UpdatePointColumnOptions{}.New()
@@ -3540,6 +3856,13 @@ func (srv *TablesDB) WithCreatePolygonColumnDefault(v [][]interface{}) CreatePol
 
 // CreatePolygonColumn create a geometric polygon column.
 func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreatePolygonColumnOption) (*models.ColumnPolygon, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon")
 	options := CreatePolygonColumnOptions{}.New()
@@ -3614,6 +3937,16 @@ func (srv *TablesDB) WithUpdatePolygonColumnNewKey(v string) UpdatePolygonColumn
 // UpdatePolygonColumn update a polygon column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...UpdatePolygonColumnOption) (*models.ColumnPolygon, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/polygon/{key}")
 	options := UpdatePolygonColumnOptions{}.New()
@@ -3705,6 +4038,13 @@ func (srv *TablesDB) WithCreateRelationshipColumnOnDelete(v string) CreateRelati
 // relationship
 // columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
 func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string, RelatedTableId string, Type string, optionalSetters ...CreateRelationshipColumnOption) (*models.ColumnRelationship, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/relationship")
 	options := CreateRelationshipColumnOptions{}.New()
@@ -3796,6 +4136,13 @@ func (srv *TablesDB) WithCreateStringColumnEncrypt(v bool) CreateStringColumnOpt
 //
 // Deprecated: This API has been deprecated since 1.9.0. Please use `TablesDB.createTextColumn` instead.
 func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateStringColumnOption) (*models.ColumnString, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string")
 	options := CreateStringColumnOptions{}.New()
@@ -3879,6 +4226,16 @@ func (srv *TablesDB) WithUpdateStringColumnNewKey(v string) UpdateStringColumnOp
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.updateTextColumn` instead.
 func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateStringColumnOption) (*models.ColumnString, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/string/{key}")
 	options := UpdateStringColumnOptions{}.New()
@@ -3962,6 +4319,13 @@ func (srv *TablesDB) WithCreateTextColumnEncrypt(v bool) CreateTextColumnOption 
 
 // CreateTextColumn create a text column.
 func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateTextColumnOption) (*models.ColumnText, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/text")
 	options := CreateTextColumnOptions{}.New()
@@ -4035,6 +4399,16 @@ func (srv *TablesDB) WithUpdateTextColumnNewKey(v string) UpdateTextColumnOption
 // UpdateTextColumn update a text column. Changing the `default` value will
 // not update already existing rows.
 func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateTextColumnOption) (*models.ColumnText, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/text/{key}")
 	options := UpdateTextColumnOptions{}.New()
@@ -4108,6 +4482,13 @@ func (srv *TablesDB) WithCreateUrlColumnArray(v bool) CreateUrlColumnOption {
 
 // CreateUrlColumn create a URL column.
 func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, optionalSetters ...CreateUrlColumnOption) (*models.ColumnUrl, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/url")
 	options := CreateUrlColumnOptions{}.New()
@@ -4178,6 +4559,16 @@ func (srv *TablesDB) WithUpdateUrlColumnNewKey(v string) UpdateUrlColumnOption {
 // UpdateUrlColumn update an url column. Changing the `default` value will not
 // update already existing rows.
 func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateUrlColumnOption) (*models.ColumnUrl, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/url/{key}")
 	options := UpdateUrlColumnOptions{}.New()
@@ -4258,6 +4649,13 @@ func (srv *TablesDB) WithCreateVarcharColumnEncrypt(v bool) CreateVarcharColumnO
 
 // CreateVarcharColumn create a varchar column.
 func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key string, Size int, Required bool, optionalSetters ...CreateVarcharColumnOption) (*models.ColumnVarchar, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/varchar")
 	options := CreateVarcharColumnOptions{}.New()
@@ -4339,6 +4737,16 @@ func (srv *TablesDB) WithUpdateVarcharColumnNewKey(v string) UpdateVarcharColumn
 // UpdateVarcharColumn update a varchar column. Changing the `default` value
 // will not update already existing rows.
 func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key string, Required bool, Default string, optionalSetters ...UpdateVarcharColumnOption) (*models.ColumnVarchar, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/varchar/{key}")
 	options := UpdateVarcharColumnOptions{}.New()
@@ -4389,6 +4797,16 @@ func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key 
 
 // GetColumn get column by ID.
 func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string) (models.Model, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
@@ -4503,12 +4921,23 @@ func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string) (m
 
 // DeleteColumn deletes a column.
 func (srv *TablesDB) DeleteColumn(DatabaseId string, TableId string, Key string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -4567,6 +4996,16 @@ func (srv *TablesDB) WithUpdateRelationshipColumnNewKey(v string) UpdateRelation
 // relationship
 // columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
 func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string, Key string, optionalSetters ...UpdateRelationshipColumnOption) (*models.ColumnRelationship, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}/relationship")
 	options := UpdateRelationshipColumnOptions{}.New()
@@ -4641,6 +5080,13 @@ func (srv *TablesDB) WithListIndexesTotal(v bool) ListIndexesOption {
 
 // ListIndexes list indexes on the table.
 func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSetters ...ListIndexesOption) (*models.ColumnIndexList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")
 	options := ListIndexesOptions{}.New()
@@ -4716,6 +5162,13 @@ func (srv *TablesDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 // include all the columns you will query in a single request.
 // Type can be `key`, `fulltext`, or `unique`.
 func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, Type string, Columns []string, optionalSetters ...CreateIndexOption) (*models.ColumnIndex, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes")
 	options := CreateIndexOptions{}.New()
@@ -4767,6 +5220,16 @@ func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, 
 
 // GetIndex get index by ID.
 func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string) (*models.ColumnIndex, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}")
 	params := map[string]interface{}{}
@@ -4804,12 +5267,23 @@ func (srv *TablesDB) GetIndex(DatabaseId string, TableId string, Key string) (*m
 
 // DeleteIndex delete an index.
 func (srv *TablesDB) DeleteIndex(DatabaseId string, TableId string, Key string) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/indexes/{key}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -4881,6 +5355,13 @@ func (srv *TablesDB) WithListRowsTtl(v int) ListRowsOption {
 // ListRows get a list of all the user's rows in a given table. You can use
 // the query params to filter your results.
 func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters ...ListRowsOption) (*models.RowList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := ListRowsOptions{}.New()
@@ -4963,6 +5444,13 @@ func (srv *TablesDB) WithCreateRowTransactionId(v string) CreateRowOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) CreateRow(DatabaseId string, TableId string, RowId string, Data interface{}, optionalSetters ...CreateRowOption) (*models.Row, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := CreateRowOptions{}.New()
@@ -5035,6 +5523,13 @@ func (srv *TablesDB) WithCreateRowsTransactionId(v string) CreateRowsOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) CreateRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...CreateRowsOption) (*models.RowList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := CreateRowsOptions{}.New()
@@ -5103,6 +5598,13 @@ func (srv *TablesDB) WithUpsertRowsTransactionId(v string) UpsertRowsOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) UpsertRows(DatabaseId string, TableId string, Rows []interface{}, optionalSetters ...UpsertRowsOption) (*models.RowList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := UpsertRowsOptions{}.New()
@@ -5184,6 +5686,13 @@ func (srv *TablesDB) WithUpdateRowsTransactionId(v string) UpdateRowsOption {
 // submitted then all rows are updated. You can pass only specific fields to
 // be updated.
 func (srv *TablesDB) UpdateRows(DatabaseId string, TableId string, optionalSetters ...UpdateRowsOption) (*models.RowList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := UpdateRowsOptions{}.New()
@@ -5262,6 +5771,13 @@ func (srv *TablesDB) WithDeleteRowsTransactionId(v string) DeleteRowsOption {
 // DeleteRows bulk delete rows using queries, if no queries are passed then
 // all rows are deleted.
 func (srv *TablesDB) DeleteRows(DatabaseId string, TableId string, optionalSetters ...DeleteRowsOption) (*models.RowList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows")
 	options := DeleteRowsOptions{}.New()
@@ -5337,6 +5853,16 @@ func (srv *TablesDB) WithGetRowTransactionId(v string) GetRowOption {
 // GetRow get a row by its unique ID. This endpoint response returns a JSON
 // object with the row data.
 func (srv *TablesDB) GetRow(DatabaseId string, TableId string, RowId string, optionalSetters ...GetRowOption) (*models.Row, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if RowId == "" {
+		return nil, errors.New("Missing required parameter: \"rowId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := GetRowOptions{}.New()
@@ -5420,6 +5946,16 @@ func (srv *TablesDB) WithUpsertRowTransactionId(v string) UpsertRowOption {
 // integration](https://appwrite.io/docs/references/cloud/server-dart/tablesDB#createTable)
 // API or directly from your database console.
 func (srv *TablesDB) UpsertRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpsertRowOption) (*models.Row, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if RowId == "" {
+		return nil, errors.New("Missing required parameter: \"rowId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := UpsertRowOptions{}.New()
@@ -5505,6 +6041,16 @@ func (srv *TablesDB) WithUpdateRowTransactionId(v string) UpdateRowOption {
 // UpdateRow update a row by its unique ID. Using the patch method you can
 // pass only specific fields that will get updated.
 func (srv *TablesDB) UpdateRow(DatabaseId string, TableId string, RowId string, optionalSetters ...UpdateRowOption) (*models.Row, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if RowId == "" {
+		return nil, errors.New("Missing required parameter: \"rowId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := UpdateRowOptions{}.New()
@@ -5575,6 +6121,16 @@ func (srv *TablesDB) WithDeleteRowTransactionId(v string) DeleteRowOption {
 
 // DeleteRow delete a row by its unique ID.
 func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string, optionalSetters ...DeleteRowOption) (*interface{}, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if RowId == "" {
+		return nil, errors.New("Missing required parameter: \"rowId\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}")
 	options := DeleteRowOptions{}.New()
@@ -5588,6 +6144,7 @@ func (srv *TablesDB) DeleteRow(DatabaseId string, TableId string, RowId string, 
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -5651,6 +6208,19 @@ func (srv *TablesDB) WithDecrementRowColumnTransactionId(v string) DecrementRowC
 
 // DecrementRowColumn decrement a specific column of a row by a given value.
 func (srv *TablesDB) DecrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...DecrementRowColumnOption) (*models.Row, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if RowId == "" {
+		return nil, errors.New("Missing required parameter: \"rowId\"")
+	}
+	if Column == "" {
+		return nil, errors.New("Missing required parameter: \"column\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId), "{column}", client.EncodePath(Column))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/decrement")
 	options := DecrementRowColumnOptions{}.New()
@@ -5735,6 +6305,19 @@ func (srv *TablesDB) WithIncrementRowColumnTransactionId(v string) IncrementRowC
 
 // IncrementRowColumn increment a specific column of a row by a given value.
 func (srv *TablesDB) IncrementRowColumn(DatabaseId string, TableId string, RowId string, Column string, optionalSetters ...IncrementRowColumnOption) (*models.Row, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if RowId == "" {
+		return nil, errors.New("Missing required parameter: \"rowId\"")
+	}
+	if Column == "" {
+		return nil, errors.New("Missing required parameter: \"column\"")
+	}
+
 	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{rowId}", client.EncodePath(RowId), "{column}", client.EncodePath(Column))
 	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/rows/{rowId}/{column}/increment")
 	options := IncrementRowColumnOptions{}.New()

@@ -173,6 +173,10 @@ func (srv *Teams) Create(TeamId string, Name string, optionalSetters ...CreateOp
 // Get get a team by its ID. All team members have read access for this
 // resource.
 func (srv *Teams) Get(TeamId string) (*models.Team, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
 	path := r.Replace("/teams/{teamId}")
 	params := map[string]interface{}{}
@@ -210,6 +214,10 @@ func (srv *Teams) Get(TeamId string) (*models.Team, error) {
 
 // UpdateName update the team's name by its unique ID.
 func (srv *Teams) UpdateName(TeamId string, Name string) (*models.Team, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
 	path := r.Replace("/teams/{teamId}")
 	params := map[string]interface{}{}
@@ -250,12 +258,17 @@ func (srv *Teams) UpdateName(TeamId string, Name string) (*models.Team, error) {
 // Delete delete a team using its ID. Only team members with the owner role
 // can delete the team.
 func (srv *Teams) Delete(TeamId string) (*interface{}, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
 	path := r.Replace("/teams/{teamId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -313,6 +326,10 @@ func (srv *Teams) WithListInstallationsTotal(v bool) ListInstallationsOption {
 // ListInstallations list app installations on a team. Any team member can
 // read installations.
 func (srv *Teams) ListInstallations(TeamId string, optionalSetters ...ListInstallationsOption) (*models.AppInstallationList, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
 	path := r.Replace("/teams/{teamId}/installations")
 	options := ListInstallationsOptions{}.New()
@@ -382,6 +399,10 @@ func (srv *Teams) WithCreateInstallationAuthorizationDetails(v string) CreateIns
 // API key or in admin mode can install apps on any team. The installation is
 // granted the scopes the app currently requests.
 func (srv *Teams) CreateInstallation(TeamId string, AppId string, optionalSetters ...CreateInstallationOption) (*models.AppInstallation, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
 	path := r.Replace("/teams/{teamId}/installations")
 	options := CreateInstallationOptions{}.New()
@@ -429,6 +450,13 @@ func (srv *Teams) CreateInstallation(TeamId string, AppId string, optionalSetter
 // GetInstallation get an app installation on a team by its unique ID. Any
 // team member can read installations.
 func (srv *Teams) GetInstallation(TeamId string, InstallationId string) (*models.AppInstallation, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+	if InstallationId == "" {
+		return nil, errors.New("Missing required parameter: \"installationId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId), "{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/teams/{teamId}/installations/{installationId}")
 	params := map[string]interface{}{}
@@ -488,6 +516,13 @@ func (srv *Teams) WithUpdateInstallationAuthorizationDetails(v string) UpdateIns
 // scopes are refreshed to the scopes the app currently requests; previously
 // issued installation access tokens are revoked.
 func (srv *Teams) UpdateInstallation(TeamId string, InstallationId string, optionalSetters ...UpdateInstallationOption) (*models.AppInstallation, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+	if InstallationId == "" {
+		return nil, errors.New("Missing required parameter: \"installationId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId), "{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/teams/{teamId}/installations/{installationId}")
 	options := UpdateInstallationOptions{}.New()
@@ -535,6 +570,13 @@ func (srv *Teams) UpdateInstallation(TeamId string, InstallationId string, optio
 // Only team members with the owner role can remove installations. Previously
 // issued installation access tokens are revoked.
 func (srv *Teams) DeleteInstallation(TeamId string, InstallationId string) (*interface{}, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+	if InstallationId == "" {
+		return nil, errors.New("Missing required parameter: \"installationId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId), "{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/teams/{teamId}/installations/{installationId}")
 	params := map[string]interface{}{}
@@ -607,6 +649,10 @@ func (srv *Teams) WithListMembershipsTotal(v bool) ListMembershipsOption {
 // ID. All team members have read access to this endpoint. Hide sensitive
 // attributes from the response by toggling membership privacy in the Console.
 func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembershipsOption) (*models.MembershipList, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
 	path := r.Replace("/teams/{teamId}/memberships")
 	options := ListMembershipsOptions{}.New()
@@ -723,6 +769,10 @@ func (srv *Teams) WithCreateMembershipName(v string) CreateMembershipOption {
 // Appwrite will accept the only redirect URLs under the domains you have
 // added as a platform on the Appwrite Console.
 func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetters ...CreateMembershipOption) (*models.Membership, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
 	path := r.Replace("/teams/{teamId}/memberships")
 	options := CreateMembershipOptions{}.New()
@@ -783,6 +833,13 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetter
 // members have read access for this resource. Hide sensitive attributes from
 // the response by toggling membership privacy in the Console.
 func (srv *Teams) GetMembership(TeamId string, MembershipId string) (*models.Membership, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+	if MembershipId == "" {
+		return nil, errors.New("Missing required parameter: \"membershipId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId), "{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/teams/{teamId}/memberships/{membershipId}")
 	params := map[string]interface{}{}
@@ -822,6 +879,13 @@ func (srv *Teams) GetMembership(TeamId string, MembershipId string) (*models.Mem
 // the owner role have access to this endpoint. Learn more about [roles and
 // permissions](https://appwrite.io/docs/permissions).
 func (srv *Teams) UpdateMembership(TeamId string, MembershipId string, Roles []string) (*models.Membership, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+	if MembershipId == "" {
+		return nil, errors.New("Missing required parameter: \"membershipId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId), "{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/teams/{teamId}/memberships/{membershipId}")
 	params := map[string]interface{}{}
@@ -863,12 +927,20 @@ func (srv *Teams) UpdateMembership(TeamId string, MembershipId string, Roles []s
 // owner to delete the membership of any other team member. You can also use
 // this endpoint to delete a user membership even if it is not accepted.
 func (srv *Teams) DeleteMembership(TeamId string, MembershipId string) (*interface{}, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+	if MembershipId == "" {
+		return nil, errors.New("Missing required parameter: \"membershipId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId), "{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/teams/{teamId}/memberships/{membershipId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -904,6 +976,13 @@ func (srv *Teams) DeleteMembership(TeamId string, MembershipId string) (*interfa
 // If the request is successful, a session for the user is automatically
 // created.
 func (srv *Teams) UpdateMembershipStatus(TeamId string, MembershipId string, UserId string, Secret string) (*models.Membership, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+	if MembershipId == "" {
+		return nil, errors.New("Missing required parameter: \"membershipId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId), "{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/teams/{teamId}/memberships/{membershipId}/status")
 	params := map[string]interface{}{}
@@ -947,6 +1026,10 @@ func (srv *Teams) UpdateMembershipStatus(TeamId string, MembershipId string, Use
 // them in [user
 // preferences](https://appwrite.io/docs/references/cloud/client-web/account#getPrefs).
 func (srv *Teams) GetPrefs(TeamId string) (*models.Preferences, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
 	path := r.Replace("/teams/{teamId}/prefs")
 	params := map[string]interface{}{}
@@ -986,6 +1069,10 @@ func (srv *Teams) GetPrefs(TeamId string) (*models.Preferences, error) {
 // pass is stored as is and replaces any previous value. The maximum allowed
 // prefs size is 64kB and throws an error if exceeded.
 func (srv *Teams) UpdatePrefs(TeamId string, Prefs interface{}) (*models.Preferences, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
 	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
 	path := r.Replace("/teams/{teamId}/prefs")
 	params := map[string]interface{}{}

@@ -455,6 +455,10 @@ func (srv *Functions) ListSpecifications(optionalSetters ...ListSpecificationsOp
 
 // Get get a function by its unique ID.
 func (srv *Functions) Get(FunctionId string) (*models.Function, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}")
 	params := map[string]interface{}{}
@@ -644,6 +648,10 @@ func (srv *Functions) WithUpdateDeploymentRetention(v int) UpdateOption {
 
 // Update update function by its unique ID.
 func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...UpdateOption) (*models.Function, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}")
 	options := UpdateOptions{}.New()
@@ -747,12 +755,17 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 
 // Delete delete a function by its unique ID.
 func (srv *Functions) Delete(FunctionId string) (*interface{}, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -785,6 +798,10 @@ func (srv *Functions) Delete(FunctionId string) (*interface{}, error) {
 // endpoint to switch the code deployment that should be used when visitor
 // opens your function.
 func (srv *Functions) UpdateFunctionDeployment(FunctionId string, DeploymentId string) (*models.Function, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployment")
 	params := map[string]interface{}{}
@@ -858,6 +875,10 @@ func (srv *Functions) WithListDeploymentsTotal(v bool) ListDeploymentsOption {
 // ListDeployments get a list of all the function's code deployments. You can
 // use the query params to filter your results.
 func (srv *Functions) ListDeployments(FunctionId string, optionalSetters ...ListDeploymentsOption) (*models.DeploymentList, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments")
 	options := ListDeploymentsOptions{}.New()
@@ -944,6 +965,10 @@ func (srv *Functions) WithCreateDeploymentCommands(v string) CreateDeploymentOpt
 //
 // Use the "command" param to set the entrypoint used to execute your code.
 func (srv *Functions) CreateDeployment(FunctionId string, Code file.InputFile, Activate bool, optionalSetters ...CreateDeploymentOption) (*models.Deployment, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments")
 	options := CreateDeploymentOptions{}.New()
@@ -1019,6 +1044,10 @@ func (srv *Functions) WithCreateDuplicateDeploymentBuildId(v string) CreateDupli
 // asynchronously. The original deployment's code will be preserved and used
 // for the new build.
 func (srv *Functions) CreateDuplicateDeployment(FunctionId string, DeploymentId string, optionalSetters ...CreateDuplicateDeploymentOption) (*models.Deployment, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments/duplicate")
 	options := CreateDuplicateDeploymentOptions{}.New()
@@ -1088,6 +1117,10 @@ func (srv *Functions) WithCreateTemplateDeploymentActivate(v bool) CreateTemplat
 // [listTemplates](https://appwrite.io/docs/products/functions/templates) to
 // find the template details.
 func (srv *Functions) CreateTemplateDeployment(FunctionId string, Repository string, Owner string, RootDirectory string, Type string, Reference string, optionalSetters ...CreateTemplateDeploymentOption) (*models.Deployment, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments/template")
 	options := CreateTemplateDeploymentOptions{}.New()
@@ -1160,6 +1193,10 @@ func (srv *Functions) WithCreateVcsDeploymentActivate(v bool) CreateVcsDeploymen
 //
 // This endpoint lets you create deployment from a branch, commit, or a tag.
 func (srv *Functions) CreateVcsDeployment(FunctionId string, Type string, Reference string, optionalSetters ...CreateVcsDeploymentOption) (*models.Deployment, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/deployments/vcs")
 	options := CreateVcsDeploymentOptions{}.New()
@@ -1207,6 +1244,13 @@ func (srv *Functions) CreateVcsDeployment(FunctionId string, Type string, Refere
 
 // GetDeployment get a function deployment by its unique ID.
 func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string) (*models.Deployment, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}")
 	params := map[string]interface{}{}
@@ -1244,12 +1288,20 @@ func (srv *Functions) GetDeployment(FunctionId string, DeploymentId string) (*mo
 
 // DeleteDeployment delete a code deployment by its unique ID.
 func (srv *Functions) DeleteDeployment(FunctionId string, DeploymentId string) (*interface{}, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1324,6 +1376,13 @@ func (srv *Functions) getDeploymentDownloadParams(optionalSetters ...GetDeployme
 // header that tells the browser to start downloading the file to user
 // downloads directory.
 func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*[]byte, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/download")
 	params := srv.getDeploymentDownloadParams(optionalSetters...)
@@ -1364,6 +1423,13 @@ func (srv *Functions) GetDeploymentDownload(FunctionId string, DeploymentId stri
 // downloads directory.
 // Returns the URL for the resource instead of the content.
 func (srv *Functions) GetDeploymentDownloadURL(FunctionId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*string, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/download")
 	params := srv.getDeploymentDownloadParams(optionalSetters...)
@@ -1387,6 +1453,13 @@ func (srv *Functions) GetDeploymentDownloadURL(FunctionId string, DeploymentId s
 // 'ready') or failed. The response includes the final build status and
 // details.
 func (srv *Functions) UpdateDeploymentStatus(FunctionId string, DeploymentId string) (*models.Deployment, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/functions/{functionId}/deployments/{deploymentId}/status")
 	params := map[string]interface{}{}
@@ -1452,6 +1525,10 @@ func (srv *Functions) WithListExecutionsTotal(v bool) ListExecutionsOption {
 // ListExecutions get a list of all the current user function execution logs.
 // You can use the query params to filter your results.
 func (srv *Functions) ListExecutions(FunctionId string, optionalSetters ...ListExecutionsOption) (*models.ExecutionList, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/executions")
 	options := ListExecutionsOptions{}.New()
@@ -1556,6 +1633,10 @@ func (srv *Functions) WithCreateExecutionScheduledAt(v string) CreateExecutionOp
 // endpoint to get updates on the current execution status. Once this endpoint
 // is called, your function execution process will start asynchronously.
 func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...CreateExecutionOption) (*models.Execution, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/executions")
 	options := CreateExecutionOptions{}.New()
@@ -1616,6 +1697,13 @@ func (srv *Functions) CreateExecution(FunctionId string, optionalSetters ...Crea
 
 // GetExecution get a function execution log by its unique ID.
 func (srv *Functions) GetExecution(FunctionId string, ExecutionId string) (*models.Execution, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if ExecutionId == "" {
+		return nil, errors.New("Missing required parameter: \"executionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{executionId}", client.EncodePath(ExecutionId))
 	path := r.Replace("/functions/{functionId}/executions/{executionId}")
 	params := map[string]interface{}{}
@@ -1653,12 +1741,20 @@ func (srv *Functions) GetExecution(FunctionId string, ExecutionId string) (*mode
 
 // DeleteExecution delete a function execution by its unique ID.
 func (srv *Functions) DeleteExecution(FunctionId string, ExecutionId string) (*interface{}, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if ExecutionId == "" {
+		return nil, errors.New("Missing required parameter: \"executionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{executionId}", client.EncodePath(ExecutionId))
 	path := r.Replace("/functions/{functionId}/executions/{executionId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1715,6 +1811,10 @@ func (srv *Functions) WithListVariablesTotal(v bool) ListVariablesOption {
 
 // ListVariables get a list of all variables of a specific function.
 func (srv *Functions) ListVariables(FunctionId string, optionalSetters ...ListVariablesOption) (*models.VariableList, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/variables")
 	options := ListVariablesOptions{}.New()
@@ -1782,6 +1882,10 @@ func (srv *Functions) WithCreateVariableSecret(v bool) CreateVariableOption {
 // CreateVariable create a new function environment variable. These variables
 // can be accessed in the function at runtime as environment variables.
 func (srv *Functions) CreateVariable(FunctionId string, VariableId string, Key string, Value string, optionalSetters ...CreateVariableOption) (*models.Variable, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId))
 	path := r.Replace("/functions/{functionId}/variables")
 	options := CreateVariableOptions{}.New()
@@ -1830,6 +1934,13 @@ func (srv *Functions) CreateVariable(FunctionId string, VariableId string, Key s
 
 // GetVariable get a variable by its unique ID.
 func (srv *Functions) GetVariable(FunctionId string, VariableId string) (*models.Variable, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if VariableId == "" {
+		return nil, errors.New("Missing required parameter: \"variableId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	params := map[string]interface{}{}
@@ -1900,6 +2011,13 @@ func (srv *Functions) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 
 // UpdateVariable update variable by its unique ID.
 func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, optionalSetters ...UpdateVariableOption) (*models.Variable, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if VariableId == "" {
+		return nil, errors.New("Missing required parameter: \"variableId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	options := UpdateVariableOptions{}.New()
@@ -1951,12 +2069,20 @@ func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, optio
 
 // DeleteVariable delete a variable by its unique ID.
 func (srv *Functions) DeleteVariable(FunctionId string, VariableId string) (*interface{}, error) {
+	if FunctionId == "" {
+		return nil, errors.New("Missing required parameter: \"functionId\"")
+	}
+	if VariableId == "" {
+		return nil, errors.New("Missing required parameter: \"variableId\"")
+	}
+
 	r := strings.NewReplacer("{functionId}", client.EncodePath(FunctionId), "{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/functions/{functionId}/variables/{variableId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {

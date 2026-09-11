@@ -463,6 +463,10 @@ func (srv *Sites) ListSpecifications(optionalSetters ...ListSpecificationsOption
 
 // Get get a site by its unique ID.
 func (srv *Sites) Get(SiteId string) (*models.Site, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}")
 	params := map[string]interface{}{}
@@ -659,6 +663,10 @@ func (srv *Sites) WithUpdateScopes(v []string) UpdateOption {
 
 // Update update site by its unique ID.
 func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalSetters ...UpdateOption) (*models.Site, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}")
 	options := UpdateOptions{}.New()
@@ -766,12 +774,17 @@ func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalS
 
 // Delete delete a site by its unique ID.
 func (srv *Sites) Delete(SiteId string) (*interface{}, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -804,6 +817,10 @@ func (srv *Sites) Delete(SiteId string) (*interface{}, error) {
 // to switch the code deployment that should be used when visitor opens your
 // site.
 func (srv *Sites) UpdateSiteDeployment(SiteId string, DeploymentId string) (*models.Site, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}/deployment")
 	params := map[string]interface{}{}
@@ -877,6 +894,10 @@ func (srv *Sites) WithListDeploymentsTotal(v bool) ListDeploymentsOption {
 // ListDeployments get a list of all the site's code deployments. You can use
 // the query params to filter your results.
 func (srv *Sites) ListDeployments(SiteId string, optionalSetters ...ListDeploymentsOption) (*models.DeploymentList, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}/deployments")
 	options := ListDeploymentsOptions{}.New()
@@ -970,6 +991,10 @@ func (srv *Sites) WithCreateDeploymentActivate(v bool) CreateDeploymentOption {
 // code, you'll need to update the site's deployment to use your new
 // deployment ID.
 func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, optionalSetters ...CreateDeploymentOption) (*models.Deployment, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}/deployments")
 	options := CreateDeploymentOptions{}.New()
@@ -1031,6 +1056,10 @@ func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, optionalS
 // asynchronously. The original deployment's code will be preserved and used
 // for the new build.
 func (srv *Sites) CreateDuplicateDeployment(SiteId string, DeploymentId string) (*models.Deployment, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}/deployments/duplicate")
 	params := map[string]interface{}{}
@@ -1093,6 +1122,10 @@ func (srv *Sites) WithCreateTemplateDeploymentActivate(v bool) CreateTemplateDep
 // [listTemplates](https://appwrite.io/docs/products/sites/templates) to find
 // the template details.
 func (srv *Sites) CreateTemplateDeployment(SiteId string, Repository string, Owner string, RootDirectory string, Type string, Reference string, optionalSetters ...CreateTemplateDeploymentOption) (*models.Deployment, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}/deployments/template")
 	options := CreateTemplateDeploymentOptions{}.New()
@@ -1164,6 +1197,10 @@ func (srv *Sites) WithCreateVcsDeploymentActivate(v bool) CreateVcsDeploymentOpt
 //
 // This endpoint lets you create deployment from a branch, commit, or a tag.
 func (srv *Sites) CreateVcsDeployment(SiteId string, Type string, Reference string, optionalSetters ...CreateVcsDeploymentOption) (*models.Deployment, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}/deployments/vcs")
 	options := CreateVcsDeploymentOptions{}.New()
@@ -1211,6 +1248,13 @@ func (srv *Sites) CreateVcsDeployment(SiteId string, Type string, Reference stri
 
 // GetDeployment get a site deployment by its unique ID.
 func (srv *Sites) GetDeployment(SiteId string, DeploymentId string) (*models.Deployment, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/sites/{siteId}/deployments/{deploymentId}")
 	params := map[string]interface{}{}
@@ -1248,12 +1292,20 @@ func (srv *Sites) GetDeployment(SiteId string, DeploymentId string) (*models.Dep
 
 // DeleteDeployment delete a site deployment by its unique ID.
 func (srv *Sites) DeleteDeployment(SiteId string, DeploymentId string) (*interface{}, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/sites/{siteId}/deployments/{deploymentId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1328,6 +1380,13 @@ func (srv *Sites) getDeploymentDownloadParams(optionalSetters ...GetDeploymentDo
 // that tells the browser to start downloading the file to user downloads
 // directory.
 func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*[]byte, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/sites/{siteId}/deployments/{deploymentId}/download")
 	params := srv.getDeploymentDownloadParams(optionalSetters...)
@@ -1368,6 +1427,13 @@ func (srv *Sites) GetDeploymentDownload(SiteId string, DeploymentId string, opti
 // downloads directory.
 // Returns the URL for the resource instead of the content.
 func (srv *Sites) GetDeploymentDownloadURL(SiteId string, DeploymentId string, optionalSetters ...GetDeploymentDownloadOption) (*string, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/sites/{siteId}/deployments/{deploymentId}/download")
 	params := srv.getDeploymentDownloadParams(optionalSetters...)
@@ -1391,6 +1457,13 @@ func (srv *Sites) GetDeploymentDownloadURL(SiteId string, DeploymentId string, o
 // 'ready') or failed. The response includes the final build status and
 // details.
 func (srv *Sites) UpdateDeploymentStatus(SiteId string, DeploymentId string) (*models.Deployment, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if DeploymentId == "" {
+		return nil, errors.New("Missing required parameter: \"deploymentId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{deploymentId}", client.EncodePath(DeploymentId))
 	path := r.Replace("/sites/{siteId}/deployments/{deploymentId}/status")
 	params := map[string]interface{}{}
@@ -1456,6 +1529,10 @@ func (srv *Sites) WithListLogsTotal(v bool) ListLogsOption {
 // ListLogs get a list of all site logs. You can use the query params to
 // filter your results.
 func (srv *Sites) ListLogs(SiteId string, optionalSetters ...ListLogsOption) (*models.ExecutionList, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}/logs")
 	options := ListLogsOptions{}.New()
@@ -1503,6 +1580,13 @@ func (srv *Sites) ListLogs(SiteId string, optionalSetters ...ListLogsOption) (*m
 
 // GetLog get a site request log by its unique ID.
 func (srv *Sites) GetLog(SiteId string, LogId string) (*models.Execution, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if LogId == "" {
+		return nil, errors.New("Missing required parameter: \"logId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{logId}", client.EncodePath(LogId))
 	path := r.Replace("/sites/{siteId}/logs/{logId}")
 	params := map[string]interface{}{}
@@ -1540,6 +1624,13 @@ func (srv *Sites) GetLog(SiteId string, LogId string) (*models.Execution, error)
 
 // DeleteLog delete a site log by its unique ID.
 func (srv *Sites) DeleteLog(SiteId string, LogId string) (*interface{}, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if LogId == "" {
+		return nil, errors.New("Missing required parameter: \"logId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{logId}", client.EncodePath(LogId))
 	path := r.Replace("/sites/{siteId}/logs/{logId}")
 	params := map[string]interface{}{}
@@ -1603,6 +1694,10 @@ func (srv *Sites) WithListVariablesTotal(v bool) ListVariablesOption {
 
 // ListVariables get a list of all variables of a specific site.
 func (srv *Sites) ListVariables(SiteId string, optionalSetters ...ListVariablesOption) (*models.VariableList, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}/variables")
 	options := ListVariablesOptions{}.New()
@@ -1670,6 +1765,10 @@ func (srv *Sites) WithCreateVariableSecret(v bool) CreateVariableOption {
 // CreateVariable create a new site variable. These variables can be accessed
 // during build and runtime (server-side rendering) as environment variables.
 func (srv *Sites) CreateVariable(SiteId string, VariableId string, Key string, Value string, optionalSetters ...CreateVariableOption) (*models.Variable, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
 	path := r.Replace("/sites/{siteId}/variables")
 	options := CreateVariableOptions{}.New()
@@ -1718,6 +1817,13 @@ func (srv *Sites) CreateVariable(SiteId string, VariableId string, Key string, V
 
 // GetVariable get a variable by its unique ID.
 func (srv *Sites) GetVariable(SiteId string, VariableId string) (*models.Variable, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if VariableId == "" {
+		return nil, errors.New("Missing required parameter: \"variableId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/sites/{siteId}/variables/{variableId}")
 	params := map[string]interface{}{}
@@ -1788,6 +1894,13 @@ func (srv *Sites) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 
 // UpdateVariable update variable by its unique ID.
 func (srv *Sites) UpdateVariable(SiteId string, VariableId string, optionalSetters ...UpdateVariableOption) (*models.Variable, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if VariableId == "" {
+		return nil, errors.New("Missing required parameter: \"variableId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/sites/{siteId}/variables/{variableId}")
 	options := UpdateVariableOptions{}.New()
@@ -1839,12 +1952,20 @@ func (srv *Sites) UpdateVariable(SiteId string, VariableId string, optionalSette
 
 // DeleteVariable delete a variable by its unique ID.
 func (srv *Sites) DeleteVariable(SiteId string, VariableId string) (*interface{}, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+	if VariableId == "" {
+		return nil, errors.New("Missing required parameter: \"variableId\"")
+	}
+
 	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId), "{variableId}", client.EncodePath(VariableId))
 	path := r.Replace("/sites/{siteId}/variables/{variableId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {

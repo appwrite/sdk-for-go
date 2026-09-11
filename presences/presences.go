@@ -105,6 +105,10 @@ func (srv *Presences) List(optionalSetters ...ListOption) (*models.PresenceList,
 // Get get a presence log by its unique ID. Entries whose `expiresAt` is in
 // the past are treated as not found.
 func (srv *Presences) Get(PresenceId string) (*models.Presence, error) {
+	if PresenceId == "" {
+		return nil, errors.New("Missing required parameter: \"presenceId\"")
+	}
+
 	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	params := map[string]interface{}{}
@@ -175,6 +179,10 @@ func (srv *Presences) WithUpsertMetadata(v interface{}) UpsertOption {
 
 // Upsert create or update a presence log by its user ID.
 func (srv *Presences) Upsert(PresenceId string, UserId string, Status string, optionalSetters ...UpsertOption) (*models.Presence, error) {
+	if PresenceId == "" {
+		return nil, errors.New("Missing required parameter: \"presenceId\"")
+	}
+
 	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	options := UpsertOptions{}.New()
@@ -276,6 +284,10 @@ func (srv *Presences) WithUpdatePurge(v bool) UpdateOption {
 // Update update a presence log by its unique ID. Using the patch method you
 // can pass only specific fields that will get updated.
 func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters ...UpdateOption) (*models.Presence, error) {
+	if PresenceId == "" {
+		return nil, errors.New("Missing required parameter: \"presenceId\"")
+	}
+
 	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	options := UpdateOptions{}.New()
@@ -334,12 +346,17 @@ func (srv *Presences) Update(PresenceId string, UserId string, optionalSetters .
 
 // Delete delete a presence log by its unique ID.
 func (srv *Presences) Delete(PresenceId string) (*interface{}, error) {
+	if PresenceId == "" {
+		return nil, errors.New("Missing required parameter: \"presenceId\"")
+	}
+
 	r := strings.NewReplacer("{presenceId}", client.EncodePath(PresenceId))
 	path := r.Replace("/presences/{presenceId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {

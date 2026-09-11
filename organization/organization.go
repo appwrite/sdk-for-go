@@ -102,6 +102,7 @@ func (srv *Organization) Delete() (*interface{}, error) {
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -272,6 +273,10 @@ func (srv *Organization) CreateInstallation(AppId string, optionalSetters ...Cre
 // GetInstallation get an app installation on the organization by its unique
 // ID. Any organization member can read installations.
 func (srv *Organization) GetInstallation(InstallationId string) (*models.AppInstallation, error) {
+	if InstallationId == "" {
+		return nil, errors.New("Missing required parameter: \"installationId\"")
+	}
+
 	r := strings.NewReplacer("{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/organization/installations/{installationId}")
 	params := map[string]interface{}{}
@@ -331,6 +336,10 @@ func (srv *Organization) WithUpdateInstallationAuthorizationDetails(v string) Up
 // installation's granted scopes are refreshed to the scopes the app currently
 // requests; previously issued installation access tokens are revoked.
 func (srv *Organization) UpdateInstallation(InstallationId string, optionalSetters ...UpdateInstallationOption) (*models.AppInstallation, error) {
+	if InstallationId == "" {
+		return nil, errors.New("Missing required parameter: \"installationId\"")
+	}
+
 	r := strings.NewReplacer("{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/organization/installations/{installationId}")
 	options := UpdateInstallationOptions{}.New()
@@ -378,6 +387,10 @@ func (srv *Organization) UpdateInstallation(InstallationId string, optionalSette
 // installation ID. Only organization members with the owner role can remove
 // installations. Previously issued installation access tokens are revoked.
 func (srv *Organization) DeleteInstallation(InstallationId string) (*interface{}, error) {
+	if InstallationId == "" {
+		return nil, errors.New("Missing required parameter: \"installationId\"")
+	}
+
 	r := strings.NewReplacer("{installationId}", client.EncodePath(InstallationId))
 	path := r.Replace("/organization/installations/{installationId}")
 	params := map[string]interface{}{}
@@ -554,6 +567,10 @@ func (srv *Organization) CreateKey(KeyId string, Name string, Scopes []string, o
 // GetKey get a key by its unique ID. This endpoint returns details about a
 // specific API key in your organization including its scopes.
 func (srv *Organization) GetKey(KeyId string) (*models.Key, error) {
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
 	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/organization/keys/{keyId}")
 	params := map[string]interface{}{}
@@ -611,6 +628,10 @@ func (srv *Organization) WithUpdateKeyExpire(v string) UpdateKeyOption {
 // UpdateKey update a key by its unique ID. Use this endpoint to update the
 // name, scopes, or expiration time of an API key.
 func (srv *Organization) UpdateKey(KeyId string, Name string, Scopes []string, optionalSetters ...UpdateKeyOption) (*models.Key, error) {
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
 	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/organization/keys/{keyId}")
 	options := UpdateKeyOptions{}.New()
@@ -659,12 +680,17 @@ func (srv *Organization) UpdateKey(KeyId string, Name string, Scopes []string, o
 // DeleteKey delete a key by its unique ID. Once deleted, the key can no
 // longer be used to authenticate API calls.
 func (srv *Organization) DeleteKey(KeyId string) (*interface{}, error) {
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
 	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
 	path := r.Replace("/organization/keys/{keyId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -886,6 +912,10 @@ func (srv *Organization) CreateMembership(Roles []string, optionalSetters ...Cre
 // GetMembership get a membership from the current organization by its unique
 // ID.
 func (srv *Organization) GetMembership(MembershipId string) (*models.Membership, error) {
+	if MembershipId == "" {
+		return nil, errors.New("Missing required parameter: \"membershipId\"")
+	}
+
 	r := strings.NewReplacer("{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/organization/memberships/{membershipId}")
 	params := map[string]interface{}{}
@@ -923,6 +953,10 @@ func (srv *Organization) GetMembership(MembershipId string) (*models.Membership,
 
 // UpdateMembership modify the roles of a member in the current organization.
 func (srv *Organization) UpdateMembership(MembershipId string, Roles []string) (*models.Membership, error) {
+	if MembershipId == "" {
+		return nil, errors.New("Missing required parameter: \"membershipId\"")
+	}
+
 	r := strings.NewReplacer("{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/organization/memberships/{membershipId}")
 	params := map[string]interface{}{}
@@ -964,12 +998,17 @@ func (srv *Organization) UpdateMembership(MembershipId string, Roles []string) (
 // is removed whether they accepted the invitation or not; a pending
 // invitation is revoked.
 func (srv *Organization) DeleteMembership(MembershipId string) (*interface{}, error) {
+	if MembershipId == "" {
+		return nil, errors.New("Missing required parameter: \"membershipId\"")
+	}
+
 	r := strings.NewReplacer("{membershipId}", client.EncodePath(MembershipId))
 	path := r.Replace("/organization/memberships/{membershipId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
@@ -1148,11 +1187,16 @@ func (srv *Organization) CreateProject(ProjectId string, Name string, optionalSe
 
 // GetProject get a project.
 func (srv *Organization) GetProject(ProjectId string) (*models.Project, error) {
+	if ProjectId == "" {
+		return nil, errors.New("Missing required parameter: \"projectId\"")
+	}
+
 	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId))
 	path := r.Replace("/organization/projects/{projectId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1184,6 +1228,10 @@ func (srv *Organization) GetProject(ProjectId string) (*models.Project, error) {
 
 // UpdateProject update a project by its unique ID.
 func (srv *Organization) UpdateProject(ProjectId string, Name string) (*models.Project, error) {
+	if ProjectId == "" {
+		return nil, errors.New("Missing required parameter: \"projectId\"")
+	}
+
 	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId))
 	path := r.Replace("/organization/projects/{projectId}")
 	params := map[string]interface{}{}
@@ -1223,12 +1271,17 @@ func (srv *Organization) UpdateProject(ProjectId string, Name string) (*models.P
 
 // DeleteProject delete a project by its unique ID.
 func (srv *Organization) DeleteProject(ProjectId string) (*interface{}, error) {
+	if ProjectId == "" {
+		return nil, errors.New("Missing required parameter: \"projectId\"")
+	}
+
 	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId))
 	path := r.Replace("/organization/projects/{projectId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
 	if err != nil {
