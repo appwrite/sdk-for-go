@@ -109,6 +109,8 @@ type CreateEmailOptions struct {
 	Cc             []string
 	Bcc            []string
 	Attachments    []string
+	ReplyToEmail   string
+	ReplyToName    string
 	Draft          bool
 	Html           bool
 	ScheduledAt    string
@@ -116,7 +118,7 @@ type CreateEmailOptions struct {
 }
 
 func (options CreateEmailOptions) New() *CreateEmailOptions {
-	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Cc": false, "Bcc": false, "Attachments": false, "Draft": false, "Html": false, "ScheduledAt": false}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Cc": false, "Bcc": false, "Attachments": false, "ReplyToEmail": false, "ReplyToName": false, "Draft": false, "Html": false, "ScheduledAt": false}
 	return &options
 }
 
@@ -156,6 +158,18 @@ func (srv *Messaging) WithCreateEmailAttachments(v []string) CreateEmailOption {
 	return func(o *CreateEmailOptions) {
 		o.Attachments = v
 		o.enabledSetters["Attachments"] = true
+	}
+}
+func (srv *Messaging) WithCreateEmailReplyToEmail(v string) CreateEmailOption {
+	return func(o *CreateEmailOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+func (srv *Messaging) WithCreateEmailReplyToName(v string) CreateEmailOption {
+	return func(o *CreateEmailOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
 	}
 }
 func (srv *Messaging) WithCreateEmailDraft(v bool) CreateEmailOption {
@@ -205,6 +219,12 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 	}
 	if options.enabledSetters["Attachments"] {
 		params["attachments"] = options.Attachments
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
 	}
 	if options.enabledSetters["Draft"] {
 		params["draft"] = options.Draft
@@ -258,13 +278,15 @@ type UpdateEmailOptions struct {
 	Html           bool
 	Cc             []string
 	Bcc            []string
+	ReplyToEmail   string
+	ReplyToName    string
 	ScheduledAt    string
 	Attachments    []string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateEmailOptions) New() *UpdateEmailOptions {
-	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Subject": false, "Content": false, "Draft": false, "Html": false, "Cc": false, "Bcc": false, "ScheduledAt": false, "Attachments": false}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Subject": false, "Content": false, "Draft": false, "Html": false, "Cc": false, "Bcc": false, "ReplyToEmail": false, "ReplyToName": false, "ScheduledAt": false, "Attachments": false}
 	return &options
 }
 
@@ -324,6 +346,18 @@ func (srv *Messaging) WithUpdateEmailBcc(v []string) UpdateEmailOption {
 		o.enabledSetters["Bcc"] = true
 	}
 }
+func (srv *Messaging) WithUpdateEmailReplyToEmail(v string) UpdateEmailOption {
+	return func(o *UpdateEmailOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+func (srv *Messaging) WithUpdateEmailReplyToName(v string) UpdateEmailOption {
+	return func(o *UpdateEmailOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
+	}
+}
 func (srv *Messaging) WithUpdateEmailScheduledAt(v string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.ScheduledAt = v
@@ -378,6 +412,12 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 	}
 	if options.enabledSetters["Bcc"] {
 		params["bcc"] = options.Bcc
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
 	}
 	if options.enabledSetters["ScheduledAt"] {
 		params["scheduledAt"] = options.ScheduledAt
@@ -2047,6 +2087,189 @@ func (srv *Messaging) UpdateAPNSProvider(ProviderId string, optionalSetters ...U
 	}
 	if options.enabledSetters["Sandbox"] {
 		params["sandbox"] = options.Sandbox
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreateAppwriteProviderOptions struct {
+	Enabled        bool
+	Qos            int
+	Expiry         int
+	enabledSetters map[string]bool
+}
+
+func (options CreateAppwriteProviderOptions) New() *CreateAppwriteProviderOptions {
+	options.enabledSetters = map[string]bool{"Enabled": false, "Qos": false, "Expiry": false}
+	return &options
+}
+
+type CreateAppwriteProviderOption func(*CreateAppwriteProviderOptions)
+
+func (srv *Messaging) WithCreateAppwriteProviderEnabled(v bool) CreateAppwriteProviderOption {
+	return func(o *CreateAppwriteProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Messaging) WithCreateAppwriteProviderQos(v int) CreateAppwriteProviderOption {
+	return func(o *CreateAppwriteProviderOptions) {
+		o.Qos = v
+		o.enabledSetters["Qos"] = true
+	}
+}
+func (srv *Messaging) WithCreateAppwriteProviderExpiry(v int) CreateAppwriteProviderOption {
+	return func(o *CreateAppwriteProviderOptions) {
+		o.Expiry = v
+		o.enabledSetters["Expiry"] = true
+	}
+}
+
+// CreateAppwriteProvider create a new Appwrite push provider.
+func (srv *Messaging) CreateAppwriteProvider(ProviderId string, Name string, optionalSetters ...CreateAppwriteProviderOption) (*models.Provider, error) {
+	path := "/messaging/providers/appwrite"
+	options := CreateAppwriteProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	params["name"] = Name
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Qos"] {
+		params["qos"] = options.Qos
+	}
+	if options.enabledSetters["Expiry"] {
+		params["expiry"] = options.Expiry
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateAppwriteProviderOptions struct {
+	Name           string
+	Enabled        bool
+	Qos            int
+	Expiry         int
+	enabledSetters map[string]bool
+}
+
+func (options UpdateAppwriteProviderOptions) New() *UpdateAppwriteProviderOptions {
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "Qos": false, "Expiry": false}
+	return &options
+}
+
+type UpdateAppwriteProviderOption func(*UpdateAppwriteProviderOptions)
+
+func (srv *Messaging) WithUpdateAppwriteProviderName(v string) UpdateAppwriteProviderOption {
+	return func(o *UpdateAppwriteProviderOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Messaging) WithUpdateAppwriteProviderEnabled(v bool) UpdateAppwriteProviderOption {
+	return func(o *UpdateAppwriteProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Messaging) WithUpdateAppwriteProviderQos(v int) UpdateAppwriteProviderOption {
+	return func(o *UpdateAppwriteProviderOptions) {
+		o.Qos = v
+		o.enabledSetters["Qos"] = true
+	}
+}
+func (srv *Messaging) WithUpdateAppwriteProviderExpiry(v int) UpdateAppwriteProviderOption {
+	return func(o *UpdateAppwriteProviderOptions) {
+		o.Expiry = v
+		o.enabledSetters["Expiry"] = true
+	}
+}
+
+// UpdateAppwriteProvider update an Appwrite push provider by its unique ID.
+func (srv *Messaging) UpdateAppwriteProvider(ProviderId string, optionalSetters ...UpdateAppwriteProviderOption) (*models.Provider, error) {
+	if ProviderId == "" {
+		return nil, errors.New("Missing required parameter: \"providerId\"")
+	}
+
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
+	path := r.Replace("/messaging/providers/appwrite/{providerId}")
+	options := UpdateAppwriteProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Qos"] {
+		params["qos"] = options.Qos
+	}
+	if options.enabledSetters["Expiry"] {
+		params["expiry"] = options.Expiry
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -5358,11 +5581,13 @@ func (srv *Messaging) ListTopics(optionalSetters ...ListTopicsOption) (*models.T
 
 type CreateTopicOptions struct {
 	Subscribe      []string
+	Qos            int
+	Expiry         int
 	enabledSetters map[string]bool
 }
 
 func (options CreateTopicOptions) New() *CreateTopicOptions {
-	options.enabledSetters = map[string]bool{"Subscribe": false}
+	options.enabledSetters = map[string]bool{"Subscribe": false, "Qos": false, "Expiry": false}
 	return &options
 }
 
@@ -5372,6 +5597,18 @@ func (srv *Messaging) WithCreateTopicSubscribe(v []string) CreateTopicOption {
 	return func(o *CreateTopicOptions) {
 		o.Subscribe = v
 		o.enabledSetters["Subscribe"] = true
+	}
+}
+func (srv *Messaging) WithCreateTopicQos(v int) CreateTopicOption {
+	return func(o *CreateTopicOptions) {
+		o.Qos = v
+		o.enabledSetters["Qos"] = true
+	}
+}
+func (srv *Messaging) WithCreateTopicExpiry(v int) CreateTopicOption {
+	return func(o *CreateTopicOptions) {
+		o.Expiry = v
+		o.enabledSetters["Expiry"] = true
 	}
 }
 
@@ -5387,6 +5624,12 @@ func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters .
 	params["name"] = Name
 	if options.enabledSetters["Subscribe"] {
 		params["subscribe"] = options.Subscribe
+	}
+	if options.enabledSetters["Qos"] {
+		params["qos"] = options.Qos
+	}
+	if options.enabledSetters["Expiry"] {
+		params["expiry"] = options.Expiry
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -5465,11 +5708,13 @@ func (srv *Messaging) GetTopic(TopicId string) (*models.Topic, error) {
 type UpdateTopicOptions struct {
 	Name           string
 	Subscribe      []string
+	Qos            int
+	Expiry         int
 	enabledSetters map[string]bool
 }
 
 func (options UpdateTopicOptions) New() *UpdateTopicOptions {
-	options.enabledSetters = map[string]bool{"Name": false, "Subscribe": false}
+	options.enabledSetters = map[string]bool{"Name": false, "Subscribe": false, "Qos": false, "Expiry": false}
 	return &options
 }
 
@@ -5485,6 +5730,18 @@ func (srv *Messaging) WithUpdateTopicSubscribe(v []string) UpdateTopicOption {
 	return func(o *UpdateTopicOptions) {
 		o.Subscribe = v
 		o.enabledSetters["Subscribe"] = true
+	}
+}
+func (srv *Messaging) WithUpdateTopicQos(v int) UpdateTopicOption {
+	return func(o *UpdateTopicOptions) {
+		o.Qos = v
+		o.enabledSetters["Qos"] = true
+	}
+}
+func (srv *Messaging) WithUpdateTopicExpiry(v int) UpdateTopicOption {
+	return func(o *UpdateTopicOptions) {
+		o.Expiry = v
+		o.enabledSetters["Expiry"] = true
 	}
 }
 
@@ -5506,6 +5763,12 @@ func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopic
 	}
 	if options.enabledSetters["Subscribe"] {
 		params["subscribe"] = options.Subscribe
+	}
+	if options.enabledSetters["Qos"] {
+		params["qos"] = options.Qos
+	}
+	if options.enabledSetters["Expiry"] {
+		params["expiry"] = options.Expiry
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

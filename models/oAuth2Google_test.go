@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2GoogleModel(t *testing.T) {
-	model := OAuth2Google{Id: "github", Enabled: true, ClientId: "120000000095-92ifjb00000000000000000000g7ijfb.apps.googleusercontent.com", ClientSecret: "GOCSPX-2k8gsR0000000000000000VNahJj", Prompt: []string{"test"}}
+	model := OAuth2Google{Id: "github", Enabled: true, ClientId: "120000000095-92ifjb00000000000000000000g7ijfb.apps.googleusercontent.com", ClientSecret: "GOCSPX-2k8gsR0000000000000000VNahJj", Prompt: []string{"test"}, NativeEnabled: true, NativeClientIds: []string{"test"}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -29,5 +29,8 @@ func TestOAuth2GoogleModel(t *testing.T) {
 	}
 	if result.ClientSecret != model.ClientSecret {
 		t.Errorf("Expected ClientSecret %v, got %v", model.ClientSecret, result.ClientSecret)
+	}
+	if result.NativeEnabled != model.NativeEnabled {
+		t.Errorf("Expected NativeEnabled %v, got %v", model.NativeEnabled, result.NativeEnabled)
 	}
 }

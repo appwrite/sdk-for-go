@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2AppleModel(t *testing.T) {
-	model := OAuth2Apple{Id: "apple", Enabled: true, ServiceId: "ip.appwrite.app.web", KeyId: "P4000000N8", TeamId: "D4000000R6", P8File: "-----BEGIN PRIVATE KEY-----MIGTAg...jy2Xbna-----END PRIVATE KEY-----"}
+	model := OAuth2Apple{Id: "apple", Enabled: true, ServiceId: "ip.appwrite.app.web", KeyId: "P4000000N8", TeamId: "D4000000R6", P8File: "-----BEGIN PRIVATE KEY-----MIGTAg...jy2Xbna-----END PRIVATE KEY-----", NativeEnabled: true, NativeClientIds: []string{"test"}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -35,5 +35,8 @@ func TestOAuth2AppleModel(t *testing.T) {
 	}
 	if result.P8File != model.P8File {
 		t.Errorf("Expected P8File %v, got %v", model.P8File, result.P8File)
+	}
+	if result.NativeEnabled != model.NativeEnabled {
+		t.Errorf("Expected NativeEnabled %v, got %v", model.NativeEnabled, result.NativeEnabled)
 	}
 }

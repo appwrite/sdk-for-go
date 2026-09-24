@@ -6,7 +6,7 @@ import (
 )
 
 func TestOauth2DeviceAuthorizationModel(t *testing.T) {
-	model := Oauth2DeviceAuthorization{DeviceCode: "5f3c8d2a1b9e4f7a6c8b2d1e9f4a7b3c5d8e1f2a9b4c7d6e3f5a8b1c4d7e2f9a", UserCode: "ABCD-EFGH", VerificationUri: "https://cloud.appwrite.io/console/oauth2/device", VerificationUriComplete: "https://cloud.appwrite.io/console/oauth2/device?user_code=ABCD-EFGH", ExpiresIn: 900, Interval: 5}
+	model := Oauth2DeviceAuthorization{DeviceCode: "5f3c8d2a1b9e4f7a6c8b2d1e9f4a7b3c5d8e1f2a9b4c7d6e3f5a8b1c4d7e2f9a", UserCode: "ABCD-EFGH", VerificationUri: "https://appwrite.io/oauth2/device", VerificationUriComplete: "https://appwrite.io/oauth2/device?user_code=ABCD-EFGH", ExpiresIn: 900, Interval: 5}
 
 	data, err := json.Marshal(model)
 	if err != nil {

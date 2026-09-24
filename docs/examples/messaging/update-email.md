@@ -28,6 +28,8 @@ func main() {
 		service.WithUpdateEmailHtml(false),
 		service.WithUpdateEmailCc([]string{"example"}),
 		service.WithUpdateEmailBcc([]string{"example"}),
+		service.WithUpdateEmailReplyToEmail("email@example.com"),
+		service.WithUpdateEmailReplyToName("<REPLY_TO_NAME>"),
 		service.WithUpdateEmailScheduledAt("2020-10-15T06:38:00.000+00:00"),
 		service.WithUpdateEmailAttachments([]string{"example"}),
 	)

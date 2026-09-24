@@ -1036,16 +1036,18 @@ func (srv *Project) UpdateOAuth2Amazon(optionalSetters ...UpdateOAuth2AmazonOpti
 }
 
 type UpdateOAuth2AppleOptions struct {
-	ServiceId      string
-	KeyId          string
-	TeamId         string
-	P8File         string
-	Enabled        bool
-	enabledSetters map[string]bool
+	ServiceId       string
+	KeyId           string
+	TeamId          string
+	P8File          string
+	NativeClientIds []string
+	Enabled         bool
+	NativeEnabled   bool
+	enabledSetters  map[string]bool
 }
 
 func (options UpdateOAuth2AppleOptions) New() *UpdateOAuth2AppleOptions {
-	options.enabledSetters = map[string]bool{"ServiceId": false, "KeyId": false, "TeamId": false, "P8File": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"ServiceId": false, "KeyId": false, "TeamId": false, "P8File": false, "NativeClientIds": false, "Enabled": false, "NativeEnabled": false}
 	return &options
 }
 
@@ -1075,10 +1077,22 @@ func (srv *Project) WithUpdateOAuth2AppleP8File(v string) UpdateOAuth2AppleOptio
 		o.enabledSetters["P8File"] = true
 	}
 }
+func (srv *Project) WithUpdateOAuth2AppleNativeClientIds(v []string) UpdateOAuth2AppleOption {
+	return func(o *UpdateOAuth2AppleOptions) {
+		o.NativeClientIds = v
+		o.enabledSetters["NativeClientIds"] = true
+	}
+}
 func (srv *Project) WithUpdateOAuth2AppleEnabled(v bool) UpdateOAuth2AppleOption {
 	return func(o *UpdateOAuth2AppleOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2AppleNativeEnabled(v bool) UpdateOAuth2AppleOption {
+	return func(o *UpdateOAuth2AppleOptions) {
+		o.NativeEnabled = v
+		o.enabledSetters["NativeEnabled"] = true
 	}
 }
 
@@ -1102,8 +1116,14 @@ func (srv *Project) UpdateOAuth2Apple(optionalSetters ...UpdateOAuth2AppleOption
 	if options.enabledSetters["P8File"] {
 		params["p8File"] = options.P8File
 	}
+	if options.enabledSetters["NativeClientIds"] {
+		params["nativeClientIds"] = options.NativeClientIds
+	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["NativeEnabled"] {
+		params["nativeEnabled"] = options.NativeEnabled
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2674,15 +2694,17 @@ func (srv *Project) UpdateOAuth2Gitlab(optionalSetters ...UpdateOAuth2GitlabOpti
 }
 
 type UpdateOAuth2GoogleOptions struct {
-	ClientId       string
-	ClientSecret   string
-	Prompt         []string
-	Enabled        bool
-	enabledSetters map[string]bool
+	ClientId        string
+	ClientSecret    string
+	Prompt          []string
+	NativeClientIds []string
+	Enabled         bool
+	NativeEnabled   bool
+	enabledSetters  map[string]bool
 }
 
 func (options UpdateOAuth2GoogleOptions) New() *UpdateOAuth2GoogleOptions {
-	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Prompt": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Prompt": false, "NativeClientIds": false, "Enabled": false, "NativeEnabled": false}
 	return &options
 }
 
@@ -2706,10 +2728,22 @@ func (srv *Project) WithUpdateOAuth2GooglePrompt(v []string) UpdateOAuth2GoogleO
 		o.enabledSetters["Prompt"] = true
 	}
 }
+func (srv *Project) WithUpdateOAuth2GoogleNativeClientIds(v []string) UpdateOAuth2GoogleOption {
+	return func(o *UpdateOAuth2GoogleOptions) {
+		o.NativeClientIds = v
+		o.enabledSetters["NativeClientIds"] = true
+	}
+}
 func (srv *Project) WithUpdateOAuth2GoogleEnabled(v bool) UpdateOAuth2GoogleOption {
 	return func(o *UpdateOAuth2GoogleOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2GoogleNativeEnabled(v bool) UpdateOAuth2GoogleOption {
+	return func(o *UpdateOAuth2GoogleOptions) {
+		o.NativeEnabled = v
+		o.enabledSetters["NativeEnabled"] = true
 	}
 }
 
@@ -2730,8 +2764,14 @@ func (srv *Project) UpdateOAuth2Google(optionalSetters ...UpdateOAuth2GoogleOpti
 	if options.enabledSetters["Prompt"] {
 		params["prompt"] = options.Prompt
 	}
+	if options.enabledSetters["NativeClientIds"] {
+		params["nativeClientIds"] = options.NativeClientIds
+	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["NativeEnabled"] {
+		params["nativeEnabled"] = options.NativeEnabled
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -6719,6 +6759,97 @@ func (srv *Project) UpdatePasswordPersonalDataPolicy(Enabled bool) (*models.Proj
 
 }
 
+type UpdatePasswordPwnedPolicyOptions struct {
+	Enabled        bool
+	Sessions       bool
+	Users          bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdatePasswordPwnedPolicyOptions) New() *UpdatePasswordPwnedPolicyOptions {
+	options.enabledSetters = map[string]bool{"Enabled": false, "Sessions": false, "Users": false}
+	return &options
+}
+
+type UpdatePasswordPwnedPolicyOption func(*UpdatePasswordPwnedPolicyOptions)
+
+func (srv *Project) WithUpdatePasswordPwnedPolicyEnabled(v bool) UpdatePasswordPwnedPolicyOption {
+	return func(o *UpdatePasswordPwnedPolicyOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Project) WithUpdatePasswordPwnedPolicySessions(v bool) UpdatePasswordPwnedPolicyOption {
+	return func(o *UpdatePasswordPwnedPolicyOptions) {
+		o.Sessions = v
+		o.enabledSetters["Sessions"] = true
+	}
+}
+func (srv *Project) WithUpdatePasswordPwnedPolicyUsers(v bool) UpdatePasswordPwnedPolicyOption {
+	return func(o *UpdatePasswordPwnedPolicyOptions) {
+		o.Users = v
+		o.enabledSetters["Users"] = true
+	}
+}
+
+// UpdatePasswordPwnedPolicy updating this policy allows you to control if
+// passwords are checked against the Have I Been Pwned breach database. When
+// enabled, every password a user signs up, signs in or resets with is checked
+// and the result is recorded on the user as `passwordPwned`. On its own the
+// policy only records. Enable `users` to reject a breached password when a
+// user signs up or sets a new password, and `sessions` to refuse a sign-in
+// with a breached password until it is reset. Only the first five characters
+// of the password hash are ever shared with the service. Options left out
+// keep their current value.
+func (srv *Project) UpdatePasswordPwnedPolicy(optionalSetters ...UpdatePasswordPwnedPolicyOption) (*models.Project, error) {
+	path := "/project/policies/password-pwned"
+	options := UpdatePasswordPwnedPolicyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Sessions"] {
+		params["sessions"] = options.Sessions
+	}
+	if options.enabledSetters["Users"] {
+		params["users"] = options.Users
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdatePasswordStrengthPolicyOptions struct {
 	Min            int
 	Uppercase      bool
@@ -7075,6 +7206,14 @@ func (srv *Project) GetPolicy(PolicyId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "password-personal-data" {
 			parsed := models.PolicyPasswordPersonalData{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "password-pwned" {
+			parsed := models.PolicyPasswordPwned{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}

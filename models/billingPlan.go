@@ -104,6 +104,9 @@ type BillingPlan struct {
 	RequiresPaymentMethod bool `json:"requiresPaymentMethod"`
 	// Does plan require billing address
 	RequiresBillingAddress bool `json:"requiresBillingAddress"`
+	// ISO country codes eligible for this regional plan. Empty means no
+	// restriction.
+	EligibleCountries []string `json:"eligibleCountries"`
 	// Is the billing plan available
 	IsAvailable bool `json:"isAvailable"`
 	// Can user change the plan themselves

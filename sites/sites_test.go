@@ -944,7 +944,7 @@ func TestSites(t *testing.T) {
             ],
             "logs": "string",
             "errors": "string",
-            "duration": 0.4
+            "duration": 1.23
         }
     ]
 }
@@ -999,7 +999,7 @@ func TestSites(t *testing.T) {
     ],
     "logs": "string",
     "errors": "string",
-    "duration": 0.4
+    "duration": 1.23
 }
 `
 

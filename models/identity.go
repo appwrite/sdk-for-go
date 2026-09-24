@@ -27,6 +27,9 @@ type Identity struct {
 	ProviderAccessTokenExpiry string `json:"providerAccessTokenExpiry"`
 	// Identity Provider Refresh Token.
 	ProviderRefreshToken string `json:"providerRefreshToken"`
+	// Identity Provider ID token (JWT) from the most recent native sign-in. Empty
+	// for identities created through the browser OAuth2 flow.
+	ProviderIdToken string `json:"providerIdToken"`
 
 	// Used by Decode() method
 	data []byte

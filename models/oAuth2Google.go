@@ -17,6 +17,13 @@ type OAuth2Google struct {
 	ClientSecret string `json:"clientSecret"`
 	// Google OAuth2 prompt values.
 	Prompt []string `json:"prompt"`
+	// Native Google sign-in is active and can be used to create sessions from an
+	// ID token. Independent of enabled, which only controls the browser-based
+	// flow.
+	NativeEnabled bool `json:"nativeEnabled"`
+	// Additional OAuth2 client IDs accepted as ID token audiences for native
+	// sign-in, next to the client ID.
+	NativeClientIds []string `json:"nativeClientIds"`
 
 	// Used by Decode() method
 	data []byte

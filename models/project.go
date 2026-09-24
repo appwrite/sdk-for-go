@@ -19,8 +19,6 @@ type Project struct {
 	TeamId string `json:"teamId"`
 	// Project region
 	Region string `json:"region"`
-	// Deprecated since 1.9.5: List of dev keys.
-	DevKeys []DevKey `json:"devKeys"`
 	// Status for custom SMTP
 	SmtpEnabled bool `json:"smtpEnabled"`
 	// SMTP sender name
@@ -68,6 +66,12 @@ type Project struct {
 	WafEnabled bool `json:"wafEnabled"`
 	// Billing limits reached
 	BillingLimits BillingLimits `json:"billingLimits"`
+	// First time the project received a non-console API request. Empty until the
+	// project is used.
+	FirstAccessedAt string `json:"firstAccessedAt"`
+	// Last time the project was accessed through the MCP server. Empty if it was
+	// never accessed via MCP.
+	McpAccessedAt string `json:"mcpAccessedAt"`
 	// OAuth2 server status
 	OAuth2ServerEnabled bool `json:"oAuth2ServerEnabled"`
 	// OAuth2 server authorization URL

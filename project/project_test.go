@@ -26,18 +26,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -76,12 +64,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -142,18 +125,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -192,12 +163,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -399,18 +365,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -449,12 +403,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -663,18 +612,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -713,12 +650,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -781,7 +713,9 @@ func TestProject(t *testing.T) {
     "serviceId": "ip.appwrite.app.web",
     "keyId": "P4000000N8",
     "teamId": "D4000000R6",
-    "p8File": "-----BEGIN PRIVATE KEY-----MIGTAg...jy2Xbna-----END PRIVATE KEY-----"
+    "p8File": "-----BEGIN PRIVATE KEY-----MIGTAg...jy2Xbna-----END PRIVATE KEY-----",
+    "nativeEnabled": true,
+    "nativeClientIds": []
 }
 `
 
@@ -1337,7 +1271,9 @@ func TestProject(t *testing.T) {
     "enabled": true,
     "clientId": "120000000095-92ifjb00000000000000000000g7ijfb.apps.googleusercontent.com",
     "clientSecret": "GOCSPX-2k8gsR0000000000000000VNahJj",
-    "prompt": []
+    "prompt": [],
+    "nativeEnabled": true,
+    "nativeClientIds": []
 }
 `
 
@@ -2618,18 +2554,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -2668,12 +2592,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -2708,18 +2627,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -2758,12 +2665,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -2798,18 +2700,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -2848,12 +2738,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -2888,18 +2773,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -2938,12 +2811,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -2978,18 +2846,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3028,12 +2884,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3068,18 +2919,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3118,12 +2957,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3158,18 +2992,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3208,12 +3030,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3248,18 +3065,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3298,12 +3103,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3338,18 +3138,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3388,12 +3176,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3416,6 +3199,79 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdatePasswordPersonalDataPolicy(true)
 		if err != nil {
 			t.Errorf("Method UpdatePasswordPersonalDataPolicy failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdatePasswordPwnedPolicy", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "region": "fra",
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "smtp-password",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "onboarding": {},
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdatePasswordPwnedPolicy()
+		if err != nil {
+			t.Errorf("Method UpdatePasswordPwnedPolicy failed: %v", err)
 		}
 	})
 
@@ -3459,18 +3315,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3509,12 +3353,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3549,18 +3388,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3599,12 +3426,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3639,18 +3461,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3689,12 +3499,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3729,18 +3534,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3779,12 +3572,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3819,18 +3607,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3869,12 +3645,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -3939,18 +3710,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -3989,12 +3748,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -4029,18 +3783,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -4079,12 +3821,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -4119,18 +3856,6 @@ func TestProject(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -4169,12 +3894,7 @@ func TestProject(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"

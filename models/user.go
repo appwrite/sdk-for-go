@@ -45,6 +45,9 @@ type User struct {
 	EmailIsCorporate bool `json:"emailIsCorporate"`
 	// Whether the user email is in its canonical form.
 	EmailIsCanonical bool `json:"emailIsCanonical"`
+	// Whether the password was found in a known data breach the last time it was
+	// checked. Null when the password has never been checked.
+	PasswordPwned bool `json:"passwordPwned"`
 	// Phone verification status.
 	PhoneVerification bool `json:"phoneVerification"`
 	// Multi factor authentication status.

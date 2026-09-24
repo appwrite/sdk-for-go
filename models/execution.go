@@ -52,7 +52,7 @@ type Execution struct {
 	// empty string unless the response is returned using an API key or as part of
 	// a webhook payload.
 	Errors string `json:"errors"`
-	// Resource(function/site) execution duration in seconds.
+	// Total time the resource(function/site) took to respond, in seconds.
 	Duration float64 `json:"duration"`
 	// The scheduled time for execution. If left empty, execution will be queued
 	// immediately.

@@ -27,6 +27,8 @@ func main() {
 		service.WithCreateEmailCc([]string{"example"}),
 		service.WithCreateEmailBcc([]string{"example"}),
 		service.WithCreateEmailAttachments([]string{"example"}),
+		service.WithCreateEmailReplyToEmail("email@example.com"),
+		service.WithCreateEmailReplyToName("<REPLY_TO_NAME>"),
 		service.WithCreateEmailDraft(false),
 		service.WithCreateEmailHtml(false),
 		service.WithCreateEmailScheduledAt("2020-10-15T06:38:00.000+00:00"),

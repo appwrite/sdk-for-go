@@ -6,7 +6,7 @@ import (
 )
 
 func TestExecutionModel(t *testing.T) {
-	model := Execution{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, ResourceId: "5e5ea6g16897e", ResourceType: "functions", DeploymentId: "5e5ea5c16897e", Trigger: "http", Status: "processing", RequestMethod: "GET", RequestPath: "/articles?id=5", RequestHeaders: []Headers{Headers{Name: "Content-Type", Value: "application/json"}}, ResponseStatusCode: 200, ResponseBody: "string", ResponseHeaders: []Headers{Headers{Name: "Content-Type", Value: "application/json"}}, Logs: "string", Errors: "string", Duration: 0.4}
+	model := Execution{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, ResourceId: "5e5ea6g16897e", ResourceType: "functions", DeploymentId: "5e5ea5c16897e", Trigger: "http", Status: "processing", RequestMethod: "GET", RequestPath: "/articles?id=5", RequestHeaders: []Headers{Headers{Name: "Content-Type", Value: "application/json"}}, ResponseStatusCode: 200, ResponseBody: "string", ResponseHeaders: []Headers{Headers{Name: "Content-Type", Value: "application/json"}}, Logs: "string", Errors: "string", Duration: 1.23}
 
 	data, err := json.Marshal(model)
 	if err != nil {

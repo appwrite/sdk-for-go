@@ -22,7 +22,9 @@ func main() {
 		service.WithUpdateOAuth2AppleKeyId("<KEY_ID>"),
 		service.WithUpdateOAuth2AppleTeamId("<TEAM_ID>"),
 		service.WithUpdateOAuth2AppleP8File("<P8_FILE>"),
+		service.WithUpdateOAuth2AppleNativeClientIds([]string{"example"}),
 		service.WithUpdateOAuth2AppleEnabled(false),
+		service.WithUpdateOAuth2AppleNativeEnabled(false),
 	)
 	fmt.Println(response, err)
 }

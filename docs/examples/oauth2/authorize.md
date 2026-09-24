@@ -11,8 +11,8 @@ import (
 func main() {
 	client := appwrite.NewClient(
 		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
-		appwrite.WithSession(""),
 		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
 	)
 
 	service := oauth2.New(client)

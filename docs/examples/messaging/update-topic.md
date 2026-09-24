@@ -21,6 +21,8 @@ func main() {
 		"<TOPIC_ID>",
 		service.WithUpdateTopicName("<NAME>"),
 		service.WithUpdateTopicSubscribe([]string{"any"}),
+		service.WithUpdateTopicQos(0),
+		service.WithUpdateTopicExpiry(0),
 	)
 	fmt.Println(response, err)
 }

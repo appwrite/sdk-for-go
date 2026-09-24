@@ -573,173 +573,6 @@ func TestOrganization(t *testing.T) {
 		}
 	})
 
-	t.Run("Test ListKeys", func(t *testing.T) {
-		mockResponse := `
-{
-    "total": 5,
-    "keys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "My API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "scopes": [],
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ]
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "GET" {
-				t.Errorf("Expected method GET, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.ListKeys()
-		if err != nil {
-			t.Errorf("Method ListKeys failed: %v", err)
-		}
-	})
-
-	t.Run("Test CreateKey", func(t *testing.T) {
-		mockResponse := `
-{
-    "$id": "5e5ea5c16897e",
-    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-    "name": "My API Key",
-    "expire": "2020-10-15T06:38:00.000+00:00",
-    "scopes": [],
-    "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-    "accessedAt": "2020-10-15T06:38:00.000+00:00",
-    "sdks": []
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "POST" {
-				t.Errorf("Expected method POST, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.CreateKey("<KEY_ID>", "<NAME>", []string{})
-		if err != nil {
-			t.Errorf("Method CreateKey failed: %v", err)
-		}
-	})
-
-	t.Run("Test GetKey", func(t *testing.T) {
-		mockResponse := `
-{
-    "$id": "5e5ea5c16897e",
-    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-    "name": "My API Key",
-    "expire": "2020-10-15T06:38:00.000+00:00",
-    "scopes": [],
-    "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-    "accessedAt": "2020-10-15T06:38:00.000+00:00",
-    "sdks": []
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "GET" {
-				t.Errorf("Expected method GET, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.GetKey("<KEY_ID>")
-		if err != nil {
-			t.Errorf("Method GetKey failed: %v", err)
-		}
-	})
-
-	t.Run("Test UpdateKey", func(t *testing.T) {
-		mockResponse := `
-{
-    "$id": "5e5ea5c16897e",
-    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-    "name": "My API Key",
-    "expire": "2020-10-15T06:38:00.000+00:00",
-    "scopes": [],
-    "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-    "accessedAt": "2020-10-15T06:38:00.000+00:00",
-    "sdks": []
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "PUT" {
-				t.Errorf("Expected method PUT, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.UpdateKey("<KEY_ID>", "<NAME>", []string{})
-		if err != nil {
-			t.Errorf("Method UpdateKey failed: %v", err)
-		}
-	})
-
-	t.Run("Test DeleteKey", func(t *testing.T) {
-		mockResponse := `
-{
-    "message": "success"
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "DELETE" {
-				t.Errorf("Expected method DELETE, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.DeleteKey("<KEY_ID>")
-		if err != nil {
-			t.Errorf("Method DeleteKey failed: %v", err)
-		}
-	})
-
 	t.Run("Test ListMemberships", func(t *testing.T) {
 		mockResponse := `
 {
@@ -943,18 +776,6 @@ func TestOrganization(t *testing.T) {
             "name": "New Project",
             "teamId": "1592981250",
             "region": "fra",
-            "devKeys": [
-                {
-                    "$id": "5e5ea5c16897e",
-                    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-                    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-                    "name": "Dev API Key",
-                    "expire": "2020-10-15T06:38:00.000+00:00",
-                    "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-                    "accessedAt": "2020-10-15T06:38:00.000+00:00",
-                    "sdks": []
-                }
-            ],
             "smtpEnabled": true,
             "smtpSenderName": "John Appwrite",
             "smtpSenderEmail": "john@appwrite.io",
@@ -993,12 +814,7 @@ func TestOrganization(t *testing.T) {
                     "$createdAt": "2020-10-15T06:38:00.000+00:00",
                     "resourceType": "project",
                     "resourceId": "5e5ea5c16897e",
-                    "mode": "readOnly",
-                    "projectName": "My Project",
-                    "region": "fra",
-                    "organizationName": "Acme Inc.",
-                    "organizationId": "5e5ea5c16897e",
-                    "billingPlan": "pro"
+                    "mode": "readOnly"
                 }
             ],
             "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -1035,18 +851,6 @@ func TestOrganization(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -1085,12 +889,7 @@ func TestOrganization(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -1125,18 +924,6 @@ func TestOrganization(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -1175,12 +962,7 @@ func TestOrganization(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -1215,18 +997,6 @@ func TestOrganization(t *testing.T) {
     "name": "New Project",
     "teamId": "1592981250",
     "region": "fra",
-    "devKeys": [
-        {
-            "$id": "5e5ea5c16897e",
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "Dev API Key",
-            "expire": "2020-10-15T06:38:00.000+00:00",
-            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
-            "accessedAt": "2020-10-15T06:38:00.000+00:00",
-            "sdks": []
-        }
-    ],
     "smtpEnabled": true,
     "smtpSenderName": "John Appwrite",
     "smtpSenderEmail": "john@appwrite.io",
@@ -1265,12 +1035,7 @@ func TestOrganization(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "resourceType": "project",
             "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly",
-            "projectName": "My Project",
-            "region": "fra",
-            "organizationName": "Acme Inc.",
-            "organizationId": "5e5ea5c16897e",
-            "billingPlan": "pro"
+            "mode": "readOnly"
         }
     ],
     "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -1319,6 +1084,173 @@ func TestOrganization(t *testing.T) {
 		_, err := srv.DeleteProject("<PROJECT_ID>")
 		if err != nil {
 			t.Errorf("Method DeleteProject failed: %v", err)
+		}
+	})
+
+	t.Run("Test ListProjectKeys", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "keys": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "My API Key",
+            "expire": "2020-10-15T06:38:00.000+00:00",
+            "scopes": [],
+            "secret": "919c2d18fb5d4...a2ae413da83346ad2",
+            "accessedAt": "2020-10-15T06:38:00.000+00:00",
+            "sdks": []
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListProjectKeys("<PROJECT_ID>")
+		if err != nil {
+			t.Errorf("Method ListProjectKeys failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateEphemeralProjectKey", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "My API Key",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "scopes": [],
+    "secret": "919c2d18fb5d4...a2ae413da83346ad2",
+    "accessedAt": "2020-10-15T06:38:00.000+00:00",
+    "sdks": []
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateEphemeralProjectKey("<PROJECT_ID>", []string{}, 1)
+		if err != nil {
+			t.Errorf("Method CreateEphemeralProjectKey failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetProjectKey", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "My API Key",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "scopes": [],
+    "secret": "919c2d18fb5d4...a2ae413da83346ad2",
+    "accessedAt": "2020-10-15T06:38:00.000+00:00",
+    "sdks": []
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetProjectKey("<PROJECT_ID>", "<KEY_ID>")
+		if err != nil {
+			t.Errorf("Method GetProjectKey failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateProjectKey", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "My API Key",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "scopes": [],
+    "secret": "919c2d18fb5d4...a2ae413da83346ad2",
+    "accessedAt": "2020-10-15T06:38:00.000+00:00",
+    "sdks": []
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PUT" {
+				t.Errorf("Expected method PUT, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateProjectKey("<PROJECT_ID>", "<KEY_ID>", "<NAME>", []string{})
+		if err != nil {
+			t.Errorf("Method UpdateProjectKey failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteProjectKey", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteProjectKey("<PROJECT_ID>", "<KEY_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteProjectKey failed: %v", err)
 		}
 	})
 }
