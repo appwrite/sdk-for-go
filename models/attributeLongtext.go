@@ -20,16 +20,16 @@ type AttributeLongtext struct {
 	// Is attribute required?
 	Required bool `json:"required"`
 	// Is attribute an array?
-	Array bool `json:"array"`
+	Array *bool `json:"array"`
 	// Attribute creation date in ISO 8601 format.
 	CreatedAt string `json:"$createdAt"`
 	// Attribute update date in ISO 8601 format.
 	UpdatedAt string `json:"$updatedAt"`
 	// Default value for attribute when not provided. Cannot be set when attribute
 	// is required.
-	Default string `json:"default"`
+	Default *string `json:"default"`
 	// Defines whether this attribute is encrypted or not.
-	Encrypt bool `json:"encrypt"`
+	Encrypt *bool `json:"encrypt"`
 
 	// Used by Decode() method
 	data []byte

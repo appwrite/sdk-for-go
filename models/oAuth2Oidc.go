@@ -29,7 +29,7 @@ type OAuth2Oidc struct {
 	Prompt []string `json:"prompt"`
 	// Maximum authentication age in seconds. When set, the user must have
 	// authenticated within this many seconds.
-	MaxAge int `json:"maxAge"`
+	MaxAge *int `json:"maxAge"`
 
 	// Used by Decode() method
 	data []byte

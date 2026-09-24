@@ -16,7 +16,7 @@ type BillingPlanAddonDetails struct {
 	// Addon type
 	Type string `json:"type"`
 	// Price currency
-	Currency string `json:"currency"`
+	Currency *string `json:"currency"`
 	// Price
 	Price float64 `json:"price"`
 	// Resource value

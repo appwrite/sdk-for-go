@@ -17,7 +17,7 @@ type FrameworkAdapter struct {
 	OutputDirectory string `json:"outputDirectory"`
 	// Name of fallback file to use instead of 404 page. If null, Appwrite 404
 	// page will be displayed.
-	FallbackFile string `json:"fallbackFile"`
+	FallbackFile *string `json:"fallbackFile"`
 
 	// Used by Decode() method
 	data []byte

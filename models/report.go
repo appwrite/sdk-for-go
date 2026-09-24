@@ -32,7 +32,7 @@ type Report struct {
 	// Insights nested under this report.
 	Insights []Insight `json:"insights"`
 	// Time the report was analyzed in ISO 8601 format.
-	AnalyzedAt string `json:"analyzedAt"`
+	AnalyzedAt *string `json:"analyzedAt"`
 
 	// Used by Decode() method
 	data []byte

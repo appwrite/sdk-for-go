@@ -925,7 +925,7 @@ func TestFunctions(t *testing.T) {
             ],
             "logs": "string",
             "errors": "string",
-            "duration": 0.4
+            "duration": 1.23
         }
     ]
 }
@@ -980,7 +980,7 @@ func TestFunctions(t *testing.T) {
     ],
     "logs": "string",
     "errors": "string",
-    "duration": 0.4
+    "duration": 1.23
 }
 `
 
@@ -1033,7 +1033,7 @@ func TestFunctions(t *testing.T) {
     ],
     "logs": "string",
     "errors": "string",
-    "duration": 0.4
+    "duration": 1.23
 }
 `
 

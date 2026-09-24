@@ -957,7 +957,10 @@ func (srv *Users) UpdateEmail(UserId string, Email string) (*models.User, error)
 // users. When impersonation headers are used, the request runs as the target
 // user for API behavior, while internal audit logs still attribute the action
 // to the original impersonator and store the impersonated target details only
-// in internal audit payload data.
+// in internal audit payload data. Account endpoints are read-only while
+// impersonating: they report the target's account, and anything that would
+// change it is refused, so an impersonator cannot alter the target's
+// credentials or delete their account.
 func (srv *Users) UpdateImpersonator(UserId string, Impersonator bool) (*models.User, error) {
 	if UserId == "" {
 		return nil, errors.New("Missing required parameter: \"userId\"")
@@ -1122,83 +1125,6 @@ func (srv *Users) UpdateLabels(UserId string, Labels []string) (*models.User, er
 	}
 	var parsed models.User
 	parsed, ok := resp.Result.(models.User)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
-type ListLogsOptions struct {
-	Queries        []string
-	Total          bool
-	enabledSetters map[string]bool
-}
-
-func (options ListLogsOptions) New() *ListLogsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
-	return &options
-}
-
-type ListLogsOption func(*ListLogsOptions)
-
-func (srv *Users) WithListLogsQueries(v []string) ListLogsOption {
-	return func(o *ListLogsOptions) {
-		o.Queries = v
-		o.enabledSetters["Queries"] = true
-	}
-}
-func (srv *Users) WithListLogsTotal(v bool) ListLogsOption {
-	return func(o *ListLogsOptions) {
-		o.Total = v
-		o.enabledSetters["Total"] = true
-	}
-}
-
-// ListLogs get the user activity logs list by its unique ID.
-func (srv *Users) ListLogs(UserId string, optionalSetters ...ListLogsOption) (*models.LogList, error) {
-	if UserId == "" {
-		return nil, errors.New("Missing required parameter: \"userId\"")
-	}
-
-	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
-	path := r.Replace("/users/{userId}/logs")
-	options := ListLogsOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	if options.enabledSetters["Queries"] {
-		params["queries"] = options.Queries
-	}
-	if options.enabledSetters["Total"] {
-		params["total"] = options.Total
-	}
-	headers := map[string]interface{}{}
-	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["accept"] = "application/json"
-
-	resp, err := srv.client.Call("GET", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.LogList{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.LogList
-	parsed, ok := resp.Result.(models.LogList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

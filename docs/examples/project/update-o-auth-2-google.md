@@ -21,7 +21,9 @@ func main() {
 		service.WithUpdateOAuth2GoogleClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2GoogleClientSecret("<CLIENT_SECRET>"),
 		service.WithUpdateOAuth2GooglePrompt([]string{"example"}),
+		service.WithUpdateOAuth2GoogleNativeClientIds([]string{"example"}),
 		service.WithUpdateOAuth2GoogleEnabled(false),
+		service.WithUpdateOAuth2GoogleNativeEnabled(false),
 	)
 	fmt.Println(response, err)
 }

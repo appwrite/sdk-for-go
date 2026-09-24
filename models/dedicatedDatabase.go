@@ -52,11 +52,11 @@ type DedicatedDatabase struct {
 	// or failed (a wake was declined because the backing namespace is gone).
 	ContainerStatus string `json:"containerStatus"`
 	// Last activity timestamp in ISO 8601 format.
-	LastAccessedAt string `json:"lastAccessedAt"`
+	LastAccessedAt *string `json:"lastAccessedAt"`
 	// Display-only timestamp when the database is expected to be considered idle
 	// (ISO 8601 format). Derived from last activity; lifecycle transitions are
 	// driven by lifecycleState.
-	IdleUntil string `json:"idleUntil"`
+	IdleUntil *string `json:"idleUntil"`
 	// Idle-lifecycle state of the database. Possible values: active, warm, cold,
 	// hibernated.
 	LifecycleState string `json:"lifecycleState"`
@@ -75,7 +75,7 @@ type DedicatedDatabase struct {
 	// when no resize is in flight.
 	StorageTargetGb int `json:"storageTargetGb"`
 	// Time the in-flight storage resize started, in ISO 8601 format.
-	StorageResizeStartedAt string `json:"storageResizeStartedAt"`
+	StorageResizeStartedAt *string `json:"storageResizeStartedAt"`
 	// Storage class. Currently always 'ssd'; DigitalOcean exposes a single
 	// block-storage class.
 	StorageClass string `json:"storageClass"`

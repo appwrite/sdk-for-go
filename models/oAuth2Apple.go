@@ -20,6 +20,13 @@ type OAuth2Apple struct {
 	// Apple OAuth2 .p8 private key file contents. The secret key wrapped by the
 	// PEM markers is 200 characters long.
 	P8File string `json:"p8File"`
+	// Native Sign in with Apple is active and can be used to create sessions from
+	// an ID token. Independent of enabled, which only controls the browser-based
+	// flow.
+	NativeEnabled bool `json:"nativeEnabled"`
+	// App bundle IDs accepted as ID token audiences for native Sign in with
+	// Apple, next to the Services ID.
+	NativeClientIds []string `json:"nativeClientIds"`
 
 	// Used by Decode() method
 	data []byte

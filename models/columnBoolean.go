@@ -20,14 +20,14 @@ type ColumnBoolean struct {
 	// Is column required?
 	Required bool `json:"required"`
 	// Is column an array?
-	Array bool `json:"array"`
+	Array *bool `json:"array"`
 	// Column creation date in ISO 8601 format.
 	CreatedAt string `json:"$createdAt"`
 	// Column update date in ISO 8601 format.
 	UpdatedAt string `json:"$updatedAt"`
 	// Default value for column when not provided. Cannot be set when column is
 	// required.
-	Default bool `json:"default"`
+	Default *bool `json:"default"`
 
 	// Used by Decode() method
 	data []byte

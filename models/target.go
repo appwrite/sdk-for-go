@@ -18,7 +18,7 @@ type Target struct {
 	// User ID.
 	UserId string `json:"userId"`
 	// Provider ID.
-	ProviderId string `json:"providerId"`
+	ProviderId *string `json:"providerId"`
 	// The target provider type. Can be one of the following: `email`, `sms` or
 	// `push`.
 	ProviderType string `json:"providerType"`

@@ -23,29 +23,29 @@ type Database struct {
 	Type string `json:"type"`
 	// Dedicated database lifecycle status. Null when the database has no valid
 	// dedicated backing.
-	Status string `json:"status"`
+	Status *string `json:"status"`
 	// Underlying engine of the dedicated backing: postgresql, mysql, or mongodb.
 	// A managed product (tablesdb, documentsdb, vectorsdb) reports the engine it
 	// runs on, so its type and engine can differ. Null when the database has no
 	// dedicated backing.
-	Engine string `json:"engine"`
+	Engine *string `json:"engine"`
 	// Compute specification identifier of the dedicated backing, e.g.
 	// s-2vcpu-2gb. Null when the database has no dedicated backing.
-	Specification string `json:"specification"`
+	Specification *string `json:"specification"`
 	// Number of secondary high availability replicas, excluding the primary. Null
 	// when backing configuration is unavailable.
-	Replicas int `json:"replicas"`
+	Replicas *int `json:"replicas"`
 	// Error message when the dedicated backing failed. Null when the database has
 	// no dedicated backing or has not failed.
-	Error string `json:"error"`
+	Error *string `json:"error"`
 	// Container status of the dedicated backing: active, inactive, or failed (a
 	// wake was declined because the backing namespace is gone). Null when the
 	// database has no dedicated backing or the runtime has not reported one.
-	ContainerStatus string `json:"containerStatus"`
+	ContainerStatus *string `json:"containerStatus"`
 	// Idle-lifecycle state of the dedicated backing: active, warm, cold, or
 	// hibernated. Null when the database has no dedicated backing or the runtime
 	// has not reported one.
-	LifecycleState string `json:"lifecycleState"`
+	LifecycleState *string `json:"lifecycleState"`
 	// Database backup policies.
 	Policies []BackupPolicy `json:"policies"`
 	// Database backup archives.

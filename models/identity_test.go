@@ -6,7 +6,7 @@ import (
 )
 
 func TestIdentityModel(t *testing.T) {
-	model := Identity{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", UserId: "5e5bb8c16897e", Provider: "email", ProviderUid: "5e5bb8c16897e", ProviderEmail: "user@example.com", ProviderAccessToken: "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3", ProviderAccessTokenExpiry: "2020-10-15T06:38:00.000+00:00", ProviderRefreshToken: "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3"}
+	model := Identity{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", UserId: "5e5bb8c16897e", Provider: "email", ProviderUid: "5e5bb8c16897e", ProviderEmail: "user@example.com", ProviderAccessToken: "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3", ProviderAccessTokenExpiry: "2020-10-15T06:38:00.000+00:00", ProviderRefreshToken: "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3", ProviderIdToken: "eyJhbGciOiJSUzI1NiIsImtpZCI6IjBhYzNmMWQwNWExYjhlN2YifQ.eyJzdWIiOiIxMTAxNjk0ODQ0NzQzODYyNzYzMzQifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -47,5 +47,8 @@ func TestIdentityModel(t *testing.T) {
 	}
 	if result.ProviderRefreshToken != model.ProviderRefreshToken {
 		t.Errorf("Expected ProviderRefreshToken %v, got %v", model.ProviderRefreshToken, result.ProviderRefreshToken)
+	}
+	if result.ProviderIdToken != model.ProviderIdToken {
+		t.Errorf("Expected ProviderIdToken %v, got %v", model.ProviderIdToken, result.ProviderIdToken)
 	}
 }

@@ -18,7 +18,7 @@ type DedicatedDatabaseReplicas struct {
 	// availability is disabled or the state could not be read. A value below the
 	// requested syncMode means writes are being acknowledged with weaker
 	// durability than configured.
-	EffectiveSyncMode string `json:"effectiveSyncMode"`
+	EffectiveSyncMode *string `json:"effectiveSyncMode"`
 	// Whether the enforced replication is weaker than the requested syncMode.
 	SyncDegraded bool `json:"syncDegraded"`
 	// Number of standby acknowledgements the primary waits for before a write is
@@ -37,7 +37,7 @@ type DedicatedDatabaseReplicas struct {
 	// standby was found lagging, because it is the absence of a reading rather
 	// than a negative one, so draw no conclusion about replication health from it
 	// or from a response that omits it.
-	SyncStateConfirmed bool `json:"syncStateConfirmed"`
+	SyncStateConfirmed *bool `json:"syncStateConfirmed"`
 	// Per-pod statuses for the primary and every replica.
 	Members []DedicatedDatabaseMember `json:"members"`
 

@@ -426,299 +426,6 @@ func (srv *Organization) DeleteInstallation(InstallationId string) (*interface{}
 
 }
 
-type ListKeysOptions struct {
-	Queries        []string
-	Total          bool
-	enabledSetters map[string]bool
-}
-
-func (options ListKeysOptions) New() *ListKeysOptions {
-	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
-	return &options
-}
-
-type ListKeysOption func(*ListKeysOptions)
-
-func (srv *Organization) WithListKeysQueries(v []string) ListKeysOption {
-	return func(o *ListKeysOptions) {
-		o.Queries = v
-		o.enabledSetters["Queries"] = true
-	}
-}
-func (srv *Organization) WithListKeysTotal(v bool) ListKeysOption {
-	return func(o *ListKeysOptions) {
-		o.Total = v
-		o.enabledSetters["Total"] = true
-	}
-}
-
-// ListKeys get a list of all API keys from the current organization.
-func (srv *Organization) ListKeys(optionalSetters ...ListKeysOption) (*models.KeyList, error) {
-	path := "/organization/keys"
-	options := ListKeysOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	if options.enabledSetters["Queries"] {
-		params["queries"] = options.Queries
-	}
-	if options.enabledSetters["Total"] {
-		params["total"] = options.Total
-	}
-	headers := map[string]interface{}{}
-	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["accept"] = "application/json"
-
-	resp, err := srv.client.Call("GET", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.KeyList{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.KeyList
-	parsed, ok := resp.Result.(models.KeyList)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
-type CreateKeyOptions struct {
-	Expire         string
-	enabledSetters map[string]bool
-}
-
-func (options CreateKeyOptions) New() *CreateKeyOptions {
-	options.enabledSetters = map[string]bool{"Expire": false}
-	return &options
-}
-
-type CreateKeyOption func(*CreateKeyOptions)
-
-func (srv *Organization) WithCreateKeyExpire(v string) CreateKeyOption {
-	return func(o *CreateKeyOptions) {
-		o.Expire = v
-		o.enabledSetters["Expire"] = true
-	}
-}
-
-// CreateKey create a new organization API key.
-func (srv *Organization) CreateKey(KeyId string, Name string, Scopes []string, optionalSetters ...CreateKeyOption) (*models.Key, error) {
-	path := "/organization/keys"
-	options := CreateKeyOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	params["keyId"] = KeyId
-	params["name"] = Name
-	params["scopes"] = Scopes
-	if options.enabledSetters["Expire"] {
-		params["expire"] = options.Expire
-	}
-	headers := map[string]interface{}{}
-	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["content-type"] = "application/json"
-	headers["accept"] = "application/json"
-
-	resp, err := srv.client.Call("POST", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.Key{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.Key
-	parsed, ok := resp.Result.(models.Key)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
-// GetKey get a key by its unique ID. This endpoint returns details about a
-// specific API key in your organization including its scopes.
-func (srv *Organization) GetKey(KeyId string) (*models.Key, error) {
-	if KeyId == "" {
-		return nil, errors.New("Missing required parameter: \"keyId\"")
-	}
-
-	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
-	path := r.Replace("/organization/keys/{keyId}")
-	params := map[string]interface{}{}
-	headers := map[string]interface{}{}
-	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["accept"] = "application/json"
-
-	resp, err := srv.client.Call("GET", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.Key{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.Key
-	parsed, ok := resp.Result.(models.Key)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
-type UpdateKeyOptions struct {
-	Expire         string
-	enabledSetters map[string]bool
-}
-
-func (options UpdateKeyOptions) New() *UpdateKeyOptions {
-	options.enabledSetters = map[string]bool{"Expire": false}
-	return &options
-}
-
-type UpdateKeyOption func(*UpdateKeyOptions)
-
-func (srv *Organization) WithUpdateKeyExpire(v string) UpdateKeyOption {
-	return func(o *UpdateKeyOptions) {
-		o.Expire = v
-		o.enabledSetters["Expire"] = true
-	}
-}
-
-// UpdateKey update a key by its unique ID. Use this endpoint to update the
-// name, scopes, or expiration time of an API key.
-func (srv *Organization) UpdateKey(KeyId string, Name string, Scopes []string, optionalSetters ...UpdateKeyOption) (*models.Key, error) {
-	if KeyId == "" {
-		return nil, errors.New("Missing required parameter: \"keyId\"")
-	}
-
-	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
-	path := r.Replace("/organization/keys/{keyId}")
-	options := UpdateKeyOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	params["name"] = Name
-	params["scopes"] = Scopes
-	if options.enabledSetters["Expire"] {
-		params["expire"] = options.Expire
-	}
-	headers := map[string]interface{}{}
-	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["content-type"] = "application/json"
-	headers["accept"] = "application/json"
-
-	resp, err := srv.client.Call("PUT", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.Key{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.Key
-	parsed, ok := resp.Result.(models.Key)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
-// DeleteKey delete a key by its unique ID. Once deleted, the key can no
-// longer be used to authenticate API calls.
-func (srv *Organization) DeleteKey(KeyId string) (*interface{}, error) {
-	if KeyId == "" {
-		return nil, errors.New("Missing required parameter: \"keyId\"")
-	}
-
-	r := strings.NewReplacer("{keyId}", client.EncodePath(KeyId))
-	path := r.Replace("/organization/keys/{keyId}")
-	params := map[string]interface{}{}
-	headers := map[string]interface{}{}
-	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["content-type"] = "application/json"
-	headers["accept"] = "application/json"
-
-	resp, err := srv.client.Call("DELETE", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		var parsed interface{}
-
-		err = json.Unmarshal(bytes, &parsed)
-		if err != nil {
-			return nil, err
-		}
-		return &parsed, nil
-	}
-	var parsed interface{}
-	parsed, ok := resp.Result.(interface{})
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
 type ListMembershipsOptions struct {
 	Queries        []string
 	Search         string
@@ -1277,6 +984,296 @@ func (srv *Organization) DeleteProject(ProjectId string) (*interface{}, error) {
 
 	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId))
 	path := r.Replace("/organization/projects/{projectId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type ListProjectKeysOptions struct {
+	Queries        []string
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListProjectKeysOptions) New() *ListProjectKeysOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
+	return &options
+}
+
+type ListProjectKeysOption func(*ListProjectKeysOptions)
+
+func (srv *Organization) WithListProjectKeysQueries(v []string) ListProjectKeysOption {
+	return func(o *ListProjectKeysOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Organization) WithListProjectKeysTotal(v bool) ListProjectKeysOption {
+	return func(o *ListProjectKeysOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
+// ListProjectKeys get a list of all API keys of a project in your
+// organization.
+func (srv *Organization) ListProjectKeys(ProjectId string, optionalSetters ...ListProjectKeysOption) (*models.KeyList, error) {
+	if ProjectId == "" {
+		return nil, errors.New("Missing required parameter: \"projectId\"")
+	}
+
+	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId))
+	path := r.Replace("/organization/projects/{projectId}/keys")
+	options := ListProjectKeysOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.KeyList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.KeyList
+	parsed, ok := resp.Result.(models.KeyList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// CreateEphemeralProjectKey create a new ephemeral API key for a project in
+// your organization. It's recommended to have multiple API keys with strict
+// scopes for separate functions within your project.
+//
+// You can also create a standard API key if you need a longer-lived key
+// instead.
+func (srv *Organization) CreateEphemeralProjectKey(ProjectId string, Scopes []string, Duration int) (*models.EphemeralKey, error) {
+	if ProjectId == "" {
+		return nil, errors.New("Missing required parameter: \"projectId\"")
+	}
+
+	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId))
+	path := r.Replace("/organization/projects/{projectId}/keys/ephemeral")
+	params := map[string]interface{}{}
+	params["scopes"] = Scopes
+	params["duration"] = Duration
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.EphemeralKey{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.EphemeralKey
+	parsed, ok := resp.Result.(models.EphemeralKey)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetProjectKey get a project key by its unique ID.
+func (srv *Organization) GetProjectKey(ProjectId string, KeyId string) (*models.Key, error) {
+	if ProjectId == "" {
+		return nil, errors.New("Missing required parameter: \"projectId\"")
+	}
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
+	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId), "{keyId}", client.EncodePath(KeyId))
+	path := r.Replace("/organization/projects/{projectId}/keys/{keyId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Key{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Key
+	parsed, ok := resp.Result.(models.Key)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateProjectKeyOptions struct {
+	Expire         string
+	enabledSetters map[string]bool
+}
+
+func (options UpdateProjectKeyOptions) New() *UpdateProjectKeyOptions {
+	options.enabledSetters = map[string]bool{"Expire": false}
+	return &options
+}
+
+type UpdateProjectKeyOption func(*UpdateProjectKeyOptions)
+
+func (srv *Organization) WithUpdateProjectKeyExpire(v string) UpdateProjectKeyOption {
+	return func(o *UpdateProjectKeyOptions) {
+		o.Expire = v
+		o.enabledSetters["Expire"] = true
+	}
+}
+
+// UpdateProjectKey update a project key by its unique ID. Use this endpoint
+// to update the name, scopes, or expiration time of an API key.
+func (srv *Organization) UpdateProjectKey(ProjectId string, KeyId string, Name string, Scopes []string, optionalSetters ...UpdateProjectKeyOption) (*models.Key, error) {
+	if ProjectId == "" {
+		return nil, errors.New("Missing required parameter: \"projectId\"")
+	}
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
+	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId), "{keyId}", client.EncodePath(KeyId))
+	path := r.Replace("/organization/projects/{projectId}/keys/{keyId}")
+	options := UpdateProjectKeyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["name"] = Name
+	params["scopes"] = Scopes
+	if options.enabledSetters["Expire"] {
+		params["expire"] = options.Expire
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Key{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Key
+	parsed, ok := resp.Result.(models.Key)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeleteProjectKey delete a project key by its unique ID. Once deleted, the
+// key can no longer be used to authenticate API calls.
+func (srv *Organization) DeleteProjectKey(ProjectId string, KeyId string) (*interface{}, error) {
+	if ProjectId == "" {
+		return nil, errors.New("Missing required parameter: \"projectId\"")
+	}
+	if KeyId == "" {
+		return nil, errors.New("Missing required parameter: \"keyId\"")
+	}
+
+	r := strings.NewReplacer("{projectId}", client.EncodePath(ProjectId), "{keyId}", client.EncodePath(KeyId))
+	path := r.Replace("/organization/projects/{projectId}/keys/{keyId}")
 	params := map[string]interface{}{}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

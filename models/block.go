@@ -15,21 +15,9 @@ type Block struct {
 	ResourceId string `json:"resourceId"`
 	// Block mode. full blocks reads and writes; readOnly blocks writes only.
 	Mode string `json:"mode"`
-	// Reason for the block. Can be null if no reason was provided.
-	Reason string `json:"reason"`
 	// Block expiration date in ISO 8601 format. Can be null if the block does not
 	// expire.
-	ExpiredAt string `json:"expiredAt"`
-	// Name of the project this block applies to.
-	ProjectName string `json:"projectName"`
-	// Region of the project this block applies to.
-	Region string `json:"region"`
-	// Name of the organization that owns the project.
-	OrganizationName string `json:"organizationName"`
-	// ID of the organization that owns the project.
-	OrganizationId string `json:"organizationId"`
-	// Billing plan of the organization that owns the project.
-	BillingPlan string `json:"billingPlan"`
+	ExpiredAt *string `json:"expiredAt"`
 
 	// Used by Decode() method
 	data []byte

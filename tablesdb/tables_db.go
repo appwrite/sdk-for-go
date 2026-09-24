@@ -4099,6 +4099,92 @@ func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string,
 
 }
 
+type UpdateRelationshipColumnOptions struct {
+	OnDelete       string
+	NewKey         string
+	enabledSetters map[string]bool
+}
+
+func (options UpdateRelationshipColumnOptions) New() *UpdateRelationshipColumnOptions {
+	options.enabledSetters = map[string]bool{"OnDelete": false, "NewKey": false}
+	return &options
+}
+
+type UpdateRelationshipColumnOption func(*UpdateRelationshipColumnOptions)
+
+func (srv *TablesDB) WithUpdateRelationshipColumnOnDelete(v string) UpdateRelationshipColumnOption {
+	return func(o *UpdateRelationshipColumnOptions) {
+		o.OnDelete = v
+		o.enabledSetters["OnDelete"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateRelationshipColumnNewKey(v string) UpdateRelationshipColumnOption {
+	return func(o *UpdateRelationshipColumnOptions) {
+		o.NewKey = v
+		o.enabledSetters["NewKey"] = true
+	}
+}
+
+// UpdateRelationshipColumn update relationship column. [Learn more about
+// relationship
+// columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
+func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string, Key string, optionalSetters ...UpdateRelationshipColumnOption) (*models.ColumnRelationship, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if TableId == "" {
+		return nil, errors.New("Missing required parameter: \"tableId\"")
+	}
+	if Key == "" {
+		return nil, errors.New("Missing required parameter: \"key\"")
+	}
+
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
+	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/relationship/{key}")
+	options := UpdateRelationshipColumnOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["OnDelete"] {
+		params["onDelete"] = options.OnDelete
+	}
+	if options.enabledSetters["NewKey"] {
+		params["newKey"] = options.NewKey
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.ColumnRelationship{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ColumnRelationship
+	parsed, ok := resp.Result.(models.ColumnRelationship)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type CreateStringColumnOptions struct {
 	Default        string
 	Array          bool
@@ -4868,6 +4954,14 @@ func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string) (m
 
 			return parsed, nil
 		}
+		if fmt.Sprint(response["type"]) == "bigint" {
+			parsed := models.ColumnBigint{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
 		if fmt.Sprint(response["type"]) == "integer" {
 			parsed := models.ColumnInteger{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
@@ -4894,6 +4988,62 @@ func (srv *TablesDB) GetColumn(DatabaseId string, TableId string, Key string) (m
 		}
 		if fmt.Sprint(response["type"]) == "relationship" {
 			parsed := models.ColumnRelationship{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "point" {
+			parsed := models.ColumnPoint{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "linestring" {
+			parsed := models.ColumnLine{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "polygon" {
+			parsed := models.ColumnPolygon{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "varchar" {
+			parsed := models.ColumnVarchar{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "text" {
+			parsed := models.ColumnText{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "mediumtext" {
+			parsed := models.ColumnMediumtext{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "longtext" {
+			parsed := models.ColumnLongtext{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}
@@ -4959,92 +5109,6 @@ func (srv *TablesDB) DeleteColumn(DatabaseId string, TableId string, Key string)
 	}
 	var parsed interface{}
 	parsed, ok := resp.Result.(interface{})
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
-type UpdateRelationshipColumnOptions struct {
-	OnDelete       string
-	NewKey         string
-	enabledSetters map[string]bool
-}
-
-func (options UpdateRelationshipColumnOptions) New() *UpdateRelationshipColumnOptions {
-	options.enabledSetters = map[string]bool{"OnDelete": false, "NewKey": false}
-	return &options
-}
-
-type UpdateRelationshipColumnOption func(*UpdateRelationshipColumnOptions)
-
-func (srv *TablesDB) WithUpdateRelationshipColumnOnDelete(v string) UpdateRelationshipColumnOption {
-	return func(o *UpdateRelationshipColumnOptions) {
-		o.OnDelete = v
-		o.enabledSetters["OnDelete"] = true
-	}
-}
-func (srv *TablesDB) WithUpdateRelationshipColumnNewKey(v string) UpdateRelationshipColumnOption {
-	return func(o *UpdateRelationshipColumnOptions) {
-		o.NewKey = v
-		o.enabledSetters["NewKey"] = true
-	}
-}
-
-// UpdateRelationshipColumn update relationship column. [Learn more about
-// relationship
-// columns](https://appwrite.io/docs/databases-relationships#relationship-columns).
-func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string, Key string, optionalSetters ...UpdateRelationshipColumnOption) (*models.ColumnRelationship, error) {
-	if DatabaseId == "" {
-		return nil, errors.New("Missing required parameter: \"databaseId\"")
-	}
-	if TableId == "" {
-		return nil, errors.New("Missing required parameter: \"tableId\"")
-	}
-	if Key == "" {
-		return nil, errors.New("Missing required parameter: \"key\"")
-	}
-
-	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{tableId}", client.EncodePath(TableId), "{key}", client.EncodePath(Key))
-	path := r.Replace("/tablesdb/{databaseId}/tables/{tableId}/columns/{key}/relationship")
-	options := UpdateRelationshipColumnOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	if options.enabledSetters["OnDelete"] {
-		params["onDelete"] = options.OnDelete
-	}
-	if options.enabledSetters["NewKey"] {
-		params["newKey"] = options.NewKey
-	}
-	headers := map[string]interface{}{}
-	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["content-type"] = "application/json"
-	headers["accept"] = "application/json"
-
-	resp, err := srv.client.Call("PATCH", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.ColumnRelationship{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.ColumnRelationship
-	parsed, ok := resp.Result.(models.ColumnRelationship)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

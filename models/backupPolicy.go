@@ -21,10 +21,10 @@ type BackupPolicy struct {
 	Resources []string `json:"resources"`
 	// The resource ID to backup. Set only if this policy should backup a single
 	// resource.
-	ResourceId string `json:"resourceId"`
+	ResourceId *string `json:"resourceId"`
 	// The resource type to backup. Set only if this policy should backup a single
 	// resource.
-	ResourceType string `json:"resourceType"`
+	ResourceType *string `json:"resourceType"`
 	// How many days to keep the backup before it will be automatically deleted.
 	Retention int `json:"retention"`
 	// Policy backup schedule in CRON format.

@@ -19,11 +19,11 @@ type Presence struct {
 	// User ID.
 	UserId string `json:"userId"`
 	// Presence status.
-	Status string `json:"status"`
+	Status *string `json:"status"`
 	// Presence source.
 	Source string `json:"source"`
 	// Presence expiry date in ISO 8601 format.
-	ExpiresAt string `json:"expiresAt"`
+	ExpiresAt *string `json:"expiresAt"`
 	// Presence metadata.
 	Metadata interface{} `json:"metadata"`
 

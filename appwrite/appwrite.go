@@ -13,6 +13,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/backups"
 	"github.com/appwrite/sdk-for-go/v7/databases"
 	"github.com/appwrite/sdk-for-go/v7/documentsdb"
+	"github.com/appwrite/sdk-for-go/v7/domains"
 	"github.com/appwrite/sdk-for-go/v7/embeddings"
 	"github.com/appwrite/sdk-for-go/v7/functions"
 	"github.com/appwrite/sdk-for-go/v7/graphql"
@@ -56,6 +57,9 @@ func NewDatabases(clt client.Client) *databases.Databases {
 }
 func NewDocumentsDB(clt client.Client) *documentsdb.DocumentsDB {
 	return documentsdb.New(clt)
+}
+func NewDomains(clt client.Client) *domains.Domains {
+	return domains.New(clt)
 }
 func NewEmbeddings(clt client.Client) *embeddings.Embeddings {
 	return embeddings.New(clt)
@@ -249,17 +253,6 @@ func WithForwardedUserAgent(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Config["forwardeduseragent"] = value
 		clt.Headers["X-Forwarded-User-Agent"] = value
-		return nil
-	}
-}
-
-// Helper method to construct NewClient()
-//
-// Your secret dev API key
-func WithDevKey(value string) client.ClientOption {
-	return func(clt *client.Client) error {
-		clt.Config["devkey"] = value
-		clt.Headers["X-Appwrite-Dev-Key"] = value
 		return nil
 	}
 }

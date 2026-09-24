@@ -4455,6 +4455,14 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 
 			return parsed, nil
 		}
+		if fmt.Sprint(response["type"]) == "bigint" {
+			parsed := models.AttributeBigint{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
 		if fmt.Sprint(response["type"]) == "integer" {
 			parsed := models.AttributeInteger{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
@@ -4481,6 +4489,62 @@ func (srv *Databases) GetAttribute(DatabaseId string, CollectionId string, Key s
 		}
 		if fmt.Sprint(response["type"]) == "relationship" {
 			parsed := models.AttributeRelationship{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "point" {
+			parsed := models.AttributePoint{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "linestring" {
+			parsed := models.AttributeLine{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "polygon" {
+			parsed := models.AttributePolygon{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "varchar" {
+			parsed := models.AttributeVarchar{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "text" {
+			parsed := models.AttributeText{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "mediumtext" {
+			parsed := models.AttributeMediumtext{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["type"]) == "longtext" {
+			parsed := models.AttributeLongtext{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}

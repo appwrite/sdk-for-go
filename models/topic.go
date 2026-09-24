@@ -23,6 +23,11 @@ type Topic struct {
 	PushTotal int `json:"pushTotal"`
 	// Subscribe permissions.
 	Subscribe []string `json:"subscribe"`
+	// MQTT QoS for delivery on this topic. Null lets the subscriber choose their
+	// level.
+	Qos *int `json:"qos"`
+	// Message retention in seconds for offline delivery.
+	Expiry *int `json:"expiry"`
 
 	// Used by Decode() method
 	data []byte

@@ -394,7 +394,8 @@ func TestAccount(t *testing.T) {
             "providerEmail": "user@example.com",
             "providerAccessToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
             "providerAccessTokenExpiry": "2020-10-15T06:38:00.000+00:00",
-            "providerRefreshToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3"
+            "providerRefreshToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+            "providerIdToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjBhYzNmMWQwNWExYjhlN2YifQ.eyJzdWIiOiIxMTAxNjk0ODQ0NzQzODYyNzYzMzQifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
         }
     ]
 }
@@ -442,58 +443,6 @@ func TestAccount(t *testing.T) {
 		_, err := srv.DeleteIdentity("<IDENTITY_ID>")
 		if err != nil {
 			t.Errorf("Method DeleteIdentity failed: %v", err)
-		}
-	})
-
-	t.Run("Test ListLogs", func(t *testing.T) {
-		mockResponse := `
-{
-    "total": 5,
-    "logs": [
-        {
-            "event": "account.sessions.create",
-            "userId": "610fc2f985ee0",
-            "userEmail": "john@appwrite.io",
-            "userName": "John Doe",
-            "mode": "admin",
-            "userType": "user",
-            "ip": "127.0.0.1",
-            "time": "2020-10-15T06:38:00.000+00:00",
-            "osCode": "Mac",
-            "osName": "Mac",
-            "osVersion": "Mac",
-            "clientType": "browser",
-            "clientCode": "CM",
-            "clientName": "Chrome Mobile iOS",
-            "clientVersion": "84.0",
-            "clientEngine": "WebKit",
-            "clientEngineVersion": "605.1.15",
-            "deviceName": "smartphone",
-            "deviceBrand": "Google",
-            "deviceModel": "Nexus 5",
-            "countryCode": "US",
-            "countryName": "United States"
-        }
-    ]
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "GET" {
-				t.Errorf("Expected method GET, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.ListLogs()
-		if err != nil {
-			t.Errorf("Method ListLogs failed: %v", err)
 		}
 	})
 
@@ -1443,6 +1392,68 @@ func TestAccount(t *testing.T) {
 		}
 	})
 
+	t.Run("Test CreateRecoveryOTP", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "bb8ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c168bb8",
+    "secret": "string",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "phrase": "Golden Fox"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateRecoveryOTP("email@example.com")
+		if err != nil {
+			t.Errorf("Method CreateRecoveryOTP failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateRecoveryOTP", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "bb8ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c168bb8",
+    "secret": "string",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "phrase": "Golden Fox"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PUT" {
+				t.Errorf("Expected method PUT, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateRecoveryOTP("<USER_ID>", "<SECRET>", "password")
+		if err != nil {
+			t.Errorf("Method UpdateRecoveryOTP failed: %v", err)
+		}
+	})
+
 	t.Run("Test ListSessions", func(t *testing.T) {
 		mockResponse := `
 {
@@ -1633,6 +1644,60 @@ func TestAccount(t *testing.T) {
 		_, err := srv.CreateEmailPasswordSession("email@example.com", "password")
 		if err != nil {
 			t.Errorf("Method CreateEmailPasswordSession failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateIdTokenSession", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5bb8c16897e",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "provider": "email",
+    "providerUid": "user@example.com",
+    "providerAccessToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+    "providerAccessTokenExpiry": "2020-10-15T06:38:00.000+00:00",
+    "providerRefreshToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+    "ip": "127.0.0.1",
+    "osCode": "Mac",
+    "osName": "Mac",
+    "osVersion": "Mac",
+    "clientType": "browser",
+    "clientCode": "CM",
+    "clientName": "Chrome Mobile iOS",
+    "clientVersion": "84.0",
+    "clientEngine": "WebKit",
+    "clientEngineVersion": "605.1.15",
+    "deviceName": "smartphone",
+    "deviceBrand": "Google",
+    "deviceModel": "Nexus 5",
+    "countryCode": "US",
+    "countryName": "United States",
+    "current": true,
+    "factors": [],
+    "secret": "5e5bb8c16897e",
+    "mfaUpdatedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateIdTokenSession("apple", "<ID_TOKEN>")
+		if err != nil {
+			t.Errorf("Method CreateIdTokenSession failed: %v", err)
 		}
 	})
 
@@ -2221,6 +2286,68 @@ func TestAccount(t *testing.T) {
 		_, err := srv.UpdateVerification("<USER_ID>", "<SECRET>")
 		if err != nil {
 			t.Errorf("Method UpdateVerification failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateEmailVerificationOTP", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "bb8ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c168bb8",
+    "secret": "string",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "phrase": "Golden Fox"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateEmailVerificationOTP()
+		if err != nil {
+			t.Errorf("Method CreateEmailVerificationOTP failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateEmailVerificationOTP", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "bb8ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c168bb8",
+    "secret": "string",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "phrase": "Golden Fox"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PUT" {
+				t.Errorf("Expected method PUT, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateEmailVerificationOTP("<USER_ID>", "<SECRET>")
+		if err != nil {
+			t.Errorf("Method UpdateEmailVerificationOTP failed: %v", err)
 		}
 	})
 

@@ -248,7 +248,8 @@ func TestUsers(t *testing.T) {
             "providerEmail": "user@example.com",
             "providerAccessToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
             "providerAccessTokenExpiry": "2020-10-15T06:38:00.000+00:00",
-            "providerRefreshToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3"
+            "providerRefreshToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+            "providerIdToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjBhYzNmMWQwNWExYjhlN2YifQ.eyJzdWIiOiIxMTAxNjk0ODQ0NzQzODYyNzYzMzQifQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
         }
     ]
 }
@@ -825,58 +826,6 @@ func TestUsers(t *testing.T) {
 		_, err := srv.UpdateLabels("<USER_ID>", []string{})
 		if err != nil {
 			t.Errorf("Method UpdateLabels failed: %v", err)
-		}
-	})
-
-	t.Run("Test ListLogs", func(t *testing.T) {
-		mockResponse := `
-{
-    "total": 5,
-    "logs": [
-        {
-            "event": "account.sessions.create",
-            "userId": "610fc2f985ee0",
-            "userEmail": "john@appwrite.io",
-            "userName": "John Doe",
-            "mode": "admin",
-            "userType": "user",
-            "ip": "127.0.0.1",
-            "time": "2020-10-15T06:38:00.000+00:00",
-            "osCode": "Mac",
-            "osName": "Mac",
-            "osVersion": "Mac",
-            "clientType": "browser",
-            "clientCode": "CM",
-            "clientName": "Chrome Mobile iOS",
-            "clientVersion": "84.0",
-            "clientEngine": "WebKit",
-            "clientEngineVersion": "605.1.15",
-            "deviceName": "smartphone",
-            "deviceBrand": "Google",
-            "deviceModel": "Nexus 5",
-            "countryCode": "US",
-            "countryName": "United States"
-        }
-    ]
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "GET" {
-				t.Errorf("Expected method GET, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.ListLogs("<USER_ID>")
-		if err != nil {
-			t.Errorf("Method ListLogs failed: %v", err)
 		}
 	})
 

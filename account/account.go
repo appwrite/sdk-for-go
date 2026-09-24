@@ -614,80 +614,6 @@ func (srv *Account) DeleteIdentity(IdentityId string) (*interface{}, error) {
 
 }
 
-type ListLogsOptions struct {
-	Queries        []string
-	Total          bool
-	enabledSetters map[string]bool
-}
-
-func (options ListLogsOptions) New() *ListLogsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
-	return &options
-}
-
-type ListLogsOption func(*ListLogsOptions)
-
-func (srv *Account) WithListLogsQueries(v []string) ListLogsOption {
-	return func(o *ListLogsOptions) {
-		o.Queries = v
-		o.enabledSetters["Queries"] = true
-	}
-}
-func (srv *Account) WithListLogsTotal(v bool) ListLogsOption {
-	return func(o *ListLogsOptions) {
-		o.Total = v
-		o.enabledSetters["Total"] = true
-	}
-}
-
-// ListLogs get the list of latest security activity logs for the currently
-// logged in user. Each log returns user IP address, location and date and
-// time of log.
-func (srv *Account) ListLogs(optionalSetters ...ListLogsOption) (*models.LogList, error) {
-	path := "/account/logs"
-	options := ListLogsOptions{}.New()
-	for _, opt := range optionalSetters {
-		opt(options)
-	}
-	params := map[string]interface{}{}
-	if options.enabledSetters["Queries"] {
-		params["queries"] = options.Queries
-	}
-	if options.enabledSetters["Total"] {
-		params["total"] = options.Total
-	}
-	headers := map[string]interface{}{}
-	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["accept"] = "application/json"
-
-	resp, err := srv.client.Call("GET", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.LogList{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.LogList
-	parsed, ok := resp.Result.(models.LogList)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
 // UpdateMFA enable or disable MFA on an account.
 func (srv *Account) UpdateMFA(Mfa bool) (*models.User, error) {
 	path := "/account/mfa"
@@ -1789,6 +1715,127 @@ func (srv *Account) UpdateRecovery(UserId string, Secret string, Password string
 
 }
 
+type CreateRecoveryOTPOptions struct {
+	Phrase         bool
+	enabledSetters map[string]bool
+}
+
+func (options CreateRecoveryOTPOptions) New() *CreateRecoveryOTPOptions {
+	options.enabledSetters = map[string]bool{"Phrase": false}
+	return &options
+}
+
+type CreateRecoveryOTPOption func(*CreateRecoveryOTPOptions)
+
+func (srv *Account) WithCreateRecoveryOTPPhrase(v bool) CreateRecoveryOTPOption {
+	return func(o *CreateRecoveryOTPOptions) {
+		o.Phrase = v
+		o.enabledSetters["Phrase"] = true
+	}
+}
+
+// CreateRecoveryOTP use this endpoint to send a 6-digit password recovery
+// code to the user's email address. Unlike
+// [createRecovery](https://appwrite.io/docs/references/cloud/client-web/account#createRecovery),
+// this method requires no redirect URL, which makes it suitable for mobile
+// and desktop apps that cannot host a recovery page. Learn more about how to
+// [complete the recovery
+// process](https://appwrite.io/docs/references/cloud/client-web/account#updateRecoveryOTP).
+// The code sent to the user's email address is valid for 15 minutes.
+//
+// Enable the **phrase** parameter to include a randomly generated security
+// phrase in both the email and the response. Showing that phrase in your app
+// lets the user confirm the email genuinely came from your request, which
+// helps protect against phishing.
+func (srv *Account) CreateRecoveryOTP(Email string, optionalSetters ...CreateRecoveryOTPOption) (*models.Token, error) {
+	path := "/account/recovery/otp"
+	options := CreateRecoveryOTPOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["email"] = Email
+	if options.enabledSetters["Phrase"] {
+		params["phrase"] = options.Phrase
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Token{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Token
+	parsed, ok := resp.Result.(models.Token)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// UpdateRecoveryOTP use this endpoint to complete the user password recovery
+// process using the 6-digit code that was emailed by
+// [createRecoveryOTP](https://appwrite.io/docs/references/cloud/client-web/account#createRecoveryOTP).
+// Pass the **userId** of the user along with the **secret** code from the
+// email and the new **password** to set. If confirmed, this route will return
+// a 200 status code, the code is consumed and the user's password is updated.
+func (srv *Account) UpdateRecoveryOTP(UserId string, Secret string, Password string) (*models.Token, error) {
+	path := "/account/recovery/otp"
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	params["secret"] = Secret
+	params["password"] = Password
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Token{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Token
+	parsed, ok := resp.Result.(models.Token)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // ListSessions get the list of active sessions across different devices for
 // the currently logged in user.
 func (srv *Account) ListSessions() (*models.SessionList, error) {
@@ -1918,6 +1965,142 @@ func (srv *Account) CreateEmailPasswordSession(Email string, Password string) (*
 	params := map[string]interface{}{}
 	params["email"] = Email
 	params["password"] = Password
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Session{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Session
+	parsed, ok := resp.Result.(models.Session)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreateIdTokenSessionOptions struct {
+	Nonce             string
+	AccessToken       string
+	AccessTokenExpiry int
+	Name              string
+	enabledSetters    map[string]bool
+}
+
+func (options CreateIdTokenSessionOptions) New() *CreateIdTokenSessionOptions {
+	options.enabledSetters = map[string]bool{"Nonce": false, "AccessToken": false, "AccessTokenExpiry": false, "Name": false}
+	return &options
+}
+
+type CreateIdTokenSessionOption func(*CreateIdTokenSessionOptions)
+
+func (srv *Account) WithCreateIdTokenSessionNonce(v string) CreateIdTokenSessionOption {
+	return func(o *CreateIdTokenSessionOptions) {
+		o.Nonce = v
+		o.enabledSetters["Nonce"] = true
+	}
+}
+func (srv *Account) WithCreateIdTokenSessionAccessToken(v string) CreateIdTokenSessionOption {
+	return func(o *CreateIdTokenSessionOptions) {
+		o.AccessToken = v
+		o.enabledSetters["AccessToken"] = true
+	}
+}
+func (srv *Account) WithCreateIdTokenSessionAccessTokenExpiry(v int) CreateIdTokenSessionOption {
+	return func(o *CreateIdTokenSessionOptions) {
+		o.AccessTokenExpiry = v
+		o.enabledSetters["AccessTokenExpiry"] = true
+	}
+}
+func (srv *Account) WithCreateIdTokenSessionName(v string) CreateIdTokenSessionOption {
+	return func(o *CreateIdTokenSessionOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+
+// CreateIdTokenSession allow the user to login to their account using an
+// OpenID Connect ID token obtained natively from the OAuth2 provider, for
+// example via Google Credential Manager on Android or Sign in with Apple on
+// iOS. No browser or redirect is involved: the ID token is verified against
+// the provider's published signing keys and a session is created in a single
+// request.
+//
+// Native sign-in is switched on per provider with its nativeEnabled setting.
+// It is independent of the browser-based flow's enabled setting, which has no
+// effect on this endpoint. The token's audience must match the provider's
+// configured client ID or one of its native client IDs; tokens issued for any
+// other client ID are rejected. For Sign in with Apple, register your app's
+// bundle ID as a native client ID. For Google, the web client ID used by
+// Credential Manager is usually the configured client ID; add your Android
+// and iOS client IDs as native client IDs if your app requests tokens for
+// them.
+//
+// Pass the raw nonce used when requesting the ID token so it can be validated
+// against the token's nonce claim. When signing in with Apple, the nonce is
+// required: hash it with SHA-256 before passing it to the Apple SDK, and send
+// the raw value here - Apple tokens requested without a nonce are rejected.
+// For Google the nonce is optional: it is validated whenever the token
+// carries one, and ignored when the provider issued the token without one.
+// Apple only returns the user's name on the first authorization, and never
+// inside the ID token - capture it on the client and pass it via the name
+// parameter.
+//
+// If there is already an active session, the new session will be attached to
+// the logged-in account. If there are no active sessions, the server will
+// attempt to look for a user with the same email address as the verified
+// email received from the provider and attach the new session to the existing
+// user. If no matching user is found - the server will create a new user.
+//
+// This flow does not return provider refresh tokens. You may pass an access
+// token the provider handed your client, along with its lifetime, to store it
+// on the session - but Appwrite cannot renew it once it expires. If your app
+// needs long-lived access to provider APIs, use the browser-based OAuth2 flow
+// instead.
+//
+// A user is limited to 10 active sessions at a time by default. [Learn more
+// about session
+// limits](https://appwrite.io/docs/authentication-security#limits).
+func (srv *Account) CreateIdTokenSession(Provider string, IdToken string, optionalSetters ...CreateIdTokenSessionOption) (*models.Session, error) {
+	path := "/account/sessions/id-token"
+	options := CreateIdTokenSessionOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["provider"] = Provider
+	params["idToken"] = IdToken
+	if options.enabledSetters["Nonce"] {
+		params["nonce"] = options.Nonce
+	}
+	if options.enabledSetters["AccessToken"] {
+		params["accessToken"] = options.AccessToken
+	}
+	if options.enabledSetters["AccessTokenExpiry"] {
+		params["accessTokenExpiry"] = options.AccessTokenExpiry
+	}
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -2720,6 +2903,125 @@ func (srv *Account) UpdateEmailVerification(UserId string, Secret string) (*mode
 // Deprecated: This API has been deprecated since 1.8.0. Please use `Account.updateEmailVerification` instead.
 func (srv *Account) UpdateVerification(UserId string, Secret string) (*models.Token, error) {
 	path := "/account/verifications/email"
+	params := map[string]interface{}{}
+	params["userId"] = UserId
+	params["secret"] = Secret
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Token{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Token
+	parsed, ok := resp.Result.(models.Token)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreateEmailVerificationOTPOptions struct {
+	Phrase         bool
+	enabledSetters map[string]bool
+}
+
+func (options CreateEmailVerificationOTPOptions) New() *CreateEmailVerificationOTPOptions {
+	options.enabledSetters = map[string]bool{"Phrase": false}
+	return &options
+}
+
+type CreateEmailVerificationOTPOption func(*CreateEmailVerificationOTPOptions)
+
+func (srv *Account) WithCreateEmailVerificationOTPPhrase(v bool) CreateEmailVerificationOTPOption {
+	return func(o *CreateEmailVerificationOTPOptions) {
+		o.Phrase = v
+		o.enabledSetters["Phrase"] = true
+	}
+}
+
+// CreateEmailVerificationOTP use this endpoint to send a 6-digit verification
+// code to the currently logged in user's email address. Unlike
+// [createEmailVerification](https://appwrite.io/docs/references/cloud/client-web/account#createEmailVerification),
+// this method requires no redirect URL, which makes it suitable for mobile
+// and desktop apps that cannot host a verification page. Learn more about how
+// to [complete the verification
+// process](https://appwrite.io/docs/references/cloud/client-web/account#updateEmailVerificationOTP).
+// The code sent to the user's email address is valid for 15 minutes.
+//
+// Enable the **phrase** parameter to include a randomly generated security
+// phrase in both the email and the response. Showing that phrase in your app
+// lets the user confirm the email genuinely came from your request, which
+// helps protect against phishing.
+func (srv *Account) CreateEmailVerificationOTP(optionalSetters ...CreateEmailVerificationOTPOption) (*models.Token, error) {
+	path := "/account/verifications/email/otp"
+	options := CreateEmailVerificationOTPOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Phrase"] {
+		params["phrase"] = options.Phrase
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Token{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Token
+	parsed, ok := resp.Result.(models.Token)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// UpdateEmailVerificationOTP use this endpoint to complete the user email
+// verification process using the 6-digit code that was emailed by
+// [createEmailVerificationOTP](https://appwrite.io/docs/references/cloud/client-web/account#createEmailVerificationOTP).
+// Pass the **userId** of the user being verified along with the **secret**
+// code from the email. If confirmed, this route will return a 200 status code
+// and the code is consumed.
+func (srv *Account) UpdateEmailVerificationOTP(UserId string, Secret string) (*models.Token, error) {
+	path := "/account/verifications/email/otp"
 	params := map[string]interface{}{}
 	params["userId"] = UserId
 	params["secret"] = Secret
