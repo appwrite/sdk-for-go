@@ -15,14 +15,14 @@ type DomainPrice struct {
 	Available bool `json:"available"`
 	// Domain registration price. Null when the price could not be resolved, for
 	// example for an unsupported TLD.
-	Price float64 `json:"price"`
+	Price *float64 `json:"price"`
 	// Price period in years.
 	PeriodYears int `json:"periodYears"`
 	// Whether the domain is a premium domain.
 	Premium bool `json:"premium"`
 	// Domain renewal price for the same period. Null when the domain was not
 	// priced or the registrar has no renewal price for it.
-	RenewalPrice float64 `json:"renewalPrice"`
+	RenewalPrice *float64 `json:"renewalPrice"`
 	// Renewal price period in years.
 	RenewalPeriodYears int `json:"renewalPeriodYears"`
 

@@ -29,7 +29,7 @@ type ProxyRule struct {
 	DeploymentId string `json:"deploymentId"`
 	// Type of deployment. Possible values are "function", "site". Used if rule's
 	// type is "deployment".
-	DeploymentResourceType string `json:"deploymentResourceType"`
+	DeploymentResourceType *string `json:"deploymentResourceType"`
 	// ID of deployment's resource (site or function ID). Used if type is
 	// "deployment"
 	DeploymentResourceId string `json:"deploymentResourceId"`

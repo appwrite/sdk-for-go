@@ -56,7 +56,7 @@ type Execution struct {
 	Duration float64 `json:"duration"`
 	// The scheduled time for execution. If left empty, execution will be queued
 	// immediately.
-	ScheduledAt string `json:"scheduledAt"`
+	ScheduledAt *string `json:"scheduledAt"`
 
 	// Used by Decode() method
 	data []byte

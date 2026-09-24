@@ -38,19 +38,19 @@ type DedicatedDatabaseBackup struct {
 	// Backup size in bytes.
 	SizeBytes int `json:"sizeBytes"`
 	// Backup start time in ISO 8601 format.
-	StartedAt string `json:"startedAt"`
+	StartedAt *string `json:"startedAt"`
 	// Backup completion time in ISO 8601 format.
-	CompletedAt string `json:"completedAt"`
+	CompletedAt *string `json:"completedAt"`
 	// Backup verification time in ISO 8601 format.
-	VerifiedAt string `json:"verifiedAt"`
+	VerifiedAt *string `json:"verifiedAt"`
 	// Backup expiration time in ISO 8601 format.
-	ExpiresAt string `json:"expiresAt"`
+	ExpiresAt *string `json:"expiresAt"`
 	// Transaction-log position the backup anchors at, in the engine's own
 	// notation: PostgreSQL `{walSegment}|{lsn}`, MySQL and MariaDB
 	// `{binlogFile}|{offset}`, MongoDB `{seconds}|{increment}`. Empty when the
 	// backup recorded no position, which is the case for backup types that carry
 	// none.
-	LogPosition string `json:"logPosition"`
+	LogPosition *string `json:"logPosition"`
 	// Error message if backup failed.
 	Error string `json:"error"`
 

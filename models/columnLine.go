@@ -20,7 +20,7 @@ type ColumnLine struct {
 	// Is column required?
 	Required bool `json:"required"`
 	// Is column an array?
-	Array bool `json:"array"`
+	Array *bool `json:"array"`
 	// Column creation date in ISO 8601 format.
 	CreatedAt string `json:"$createdAt"`
 	// Column update date in ISO 8601 format.

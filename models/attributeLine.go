@@ -20,7 +20,7 @@ type AttributeLine struct {
 	// Is attribute required?
 	Required bool `json:"required"`
 	// Is attribute an array?
-	Array bool `json:"array"`
+	Array *bool `json:"array"`
 	// Attribute creation date in ISO 8601 format.
 	CreatedAt string `json:"$createdAt"`
 	// Attribute update date in ISO 8601 format.

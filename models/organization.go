@@ -20,7 +20,7 @@ type Organization struct {
 	// Team preferences as a key-value object
 	Prefs Preferences `json:"prefs"`
 	// Project budget limit. Null when no budget is set.
-	BillingBudget int `json:"billingBudget"`
+	BillingBudget *int `json:"billingBudget"`
 	// Project budget limit
 	BudgetAlerts []int `json:"budgetAlerts"`
 	// Organization's billing plan ID.
@@ -38,7 +38,7 @@ type Organization struct {
 	// Next invoice cycle start date.
 	BillingNextInvoiceDate string `json:"billingNextInvoiceDate"`
 	// Start date of trial.
-	BillingTrialStartDate string `json:"billingTrialStartDate"`
+	BillingTrialStartDate *string `json:"billingTrialStartDate"`
 	// Number of trial days.
 	BillingTrialDays int `json:"billingTrialDays"`
 	// Current active aggregation id.
@@ -48,29 +48,29 @@ type Organization struct {
 	// Default payment method.
 	PaymentMethodId string `json:"paymentMethodId"`
 	// Default payment method.
-	BillingAddressId string `json:"billingAddressId"`
+	BillingAddressId *string `json:"billingAddressId"`
 	// Backup payment method.
-	BackupPaymentMethodId string `json:"backupPaymentMethodId"`
+	BackupPaymentMethodId *string `json:"backupPaymentMethodId"`
 	// Team status.
 	Status string `json:"status"`
 	// Remarks on team status.
-	Remarks string `json:"remarks"`
+	Remarks *string `json:"remarks"`
 	// Organization agreements
-	AgreementBAA string `json:"agreementBAA"`
+	AgreementBAA *string `json:"agreementBAA"`
 	// Program manager's name.
-	ProgramManagerName string `json:"programManagerName"`
+	ProgramManagerName *string `json:"programManagerName"`
 	// Program manager's calendar link.
-	ProgramManagerCalendar string `json:"programManagerCalendar"`
+	ProgramManagerCalendar *string `json:"programManagerCalendar"`
 	// Program's discord channel name.
-	ProgramDiscordChannelName string `json:"programDiscordChannelName"`
+	ProgramDiscordChannelName *string `json:"programDiscordChannelName"`
 	// Program's discord channel URL.
-	ProgramDiscordChannelUrl string `json:"programDiscordChannelUrl"`
+	ProgramDiscordChannelUrl *string `json:"programDiscordChannelUrl"`
 	// Billing limits reached
 	BillingLimits BillingLimits `json:"billingLimits"`
 	// Billing plan selected for downgrade.
-	BillingPlanDowngrade string `json:"billingPlanDowngrade"`
+	BillingPlanDowngrade *string `json:"billingPlanDowngrade"`
 	// Tax Id
-	BillingTaxId string `json:"billingTaxId"`
+	BillingTaxId *string `json:"billingTaxId"`
 	// Marked for deletion
 	MarkedForDeletion bool `json:"markedForDeletion"`
 	// Product with which the organization is associated (appwrite or imagine)

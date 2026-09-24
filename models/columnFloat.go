@@ -20,18 +20,18 @@ type ColumnFloat struct {
 	// Is column required?
 	Required bool `json:"required"`
 	// Is column an array?
-	Array bool `json:"array"`
+	Array *bool `json:"array"`
 	// Column creation date in ISO 8601 format.
 	CreatedAt string `json:"$createdAt"`
 	// Column update date in ISO 8601 format.
 	UpdatedAt string `json:"$updatedAt"`
 	// Minimum value to enforce for new documents.
-	Min float64 `json:"min"`
+	Min *float64 `json:"min"`
 	// Maximum value to enforce for new documents.
-	Max float64 `json:"max"`
+	Max *float64 `json:"max"`
 	// Default value for column when not provided. Cannot be set when column is
 	// required.
-	Default float64 `json:"default"`
+	Default *float64 `json:"default"`
 
 	// Used by Decode() method
 	data []byte

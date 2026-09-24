@@ -44,12 +44,12 @@ type Insight struct {
 	// List of call-to-action buttons attached to this insight.
 	Ctas []InsightCTA `json:"ctas"`
 	// Time the insight was analyzed in ISO 8601 format.
-	AnalyzedAt string `json:"analyzedAt"`
+	AnalyzedAt *string `json:"analyzedAt"`
 	// Time the insight was dismissed in ISO 8601 format. Empty when not
 	// dismissed.
-	DismissedAt string `json:"dismissedAt"`
+	DismissedAt *string `json:"dismissedAt"`
 	// User ID that dismissed the insight. Empty when not dismissed.
-	DismissedBy string `json:"dismissedBy"`
+	DismissedBy *string `json:"dismissedBy"`
 
 	// Used by Decode() method
 	data []byte

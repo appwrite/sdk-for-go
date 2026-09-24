@@ -25,7 +25,7 @@ type DatabaseStatus struct {
 	SyncMode string `json:"syncMode"`
 	// Replication sync mode the primary is actually enforcing. Null when high
 	// availability is disabled or the state could not be read.
-	EffectiveSyncMode string `json:"effectiveSyncMode"`
+	EffectiveSyncMode *string `json:"effectiveSyncMode"`
 	// Whether the enforced replication is weaker than the requested syncMode.
 	SyncDegraded bool `json:"syncDegraded"`
 	// Number of standby acknowledgements the primary waits for before a write is
@@ -44,7 +44,7 @@ type DatabaseStatus struct {
 	// standby was found lagging, because it is the absence of a reading rather
 	// than a negative one, so draw no conclusion about replication health from it
 	// or from a response that omits it.
-	SyncStateConfirmed bool `json:"syncStateConfirmed"`
+	SyncStateConfirmed *bool `json:"syncStateConfirmed"`
 	// List of database replicas and their status. Every configured member
 	// appears, including one the backend has not brought up, which is reported as
 	// not healthy.

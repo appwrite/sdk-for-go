@@ -20,18 +20,18 @@ type AttributeFloat struct {
 	// Is attribute required?
 	Required bool `json:"required"`
 	// Is attribute an array?
-	Array bool `json:"array"`
+	Array *bool `json:"array"`
 	// Attribute creation date in ISO 8601 format.
 	CreatedAt string `json:"$createdAt"`
 	// Attribute update date in ISO 8601 format.
 	UpdatedAt string `json:"$updatedAt"`
 	// Minimum value to enforce for new documents.
-	Min float64 `json:"min"`
+	Min *float64 `json:"min"`
 	// Maximum value to enforce for new documents.
-	Max float64 `json:"max"`
+	Max *float64 `json:"max"`
 	// Default value for attribute when not provided. Cannot be set when attribute
 	// is required.
-	Default float64 `json:"default"`
+	Default *float64 `json:"default"`
 
 	// Used by Decode() method
 	data []byte

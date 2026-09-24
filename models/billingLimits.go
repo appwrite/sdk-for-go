@@ -8,21 +8,21 @@ import (
 // Limits Model
 type BillingLimits struct {
 	// Bandwidth limit
-	Bandwidth int `json:"bandwidth"`
+	Bandwidth *int `json:"bandwidth"`
 	// Storage limit
-	Storage int `json:"storage"`
+	Storage *int `json:"storage"`
 	// Users limit
-	Users int `json:"users"`
+	Users *int `json:"users"`
 	// Executions limit
-	Executions int `json:"executions"`
+	Executions *int `json:"executions"`
 	// GBHours limit
-	GBHours int `json:"GBHours"`
+	GBHours *int `json:"GBHours"`
 	// Image transformations limit
-	ImageTransformations int `json:"imageTransformations"`
+	ImageTransformations *int `json:"imageTransformations"`
 	// Auth phone limit
-	AuthPhone int `json:"authPhone"`
+	AuthPhone *int `json:"authPhone"`
 	// Budget limit percentage
-	BudgetLimit int `json:"budgetLimit"`
+	BudgetLimit *int `json:"budgetLimit"`
 
 	// Used by Decode() method
 	data []byte

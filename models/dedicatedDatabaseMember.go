@@ -27,12 +27,12 @@ type DedicatedDatabaseMember struct {
 	// Read it beside lagSeconds before expecting a failover that names no target
 	// to find a promotable standby: a member streaming at a known lag is one, and
 	// a member reporting null is not evidence either way.
-	Replicating bool `json:"replicating"`
+	Replicating *bool `json:"replicating"`
 	// Replication lag in seconds. Null when the lag is not known: a primary has
 	// none to report, and a member the backend has not probed has none yet. Also
 	// null against `replicating: true`, for a member that is streaming but whose
 	// engine printed no numeric lag.
-	LagSeconds float64 `json:"lagSeconds"`
+	LagSeconds *float64 `json:"lagSeconds"`
 
 	// Used by Decode() method
 	data []byte

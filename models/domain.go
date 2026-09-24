@@ -29,7 +29,7 @@ type Domain struct {
 	RenewalPrice int `json:"renewalPrice"`
 	// Transfer status for domains being transferred in. Null when the domain is
 	// not being transferred.
-	TransferStatus string `json:"transferStatus"`
+	TransferStatus *string `json:"transferStatus"`
 	// Team ID.
 	TeamId string `json:"teamId"`
 	// Dns records

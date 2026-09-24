@@ -26,27 +26,27 @@ type Locale struct {
 	// three-character format
 	Currency string `json:"currency"`
 	// City
-	City string `json:"city"`
+	City *string `json:"city"`
 	// Name of timezone
-	TimeZone string `json:"timeZone"`
+	TimeZone *string `json:"timeZone"`
 	// Postal code
-	PostalCode string `json:"postalCode"`
+	PostalCode *string `json:"postalCode"`
 	// Latitude
-	Latitude float64 `json:"latitude"`
+	Latitude *float64 `json:"latitude"`
 	// Longitude
-	Longitude float64 `json:"longitude"`
+	Longitude *float64 `json:"longitude"`
 	// Autonomous System Number (ASN) of the IP
-	AutonomousSystemNumber string `json:"autonomousSystemNumber"`
+	AutonomousSystemNumber *string `json:"autonomousSystemNumber"`
 	// Organization that owns the ASN
-	AutonomousSystemOrganization string `json:"autonomousSystemOrganization"`
+	AutonomousSystemOrganization *string `json:"autonomousSystemOrganization"`
 	// Internet service provider of the IP
-	Isp string `json:"isp"`
+	Isp *string `json:"isp"`
 	// Connection type of the IP (e.g. cable, cellular, corporate)
-	ConnectionType string `json:"connectionType"`
+	ConnectionType *string `json:"connectionType"`
 	// User type classification of the IP (e.g. residential, business, hosting)
-	ConnectionUsageType string `json:"connectionUsageType"`
+	ConnectionUsageType *string `json:"connectionUsageType"`
 	// Registered organization of the IP
-	ConnectionOrganization string `json:"connectionOrganization"`
+	ConnectionOrganization *string `json:"connectionOrganization"`
 
 	// Used by Decode() method
 	data []byte

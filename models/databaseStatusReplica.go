@@ -22,11 +22,11 @@ type DatabaseStatusReplica struct {
 	// that is not healthy, or whose probe did not answer, has none yet. `healthy`
 	// is a reachability probe of the member itself and says nothing about
 	// replication, so a healthy member may still not be replicating.
-	Replicating bool `json:"replicating"`
+	Replicating *bool `json:"replicating"`
 	// Replication lag in seconds (null for primary). Also null against
 	// `replicating: true`, for a member that is streaming but whose engine
 	// printed no numeric lag.
-	LagSeconds float64 `json:"lagSeconds"`
+	LagSeconds *float64 `json:"lagSeconds"`
 
 	// Used by Decode() method
 	data []byte

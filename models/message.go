@@ -22,9 +22,9 @@ type Message struct {
 	// Target IDs set as recipients.
 	Targets []string `json:"targets"`
 	// The scheduled time for message.
-	ScheduledAt string `json:"scheduledAt"`
+	ScheduledAt *string `json:"scheduledAt"`
 	// The time when the message was delivered.
-	DeliveredAt string `json:"deliveredAt"`
+	DeliveredAt *string `json:"deliveredAt"`
 	// Delivery errors if any.
 	DeliveryErrors []string `json:"deliveryErrors"`
 	// Number of recipients the message was delivered to.

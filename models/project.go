@@ -63,19 +63,19 @@ type Project struct {
 	// projectInactivityDays to determine if project is paused.
 	ConsoleAccessedAt string `json:"consoleAccessedAt"`
 	// Whether WAF enforcement is enabled for the project.
-	WafEnabled bool `json:"wafEnabled"`
+	WafEnabled *bool `json:"wafEnabled"`
 	// Billing limits reached
 	BillingLimits BillingLimits `json:"billingLimits"`
 	// First time the project received a non-console API request. Empty until the
 	// project is used.
-	FirstAccessedAt string `json:"firstAccessedAt"`
+	FirstAccessedAt *string `json:"firstAccessedAt"`
 	// Last time the project was accessed through the MCP server. Empty if it was
 	// never accessed via MCP.
-	McpAccessedAt string `json:"mcpAccessedAt"`
+	McpAccessedAt *string `json:"mcpAccessedAt"`
 	// OAuth2 server status
-	OAuth2ServerEnabled bool `json:"oAuth2ServerEnabled"`
+	OAuth2ServerEnabled *bool `json:"oAuth2ServerEnabled"`
 	// OAuth2 server authorization URL
-	OAuth2ServerAuthorizationUrl string `json:"oAuth2ServerAuthorizationUrl"`
+	OAuth2ServerAuthorizationUrl *string `json:"oAuth2ServerAuthorizationUrl"`
 	// OAuth2 server allowed scopes
 	OAuth2ServerScopes []string `json:"oAuth2ServerScopes"`
 	// OAuth2 server scopes used when an authorization request omits the scope
@@ -86,35 +86,35 @@ type Project struct {
 	// OAuth2 server accepted RFC 9396 authorization_details types
 	OAuth2ServerAuthorizationDetailsTypes []string `json:"oAuth2ServerAuthorizationDetailsTypes"`
 	// OAuth2 server access token duration in seconds for confidential clients
-	OAuth2ServerAccessTokenDuration int `json:"oAuth2ServerAccessTokenDuration"`
+	OAuth2ServerAccessTokenDuration *int `json:"oAuth2ServerAccessTokenDuration"`
 	// OAuth2 server refresh token duration in seconds for confidential clients
-	OAuth2ServerRefreshTokenDuration int `json:"oAuth2ServerRefreshTokenDuration"`
+	OAuth2ServerRefreshTokenDuration *int `json:"oAuth2ServerRefreshTokenDuration"`
 	// OAuth2 server access token duration in seconds for public clients (SPAs,
 	// mobile, native)
-	OAuth2ServerPublicAccessTokenDuration int `json:"oAuth2ServerPublicAccessTokenDuration"`
+	OAuth2ServerPublicAccessTokenDuration *int `json:"oAuth2ServerPublicAccessTokenDuration"`
 	// OAuth2 server refresh token duration in seconds for public clients (SPAs,
 	// mobile, native)
-	OAuth2ServerPublicRefreshTokenDuration int `json:"oAuth2ServerPublicRefreshTokenDuration"`
+	OAuth2ServerPublicRefreshTokenDuration *int `json:"oAuth2ServerPublicRefreshTokenDuration"`
 	// OAuth2 server access token duration in seconds for app installation access
 	// tokens
-	OAuth2ServerInstallationAccessTokenDuration int `json:"oAuth2ServerInstallationAccessTokenDuration"`
+	OAuth2ServerInstallationAccessTokenDuration *int `json:"oAuth2ServerInstallationAccessTokenDuration"`
 	// When enabled, PKCE is required for confidential clients (server-side flows
 	// using client_secret). PKCE is always required for public clients regardless
 	// of this setting.
-	OAuth2ServerConfidentialPkce bool `json:"oAuth2ServerConfidentialPkce"`
+	OAuth2ServerConfidentialPkce *bool `json:"oAuth2ServerConfidentialPkce"`
 	// URL to your application page where users enter the device flow user code.
 	// Empty when the Device Authorization Grant is not configured.
-	OAuth2ServerVerificationUrl string `json:"oAuth2ServerVerificationUrl"`
+	OAuth2ServerVerificationUrl *string `json:"oAuth2ServerVerificationUrl"`
 	// Number of characters in the device flow user code, excluding the formatting
 	// separator.
-	OAuth2ServerUserCodeLength int `json:"oAuth2ServerUserCodeLength"`
+	OAuth2ServerUserCodeLength *int `json:"oAuth2ServerUserCodeLength"`
 	// Character set for device flow user codes: `numeric`, `alphabetic`, or
 	// `alphanumeric`.
-	OAuth2ServerUserCodeFormat string `json:"oAuth2ServerUserCodeFormat"`
+	OAuth2ServerUserCodeFormat *string `json:"oAuth2ServerUserCodeFormat"`
 	// Lifetime in seconds of device flow device codes and user codes.
-	OAuth2ServerDeviceCodeDuration int `json:"oAuth2ServerDeviceCodeDuration"`
+	OAuth2ServerDeviceCodeDuration *int `json:"oAuth2ServerDeviceCodeDuration"`
 	// OAuth2 server discovery URL
-	OAuth2ServerDiscoveryUrl string `json:"oAuth2ServerDiscoveryUrl"`
+	OAuth2ServerDiscoveryUrl *string `json:"oAuth2ServerDiscoveryUrl"`
 
 	// Used by Decode() method
 	data []byte

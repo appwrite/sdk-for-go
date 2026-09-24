@@ -8,9 +8,9 @@ import (
 // PlanLimits Model
 type BillingPlanLimits struct {
 	// Credits limit per billing cycle
-	Credits int `json:"credits"`
+	Credits *int `json:"credits"`
 	// Daily credits limit (if applicable)
-	DailyCredits int `json:"dailyCredits"`
+	DailyCredits *int `json:"dailyCredits"`
 
 	// Used by Decode() method
 	data []byte

@@ -26,7 +26,7 @@ type AppSecretPlaintext struct {
 	CreatedByName string `json:"createdByName"`
 	// Time the secret was last used for authentication in ISO 8601 format. Null
 	// if never used.
-	LastAccessedAt string `json:"lastAccessedAt"`
+	LastAccessedAt *string `json:"lastAccessedAt"`
 
 	// Used by Decode() method
 	data []byte

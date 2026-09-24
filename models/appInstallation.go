@@ -31,7 +31,7 @@ type AppInstallation struct {
 	CreatedByName string `json:"createdByName"`
 	// Time an access token was last issued for the installation in ISO 8601
 	// format. Null if never used.
-	LastAccessedAt string `json:"lastAccessedAt"`
+	LastAccessedAt *string `json:"lastAccessedAt"`
 
 	// Used by Decode() method
 	data []byte

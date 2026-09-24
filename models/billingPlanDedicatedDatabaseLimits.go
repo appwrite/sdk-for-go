@@ -8,38 +8,38 @@ import (
 // DedicatedDatabaseLimits Model
 type BillingPlanDedicatedDatabaseLimits struct {
 	// Minimum CPU allocation in millicores.
-	MinCpu int `json:"minCpu"`
+	MinCpu *int `json:"minCpu"`
 	// Maximum CPU allocation in millicores.
-	MaxCpu int `json:"maxCpu"`
+	MaxCpu *int `json:"maxCpu"`
 	// Minimum memory allocation in megabytes.
-	MinMemoryMb int `json:"minMemoryMb"`
+	MinMemoryMb *int `json:"minMemoryMb"`
 	// Maximum memory allocation in megabytes.
-	MaxMemoryMb int `json:"maxMemoryMb"`
+	MaxMemoryMb *int `json:"maxMemoryMb"`
 	// Minimum storage allocation in gigabytes.
-	MinStorageGb int `json:"minStorageGb"`
+	MinStorageGb *int `json:"minStorageGb"`
 	// Maximum storage allocation in gigabytes.
-	MaxStorageGb int `json:"maxStorageGb"`
+	MaxStorageGb *int `json:"maxStorageGb"`
 	// Maximum number of high-availability replicas per dedicated database.
-	MaxReplicas int `json:"maxReplicas"`
+	MaxReplicas *int `json:"maxReplicas"`
 	// Maximum number of client connections.
-	MaxConnections int `json:"maxConnections"`
+	MaxConnections *int `json:"maxConnections"`
 	// Maximum number of entries allowed in the IP allowlist.
-	MaxIpAllowlistSize int `json:"maxIpAllowlistSize"`
+	MaxIpAllowlistSize *int `json:"maxIpAllowlistSize"`
 	// Maximum number of database extensions that can be enabled.
-	MaxExtensions int `json:"maxExtensions"`
+	MaxExtensions *int `json:"maxExtensions"`
 	// Maximum number of days a backup can be retained.
-	MaxBackupRetentionDays int `json:"maxBackupRetentionDays"`
+	MaxBackupRetentionDays *int `json:"maxBackupRetentionDays"`
 	// Maximum number of days of point-in-time recovery data that can be retained.
-	MaxPitrRetentionDays int `json:"maxPitrRetentionDays"`
+	MaxPitrRetentionDays *int `json:"maxPitrRetentionDays"`
 	// Maximum number of rows a single SQL API query can return.
-	MaxSqlApiMaxRows int `json:"maxSqlApiMaxRows"`
+	MaxSqlApiMaxRows *int `json:"maxSqlApiMaxRows"`
 	// Maximum response size in bytes for a single SQL API query.
-	MaxSqlApiMaxBytes int `json:"maxSqlApiMaxBytes"`
+	MaxSqlApiMaxBytes *int `json:"maxSqlApiMaxBytes"`
 	// Maximum execution time in seconds for a single SQL API query.
-	MaxSqlApiTimeoutSeconds int `json:"maxSqlApiTimeoutSeconds"`
+	MaxSqlApiTimeoutSeconds *int `json:"maxSqlApiTimeoutSeconds"`
 	// Maximum number of SQL statement types that can be permitted through the SQL
 	// API.
-	MaxSqlApiAllowedStatements int `json:"maxSqlApiAllowedStatements"`
+	MaxSqlApiAllowedStatements *int `json:"maxSqlApiAllowedStatements"`
 	// SQL statement types permitted through the SQL API.
 	AllowedSqlStatements []string `json:"allowedSqlStatements"`
 	// Storage classes available for dedicated databases.

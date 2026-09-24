@@ -23,11 +23,11 @@ type DedicatedDatabaseOperation struct {
 	// Number of times this operation has been attempted.
 	Attempts int `json:"attempts"`
 	// Time the operation was requested, in ISO 8601 format.
-	RequestedAt string `json:"requestedAt"`
+	RequestedAt *string `json:"requestedAt"`
 	// Time the operation started, in ISO 8601 format.
-	StartedAt string `json:"startedAt"`
+	StartedAt *string `json:"startedAt"`
 	// Time the operation reached a terminal state, in ISO 8601 format.
-	CompletedAt string `json:"completedAt"`
+	CompletedAt *string `json:"completedAt"`
 	// Machine-readable failure code. `Interrupted` marks an attempt that ended
 	// before its outcome could be confirmed.
 	ErrorCode string `json:"errorCode"`

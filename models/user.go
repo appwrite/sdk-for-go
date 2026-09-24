@@ -16,9 +16,9 @@ type User struct {
 	// User name.
 	Name string `json:"name"`
 	// Hashed user password.
-	Password string `json:"password"`
+	Password *string `json:"password"`
 	// Password hashing algorithm.
-	Hash string `json:"hash"`
+	Hash *string `json:"hash"`
 	// Password hashing algorithm configuration.
 	HashOptions interface{} `json:"hashOptions"`
 	// User registration date in ISO 8601 format.
@@ -36,18 +36,18 @@ type User struct {
 	// Email verification status.
 	EmailVerification bool `json:"emailVerification"`
 	// Canonical form of the user email address.
-	EmailCanonical string `json:"emailCanonical"`
+	EmailCanonical *string `json:"emailCanonical"`
 	// Whether the user email is from a free email provider.
-	EmailIsFree bool `json:"emailIsFree"`
+	EmailIsFree *bool `json:"emailIsFree"`
 	// Whether the user email is from a disposable email provider.
-	EmailIsDisposable bool `json:"emailIsDisposable"`
+	EmailIsDisposable *bool `json:"emailIsDisposable"`
 	// Whether the user email is from a corporate domain.
-	EmailIsCorporate bool `json:"emailIsCorporate"`
+	EmailIsCorporate *bool `json:"emailIsCorporate"`
 	// Whether the user email is in its canonical form.
-	EmailIsCanonical bool `json:"emailIsCanonical"`
+	EmailIsCanonical *bool `json:"emailIsCanonical"`
 	// Whether the password was found in a known data breach the last time it was
 	// checked. Null when the password has never been checked.
-	PasswordPwned bool `json:"passwordPwned"`
+	PasswordPwned *bool `json:"passwordPwned"`
 	// Phone verification status.
 	PhoneVerification bool `json:"phoneVerification"`
 	// Multi factor authentication status.
@@ -61,12 +61,12 @@ type User struct {
 	// again after 24 hours.
 	AccessedAt string `json:"accessedAt"`
 	// Whether the user can impersonate other users.
-	Impersonator bool `json:"impersonator"`
+	Impersonator *bool `json:"impersonator"`
 	// ID of the original actor performing the impersonation. Present only when
 	// the current request is impersonating another user. Internal audit logs
 	// attribute the action to this user, while the impersonated target is
 	// recorded only in internal audit payload data.
-	ImpersonatorUserId string `json:"impersonatorUserId"`
+	ImpersonatorUserId *string `json:"impersonatorUserId"`
 
 	// Used by Decode() method
 	data []byte

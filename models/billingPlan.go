@@ -28,7 +28,7 @@ type BillingPlan struct {
 	// Screenshots generated
 	ScreenshotsGenerated int `json:"screenshotsGenerated"`
 	// Members
-	Members int `json:"members"`
+	Members *int `json:"members"`
 	// Webhooks
 	Webhooks int `json:"webhooks"`
 	// Maximum WAF rules per project
@@ -76,7 +76,7 @@ type BillingPlan struct {
 	// Custom domains
 	Domains int `json:"domains"`
 	// Activity log days
-	ActivityLogs int `json:"activityLogs"`
+	ActivityLogs *int `json:"activityLogs"`
 	// Usage history days
 	UsageLogs int `json:"usageLogs"`
 	// Usage log time intervals allowed for this plan (e.g. 15m, 1h, 1d).
@@ -134,13 +134,13 @@ type BillingPlan struct {
 	// Does plan support project-specific member roles.
 	SupportsProjectSpecificRoles bool `json:"supportsProjectSpecificRoles"`
 	// Does plan support backup policies.
-	BackupsEnabled bool `json:"backupsEnabled"`
+	BackupsEnabled *bool `json:"backupsEnabled"`
 	// Whether usage addons are calculated per project.
 	UsagePerProject bool `json:"usagePerProject"`
 	// Supported addons for this plan
 	SupportedAddons BillingPlanSupportedAddons `json:"supportedAddons"`
 	// How many policies does plan support
-	BackupPolicies int `json:"backupPolicies"`
+	BackupPolicies *int `json:"backupPolicies"`
 	// Maximum function and site deployment size in MB
 	DeploymentSize int `json:"deploymentSize"`
 	// Maximum function and site deployment size in MB

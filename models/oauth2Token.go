@@ -18,9 +18,9 @@ type Oauth2Token struct {
 	// Space-separated scopes granted to the access token.
 	Scope string `json:"scope"`
 	// Granted RFC 9396 authorization details as a JSON string.
-	AuthorizationDetails string `json:"authorization_details"`
+	AuthorizationDetails *string `json:"authorization_details"`
 	// OpenID Connect ID token. Returned when the `openid` scope is granted.
-	IdToken string `json:"id_token"`
+	IdToken *string `json:"id_token"`
 
 	// Used by Decode() method
 	data []byte

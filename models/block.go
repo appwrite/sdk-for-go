@@ -17,7 +17,7 @@ type Block struct {
 	Mode string `json:"mode"`
 	// Block expiration date in ISO 8601 format. Can be null if the block does not
 	// expire.
-	ExpiredAt string `json:"expiredAt"`
+	ExpiredAt *string `json:"expiredAt"`
 
 	// Used by Decode() method
 	data []byte

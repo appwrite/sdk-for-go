@@ -6,12 +6,14 @@
 * Breaking: `Organization` key methods renamed to `CreateEphemeralProjectKey`, `GetProjectKey`, `ListProjectKeys`, `UpdateProjectKey`, `DeleteProjectKey`
 * Breaking: `WithDevKey` client option, `DevKey` model and `Project.DevKeys` removed
 * Breaking: `Region`, `Reason`, `ProjectName`, `OrganizationId`, `OrganizationName`, `BillingPlan` removed from `Block`
+* Breaking: nullable scalar model fields are now pointers, e.g. `Default`, `Min`, `Max`, `Array`, `Encrypt`
 * Added: `Domains` service for domains, DNS records, email presets, prices and transfers
 * Added: `Account.CreateIdTokenSession` and email verification and recovery OTP methods
 * Added: `Messaging.CreateAppwriteProvider` and `Messaging.UpdateAppwriteProvider`
 * Added: `Project.UpdatePasswordPwnedPolicy` with `PolicyPasswordPwned` model and `User.PasswordPwned`
 * Added: native client IDs on the Apple and Google OAuth2 providers
 * Added: reply-to on email messages, `Qos` and `Expiry` on topics
+* Fixed: a `null` in a response is no longer read as the field's zero value
 * Fixed: `TablesDB.GetColumn` and `Databases.GetAttribute` decode varchar, text, bigint and spatial columns
 * Updated: requests send `X-Appwrite-Response-Format` `2.3.0`
 
