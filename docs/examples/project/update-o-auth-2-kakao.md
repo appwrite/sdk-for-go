@@ -20,6 +20,7 @@ func main() {
 	response, err := service.UpdateOAuth2Kakao(
 		service.WithUpdateOAuth2KakaoClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2KakaoClientSecret("<CLIENT_SECRET>"),
+		service.WithUpdateOAuth2KakaoPrompt([]string{"example"}),
 		service.WithUpdateOAuth2KakaoEnabled(false),
 	)
 	fmt.Println(response, err)

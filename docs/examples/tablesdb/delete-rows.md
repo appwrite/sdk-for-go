@@ -20,7 +20,7 @@ func main() {
 	response, err := service.DeleteRows(
 		"<DATABASE_ID>",
 		"<TABLE_ID>",
-		service.WithDeleteRowsQueries([]string{"example"}),
+		service.WithDeleteRowsQueries([]string{"{\"method\":\"equal\", \"attribute\":\"$id\", \"values\":[\"<ROW_ID>\"]}"}),
 		service.WithDeleteRowsTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)

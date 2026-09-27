@@ -15,6 +15,8 @@ type OAuth2Discord struct {
 	ClientId string `json:"clientId"`
 	// Discord OAuth2 client secret.
 	ClientSecret string `json:"clientSecret"`
+	// Discord OAuth2 prompt values.
+	Prompt []string `json:"prompt"`
 
 	// Used by Decode() method
 	data []byte

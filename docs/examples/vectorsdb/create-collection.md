@@ -21,7 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<NAME>",
-		1,
+		4,
 		service.WithCreateCollectionPermissions([]string{"read(\"any\")"}),
 		service.WithCreateCollectionDocumentSecurity(false),
 		service.WithCreateCollectionEnabled(false),

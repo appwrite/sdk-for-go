@@ -15,6 +15,8 @@ type OAuth2Kakao struct {
 	ClientId string `json:"clientId"`
 	// Kakao OAuth2 client secret.
 	ClientSecret string `json:"clientSecret"`
+	// Kakao OAuth2 prompt values.
+	Prompt []string `json:"prompt"`
 
 	// Used by Decode() method
 	data []byte

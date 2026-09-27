@@ -1,5 +1,13 @@
 # Change Log
 
+## v7.5.0
+
+* Added: OAuth2 token introspection with `Oauth2.Introspect` and the `Oauth2Introspection` response model
+* Added: `prompt` options and model fields for Auth0, Discord, GitHub, Kakao, Microsoft, Okta, Salesforce, Zoho
+* Added: MQTT topic builder with `topic.Path`, `topic.Any`, and `topic.All`
+* Updated: API examples with realistic payloads, queries, scopes, and webhook events
+* Updated: README compatibility target to Appwrite `2.3.x`
+
 ## v7.4.0
 
 * Breaking: `Account.ListLogs`, `Users.ListLogs`, `Log` and `LogList` removed

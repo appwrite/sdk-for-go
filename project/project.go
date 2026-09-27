@@ -1245,12 +1245,13 @@ type UpdateOAuth2Auth0Options struct {
 	ClientId       string
 	ClientSecret   string
 	Endpoint       string
+	Prompt         []string
 	Enabled        bool
 	enabledSetters map[string]bool
 }
 
 func (options UpdateOAuth2Auth0Options) New() *UpdateOAuth2Auth0Options {
-	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Endpoint": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Endpoint": false, "Prompt": false, "Enabled": false}
 	return &options
 }
 
@@ -1272,6 +1273,12 @@ func (srv *Project) WithUpdateOAuth2Auth0Endpoint(v string) UpdateOAuth2Auth0Opt
 	return func(o *UpdateOAuth2Auth0Options) {
 		o.Endpoint = v
 		o.enabledSetters["Endpoint"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2Auth0Prompt(v []string) UpdateOAuth2Auth0Option {
+	return func(o *UpdateOAuth2Auth0Options) {
+		o.Prompt = v
+		o.enabledSetters["Prompt"] = true
 	}
 }
 func (srv *Project) WithUpdateOAuth2Auth0Enabled(v bool) UpdateOAuth2Auth0Option {
@@ -1297,6 +1304,9 @@ func (srv *Project) UpdateOAuth2Auth0(optionalSetters ...UpdateOAuth2Auth0Option
 	}
 	if options.enabledSetters["Endpoint"] {
 		params["endpoint"] = options.Endpoint
+	}
+	if options.enabledSetters["Prompt"] {
+		params["prompt"] = options.Prompt
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
@@ -1929,12 +1939,13 @@ func (srv *Project) UpdateOAuth2Dailymotion(optionalSetters ...UpdateOAuth2Daily
 type UpdateOAuth2DiscordOptions struct {
 	ClientId       string
 	ClientSecret   string
+	Prompt         []string
 	Enabled        bool
 	enabledSetters map[string]bool
 }
 
 func (options UpdateOAuth2DiscordOptions) New() *UpdateOAuth2DiscordOptions {
-	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Prompt": false, "Enabled": false}
 	return &options
 }
 
@@ -1950,6 +1961,12 @@ func (srv *Project) WithUpdateOAuth2DiscordClientSecret(v string) UpdateOAuth2Di
 	return func(o *UpdateOAuth2DiscordOptions) {
 		o.ClientSecret = v
 		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2DiscordPrompt(v []string) UpdateOAuth2DiscordOption {
+	return func(o *UpdateOAuth2DiscordOptions) {
+		o.Prompt = v
+		o.enabledSetters["Prompt"] = true
 	}
 }
 func (srv *Project) WithUpdateOAuth2DiscordEnabled(v bool) UpdateOAuth2DiscordOption {
@@ -1972,6 +1989,9 @@ func (srv *Project) UpdateOAuth2Discord(optionalSetters ...UpdateOAuth2DiscordOp
 	}
 	if options.enabledSetters["ClientSecret"] {
 		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Prompt"] {
+		params["prompt"] = options.Prompt
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
@@ -2520,12 +2540,13 @@ func (srv *Project) UpdateOAuth2FusionAuth(optionalSetters ...UpdateOAuth2Fusion
 type UpdateOAuth2GitHubOptions struct {
 	ClientId       string
 	ClientSecret   string
+	Prompt         []string
 	Enabled        bool
 	enabledSetters map[string]bool
 }
 
 func (options UpdateOAuth2GitHubOptions) New() *UpdateOAuth2GitHubOptions {
-	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Prompt": false, "Enabled": false}
 	return &options
 }
 
@@ -2541,6 +2562,12 @@ func (srv *Project) WithUpdateOAuth2GitHubClientSecret(v string) UpdateOAuth2Git
 	return func(o *UpdateOAuth2GitHubOptions) {
 		o.ClientSecret = v
 		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2GitHubPrompt(v []string) UpdateOAuth2GitHubOption {
+	return func(o *UpdateOAuth2GitHubOptions) {
+		o.Prompt = v
+		o.enabledSetters["Prompt"] = true
 	}
 }
 func (srv *Project) WithUpdateOAuth2GitHubEnabled(v bool) UpdateOAuth2GitHubOption {
@@ -2563,6 +2590,9 @@ func (srv *Project) UpdateOAuth2GitHub(optionalSetters ...UpdateOAuth2GitHubOpti
 	}
 	if options.enabledSetters["ClientSecret"] {
 		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Prompt"] {
+		params["prompt"] = options.Prompt
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
@@ -2893,12 +2923,13 @@ func (srv *Project) UpdateOAuth2HuggingFace(optionalSetters ...UpdateOAuth2Huggi
 type UpdateOAuth2KakaoOptions struct {
 	ClientId       string
 	ClientSecret   string
+	Prompt         []string
 	Enabled        bool
 	enabledSetters map[string]bool
 }
 
 func (options UpdateOAuth2KakaoOptions) New() *UpdateOAuth2KakaoOptions {
-	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Prompt": false, "Enabled": false}
 	return &options
 }
 
@@ -2914,6 +2945,12 @@ func (srv *Project) WithUpdateOAuth2KakaoClientSecret(v string) UpdateOAuth2Kaka
 	return func(o *UpdateOAuth2KakaoOptions) {
 		o.ClientSecret = v
 		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2KakaoPrompt(v []string) UpdateOAuth2KakaoOption {
+	return func(o *UpdateOAuth2KakaoOptions) {
+		o.Prompt = v
+		o.enabledSetters["Prompt"] = true
 	}
 }
 func (srv *Project) WithUpdateOAuth2KakaoEnabled(v bool) UpdateOAuth2KakaoOption {
@@ -2936,6 +2973,9 @@ func (srv *Project) UpdateOAuth2Kakao(optionalSetters ...UpdateOAuth2KakaoOption
 	}
 	if options.enabledSetters["ClientSecret"] {
 		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Prompt"] {
+		params["prompt"] = options.Prompt
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
@@ -3246,12 +3286,13 @@ type UpdateOAuth2MicrosoftOptions struct {
 	ApplicationId     string
 	ApplicationSecret string
 	Tenant            string
+	Prompt            []string
 	Enabled           bool
 	enabledSetters    map[string]bool
 }
 
 func (options UpdateOAuth2MicrosoftOptions) New() *UpdateOAuth2MicrosoftOptions {
-	options.enabledSetters = map[string]bool{"ApplicationId": false, "ApplicationSecret": false, "Tenant": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"ApplicationId": false, "ApplicationSecret": false, "Tenant": false, "Prompt": false, "Enabled": false}
 	return &options
 }
 
@@ -3273,6 +3314,12 @@ func (srv *Project) WithUpdateOAuth2MicrosoftTenant(v string) UpdateOAuth2Micros
 	return func(o *UpdateOAuth2MicrosoftOptions) {
 		o.Tenant = v
 		o.enabledSetters["Tenant"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2MicrosoftPrompt(v []string) UpdateOAuth2MicrosoftOption {
+	return func(o *UpdateOAuth2MicrosoftOptions) {
+		o.Prompt = v
+		o.enabledSetters["Prompt"] = true
 	}
 }
 func (srv *Project) WithUpdateOAuth2MicrosoftEnabled(v bool) UpdateOAuth2MicrosoftOption {
@@ -3298,6 +3345,9 @@ func (srv *Project) UpdateOAuth2Microsoft(optionalSetters ...UpdateOAuth2Microso
 	}
 	if options.enabledSetters["Tenant"] {
 		params["tenant"] = options.Tenant
+	}
+	if options.enabledSetters["Prompt"] {
+		params["prompt"] = options.Prompt
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
@@ -3566,12 +3616,13 @@ type UpdateOAuth2OktaOptions struct {
 	ClientSecret          string
 	Domain                string
 	AuthorizationServerId string
+	Prompt                []string
 	Enabled               bool
 	enabledSetters        map[string]bool
 }
 
 func (options UpdateOAuth2OktaOptions) New() *UpdateOAuth2OktaOptions {
-	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Domain": false, "AuthorizationServerId": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Domain": false, "AuthorizationServerId": false, "Prompt": false, "Enabled": false}
 	return &options
 }
 
@@ -3601,6 +3652,12 @@ func (srv *Project) WithUpdateOAuth2OktaAuthorizationServerId(v string) UpdateOA
 		o.enabledSetters["AuthorizationServerId"] = true
 	}
 }
+func (srv *Project) WithUpdateOAuth2OktaPrompt(v []string) UpdateOAuth2OktaOption {
+	return func(o *UpdateOAuth2OktaOptions) {
+		o.Prompt = v
+		o.enabledSetters["Prompt"] = true
+	}
+}
 func (srv *Project) WithUpdateOAuth2OktaEnabled(v bool) UpdateOAuth2OktaOption {
 	return func(o *UpdateOAuth2OktaOptions) {
 		o.Enabled = v
@@ -3627,6 +3684,9 @@ func (srv *Project) UpdateOAuth2Okta(optionalSetters ...UpdateOAuth2OktaOption) 
 	}
 	if options.enabledSetters["AuthorizationServerId"] {
 		params["authorizationServerId"] = options.AuthorizationServerId
+	}
+	if options.enabledSetters["Prompt"] {
+		params["prompt"] = options.Prompt
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
@@ -4000,12 +4060,13 @@ func (srv *Project) UpdateOAuth2Resend(optionalSetters ...UpdateOAuth2ResendOpti
 type UpdateOAuth2SalesforceOptions struct {
 	CustomerKey    string
 	CustomerSecret string
+	Prompt         []string
 	Enabled        bool
 	enabledSetters map[string]bool
 }
 
 func (options UpdateOAuth2SalesforceOptions) New() *UpdateOAuth2SalesforceOptions {
-	options.enabledSetters = map[string]bool{"CustomerKey": false, "CustomerSecret": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"CustomerKey": false, "CustomerSecret": false, "Prompt": false, "Enabled": false}
 	return &options
 }
 
@@ -4021,6 +4082,12 @@ func (srv *Project) WithUpdateOAuth2SalesforceCustomerSecret(v string) UpdateOAu
 	return func(o *UpdateOAuth2SalesforceOptions) {
 		o.CustomerSecret = v
 		o.enabledSetters["CustomerSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2SalesforcePrompt(v []string) UpdateOAuth2SalesforceOption {
+	return func(o *UpdateOAuth2SalesforceOptions) {
+		o.Prompt = v
+		o.enabledSetters["Prompt"] = true
 	}
 }
 func (srv *Project) WithUpdateOAuth2SalesforceEnabled(v bool) UpdateOAuth2SalesforceOption {
@@ -4043,6 +4110,9 @@ func (srv *Project) UpdateOAuth2Salesforce(optionalSetters ...UpdateOAuth2Salesf
 	}
 	if options.enabledSetters["CustomerSecret"] {
 		params["customerSecret"] = options.CustomerSecret
+	}
+	if options.enabledSetters["Prompt"] {
+		params["prompt"] = options.Prompt
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
@@ -4997,12 +5067,13 @@ func (srv *Project) UpdateOAuth2Yandex(optionalSetters ...UpdateOAuth2YandexOpti
 type UpdateOAuth2ZohoOptions struct {
 	ClientId       string
 	ClientSecret   string
+	Prompt         []string
 	Enabled        bool
 	enabledSetters map[string]bool
 }
 
 func (options UpdateOAuth2ZohoOptions) New() *UpdateOAuth2ZohoOptions {
-	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Prompt": false, "Enabled": false}
 	return &options
 }
 
@@ -5018,6 +5089,12 @@ func (srv *Project) WithUpdateOAuth2ZohoClientSecret(v string) UpdateOAuth2ZohoO
 	return func(o *UpdateOAuth2ZohoOptions) {
 		o.ClientSecret = v
 		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2ZohoPrompt(v []string) UpdateOAuth2ZohoOption {
+	return func(o *UpdateOAuth2ZohoOptions) {
+		o.Prompt = v
+		o.enabledSetters["Prompt"] = true
 	}
 }
 func (srv *Project) WithUpdateOAuth2ZohoEnabled(v bool) UpdateOAuth2ZohoOption {
@@ -5040,6 +5117,9 @@ func (srv *Project) UpdateOAuth2Zoho(optionalSetters ...UpdateOAuth2ZohoOption) 
 	}
 	if options.enabledSetters["ClientSecret"] {
 		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Prompt"] {
+		params["prompt"] = options.Prompt
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled

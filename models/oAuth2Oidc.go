@@ -15,6 +15,9 @@ type OAuth2Oidc struct {
 	ClientId string `json:"clientId"`
 	// OpenID Connect OAuth2 client secret.
 	ClientSecret string `json:"clientSecret"`
+	// OpenID Connect prompt values controlling the authentication and consent
+	// screens.
+	Prompt []string `json:"prompt"`
 	// OpenID Connect well-known configuration URL. When set, authorization,
 	// token, and user info endpoints can be discovered automatically.
 	WellKnownURL string `json:"wellKnownURL"`
@@ -24,9 +27,6 @@ type OAuth2Oidc struct {
 	TokenURL string `json:"tokenURL"`
 	// OpenID Connect user info endpoint URL.
 	UserInfoURL string `json:"userInfoURL"`
-	// OpenID Connect prompt values controlling the authentication and consent
-	// screens.
-	Prompt []string `json:"prompt"`
 	// Maximum authentication age in seconds. When set, the user must have
 	// authenticated within this many seconds.
 	MaxAge *int `json:"maxAge"`

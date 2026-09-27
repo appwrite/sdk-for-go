@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateDocuments(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		[]interface{}{},
+		[]interface{}{map[string]interface{}{"$id": "example1", "username": "walter.obrien", "email": "walter.obrien@example.com", "fullName": "Walter O'Brien", "age": 30, "isAdmin": false}},
 		service.WithCreateDocumentsTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)

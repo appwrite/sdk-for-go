@@ -15,6 +15,8 @@ type OAuth2Salesforce struct {
 	CustomerKey string `json:"customerKey"`
 	// Salesforce OAuth2 consumer secret.
 	CustomerSecret string `json:"customerSecret"`
+	// Salesforce OAuth2 prompt values.
+	Prompt []string `json:"prompt"`
 
 	// Used by Decode() method
 	data []byte

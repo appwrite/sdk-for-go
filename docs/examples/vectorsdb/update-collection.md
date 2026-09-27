@@ -21,7 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<NAME>",
-		service.WithUpdateCollectionDimension(1),
+		service.WithUpdateCollectionDimension(4),
 		service.WithUpdateCollectionPermissions([]string{"read(\"any\")"}),
 		service.WithUpdateCollectionDocumentSecurity(false),
 		service.WithUpdateCollectionEnabled(false),

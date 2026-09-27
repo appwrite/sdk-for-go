@@ -15,6 +15,8 @@ type OAuth2Zoho struct {
 	ClientId string `json:"clientId"`
 	// Zoho OAuth2 client secret.
 	ClientSecret string `json:"clientSecret"`
+	// Zoho OAuth2 prompt values.
+	Prompt []string `json:"prompt"`
 
 	// Used by Decode() method
 	data []byte

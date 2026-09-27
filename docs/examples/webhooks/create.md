@@ -21,7 +21,7 @@ func main() {
 		"<WEBHOOK_ID>",
 		"https://example.com/webhook",
 		"<NAME>",
-		[]string{"example"},
+		[]string{"users.*.create"},
 		service.WithCreateEnabled(false),
 		service.WithCreateTls(false),
 		service.WithCreateAuthUsername("<AUTH_USERNAME>"),

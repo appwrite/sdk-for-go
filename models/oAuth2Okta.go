@@ -15,6 +15,8 @@ type OAuth2Okta struct {
 	ClientId string `json:"clientId"`
 	// Okta OAuth2 client secret.
 	ClientSecret string `json:"clientSecret"`
+	// Okta OAuth2 prompt values.
+	Prompt []string `json:"prompt"`
 	// Okta OAuth2 domain.
 	Domain string `json:"domain"`
 	// Okta OAuth2 authorization server ID.

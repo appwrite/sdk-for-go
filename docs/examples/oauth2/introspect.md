@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/appwrite/sdk-for-go/v7/appwrite"
-	"github.com/appwrite/sdk-for-go/v7/graphql"
+	"github.com/appwrite/sdk-for-go/v7/oauth2"
 )
 
 func main() {
@@ -15,10 +15,13 @@ func main() {
 		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
-	service := graphql.New(client)
+	service := oauth2.New(client)
 
-	response, err := service.Mutation(
-		map[string]interface{}{"query": "mutation { accountUpdateName(name: \"Walter\") { name } }"},
+	response, err := service.Introspect(
+		"<TOKEN>",
+		service.WithIntrospectTokenTypeHint("access_token"),
+		service.WithIntrospectClientId("<CLIENT_ID>"),
+		service.WithIntrospectClientSecret("<CLIENT_SECRET>"),
 	)
 	fmt.Println(response, err)
 }

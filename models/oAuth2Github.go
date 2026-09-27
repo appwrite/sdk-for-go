@@ -16,6 +16,8 @@ type OAuth2Github struct {
 	ClientId string `json:"clientId"`
 	// GitHub OAuth2 client secret.
 	ClientSecret string `json:"clientSecret"`
+	// GitHub OAuth2 prompt values.
+	Prompt []string `json:"prompt"`
 
 	// Used by Decode() method
 	data []byte
