@@ -18,7 +18,7 @@ func main() {
 	service := graphql.New(client)
 
 	response, err := service.Query(
-		[]interface{}{},
+		map[string]interface{}{"query": "query { localeGet { ip } }"},
 	)
 	fmt.Println(response, err)
 }

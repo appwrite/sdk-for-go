@@ -20,7 +20,7 @@ func main() {
 	response, err := service.UpsertDocuments(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		[]interface{}{},
+		[]interface{}{map[string]interface{}{"$id": "example1", "embeddings": []interface{}{0.12, -0.55, 0.88, 1.02}, "metadata": map[string]interface{}{"name": "First document"}}},
 		service.WithUpsertDocumentsTransactionId("<TRANSACTION_ID>"),
 	)
 	fmt.Println(response, err)

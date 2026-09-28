@@ -22,7 +22,7 @@ func main() {
 		"<COLLECTION_ID>",
 		"<KEY>",
 		"key",
-		[]string{"example"},
+		[]string{"username"},
 		service.WithCreateIndexOrders([]string{"example"}),
 		service.WithCreateIndexLengths([]int{0}),
 	)

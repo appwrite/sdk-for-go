@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.CreateEphemeralProjectKey(
 		"<PROJECT_ID>",
-		[]string{"example"},
+		[]string{"users.read"},
 		600,
 	)
 	fmt.Println(response, err)

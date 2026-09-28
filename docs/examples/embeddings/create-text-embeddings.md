@@ -18,7 +18,7 @@ func main() {
 	service := embeddings.New(client)
 
 	response, err := service.CreateTextEmbeddings(
-		[]string{"example"},
+		[]string{"Appwrite helps developers build applications.", "Find documents with semantic search."},
 		service.WithCreateTextEmbeddingsModel("nomic-embed-text"),
 	)
 	fmt.Println(response, err)

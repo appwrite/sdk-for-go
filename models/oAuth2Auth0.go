@@ -15,6 +15,8 @@ type OAuth2Auth0 struct {
 	ClientId string `json:"clientId"`
 	// Auth0 OAuth2 client secret.
 	ClientSecret string `json:"clientSecret"`
+	// Auth0 OAuth2 prompt values.
+	Prompt []string `json:"prompt"`
 	// Auth0 OAuth2 endpoint domain.
 	Endpoint string `json:"endpoint"`
 

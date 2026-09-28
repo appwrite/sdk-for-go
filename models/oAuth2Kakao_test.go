@@ -6,7 +6,7 @@ import (
 )
 
 func TestOAuth2KakaoModel(t *testing.T) {
-	model := OAuth2Kakao{Id: "github", Enabled: true, ClientId: "839ff5000000000000000000013206de", ClientSecret: "jLNVOK00000000000000000000yJebea"}
+	model := OAuth2Kakao{Id: "github", Enabled: true, ClientId: "839ff5000000000000000000013206de", ClientSecret: "jLNVOK00000000000000000000yJebea", Prompt: []string{"test"}}
 
 	data, err := json.Marshal(model)
 	if err != nil {

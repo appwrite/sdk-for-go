@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.UpdateLabels(
-		[]string{"example"},
+		[]string{"production"},
 	)
 	fmt.Println(response, err)
 }

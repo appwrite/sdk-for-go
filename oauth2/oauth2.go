@@ -680,6 +680,93 @@ func (srv *Oauth2) GetGrant(GrantId string) (*models.Oauth2Grant, error) {
 
 }
 
+type IntrospectOptions struct {
+	TokenTypeHint  string
+	ClientId       string
+	ClientSecret   string
+	enabledSetters map[string]bool
+}
+
+func (options IntrospectOptions) New() *IntrospectOptions {
+	options.enabledSetters = map[string]bool{"TokenTypeHint": false, "ClientId": false, "ClientSecret": false}
+	return &options
+}
+
+type IntrospectOption func(*IntrospectOptions)
+
+func (srv *Oauth2) WithIntrospectTokenTypeHint(v string) IntrospectOption {
+	return func(o *IntrospectOptions) {
+		o.TokenTypeHint = v
+		o.enabledSetters["TokenTypeHint"] = true
+	}
+}
+func (srv *Oauth2) WithIntrospectClientId(v string) IntrospectOption {
+	return func(o *IntrospectOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Oauth2) WithIntrospectClientSecret(v string) IntrospectOption {
+	return func(o *IntrospectOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+
+// Introspect introspect an OAuth2 access token or refresh token. Authenticate
+// with an API key holding the `oauth2.introspect` scope to introspect any
+// token in the project, or with the client credentials of the app the token
+// was issued to.
+func (srv *Oauth2) Introspect(Token string, optionalSetters ...IntrospectOption) (*models.Oauth2Introspection, error) {
+	r := strings.NewReplacer("{project_id}", client.EncodePath(srv.client.Config["project"]))
+	path := r.Replace("/oauth2/{project_id}/introspect")
+	options := IntrospectOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["token"] = Token
+	if options.enabledSetters["TokenTypeHint"] {
+		params["token_type_hint"] = options.TokenTypeHint
+	}
+	if options.enabledSetters["ClientId"] {
+		params["client_id"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["client_secret"] = options.ClientSecret
+	}
+	headers := map[string]interface{}{}
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Oauth2Introspection{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Oauth2Introspection
+	parsed, ok := resp.Result.(models.Oauth2Introspection)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type ListOrganizationsOptions struct {
 	Limit          int
 	Offset         int

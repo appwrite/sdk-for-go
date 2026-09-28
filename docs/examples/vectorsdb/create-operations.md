@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.CreateOperations(
 		"<TRANSACTION_ID>",
-		service.WithCreateOperationsOperations([]interface{}{map[string]interface{}{"action": "create", "databaseId": "<DATABASE_ID>", "collectionId": "<COLLECTION_ID>", "documentId": "<DOCUMENT_ID>", "data": map[string]interface{}{"name": "Walter O'Brien"}}}),
+		service.WithCreateOperationsOperations([]interface{}{map[string]interface{}{"action": "create", "databaseId": "<DATABASE_ID>", "collectionId": "<COLLECTION_ID>", "documentId": "<DOCUMENT_ID>", "data": map[string]interface{}{"embeddings": []interface{}{0.12, -0.55, 0.88, 1.02}, "metadata": map[string]interface{}{"name": "First document"}}}}),
 	)
 	fmt.Println(response, err)
 }

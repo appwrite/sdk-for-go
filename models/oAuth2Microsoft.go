@@ -15,6 +15,8 @@ type OAuth2Microsoft struct {
 	ApplicationId string `json:"applicationId"`
 	// Microsoft OAuth2 application secret.
 	ApplicationSecret string `json:"applicationSecret"`
+	// Microsoft OAuth2 prompt values.
+	Prompt []string `json:"prompt"`
 	// Microsoft Entra ID tenant identifier. Use 'common', 'organizations',
 	// 'consumers' or a specific tenant ID.
 	Tenant string `json:"tenant"`

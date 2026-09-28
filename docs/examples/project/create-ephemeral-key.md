@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.CreateEphemeralKey(
-		[]string{"example"},
+		[]string{"users.read"},
 		600,
 	)
 	fmt.Println(response, err)
