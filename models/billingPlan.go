@@ -90,7 +90,7 @@ type BillingPlan struct {
 	ProjectInactivityDays int `json:"projectInactivityDays"`
 	// Alert threshold percentage
 	AlertLimit int `json:"alertLimit"`
-	// Additional resources
+	// Additional resources. Null when the plan does not support usage billing.
 	Usage UsageBillingPlan `json:"usage"`
 	// Addons
 	Addons BillingPlanAddon `json:"addons"`

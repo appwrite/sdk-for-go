@@ -19,11 +19,11 @@ func main() {
 
 	response, err := service.UpdatePush(
 		"<MESSAGE_ID>",
+		service.WithUpdatePushTitle("<TITLE>"),
+		service.WithUpdatePushBody("<BODY>"),
 		service.WithUpdatePushTopics([]string{"example"}),
 		service.WithUpdatePushUsers([]string{"example"}),
 		service.WithUpdatePushTargets([]string{"example"}),
-		service.WithUpdatePushTitle("<TITLE>"),
-		service.WithUpdatePushBody("<BODY>"),
 		service.WithUpdatePushData([]interface{}{}),
 		service.WithUpdatePushAction("<ACTION>"),
 		service.WithUpdatePushImage("<ID1:ID2>"),
@@ -37,6 +37,7 @@ func main() {
 		service.WithUpdatePushContentAvailable(false),
 		service.WithUpdatePushCritical(false),
 		service.WithUpdatePushPriority("normal"),
+		service.WithUpdatePushChannelId("<CHANNEL_ID>"),
 	)
 	fmt.Println(response, err)
 }

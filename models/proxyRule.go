@@ -27,8 +27,7 @@ type ProxyRule struct {
 	RedirectStatusCode int `json:"redirectStatusCode"`
 	// ID of deployment. Used if type is "deployment"
 	DeploymentId string `json:"deploymentId"`
-	// Type of deployment. Possible values are "function", "site". Used if rule's
-	// type is "deployment".
+	// Type of deployment resource: function, site, or dedicatedDatabase.
 	DeploymentResourceType *string `json:"deploymentResourceType"`
 	// ID of deployment's resource (site or function ID). Used if type is
 	// "deployment"

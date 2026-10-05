@@ -1836,11 +1836,37 @@ func (srv *Account) UpdateRecoveryOTP(UserId string, Secret string, Password str
 
 }
 
+type ListSessionsOptions struct {
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListSessionsOptions) New() *ListSessionsOptions {
+	options.enabledSetters = map[string]bool{"Total": false}
+	return &options
+}
+
+type ListSessionsOption func(*ListSessionsOptions)
+
+func (srv *Account) WithListSessionsTotal(v bool) ListSessionsOption {
+	return func(o *ListSessionsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
 // ListSessions get the list of active sessions across different devices for
 // the currently logged in user.
-func (srv *Account) ListSessions() (*models.SessionList, error) {
+func (srv *Account) ListSessions(optionalSetters ...ListSessionsOption) (*models.SessionList, error) {
 	path := "/account/sessions"
+	options := ListSessionsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "application/json"
@@ -1873,11 +1899,38 @@ func (srv *Account) ListSessions() (*models.SessionList, error) {
 
 }
 
+type DeleteSessionsOptions struct {
+	Current        bool
+	enabledSetters map[string]bool
+}
+
+func (options DeleteSessionsOptions) New() *DeleteSessionsOptions {
+	options.enabledSetters = map[string]bool{"Current": false}
+	return &options
+}
+
+type DeleteSessionsOption func(*DeleteSessionsOptions)
+
+func (srv *Account) WithDeleteSessionsCurrent(v bool) DeleteSessionsOption {
+	return func(o *DeleteSessionsOptions) {
+		o.Current = v
+		o.enabledSetters["Current"] = true
+	}
+}
+
 // DeleteSessions delete all sessions from the user account and remove any
-// sessions cookies from the end client.
-func (srv *Account) DeleteSessions() (*interface{}, error) {
+// sessions cookies from the end client. Pass `current` as false to keep the
+// session making the request and sign out of every other session.
+func (srv *Account) DeleteSessions(optionalSetters ...DeleteSessionsOption) (*interface{}, error) {
 	path := "/account/sessions"
+	options := DeleteSessionsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Current"] {
+		params["current"] = options.Current
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -1953,18 +2006,47 @@ func (srv *Account) CreateAnonymousSession() (*models.Session, error) {
 
 }
 
+type CreateEmailPasswordSessionOptions struct {
+	Duration       int
+	enabledSetters map[string]bool
+}
+
+func (options CreateEmailPasswordSessionOptions) New() *CreateEmailPasswordSessionOptions {
+	options.enabledSetters = map[string]bool{"Duration": false}
+	return &options
+}
+
+type CreateEmailPasswordSessionOption func(*CreateEmailPasswordSessionOptions)
+
+func (srv *Account) WithCreateEmailPasswordSessionDuration(v int) CreateEmailPasswordSessionOption {
+	return func(o *CreateEmailPasswordSessionOptions) {
+		o.Duration = v
+		o.enabledSetters["Duration"] = true
+	}
+}
+
 // CreateEmailPasswordSession allow the user to login into their account by
 // providing a valid email and password combination. This route will create a
-// new session for the user.
+// new session for the user. Use the optional `duration` parameter to create a
+// shorter session, for example when the user doesn't choose "remember me". It
+// must be at least 60 seconds and cannot exceed the project maximum session
+// length.
 //
 // A user is limited to 10 active sessions at a time by default. [Learn more
 // about session
 // limits](https://appwrite.io/docs/authentication-security#limits).
-func (srv *Account) CreateEmailPasswordSession(Email string, Password string) (*models.Session, error) {
+func (srv *Account) CreateEmailPasswordSession(Email string, Password string, optionalSetters ...CreateEmailPasswordSessionOption) (*models.Session, error) {
 	path := "/account/sessions/email"
+	options := CreateEmailPasswordSessionOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["email"] = Email
 	params["password"] = Password
+	if options.enabledSetters["Duration"] {
+		params["duration"] = options.Duration
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"

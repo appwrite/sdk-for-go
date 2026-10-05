@@ -20,6 +20,7 @@ func main() {
 	response, err := service.CreateEmailPasswordSession(
 		"email@example.com",
 		"password",
+		service.WithCreateEmailPasswordSessionDuration(60),
 	)
 	fmt.Println(response, err)
 }

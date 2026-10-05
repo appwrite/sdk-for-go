@@ -19,10 +19,10 @@ func main() {
 
 	response, err := service.UpdateSMS(
 		"<MESSAGE_ID>",
+		service.WithUpdateSMSContent("<CONTENT>"),
 		service.WithUpdateSMSTopics([]string{"example"}),
 		service.WithUpdateSMSUsers([]string{"example"}),
 		service.WithUpdateSMSTargets([]string{"example"}),
-		service.WithUpdateSMSContent("<CONTENT>"),
 		service.WithUpdateSMSDraft(false),
 		service.WithUpdateSMSScheduledAt("2020-10-15T06:38:00.000+00:00"),
 	)

@@ -7,6 +7,8 @@ import (
 	"strings"
 
 	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/file"
+	"github.com/appwrite/sdk-for-go/v7/models"
 )
 
 // Avatars service
@@ -815,8 +817,8 @@ func (srv *Avatars) getPhotoParams(optionalSetters ...GetPhotoOption) map[string
 
 // GetPhoto returns the best available profile photo for a user. The endpoint
 // tries each source in priority order and returns the first successful
-// result: OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials,
-// built-in static fallback.
+// result: a custom uploaded photo (see avatars.updatePhoto), OAuth2 identity
+// photo, Gravatar, Libravatar, Appwrite Initials, built-in static fallback.
 //
 // Passing `userId` — `current()` for the authenticated user — resolves
 // the photo from everything known about that user: identity photos, email,
@@ -864,8 +866,9 @@ func (srv *Avatars) GetPhoto(optionalSetters ...GetPhotoOption) (*[]byte, error)
 
 // GetPhotoURL returns the best available profile photo for a user. The
 // endpoint tries each source in priority order and returns the first
-// successful result: OAuth2 identity photo, Gravatar, Libravatar, Appwrite
-// Initials, built-in static fallback.
+// successful result: a custom uploaded photo (see avatars.updatePhoto),
+// OAuth2 identity photo, Gravatar, Libravatar, Appwrite Initials, built-in
+// static fallback.
 //
 // Passing `userId` — `current()` for the authenticated user — resolves
 // the photo from everything known about that user: identity photos, email,
@@ -892,6 +895,88 @@ func (srv *Avatars) GetPhotoURL(optionalSetters ...GetPhotoOption) (*string, err
 	u.RawQuery = q.Encode()
 	result := u.String()
 	return &result, nil
+}
+
+// UpdatePhoto update the profile photo of the currently authenticated user.
+// The uploaded image takes priority over every other photo source, including
+// OAuth2 identity photos, Gravatar, and Libravatar. Updating an already
+// customized photo replaces it. The image must be at most 5MB and is sent in
+// a single request.
+func (srv *Avatars) UpdatePhoto(File file.InputFile) (*models.Account, error) {
+	path := "/avatars/photo"
+	params := map[string]interface{}{}
+	params["file"] = File
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "multipart/form-data"
+	headers["accept"] = "application/json"
+
+	paramName := "file"
+
+	uploadId := ""
+
+	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId, "PUT")
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+		parsed := models.Account{}.New(bytes)
+		if err := json.Unmarshal(bytes, parsed); err != nil {
+			return nil, err
+		}
+		return parsed, nil
+	}
+	var parsed models.Account
+	parsed, ok := resp.Result.(models.Account)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeletePhoto delete the profile photo of the currently authenticated user
+// and store the built-in static placeholder in its place. The placeholder is
+// the user's photo from then on, so it takes priority over every other photo
+// source — OAuth2 identity photos, Gravatar, Libravatar, and initials —
+// until a new photo is uploaded with avatars.updatePhoto.
+func (srv *Avatars) DeletePhoto() (*interface{}, error) {
+	path := "/avatars/photo"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
 }
 
 type GetQROptions struct {

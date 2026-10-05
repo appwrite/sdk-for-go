@@ -17,7 +17,9 @@ func main() {
 
 	service := sites.New(client)
 
-	response, err := service.ListFrameworks()
+	response, err := service.ListFrameworks(
+		service.WithListFrameworksTotal(false),
+	)
 	fmt.Println(response, err)
 }
 ```

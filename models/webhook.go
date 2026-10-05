@@ -23,7 +23,7 @@ type Webhook struct {
 	Tls bool `json:"tls"`
 	// HTTP basic authentication username.
 	AuthUsername string `json:"authUsername"`
-	// HTTP basic authentication password.
+	// HTTP basic authentication password. Write-only: always returned empty.
 	AuthPassword string `json:"authPassword"`
 	// Signature key which can be used to validate incoming webhook payloads. Only
 	// returned on creation and secret rotation.

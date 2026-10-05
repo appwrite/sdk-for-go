@@ -20,16 +20,16 @@ type BackupRestoration struct {
 	// The status of the restoration. Possible values: pending, downloading,
 	// processing, completed, failed.
 	Status string `json:"status"`
-	// The backup start time.
-	StartedAt string `json:"startedAt"`
+	// The restoration start time. Null until the restoration starts.
+	StartedAt *string `json:"startedAt"`
 	// Migration ID.
 	MigrationId string `json:"migrationId"`
 	// The services that are backed up by this policy.
 	Services []string `json:"services"`
 	// The resources that are backed up by this policy.
 	Resources []string `json:"resources"`
-	// Optional data in key-value object.
-	Options string `json:"options"`
+	// Restoration options as a key-value object.
+	Options interface{} `json:"options"`
 
 	// Used by Decode() method
 	data []byte

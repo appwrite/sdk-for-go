@@ -17,7 +17,9 @@ func main() {
 
 	service := account.New(client)
 
-	response, err := service.ListSessions()
+	response, err := service.ListSessions(
+		service.WithListSessionsTotal(false),
+	)
 	fmt.Println(response, err)
 }
 ```

@@ -19,6 +19,7 @@ func main() {
 
 	response, err := service.ListTransactions(
 		service.WithListTransactionsQueries([]string{"example"}),
+		service.WithListTransactionsTotal(false),
 	)
 	fmt.Println(response, err)
 }

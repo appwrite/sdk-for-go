@@ -269,29 +269,41 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 }
 
 type UpdateEmailOptions struct {
+	Subject        string
+	Content        string
 	Topics         []string
 	Users          []string
 	Targets        []string
-	Subject        string
-	Content        string
-	Draft          bool
-	Html           bool
 	Cc             []string
 	Bcc            []string
+	Attachments    []string
 	ReplyToEmail   string
 	ReplyToName    string
+	Draft          bool
+	Html           bool
 	ScheduledAt    string
-	Attachments    []string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateEmailOptions) New() *UpdateEmailOptions {
-	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Subject": false, "Content": false, "Draft": false, "Html": false, "Cc": false, "Bcc": false, "ReplyToEmail": false, "ReplyToName": false, "ScheduledAt": false, "Attachments": false}
+	options.enabledSetters = map[string]bool{"Subject": false, "Content": false, "Topics": false, "Users": false, "Targets": false, "Cc": false, "Bcc": false, "Attachments": false, "ReplyToEmail": false, "ReplyToName": false, "Draft": false, "Html": false, "ScheduledAt": false}
 	return &options
 }
 
 type UpdateEmailOption func(*UpdateEmailOptions)
 
+func (srv *Messaging) WithUpdateEmailSubject(v string) UpdateEmailOption {
+	return func(o *UpdateEmailOptions) {
+		o.Subject = v
+		o.enabledSetters["Subject"] = true
+	}
+}
+func (srv *Messaging) WithUpdateEmailContent(v string) UpdateEmailOption {
+	return func(o *UpdateEmailOptions) {
+		o.Content = v
+		o.enabledSetters["Content"] = true
+	}
+}
 func (srv *Messaging) WithUpdateEmailTopics(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Topics = v
@@ -310,30 +322,6 @@ func (srv *Messaging) WithUpdateEmailTargets(v []string) UpdateEmailOption {
 		o.enabledSetters["Targets"] = true
 	}
 }
-func (srv *Messaging) WithUpdateEmailSubject(v string) UpdateEmailOption {
-	return func(o *UpdateEmailOptions) {
-		o.Subject = v
-		o.enabledSetters["Subject"] = true
-	}
-}
-func (srv *Messaging) WithUpdateEmailContent(v string) UpdateEmailOption {
-	return func(o *UpdateEmailOptions) {
-		o.Content = v
-		o.enabledSetters["Content"] = true
-	}
-}
-func (srv *Messaging) WithUpdateEmailDraft(v bool) UpdateEmailOption {
-	return func(o *UpdateEmailOptions) {
-		o.Draft = v
-		o.enabledSetters["Draft"] = true
-	}
-}
-func (srv *Messaging) WithUpdateEmailHtml(v bool) UpdateEmailOption {
-	return func(o *UpdateEmailOptions) {
-		o.Html = v
-		o.enabledSetters["Html"] = true
-	}
-}
 func (srv *Messaging) WithUpdateEmailCc(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Cc = v
@@ -344,6 +332,12 @@ func (srv *Messaging) WithUpdateEmailBcc(v []string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.Bcc = v
 		o.enabledSetters["Bcc"] = true
+	}
+}
+func (srv *Messaging) WithUpdateEmailAttachments(v []string) UpdateEmailOption {
+	return func(o *UpdateEmailOptions) {
+		o.Attachments = v
+		o.enabledSetters["Attachments"] = true
 	}
 }
 func (srv *Messaging) WithUpdateEmailReplyToEmail(v string) UpdateEmailOption {
@@ -358,16 +352,22 @@ func (srv *Messaging) WithUpdateEmailReplyToName(v string) UpdateEmailOption {
 		o.enabledSetters["ReplyToName"] = true
 	}
 }
+func (srv *Messaging) WithUpdateEmailDraft(v bool) UpdateEmailOption {
+	return func(o *UpdateEmailOptions) {
+		o.Draft = v
+		o.enabledSetters["Draft"] = true
+	}
+}
+func (srv *Messaging) WithUpdateEmailHtml(v bool) UpdateEmailOption {
+	return func(o *UpdateEmailOptions) {
+		o.Html = v
+		o.enabledSetters["Html"] = true
+	}
+}
 func (srv *Messaging) WithUpdateEmailScheduledAt(v string) UpdateEmailOption {
 	return func(o *UpdateEmailOptions) {
 		o.ScheduledAt = v
 		o.enabledSetters["ScheduledAt"] = true
-	}
-}
-func (srv *Messaging) WithUpdateEmailAttachments(v []string) UpdateEmailOption {
-	return func(o *UpdateEmailOptions) {
-		o.Attachments = v
-		o.enabledSetters["Attachments"] = true
 	}
 }
 
@@ -386,6 +386,12 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 		opt(options)
 	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Subject"] {
+		params["subject"] = options.Subject
+	}
+	if options.enabledSetters["Content"] {
+		params["content"] = options.Content
+	}
 	if options.enabledSetters["Topics"] {
 		params["topics"] = options.Topics
 	}
@@ -395,23 +401,14 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 	if options.enabledSetters["Targets"] {
 		params["targets"] = options.Targets
 	}
-	if options.enabledSetters["Subject"] {
-		params["subject"] = options.Subject
-	}
-	if options.enabledSetters["Content"] {
-		params["content"] = options.Content
-	}
-	if options.enabledSetters["Draft"] {
-		params["draft"] = options.Draft
-	}
-	if options.enabledSetters["Html"] {
-		params["html"] = options.Html
-	}
 	if options.enabledSetters["Cc"] {
 		params["cc"] = options.Cc
 	}
 	if options.enabledSetters["Bcc"] {
 		params["bcc"] = options.Bcc
+	}
+	if options.enabledSetters["Attachments"] {
+		params["attachments"] = options.Attachments
 	}
 	if options.enabledSetters["ReplyToEmail"] {
 		params["replyToEmail"] = options.ReplyToEmail
@@ -419,11 +416,14 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 	if options.enabledSetters["ReplyToName"] {
 		params["replyToName"] = options.ReplyToName
 	}
+	if options.enabledSetters["Draft"] {
+		params["draft"] = options.Draft
+	}
+	if options.enabledSetters["Html"] {
+		params["html"] = options.Html
+	}
 	if options.enabledSetters["ScheduledAt"] {
 		params["scheduledAt"] = options.ScheduledAt
-	}
-	if options.enabledSetters["Attachments"] {
-		params["attachments"] = options.Attachments
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -477,11 +477,12 @@ type CreatePushOptions struct {
 	ContentAvailable bool
 	Critical         bool
 	Priority         string
+	ChannelId        string
 	enabledSetters   map[string]bool
 }
 
 func (options CreatePushOptions) New() *CreatePushOptions {
-	options.enabledSetters = map[string]bool{"Title": false, "Body": false, "Topics": false, "Users": false, "Targets": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false}
+	options.enabledSetters = map[string]bool{"Title": false, "Body": false, "Topics": false, "Users": false, "Targets": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false, "ChannelId": false}
 	return &options
 }
 
@@ -595,6 +596,12 @@ func (srv *Messaging) WithCreatePushPriority(v string) CreatePushOption {
 		o.enabledSetters["Priority"] = true
 	}
 }
+func (srv *Messaging) WithCreatePushChannelId(v string) CreatePushOption {
+	return func(o *CreatePushOptions) {
+		o.ChannelId = v
+		o.enabledSetters["ChannelId"] = true
+	}
+}
 
 // CreatePush create a new push notification.
 func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePushOption) (*models.Message, error) {
@@ -659,6 +666,9 @@ func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePush
 	if options.enabledSetters["Priority"] {
 		params["priority"] = options.Priority
 	}
+	if options.enabledSetters["ChannelId"] {
+		params["channelId"] = options.ChannelId
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -693,11 +703,11 @@ func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePush
 }
 
 type UpdatePushOptions struct {
+	Title            string
+	Body             string
 	Topics           []string
 	Users            []string
 	Targets          []string
-	Title            string
-	Body             string
 	Data             interface{}
 	Action           string
 	Image            string
@@ -711,16 +721,29 @@ type UpdatePushOptions struct {
 	ContentAvailable bool
 	Critical         bool
 	Priority         string
+	ChannelId        string
 	enabledSetters   map[string]bool
 }
 
 func (options UpdatePushOptions) New() *UpdatePushOptions {
-	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Title": false, "Body": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false}
+	options.enabledSetters = map[string]bool{"Title": false, "Body": false, "Topics": false, "Users": false, "Targets": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false, "ChannelId": false}
 	return &options
 }
 
 type UpdatePushOption func(*UpdatePushOptions)
 
+func (srv *Messaging) WithUpdatePushTitle(v string) UpdatePushOption {
+	return func(o *UpdatePushOptions) {
+		o.Title = v
+		o.enabledSetters["Title"] = true
+	}
+}
+func (srv *Messaging) WithUpdatePushBody(v string) UpdatePushOption {
+	return func(o *UpdatePushOptions) {
+		o.Body = v
+		o.enabledSetters["Body"] = true
+	}
+}
 func (srv *Messaging) WithUpdatePushTopics(v []string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Topics = v
@@ -737,18 +760,6 @@ func (srv *Messaging) WithUpdatePushTargets(v []string) UpdatePushOption {
 	return func(o *UpdatePushOptions) {
 		o.Targets = v
 		o.enabledSetters["Targets"] = true
-	}
-}
-func (srv *Messaging) WithUpdatePushTitle(v string) UpdatePushOption {
-	return func(o *UpdatePushOptions) {
-		o.Title = v
-		o.enabledSetters["Title"] = true
-	}
-}
-func (srv *Messaging) WithUpdatePushBody(v string) UpdatePushOption {
-	return func(o *UpdatePushOptions) {
-		o.Body = v
-		o.enabledSetters["Body"] = true
 	}
 }
 func (srv *Messaging) WithUpdatePushData(v interface{}) UpdatePushOption {
@@ -829,6 +840,12 @@ func (srv *Messaging) WithUpdatePushPriority(v string) UpdatePushOption {
 		o.enabledSetters["Priority"] = true
 	}
 }
+func (srv *Messaging) WithUpdatePushChannelId(v string) UpdatePushOption {
+	return func(o *UpdatePushOptions) {
+		o.ChannelId = v
+		o.enabledSetters["ChannelId"] = true
+	}
+}
 
 // UpdatePush update a push notification by its unique ID. This endpoint only
 // works on messages that are in draft status. Messages that are already
@@ -845,6 +862,12 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 		opt(options)
 	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Title"] {
+		params["title"] = options.Title
+	}
+	if options.enabledSetters["Body"] {
+		params["body"] = options.Body
+	}
 	if options.enabledSetters["Topics"] {
 		params["topics"] = options.Topics
 	}
@@ -853,12 +876,6 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 	}
 	if options.enabledSetters["Targets"] {
 		params["targets"] = options.Targets
-	}
-	if options.enabledSetters["Title"] {
-		params["title"] = options.Title
-	}
-	if options.enabledSetters["Body"] {
-		params["body"] = options.Body
 	}
 	if options.enabledSetters["Data"] {
 		params["data"] = options.Data
@@ -898,6 +915,9 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 	}
 	if options.enabledSetters["Priority"] {
 		params["priority"] = options.Priority
+	}
+	if options.enabledSetters["ChannelId"] {
+		params["channelId"] = options.ChannelId
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1145,22 +1165,28 @@ func (srv *Messaging) CreateSMS(MessageId string, Content string, optionalSetter
 }
 
 type UpdateSmsOptions struct {
+	Content        string
 	Topics         []string
 	Users          []string
 	Targets        []string
-	Content        string
 	Draft          bool
 	ScheduledAt    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateSmsOptions) New() *UpdateSmsOptions {
-	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Content": false, "Draft": false, "ScheduledAt": false}
+	options.enabledSetters = map[string]bool{"Content": false, "Topics": false, "Users": false, "Targets": false, "Draft": false, "ScheduledAt": false}
 	return &options
 }
 
 type UpdateSmsOption func(*UpdateSmsOptions)
 
+func (srv *Messaging) WithUpdateSmsContent(v string) UpdateSmsOption {
+	return func(o *UpdateSmsOptions) {
+		o.Content = v
+		o.enabledSetters["Content"] = true
+	}
+}
 func (srv *Messaging) WithUpdateSmsTopics(v []string) UpdateSmsOption {
 	return func(o *UpdateSmsOptions) {
 		o.Topics = v
@@ -1177,12 +1203,6 @@ func (srv *Messaging) WithUpdateSmsTargets(v []string) UpdateSmsOption {
 	return func(o *UpdateSmsOptions) {
 		o.Targets = v
 		o.enabledSetters["Targets"] = true
-	}
-}
-func (srv *Messaging) WithUpdateSmsContent(v string) UpdateSmsOption {
-	return func(o *UpdateSmsOptions) {
-		o.Content = v
-		o.enabledSetters["Content"] = true
 	}
 }
 func (srv *Messaging) WithUpdateSmsDraft(v bool) UpdateSmsOption {
@@ -1215,6 +1235,9 @@ func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOp
 		opt(options)
 	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Content"] {
+		params["content"] = options.Content
+	}
 	if options.enabledSetters["Topics"] {
 		params["topics"] = options.Topics
 	}
@@ -1223,9 +1246,6 @@ func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOp
 	}
 	if options.enabledSetters["Targets"] {
 		params["targets"] = options.Targets
-	}
-	if options.enabledSetters["Content"] {
-		params["content"] = options.Content
 	}
 	if options.enabledSetters["Draft"] {
 		params["draft"] = options.Draft
@@ -1267,22 +1287,28 @@ func (srv *Messaging) UpdateSms(MessageId string, optionalSetters ...UpdateSmsOp
 }
 
 type UpdateSMSOptions struct {
+	Content        string
 	Topics         []string
 	Users          []string
 	Targets        []string
-	Content        string
 	Draft          bool
 	ScheduledAt    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateSMSOptions) New() *UpdateSMSOptions {
-	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Content": false, "Draft": false, "ScheduledAt": false}
+	options.enabledSetters = map[string]bool{"Content": false, "Topics": false, "Users": false, "Targets": false, "Draft": false, "ScheduledAt": false}
 	return &options
 }
 
 type UpdateSMSOption func(*UpdateSMSOptions)
 
+func (srv *Messaging) WithUpdateSMSContent(v string) UpdateSMSOption {
+	return func(o *UpdateSMSOptions) {
+		o.Content = v
+		o.enabledSetters["Content"] = true
+	}
+}
 func (srv *Messaging) WithUpdateSMSTopics(v []string) UpdateSMSOption {
 	return func(o *UpdateSMSOptions) {
 		o.Topics = v
@@ -1299,12 +1325,6 @@ func (srv *Messaging) WithUpdateSMSTargets(v []string) UpdateSMSOption {
 	return func(o *UpdateSMSOptions) {
 		o.Targets = v
 		o.enabledSetters["Targets"] = true
-	}
-}
-func (srv *Messaging) WithUpdateSMSContent(v string) UpdateSMSOption {
-	return func(o *UpdateSMSOptions) {
-		o.Content = v
-		o.enabledSetters["Content"] = true
 	}
 }
 func (srv *Messaging) WithUpdateSMSDraft(v bool) UpdateSMSOption {
@@ -1335,6 +1355,9 @@ func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOp
 		opt(options)
 	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Content"] {
+		params["content"] = options.Content
+	}
 	if options.enabledSetters["Topics"] {
 		params["topics"] = options.Topics
 	}
@@ -1343,9 +1366,6 @@ func (srv *Messaging) UpdateSMS(MessageId string, optionalSetters ...UpdateSMSOp
 	}
 	if options.enabledSetters["Targets"] {
 		params["targets"] = options.Targets
-	}
-	if options.enabledSetters["Content"] {
-		params["content"] = options.Content
 	}
 	if options.enabledSetters["Draft"] {
 		params["draft"] = options.Draft
