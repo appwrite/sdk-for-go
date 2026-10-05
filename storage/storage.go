@@ -645,7 +645,7 @@ func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFi
 		uploadId = value
 	}
 
-	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
+	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId, "POST")
 	if err != nil {
 		return nil, err
 	}
@@ -654,12 +654,11 @@ func (srv *Storage) CreateFile(BucketId string, FileId string, File file.InputFi
 		if err != nil {
 			return nil, err
 		}
-		var parsed models.File
-		err = json.Unmarshal(bytes, &parsed)
-		if err != nil {
+		parsed := models.File{}.New(bytes)
+		if err := json.Unmarshal(bytes, parsed); err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+		return parsed, nil
 	}
 	var parsed models.File
 	parsed, ok := resp.Result.(models.File)

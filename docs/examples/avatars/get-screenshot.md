@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.GetScreenshot(
 		"https://example.com",
-		service.WithGetScreenshotHeaders(map[string]interface{}{"Authorization": "Bearer token123", "X-Custom-Header": "value"}),
+		service.WithGetScreenshotHeaders(map[string]interface{}{"Accept-Language": "en-US,en;q=0.9"}),
 		service.WithGetScreenshotViewportWidth(1920),
 		service.WithGetScreenshotViewportHeight(1080),
 		service.WithGetScreenshotScale(2),

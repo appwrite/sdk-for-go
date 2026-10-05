@@ -1320,10 +1320,6 @@ func TestDocumentsDB(t *testing.T) {
     "engine": "postgresql",
     "version": "17",
     "uptime": 86400,
-    "connections": {
-        "current": 12,
-        "max": 100
-    },
     "syncMode": "async",
     "syncDegraded": true,
     "syncAcknowledgements": 1,

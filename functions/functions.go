@@ -354,11 +354,37 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 
 }
 
+type ListRuntimesOptions struct {
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListRuntimesOptions) New() *ListRuntimesOptions {
+	options.enabledSetters = map[string]bool{"Total": false}
+	return &options
+}
+
+type ListRuntimesOption func(*ListRuntimesOptions)
+
+func (srv *Functions) WithListRuntimesTotal(v bool) ListRuntimesOption {
+	return func(o *ListRuntimesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
 // ListRuntimes get a list of all runtimes that are currently active on your
 // instance.
-func (srv *Functions) ListRuntimes() (*models.RuntimeList, error) {
+func (srv *Functions) ListRuntimes(optionalSetters ...ListRuntimesOption) (*models.RuntimeList, error) {
 	path := "/functions/runtimes"
+	options := ListRuntimesOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "application/json"
@@ -393,11 +419,12 @@ func (srv *Functions) ListRuntimes() (*models.RuntimeList, error) {
 
 type ListSpecificationsOptions struct {
 	Type           string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListSpecificationsOptions) New() *ListSpecificationsOptions {
-	options.enabledSetters = map[string]bool{"Type": false}
+	options.enabledSetters = map[string]bool{"Type": false, "Total": false}
 	return &options
 }
 
@@ -407,6 +434,12 @@ func (srv *Functions) WithListSpecificationsType(v string) ListSpecificationsOpt
 	return func(o *ListSpecificationsOptions) {
 		o.Type = v
 		o.enabledSetters["Type"] = true
+	}
+}
+func (srv *Functions) WithListSpecificationsTotal(v bool) ListSpecificationsOption {
+	return func(o *ListSpecificationsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -420,6 +453,9 @@ func (srv *Functions) ListSpecifications(optionalSetters ...ListSpecificationsOp
 	params := map[string]interface{}{}
 	if options.enabledSetters["Type"] {
 		params["type"] = options.Type
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -993,7 +1029,7 @@ func (srv *Functions) CreateDeployment(FunctionId string, Code file.InputFile, A
 
 	uploadId := ""
 
-	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
+	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId, "POST")
 	if err != nil {
 		return nil, err
 	}
@@ -1002,12 +1038,11 @@ func (srv *Functions) CreateDeployment(FunctionId string, Code file.InputFile, A
 		if err != nil {
 			return nil, err
 		}
-		var parsed models.Deployment
-		err = json.Unmarshal(bytes, &parsed)
-		if err != nil {
+		parsed := models.Deployment{}.New(bytes)
+		if err := json.Unmarshal(bytes, parsed); err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+		return parsed, nil
 	}
 	var parsed models.Deployment
 	parsed, ok := resp.Result.(models.Deployment)

@@ -19,19 +19,19 @@ func main() {
 
 	response, err := service.UpdateEmail(
 		"<MESSAGE_ID>",
+		service.WithUpdateEmailSubject("<SUBJECT>"),
+		service.WithUpdateEmailContent("<CONTENT>"),
 		service.WithUpdateEmailTopics([]string{"example"}),
 		service.WithUpdateEmailUsers([]string{"example"}),
 		service.WithUpdateEmailTargets([]string{"example"}),
-		service.WithUpdateEmailSubject("<SUBJECT>"),
-		service.WithUpdateEmailContent("<CONTENT>"),
-		service.WithUpdateEmailDraft(false),
-		service.WithUpdateEmailHtml(false),
 		service.WithUpdateEmailCc([]string{"example"}),
 		service.WithUpdateEmailBcc([]string{"example"}),
+		service.WithUpdateEmailAttachments([]string{"example"}),
 		service.WithUpdateEmailReplyToEmail("email@example.com"),
 		service.WithUpdateEmailReplyToName("<REPLY_TO_NAME>"),
+		service.WithUpdateEmailDraft(false),
+		service.WithUpdateEmailHtml(false),
 		service.WithUpdateEmailScheduledAt("2020-10-15T06:38:00.000+00:00"),
-		service.WithUpdateEmailAttachments([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

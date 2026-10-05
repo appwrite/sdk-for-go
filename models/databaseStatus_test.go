@@ -6,7 +6,7 @@ import (
 )
 
 func TestDatabaseStatusModel(t *testing.T) {
-	model := DatabaseStatus{Health: "healthy", Ready: true, Engine: "postgresql", Version: "17", Uptime: 86400, Connections: DatabaseStatusConnections{Current: 12, Max: 100}, SyncMode: "async", SyncDegraded: true, SyncAcknowledgements: 1, SyncStandbyCount: 2, Replicas: []DatabaseStatusReplica{DatabaseStatusReplica{Index: 0, Role: "primary", Healthy: true}}, Volumes: []DatabaseStatusVolume{DatabaseStatusVolume{Path: "/var/lib/postgresql/data", UsedPercent: "45%", Available: "55GB", Mounted: true}}}
+	model := DatabaseStatus{Health: "healthy", Ready: true, Engine: "postgresql", Version: "17", Uptime: 86400, SyncMode: "async", SyncDegraded: true, SyncAcknowledgements: 1, SyncStandbyCount: 2, Replicas: []DatabaseStatusReplica{DatabaseStatusReplica{Index: 0, Role: "primary", Healthy: true}}, Volumes: []DatabaseStatusVolume{DatabaseStatusVolume{Path: "/var/lib/postgresql/data", UsedPercent: "45%", Available: "55GB", Mounted: true}}}
 
 	data, err := json.Marshal(model)
 	if err != nil {

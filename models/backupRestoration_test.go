@@ -6,7 +6,7 @@ import (
 )
 
 func TestBackupRestorationModel(t *testing.T) {
-	model := BackupRestoration{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", ArchiveId: "did8jx6ws45jana098ab7", PolicyId: "did8jx6ws45jana098ab7", Status: "completed", StartedAt: "2020-10-15T06:38:00.000+00:00", MigrationId: "did8jx6ws45jana098ab7", Services: []string{"test"}, Resources: []string{"test"}, Options: "{databases.database[{oldId, newId, newName}]}"}
+	model := BackupRestoration{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", ArchiveId: "did8jx6ws45jana098ab7", PolicyId: "did8jx6ws45jana098ab7", Status: "completed", MigrationId: "did8jx6ws45jana098ab7", Services: []string{"test"}, Resources: []string{"test"}, Options: map[string]interface{}{}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -36,13 +36,7 @@ func TestBackupRestorationModel(t *testing.T) {
 	if result.Status != model.Status {
 		t.Errorf("Expected Status %v, got %v", model.Status, result.Status)
 	}
-	if result.StartedAt != model.StartedAt {
-		t.Errorf("Expected StartedAt %v, got %v", model.StartedAt, result.StartedAt)
-	}
 	if result.MigrationId != model.MigrationId {
 		t.Errorf("Expected MigrationId %v, got %v", model.MigrationId, result.MigrationId)
-	}
-	if result.Options != model.Options {
-		t.Errorf("Expected Options %v, got %v", model.Options, result.Options)
 	}
 }

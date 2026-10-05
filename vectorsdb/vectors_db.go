@@ -228,11 +228,12 @@ func (srv *VectorsDB) ListSpecifications() (*models.DedicatedDatabaseSpecificati
 
 type ListTransactionsOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListTransactionsOptions) New() *ListTransactionsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -242,6 +243,12 @@ func (srv *VectorsDB) WithListTransactionsQueries(v []string) ListTransactionsOp
 	return func(o *ListTransactionsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *VectorsDB) WithListTransactionsTotal(v bool) ListTransactionsOption {
+	return func(o *ListTransactionsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -255,6 +262,9 @@ func (srv *VectorsDB) ListTransactions(optionalSetters ...ListTransactionsOption
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

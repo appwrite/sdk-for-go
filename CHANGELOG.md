@@ -1,5 +1,19 @@
 # Change Log
 
+## v7.6.0
+
+* Breaking: `Domains.GetZone` returns the zone file as `*string`
+* Breaking: `BackupArchive.Size` and `StartedAt` are pointers, nil until set
+* Breaking: `BackupRestoration.StartedAt` is `*string` and `Options` is `interface{}`
+* Added: `Analytics` service with property CRUD, `CreateEvent` and `ListMetrics`
+* Added: `Avatars.UpdatePhoto` and `Avatars.DeletePhoto` with the `Account` model
+* Added: `Project.UpdateOAuth2Webflow` and the `OAuth2Webflow` model
+* Added: `WithCreatePushChannelId` and `WithUpdatePushChannelId` on `Messaging`
+* Added: `WithCreateEmailPasswordSessionDuration` and `WithDeleteSessionsCurrent` on `Account`
+* Added: Optional `Total` on list methods in `Account`, `Locale`, `Functions`, `Sites` and transactions
+* Fixed: Uploads send the endpoint's HTTP method instead of always `POST`
+* Fixed: `Decode()` works on models returned by uploads
+
 ## v7.5.0
 
 * Added: OAuth2 token introspection with `Oauth2.Introspect` and the `Oauth2Introspection` response model

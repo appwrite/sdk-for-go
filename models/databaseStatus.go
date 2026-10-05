@@ -18,7 +18,7 @@ type DatabaseStatus struct {
 	Version string `json:"version"`
 	// Database uptime in seconds.
 	Uptime int `json:"uptime"`
-	// Connection statistics.
+	// Connection statistics. Null when the database has not been probed.
 	Connections DatabaseStatusConnections `json:"connections"`
 	// Requested replication sync mode. Possible values: async, sync, quorum.
 	// Compare with effectiveSyncMode for what the primary is enforcing.

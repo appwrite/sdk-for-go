@@ -37,6 +37,7 @@ func main() {
 		service.WithCreatePushContentAvailable(false),
 		service.WithCreatePushCritical(false),
 		service.WithCreatePushPriority("normal"),
+		service.WithCreatePushChannelId("<CHANNEL_ID>"),
 	)
 	fmt.Println(response, err)
 }

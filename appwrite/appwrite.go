@@ -8,6 +8,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/account"
 	"github.com/appwrite/sdk-for-go/v7/activities"
 	"github.com/appwrite/sdk-for-go/v7/advisor"
+	"github.com/appwrite/sdk-for-go/v7/analytics"
 	"github.com/appwrite/sdk-for-go/v7/apps"
 	"github.com/appwrite/sdk-for-go/v7/avatars"
 	"github.com/appwrite/sdk-for-go/v7/backups"
@@ -42,6 +43,9 @@ func NewAccount(clt client.Client) *account.Account {
 }
 func NewActivities(clt client.Client) *activities.Activities {
 	return activities.New(clt)
+}
+func NewAnalytics(clt client.Client) *analytics.Analytics {
+	return analytics.New(clt)
 }
 func NewApps(clt client.Client) *apps.Apps {
 	return apps.New(clt)

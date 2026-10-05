@@ -362,11 +362,37 @@ func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRunt
 
 }
 
+type ListFrameworksOptions struct {
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListFrameworksOptions) New() *ListFrameworksOptions {
+	options.enabledSetters = map[string]bool{"Total": false}
+	return &options
+}
+
+type ListFrameworksOption func(*ListFrameworksOptions)
+
+func (srv *Sites) WithListFrameworksTotal(v bool) ListFrameworksOption {
+	return func(o *ListFrameworksOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
 // ListFrameworks get a list of all frameworks that are currently available on
 // the server instance.
-func (srv *Sites) ListFrameworks() (*models.FrameworkList, error) {
+func (srv *Sites) ListFrameworks(optionalSetters ...ListFrameworksOption) (*models.FrameworkList, error) {
 	path := "/sites/frameworks"
+	options := ListFrameworksOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["accept"] = "application/json"
@@ -401,11 +427,12 @@ func (srv *Sites) ListFrameworks() (*models.FrameworkList, error) {
 
 type ListSpecificationsOptions struct {
 	Type           string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListSpecificationsOptions) New() *ListSpecificationsOptions {
-	options.enabledSetters = map[string]bool{"Type": false}
+	options.enabledSetters = map[string]bool{"Type": false, "Total": false}
 	return &options
 }
 
@@ -415,6 +442,12 @@ func (srv *Sites) WithListSpecificationsType(v string) ListSpecificationsOption 
 	return func(o *ListSpecificationsOptions) {
 		o.Type = v
 		o.enabledSetters["Type"] = true
+	}
+}
+func (srv *Sites) WithListSpecificationsTotal(v bool) ListSpecificationsOption {
+	return func(o *ListSpecificationsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -428,6 +461,9 @@ func (srv *Sites) ListSpecifications(optionalSetters ...ListSpecificationsOption
 	params := map[string]interface{}{}
 	if options.enabledSetters["Type"] {
 		params["type"] = options.Type
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1024,7 +1060,7 @@ func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, optionalS
 
 	uploadId := ""
 
-	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId)
+	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId, "POST")
 	if err != nil {
 		return nil, err
 	}
@@ -1033,12 +1069,11 @@ func (srv *Sites) CreateDeployment(SiteId string, Code file.InputFile, optionalS
 		if err != nil {
 			return nil, err
 		}
-		var parsed models.Deployment
-		err = json.Unmarshal(bytes, &parsed)
-		if err != nil {
+		parsed := models.Deployment{}.New(bytes)
+		if err := json.Unmarshal(bytes, parsed); err != nil {
 			return nil, err
 		}
-		return &parsed, nil
+		return parsed, nil
 	}
 	var parsed models.Deployment
 	parsed, ok := resp.Result.(models.Deployment)

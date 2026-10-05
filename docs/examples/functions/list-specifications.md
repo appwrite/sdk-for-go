@@ -19,6 +19,7 @@ func main() {
 
 	response, err := service.ListSpecifications(
 		service.WithListSpecificationsType("runtimes"),
+		service.WithListSpecificationsTotal(false),
 	)
 	fmt.Println(response, err)
 }

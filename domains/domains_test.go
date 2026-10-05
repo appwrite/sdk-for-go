@@ -951,7 +951,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordA("<DOMAIN_ID>", "", "", 1)
+		_, err := srv.CreateRecordA("<DOMAIN_ID>", "name", "value", 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordA failed: %v", err)
 		}
@@ -988,7 +988,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordA("<DOMAIN_ID>", "<RECORD_ID>", "", "", 1)
+		_, err := srv.UpdateRecordA("<DOMAIN_ID>", "<RECORD_ID>", "name", "value", 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordA failed: %v", err)
 		}
@@ -1025,7 +1025,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordAAAA("<DOMAIN_ID>", "", "", 1)
+		_, err := srv.CreateRecordAAAA("<DOMAIN_ID>", "name", "value", 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordAAAA failed: %v", err)
 		}
@@ -1062,7 +1062,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordAAAA("<DOMAIN_ID>", "<RECORD_ID>", "", "", 1)
+		_, err := srv.UpdateRecordAAAA("<DOMAIN_ID>", "<RECORD_ID>", "name", "value", 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordAAAA failed: %v", err)
 		}
@@ -1099,7 +1099,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordAlias("<DOMAIN_ID>", "", "<VALUE>", 1)
+		_, err := srv.CreateRecordAlias("<DOMAIN_ID>", "name", "<VALUE>", 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordAlias failed: %v", err)
 		}
@@ -1136,7 +1136,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordAlias("<DOMAIN_ID>", "<RECORD_ID>", "", "<VALUE>", 1)
+		_, err := srv.UpdateRecordAlias("<DOMAIN_ID>", "<RECORD_ID>", "name", "<VALUE>", 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordAlias failed: %v", err)
 		}
@@ -1173,7 +1173,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordCAA("<DOMAIN_ID>", "", "", 1)
+		_, err := srv.CreateRecordCAA("<DOMAIN_ID>", "name", "value", 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordCAA failed: %v", err)
 		}
@@ -1210,7 +1210,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordCAA("<DOMAIN_ID>", "<RECORD_ID>", "", "", 1)
+		_, err := srv.UpdateRecordCAA("<DOMAIN_ID>", "<RECORD_ID>", "name", "value", 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordCAA failed: %v", err)
 		}
@@ -1247,7 +1247,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordCNAME("<DOMAIN_ID>", "", "<VALUE>", 1)
+		_, err := srv.CreateRecordCNAME("<DOMAIN_ID>", "name", "<VALUE>", 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordCNAME failed: %v", err)
 		}
@@ -1284,7 +1284,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordCNAME("<DOMAIN_ID>", "<RECORD_ID>", "", "<VALUE>", 1)
+		_, err := srv.UpdateRecordCNAME("<DOMAIN_ID>", "<RECORD_ID>", "name", "<VALUE>", 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordCNAME failed: %v", err)
 		}
@@ -1321,7 +1321,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordHTTPS("<DOMAIN_ID>", "", "<VALUE>", 1)
+		_, err := srv.CreateRecordHTTPS("<DOMAIN_ID>", "name", "<VALUE>", 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordHTTPS failed: %v", err)
 		}
@@ -1358,7 +1358,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordHTTPS("<DOMAIN_ID>", "<RECORD_ID>", "", "<VALUE>", 1)
+		_, err := srv.UpdateRecordHTTPS("<DOMAIN_ID>", "<RECORD_ID>", "name", "<VALUE>", 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordHTTPS failed: %v", err)
 		}
@@ -1395,7 +1395,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordMX("<DOMAIN_ID>", "", "<VALUE>", 1, 1)
+		_, err := srv.CreateRecordMX("<DOMAIN_ID>", "name", "<VALUE>", 1, 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordMX failed: %v", err)
 		}
@@ -1432,7 +1432,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordMX("<DOMAIN_ID>", "<RECORD_ID>", "", "<VALUE>", 1, 1)
+		_, err := srv.UpdateRecordMX("<DOMAIN_ID>", "<RECORD_ID>", "name", "<VALUE>", 1, 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordMX failed: %v", err)
 		}
@@ -1469,7 +1469,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordNS("<DOMAIN_ID>", "", "<VALUE>", 1)
+		_, err := srv.CreateRecordNS("<DOMAIN_ID>", "name", "<VALUE>", 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordNS failed: %v", err)
 		}
@@ -1506,7 +1506,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordNS("<DOMAIN_ID>", "<RECORD_ID>", "", "<VALUE>", 1)
+		_, err := srv.UpdateRecordNS("<DOMAIN_ID>", "<RECORD_ID>", "name", "<VALUE>", 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordNS failed: %v", err)
 		}
@@ -1543,7 +1543,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordSRV("<DOMAIN_ID>", "", "<VALUE>", 1, 1, 1, 1)
+		_, err := srv.CreateRecordSRV("<DOMAIN_ID>", "name", "<VALUE>", 1, 1, 1, 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordSRV failed: %v", err)
 		}
@@ -1580,7 +1580,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordSRV("<DOMAIN_ID>", "<RECORD_ID>", "", "<VALUE>", 1, 1, 1, 1)
+		_, err := srv.UpdateRecordSRV("<DOMAIN_ID>", "<RECORD_ID>", "name", "<VALUE>", 1, 1, 1, 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordSRV failed: %v", err)
 		}
@@ -1617,7 +1617,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateRecordTXT("<DOMAIN_ID>", "", 1)
+		_, err := srv.CreateRecordTXT("<DOMAIN_ID>", "name", 1)
 		if err != nil {
 			t.Errorf("Method CreateRecordTXT failed: %v", err)
 		}
@@ -1654,7 +1654,7 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.UpdateRecordTXT("<DOMAIN_ID>", "<RECORD_ID>", "", "<VALUE>", 1)
+		_, err := srv.UpdateRecordTXT("<DOMAIN_ID>", "<RECORD_ID>", "name", "<VALUE>", 1)
 		if err != nil {
 			t.Errorf("Method UpdateRecordTXT failed: %v", err)
 		}
@@ -1804,18 +1804,14 @@ func TestDomains(t *testing.T) {
 	})
 
 	t.Run("Test GetZone", func(t *testing.T) {
-		mockResponse := `
-{
-    "message": "success"
-}
-`
+		mockResponse := "; café zone\nwww 3600 IN A 192.0.2.1\n"
 
 		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if r.Method != "GET" {
 				t.Errorf("Expected method GET, got %s", r.Method)
 			}
 
-			w.Header().Set("Content-Type", "application/json")
+			w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 			w.WriteHeader(http.StatusOK)
 			_, _ = w.Write([]byte(mockResponse))
 		}))
@@ -1823,9 +1819,12 @@ func TestDomains(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.GetZone("<DOMAIN_ID>")
+		response, err := srv.GetZone("<DOMAIN_ID>")
 		if err != nil {
 			t.Errorf("Method GetZone failed: %v", err)
+		}
+		if response == nil || *response != mockResponse {
+			t.Errorf("Expected exact text %q, got %v", mockResponse, response)
 		}
 	})
 

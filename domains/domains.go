@@ -2812,7 +2812,7 @@ func (srv *Domains) GetTransferStatus(DomainId string) (*models.DomainTransferSt
 // return the DNS
 // zone file in a standardized format that can be used to configure DNS
 // servers.
-func (srv *Domains) GetZone(DomainId string) (*interface{}, error) {
+func (srv *Domains) GetZone(DomainId string) (*string, error) {
 	if DomainId == "" {
 		return nil, errors.New("Missing required parameter: \"domainId\"")
 	}
@@ -2828,25 +2828,11 @@ func (srv *Domains) GetZone(DomainId string) (*interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		var parsed interface{}
-
-		err = json.Unmarshal(bytes, &parsed)
-		if err != nil {
-			return nil, err
-		}
-		return &parsed, nil
+	body, err := client.ResponseBody(resp)
+	if err != nil {
+		return nil, err
 	}
-	var parsed interface{}
-	parsed, ok := resp.Result.(interface{})
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
+	parsed := string(body)
 	return &parsed, nil
 
 }

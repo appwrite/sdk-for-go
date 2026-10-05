@@ -44,6 +44,8 @@ func (srv *Proxy) WithCreateInvalidationReference(v string) CreateInvalidationOp
 //
 // Depending on type, the invalidation purges a single cache tag, a single URL
 // path, or all cached content for the domain.
+//
+// Domains that route to a function do not support cache invalidation.
 func (srv *Proxy) CreateInvalidation(Domain string, Type string, optionalSetters ...CreateInvalidationOption) (*models.ProxyInvalidation, error) {
 	path := "/proxy/invalidations"
 	options := CreateInvalidationOptions{}.New()

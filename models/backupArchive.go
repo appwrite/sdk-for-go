@@ -15,13 +15,13 @@ type BackupArchive struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// Archive policy ID.
 	PolicyId string `json:"policyId"`
-	// Archive size in bytes.
-	Size int `json:"size"`
+	// Archive size in bytes. Null until the size is known.
+	Size *int `json:"size"`
 	// The status of the archive creation. Possible values: pending, processing,
 	// uploading, completed, failed, skipped.
 	Status string `json:"status"`
-	// The backup start time.
-	StartedAt string `json:"startedAt"`
+	// The backup start time. Null until the backup starts.
+	StartedAt *string `json:"startedAt"`
 	// Migration ID.
 	MigrationId string `json:"migrationId"`
 	// The services that are backed up by this archive.

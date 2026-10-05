@@ -534,7 +534,7 @@ func TestPostgresql(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateBackupPolicy("<DATABASE_ID>", "<POLICY_ID>", "<NAME>", "", 1)
+		_, err := srv.CreateBackupPolicy("<DATABASE_ID>", "<POLICY_ID>", "<NAME>", "schedule", 1)
 		if err != nil {
 			t.Errorf("Method CreateBackupPolicy failed: %v", err)
 		}
@@ -1689,10 +1689,6 @@ func TestPostgresql(t *testing.T) {
     "engine": "postgresql",
     "version": "17",
     "uptime": 86400,
-    "connections": {
-        "current": 12,
-        "max": 100
-    },
     "syncMode": "async",
     "syncDegraded": true,
     "syncAcknowledgements": 1,

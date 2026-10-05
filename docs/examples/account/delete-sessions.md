@@ -17,7 +17,9 @@ func main() {
 
 	service := account.New(client)
 
-	response, err := service.DeleteSessions()
+	response, err := service.DeleteSessions(
+		service.WithDeleteSessionsCurrent(false),
+	)
 	fmt.Println(response, err)
 }
 ```

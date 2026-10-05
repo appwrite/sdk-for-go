@@ -4732,6 +4732,89 @@ func (srv *Project) UpdateOAuth2Twitch(optionalSetters ...UpdateOAuth2TwitchOpti
 
 }
 
+type UpdateOAuth2WebflowOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2WebflowOptions) New() *UpdateOAuth2WebflowOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2WebflowOption func(*UpdateOAuth2WebflowOptions)
+
+func (srv *Project) WithUpdateOAuth2WebflowClientId(v string) UpdateOAuth2WebflowOption {
+	return func(o *UpdateOAuth2WebflowOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2WebflowClientSecret(v string) UpdateOAuth2WebflowOption {
+	return func(o *UpdateOAuth2WebflowOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2WebflowEnabled(v bool) UpdateOAuth2WebflowOption {
+	return func(o *UpdateOAuth2WebflowOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Webflow update the project OAuth2 Webflow configuration.
+func (srv *Project) UpdateOAuth2Webflow(optionalSetters ...UpdateOAuth2WebflowOption) (*models.OAuth2Webflow, error) {
+	path := "/project/oauth2/webflow"
+	options := UpdateOAuth2WebflowOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Webflow{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Webflow
+	parsed, ok := resp.Result.(models.OAuth2Webflow)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2WordPressOptions struct {
 	ClientId       string
 	ClientSecret   string
@@ -5379,6 +5462,14 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "wordpress" {
 			parsed := models.OAuth2WordPress{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "webflow" {
+			parsed := models.OAuth2Webflow{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}
