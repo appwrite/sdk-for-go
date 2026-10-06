@@ -1,5 +1,9 @@
 # Change Log
 
+## v7.7.0
+
+* Added: optional `state` parameter on `createOAuth2Token`, returned unchanged on the success and failure URLs
+
 ## v7.6.0
 
 * Breaking: `Domains.GetZone` returns the zone file as `*string`
