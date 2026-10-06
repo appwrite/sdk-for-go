@@ -2685,11 +2685,12 @@ type CreateOAuth2TokenOptions struct {
 	Success        string
 	Failure        string
 	Scopes         []string
+	State          string
 	enabledSetters map[string]bool
 }
 
 func (options CreateOAuth2TokenOptions) New() *CreateOAuth2TokenOptions {
-	options.enabledSetters = map[string]bool{"Success": false, "Failure": false, "Scopes": false}
+	options.enabledSetters = map[string]bool{"Success": false, "Failure": false, "Scopes": false, "State": false}
 	return &options
 }
 
@@ -2711,6 +2712,12 @@ func (srv *Account) WithCreateOAuth2TokenScopes(v []string) CreateOAuth2TokenOpt
 	return func(o *CreateOAuth2TokenOptions) {
 		o.Scopes = v
 		o.enabledSetters["Scopes"] = true
+	}
+}
+func (srv *Account) WithCreateOAuth2TokenState(v string) CreateOAuth2TokenOption {
+	return func(o *CreateOAuth2TokenOptions) {
+		o.State = v
+		o.enabledSetters["State"] = true
 	}
 }
 
@@ -2748,6 +2755,9 @@ func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...Create
 	}
 	if options.enabledSetters["Scopes"] {
 		params["scopes"] = options.Scopes
+	}
+	if options.enabledSetters["State"] {
+		params["state"] = options.State
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
