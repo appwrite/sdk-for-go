@@ -19,10 +19,10 @@ type DedicatedDatabase struct {
 	Name string `json:"name"`
 	// Product API that owns this database: tablesdb, documentsdb, vectorsdb,
 	// mysql, postgresql, or mongodb.
-	Api string `json:"api"`
+	Api *string `json:"api"`
 	// Database engine: postgresql, mysql, or mongodb. Null until the backing
 	// reports one.
-	Engine string `json:"engine"`
+	Engine *string `json:"engine"`
 	// Database engine version.
 	Version string `json:"version"`
 	// Specification identifier.
@@ -33,14 +33,14 @@ type DedicatedDatabase struct {
 	Hostname string `json:"hostname"`
 	// Database port for connections. Derived from the engine when the backing has
 	// not reported one yet.
-	ConnectionPort int `json:"connectionPort"`
+	ConnectionPort *int `json:"connectionPort"`
 	// Database username for connections.
 	ConnectionUser string `json:"connectionUser"`
 	// Database password for connections.
 	ConnectionPassword string `json:"connectionPassword"`
 	// Committed generation of the primary connection credentials. Null until the
 	// rotation contract has been initialized.
-	CredentialGeneration int `json:"credentialGeneration"`
+	CredentialGeneration *int `json:"credentialGeneration"`
 	// Full database connection string (URI format).
 	ConnectionString string `json:"connectionString"`
 	// Whether SSL/TLS is required for client connections.

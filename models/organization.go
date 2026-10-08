@@ -32,21 +32,21 @@ type Organization struct {
 	// Billing email set for the organization.
 	BillingEmail string `json:"billingEmail"`
 	// Billing cycle start date.
-	BillingStartDate string `json:"billingStartDate"`
+	BillingStartDate *string `json:"billingStartDate"`
 	// Current invoice cycle start date.
-	BillingCurrentInvoiceDate string `json:"billingCurrentInvoiceDate"`
+	BillingCurrentInvoiceDate *string `json:"billingCurrentInvoiceDate"`
 	// Next invoice cycle start date.
-	BillingNextInvoiceDate string `json:"billingNextInvoiceDate"`
+	BillingNextInvoiceDate *string `json:"billingNextInvoiceDate"`
 	// Start date of trial.
 	BillingTrialStartDate *string `json:"billingTrialStartDate"`
 	// Number of trial days.
-	BillingTrialDays int `json:"billingTrialDays"`
+	BillingTrialDays *int `json:"billingTrialDays"`
 	// Current active aggregation id.
-	BillingAggregationId string `json:"billingAggregationId"`
+	BillingAggregationId *string `json:"billingAggregationId"`
 	// Current active aggregation id.
-	BillingInvoiceId string `json:"billingInvoiceId"`
+	BillingInvoiceId *string `json:"billingInvoiceId"`
 	// Default payment method.
-	PaymentMethodId string `json:"paymentMethodId"`
+	PaymentMethodId *string `json:"paymentMethodId"`
 	// Default payment method.
 	BillingAddressId *string `json:"billingAddressId"`
 	// Backup payment method.
