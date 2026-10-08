@@ -110,7 +110,7 @@ type AuthorizeOptions struct {
 	Prompt               string
 	MaxAge               int
 	AuthorizationDetails string
-	Resource             string
+	Resource             []string
 	Audience             string
 	RequestUri           string
 	enabledSetters       map[string]bool
@@ -189,7 +189,7 @@ func (srv *Oauth2) WithAuthorizeAuthorizationDetails(v string) AuthorizeOption {
 		o.enabledSetters["AuthorizationDetails"] = true
 	}
 }
-func (srv *Oauth2) WithAuthorizeResource(v string) AuthorizeOption {
+func (srv *Oauth2) WithAuthorizeResource(v []string) AuthorizeOption {
 	return func(o *AuthorizeOptions) {
 		o.Resource = v
 		o.enabledSetters["Resource"] = true
@@ -306,7 +306,7 @@ type AuthorizePostOptions struct {
 	Prompt               string
 	MaxAge               int
 	AuthorizationDetails string
-	Resource             string
+	Resource             []string
 	Audience             string
 	RequestUri           string
 	enabledSetters       map[string]bool
@@ -385,7 +385,7 @@ func (srv *Oauth2) WithAuthorizePostAuthorizationDetails(v string) AuthorizePost
 		o.enabledSetters["AuthorizationDetails"] = true
 	}
 }
-func (srv *Oauth2) WithAuthorizePostResource(v string) AuthorizePostOption {
+func (srv *Oauth2) WithAuthorizePostResource(v []string) AuthorizePostOption {
 	return func(o *AuthorizePostOptions) {
 		o.Resource = v
 		o.enabledSetters["Resource"] = true
@@ -495,7 +495,7 @@ type CreateDeviceAuthorizationOptions struct {
 	ClientId             string
 	Scope                string
 	AuthorizationDetails string
-	Resource             string
+	Resource             []string
 	Audience             string
 	enabledSetters       map[string]bool
 }
@@ -525,7 +525,7 @@ func (srv *Oauth2) WithCreateDeviceAuthorizationAuthorizationDetails(v string) C
 		o.enabledSetters["AuthorizationDetails"] = true
 	}
 }
-func (srv *Oauth2) WithCreateDeviceAuthorizationResource(v string) CreateDeviceAuthorizationOption {
+func (srv *Oauth2) WithCreateDeviceAuthorizationResource(v []string) CreateDeviceAuthorizationOption {
 	return func(o *CreateDeviceAuthorizationOptions) {
 		o.Resource = v
 		o.enabledSetters["Resource"] = true
@@ -861,7 +861,7 @@ type CreatePAROptions struct {
 	Prompt               string
 	MaxAge               int
 	AuthorizationDetails string
-	Resource             string
+	Resource             []string
 	Audience             string
 	enabledSetters       map[string]bool
 }
@@ -921,7 +921,7 @@ func (srv *Oauth2) WithCreatePARAuthorizationDetails(v string) CreatePAROption {
 		o.enabledSetters["AuthorizationDetails"] = true
 	}
 }
-func (srv *Oauth2) WithCreatePARResource(v string) CreatePAROption {
+func (srv *Oauth2) WithCreatePARResource(v []string) CreatePAROption {
 	return func(o *CreatePAROptions) {
 		o.Resource = v
 		o.enabledSetters["Resource"] = true
@@ -1225,7 +1225,7 @@ type CreateTokenOptions struct {
 	ClientSecret   string
 	CodeVerifier   string
 	RedirectUri    string
-	Resource       string
+	Resource       []string
 	Audience       string
 	enabledSetters map[string]bool
 }
@@ -1279,7 +1279,7 @@ func (srv *Oauth2) WithCreateTokenRedirectUri(v string) CreateTokenOption {
 		o.enabledSetters["RedirectUri"] = true
 	}
 }
-func (srv *Oauth2) WithCreateTokenResource(v string) CreateTokenOption {
+func (srv *Oauth2) WithCreateTokenResource(v []string) CreateTokenOption {
 	return func(o *CreateTokenOptions) {
 		o.Resource = v
 		o.enabledSetters["Resource"] = true

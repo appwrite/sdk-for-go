@@ -29,7 +29,7 @@ func main() {
 		service.WithCreatePARPrompt("<PROMPT>"),
 		service.WithCreatePARMaxAge(0),
 		service.WithCreatePARAuthorizationDetails("<AUTHORIZATION_DETAILS>"),
-		service.WithCreatePARResource(""),
+		service.WithCreatePARResource([]string{"example"}),
 		service.WithCreatePARAudience("<AUDIENCE>"),
 	)
 	fmt.Println(response, err)

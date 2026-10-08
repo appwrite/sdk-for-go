@@ -18,7 +18,7 @@ type DedicatedDatabaseBranch struct {
 	// Branch hostname for direct connections.
 	Host string `json:"host"`
 	// Branch port. Null until the backing reports one.
-	Port int `json:"port"`
+	Port *int `json:"port"`
 	// Advertised catalog the client connects to. MySQL/MariaDB use default;
 	// Postgres uses the routing label.
 	Database string `json:"database"`

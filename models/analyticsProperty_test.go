@@ -6,7 +6,7 @@ import (
 )
 
 func TestAnalyticsPropertyModel(t *testing.T) {
-	model := AnalyticsProperty{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Website", Domain: "example.com", Timezone: "UTC", Enabled: true, Public: true, AllowedOrigins: []string{"test"}, SnippetId: "snp_a1b2c3d4e5"}
+	model := AnalyticsProperty{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Website", Domain: "example.com", Enabled: true, Public: true, AllowedOrigins: []string{"test"}, AccessedAt: "2020-10-15T06:38:00.000+00:00", FirstAccessedAt: "2020-10-15T06:38:00.000+00:00"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -33,16 +33,16 @@ func TestAnalyticsPropertyModel(t *testing.T) {
 	if result.Domain != model.Domain {
 		t.Errorf("Expected Domain %v, got %v", model.Domain, result.Domain)
 	}
-	if result.Timezone != model.Timezone {
-		t.Errorf("Expected Timezone %v, got %v", model.Timezone, result.Timezone)
-	}
 	if result.Enabled != model.Enabled {
 		t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)
 	}
 	if result.Public != model.Public {
 		t.Errorf("Expected Public %v, got %v", model.Public, result.Public)
 	}
-	if result.SnippetId != model.SnippetId {
-		t.Errorf("Expected SnippetId %v, got %v", model.SnippetId, result.SnippetId)
+	if result.AccessedAt != model.AccessedAt {
+		t.Errorf("Expected AccessedAt %v, got %v", model.AccessedAt, result.AccessedAt)
+	}
+	if result.FirstAccessedAt != model.FirstAccessedAt {
+		t.Errorf("Expected FirstAccessedAt %v, got %v", model.FirstAccessedAt, result.FirstAccessedAt)
 	}
 }
