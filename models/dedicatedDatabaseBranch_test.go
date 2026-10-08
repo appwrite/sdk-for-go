@@ -6,7 +6,7 @@ import (
 )
 
 func TestDedicatedDatabaseBranchModel(t *testing.T) {
-	model := DedicatedDatabaseBranch{BranchId: "a1b2c3d4", BranchName: "branch-a1b2c3d4", Namespace: "db-myproject-mydb-branch-a1b2c3d4", ExpiresAt: 1711411200, Host: "db-myproject-mydb-a1b2c3d4.fra.appwrite.center", Port: 5432, Database: "db-myproject-mydb-a1b2c3d4", Username: "appwrite", Password: "********", Ssl: true, Engine: "postgresql", ConnectionString: "postgresql://appwrite:****@db-myproject-mydb-a1b2c3d4.fra.appwrite.center:5432/db-myproject-mydb-a1b2c3d4?sslmode=require"}
+	model := DedicatedDatabaseBranch{BranchId: "a1b2c3d4", BranchName: "branch-a1b2c3d4", Namespace: "db-myproject-mydb-branch-a1b2c3d4", ExpiresAt: 1711411200, Host: "db-myproject-mydb-a1b2c3d4.fra.appwrite.center", Database: "db-myproject-mydb-a1b2c3d4", Username: "appwrite", Password: "********", Ssl: true, Engine: "postgresql", ConnectionString: "postgresql://appwrite:****@db-myproject-mydb-a1b2c3d4.fra.appwrite.center:5432/db-myproject-mydb-a1b2c3d4?sslmode=require"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -32,9 +32,6 @@ func TestDedicatedDatabaseBranchModel(t *testing.T) {
 	}
 	if result.Host != model.Host {
 		t.Errorf("Expected Host %v, got %v", model.Host, result.Host)
-	}
-	if result.Port != model.Port {
-		t.Errorf("Expected Port %v, got %v", model.Port, result.Port)
 	}
 	if result.Database != model.Database {
 		t.Errorf("Expected Database %v, got %v", model.Database, result.Database)

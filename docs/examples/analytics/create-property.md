@@ -21,7 +21,6 @@ func main() {
 		"<PROPERTY_ID>",
 		"<NAME>",
 		service.WithCreatePropertyDomain("<DOMAIN>"),
-		service.WithCreatePropertyTimezone("<TIMEZONE>"),
 		service.WithCreatePropertyEnabled(false),
 		service.WithCreatePropertyPublic(false),
 		service.WithCreatePropertyAllowedOrigins([]string{"example"}),

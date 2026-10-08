@@ -1,5 +1,15 @@
 # Change Log
 
+## v7.8.0
+
+* Breaking: `Analytics.CreateProperty` and `UpdateProperty` drop the `Timezone` option
+* Breaking: `AnalyticsProperty` drops `Timezone` and `SnippetId`, adds `AccessedAt` and `FirstAccessedAt`
+* Breaking: nullable `DedicatedDatabase`, `DedicatedDatabaseBranch` and `DedicatedDatabaseRestoration` fields are pointers
+* Breaking: nullable `Organization` billing and payment method fields are pointers
+* Added: `Waf` service to list, get, delete and create or update bypass, challenge, deny, rate limit and redirect rules
+* Added: `WafRule*` models and the `PolicyPasskey` model returned by `Project.GetPolicy`
+* Updated: requests send `X-Appwrite-Response-Format` `2.4.0`
+
 ## v7.7.0
 
 * Added: optional `state` parameter on `createOAuth2Token`, returned unchanged on the success and failure URLs

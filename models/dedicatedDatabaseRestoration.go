@@ -14,11 +14,11 @@ type DedicatedDatabaseRestoration struct {
 	// Database ID being restored into.
 	DatabaseId string `json:"databaseId"`
 	// Source database ID when restoring a backup into another database.
-	SourceDatabaseId string `json:"sourceDatabaseId"`
+	SourceDatabaseId *string `json:"sourceDatabaseId"`
 	// Project ID.
 	ProjectId string `json:"projectId"`
 	// Backup ID used for restoration (null for PITR).
-	BackupId string `json:"backupId"`
+	BackupId *string `json:"backupId"`
 	// Restoration type. Possible values: backup (restore from a specific backup
 	// snapshot), pitr (point-in-time recovery to a specific timestamp).
 	Type string `json:"type"`
@@ -27,11 +27,11 @@ type DedicatedDatabaseRestoration struct {
 	// (encountered an error).
 	Status string `json:"status"`
 	// Target time for PITR restoration in ISO 8601 format.
-	TargetTime string `json:"targetTime"`
+	TargetTime *string `json:"targetTime"`
 	// Restoration start time in ISO 8601 format.
-	StartedAt string `json:"startedAt"`
+	StartedAt *string `json:"startedAt"`
 	// Restoration completion time in ISO 8601 format.
-	CompletedAt string `json:"completedAt"`
+	CompletedAt *string `json:"completedAt"`
 	// Error message if restoration failed.
 	Error string `json:"error"`
 

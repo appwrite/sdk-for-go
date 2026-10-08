@@ -7479,6 +7479,14 @@ func (srv *Project) GetPolicy(PolicyId string) (models.Model, error) {
 
 			return parsed, nil
 		}
+		if fmt.Sprint(response["$id"]) == "passkey" {
+			parsed := models.PolicyPasskey{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
 
 		return nil, errors.New("unable to match response to any expected response model")
 	}

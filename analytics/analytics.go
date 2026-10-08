@@ -104,7 +104,6 @@ func (srv *Analytics) ListProperties(optionalSetters ...ListPropertiesOption) (*
 
 type CreatePropertyOptions struct {
 	Domain         string
-	Timezone       string
 	Enabled        bool
 	Public         bool
 	AllowedOrigins []string
@@ -112,7 +111,7 @@ type CreatePropertyOptions struct {
 }
 
 func (options CreatePropertyOptions) New() *CreatePropertyOptions {
-	options.enabledSetters = map[string]bool{"Domain": false, "Timezone": false, "Enabled": false, "Public": false, "AllowedOrigins": false}
+	options.enabledSetters = map[string]bool{"Domain": false, "Enabled": false, "Public": false, "AllowedOrigins": false}
 	return &options
 }
 
@@ -122,12 +121,6 @@ func (srv *Analytics) WithCreatePropertyDomain(v string) CreatePropertyOption {
 	return func(o *CreatePropertyOptions) {
 		o.Domain = v
 		o.enabledSetters["Domain"] = true
-	}
-}
-func (srv *Analytics) WithCreatePropertyTimezone(v string) CreatePropertyOption {
-	return func(o *CreatePropertyOptions) {
-		o.Timezone = v
-		o.enabledSetters["Timezone"] = true
 	}
 }
 func (srv *Analytics) WithCreatePropertyEnabled(v bool) CreatePropertyOption {
@@ -162,9 +155,6 @@ func (srv *Analytics) CreateProperty(PropertyId string, Name string, optionalSet
 	params["name"] = Name
 	if options.enabledSetters["Domain"] {
 		params["domain"] = options.Domain
-	}
-	if options.enabledSetters["Timezone"] {
-		params["timezone"] = options.Timezone
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
@@ -252,7 +242,6 @@ func (srv *Analytics) GetProperty(PropertyId string) (*models.AnalyticsProperty,
 type UpdatePropertyOptions struct {
 	Name           string
 	Domain         string
-	Timezone       string
 	Enabled        bool
 	Public         bool
 	AllowedOrigins []string
@@ -260,7 +249,7 @@ type UpdatePropertyOptions struct {
 }
 
 func (options UpdatePropertyOptions) New() *UpdatePropertyOptions {
-	options.enabledSetters = map[string]bool{"Name": false, "Domain": false, "Timezone": false, "Enabled": false, "Public": false, "AllowedOrigins": false}
+	options.enabledSetters = map[string]bool{"Name": false, "Domain": false, "Enabled": false, "Public": false, "AllowedOrigins": false}
 	return &options
 }
 
@@ -276,12 +265,6 @@ func (srv *Analytics) WithUpdatePropertyDomain(v string) UpdatePropertyOption {
 	return func(o *UpdatePropertyOptions) {
 		o.Domain = v
 		o.enabledSetters["Domain"] = true
-	}
-}
-func (srv *Analytics) WithUpdatePropertyTimezone(v string) UpdatePropertyOption {
-	return func(o *UpdatePropertyOptions) {
-		o.Timezone = v
-		o.enabledSetters["Timezone"] = true
 	}
 }
 func (srv *Analytics) WithUpdatePropertyEnabled(v bool) UpdatePropertyOption {
@@ -322,9 +305,6 @@ func (srv *Analytics) UpdateProperty(PropertyId string, optionalSetters ...Updat
 	}
 	if options.enabledSetters["Domain"] {
 		params["domain"] = options.Domain
-	}
-	if options.enabledSetters["Timezone"] {
-		params["timezone"] = options.Timezone
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled

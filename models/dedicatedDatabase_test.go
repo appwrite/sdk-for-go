@@ -6,7 +6,7 @@ import (
 )
 
 func TestDedicatedDatabaseModel(t *testing.T) {
-	model := DedicatedDatabase{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", ProjectId: "5e5ea5c16897e", Name: "My Production Database", Api: "postgresql", Engine: "postgresql", Version: "16", Specification: "s-2vcpu-2gb", Backend: "edge", Hostname: "db-myproject-mydb.fra.appwrite.center", ConnectionPort: 5432, ConnectionUser: "appwrite_user", ConnectionPassword: "••••••••", CredentialGeneration: 1, ConnectionString: "postgresql://user:pass@db-myproject-mydb.fra.appwrite.center:5432/postgres?sslmode=require", Ssl: true, Status: "ready", ContainerStatus: "active", LifecycleState: "active", IdleTimeoutMinutes: 15, Cpu: 2000, Memory: 4096, Storage: 100, StorageStatus: "resizing", StorageTargetGb: 120, StorageClass: "ssd", StorageMaxGb: 100, NodePool: "db-pool-4vcpu-8gb", Replicas: 2, SyncMode: "async", NetworkMaxConnections: 500, NetworkIdleTimeoutSeconds: 900, NetworkIPAllowlist: []string{"test"}, BackupEnabled: true, Pitr: true, PitrRetentionDays: 14, StorageAutoscaling: true, StorageAutoscalingThresholdPercent: 85, StorageAutoscalingMaxGb: 30, MaintenanceWindowDay: "sun", MaintenanceWindowHourUtc: 3, MetricsEnabled: true, SqlApiEnabled: true, SqlApiAllowedStatements: []string{"test"}, SqlApiMaxRows: 10000, SqlApiMaxBytes: 10485760, SqlApiTimeoutSeconds: 30, Error: "string"}
+	model := DedicatedDatabase{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", ProjectId: "5e5ea5c16897e", Name: "My Production Database", Version: "16", Specification: "s-2vcpu-2gb", Backend: "edge", Hostname: "db-myproject-mydb.fra.appwrite.center", ConnectionUser: "appwrite_user", ConnectionPassword: "••••••••", ConnectionString: "postgresql://user:pass@db-myproject-mydb.fra.appwrite.center:5432/postgres?sslmode=require", Ssl: true, Status: "ready", ContainerStatus: "active", LifecycleState: "active", IdleTimeoutMinutes: 15, Cpu: 2000, Memory: 4096, Storage: 100, StorageStatus: "resizing", StorageTargetGb: 120, StorageClass: "ssd", StorageMaxGb: 100, NodePool: "db-pool-4vcpu-8gb", Replicas: 2, SyncMode: "async", NetworkMaxConnections: 500, NetworkIdleTimeoutSeconds: 900, NetworkIPAllowlist: []string{"test"}, BackupEnabled: true, Pitr: true, PitrRetentionDays: 14, StorageAutoscaling: true, StorageAutoscalingThresholdPercent: 85, StorageAutoscalingMaxGb: 30, MaintenanceWindowDay: "sun", MaintenanceWindowHourUtc: 3, MetricsEnabled: true, SqlApiEnabled: true, SqlApiAllowedStatements: []string{"test"}, SqlApiMaxRows: 10000, SqlApiMaxBytes: 10485760, SqlApiTimeoutSeconds: 30, Error: "string"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -33,12 +33,6 @@ func TestDedicatedDatabaseModel(t *testing.T) {
 	if result.Name != model.Name {
 		t.Errorf("Expected Name %v, got %v", model.Name, result.Name)
 	}
-	if result.Api != model.Api {
-		t.Errorf("Expected Api %v, got %v", model.Api, result.Api)
-	}
-	if result.Engine != model.Engine {
-		t.Errorf("Expected Engine %v, got %v", model.Engine, result.Engine)
-	}
 	if result.Version != model.Version {
 		t.Errorf("Expected Version %v, got %v", model.Version, result.Version)
 	}
@@ -51,17 +45,11 @@ func TestDedicatedDatabaseModel(t *testing.T) {
 	if result.Hostname != model.Hostname {
 		t.Errorf("Expected Hostname %v, got %v", model.Hostname, result.Hostname)
 	}
-	if result.ConnectionPort != model.ConnectionPort {
-		t.Errorf("Expected ConnectionPort %v, got %v", model.ConnectionPort, result.ConnectionPort)
-	}
 	if result.ConnectionUser != model.ConnectionUser {
 		t.Errorf("Expected ConnectionUser %v, got %v", model.ConnectionUser, result.ConnectionUser)
 	}
 	if result.ConnectionPassword != model.ConnectionPassword {
 		t.Errorf("Expected ConnectionPassword %v, got %v", model.ConnectionPassword, result.ConnectionPassword)
-	}
-	if result.CredentialGeneration != model.CredentialGeneration {
-		t.Errorf("Expected CredentialGeneration %v, got %v", model.CredentialGeneration, result.CredentialGeneration)
 	}
 	if result.ConnectionString != model.ConnectionString {
 		t.Errorf("Expected ConnectionString %v, got %v", model.ConnectionString, result.ConnectionString)
