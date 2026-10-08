@@ -21,7 +21,7 @@ func main() {
 		service.WithCreateDeviceAuthorizationClientId("<CLIENT_ID>"),
 		service.WithCreateDeviceAuthorizationScope("<SCOPE>"),
 		service.WithCreateDeviceAuthorizationAuthorizationDetails("<AUTHORIZATION_DETAILS>"),
-		service.WithCreateDeviceAuthorizationResource(""),
+		service.WithCreateDeviceAuthorizationResource([]interface{}{}),
 		service.WithCreateDeviceAuthorizationAudience("<AUDIENCE>"),
 	)
 	fmt.Println(response, err)

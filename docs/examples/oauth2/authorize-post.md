@@ -29,7 +29,7 @@ func main() {
 		service.WithAuthorizePostPrompt("<PROMPT>"),
 		service.WithAuthorizePostMaxAge(0),
 		service.WithAuthorizePostAuthorizationDetails("<AUTHORIZATION_DETAILS>"),
-		service.WithAuthorizePostResource(""),
+		service.WithAuthorizePostResource([]interface{}{}),
 		service.WithAuthorizePostAudience("<AUDIENCE>"),
 		service.WithAuthorizePostRequestUri("<REQUEST_URI>"),
 	)

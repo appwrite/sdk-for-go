@@ -3712,8 +3712,9 @@ func TestProject(t *testing.T) {
 	t.Run("Test GetPolicy", func(t *testing.T) {
 		mockResponse := `
 {
-    "$id": "deny-corporate-email",
-    "enabled": true
+    "$id": "passkey",
+    "rpId": "example.com",
+    "origins": []
 }
 `
 
@@ -3734,8 +3735,8 @@ func TestProject(t *testing.T) {
 		if err != nil {
 			t.Errorf("Method GetPolicy failed: %v", err)
 		}
-		if _, ok := response.(*models.PolicyDenyCorporateEmail); !ok {
-			t.Errorf("Expected response type *models.PolicyDenyCorporateEmail, got %T", response)
+		if _, ok := response.(*models.PolicyPasskey); !ok {
+			t.Errorf("Expected response type *models.PolicyPasskey, got %T", response)
 		}
 	})
 

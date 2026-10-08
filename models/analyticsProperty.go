@@ -18,16 +18,18 @@ type AnalyticsProperty struct {
 	// Primary domain being tracked (e.g. example.com). May be empty for native
 	// apps.
 	Domain string `json:"domain"`
-	// IANA timezone used to define the daily boundary for stats.
-	Timezone string `json:"timezone"`
 	// Whether tracking is currently active.
 	Enabled bool `json:"enabled"`
 	// Whether stats for this property are publicly viewable.
 	Public bool `json:"public"`
 	// List of origins allowed to send tracking events. Use ["*"] to allow all.
 	AllowedOrigins []string `json:"allowedOrigins"`
-	// Unique identifier for the tracking script snippet.
-	SnippetId string `json:"snippetId"`
+	// Most recent event date in ISO 8601 format. This attribute is only updated
+	// again after 24 hours.
+	AccessedAt string `json:"accessedAt"`
+	// First event date in ISO 8601 format. Empty until the property receives its
+	// first event.
+	FirstAccessedAt string `json:"firstAccessedAt"`
 
 	// Used by Decode() method
 	data []byte

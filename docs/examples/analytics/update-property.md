@@ -21,7 +21,6 @@ func main() {
 		"<PROPERTY_ID>",
 		service.WithUpdatePropertyName("<NAME>"),
 		service.WithUpdatePropertyDomain("<DOMAIN>"),
-		service.WithUpdatePropertyTimezone("<TIMEZONE>"),
 		service.WithUpdatePropertyEnabled(false),
 		service.WithUpdatePropertyPublic(false),
 		service.WithUpdatePropertyAllowedOrigins([]string{"example"}),
