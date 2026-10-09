@@ -1,5 +1,10 @@
 # Change Log
 
+## v7.9.0
+
+* Added: `WithCreateInterval` and `WithUpdateInterval` options on `Functions` to run a function every N minutes
+* Added: `Interval` on the `Function` model and `FunctionsIntervalMinimum` on the `BillingPlan` model
+
 ## v7.8.0
 
 * Breaking: `Analytics.CreateProperty` and `UpdateProperty` drop the `Timezone` option

@@ -94,6 +94,7 @@ func TestOrganization(t *testing.T) {
         },
         "deploymentSize": 30,
         "buildSize": 2000,
+        "functionsIntervalMinimum": 60,
         "databasesAllowEncrypt": true,
         "group": "pro",
         "databaseComputeCredit": 10
@@ -203,6 +204,7 @@ func TestOrganization(t *testing.T) {
         },
         "deploymentSize": 30,
         "buildSize": 2000,
+        "functionsIntervalMinimum": 60,
         "databasesAllowEncrypt": true,
         "group": "pro",
         "databaseComputeCredit": 10
