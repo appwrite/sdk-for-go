@@ -125,11 +125,12 @@ type CreateOptions struct {
 	BuildSpecification    string
 	RuntimeSpecification  string
 	DeploymentRetention   int
+	Interval              int
 	enabledSetters        map[string]bool
 }
 
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{"Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false}
+	options.enabledSetters = map[string]bool{"Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false}
 	return &options
 }
 
@@ -249,6 +250,12 @@ func (srv *Functions) WithCreateDeploymentRetention(v int) CreateOption {
 		o.enabledSetters["DeploymentRetention"] = true
 	}
 }
+func (srv *Functions) WithCreateInterval(v int) CreateOption {
+	return func(o *CreateOptions) {
+		o.Interval = v
+		o.enabledSetters["Interval"] = true
+	}
+}
 
 // Create create a new function. You can pass a list of
 // [permissions](https://appwrite.io/docs/permissions) to allow different
@@ -320,6 +327,9 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 	}
 	if options.enabledSetters["DeploymentRetention"] {
 		params["deploymentRetention"] = options.DeploymentRetention
+	}
+	if options.enabledSetters["Interval"] {
+		params["interval"] = options.Interval
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -551,11 +561,12 @@ type UpdateOptions struct {
 	BuildSpecification    string
 	RuntimeSpecification  string
 	DeploymentRetention   int
+	Interval              int
 	enabledSetters        map[string]bool
 }
 
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{"Runtime": false, "Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false}
+	options.enabledSetters = map[string]bool{"Runtime": false, "Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false}
 	return &options
 }
 
@@ -681,6 +692,12 @@ func (srv *Functions) WithUpdateDeploymentRetention(v int) UpdateOption {
 		o.enabledSetters["DeploymentRetention"] = true
 	}
 }
+func (srv *Functions) WithUpdateInterval(v int) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Interval = v
+		o.enabledSetters["Interval"] = true
+	}
+}
 
 // Update update function by its unique ID.
 func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...UpdateOption) (*models.Function, error) {
@@ -755,6 +772,9 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	}
 	if options.enabledSetters["DeploymentRetention"] {
 		params["deploymentRetention"] = options.DeploymentRetention
+	}
+	if options.enabledSetters["Interval"] {
+		params["interval"] = options.Interval
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

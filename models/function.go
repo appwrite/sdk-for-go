@@ -51,6 +51,8 @@ type Function struct {
 	Events []string `json:"events"`
 	// Function execution schedule in CRON format.
 	Schedule string `json:"schedule"`
+	// Minutes between scheduled executions. 0 when the function has no interval.
+	Interval *int `json:"interval"`
 	// Function execution timeout in seconds.
 	Timeout int `json:"timeout"`
 	// The entrypoint file used to execute the deployment.

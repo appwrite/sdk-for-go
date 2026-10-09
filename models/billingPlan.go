@@ -145,6 +145,9 @@ type BillingPlan struct {
 	DeploymentSize int `json:"deploymentSize"`
 	// Maximum function and site deployment size in MB
 	BuildSize int `json:"buildSize"`
+	// Shortest function schedule interval allowed, in minutes. 0 allows every
+	// interval.
+	FunctionsIntervalMinimum int `json:"functionsIntervalMinimum"`
 	// Does the plan support encrypted string attributes or not.
 	DatabasesAllowEncrypt bool `json:"databasesAllowEncrypt"`
 	// Plan specific limits
