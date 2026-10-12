@@ -1841,6 +1841,218 @@ func (srv *Users) UpdateName(UserId string, Name string) (*models.User, error) {
 
 }
 
+type ListPasskeysOptions struct {
+	Queries        []string
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListPasskeysOptions) New() *ListPasskeysOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
+	return &options
+}
+
+type ListPasskeysOption func(*ListPasskeysOptions)
+
+func (srv *Users) WithListPasskeysQueries(v []string) ListPasskeysOption {
+	return func(o *ListPasskeysOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Users) WithListPasskeysTotal(v bool) ListPasskeysOption {
+	return func(o *ListPasskeysOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
+// ListPasskeys get the list of verified passkeys registered by a user.
+func (srv *Users) ListPasskeys(UserId string, optionalSetters ...ListPasskeysOption) (*models.PasskeyList, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+
+	r := strings.NewReplacer("{userId}", client.EncodePath(UserId))
+	path := r.Replace("/users/{userId}/passkeys")
+	options := ListPasskeysOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.PasskeyList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.PasskeyList
+	parsed, ok := resp.Result.(models.PasskeyList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetPasskey get a verified passkey of a user by its unique ID.
+func (srv *Users) GetPasskey(UserId string, PasskeyId string) (*models.Passkey, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+	if PasskeyId == "" {
+		return nil, errors.New("Missing required parameter: \"passkeyId\"")
+	}
+
+	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{passkeyId}", client.EncodePath(PasskeyId))
+	path := r.Replace("/users/{userId}/passkeys/{passkeyId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Passkey{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Passkey
+	parsed, ok := resp.Result.(models.Passkey)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// UpdatePasskey rename a passkey of a user.
+func (srv *Users) UpdatePasskey(UserId string, PasskeyId string, Name string) (*models.Passkey, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+	if PasskeyId == "" {
+		return nil, errors.New("Missing required parameter: \"passkeyId\"")
+	}
+
+	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{passkeyId}", client.EncodePath(PasskeyId))
+	path := r.Replace("/users/{userId}/passkeys/{passkeyId}")
+	params := map[string]interface{}{}
+	params["name"] = Name
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Passkey{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Passkey
+	parsed, ok := resp.Result.(models.Passkey)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeletePasskey delete a passkey from a user, for example when a device is
+// lost. The passkey can no longer be used to sign in.
+func (srv *Users) DeletePasskey(UserId string, PasskeyId string) (*interface{}, error) {
+	if UserId == "" {
+		return nil, errors.New("Missing required parameter: \"userId\"")
+	}
+	if PasskeyId == "" {
+		return nil, errors.New("Missing required parameter: \"passkeyId\"")
+	}
+
+	r := strings.NewReplacer("{userId}", client.EncodePath(UserId), "{passkeyId}", client.EncodePath(PasskeyId))
+	path := r.Replace("/users/{userId}/passkeys/{passkeyId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // UpdatePassword update the user password by its unique ID.
 func (srv *Users) UpdatePassword(UserId string, Password string) (*models.User, error) {
 	if UserId == "" {

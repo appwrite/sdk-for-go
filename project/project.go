@@ -6801,6 +6801,49 @@ func (srv *Project) UpdateMFAFactorsPolicy(optionalSetters ...UpdateMFAFactorsPo
 
 }
 
+// UpdatePasskeyPolicy set the relying party ID passkeys are bound to: the
+// domain of your application. Passkeys work on the project's web platforms on
+// that domain or its subdomains, and on the domain itself for Apple apps. A
+// localhost web platform enables passkeys for local development without a
+// relying party ID. The relying party ID cannot change while users have
+// passkeys, and any change invalidates ceremonies in progress.
+func (srv *Project) UpdatePasskeyPolicy(RpId string) (*models.Project, error) {
+	path := "/project/policies/passkey"
+	params := map[string]interface{}{}
+	params["rpId"] = RpId
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // UpdatePasswordDictionaryPolicy updating this policy allows you to control
 // if new passwords are checked against most common passwords dictionary. When
 // enabled, and user changes their password, password must not be contained in

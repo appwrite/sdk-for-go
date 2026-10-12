@@ -1432,6 +1432,336 @@ func (srv *Account) UpdateName(Name string) (*models.User, error) {
 
 }
 
+type ListPasskeysOptions struct {
+	Queries        []string
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListPasskeysOptions) New() *ListPasskeysOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
+	return &options
+}
+
+type ListPasskeysOption func(*ListPasskeysOptions)
+
+func (srv *Account) WithListPasskeysQueries(v []string) ListPasskeysOption {
+	return func(o *ListPasskeysOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Account) WithListPasskeysTotal(v bool) ListPasskeysOption {
+	return func(o *ListPasskeysOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
+// ListPasskeys get the list of verified passkeys registered by the currently
+// logged in user.
+func (srv *Account) ListPasskeys(optionalSetters ...ListPasskeysOption) (*models.PasskeyList, error) {
+	path := "/account/passkeys"
+	options := ListPasskeysOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.PasskeyList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.PasskeyList
+	parsed, ok := resp.Result.(models.PasskeyList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreatePasskeyOptions struct {
+	PasskeyId      string
+	Name           string
+	enabledSetters map[string]bool
+}
+
+func (options CreatePasskeyOptions) New() *CreatePasskeyOptions {
+	options.enabledSetters = map[string]bool{"PasskeyId": false, "Name": false}
+	return &options
+}
+
+type CreatePasskeyOption func(*CreatePasskeyOptions)
+
+func (srv *Account) WithCreatePasskeyPasskeyId(v string) CreatePasskeyOption {
+	return func(o *CreatePasskeyOptions) {
+		o.PasskeyId = v
+		o.enabledSetters["PasskeyId"] = true
+	}
+}
+func (srv *Account) WithCreatePasskeyName(v string) CreatePasskeyOption {
+	return func(o *CreatePasskeyOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+
+// CreatePasskey start registering a passkey for the currently logged in user.
+// The session must have signed in or completed an MFA challenge within the
+// last 10 minutes. Pass the returned `publicKey` options to
+// `navigator.credentials.create()`, then complete the registration with
+// [Update passkey
+// verification](/docs/references/cloud/client-web/account#updatePasskeyVerification).
+// The passkey stays pending until verified, and the challenge expires after 5
+// minutes.
+func (srv *Account) CreatePasskey(optionalSetters ...CreatePasskeyOption) (*models.PasskeyChallenge, error) {
+	path := "/account/passkeys"
+	options := CreatePasskeyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["PasskeyId"] {
+		params["passkeyId"] = options.PasskeyId
+	}
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.PasskeyChallenge{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.PasskeyChallenge
+	parsed, ok := resp.Result.(models.PasskeyChallenge)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetPasskey get a verified passkey of the currently logged in user by its
+// unique ID.
+func (srv *Account) GetPasskey(PasskeyId string) (*models.Passkey, error) {
+	if PasskeyId == "" {
+		return nil, errors.New("Missing required parameter: \"passkeyId\"")
+	}
+
+	r := strings.NewReplacer("{passkeyId}", client.EncodePath(PasskeyId))
+	path := r.Replace("/account/passkeys/{passkeyId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Passkey{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Passkey
+	parsed, ok := resp.Result.(models.Passkey)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// UpdatePasskey rename a passkey of the currently logged in user.
+func (srv *Account) UpdatePasskey(PasskeyId string, Name string) (*models.Passkey, error) {
+	if PasskeyId == "" {
+		return nil, errors.New("Missing required parameter: \"passkeyId\"")
+	}
+
+	r := strings.NewReplacer("{passkeyId}", client.EncodePath(PasskeyId))
+	path := r.Replace("/account/passkeys/{passkeyId}")
+	params := map[string]interface{}{}
+	params["name"] = Name
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Passkey{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Passkey
+	parsed, ok := resp.Result.(models.Passkey)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeletePasskey delete a passkey from the currently logged in user. The
+// passkey can no longer be used to sign in, although it may remain stored on
+// the user's device. The session must have signed in or completed an MFA
+// challenge within the last 10 minutes.
+func (srv *Account) DeletePasskey(PasskeyId string) (*interface{}, error) {
+	if PasskeyId == "" {
+		return nil, errors.New("Missing required parameter: \"passkeyId\"")
+	}
+
+	r := strings.NewReplacer("{passkeyId}", client.EncodePath(PasskeyId))
+	path := r.Replace("/account/passkeys/{passkeyId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// UpdatePasskeyVerification complete a passkey registration started with
+// [Create passkey](/docs/references/cloud/client-web/account#createPasskey).
+// Pass the JSON form of the credential returned by
+// `navigator.credentials.create()`, for example `credential.toJSON()`. Each
+// registration can be verified once; a failed attempt requires starting it
+// again.
+func (srv *Account) UpdatePasskeyVerification(PasskeyId string, Credential interface{}) (*models.Passkey, error) {
+	if PasskeyId == "" {
+		return nil, errors.New("Missing required parameter: \"passkeyId\"")
+	}
+
+	r := strings.NewReplacer("{passkeyId}", client.EncodePath(PasskeyId))
+	path := r.Replace("/account/passkeys/{passkeyId}/verification")
+	params := map[string]interface{}{}
+	params["credential"] = Credential
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Passkey{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Passkey
+	parsed, ok := resp.Result.(models.Passkey)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdatePasswordOptions struct {
 	OldPassword    string
 	enabledSetters map[string]bool
@@ -2783,6 +3113,97 @@ func (srv *Account) CreateOAuth2Token(Provider string, optionalSetters ...Create
 	}
 	var parsed bool
 	parsed, ok := resp.Result.(bool)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// CreatePasskeyToken start signing in with a passkey. No email or user ID is
+// needed: pass the returned `publicKey` options to
+// `navigator.credentials.get()` and the user picks one of their passkeys.
+// Then call [Update passkey
+// token](/docs/references/cloud/client-web/account#updatePasskeyToken) with
+// the credential to receive a token, and exchange it with [Create
+// session](/docs/references/cloud/client-web/account#createSession). The
+// challenge expires after 5 minutes.
+func (srv *Account) CreatePasskeyToken() (*models.PasskeyChallenge, error) {
+	path := "/account/tokens/passkey"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.PasskeyChallenge{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.PasskeyChallenge
+	parsed, ok := resp.Result.(models.PasskeyChallenge)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// UpdatePasskeyToken complete a passkey sign-in started with [Create passkey
+// token](/docs/references/cloud/client-web/account#createPasskeyToken). Pass
+// the challenge ID and the JSON form of the credential returned by
+// `navigator.credentials.get()`, for example `credential.toJSON()`. The
+// returned token includes its secret and expires after 1 minute: exchange it
+// for a session with [Create
+// session](/docs/references/cloud/client-web/account#createSession). Passkeys
+// require user verification, so the session also satisfies MFA. Each
+// challenge can only be used once.
+func (srv *Account) UpdatePasskeyToken(ChallengeId string, Credential interface{}) (*models.TokenSecret, error) {
+	path := "/account/tokens/passkey"
+	params := map[string]interface{}{}
+	params["challengeId"] = ChallengeId
+	params["credential"] = Credential
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.TokenSecret{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.TokenSecret
+	parsed, ok := resp.Result.(models.TokenSecret)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

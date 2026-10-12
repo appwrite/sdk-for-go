@@ -1,5 +1,13 @@
 # Change Log
 
+## v7.10.0
+
+* Added: `Account` passkey methods `ListPasskeys`, `CreatePasskey`, `GetPasskey`, `UpdatePasskey`, `DeletePasskey` and `UpdatePasskeyVerification`
+* Added: `Account.CreatePasskeyToken` and `Account.UpdatePasskeyToken` for passkey sign-in
+* Added: `Users.ListPasskeys`, `Users.GetPasskey`, `Users.UpdatePasskey` and `Users.DeletePasskey`
+* Added: `Project.UpdatePasskeyPolicy` to configure passkey sign-in
+* Added: `Passkey`, `PasskeyList`, `PasskeyChallenge` and `TokenSecret` models
+
 ## v7.9.0
 
 * Added: `WithCreateInterval` and `WithUpdateInterval` options on `Functions` to run a function every N minutes
