@@ -45,6 +45,24 @@ func (model WafRuleDeny) New(data []byte) *WafRuleDeny {
 	return &model
 }
 
+func (model *WafRuleDeny) UnmarshalJSON(data []byte) error {
+	type alias WafRuleDeny
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"description\":\"\",\"teamId\":\"\",\"projectId\":\"\",\"resourceType\":\"api\",\"resourceId\":\"\",\"priority\":0,\"enabled\":true,\"conditions\":[],\"config\":[]}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *WafRuleDeny) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

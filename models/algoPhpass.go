@@ -19,6 +19,24 @@ func (model AlgoPhpass) New(data []byte) *AlgoPhpass {
 	return &model
 }
 
+func (model *AlgoPhpass) UnmarshalJSON(data []byte) error {
+	type alias AlgoPhpass
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"type\":\"phpass\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *AlgoPhpass) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

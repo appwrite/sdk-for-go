@@ -21,6 +21,24 @@ func (model ProjectProtocol) New(data []byte) *ProjectProtocol {
 	return &model
 }
 
+func (model *ProjectProtocol) UnmarshalJSON(data []byte) error {
+	type alias ProjectProtocol
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"enabled\":true}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *ProjectProtocol) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

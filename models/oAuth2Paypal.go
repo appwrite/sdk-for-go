@@ -25,6 +25,24 @@ func (model OAuth2Paypal) New(data []byte) *OAuth2Paypal {
 	return &model
 }
 
+func (model *OAuth2Paypal) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Paypal
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"enabled\":false,\"clientId\":\"\",\"secretKey\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *OAuth2Paypal) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

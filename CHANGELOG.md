@@ -1,5 +1,17 @@
 # Change Log
 
+## v7.10.0
+
+* Added: `Account` passkey methods: `CreatePasskey`, `UpdatePasskeyVerification`, `CreatePasskeyToken`, `UpdatePasskeyToken`
+* Added: `Account.ListPasskeys`, `GetPasskey`, `UpdatePasskey` and `DeletePasskey`
+* Added: `Users.ListPasskeys`, `GetPasskey`, `UpdatePasskey` and `DeletePasskey`
+* Added: `Project.UpdatePasskeyPolicy` to set the relying party ID passkeys are bound to
+* Added: `Passkey`, `PasskeyList`, `PasskeyChallenge` and `TokenSecret` models
+* Added: `Fingerprints` options on Android platform create and update, and `PlatformAndroid.Fingerprints`
+* Added: `WithCreateMembershipMembershipId` option on `Teams.CreateMembership`
+* Added: `Project.UpdatePasswordRotationPolicy` and the `PolicyPasswordRotation` model
+* Fixed: response models fill missing fields from spec defaults instead of throwing
+
 ## v7.9.0
 
 * Added: `WithCreateInterval` and `WithUpdateInterval` options on `Functions` to run a function every N minutes

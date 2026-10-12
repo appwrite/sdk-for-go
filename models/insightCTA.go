@@ -31,6 +31,24 @@ func (model InsightCTA) New(data []byte) *InsightCTA {
 	return &model
 }
 
+func (model *InsightCTA) UnmarshalJSON(data []byte) error {
+	type alias InsightCTA
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"label\":\"\",\"service\":\"\",\"method\":\"\",\"params\":[]}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *InsightCTA) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

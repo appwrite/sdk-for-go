@@ -23,6 +23,24 @@ func (model BillingPlanSupportedAddons) New(data []byte) *BillingPlanSupportedAd
 	return &model
 }
 
+func (model *BillingPlanSupportedAddons) UnmarshalJSON(data []byte) error {
+	type alias BillingPlanSupportedAddons
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"baa\":false,\"premiumGeoDB\":false,\"premiumGeoDBOrg\":false}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *BillingPlanSupportedAddons) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

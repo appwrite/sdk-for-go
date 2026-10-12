@@ -26,6 +26,24 @@ func (model ProxyInvalidation) New(data []byte) *ProxyInvalidation {
 	return &model
 }
 
+func (model *ProxyInvalidation) UnmarshalJSON(data []byte) error {
+	type alias ProxyInvalidation
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"domain\":\"\",\"type\":\"\",\"reference\":\"\",\"status\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *ProxyInvalidation) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

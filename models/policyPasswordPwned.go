@@ -28,6 +28,24 @@ func (model PolicyPasswordPwned) New(data []byte) *PolicyPasswordPwned {
 	return &model
 }
 
+func (model *PolicyPasswordPwned) UnmarshalJSON(data []byte) error {
+	type alias PolicyPasswordPwned
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"enabled\":true,\"sessions\":false,\"users\":false}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *PolicyPasswordPwned) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

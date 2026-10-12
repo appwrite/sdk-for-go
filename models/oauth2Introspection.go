@@ -46,6 +46,24 @@ func (model Oauth2Introspection) New(data []byte) *Oauth2Introspection {
 	return &model
 }
 
+func (model *Oauth2Introspection) UnmarshalJSON(data []byte) error {
+	type alias Oauth2Introspection
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"active\":false}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Oauth2Introspection) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

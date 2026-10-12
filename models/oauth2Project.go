@@ -24,6 +24,24 @@ func (model Oauth2Project) New(data []byte) *Oauth2Project {
 	return &model
 }
 
+func (model *Oauth2Project) UnmarshalJSON(data []byte) error {
+	type alias Oauth2Project
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"region\":\"\",\"endpoint\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Oauth2Project) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

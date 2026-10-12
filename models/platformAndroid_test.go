@@ -6,7 +6,7 @@ import (
 )
 
 func TestPlatformAndroidModel(t *testing.T) {
-	model := PlatformAndroid{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Web App", Type: "web", ApplicationId: "com.company.appname"}
+	model := PlatformAndroid{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Web App", Type: "web", ApplicationId: "com.company.appname", Fingerprints: []string{"test"}}
 
 	data, err := json.Marshal(model)
 	if err != nil {

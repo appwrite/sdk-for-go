@@ -40,6 +40,24 @@ func (model AttributeIp) New(data []byte) *AttributeIp {
 	return &model
 }
 
+func (model *AttributeIp) UnmarshalJSON(data []byte) error {
+	type alias AttributeIp
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"key\":\"\",\"type\":\"\",\"error\":\"\",\"required\":false,\"$createdAt\":\"\",\"$updatedAt\":\"\",\"format\":\"ip\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *AttributeIp) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

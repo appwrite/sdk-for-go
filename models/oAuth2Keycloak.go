@@ -29,6 +29,24 @@ func (model OAuth2Keycloak) New(data []byte) *OAuth2Keycloak {
 	return &model
 }
 
+func (model *OAuth2Keycloak) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Keycloak
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"enabled\":false,\"clientId\":\"\",\"clientSecret\":\"\",\"endpoint\":\"\",\"realmName\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *OAuth2Keycloak) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

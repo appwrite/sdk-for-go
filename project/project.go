@@ -5800,15 +5800,41 @@ func (srv *Project) ListPlatforms(optionalSetters ...ListPlatformsOption) (*mode
 
 }
 
+type CreateAndroidPlatformOptions struct {
+	Fingerprints   []string
+	enabledSetters map[string]bool
+}
+
+func (options CreateAndroidPlatformOptions) New() *CreateAndroidPlatformOptions {
+	options.enabledSetters = map[string]bool{"Fingerprints": false}
+	return &options
+}
+
+type CreateAndroidPlatformOption func(*CreateAndroidPlatformOptions)
+
+func (srv *Project) WithCreateAndroidPlatformFingerprints(v []string) CreateAndroidPlatformOption {
+	return func(o *CreateAndroidPlatformOptions) {
+		o.Fingerprints = v
+		o.enabledSetters["Fingerprints"] = true
+	}
+}
+
 // CreateAndroidPlatform create a new Android platform for your project. Use
 // this endpoint to register a new Android platform where your users will run
 // your application which will interact with the Appwrite API.
-func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, ApplicationId string) (*models.PlatformAndroid, error) {
+func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, ApplicationId string, optionalSetters ...CreateAndroidPlatformOption) (*models.PlatformAndroid, error) {
 	path := "/project/platforms/android"
+	options := CreateAndroidPlatformOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["platformId"] = PlatformId
 	params["name"] = Name
 	params["applicationId"] = ApplicationId
+	if options.enabledSetters["Fingerprints"] {
+		params["fingerprints"] = options.Fingerprints
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -5842,18 +5868,45 @@ func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, Applic
 
 }
 
+type UpdateAndroidPlatformOptions struct {
+	Fingerprints   []string
+	enabledSetters map[string]bool
+}
+
+func (options UpdateAndroidPlatformOptions) New() *UpdateAndroidPlatformOptions {
+	options.enabledSetters = map[string]bool{"Fingerprints": false}
+	return &options
+}
+
+type UpdateAndroidPlatformOption func(*UpdateAndroidPlatformOptions)
+
+func (srv *Project) WithUpdateAndroidPlatformFingerprints(v []string) UpdateAndroidPlatformOption {
+	return func(o *UpdateAndroidPlatformOptions) {
+		o.Fingerprints = v
+		o.enabledSetters["Fingerprints"] = true
+	}
+}
+
 // UpdateAndroidPlatform update an Android platform by its unique ID. Use this
-// endpoint to update the platform's name or application ID.
-func (srv *Project) UpdateAndroidPlatform(PlatformId string, Name string, ApplicationId string) (*models.PlatformAndroid, error) {
+// endpoint to update the platform's name, application ID or signing
+// certificate fingerprints.
+func (srv *Project) UpdateAndroidPlatform(PlatformId string, Name string, ApplicationId string, optionalSetters ...UpdateAndroidPlatformOption) (*models.PlatformAndroid, error) {
 	if PlatformId == "" {
 		return nil, errors.New("Missing required parameter: \"platformId\"")
 	}
 
 	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/android/{platformId}")
+	options := UpdateAndroidPlatformOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["name"] = Name
 	params["applicationId"] = ApplicationId
+	if options.enabledSetters["Fingerprints"] {
+		params["fingerprints"] = options.Fingerprints
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -6801,6 +6854,49 @@ func (srv *Project) UpdateMFAFactorsPolicy(optionalSetters ...UpdateMFAFactorsPo
 
 }
 
+// UpdatePasskeyPolicy set the relying party ID passkeys are bound to: the
+// domain of your application. Passkeys work on the project's web platforms on
+// that domain or its subdomains, and on the domain itself for Apple apps. A
+// localhost web platform enables passkeys for local development without a
+// relying party ID. The relying party ID cannot change while users have
+// passkeys, and any change invalidates ceremonies in progress.
+func (srv *Project) UpdatePasskeyPolicy(RpId string) (*models.Project, error) {
+	path := "/project/policies/passkey"
+	params := map[string]interface{}{}
+	params["rpId"] = RpId
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // UpdatePasswordDictionaryPolicy updating this policy allows you to control
 // if new passwords are checked against most common passwords dictionary. When
 // enabled, and user changes their password, password must not be contained in
@@ -6987,6 +7083,81 @@ func (srv *Project) UpdatePasswordPwnedPolicy(optionalSetters ...UpdatePasswordP
 	}
 	if options.enabledSetters["Users"] {
 		params["users"] = options.Users
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdatePasswordRotationPolicyOptions struct {
+	Enabled        bool
+	MaxAge         int
+	enabledSetters map[string]bool
+}
+
+func (options UpdatePasswordRotationPolicyOptions) New() *UpdatePasswordRotationPolicyOptions {
+	options.enabledSetters = map[string]bool{"Enabled": false, "MaxAge": false}
+	return &options
+}
+
+type UpdatePasswordRotationPolicyOption func(*UpdatePasswordRotationPolicyOptions)
+
+func (srv *Project) WithUpdatePasswordRotationPolicyEnabled(v bool) UpdatePasswordRotationPolicyOption {
+	return func(o *UpdatePasswordRotationPolicyOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Project) WithUpdatePasswordRotationPolicyMaxAge(v int) UpdatePasswordRotationPolicyOption {
+	return func(o *UpdatePasswordRotationPolicyOptions) {
+		o.MaxAge = v
+		o.enabledSetters["MaxAge"] = true
+	}
+}
+
+// UpdatePasswordRotationPolicy require a password reset when an
+// email/password sign-in uses a password older than the configured maximum
+// age. Options left out keep their current value.
+func (srv *Project) UpdatePasswordRotationPolicy(optionalSetters ...UpdatePasswordRotationPolicyOption) (*models.Project, error) {
+	path := "/project/policies/password-rotation"
+	options := UpdatePasswordRotationPolicyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["MaxAge"] {
+		params["maxAge"] = options.MaxAge
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -7385,6 +7556,14 @@ func (srv *Project) GetPolicy(PolicyId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "password-pwned" {
 			parsed := models.PolicyPasswordPwned{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "password-rotation" {
+			parsed := models.PolicyPasswordRotation{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}

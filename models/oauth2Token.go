@@ -31,6 +31,24 @@ func (model Oauth2Token) New(data []byte) *Oauth2Token {
 	return &model
 }
 
+func (model *Oauth2Token) UnmarshalJSON(data []byte) error {
+	type alias Oauth2Token
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"access_token\":\"\",\"token_type\":\"Bearer\",\"expires_in\":0,\"refresh_token\":\"\",\"scope\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Oauth2Token) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

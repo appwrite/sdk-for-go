@@ -25,6 +25,24 @@ func (model OAuth2Dailymotion) New(data []byte) *OAuth2Dailymotion {
 	return &model
 }
 
+func (model *OAuth2Dailymotion) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Dailymotion
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"enabled\":false,\"apiKey\":\"\",\"apiSecret\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *OAuth2Dailymotion) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

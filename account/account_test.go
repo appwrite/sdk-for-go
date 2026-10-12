@@ -1146,6 +1146,187 @@ func TestAccount(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ListPasskeys", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "passkeys": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "My laptop",
+            "accessedAt": "2020-10-15T06:38:00.000+00:00"
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListPasskeys()
+		if err != nil {
+			t.Errorf("Method ListPasskeys failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreatePasskey", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "bb8ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "passkeyId": "5e5ea5c16897e",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "publicKey": {}
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreatePasskey()
+		if err != nil {
+			t.Errorf("Method CreatePasskey failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetPasskey", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "My laptop",
+    "accessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetPasskey("<PASSKEY_ID>")
+		if err != nil {
+			t.Errorf("Method GetPasskey failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdatePasskey", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "My laptop",
+    "accessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdatePasskey("<PASSKEY_ID>", "<NAME>")
+		if err != nil {
+			t.Errorf("Method UpdatePasskey failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeletePasskey", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeletePasskey("<PASSKEY_ID>")
+		if err != nil {
+			t.Errorf("Method DeletePasskey failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdatePasskeyVerification", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "My laptop",
+    "accessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PUT" {
+				t.Errorf("Expected method PUT, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdatePasskeyVerification("<PASSKEY_ID>", map[string]interface{}{})
+		if err != nil {
+			t.Errorf("Method UpdatePasskeyVerification failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdatePassword", func(t *testing.T) {
 		mockResponse := `
 {
@@ -2131,6 +2312,67 @@ func TestAccount(t *testing.T) {
 		_, err := srv.CreateOAuth2Token("amazon")
 		if err != nil {
 			t.Errorf("Method CreateOAuth2Token failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreatePasskeyToken", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "bb8ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "passkeyId": "5e5ea5c16897e",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "publicKey": {}
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreatePasskeyToken()
+		if err != nil {
+			t.Errorf("Method CreatePasskeyToken failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdatePasskeyToken", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "bb8ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5ea5c168bb8",
+    "secret": "string",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "phrase": "Golden Fox"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PUT" {
+				t.Errorf("Expected method PUT, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdatePasskeyToken("<CHALLENGE_ID>", map[string]interface{}{})
+		if err != nil {
+			t.Errorf("Method UpdatePasskeyToken failed: %v", err)
 		}
 	})
 

@@ -44,6 +44,24 @@ func (model Oauth2Grant) New(data []byte) *Oauth2Grant {
 	return &model
 }
 
+func (model *Oauth2Grant) UnmarshalJSON(data []byte) error {
+	type alias Oauth2Grant
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"userId\":\"\",\"appId\":\"\",\"scopes\":[],\"resources\":[],\"authorizationDetails\":\"[]\",\"prompt\":\"\",\"redirectUri\":\"\",\"authTime\":0,\"expire\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Oauth2Grant) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

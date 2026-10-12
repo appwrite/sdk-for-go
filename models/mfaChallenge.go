@@ -25,6 +25,24 @@ func (model MfaChallenge) New(data []byte) *MfaChallenge {
 	return &model
 }
 
+func (model *MfaChallenge) UnmarshalJSON(data []byte) error {
+	type alias MfaChallenge
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"userId\":\"\",\"expire\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *MfaChallenge) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -57,6 +57,24 @@ func (model WafRuleRateLimit) New(data []byte) *WafRuleRateLimit {
 	return &model
 }
 
+func (model *WafRuleRateLimit) UnmarshalJSON(data []byte) error {
+	type alias WafRuleRateLimit
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"description\":\"\",\"teamId\":\"\",\"projectId\":\"\",\"resourceType\":\"api\",\"resourceId\":\"\",\"priority\":0,\"enabled\":true,\"conditions\":[],\"config\":[],\"limit\":100,\"interval\":3600,\"key\":\"ip\",\"strategy\":\"fixedWindow\",\"maxBucketSize\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *WafRuleRateLimit) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

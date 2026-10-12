@@ -21,6 +21,24 @@ func (model BackupRestorationList) New(data []byte) *BackupRestorationList {
 	return &model
 }
 
+func (model *BackupRestorationList) UnmarshalJSON(data []byte) error {
+	type alias BackupRestorationList
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"total\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *BackupRestorationList) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

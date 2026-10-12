@@ -20,6 +20,7 @@ func main() {
 	response, err := service.CreateMembership(
 		"<TEAM_ID>",
 		[]string{"editor"},
+		service.WithCreateMembershipMembershipId("<MEMBERSHIP_ID>"),
 		service.WithCreateMembershipEmail("email@example.com"),
 		service.WithCreateMembershipUserId("<USER_ID>"),
 		service.WithCreateMembershipPhone("+12065550100"),

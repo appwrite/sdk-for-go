@@ -1331,6 +1331,127 @@ func TestUsers(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ListPasskeys", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "passkeys": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "My laptop",
+            "accessedAt": "2020-10-15T06:38:00.000+00:00"
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListPasskeys("<USER_ID>")
+		if err != nil {
+			t.Errorf("Method ListPasskeys failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetPasskey", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "My laptop",
+    "accessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetPasskey("<USER_ID>", "<PASSKEY_ID>")
+		if err != nil {
+			t.Errorf("Method GetPasskey failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdatePasskey", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "My laptop",
+    "accessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdatePasskey("<USER_ID>", "<PASSKEY_ID>", "<NAME>")
+		if err != nil {
+			t.Errorf("Method UpdatePasskey failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeletePasskey", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeletePasskey("<USER_ID>", "<PASSKEY_ID>")
+		if err != nil {
+			t.Errorf("Method DeletePasskey failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdatePassword", func(t *testing.T) {
 		mockResponse := `
 {

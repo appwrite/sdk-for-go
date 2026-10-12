@@ -31,6 +31,24 @@ func (model OAuth2Okta) New(data []byte) *OAuth2Okta {
 	return &model
 }
 
+func (model *OAuth2Okta) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Okta
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"enabled\":false,\"clientId\":\"\",\"clientSecret\":\"\",\"prompt\":[],\"domain\":\"\",\"authorizationServerId\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *OAuth2Okta) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -38,6 +38,24 @@ func (model Topic) New(data []byte) *Topic {
 	return &model
 }
 
+func (model *Topic) UnmarshalJSON(data []byte) error {
+	type alias Topic
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"emailTotal\":0,\"smsTotal\":0,\"pushTotal\":0,\"subscribe\":[\"users\"]}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Topic) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

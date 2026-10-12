@@ -41,6 +41,24 @@ func (model DnsRecord) New(data []byte) *DnsRecord {
 	return &model
 }
 
+func (model *DnsRecord) UnmarshalJSON(data []byte) error {
+	type alias DnsRecord
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"type\":\"\",\"name\":\"\",\"value\":\"\",\"ttl\":3600,\"priority\":0,\"lock\":false,\"weight\":0,\"port\":0,\"comment\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *DnsRecord) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

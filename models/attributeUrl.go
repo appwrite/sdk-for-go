@@ -40,6 +40,24 @@ func (model AttributeUrl) New(data []byte) *AttributeUrl {
 	return &model
 }
 
+func (model *AttributeUrl) UnmarshalJSON(data []byte) error {
+	type alias AttributeUrl
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"key\":\"\",\"type\":\"\",\"error\":\"\",\"required\":false,\"$createdAt\":\"\",\"$updatedAt\":\"\",\"format\":\"url\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *AttributeUrl) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

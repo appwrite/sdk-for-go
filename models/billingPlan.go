@@ -171,6 +171,24 @@ func (model BillingPlan) New(data []byte) *BillingPlan {
 	return &model
 }
 
+func (model *BillingPlan) UnmarshalJSON(data []byte) error {
+	type alias BillingPlan
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"name\":\"\",\"desc\":\"\",\"order\":0,\"price\":0,\"trial\":0,\"bandwidth\":0,\"storage\":0,\"imageTransformations\":0,\"screenshotsGenerated\":0,\"webhooks\":0,\"wafRules\":0,\"projects\":0,\"platforms\":0,\"users\":0,\"teams\":0,\"databases\":0,\"databasesReads\":0,\"databasesWrites\":0,\"databasesBatchSize\":0,\"buckets\":0,\"fileSize\":0,\"functions\":0,\"sites\":0,\"executions\":0,\"executionsRetentionCount\":1000,\"GBHours\":0,\"realtime\":0,\"realtimeMessages\":0,\"messages\":0,\"topics\":0,\"authPhone\":0,\"domains\":0,\"usageLogs\":0,\"projectInactivityDays\":0,\"alertLimit\":80,\"budgetCapEnabled\":false,\"customSmtp\":false,\"emailBranding\":false,\"requiresPaymentMethod\":true,\"requiresBillingAddress\":false,\"isAvailable\":true,\"selfService\":true,\"premiumSupport\":true,\"budgeting\":true,\"supportsMockNumbers\":true,\"supportsOrganizationRoles\":true,\"supportsCredits\":false,\"supportsDedicatedDatabases\":false,\"supportsDisposableEmailValidation\":false,\"supportsCanonicalEmailValidation\":false,\"supportsFreeEmailValidation\":false,\"supportsCorporateEmailValidation\":false,\"supportsProjectSpecificRoles\":false,\"usagePerProject\":true,\"deploymentSize\":0,\"buildSize\":0,\"functionsIntervalMinimum\":0,\"databasesAllowEncrypt\":false,\"databaseComputeCredit\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *BillingPlan) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

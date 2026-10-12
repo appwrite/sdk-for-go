@@ -702,6 +702,7 @@ func (srv *Teams) ListMemberships(TeamId string, optionalSetters ...ListMembersh
 }
 
 type CreateMembershipOptions struct {
+	MembershipId   string
 	Email          string
 	UserId         string
 	Phone          string
@@ -711,12 +712,18 @@ type CreateMembershipOptions struct {
 }
 
 func (options CreateMembershipOptions) New() *CreateMembershipOptions {
-	options.enabledSetters = map[string]bool{"Email": false, "UserId": false, "Phone": false, "Url": false, "Name": false}
+	options.enabledSetters = map[string]bool{"MembershipId": false, "Email": false, "UserId": false, "Phone": false, "Url": false, "Name": false}
 	return &options
 }
 
 type CreateMembershipOption func(*CreateMembershipOptions)
 
+func (srv *Teams) WithCreateMembershipMembershipId(v string) CreateMembershipOption {
+	return func(o *CreateMembershipOptions) {
+		o.MembershipId = v
+		o.enabledSetters["MembershipId"] = true
+	}
+}
 func (srv *Teams) WithCreateMembershipEmail(v string) CreateMembershipOption {
 	return func(o *CreateMembershipOptions) {
 		o.Email = v
@@ -780,6 +787,9 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetter
 		opt(options)
 	}
 	params := map[string]interface{}{}
+	if options.enabledSetters["MembershipId"] {
+		params["membershipId"] = options.MembershipId
+	}
 	if options.enabledSetters["Email"] {
 		params["email"] = options.Email
 	}
