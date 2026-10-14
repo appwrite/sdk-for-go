@@ -44,6 +44,24 @@ func (model Webhook) New(data []byte) *Webhook {
 	return &model
 }
 
+func (model *Webhook) UnmarshalJSON(data []byte) error {
+	type alias Webhook
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"url\":\"\",\"events\":[],\"tls\":true,\"authUsername\":\"\",\"authPassword\":\"\",\"secret\":\"\",\"enabled\":true,\"logs\":\"\",\"attempts\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Webhook) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

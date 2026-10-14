@@ -21,6 +21,24 @@ func (model MembershipList) New(data []byte) *MembershipList {
 	return &model
 }
 
+func (model *MembershipList) UnmarshalJSON(data []byte) error {
+	type alias MembershipList
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"total\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *MembershipList) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

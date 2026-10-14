@@ -40,6 +40,24 @@ func (model ColumnText) New(data []byte) *ColumnText {
 	return &model
 }
 
+func (model *ColumnText) UnmarshalJSON(data []byte) error {
+	type alias ColumnText
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"key\":\"\",\"type\":\"\",\"error\":\"\",\"required\":false,\"$createdAt\":\"\",\"$updatedAt\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *ColumnText) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

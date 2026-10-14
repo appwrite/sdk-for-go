@@ -21,6 +21,24 @@ func (model AppScopeList) New(data []byte) *AppScopeList {
 	return &model
 }
 
+func (model *AppScopeList) UnmarshalJSON(data []byte) error {
+	type alias AppScopeList
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"total\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *AppScopeList) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

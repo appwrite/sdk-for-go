@@ -43,6 +43,24 @@ func (model DedicatedDatabaseSpecification) New(data []byte) *DedicatedDatabaseS
 	return &model
 }
 
+func (model *DedicatedDatabaseSpecification) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabaseSpecification
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"slug\":\"\",\"name\":\"\",\"price\":0,\"storageOverageRate\":0,\"bandwidthOverageRate\":0,\"replicaRate\":0,\"pitrRate\":0,\"cpu\":0,\"memory\":0,\"maxConnections\":0,\"includedStorage\":0,\"includedBandwidth\":0,\"enabled\":false}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *DedicatedDatabaseSpecification) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -25,6 +25,24 @@ func (model Embedding) New(data []byte) *Embedding {
 	return &model
 }
 
+func (model *Embedding) UnmarshalJSON(data []byte) error {
+	type alias Embedding
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"model\":\"\",\"dimension\":0,\"embedding\":[],\"error\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Embedding) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

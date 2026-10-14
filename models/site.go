@@ -98,6 +98,24 @@ func (model Site) New(data []byte) *Site {
 	return &model
 }
 
+func (model *Site) UnmarshalJSON(data []byte) error {
+	type alias Site
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"enabled\":true,\"live\":true,\"logging\":true,\"framework\":\"\",\"deploymentRetention\":0,\"deploymentId\":\"\",\"deploymentCreatedAt\":\"\",\"deploymentScreenshotLight\":\"\",\"deploymentScreenshotDark\":\"\",\"latestDeploymentId\":\"\",\"latestDeploymentCreatedAt\":\"\",\"latestDeploymentStatus\":\"\",\"scopes\":[],\"timeout\":15,\"installCommand\":\"\",\"buildCommand\":\"\",\"startCommand\":\"\",\"outputDirectory\":\"\",\"installationId\":\"\",\"providerRepositoryId\":\"\",\"providerBranch\":\"\",\"providerRootDirectory\":\"\",\"providerSilentMode\":false,\"providerBranches\":[],\"providerPaths\":[],\"buildSpecification\":\"s-1vcpu-512mb\",\"runtimeSpecification\":\"s-1vcpu-512mb\",\"buildRuntime\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Site) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -21,6 +21,24 @@ func (model DedicatedDatabasePITRWindows) New(data []byte) *DedicatedDatabasePIT
 	return &model
 }
 
+func (model *DedicatedDatabasePITRWindows) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabasePITRWindows
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"earliest\":\"\",\"latest\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *DedicatedDatabasePITRWindows) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -52,6 +52,24 @@ func (model ProxyRule) New(data []byte) *ProxyRule {
 	return &model
 }
 
+func (model *ProxyRule) UnmarshalJSON(data []byte) error {
+	type alias ProxyRule
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"domain\":\"\",\"type\":\"\",\"trigger\":\"\",\"redirectUrl\":\"\",\"redirectStatusCode\":301,\"deploymentId\":\"\",\"deploymentResourceId\":\"\",\"deploymentVcsProviderBranch\":\"\",\"status\":\"unverified\",\"logs\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *ProxyRule) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

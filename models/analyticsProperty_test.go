@@ -6,7 +6,7 @@ import (
 )
 
 func TestAnalyticsPropertyModel(t *testing.T) {
-	model := AnalyticsProperty{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Website", Domain: "example.com", Enabled: true, Public: true, AllowedOrigins: []string{"test"}, AccessedAt: "2020-10-15T06:38:00.000+00:00", FirstAccessedAt: "2020-10-15T06:38:00.000+00:00"}
+	model := AnalyticsProperty{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Website", Domain: "example.com", Enabled: true, AllowedOrigins: []string{"test"}, AccessedAt: "2020-10-15T06:38:00.000+00:00", FirstAccessedAt: "2020-10-15T06:38:00.000+00:00"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -35,9 +35,6 @@ func TestAnalyticsPropertyModel(t *testing.T) {
 	}
 	if result.Enabled != model.Enabled {
 		t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)
-	}
-	if result.Public != model.Public {
-		t.Errorf("Expected Public %v, got %v", model.Public, result.Public)
 	}
 	if result.AccessedAt != model.AccessedAt {
 		t.Errorf("Expected AccessedAt %v, got %v", model.AccessedAt, result.AccessedAt)

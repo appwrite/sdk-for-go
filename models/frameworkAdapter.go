@@ -28,6 +28,24 @@ func (model FrameworkAdapter) New(data []byte) *FrameworkAdapter {
 	return &model
 }
 
+func (model *FrameworkAdapter) UnmarshalJSON(data []byte) error {
+	type alias FrameworkAdapter
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"key\":\"\",\"installCommand\":\"\",\"buildCommand\":\"\",\"outputDirectory\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *FrameworkAdapter) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -41,6 +41,24 @@ func (model Oauth2Consent) New(data []byte) *Oauth2Consent {
 	return &model
 }
 
+func (model *Oauth2Consent) UnmarshalJSON(data []byte) error {
+	type alias Oauth2Consent
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"userId\":\"\",\"appId\":\"\",\"cimdUrl\":\"\",\"scopes\":[],\"resources\":[],\"authorizationDetails\":\"[]\",\"expire\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Oauth2Consent) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

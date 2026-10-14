@@ -53,6 +53,24 @@ func (model AnalyticsMetric) New(data []byte) *AnalyticsMetric {
 	return &model
 }
 
+func (model *AnalyticsMetric) UnmarshalJSON(data []byte) error {
+	type alias AnalyticsMetric
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"visitors\":0,\"sessions\":0,\"events\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *AnalyticsMetric) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

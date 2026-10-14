@@ -60,6 +60,24 @@ func (model Database) New(data []byte) *Database {
 	return &model
 }
 
+func (model *Database) UnmarshalJSON(data []byte) error {
+	type alias Database
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"name\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"enabled\":true,\"type\":\"legacy\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Database) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

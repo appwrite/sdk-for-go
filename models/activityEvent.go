@@ -75,6 +75,24 @@ func (model ActivityEvent) New(data []byte) *ActivityEvent {
 	return &model
 }
 
+func (model *ActivityEvent) UnmarshalJSON(data []byte) error {
+	type alias ActivityEvent
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"actorType\":\"\",\"actorId\":\"\",\"actorEmail\":\"\",\"actorName\":\"\",\"resourceParent\":\"\",\"resourceType\":\"\",\"resourceId\":\"\",\"resource\":\"\",\"event\":\"\",\"userAgent\":\"\",\"ip\":\"\",\"mode\":\"\",\"country\":\"\",\"continentCode\":\"\",\"city\":\"\",\"subdivisions\":\"\",\"isp\":\"\",\"autonomousSystemNumber\":\"\",\"autonomousSystemOrganization\":\"\",\"connectionType\":\"\",\"connectionUsageType\":\"\",\"connectionOrganization\":\"\",\"time\":\"\",\"projectId\":\"\",\"teamId\":\"\",\"hostname\":\"\",\"sdk\":\"\",\"sdkVersion\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *ActivityEvent) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

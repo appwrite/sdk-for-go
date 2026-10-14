@@ -27,6 +27,24 @@ func (model OAuth2Salesforce) New(data []byte) *OAuth2Salesforce {
 	return &model
 }
 
+func (model *OAuth2Salesforce) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Salesforce
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"enabled\":false,\"customerKey\":\"\",\"customerSecret\":\"\",\"prompt\":[]}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *OAuth2Salesforce) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

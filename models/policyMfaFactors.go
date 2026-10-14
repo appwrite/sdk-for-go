@@ -27,6 +27,24 @@ func (model PolicyMfaFactors) New(data []byte) *PolicyMfaFactors {
 	return &model
 }
 
+func (model *PolicyMfaFactors) UnmarshalJSON(data []byte) error {
+	type alias PolicyMfaFactors
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"totp\":true,\"email\":true,\"phone\":true,\"custom\":false}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *PolicyMfaFactors) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -43,6 +43,24 @@ func (model DedicatedDatabaseMember) New(data []byte) *DedicatedDatabaseMember {
 	return &model
 }
 
+func (model *DedicatedDatabaseMember) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabaseMember
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"role\":\"unknown\",\"status\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *DedicatedDatabaseMember) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

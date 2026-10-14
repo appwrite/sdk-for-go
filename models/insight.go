@@ -60,6 +60,24 @@ func (model Insight) New(data []byte) *Insight {
 	return &model
 }
 
+func (model *Insight) UnmarshalJSON(data []byte) error {
+	type alias Insight
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"reportId\":\"\",\"type\":\"\",\"severity\":\"info\",\"status\":\"active\",\"resourceType\":\"\",\"resourceId\":\"\",\"parentResourceType\":\"\",\"parentResourceId\":\"\",\"title\":\"\",\"summary\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Insight) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

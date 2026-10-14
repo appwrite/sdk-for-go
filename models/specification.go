@@ -25,6 +25,24 @@ func (model Specification) New(data []byte) *Specification {
 	return &model
 }
 
+func (model *Specification) UnmarshalJSON(data []byte) error {
+	type alias Specification
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"memory\":0,\"cpus\":0,\"enabled\":false,\"slug\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Specification) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -44,6 +44,24 @@ func (model BackupPolicy) New(data []byte) *BackupPolicy {
 	return &model
 }
 
+func (model *BackupPolicy) UnmarshalJSON(data []byte) error {
+	type alias BackupPolicy
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"name\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"retention\":1,\"schedule\":\"0 * * * *\",\"type\":\"full\",\"enabled\":false}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *BackupPolicy) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

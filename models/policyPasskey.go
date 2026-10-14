@@ -11,7 +11,8 @@ type PolicyPasskey struct {
 	Id string `json:"$id"`
 	// Relying party ID passkeys are bound to. Empty until configured.
 	RpId string `json:"rpId"`
-	// Web origins allowed to register and sign in with passkeys.
+	// Web origins passkeys work on, from the project's platforms on the relying
+	// party ID and a localhost web platform. Read-only.
 	Origins []string `json:"origins"`
 
 	// Used by Decode() method
@@ -21,6 +22,24 @@ type PolicyPasskey struct {
 func (model PolicyPasskey) New(data []byte) *PolicyPasskey {
 	model.data = data
 	return &model
+}
+
+func (model *PolicyPasskey) UnmarshalJSON(data []byte) error {
+	type alias PolicyPasskey
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"rpId\":\"\",\"origins\":[]}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
 }
 
 func (model *PolicyPasskey) Decode(value interface{}) error {

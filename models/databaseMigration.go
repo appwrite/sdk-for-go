@@ -57,6 +57,24 @@ func (model DatabaseMigration) New(data []byte) *DatabaseMigration {
 	return &model
 }
 
+func (model *DatabaseMigration) UnmarshalJSON(data []byte) error {
+	type alias DatabaseMigration
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"projectId\":\"\",\"databaseId\":\"\",\"specification\":\"\",\"phase\":\"pending\",\"attempt\":0,\"lastError\":\"\",\"lagDocuments\":0,\"changelogWatermark\":0,\"verifiedAt\":\"\",\"cutoverAt\":\"\",\"soakUntil\":\"\",\"autoCutover\":true,\"cutoverRequested\":false,\"paused\":false}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *DatabaseMigration) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

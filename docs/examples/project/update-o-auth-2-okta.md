@@ -22,8 +22,8 @@ func main() {
 		service.WithUpdateOAuth2OktaClientSecret("<CLIENT_SECRET>"),
 		service.WithUpdateOAuth2OktaDomain("example.com"),
 		service.WithUpdateOAuth2OktaAuthorizationServerId("<AUTHORIZATION_SERVER_ID>"),
-		service.WithUpdateOAuth2OktaPrompt([]string{"example"}),
 		service.WithUpdateOAuth2OktaEnabled(false),
+		service.WithUpdateOAuth2OktaPrompt([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

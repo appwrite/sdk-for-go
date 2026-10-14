@@ -35,6 +35,24 @@ func (model DomainPrice) New(data []byte) *DomainPrice {
 	return &model
 }
 
+func (model *DomainPrice) UnmarshalJSON(data []byte) error {
+	type alias DomainPrice
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"domain\":\"\",\"tld\":\"\",\"available\":false,\"periodYears\":1,\"premium\":false,\"renewalPeriodYears\":1}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *DomainPrice) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

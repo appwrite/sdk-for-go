@@ -20,8 +20,6 @@ type AnalyticsProperty struct {
 	Domain string `json:"domain"`
 	// Whether tracking is currently active.
 	Enabled bool `json:"enabled"`
-	// Whether stats for this property are publicly viewable.
-	Public bool `json:"public"`
 	// List of origins allowed to send tracking events. Use ["*"] to allow all.
 	AllowedOrigins []string `json:"allowedOrigins"`
 	// Most recent event date in ISO 8601 format. This attribute is only updated
@@ -38,6 +36,24 @@ type AnalyticsProperty struct {
 func (model AnalyticsProperty) New(data []byte) *AnalyticsProperty {
 	model.data = data
 	return &model
+}
+
+func (model *AnalyticsProperty) UnmarshalJSON(data []byte) error {
+	type alias AnalyticsProperty
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"domain\":\"\",\"enabled\":true,\"allowedOrigins\":[\"*\"],\"accessedAt\":\"\",\"firstAccessedAt\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
 }
 
 func (model *AnalyticsProperty) Decode(value interface{}) error {

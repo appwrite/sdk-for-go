@@ -33,6 +33,24 @@ func (model EmailTemplate) New(data []byte) *EmailTemplate {
 	return &model
 }
 
+func (model *EmailTemplate) UnmarshalJSON(data []byte) error {
+	type alias EmailTemplate
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"templateId\":\"\",\"locale\":\"\",\"message\":\"\",\"senderName\":\"\",\"senderEmail\":\"\",\"replyToEmail\":\"\",\"replyToName\":\"\",\"subject\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *EmailTemplate) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

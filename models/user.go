@@ -77,6 +77,24 @@ func (model User) New(data []byte) *User {
 	return &model
 }
 
+func (model *User) UnmarshalJSON(data []byte) error {
+	type alias User
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"registration\":\"\",\"status\":true,\"labels\":[],\"passwordUpdate\":\"\",\"email\":\"\",\"phone\":\"\",\"emailVerification\":false,\"phoneVerification\":false,\"mfa\":false,\"accessedAt\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *User) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

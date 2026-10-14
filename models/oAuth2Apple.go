@@ -37,6 +37,24 @@ func (model OAuth2Apple) New(data []byte) *OAuth2Apple {
 	return &model
 }
 
+func (model *OAuth2Apple) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Apple
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"enabled\":false,\"serviceId\":\"\",\"keyId\":\"\",\"teamId\":\"\",\"p8File\":\"\",\"nativeEnabled\":false,\"nativeClientIds\":[]}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *OAuth2Apple) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")
