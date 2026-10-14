@@ -21,6 +21,24 @@ func (model CurrencyList) New(data []byte) *CurrencyList {
 	return &model
 }
 
+func (model *CurrencyList) UnmarshalJSON(data []byte) error {
+	type alias CurrencyList
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"total\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *CurrencyList) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

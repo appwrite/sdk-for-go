@@ -5234,7 +5234,9 @@ func (srv *TablesDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 
 // CreateIndex creates an index on the columns listed. Your index should
 // include all the columns you will query in a single request.
-// Type can be `key`, `fulltext`, or `unique`.
+// Type can be `key`, `fulltext`, `unique`, `spatial`, or `trigram`. `trigram`
+// is only available on PostgreSQL and lets `contains`, `startsWith`, and
+// `endsWith` queries on string columns use an index.
 func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, Type string, Columns []string, optionalSetters ...CreateIndexOption) (*models.ColumnIndex, error) {
 	if DatabaseId == "" {
 		return nil, errors.New("Missing required parameter: \"databaseId\"")

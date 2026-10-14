@@ -31,6 +31,24 @@ func (model PolicyMembershipPrivacy) New(data []byte) *PolicyMembershipPrivacy {
 	return &model
 }
 
+func (model *PolicyMembershipPrivacy) UnmarshalJSON(data []byte) error {
+	type alias PolicyMembershipPrivacy
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"userId\":false,\"userEmail\":false,\"userPhone\":false,\"userName\":false,\"userMFA\":false,\"userAccessedAt\":false}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *PolicyMembershipPrivacy) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

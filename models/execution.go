@@ -67,6 +67,24 @@ func (model Execution) New(data []byte) *Execution {
 	return &model
 }
 
+func (model *Execution) UnmarshalJSON(data []byte) error {
+	type alias Execution
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"resourceId\":\"\",\"resourceType\":\"functions\",\"deploymentId\":\"\",\"requestMethod\":\"\",\"requestPath\":\"\",\"responseStatusCode\":0,\"responseBody\":\"\",\"logs\":\"\",\"errors\":\"\",\"duration\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Execution) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

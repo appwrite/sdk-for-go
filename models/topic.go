@@ -26,7 +26,9 @@ type Topic struct {
 	// MQTT QoS for delivery on this topic. Null lets the subscriber choose their
 	// level.
 	Qos *int `json:"qos"`
-	// Message retention in seconds for offline delivery.
+	// Message retention in seconds for offline delivery. Null inherits the lowest
+	// expiry of the project's enabled Appwrite providers, or the 7-day ledger
+	// window if none sets one.
 	Expiry *int `json:"expiry"`
 
 	// Used by Decode() method
@@ -36,6 +38,24 @@ type Topic struct {
 func (model Topic) New(data []byte) *Topic {
 	model.data = data
 	return &model
+}
+
+func (model *Topic) UnmarshalJSON(data []byte) error {
+	type alias Topic
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"emailTotal\":0,\"smsTotal\":0,\"pushTotal\":0,\"subscribe\":[\"users\"]}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
 }
 
 func (model *Topic) Decode(value interface{}) error {

@@ -27,6 +27,24 @@ func (model AlgoScrypt) New(data []byte) *AlgoScrypt {
 	return &model
 }
 
+func (model *AlgoScrypt) UnmarshalJSON(data []byte) error {
+	type alias AlgoScrypt
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"type\":\"scrypt\",\"costCpu\":8,\"costMemory\":14,\"costParallel\":1,\"length\":64}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *AlgoScrypt) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

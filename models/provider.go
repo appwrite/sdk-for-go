@@ -35,6 +35,24 @@ func (model Provider) New(data []byte) *Provider {
 	return &model
 }
 
+func (model *Provider) UnmarshalJSON(data []byte) error {
+	type alias Provider
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"provider\":\"\",\"enabled\":true,\"type\":\"\",\"credentials\":[]}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Provider) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

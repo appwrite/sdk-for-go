@@ -25,6 +25,24 @@ func (model AlgoArgon2) New(data []byte) *AlgoArgon2 {
 	return &model
 }
 
+func (model *AlgoArgon2) UnmarshalJSON(data []byte) error {
+	type alias AlgoArgon2
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"type\":\"argon2\",\"memoryCost\":0,\"timeCost\":0,\"threads\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *AlgoArgon2) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

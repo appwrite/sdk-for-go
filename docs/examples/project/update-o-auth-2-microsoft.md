@@ -21,8 +21,8 @@ func main() {
 		service.WithUpdateOAuth2MicrosoftApplicationId("<APPLICATION_ID>"),
 		service.WithUpdateOAuth2MicrosoftApplicationSecret("<APPLICATION_SECRET>"),
 		service.WithUpdateOAuth2MicrosoftTenant("<TENANT>"),
-		service.WithUpdateOAuth2MicrosoftPrompt([]string{"example"}),
 		service.WithUpdateOAuth2MicrosoftEnabled(false),
+		service.WithUpdateOAuth2MicrosoftPrompt([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

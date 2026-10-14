@@ -32,6 +32,24 @@ func (model TokenSecret) New(data []byte) *TokenSecret {
 	return &model
 }
 
+func (model *TokenSecret) UnmarshalJSON(data []byte) error {
+	type alias TokenSecret
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"userId\":\"\",\"secret\":\"\",\"expire\":\"\",\"phrase\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *TokenSecret) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

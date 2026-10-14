@@ -32,6 +32,24 @@ func (model Document) New(data []byte) *Document {
 	return &model
 }
 
+func (model *Document) UnmarshalJSON(data []byte) error {
+	type alias Document
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$sequence\":\"\",\"$collectionId\":\"\",\"$databaseId\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 // Use this method to get response in desired type
 func (model *Document) Decode(value interface{}) error {
 	if len(model.data) <= 0 {

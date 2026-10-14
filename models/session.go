@@ -79,6 +79,24 @@ func (model Session) New(data []byte) *Session {
 	return &model
 }
 
+func (model *Session) UnmarshalJSON(data []byte) error {
+	type alias Session
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"userId\":\"\",\"expire\":\"\",\"provider\":\"\",\"providerUid\":\"\",\"providerAccessToken\":\"\",\"providerAccessTokenExpiry\":\"\",\"providerRefreshToken\":\"\",\"ip\":\"\",\"osCode\":\"\",\"osName\":\"\",\"osVersion\":\"\",\"clientType\":\"\",\"clientCode\":\"\",\"clientName\":\"\",\"clientVersion\":\"\",\"clientEngine\":\"\",\"clientEngineVersion\":\"\",\"deviceName\":\"\",\"deviceBrand\":\"\",\"deviceModel\":\"\",\"countryCode\":\"\",\"countryName\":\"\",\"current\":false,\"factors\":[],\"secret\":\"\",\"mfaUpdatedAt\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Session) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

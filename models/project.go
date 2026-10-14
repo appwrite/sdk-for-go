@@ -128,6 +128,24 @@ func (model Project) New(data []byte) *Project {
 	return &model
 }
 
+func (model *Project) UnmarshalJSON(data []byte) error {
+	type alias Project
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"teamId\":\"\",\"region\":\"fra\",\"smtpEnabled\":false,\"smtpSenderName\":\"\",\"smtpSenderEmail\":\"\",\"smtpReplyToName\":\"\",\"smtpReplyToEmail\":\"\",\"smtpHost\":\"\",\"smtpPort\":0,\"smtpUsername\":\"\",\"smtpPassword\":\"\",\"smtpSecure\":\"\",\"pingCount\":0,\"pingedAt\":\"\",\"labels\":[],\"status\":\"active\",\"onboarding\":[],\"consoleAccessedAt\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Project) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -72,6 +72,24 @@ func (model Deployment) New(data []byte) *Deployment {
 	return &model
 }
 
+func (model *Deployment) UnmarshalJSON(data []byte) error {
+	type alias Deployment
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"type\":\"\",\"resourceId\":\"\",\"resourceType\":\"\",\"entrypoint\":\"\",\"sourceSize\":0,\"buildSize\":0,\"totalSize\":0,\"buildId\":\"\",\"activate\":false,\"screenshotLight\":\"\",\"screenshotDark\":\"\",\"buildLogs\":\"\",\"buildDuration\":0,\"providerRepositoryName\":\"\",\"providerRepositoryOwner\":\"\",\"providerRepositoryUrl\":\"\",\"providerCommitHash\":\"\",\"providerCommitAuthorUrl\":\"\",\"providerCommitAuthor\":\"\",\"providerCommitMessage\":\"\",\"providerCommitUrl\":\"\",\"providerBranch\":\"\",\"providerBranchUrl\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Deployment) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

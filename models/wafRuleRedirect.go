@@ -49,6 +49,24 @@ func (model WafRuleRedirect) New(data []byte) *WafRuleRedirect {
 	return &model
 }
 
+func (model *WafRuleRedirect) UnmarshalJSON(data []byte) error {
+	type alias WafRuleRedirect
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"name\":\"\",\"description\":\"\",\"teamId\":\"\",\"projectId\":\"\",\"resourceType\":\"api\",\"resourceId\":\"\",\"priority\":0,\"enabled\":true,\"conditions\":[],\"config\":[],\"location\":\"/\",\"statusCode\":302}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *WafRuleRedirect) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

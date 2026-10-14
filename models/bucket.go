@@ -49,6 +49,24 @@ func (model Bucket) New(data []byte) *Bucket {
 	return &model
 }
 
+func (model *Bucket) UnmarshalJSON(data []byte) error {
+	type alias Bucket
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"$permissions\":[],\"fileSecurity\":false,\"name\":\"\",\"enabled\":true,\"maximumFileSize\":0,\"allowedFileExtensions\":[],\"compression\":\"\",\"encryption\":true,\"antivirus\":true,\"transformations\":true,\"totalSize\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Bucket) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

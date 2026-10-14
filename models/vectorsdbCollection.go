@@ -47,6 +47,24 @@ func (model VectorsdbCollection) New(data []byte) *VectorsdbCollection {
 	return &model
 }
 
+func (model *VectorsdbCollection) UnmarshalJSON(data []byte) error {
+	type alias VectorsdbCollection
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"databaseId\":\"\",\"name\":\"\",\"enabled\":true,\"documentSecurity\":false,\"bytesMax\":0,\"bytesUsed\":0,\"dimension\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *VectorsdbCollection) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

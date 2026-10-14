@@ -37,6 +37,24 @@ func (model DatabaseStatusReplica) New(data []byte) *DatabaseStatusReplica {
 	return &model
 }
 
+func (model *DatabaseStatusReplica) UnmarshalJSON(data []byte) error {
+	type alias DatabaseStatusReplica
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"index\":0,\"role\":\"unknown\",\"healthy\":false}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *DatabaseStatusReplica) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -145,6 +145,24 @@ func (model DedicatedDatabase) New(data []byte) *DedicatedDatabase {
 	return &model
 }
 
+func (model *DedicatedDatabase) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabase
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"projectId\":\"\",\"name\":\"\",\"version\":\"\",\"specification\":\"\",\"backend\":\"\",\"hostname\":\"\",\"connectionUser\":\"\",\"connectionPassword\":\"\",\"connectionString\":\"\",\"ssl\":false,\"status\":\"provisioning\",\"containerStatus\":\"\",\"lifecycleState\":\"\",\"idleTimeoutMinutes\":15,\"cpu\":500,\"memory\":512,\"storage\":10,\"storageStatus\":\"idle\",\"storageTargetGb\":0,\"storageClass\":\"ssd\",\"storageMaxGb\":0,\"nodePool\":\"\",\"replicas\":0,\"syncMode\":\"\",\"networkMaxConnections\":100,\"networkIdleTimeoutSeconds\":900,\"networkIPAllowlist\":[],\"backupEnabled\":true,\"pitr\":true,\"pitrRetentionDays\":7,\"storageAutoscaling\":true,\"storageAutoscalingThresholdPercent\":85,\"storageAutoscalingMaxGb\":0,\"maintenanceWindowDay\":\"sun\",\"maintenanceWindowHourUtc\":3,\"metricsEnabled\":false,\"sqlApiEnabled\":true,\"sqlApiAllowedStatements\":[\"SELECT\",\"INSERT\",\"UPDATE\",\"DELETE\"],\"sqlApiMaxRows\":10000,\"sqlApiMaxBytes\":10485760,\"sqlApiTimeoutSeconds\":30,\"error\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *DedicatedDatabase) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

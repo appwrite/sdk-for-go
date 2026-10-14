@@ -40,6 +40,24 @@ func (model OAuth2Oidc) New(data []byte) *OAuth2Oidc {
 	return &model
 }
 
+func (model *OAuth2Oidc) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Oidc
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"enabled\":false,\"clientId\":\"\",\"clientSecret\":\"\",\"prompt\":[],\"wellKnownURL\":\"\",\"authorizationURL\":\"\",\"tokenURL\":\"\",\"userInfoURL\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *OAuth2Oidc) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

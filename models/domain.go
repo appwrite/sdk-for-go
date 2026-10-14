@@ -44,6 +44,24 @@ func (model Domain) New(data []byte) *Domain {
 	return &model
 }
 
+func (model *Domain) UnmarshalJSON(data []byte) error {
+	type alias Domain
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"domain\":\"\",\"registrar\":\"\",\"nameservers\":\"\",\"expire\":\"\",\"renewal\":\"\",\"autoRenewal\":false,\"renewalPrice\":0,\"teamId\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Domain) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

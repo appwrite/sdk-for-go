@@ -33,6 +33,24 @@ func (model BillingPlanAddonDetails) New(data []byte) *BillingPlanAddonDetails {
 	return &model
 }
 
+func (model *BillingPlanAddonDetails) UnmarshalJSON(data []byte) error {
+	type alias BillingPlanAddonDetails
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"supported\":false,\"planIncluded\":0,\"limit\":0,\"type\":\"numeric\",\"price\":0,\"value\":0,\"invoiceDesc\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *BillingPlanAddonDetails) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

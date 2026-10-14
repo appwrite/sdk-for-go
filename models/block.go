@@ -28,6 +28,24 @@ func (model Block) New(data []byte) *Block {
 	return &model
 }
 
+func (model *Block) UnmarshalJSON(data []byte) error {
+	type alias Block
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$createdAt\":\"\",\"resourceType\":\"\",\"resourceId\":\"\",\"mode\":\"full\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Block) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

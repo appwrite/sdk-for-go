@@ -23,6 +23,24 @@ func (model Language) New(data []byte) *Language {
 	return &model
 }
 
+func (model *Language) UnmarshalJSON(data []byte) error {
+	type alias Language
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"name\":\"\",\"code\":\"\",\"nativeName\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Language) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

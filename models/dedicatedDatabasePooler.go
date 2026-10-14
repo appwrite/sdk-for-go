@@ -50,6 +50,24 @@ func (model DedicatedDatabasePooler) New(data []byte) *DedicatedDatabasePooler {
 	return &model
 }
 
+func (model *DedicatedDatabasePooler) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabasePooler
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"enabled\":false,\"mode\":\"transaction\",\"maxConnections\":100,\"defaultPoolSize\":20,\"port\":6432,\"readWriteSplitting\":false,\"poolerCpuRequest\":\"\",\"poolerCpuLimit\":\"\",\"poolerMemoryRequest\":\"\",\"poolerMemoryLimit\":\"\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *DedicatedDatabasePooler) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

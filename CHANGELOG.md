@@ -1,5 +1,12 @@
 # Change Log
 
+## v7.12.0
+
+* Breaking: removed `AnalyticsProperty.Public` and the `WithCreatePropertyPublic` and `WithUpdatePropertyPublic` options
+* Updated: requests send response format `2.5.0`
+* Updated: models fill fields missing from a response with their documented defaults
+* Updated: index docs list the `spatial` and `trigram` types
+
 ## v7.11.0
 
 * Added: project environments with `Project.CreateEnvironment`, `GetEnvironment`, `ListEnvironments`, `UpdateEnvironment` and `DeleteEnvironment`

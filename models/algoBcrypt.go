@@ -19,6 +19,24 @@ func (model AlgoBcrypt) New(data []byte) *AlgoBcrypt {
 	return &model
 }
 
+func (model *AlgoBcrypt) UnmarshalJSON(data []byte) error {
+	type alias AlgoBcrypt
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"type\":\"bcrypt\"}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *AlgoBcrypt) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

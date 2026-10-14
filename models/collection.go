@@ -45,6 +45,24 @@ func (model Collection) New(data []byte) *Collection {
 	return &model
 }
 
+func (model *Collection) UnmarshalJSON(data []byte) error {
+	type alias Collection
+	var fields map[string]json.RawMessage
+	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"$createdAt\":\"\",\"$updatedAt\":\"\",\"databaseId\":\"\",\"name\":\"\",\"enabled\":true,\"documentSecurity\":false,\"bytesMax\":0,\"bytesUsed\":0}"), &fields); err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &fields); err != nil {
+		return err
+	}
+
+	merged, err := json.Marshal(fields)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(merged, (*alias)(model))
+}
+
 func (model *Collection) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")
