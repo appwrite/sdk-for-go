@@ -21,6 +21,7 @@ func main() {
 		"<PLATFORM_ID>",
 		"<NAME>",
 		"<APPLICATION_ID>",
+		service.WithUpdateAndroidPlatformFingerprints([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

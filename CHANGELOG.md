@@ -1,5 +1,12 @@
 # Change Log
 
+## v7.11.0
+
+* Added: project environments with `Project.CreateEnvironment`, `GetEnvironment`, `ListEnvironments`, `UpdateEnvironment` and `DeleteEnvironment`
+* Added: `Project.UpdatePasswordRotationPolicy` and the `PolicyPasswordRotation` model
+* Added: `WithCreateMembershipMembershipId` on `Teams.CreateMembership`, and `fingerprints` options on Android platform create and update
+* Added: `Project.ParentId` and `BillingPlan.Environments`
+
 ## v7.10.0
 
 * Added: `Account` passkey methods `ListPasskeys`, `CreatePasskey`, `GetPasskey`, `UpdatePasskey`, `DeletePasskey` and `UpdatePasskeyVerification`

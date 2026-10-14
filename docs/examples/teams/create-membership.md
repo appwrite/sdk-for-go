@@ -25,6 +25,7 @@ func main() {
 		service.WithCreateMembershipPhone("+12065550100"),
 		service.WithCreateMembershipUrl("https://example.com"),
 		service.WithCreateMembershipName("<NAME>"),
+		service.WithCreateMembershipMembershipId("<MEMBERSHIP_ID>"),
 	)
 	fmt.Println(response, err)
 }
