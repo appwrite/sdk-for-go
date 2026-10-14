@@ -19,6 +19,9 @@ type PlatformAndroid struct {
 	Type string `json:"type"`
 	// Android application ID.
 	ApplicationId string `json:"applicationId"`
+	// SHA-256 fingerprints of the certificates the app is signed with. Passkeys
+	// created in the app are accepted when its signature matches one.
+	Fingerprints []string `json:"fingerprints"`
 
 	// Used by Decode() method
 	data []byte

@@ -133,6 +133,246 @@ func (srv *Project) UpdateAuthMethod(MethodId string, Enabled bool) (*models.Pro
 
 }
 
+type ListEnvironmentsOptions struct {
+	Queries        []string
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListEnvironmentsOptions) New() *ListEnvironmentsOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
+	return &options
+}
+
+type ListEnvironmentsOption func(*ListEnvironmentsOptions)
+
+func (srv *Project) WithListEnvironmentsQueries(v []string) ListEnvironmentsOption {
+	return func(o *ListEnvironmentsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Project) WithListEnvironmentsTotal(v bool) ListEnvironmentsOption {
+	return func(o *ListEnvironmentsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
+// ListEnvironments get a list of all environments of the project. You can use
+// the query params to filter your results.
+func (srv *Project) ListEnvironments(optionalSetters ...ListEnvironmentsOption) (*models.ProjectList, error) {
+	path := "/project/environments"
+	options := ListEnvironmentsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.ProjectList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ProjectList
+	parsed, ok := resp.Result.(models.ProjectList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// CreateEnvironment create a new environment of the project. An environment
+// is a separate project in the same organization and region, with its own
+// resources and users. Its usage is billed under the project it belongs to.
+func (srv *Project) CreateEnvironment(EnvironmentId string, Name string) (*models.Project, error) {
+	path := "/project/environments"
+	params := map[string]interface{}{}
+	params["environmentId"] = EnvironmentId
+	params["name"] = Name
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetEnvironment get an environment of the project by its unique ID.
+func (srv *Project) GetEnvironment(EnvironmentId string) (*models.Project, error) {
+	if EnvironmentId == "" {
+		return nil, errors.New("Missing required parameter: \"environmentId\"")
+	}
+
+	r := strings.NewReplacer("{environmentId}", client.EncodePath(EnvironmentId))
+	path := r.Replace("/project/environments/{environmentId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// UpdateEnvironment update the name of an environment of the project.
+func (srv *Project) UpdateEnvironment(EnvironmentId string, Name string) (*models.Project, error) {
+	if EnvironmentId == "" {
+		return nil, errors.New("Missing required parameter: \"environmentId\"")
+	}
+
+	r := strings.NewReplacer("{environmentId}", client.EncodePath(EnvironmentId))
+	path := r.Replace("/project/environments/{environmentId}")
+	params := map[string]interface{}{}
+	params["name"] = Name
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeleteEnvironment delete an environment of the project, with all of its
+// resources and users.
+func (srv *Project) DeleteEnvironment(EnvironmentId string) (*interface{}, error) {
+	if EnvironmentId == "" {
+		return nil, errors.New("Missing required parameter: \"environmentId\"")
+	}
+
+	r := strings.NewReplacer("{environmentId}", client.EncodePath(EnvironmentId))
+	path := r.Replace("/project/environments/{environmentId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type ListKeysOptions struct {
 	Queries        []string
 	Total          bool
@@ -5800,15 +6040,41 @@ func (srv *Project) ListPlatforms(optionalSetters ...ListPlatformsOption) (*mode
 
 }
 
+type CreateAndroidPlatformOptions struct {
+	Fingerprints   []string
+	enabledSetters map[string]bool
+}
+
+func (options CreateAndroidPlatformOptions) New() *CreateAndroidPlatformOptions {
+	options.enabledSetters = map[string]bool{"Fingerprints": false}
+	return &options
+}
+
+type CreateAndroidPlatformOption func(*CreateAndroidPlatformOptions)
+
+func (srv *Project) WithCreateAndroidPlatformFingerprints(v []string) CreateAndroidPlatformOption {
+	return func(o *CreateAndroidPlatformOptions) {
+		o.Fingerprints = v
+		o.enabledSetters["Fingerprints"] = true
+	}
+}
+
 // CreateAndroidPlatform create a new Android platform for your project. Use
 // this endpoint to register a new Android platform where your users will run
 // your application which will interact with the Appwrite API.
-func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, ApplicationId string) (*models.PlatformAndroid, error) {
+func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, ApplicationId string, optionalSetters ...CreateAndroidPlatformOption) (*models.PlatformAndroid, error) {
 	path := "/project/platforms/android"
+	options := CreateAndroidPlatformOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["platformId"] = PlatformId
 	params["name"] = Name
 	params["applicationId"] = ApplicationId
+	if options.enabledSetters["Fingerprints"] {
+		params["fingerprints"] = options.Fingerprints
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -5842,18 +6108,45 @@ func (srv *Project) CreateAndroidPlatform(PlatformId string, Name string, Applic
 
 }
 
+type UpdateAndroidPlatformOptions struct {
+	Fingerprints   []string
+	enabledSetters map[string]bool
+}
+
+func (options UpdateAndroidPlatformOptions) New() *UpdateAndroidPlatformOptions {
+	options.enabledSetters = map[string]bool{"Fingerprints": false}
+	return &options
+}
+
+type UpdateAndroidPlatformOption func(*UpdateAndroidPlatformOptions)
+
+func (srv *Project) WithUpdateAndroidPlatformFingerprints(v []string) UpdateAndroidPlatformOption {
+	return func(o *UpdateAndroidPlatformOptions) {
+		o.Fingerprints = v
+		o.enabledSetters["Fingerprints"] = true
+	}
+}
+
 // UpdateAndroidPlatform update an Android platform by its unique ID. Use this
-// endpoint to update the platform's name or application ID.
-func (srv *Project) UpdateAndroidPlatform(PlatformId string, Name string, ApplicationId string) (*models.PlatformAndroid, error) {
+// endpoint to update the platform's name, application ID or signing
+// certificate fingerprints.
+func (srv *Project) UpdateAndroidPlatform(PlatformId string, Name string, ApplicationId string, optionalSetters ...UpdateAndroidPlatformOption) (*models.PlatformAndroid, error) {
 	if PlatformId == "" {
 		return nil, errors.New("Missing required parameter: \"platformId\"")
 	}
 
 	r := strings.NewReplacer("{platformId}", client.EncodePath(PlatformId))
 	path := r.Replace("/project/platforms/android/{platformId}")
+	options := UpdateAndroidPlatformOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["name"] = Name
 	params["applicationId"] = ApplicationId
+	if options.enabledSetters["Fingerprints"] {
+		params["fingerprints"] = options.Fingerprints
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -7064,6 +7357,81 @@ func (srv *Project) UpdatePasswordPwnedPolicy(optionalSetters ...UpdatePasswordP
 
 }
 
+type UpdatePasswordRotationPolicyOptions struct {
+	Enabled        bool
+	MaxAge         int
+	enabledSetters map[string]bool
+}
+
+func (options UpdatePasswordRotationPolicyOptions) New() *UpdatePasswordRotationPolicyOptions {
+	options.enabledSetters = map[string]bool{"Enabled": false, "MaxAge": false}
+	return &options
+}
+
+type UpdatePasswordRotationPolicyOption func(*UpdatePasswordRotationPolicyOptions)
+
+func (srv *Project) WithUpdatePasswordRotationPolicyEnabled(v bool) UpdatePasswordRotationPolicyOption {
+	return func(o *UpdatePasswordRotationPolicyOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Project) WithUpdatePasswordRotationPolicyMaxAge(v int) UpdatePasswordRotationPolicyOption {
+	return func(o *UpdatePasswordRotationPolicyOptions) {
+		o.MaxAge = v
+		o.enabledSetters["MaxAge"] = true
+	}
+}
+
+// UpdatePasswordRotationPolicy require a password reset when an
+// email/password sign-in uses a password older than the configured maximum
+// age. Options left out keep their current value.
+func (srv *Project) UpdatePasswordRotationPolicy(optionalSetters ...UpdatePasswordRotationPolicyOption) (*models.Project, error) {
+	path := "/project/policies/password-rotation"
+	options := UpdatePasswordRotationPolicyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["MaxAge"] {
+		params["maxAge"] = options.MaxAge
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdatePasswordStrengthPolicyOptions struct {
 	Min            int
 	Uppercase      bool
@@ -7428,6 +7796,14 @@ func (srv *Project) GetPolicy(PolicyId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "password-pwned" {
 			parsed := models.PolicyPasswordPwned{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "password-rotation" {
+			parsed := models.PolicyPasswordRotation{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}

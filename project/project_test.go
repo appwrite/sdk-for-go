@@ -189,6 +189,329 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ListEnvironments", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "projects": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "New Project",
+            "teamId": "1592981250",
+            "region": "fra",
+            "smtpEnabled": true,
+            "smtpSenderName": "John Appwrite",
+            "smtpSenderEmail": "john@appwrite.io",
+            "smtpReplyToName": "Support Team",
+            "smtpReplyToEmail": "support@appwrite.io",
+            "smtpHost": "mail.appwrite.io",
+            "smtpPort": 25,
+            "smtpUsername": "emailuser",
+            "smtpPassword": "smtp-password",
+            "smtpSecure": "tls",
+            "pingCount": 1,
+            "pingedAt": "2020-10-15T06:38:00.000+00:00",
+            "labels": [],
+            "status": "active",
+            "onboarding": {},
+            "authMethods": [
+                {
+                    "$id": "email-password",
+                    "enabled": true
+                }
+            ],
+            "services": [
+                {
+                    "$id": "sites",
+                    "enabled": true
+                }
+            ],
+            "protocols": [
+                {
+                    "$id": "graphql",
+                    "enabled": true
+                }
+            ],
+            "blocks": [
+                {
+                    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+                    "resourceType": "project",
+                    "resourceId": "5e5ea5c16897e",
+                    "mode": "readOnly"
+                }
+            ],
+            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListEnvironments()
+		if err != nil {
+			t.Errorf("Method ListEnvironments failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateEnvironment", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "region": "fra",
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "smtp-password",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "onboarding": {},
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateEnvironment("<ENVIRONMENT_ID>", "<NAME>")
+		if err != nil {
+			t.Errorf("Method CreateEnvironment failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetEnvironment", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "region": "fra",
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "smtp-password",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "onboarding": {},
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetEnvironment("<ENVIRONMENT_ID>")
+		if err != nil {
+			t.Errorf("Method GetEnvironment failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateEnvironment", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "region": "fra",
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "smtp-password",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "onboarding": {},
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateEnvironment("<ENVIRONMENT_ID>", "<NAME>")
+		if err != nil {
+			t.Errorf("Method UpdateEnvironment failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteEnvironment", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteEnvironment("<ENVIRONMENT_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteEnvironment failed: %v", err)
+		}
+	})
+
 	t.Run("Test ListKeys", func(t *testing.T) {
 		mockResponse := `
 {
@@ -3383,6 +3706,79 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdatePasswordPwnedPolicy()
 		if err != nil {
 			t.Errorf("Method UpdatePasswordPwnedPolicy failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdatePasswordRotationPolicy", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "region": "fra",
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "smtp-password",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "onboarding": {},
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdatePasswordRotationPolicy()
+		if err != nil {
+			t.Errorf("Method UpdatePasswordRotationPolicy failed: %v", err)
 		}
 	})
 

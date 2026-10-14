@@ -707,11 +707,12 @@ type CreateMembershipOptions struct {
 	Phone          string
 	Url            string
 	Name           string
+	MembershipId   string
 	enabledSetters map[string]bool
 }
 
 func (options CreateMembershipOptions) New() *CreateMembershipOptions {
-	options.enabledSetters = map[string]bool{"Email": false, "UserId": false, "Phone": false, "Url": false, "Name": false}
+	options.enabledSetters = map[string]bool{"Email": false, "UserId": false, "Phone": false, "Url": false, "Name": false, "MembershipId": false}
 	return &options
 }
 
@@ -745,6 +746,12 @@ func (srv *Teams) WithCreateMembershipName(v string) CreateMembershipOption {
 	return func(o *CreateMembershipOptions) {
 		o.Name = v
 		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Teams) WithCreateMembershipMembershipId(v string) CreateMembershipOption {
+	return func(o *CreateMembershipOptions) {
+		o.MembershipId = v
+		o.enabledSetters["MembershipId"] = true
 	}
 }
 
@@ -795,6 +802,9 @@ func (srv *Teams) CreateMembership(TeamId string, Roles []string, optionalSetter
 	}
 	if options.enabledSetters["Name"] {
 		params["name"] = options.Name
+	}
+	if options.enabledSetters["MembershipId"] {
+		params["membershipId"] = options.MembershipId
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

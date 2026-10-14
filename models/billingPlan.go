@@ -33,6 +33,9 @@ type BillingPlan struct {
 	Webhooks int `json:"webhooks"`
 	// Maximum WAF rules per project
 	WafRules int `json:"wafRules"`
+	// Maximum environments per project. 0 when the plan does not offer
+	// environments.
+	Environments int `json:"environments"`
 	// Projects
 	Projects int `json:"projects"`
 	// Platforms

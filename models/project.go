@@ -64,6 +64,9 @@ type Project struct {
 	ConsoleAccessedAt string `json:"consoleAccessedAt"`
 	// Whether WAF enforcement is enabled for the project.
 	WafEnabled *bool `json:"wafEnabled"`
+	// ID of the project this environment belongs to. Null when the project is not
+	// an environment.
+	ParentId *string `json:"parentId"`
 	// Billing limits reached
 	BillingLimits BillingLimits `json:"billingLimits"`
 	// First time the project received a non-console API request. Empty until the
