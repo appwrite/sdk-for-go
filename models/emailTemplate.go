@@ -33,6 +33,73 @@ func (model EmailTemplate) New(data []byte) *EmailTemplate {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *EmailTemplate) UnmarshalJSON(data []byte) error {
+	type alias EmailTemplate
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		TemplateId   json.RawMessage `json:"templateId"`
+		Locale       json.RawMessage `json:"locale"`
+		Message      json.RawMessage `json:"message"`
+		SenderName   json.RawMessage `json:"senderName"`
+		SenderEmail  json.RawMessage `json:"senderEmail"`
+		ReplyToEmail json.RawMessage `json:"replyToEmail"`
+		ReplyToName  json.RawMessage `json:"replyToName"`
+		Subject      json.RawMessage `json:"subject"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.TemplateId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.TemplateId); err != nil {
+			return err
+		}
+	}
+	if present.Locale == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Locale); err != nil {
+			return err
+		}
+	}
+	if present.Message == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Message); err != nil {
+			return err
+		}
+	}
+	if present.SenderName == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SenderName); err != nil {
+			return err
+		}
+	}
+	if present.SenderEmail == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SenderEmail); err != nil {
+			return err
+		}
+	}
+	if present.ReplyToEmail == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ReplyToEmail); err != nil {
+			return err
+		}
+	}
+	if present.ReplyToName == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ReplyToName); err != nil {
+			return err
+		}
+	}
+	if present.Subject == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Subject); err != nil {
+			return err
+		}
+	}
+
+	*model = EmailTemplate(decoded)
+	return nil
+}
+
 func (model *EmailTemplate) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

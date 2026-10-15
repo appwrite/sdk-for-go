@@ -28,6 +28,49 @@ func (model FrameworkAdapter) New(data []byte) *FrameworkAdapter {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *FrameworkAdapter) UnmarshalJSON(data []byte) error {
+	type alias FrameworkAdapter
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Key             json.RawMessage `json:"key"`
+		InstallCommand  json.RawMessage `json:"installCommand"`
+		BuildCommand    json.RawMessage `json:"buildCommand"`
+		OutputDirectory json.RawMessage `json:"outputDirectory"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Key == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Key); err != nil {
+			return err
+		}
+	}
+	if present.InstallCommand == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.InstallCommand); err != nil {
+			return err
+		}
+	}
+	if present.BuildCommand == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.BuildCommand); err != nil {
+			return err
+		}
+	}
+	if present.OutputDirectory == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.OutputDirectory); err != nil {
+			return err
+		}
+	}
+
+	*model = FrameworkAdapter(decoded)
+	return nil
+}
+
 func (model *FrameworkAdapter) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -23,22 +23,41 @@ func (model PolicyPasswordRotation) New(data []byte) *PolicyPasswordRotation {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
 func (model *PolicyPasswordRotation) UnmarshalJSON(data []byte) error {
 	type alias PolicyPasswordRotation
-	var fields map[string]json.RawMessage
-	if err := json.Unmarshal([]byte("{\"$id\":\"\",\"enabled\":false,\"maxAge\":31536000}"), &fields); err != nil {
-		return err
-	}
-	if err := json.Unmarshal(data, &fields); err != nil {
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
 		return err
 	}
 
-	merged, err := json.Marshal(fields)
-	if err != nil {
+	var present struct {
+		Id      json.RawMessage `json:"$id"`
+		Enabled json.RawMessage `json:"enabled"`
+		MaxAge  json.RawMessage `json:"maxAge"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
 		return err
 	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.MaxAge == nil {
+		if err := json.Unmarshal([]byte("31536000"), &decoded.MaxAge); err != nil {
+			return err
+		}
+	}
 
-	return json.Unmarshal(merged, (*alias)(model))
+	*model = PolicyPasswordRotation(decoded)
+	return nil
 }
 
 func (model *PolicyPasswordRotation) Decode(value interface{}) error {

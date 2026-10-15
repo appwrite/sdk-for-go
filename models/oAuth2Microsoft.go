@@ -30,6 +30,61 @@ func (model OAuth2Microsoft) New(data []byte) *OAuth2Microsoft {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *OAuth2Microsoft) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Microsoft
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id                json.RawMessage `json:"$id"`
+		Enabled           json.RawMessage `json:"enabled"`
+		ApplicationId     json.RawMessage `json:"applicationId"`
+		ApplicationSecret json.RawMessage `json:"applicationSecret"`
+		Prompt            json.RawMessage `json:"prompt"`
+		Tenant            json.RawMessage `json:"tenant"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.ApplicationId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ApplicationId); err != nil {
+			return err
+		}
+	}
+	if present.ApplicationSecret == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ApplicationSecret); err != nil {
+			return err
+		}
+	}
+	if present.Prompt == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Prompt); err != nil {
+			return err
+		}
+	}
+	if present.Tenant == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Tenant); err != nil {
+			return err
+		}
+	}
+
+	*model = OAuth2Microsoft(decoded)
+	return nil
+}
+
 func (model *OAuth2Microsoft) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

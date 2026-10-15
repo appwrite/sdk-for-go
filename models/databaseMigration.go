@@ -57,6 +57,127 @@ func (model DatabaseMigration) New(data []byte) *DatabaseMigration {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DatabaseMigration) UnmarshalJSON(data []byte) error {
+	type alias DatabaseMigration
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id                 json.RawMessage `json:"$id"`
+		CreatedAt          json.RawMessage `json:"$createdAt"`
+		UpdatedAt          json.RawMessage `json:"$updatedAt"`
+		ProjectId          json.RawMessage `json:"projectId"`
+		DatabaseId         json.RawMessage `json:"databaseId"`
+		Specification      json.RawMessage `json:"specification"`
+		Phase              json.RawMessage `json:"phase"`
+		Attempt            json.RawMessage `json:"attempt"`
+		LastError          json.RawMessage `json:"lastError"`
+		LagDocuments       json.RawMessage `json:"lagDocuments"`
+		ChangelogWatermark json.RawMessage `json:"changelogWatermark"`
+		VerifiedAt         json.RawMessage `json:"verifiedAt"`
+		CutoverAt          json.RawMessage `json:"cutoverAt"`
+		SoakUntil          json.RawMessage `json:"soakUntil"`
+		AutoCutover        json.RawMessage `json:"autoCutover"`
+		CutoverRequested   json.RawMessage `json:"cutoverRequested"`
+		Paused             json.RawMessage `json:"paused"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.ProjectId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ProjectId); err != nil {
+			return err
+		}
+	}
+	if present.DatabaseId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.DatabaseId); err != nil {
+			return err
+		}
+	}
+	if present.Specification == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Specification); err != nil {
+			return err
+		}
+	}
+	if present.Phase == nil {
+		if err := json.Unmarshal([]byte("\"pending\""), &decoded.Phase); err != nil {
+			return err
+		}
+	}
+	if present.Attempt == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Attempt); err != nil {
+			return err
+		}
+	}
+	if present.LastError == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LastError); err != nil {
+			return err
+		}
+	}
+	if present.LagDocuments == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.LagDocuments); err != nil {
+			return err
+		}
+	}
+	if present.ChangelogWatermark == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.ChangelogWatermark); err != nil {
+			return err
+		}
+	}
+	if present.VerifiedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.VerifiedAt); err != nil {
+			return err
+		}
+	}
+	if present.CutoverAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CutoverAt); err != nil {
+			return err
+		}
+	}
+	if present.SoakUntil == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SoakUntil); err != nil {
+			return err
+		}
+	}
+	if present.AutoCutover == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.AutoCutover); err != nil {
+			return err
+		}
+	}
+	if present.CutoverRequested == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.CutoverRequested); err != nil {
+			return err
+		}
+	}
+	if present.Paused == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Paused); err != nil {
+			return err
+		}
+	}
+
+	*model = DatabaseMigration(decoded)
+	return nil
+}
+
 func (model *DatabaseMigration) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

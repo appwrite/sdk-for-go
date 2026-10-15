@@ -31,6 +31,49 @@ func (model InsightCTA) New(data []byte) *InsightCTA {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *InsightCTA) UnmarshalJSON(data []byte) error {
+	type alias InsightCTA
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Label   json.RawMessage `json:"label"`
+		Service json.RawMessage `json:"service"`
+		Method  json.RawMessage `json:"method"`
+		Params  json.RawMessage `json:"params"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Label == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Label); err != nil {
+			return err
+		}
+	}
+	if present.Service == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Service); err != nil {
+			return err
+		}
+	}
+	if present.Method == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Method); err != nil {
+			return err
+		}
+	}
+	if present.Params == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Params); err != nil {
+			return err
+		}
+	}
+
+	*model = InsightCTA(decoded)
+	return nil
+}
+
 func (model *InsightCTA) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

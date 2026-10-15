@@ -22,7 +22,6 @@ func main() {
 		service.WithUpdatePropertyName("<NAME>"),
 		service.WithUpdatePropertyDomain("<DOMAIN>"),
 		service.WithUpdatePropertyEnabled(false),
-		service.WithUpdatePropertyPublic(false),
 		service.WithUpdatePropertyAllowedOrigins([]string{"example"}),
 	)
 	fmt.Println(response, err)

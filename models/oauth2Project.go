@@ -24,6 +24,43 @@ func (model Oauth2Project) New(data []byte) *Oauth2Project {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Oauth2Project) UnmarshalJSON(data []byte) error {
+	type alias Oauth2Project
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id       json.RawMessage `json:"$id"`
+		Region   json.RawMessage `json:"region"`
+		Endpoint json.RawMessage `json:"endpoint"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.Region == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Region); err != nil {
+			return err
+		}
+	}
+	if present.Endpoint == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Endpoint); err != nil {
+			return err
+		}
+	}
+
+	*model = Oauth2Project(decoded)
+	return nil
+}
+
 func (model *Oauth2Project) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

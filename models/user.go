@@ -77,6 +77,109 @@ func (model User) New(data []byte) *User {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *User) UnmarshalJSON(data []byte) error {
+	type alias User
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id                json.RawMessage `json:"$id"`
+		CreatedAt         json.RawMessage `json:"$createdAt"`
+		UpdatedAt         json.RawMessage `json:"$updatedAt"`
+		Name              json.RawMessage `json:"name"`
+		Registration      json.RawMessage `json:"registration"`
+		Status            json.RawMessage `json:"status"`
+		Labels            json.RawMessage `json:"labels"`
+		PasswordUpdate    json.RawMessage `json:"passwordUpdate"`
+		Email             json.RawMessage `json:"email"`
+		Phone             json.RawMessage `json:"phone"`
+		EmailVerification json.RawMessage `json:"emailVerification"`
+		PhoneVerification json.RawMessage `json:"phoneVerification"`
+		Mfa               json.RawMessage `json:"mfa"`
+		AccessedAt        json.RawMessage `json:"accessedAt"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.Name == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Registration == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Registration); err != nil {
+			return err
+		}
+	}
+	if present.Status == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.Status); err != nil {
+			return err
+		}
+	}
+	if present.Labels == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Labels); err != nil {
+			return err
+		}
+	}
+	if present.PasswordUpdate == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.PasswordUpdate); err != nil {
+			return err
+		}
+	}
+	if present.Email == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Email); err != nil {
+			return err
+		}
+	}
+	if present.Phone == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Phone); err != nil {
+			return err
+		}
+	}
+	if present.EmailVerification == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.EmailVerification); err != nil {
+			return err
+		}
+	}
+	if present.PhoneVerification == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.PhoneVerification); err != nil {
+			return err
+		}
+	}
+	if present.Mfa == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Mfa); err != nil {
+			return err
+		}
+	}
+	if present.AccessedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.AccessedAt); err != nil {
+			return err
+		}
+	}
+
+	*model = User(decoded)
+	return nil
+}
+
 func (model *User) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

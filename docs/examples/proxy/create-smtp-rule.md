@@ -1,0 +1,27 @@
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/proxy"
+)
+
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
+
+	service := proxy.New(client)
+
+	response, err := service.CreateSMTPRule(
+		"example.com",
+		"<FUNCTION_ID>",
+		service.WithCreateSMTPRuleBranch("<BRANCH>"),
+	)
+	fmt.Println(response, err)
+}
+```

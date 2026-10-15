@@ -28,6 +28,55 @@ func (model DedicatedDatabaseBackupStorage) New(data []byte) *DedicatedDatabaseB
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DedicatedDatabaseBackupStorage) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabaseBackupStorage
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Provider json.RawMessage `json:"provider"`
+		Bucket   json.RawMessage `json:"bucket"`
+		Region   json.RawMessage `json:"region"`
+		Prefix   json.RawMessage `json:"prefix"`
+		Endpoint json.RawMessage `json:"endpoint"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Provider == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Provider); err != nil {
+			return err
+		}
+	}
+	if present.Bucket == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Bucket); err != nil {
+			return err
+		}
+	}
+	if present.Region == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Region); err != nil {
+			return err
+		}
+	}
+	if present.Prefix == nil {
+		if err := json.Unmarshal([]byte("\"backups/\""), &decoded.Prefix); err != nil {
+			return err
+		}
+	}
+	if present.Endpoint == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Endpoint); err != nil {
+			return err
+		}
+	}
+
+	*model = DedicatedDatabaseBackupStorage(decoded)
+	return nil
+}
+
 func (model *DedicatedDatabaseBackupStorage) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

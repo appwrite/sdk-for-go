@@ -44,6 +44,73 @@ func (model BackupPolicy) New(data []byte) *BackupPolicy {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *BackupPolicy) UnmarshalJSON(data []byte) error {
+	type alias BackupPolicy
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id        json.RawMessage `json:"$id"`
+		Name      json.RawMessage `json:"name"`
+		CreatedAt json.RawMessage `json:"$createdAt"`
+		UpdatedAt json.RawMessage `json:"$updatedAt"`
+		Retention json.RawMessage `json:"retention"`
+		Schedule  json.RawMessage `json:"schedule"`
+		Type      json.RawMessage `json:"type"`
+		Enabled   json.RawMessage `json:"enabled"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.Name == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.Retention == nil {
+		if err := json.Unmarshal([]byte("1"), &decoded.Retention); err != nil {
+			return err
+		}
+	}
+	if present.Schedule == nil {
+		if err := json.Unmarshal([]byte("\"0 * * * *\""), &decoded.Schedule); err != nil {
+			return err
+		}
+	}
+	if present.Type == nil {
+		if err := json.Unmarshal([]byte("\"full\""), &decoded.Type); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+
+	*model = BackupPolicy(decoded)
+	return nil
+}
+
 func (model *BackupPolicy) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

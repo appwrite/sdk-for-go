@@ -28,6 +28,49 @@ func (model Block) New(data []byte) *Block {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Block) UnmarshalJSON(data []byte) error {
+	type alias Block
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		CreatedAt    json.RawMessage `json:"$createdAt"`
+		ResourceType json.RawMessage `json:"resourceType"`
+		ResourceId   json.RawMessage `json:"resourceId"`
+		Mode         json.RawMessage `json:"mode"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.ResourceType == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ResourceType); err != nil {
+			return err
+		}
+	}
+	if present.ResourceId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ResourceId); err != nil {
+			return err
+		}
+	}
+	if present.Mode == nil {
+		if err := json.Unmarshal([]byte("\"full\""), &decoded.Mode); err != nil {
+			return err
+		}
+	}
+
+	*model = Block(decoded)
+	return nil
+}
+
 func (model *Block) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

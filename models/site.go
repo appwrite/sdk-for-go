@@ -98,6 +98,217 @@ func (model Site) New(data []byte) *Site {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Site) UnmarshalJSON(data []byte) error {
+	type alias Site
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id                        json.RawMessage `json:"$id"`
+		CreatedAt                 json.RawMessage `json:"$createdAt"`
+		UpdatedAt                 json.RawMessage `json:"$updatedAt"`
+		Name                      json.RawMessage `json:"name"`
+		Enabled                   json.RawMessage `json:"enabled"`
+		Live                      json.RawMessage `json:"live"`
+		Logging                   json.RawMessage `json:"logging"`
+		Framework                 json.RawMessage `json:"framework"`
+		DeploymentRetention       json.RawMessage `json:"deploymentRetention"`
+		DeploymentId              json.RawMessage `json:"deploymentId"`
+		DeploymentCreatedAt       json.RawMessage `json:"deploymentCreatedAt"`
+		DeploymentScreenshotLight json.RawMessage `json:"deploymentScreenshotLight"`
+		DeploymentScreenshotDark  json.RawMessage `json:"deploymentScreenshotDark"`
+		LatestDeploymentId        json.RawMessage `json:"latestDeploymentId"`
+		LatestDeploymentCreatedAt json.RawMessage `json:"latestDeploymentCreatedAt"`
+		LatestDeploymentStatus    json.RawMessage `json:"latestDeploymentStatus"`
+		Scopes                    json.RawMessage `json:"scopes"`
+		Timeout                   json.RawMessage `json:"timeout"`
+		InstallCommand            json.RawMessage `json:"installCommand"`
+		BuildCommand              json.RawMessage `json:"buildCommand"`
+		StartCommand              json.RawMessage `json:"startCommand"`
+		OutputDirectory           json.RawMessage `json:"outputDirectory"`
+		InstallationId            json.RawMessage `json:"installationId"`
+		ProviderRepositoryId      json.RawMessage `json:"providerRepositoryId"`
+		ProviderBranch            json.RawMessage `json:"providerBranch"`
+		ProviderRootDirectory     json.RawMessage `json:"providerRootDirectory"`
+		ProviderSilentMode        json.RawMessage `json:"providerSilentMode"`
+		ProviderBranches          json.RawMessage `json:"providerBranches"`
+		ProviderPaths             json.RawMessage `json:"providerPaths"`
+		BuildSpecification        json.RawMessage `json:"buildSpecification"`
+		RuntimeSpecification      json.RawMessage `json:"runtimeSpecification"`
+		BuildRuntime              json.RawMessage `json:"buildRuntime"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.Name == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.Live == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.Live); err != nil {
+			return err
+		}
+	}
+	if present.Logging == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.Logging); err != nil {
+			return err
+		}
+	}
+	if present.Framework == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Framework); err != nil {
+			return err
+		}
+	}
+	if present.DeploymentRetention == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.DeploymentRetention); err != nil {
+			return err
+		}
+	}
+	if present.DeploymentId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.DeploymentId); err != nil {
+			return err
+		}
+	}
+	if present.DeploymentCreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.DeploymentCreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.DeploymentScreenshotLight == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.DeploymentScreenshotLight); err != nil {
+			return err
+		}
+	}
+	if present.DeploymentScreenshotDark == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.DeploymentScreenshotDark); err != nil {
+			return err
+		}
+	}
+	if present.LatestDeploymentId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LatestDeploymentId); err != nil {
+			return err
+		}
+	}
+	if present.LatestDeploymentCreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LatestDeploymentCreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.LatestDeploymentStatus == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LatestDeploymentStatus); err != nil {
+			return err
+		}
+	}
+	if present.Scopes == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Scopes); err != nil {
+			return err
+		}
+	}
+	if present.Timeout == nil {
+		if err := json.Unmarshal([]byte("15"), &decoded.Timeout); err != nil {
+			return err
+		}
+	}
+	if present.InstallCommand == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.InstallCommand); err != nil {
+			return err
+		}
+	}
+	if present.BuildCommand == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.BuildCommand); err != nil {
+			return err
+		}
+	}
+	if present.StartCommand == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.StartCommand); err != nil {
+			return err
+		}
+	}
+	if present.OutputDirectory == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.OutputDirectory); err != nil {
+			return err
+		}
+	}
+	if present.InstallationId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.InstallationId); err != nil {
+			return err
+		}
+	}
+	if present.ProviderRepositoryId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ProviderRepositoryId); err != nil {
+			return err
+		}
+	}
+	if present.ProviderBranch == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ProviderBranch); err != nil {
+			return err
+		}
+	}
+	if present.ProviderRootDirectory == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ProviderRootDirectory); err != nil {
+			return err
+		}
+	}
+	if present.ProviderSilentMode == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.ProviderSilentMode); err != nil {
+			return err
+		}
+	}
+	if present.ProviderBranches == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.ProviderBranches); err != nil {
+			return err
+		}
+	}
+	if present.ProviderPaths == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.ProviderPaths); err != nil {
+			return err
+		}
+	}
+	if present.BuildSpecification == nil {
+		if err := json.Unmarshal([]byte("\"s-1vcpu-512mb\""), &decoded.BuildSpecification); err != nil {
+			return err
+		}
+	}
+	if present.RuntimeSpecification == nil {
+		if err := json.Unmarshal([]byte("\"s-1vcpu-512mb\""), &decoded.RuntimeSpecification); err != nil {
+			return err
+		}
+	}
+	if present.BuildRuntime == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.BuildRuntime); err != nil {
+			return err
+		}
+	}
+
+	*model = Site(decoded)
+	return nil
+}
+
 func (model *Site) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

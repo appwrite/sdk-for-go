@@ -35,6 +35,73 @@ func (model Provider) New(data []byte) *Provider {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Provider) UnmarshalJSON(data []byte) error {
+	type alias Provider
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id          json.RawMessage `json:"$id"`
+		CreatedAt   json.RawMessage `json:"$createdAt"`
+		UpdatedAt   json.RawMessage `json:"$updatedAt"`
+		Name        json.RawMessage `json:"name"`
+		Provider    json.RawMessage `json:"provider"`
+		Enabled     json.RawMessage `json:"enabled"`
+		Type        json.RawMessage `json:"type"`
+		Credentials json.RawMessage `json:"credentials"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.Name == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Provider == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Provider); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.Type == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Type); err != nil {
+			return err
+		}
+	}
+	if present.Credentials == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Credentials); err != nil {
+			return err
+		}
+	}
+
+	*model = Provider(decoded)
+	return nil
+}
+
 func (model *Provider) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")
