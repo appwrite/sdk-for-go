@@ -21,6 +21,37 @@ func (model Headers) New(data []byte) *Headers {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Headers) UnmarshalJSON(data []byte) error {
+	type alias Headers
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Name  json.RawMessage `json:"name"`
+		Value json.RawMessage `json:"value"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Name == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Value == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Value); err != nil {
+			return err
+		}
+	}
+
+	*model = Headers(decoded)
+	return nil
+}
+
 func (model *Headers) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

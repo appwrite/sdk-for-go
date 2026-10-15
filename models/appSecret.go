@@ -37,6 +37,73 @@ func (model AppSecret) New(data []byte) *AppSecret {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *AppSecret) UnmarshalJSON(data []byte) error {
+	type alias AppSecret
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id            json.RawMessage `json:"$id"`
+		CreatedAt     json.RawMessage `json:"$createdAt"`
+		UpdatedAt     json.RawMessage `json:"$updatedAt"`
+		AppId         json.RawMessage `json:"appId"`
+		Secret        json.RawMessage `json:"secret"`
+		Hint          json.RawMessage `json:"hint"`
+		CreatedById   json.RawMessage `json:"createdById"`
+		CreatedByName json.RawMessage `json:"createdByName"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.AppId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.AppId); err != nil {
+			return err
+		}
+	}
+	if present.Secret == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Secret); err != nil {
+			return err
+		}
+	}
+	if present.Hint == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Hint); err != nil {
+			return err
+		}
+	}
+	if present.CreatedById == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedById); err != nil {
+			return err
+		}
+	}
+	if present.CreatedByName == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedByName); err != nil {
+			return err
+		}
+	}
+
+	*model = AppSecret(decoded)
+	return nil
+}
+
 func (model *AppSecret) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

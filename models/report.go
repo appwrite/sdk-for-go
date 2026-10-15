@@ -43,6 +43,85 @@ func (model Report) New(data []byte) *Report {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Report) UnmarshalJSON(data []byte) error {
+	type alias Report
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id         json.RawMessage `json:"$id"`
+		CreatedAt  json.RawMessage `json:"$createdAt"`
+		UpdatedAt  json.RawMessage `json:"$updatedAt"`
+		AppId      json.RawMessage `json:"appId"`
+		Type       json.RawMessage `json:"type"`
+		Title      json.RawMessage `json:"title"`
+		Summary    json.RawMessage `json:"summary"`
+		TargetType json.RawMessage `json:"targetType"`
+		Target     json.RawMessage `json:"target"`
+		Categories json.RawMessage `json:"categories"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.AppId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.AppId); err != nil {
+			return err
+		}
+	}
+	if present.Type == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Type); err != nil {
+			return err
+		}
+	}
+	if present.Title == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Title); err != nil {
+			return err
+		}
+	}
+	if present.Summary == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Summary); err != nil {
+			return err
+		}
+	}
+	if present.TargetType == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.TargetType); err != nil {
+			return err
+		}
+	}
+	if present.Target == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Target); err != nil {
+			return err
+		}
+	}
+	if present.Categories == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Categories); err != nil {
+			return err
+		}
+	}
+
+	*model = Report(decoded)
+	return nil
+}
+
 func (model *Report) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

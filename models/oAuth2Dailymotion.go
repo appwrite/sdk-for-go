@@ -25,6 +25,49 @@ func (model OAuth2Dailymotion) New(data []byte) *OAuth2Dailymotion {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *OAuth2Dailymotion) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Dailymotion
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id        json.RawMessage `json:"$id"`
+		Enabled   json.RawMessage `json:"enabled"`
+		ApiKey    json.RawMessage `json:"apiKey"`
+		ApiSecret json.RawMessage `json:"apiSecret"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.ApiKey == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ApiKey); err != nil {
+			return err
+		}
+	}
+	if present.ApiSecret == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ApiSecret); err != nil {
+			return err
+		}
+	}
+
+	*model = OAuth2Dailymotion(decoded)
+	return nil
+}
+
 func (model *OAuth2Dailymotion) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

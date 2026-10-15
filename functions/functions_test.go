@@ -73,7 +73,8 @@ func TestFunctions(t *testing.T) {
             "providerBranches": [],
             "providerPaths": [],
             "buildSpecification": "s-1vcpu-512mb",
-            "runtimeSpecification": "s-1vcpu-512mb"
+            "runtimeSpecification": "s-1vcpu-512mb",
+            "emailEnabled": true
         }
     ]
 }
@@ -143,7 +144,8 @@ func TestFunctions(t *testing.T) {
     "providerBranches": [],
     "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
-    "runtimeSpecification": "s-1vcpu-512mb"
+    "runtimeSpecification": "s-1vcpu-512mb",
+    "emailEnabled": true
 }
 `
 
@@ -283,7 +285,8 @@ func TestFunctions(t *testing.T) {
     "providerBranches": [],
     "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
-    "runtimeSpecification": "s-1vcpu-512mb"
+    "runtimeSpecification": "s-1vcpu-512mb",
+    "emailEnabled": true
 }
 `
 
@@ -351,7 +354,8 @@ func TestFunctions(t *testing.T) {
     "providerBranches": [],
     "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
-    "runtimeSpecification": "s-1vcpu-512mb"
+    "runtimeSpecification": "s-1vcpu-512mb",
+    "emailEnabled": true
 }
 `
 
@@ -445,7 +449,8 @@ func TestFunctions(t *testing.T) {
     "providerBranches": [],
     "providerPaths": [],
     "buildSpecification": "s-1vcpu-512mb",
-    "runtimeSpecification": "s-1vcpu-512mb"
+    "runtimeSpecification": "s-1vcpu-512mb",
+    "emailEnabled": true
 }
 `
 

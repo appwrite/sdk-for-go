@@ -50,6 +50,55 @@ func (model DedicatedDatabaseReplicas) New(data []byte) *DedicatedDatabaseReplic
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DedicatedDatabaseReplicas) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabaseReplicas
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Replicas             json.RawMessage `json:"replicas"`
+		SyncMode             json.RawMessage `json:"syncMode"`
+		SyncDegraded         json.RawMessage `json:"syncDegraded"`
+		SyncAcknowledgements json.RawMessage `json:"syncAcknowledgements"`
+		SyncStandbyCount     json.RawMessage `json:"syncStandbyCount"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Replicas == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Replicas); err != nil {
+			return err
+		}
+	}
+	if present.SyncMode == nil {
+		if err := json.Unmarshal([]byte("\"async\""), &decoded.SyncMode); err != nil {
+			return err
+		}
+	}
+	if present.SyncDegraded == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.SyncDegraded); err != nil {
+			return err
+		}
+	}
+	if present.SyncAcknowledgements == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.SyncAcknowledgements); err != nil {
+			return err
+		}
+	}
+	if present.SyncStandbyCount == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.SyncStandbyCount); err != nil {
+			return err
+		}
+	}
+
+	*model = DedicatedDatabaseReplicas(decoded)
+	return nil
+}
+
 func (model *DedicatedDatabaseReplicas) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

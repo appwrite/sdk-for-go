@@ -105,13 +105,12 @@ func (srv *Analytics) ListProperties(optionalSetters ...ListPropertiesOption) (*
 type CreatePropertyOptions struct {
 	Domain         string
 	Enabled        bool
-	Public         bool
 	AllowedOrigins []string
 	enabledSetters map[string]bool
 }
 
 func (options CreatePropertyOptions) New() *CreatePropertyOptions {
-	options.enabledSetters = map[string]bool{"Domain": false, "Enabled": false, "Public": false, "AllowedOrigins": false}
+	options.enabledSetters = map[string]bool{"Domain": false, "Enabled": false, "AllowedOrigins": false}
 	return &options
 }
 
@@ -127,12 +126,6 @@ func (srv *Analytics) WithCreatePropertyEnabled(v bool) CreatePropertyOption {
 	return func(o *CreatePropertyOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
-	}
-}
-func (srv *Analytics) WithCreatePropertyPublic(v bool) CreatePropertyOption {
-	return func(o *CreatePropertyOptions) {
-		o.Public = v
-		o.enabledSetters["Public"] = true
 	}
 }
 func (srv *Analytics) WithCreatePropertyAllowedOrigins(v []string) CreatePropertyOption {
@@ -158,9 +151,6 @@ func (srv *Analytics) CreateProperty(PropertyId string, Name string, optionalSet
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
-	}
-	if options.enabledSetters["Public"] {
-		params["public"] = options.Public
 	}
 	if options.enabledSetters["AllowedOrigins"] {
 		params["allowedOrigins"] = options.AllowedOrigins
@@ -243,13 +233,12 @@ type UpdatePropertyOptions struct {
 	Name           string
 	Domain         string
 	Enabled        bool
-	Public         bool
 	AllowedOrigins []string
 	enabledSetters map[string]bool
 }
 
 func (options UpdatePropertyOptions) New() *UpdatePropertyOptions {
-	options.enabledSetters = map[string]bool{"Name": false, "Domain": false, "Enabled": false, "Public": false, "AllowedOrigins": false}
+	options.enabledSetters = map[string]bool{"Name": false, "Domain": false, "Enabled": false, "AllowedOrigins": false}
 	return &options
 }
 
@@ -271,12 +260,6 @@ func (srv *Analytics) WithUpdatePropertyEnabled(v bool) UpdatePropertyOption {
 	return func(o *UpdatePropertyOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
-	}
-}
-func (srv *Analytics) WithUpdatePropertyPublic(v bool) UpdatePropertyOption {
-	return func(o *UpdatePropertyOptions) {
-		o.Public = v
-		o.enabledSetters["Public"] = true
 	}
 }
 func (srv *Analytics) WithUpdatePropertyAllowedOrigins(v []string) UpdatePropertyOption {
@@ -308,9 +291,6 @@ func (srv *Analytics) UpdateProperty(PropertyId string, optionalSetters ...Updat
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
-	}
-	if options.enabledSetters["Public"] {
-		params["public"] = options.Public
 	}
 	if options.enabledSetters["AllowedOrigins"] {
 		params["allowedOrigins"] = options.AllowedOrigins

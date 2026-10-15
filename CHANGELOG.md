@@ -1,5 +1,20 @@
 # Change Log
 
+## v7.12.0
+
+* Breaking: removed `AnalyticsProperty.Public` and the `WithCreatePropertyPublic` and `WithUpdatePropertyPublic` options
+* Breaking: requests send response format `2.5.0`
+* Breaking: removed the `topic.Any`, `topic.All`, `Topic.Any` and `Topic.All` wildcard builders and `ResolvedTopic`; build topics with `topic.Path`
+* Added: `Mongo`, `Mysql` and `Postgresql` `PromoteRestoration`, the `WithCreateRestorationRestoreMode`, `WithCreateRestorationTargetName` and `WithCreateRestorationAutoPromote` options, and `DedicatedDatabaseRestoration.RestoreMode`
+* Added: `Proxy.CreateSMTPRule` and `ProxyRule.Protocol`
+* Added: `WithUpdateEmailEnabled` on `Functions.Update` and `Function.EmailEnabled`
+* Added: `query` aggregates (`Count`, `CountDistinct`, `Sum`, `Avg`, `Min`, `Max` and more), `GroupBy`, `Having`, `Distinct`, joins, `Relationship`, `Covers`, `SpatialEquals` and `Page`
+* Added: `query.NewBuilder` to chain queries; `Build()` returns the query list
+* Updated: models fill fields missing from a response with their documented defaults
+* Updated: index docs list the `spatial` and `trigram` types
+* Updated: `topic.Path` rejects levels containing a NUL character
+* Fixed: models decode each response into a fresh value, so fields from an earlier response no longer carry over
+
 ## v7.11.0
 
 * Added: project environments with `Project.CreateEnvironment`, `GetEnvironment`, `ListEnvironments`, `UpdateEnvironment` and `DeleteEnvironment`

@@ -20,6 +20,7 @@ import (
 	"time"
 
 	"github.com/appwrite/sdk-for-go/v7/file"
+	"github.com/appwrite/sdk-for-go/v7/query"
 )
 
 const (
@@ -79,12 +80,12 @@ type Client struct {
 // Initialize a new Appwrite client with a given timeout
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{}
-	headers["X-Appwrite-Response-Format"] = "2.4.0"
-	headers["user-agent"] = fmt.Sprintf("AppwriteGoSDK/v7.11.0 (%s; %s)", runtime.GOOS, runtime.GOARCH)
+	headers["X-Appwrite-Response-Format"] = "2.5.0"
+	headers["user-agent"] = fmt.Sprintf("AppwriteGoSDK/v7.12.0 (%s; %s)", runtime.GOOS, runtime.GOARCH)
 	headers["x-sdk-name"] = "Go"
 	headers["x-sdk-platform"] = "server"
 	headers["x-sdk-language"] = "go"
-	headers["x-sdk-version"] = "v7.11.0"
+	headers["x-sdk-version"] = "v7.12.0"
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
 		panic(err)
@@ -477,6 +478,15 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 
 // Call an API using Client
 func (client *Client) Call(method string, path string, headers map[string]interface{}, params map[string]interface{}) (*ClientResponse, error) {
+	if params != nil {
+		// Work on a copy: the caller's map may be shared or reused
+		flattened := make(map[string]interface{}, len(params))
+		for key, value := range params {
+			flattened[key] = flattenValue(value)
+		}
+		params = flattened
+	}
+
 	if client.Client == nil {
 		// Create HTTP client
 		httpClient, err := GetDefaultClient(client.Timeout)
@@ -794,4 +804,60 @@ func flatten(params interface{}, prefix string, result *map[string]string) error
 		(*result)[prefix] = toString(params)
 	}
 	return nil
+}
+
+func Flatten(value interface{}) interface{} {
+	return flattenValue(value)
+}
+
+func flattenValue(value interface{}) interface{} {
+	if value == nil {
+		return nil
+	}
+	switch v := value.(type) {
+	case *query.Builder:
+		if v == nil {
+			return value
+		}
+		return v.Build()
+	case query.Builder:
+		return v.Build()
+	}
+
+	reflected := reflect.ValueOf(value)
+	if reflected.Kind() != reflect.Slice && reflected.Kind() != reflect.Array {
+		return value
+	}
+
+	out := make([]interface{}, 0, reflected.Len())
+	changed := false
+	for i := 0; i < reflected.Len(); i++ {
+		item := reflected.Index(i).Interface()
+		flat := flattenValue(item)
+		if isBuilder(item) {
+			for _, entry := range flat.([]string) {
+				out = append(out, entry)
+			}
+			changed = true
+			continue
+		}
+		if !reflect.DeepEqual(flat, item) {
+			changed = true
+		}
+		out = append(out, flat)
+	}
+	if !changed {
+		return value
+	}
+	return out
+}
+
+func isBuilder(value interface{}) bool {
+	switch v := value.(type) {
+	case *query.Builder:
+		return v != nil
+	case query.Builder:
+		return true
+	}
+	return false
 }

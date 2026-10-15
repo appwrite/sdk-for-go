@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"reflect"
 	"testing"
 )
 
@@ -20,5 +21,36 @@ func TestOauth2ConsentListModel(t *testing.T) {
 	}
 	if result.Total != model.Total {
 		t.Errorf("Expected Total %v, got %v", model.Total, result.Total)
+	}
+}
+
+func TestOauth2ConsentListModelDefaults(t *testing.T) {
+	var fresh Oauth2ConsentList
+	if err := json.Unmarshal([]byte("{}"), &fresh); err != nil {
+		t.Fatal(err)
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Total)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing total to default to %v, got %v", want, got)
+		}
+	}
+
+	reused := Oauth2ConsentList{Total: 5, Consents: []Oauth2Consent{Oauth2Consent{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", UserId: "5e5ea5c16897e", AppId: "5e5ea5c16897e", CimdUrl: "https://example.com/.well-known/client-metadata.json", Scopes: []string{"test"}, Resources: []string{"test"}, AuthorizationDetails: "[{\"type\":\"calendar\",\"identifier\":\"primary\",\"actions\":[\"read_events\",\"create_event\"]}]", Expire: "2020-10-15T06:38:00.000+00:00"}}}
+	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(fresh, reused) {
+		t.Errorf("Expected decoding into a used model to match a fresh decode, got %+v", reused)
 	}
 }

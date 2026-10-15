@@ -32,6 +32,61 @@ func (model Token) New(data []byte) *Token {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Token) UnmarshalJSON(data []byte) error {
+	type alias Token
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id        json.RawMessage `json:"$id"`
+		CreatedAt json.RawMessage `json:"$createdAt"`
+		UserId    json.RawMessage `json:"userId"`
+		Secret    json.RawMessage `json:"secret"`
+		Expire    json.RawMessage `json:"expire"`
+		Phrase    json.RawMessage `json:"phrase"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UserId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UserId); err != nil {
+			return err
+		}
+	}
+	if present.Secret == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Secret); err != nil {
+			return err
+		}
+	}
+	if present.Expire == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Expire); err != nil {
+			return err
+		}
+	}
+	if present.Phrase == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Phrase); err != nil {
+			return err
+		}
+	}
+
+	*model = Token(decoded)
+	return nil
+}
+
 func (model *Token) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

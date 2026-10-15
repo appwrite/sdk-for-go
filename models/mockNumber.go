@@ -26,6 +26,49 @@ func (model MockNumber) New(data []byte) *MockNumber {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *MockNumber) UnmarshalJSON(data []byte) error {
+	type alias MockNumber
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Number    json.RawMessage `json:"number"`
+		Otp       json.RawMessage `json:"otp"`
+		CreatedAt json.RawMessage `json:"$createdAt"`
+		UpdatedAt json.RawMessage `json:"$updatedAt"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Number == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Number); err != nil {
+			return err
+		}
+	}
+	if present.Otp == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Otp); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+
+	*model = MockNumber(decoded)
+	return nil
+}
+
 func (model *MockNumber) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

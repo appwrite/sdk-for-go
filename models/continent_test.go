@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"reflect"
 	"testing"
 )
 
@@ -23,5 +24,52 @@ func TestContinentModel(t *testing.T) {
 	}
 	if result.Code != model.Code {
 		t.Errorf("Expected Code %v, got %v", model.Code, result.Code)
+	}
+}
+
+func TestContinentModelDefaults(t *testing.T) {
+	var fresh Continent
+	if err := json.Unmarshal([]byte("{}"), &fresh); err != nil {
+		t.Fatal(err)
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Name)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing name to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Code)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing code to default to %v, got %v", want, got)
+		}
+	}
+
+	reused := Continent{Name: "Europe", Code: "EU"}
+	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(fresh, reused) {
+		t.Errorf("Expected decoding into a used model to match a fresh decode, got %+v", reused)
 	}
 }

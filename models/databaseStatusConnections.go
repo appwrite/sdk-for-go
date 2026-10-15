@@ -23,6 +23,37 @@ func (model DatabaseStatusConnections) New(data []byte) *DatabaseStatusConnectio
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DatabaseStatusConnections) UnmarshalJSON(data []byte) error {
+	type alias DatabaseStatusConnections
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Current json.RawMessage `json:"current"`
+		Max     json.RawMessage `json:"max"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Current == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Current); err != nil {
+			return err
+		}
+	}
+	if present.Max == nil {
+		if err := json.Unmarshal([]byte("100"), &decoded.Max); err != nil {
+			return err
+		}
+	}
+
+	*model = DatabaseStatusConnections(decoded)
+	return nil
+}
+
 func (model *DatabaseStatusConnections) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

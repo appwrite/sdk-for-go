@@ -46,6 +46,31 @@ func (model Oauth2Introspection) New(data []byte) *Oauth2Introspection {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Oauth2Introspection) UnmarshalJSON(data []byte) error {
+	type alias Oauth2Introspection
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Active json.RawMessage `json:"active"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Active == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Active); err != nil {
+			return err
+		}
+	}
+
+	*model = Oauth2Introspection(decoded)
+	return nil
+}
+
 func (model *Oauth2Introspection) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

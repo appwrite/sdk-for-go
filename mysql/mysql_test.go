@@ -1356,6 +1356,7 @@ func TestMysql(t *testing.T) {
             "databaseId": "5e5ea5c16897e",
             "projectId": "5e5ea5c16897e",
             "type": "backup",
+            "restoreMode": "clone",
             "status": "completed",
             "error": "string"
         }
@@ -1390,6 +1391,7 @@ func TestMysql(t *testing.T) {
     "databaseId": "5e5ea5c16897e",
     "projectId": "5e5ea5c16897e",
     "type": "backup",
+    "restoreMode": "clone",
     "status": "completed",
     "error": "string"
 }
@@ -1422,6 +1424,7 @@ func TestMysql(t *testing.T) {
     "databaseId": "5e5ea5c16897e",
     "projectId": "5e5ea5c16897e",
     "type": "backup",
+    "restoreMode": "clone",
     "status": "completed",
     "error": "string"
 }
@@ -1443,6 +1446,39 @@ func TestMysql(t *testing.T) {
 		_, err := srv.GetRestoration("<DATABASE_ID>", "<RESTORATION_ID>")
 		if err != nil {
 			t.Errorf("Method GetRestoration failed: %v", err)
+		}
+	})
+
+	t.Run("Test PromoteRestoration", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "databaseId": "5e5ea5c16897e",
+    "projectId": "5e5ea5c16897e",
+    "type": "backup",
+    "restoreMode": "clone",
+    "status": "completed",
+    "error": "string"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.PromoteRestoration("<DATABASE_ID>", "<RESTORATION_ID>")
+		if err != nil {
+			t.Errorf("Method PromoteRestoration failed: %v", err)
 		}
 	})
 

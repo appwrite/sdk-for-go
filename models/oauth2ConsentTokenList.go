@@ -21,6 +21,31 @@ func (model Oauth2ConsentTokenList) New(data []byte) *Oauth2ConsentTokenList {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Oauth2ConsentTokenList) UnmarshalJSON(data []byte) error {
+	type alias Oauth2ConsentTokenList
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Total json.RawMessage `json:"total"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Total == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Total); err != nil {
+			return err
+		}
+	}
+
+	*model = Oauth2ConsentTokenList(decoded)
+	return nil
+}
+
 func (model *Oauth2ConsentTokenList) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

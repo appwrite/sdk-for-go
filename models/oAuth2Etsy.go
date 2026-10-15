@@ -25,6 +25,49 @@ func (model OAuth2Etsy) New(data []byte) *OAuth2Etsy {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *OAuth2Etsy) UnmarshalJSON(data []byte) error {
+	type alias OAuth2Etsy
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id           json.RawMessage `json:"$id"`
+		Enabled      json.RawMessage `json:"enabled"`
+		KeyString    json.RawMessage `json:"keyString"`
+		SharedSecret json.RawMessage `json:"sharedSecret"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.KeyString == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.KeyString); err != nil {
+			return err
+		}
+	}
+	if present.SharedSecret == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SharedSecret); err != nil {
+			return err
+		}
+	}
+
+	*model = OAuth2Etsy(decoded)
+	return nil
+}
+
 func (model *OAuth2Etsy) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

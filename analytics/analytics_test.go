@@ -28,7 +28,6 @@ func TestAnalytics(t *testing.T) {
             "name": "My Website",
             "domain": "example.com",
             "enabled": true,
-            "public": true,
             "allowedOrigins": [],
             "accessedAt": "2020-10-15T06:38:00.000+00:00",
             "firstAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -65,7 +64,6 @@ func TestAnalytics(t *testing.T) {
     "name": "My Website",
     "domain": "example.com",
     "enabled": true,
-    "public": true,
     "allowedOrigins": [],
     "accessedAt": "2020-10-15T06:38:00.000+00:00",
     "firstAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -100,7 +98,6 @@ func TestAnalytics(t *testing.T) {
     "name": "My Website",
     "domain": "example.com",
     "enabled": true,
-    "public": true,
     "allowedOrigins": [],
     "accessedAt": "2020-10-15T06:38:00.000+00:00",
     "firstAccessedAt": "2020-10-15T06:38:00.000+00:00"
@@ -135,7 +132,6 @@ func TestAnalytics(t *testing.T) {
     "name": "My Website",
     "domain": "example.com",
     "enabled": true,
-    "public": true,
     "allowedOrigins": [],
     "accessedAt": "2020-10-15T06:38:00.000+00:00",
     "firstAccessedAt": "2020-10-15T06:38:00.000+00:00"

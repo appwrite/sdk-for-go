@@ -31,6 +31,55 @@ func (model Oauth2Token) New(data []byte) *Oauth2Token {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Oauth2Token) UnmarshalJSON(data []byte) error {
+	type alias Oauth2Token
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		AccessToken  json.RawMessage `json:"access_token"`
+		TokenType    json.RawMessage `json:"token_type"`
+		ExpiresIn    json.RawMessage `json:"expires_in"`
+		RefreshToken json.RawMessage `json:"refresh_token"`
+		Scope        json.RawMessage `json:"scope"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.AccessToken == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.AccessToken); err != nil {
+			return err
+		}
+	}
+	if present.TokenType == nil {
+		if err := json.Unmarshal([]byte("\"Bearer\""), &decoded.TokenType); err != nil {
+			return err
+		}
+	}
+	if present.ExpiresIn == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.ExpiresIn); err != nil {
+			return err
+		}
+	}
+	if present.RefreshToken == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.RefreshToken); err != nil {
+			return err
+		}
+	}
+	if present.Scope == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Scope); err != nil {
+			return err
+		}
+	}
+
+	*model = Oauth2Token(decoded)
+	return nil
+}
+
 func (model *Oauth2Token) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

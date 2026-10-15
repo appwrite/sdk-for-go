@@ -562,11 +562,12 @@ type UpdateOptions struct {
 	RuntimeSpecification  string
 	DeploymentRetention   int
 	Interval              int
+	EmailEnabled          bool
 	enabledSetters        map[string]bool
 }
 
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{"Runtime": false, "Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false}
+	options.enabledSetters = map[string]bool{"Runtime": false, "Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false, "EmailEnabled": false}
 	return &options
 }
 
@@ -698,6 +699,12 @@ func (srv *Functions) WithUpdateInterval(v int) UpdateOption {
 		o.enabledSetters["Interval"] = true
 	}
 }
+func (srv *Functions) WithUpdateEmailEnabled(v bool) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.EmailEnabled = v
+		o.enabledSetters["EmailEnabled"] = true
+	}
+}
 
 // Update update function by its unique ID.
 func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...UpdateOption) (*models.Function, error) {
@@ -775,6 +782,9 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	}
 	if options.enabledSetters["Interval"] {
 		params["interval"] = options.Interval
+	}
+	if options.enabledSetters["EmailEnabled"] {
+		params["emailEnabled"] = options.EmailEnabled
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

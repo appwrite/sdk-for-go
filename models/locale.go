@@ -57,6 +57,67 @@ func (model Locale) New(data []byte) *Locale {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Locale) UnmarshalJSON(data []byte) error {
+	type alias Locale
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Ip            json.RawMessage `json:"ip"`
+		CountryCode   json.RawMessage `json:"countryCode"`
+		Country       json.RawMessage `json:"country"`
+		ContinentCode json.RawMessage `json:"continentCode"`
+		Continent     json.RawMessage `json:"continent"`
+		Eu            json.RawMessage `json:"eu"`
+		Currency      json.RawMessage `json:"currency"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Ip == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Ip); err != nil {
+			return err
+		}
+	}
+	if present.CountryCode == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CountryCode); err != nil {
+			return err
+		}
+	}
+	if present.Country == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Country); err != nil {
+			return err
+		}
+	}
+	if present.ContinentCode == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ContinentCode); err != nil {
+			return err
+		}
+	}
+	if present.Continent == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Continent); err != nil {
+			return err
+		}
+	}
+	if present.Eu == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Eu); err != nil {
+			return err
+		}
+	}
+	if present.Currency == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Currency); err != nil {
+			return err
+		}
+	}
+
+	*model = Locale(decoded)
+	return nil
+}
+
 func (model *Locale) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")
