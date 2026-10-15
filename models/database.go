@@ -60,6 +60,61 @@ func (model Database) New(data []byte) *Database {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Database) UnmarshalJSON(data []byte) error {
+	type alias Database
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id        json.RawMessage `json:"$id"`
+		Name      json.RawMessage `json:"name"`
+		CreatedAt json.RawMessage `json:"$createdAt"`
+		UpdatedAt json.RawMessage `json:"$updatedAt"`
+		Enabled   json.RawMessage `json:"enabled"`
+		Type      json.RawMessage `json:"type"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.Name == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.Type == nil {
+		if err := json.Unmarshal([]byte("\"legacy\""), &decoded.Type); err != nil {
+			return err
+		}
+	}
+
+	*model = Database(decoded)
+	return nil
+}
+
 func (model *Database) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -53,6 +53,43 @@ func (model AnalyticsMetric) New(data []byte) *AnalyticsMetric {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *AnalyticsMetric) UnmarshalJSON(data []byte) error {
+	type alias AnalyticsMetric
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Visitors json.RawMessage `json:"visitors"`
+		Sessions json.RawMessage `json:"sessions"`
+		Events   json.RawMessage `json:"events"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Visitors == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Visitors); err != nil {
+			return err
+		}
+	}
+	if present.Sessions == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Sessions); err != nil {
+			return err
+		}
+	}
+	if present.Events == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Events); err != nil {
+			return err
+		}
+	}
+
+	*model = AnalyticsMetric(decoded)
+	return nil
+}
+
 func (model *AnalyticsMetric) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

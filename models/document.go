@@ -32,6 +32,61 @@ func (model Document) New(data []byte) *Document {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Document) UnmarshalJSON(data []byte) error {
+	type alias Document
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id           json.RawMessage `json:"$id"`
+		Sequence     json.RawMessage `json:"$sequence"`
+		CollectionId json.RawMessage `json:"$collectionId"`
+		DatabaseId   json.RawMessage `json:"$databaseId"`
+		CreatedAt    json.RawMessage `json:"$createdAt"`
+		UpdatedAt    json.RawMessage `json:"$updatedAt"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.Sequence == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Sequence); err != nil {
+			return err
+		}
+	}
+	if present.CollectionId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CollectionId); err != nil {
+			return err
+		}
+	}
+	if present.DatabaseId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.DatabaseId); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+
+	*model = Document(decoded)
+	return nil
+}
+
 // Use this method to get response in desired type
 func (model *Document) Decode(value interface{}) error {
 	if len(model.data) <= 0 {

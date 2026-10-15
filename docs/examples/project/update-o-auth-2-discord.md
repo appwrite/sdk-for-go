@@ -20,8 +20,8 @@ func main() {
 	response, err := service.UpdateOAuth2Discord(
 		service.WithUpdateOAuth2DiscordClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2DiscordClientSecret("<CLIENT_SECRET>"),
-		service.WithUpdateOAuth2DiscordPrompt([]string{"example"}),
 		service.WithUpdateOAuth2DiscordEnabled(false),
+		service.WithUpdateOAuth2DiscordPrompt([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

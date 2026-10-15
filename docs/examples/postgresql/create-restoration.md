@@ -23,6 +23,9 @@ func main() {
 		service.WithCreateRestorationBackupId("<BACKUP_ID>"),
 		service.WithCreateRestorationTargetDatabaseId("<TARGET_DATABASE_ID>"),
 		service.WithCreateRestorationTargetTime("2020-10-15T06:38:00.000+00:00"),
+		service.WithCreateRestorationRestoreMode("in_place"),
+		service.WithCreateRestorationTargetName("<TARGET_NAME>"),
+		service.WithCreateRestorationAutoPromote(false),
 	)
 	fmt.Println(response, err)
 }

@@ -21,6 +21,31 @@ func (model Oauth2Approve) New(data []byte) *Oauth2Approve {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Oauth2Approve) UnmarshalJSON(data []byte) error {
+	type alias Oauth2Approve
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		RedirectUrl json.RawMessage `json:"redirectUrl"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.RedirectUrl == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.RedirectUrl); err != nil {
+			return err
+		}
+	}
+
+	*model = Oauth2Approve(decoded)
+	return nil
+}
+
 func (model *Oauth2Approve) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

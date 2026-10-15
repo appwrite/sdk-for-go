@@ -20,8 +20,8 @@ func main() {
 	response, err := service.UpdateOAuth2Zoho(
 		service.WithUpdateOAuth2ZohoClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2ZohoClientSecret("<CLIENT_SECRET>"),
-		service.WithUpdateOAuth2ZohoPrompt([]string{"example"}),
 		service.WithUpdateOAuth2ZohoEnabled(false),
+		service.WithUpdateOAuth2ZohoPrompt([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

@@ -1560,6 +1560,10 @@ func (srv *Postgresql) WithCreateExecutionTimeoutSeconds(v int) CreateExecutionO
 // without a per-query cloud round-trip. The statement type must be on the
 // database's configured allow-list. Use bound parameters for any
 // user-supplied values — the API does not interpolate raw strings.
+// Long-running statements (for example CREATE INDEX) can outlive the HTTP
+// request: if the request ends before a result is returned, check the
+// database before retrying, and prefer a direct connection for work that may
+// take minutes.
 func (srv *Postgresql) CreateExecution(DatabaseId string, Sql string, optionalSetters ...CreateExecutionOption) (*models.DedicatedDatabaseExecution, error) {
 	if DatabaseId == "" {
 		return nil, errors.New("Missing required parameter: \"databaseId\"")
@@ -2398,11 +2402,14 @@ type CreateRestorationOptions struct {
 	BackupId         string
 	TargetDatabaseId string
 	TargetTime       string
+	RestoreMode      string
+	TargetName       string
+	AutoPromote      bool
 	enabledSetters   map[string]bool
 }
 
 func (options CreateRestorationOptions) New() *CreateRestorationOptions {
-	options.enabledSetters = map[string]bool{"Type": false, "BackupId": false, "TargetDatabaseId": false, "TargetTime": false}
+	options.enabledSetters = map[string]bool{"Type": false, "BackupId": false, "TargetDatabaseId": false, "TargetTime": false, "RestoreMode": false, "TargetName": false, "AutoPromote": false}
 	return &options
 }
 
@@ -2432,11 +2439,40 @@ func (srv *Postgresql) WithCreateRestorationTargetTime(v string) CreateRestorati
 		o.enabledSetters["TargetTime"] = true
 	}
 }
+func (srv *Postgresql) WithCreateRestorationRestoreMode(v string) CreateRestorationOption {
+	return func(o *CreateRestorationOptions) {
+		o.RestoreMode = v
+		o.enabledSetters["RestoreMode"] = true
+	}
+}
+func (srv *Postgresql) WithCreateRestorationTargetName(v string) CreateRestorationOption {
+	return func(o *CreateRestorationOptions) {
+		o.TargetName = v
+		o.enabledSetters["TargetName"] = true
+	}
+}
+func (srv *Postgresql) WithCreateRestorationAutoPromote(v bool) CreateRestorationOption {
+	return func(o *CreateRestorationOptions) {
+		o.AutoPromote = v
+		o.enabledSetters["AutoPromote"] = true
+	}
+}
 
 // CreateRestoration restore a database from a backup or to a specific point
 // in time (PITR). For backup restoration, provide a backupId. For PITR,
 // provide a targetTime as an ISO 8601 datetime. PITR requires the database to
 // have PITR enabled and is only available for enterprise databases.
+//
+// By default the backup is replayed over the database it was taken from. Pass
+// `restoreMode` as `clone` to recover it onto a second workload beside this
+// database instead: this database keeps serving its own data while the clone
+// is filled, and the switch happens as soon as the clone is ready, on the
+// endpoint and credentials it already had. Pass `autoPromote` as false to
+// hold the clone until you promote it yourself. Pass `restoreMode` as `copy`
+// to recover onto a separate database with its own endpoint, either one you
+// name with `targetDatabaseId` or one provisioned as a copy of this
+// database's engine, version, specification and replicas. Neither mode is
+// available for a point-in-time recovery or an incremental backup.
 func (srv *Postgresql) CreateRestoration(DatabaseId string, optionalSetters ...CreateRestorationOption) (*models.DedicatedDatabaseRestoration, error) {
 	if DatabaseId == "" {
 		return nil, errors.New("Missing required parameter: \"databaseId\"")
@@ -2460,6 +2496,15 @@ func (srv *Postgresql) CreateRestoration(DatabaseId string, optionalSetters ...C
 	}
 	if options.enabledSetters["TargetTime"] {
 		params["targetTime"] = options.TargetTime
+	}
+	if options.enabledSetters["RestoreMode"] {
+		params["restoreMode"] = options.RestoreMode
+	}
+	if options.enabledSetters["TargetName"] {
+		params["targetName"] = options.TargetName
+	}
+	if options.enabledSetters["AutoPromote"] {
+		params["autoPromote"] = options.AutoPromote
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2512,6 +2557,56 @@ func (srv *Postgresql) GetRestoration(DatabaseId string, RestorationId string) (
 	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.DedicatedDatabaseRestoration{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DedicatedDatabaseRestoration
+	parsed, ok := resp.Result.(models.DedicatedDatabaseRestoration)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// PromoteRestoration switch the database over to the clone a restoration
+// recovered. The database keeps
+// its endpoint and credentials; clients reconnect once. Writes made after the
+// recovery point are discarded, and the side being replaced is retained
+// briefly so
+// the switch can be reversed.
+func (srv *Postgresql) PromoteRestoration(DatabaseId string, RestorationId string) (*models.DedicatedDatabaseRestoration, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if RestorationId == "" {
+		return nil, errors.New("Missing required parameter: \"restorationId\"")
+	}
+
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{restorationId}", client.EncodePath(RestorationId))
+	path := r.Replace("/postgresql/{databaseId}/restorations/{restorationId}/promotions")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
 		return nil, err
 	}

@@ -43,6 +43,103 @@ func (model DedicatedDatabaseSpecification) New(data []byte) *DedicatedDatabaseS
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DedicatedDatabaseSpecification) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabaseSpecification
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Slug                 json.RawMessage `json:"slug"`
+		Name                 json.RawMessage `json:"name"`
+		Price                json.RawMessage `json:"price"`
+		StorageOverageRate   json.RawMessage `json:"storageOverageRate"`
+		BandwidthOverageRate json.RawMessage `json:"bandwidthOverageRate"`
+		ReplicaRate          json.RawMessage `json:"replicaRate"`
+		PitrRate             json.RawMessage `json:"pitrRate"`
+		Cpu                  json.RawMessage `json:"cpu"`
+		Memory               json.RawMessage `json:"memory"`
+		MaxConnections       json.RawMessage `json:"maxConnections"`
+		IncludedStorage      json.RawMessage `json:"includedStorage"`
+		IncludedBandwidth    json.RawMessage `json:"includedBandwidth"`
+		Enabled              json.RawMessage `json:"enabled"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Slug == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Slug); err != nil {
+			return err
+		}
+	}
+	if present.Name == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Price == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Price); err != nil {
+			return err
+		}
+	}
+	if present.StorageOverageRate == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.StorageOverageRate); err != nil {
+			return err
+		}
+	}
+	if present.BandwidthOverageRate == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.BandwidthOverageRate); err != nil {
+			return err
+		}
+	}
+	if present.ReplicaRate == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.ReplicaRate); err != nil {
+			return err
+		}
+	}
+	if present.PitrRate == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.PitrRate); err != nil {
+			return err
+		}
+	}
+	if present.Cpu == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Cpu); err != nil {
+			return err
+		}
+	}
+	if present.Memory == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Memory); err != nil {
+			return err
+		}
+	}
+	if present.MaxConnections == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.MaxConnections); err != nil {
+			return err
+		}
+	}
+	if present.IncludedStorage == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.IncludedStorage); err != nil {
+			return err
+		}
+	}
+	if present.IncludedBandwidth == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.IncludedBandwidth); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+
+	*model = DedicatedDatabaseSpecification(decoded)
+	return nil
+}
+
 func (model *DedicatedDatabaseSpecification) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

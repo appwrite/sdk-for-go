@@ -64,7 +64,8 @@ func TestProxy(t *testing.T) {
             "deploymentVcsProviderBranch": "main",
             "status": "verified",
             "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
-            "renewAt": "datetime"
+            "renewAt": "datetime",
+            "protocol": "http"
         }
     ]
 }
@@ -105,7 +106,8 @@ func TestProxy(t *testing.T) {
     "deploymentVcsProviderBranch": "main",
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
-    "renewAt": "datetime"
+    "renewAt": "datetime",
+    "protocol": "http"
 }
 `
 
@@ -144,7 +146,8 @@ func TestProxy(t *testing.T) {
     "deploymentVcsProviderBranch": "main",
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
-    "renewAt": "datetime"
+    "renewAt": "datetime",
+    "protocol": "http"
 }
 `
 
@@ -183,7 +186,8 @@ func TestProxy(t *testing.T) {
     "deploymentVcsProviderBranch": "main",
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
-    "renewAt": "datetime"
+    "renewAt": "datetime",
+    "protocol": "http"
 }
 `
 
@@ -222,7 +226,8 @@ func TestProxy(t *testing.T) {
     "deploymentVcsProviderBranch": "main",
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
-    "renewAt": "datetime"
+    "renewAt": "datetime",
+    "protocol": "http"
 }
 `
 
@@ -245,6 +250,46 @@ func TestProxy(t *testing.T) {
 		}
 	})
 
+	t.Run("Test CreateSMTPRule", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "domain": "appwrite.company.com",
+    "type": "deployment",
+    "trigger": "manual",
+    "redirectUrl": "https://appwrite.io/docs",
+    "redirectStatusCode": 301,
+    "deploymentId": "n3u9feiwmf",
+    "deploymentResourceId": "n3u9feiwmf",
+    "deploymentVcsProviderBranch": "main",
+    "status": "verified",
+    "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
+    "renewAt": "datetime",
+    "protocol": "http"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateSMTPRule("example.com", "<FUNCTION_ID>")
+		if err != nil {
+			t.Errorf("Method CreateSMTPRule failed: %v", err)
+		}
+	})
+
 	t.Run("Test GetRule", func(t *testing.T) {
 		mockResponse := `
 {
@@ -261,7 +306,8 @@ func TestProxy(t *testing.T) {
     "deploymentVcsProviderBranch": "main",
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
-    "renewAt": "datetime"
+    "renewAt": "datetime",
+    "protocol": "http"
 }
 `
 
@@ -326,7 +372,8 @@ func TestProxy(t *testing.T) {
     "deploymentVcsProviderBranch": "main",
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
-    "renewAt": "datetime"
+    "renewAt": "datetime",
+    "protocol": "http"
 }
 `
 

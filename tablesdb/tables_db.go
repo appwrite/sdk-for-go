@@ -932,7 +932,12 @@ func (srv *TablesDB) WithCreateMigrationAutoCutover(v bool) CreateMigrationOptio
 
 // CreateMigration start migrating a serverless TablesDB database onto a
 // dedicated MySQL compute. Data is copied to the target while the source
-// stays live, with a brief read-only window during cutover.
+// stays live. Reads continue throughout. Row writes are held for up to a few
+// seconds while routing switches to the dedicated compute; a write the switch
+// has not absorbed within that hold is refused with
+// `database_migration_cutover` and can be retried. Schema changes (tables,
+// columns, indexes) are refused from creation until the cutover completes,
+// and resume once the migration is `soaking`.
 func (srv *TablesDB) CreateMigration(DatabaseId string, Specification string, optionalSetters ...CreateMigrationOption) (*models.DatabaseMigration, error) {
 	if DatabaseId == "" {
 		return nil, errors.New("Missing required parameter: \"databaseId\"")
@@ -1076,9 +1081,12 @@ func (srv *TablesDB) DeleteMigration(DatabaseId string, MigrationId string) (*in
 // CreateCutover cut a verified TablesDB migration over to its dedicated
 // compute. Only applies to a migration created with `autoCutover` disabled,
 // which waits at `ready_to_cutover` until this is called. The routing flip
-// happens shortly after this returns, with a brief read-only window. One call
-// buys one attempt: a cutover that fails a check returns the migration to
-// `verifying` and parks it again, so call this once more to retry.
+// happens shortly after this returns. Reads are unaffected; row writes are
+// held for up to a few seconds while it lands, and a write the flip has not
+// absorbed within that hold is refused with `database_migration_cutover` and
+// can be retried. One call buys one attempt: a cutover that fails a check
+// returns the migration to `verifying` and parks it again, so call this once
+// more to retry.
 func (srv *TablesDB) CreateCutover(DatabaseId string, MigrationId string) (*models.DatabaseMigration, error) {
 	if DatabaseId == "" {
 		return nil, errors.New("Missing required parameter: \"databaseId\"")
@@ -5234,7 +5242,9 @@ func (srv *TablesDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 
 // CreateIndex creates an index on the columns listed. Your index should
 // include all the columns you will query in a single request.
-// Type can be `key`, `fulltext`, or `unique`.
+// Type can be `key`, `fulltext`, `unique`, `spatial`, or `trigram`. `trigram`
+// is only available on PostgreSQL and lets `contains`, `startsWith`, and
+// `endsWith` queries on string columns use an index.
 func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, Type string, Columns []string, optionalSetters ...CreateIndexOption) (*models.ColumnIndex, error) {
 	if DatabaseId == "" {
 		return nil, errors.New("Missing required parameter: \"databaseId\"")

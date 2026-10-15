@@ -20,8 +20,8 @@ func main() {
 	response, err := service.UpdateOAuth2Salesforce(
 		service.WithUpdateOAuth2SalesforceCustomerKey("<CUSTOMER_KEY>"),
 		service.WithUpdateOAuth2SalesforceCustomerSecret("<CUSTOMER_SECRET>"),
-		service.WithUpdateOAuth2SalesforcePrompt([]string{"example"}),
 		service.WithUpdateOAuth2SalesforceEnabled(false),
+		service.WithUpdateOAuth2SalesforcePrompt([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

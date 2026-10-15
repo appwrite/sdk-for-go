@@ -44,6 +44,61 @@ func (model BackupArchive) New(data []byte) *BackupArchive {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *BackupArchive) UnmarshalJSON(data []byte) error {
+	type alias BackupArchive
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id          json.RawMessage `json:"$id"`
+		CreatedAt   json.RawMessage `json:"$createdAt"`
+		UpdatedAt   json.RawMessage `json:"$updatedAt"`
+		PolicyId    json.RawMessage `json:"policyId"`
+		Status      json.RawMessage `json:"status"`
+		MigrationId json.RawMessage `json:"migrationId"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.PolicyId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.PolicyId); err != nil {
+			return err
+		}
+	}
+	if present.Status == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Status); err != nil {
+			return err
+		}
+	}
+	if present.MigrationId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.MigrationId); err != nil {
+			return err
+		}
+	}
+
+	*model = BackupArchive(decoded)
+	return nil
+}
+
 func (model *BackupArchive) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

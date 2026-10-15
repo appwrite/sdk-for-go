@@ -39,6 +39,73 @@ func (model Index) New(data []byte) *Index {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Index) UnmarshalJSON(data []byte) error {
+	type alias Index
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id         json.RawMessage `json:"$id"`
+		CreatedAt  json.RawMessage `json:"$createdAt"`
+		UpdatedAt  json.RawMessage `json:"$updatedAt"`
+		Key        json.RawMessage `json:"key"`
+		Type       json.RawMessage `json:"type"`
+		Error      json.RawMessage `json:"error"`
+		Attributes json.RawMessage `json:"attributes"`
+		Lengths    json.RawMessage `json:"lengths"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.Key == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Key); err != nil {
+			return err
+		}
+	}
+	if present.Type == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Type); err != nil {
+			return err
+		}
+	}
+	if present.Error == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Error); err != nil {
+			return err
+		}
+	}
+	if present.Attributes == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Attributes); err != nil {
+			return err
+		}
+	}
+	if present.Lengths == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Lengths); err != nil {
+			return err
+		}
+	}
+
+	*model = Index(decoded)
+	return nil
+}
+
 func (model *Index) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

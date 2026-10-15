@@ -22,7 +22,7 @@ type Execution struct {
 	// Deployment ID used to create the execution.
 	DeploymentId string `json:"deploymentId"`
 	// The trigger that caused the resource to execute. Possible values can be:
-	// `http`, `schedule`, or `event`.
+	// `http`, `schedule`, `event`, or `email`.
 	Trigger string `json:"trigger"`
 	// The status of the resource execution. Possible values can be: `waiting`,
 	// `processing`, `completed`, `failed`, or `scheduled`.
@@ -65,6 +65,103 @@ type Execution struct {
 func (model Execution) New(data []byte) *Execution {
 	model.data = data
 	return &model
+}
+
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Execution) UnmarshalJSON(data []byte) error {
+	type alias Execution
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id                 json.RawMessage `json:"$id"`
+		CreatedAt          json.RawMessage `json:"$createdAt"`
+		UpdatedAt          json.RawMessage `json:"$updatedAt"`
+		ResourceId         json.RawMessage `json:"resourceId"`
+		ResourceType       json.RawMessage `json:"resourceType"`
+		DeploymentId       json.RawMessage `json:"deploymentId"`
+		RequestMethod      json.RawMessage `json:"requestMethod"`
+		RequestPath        json.RawMessage `json:"requestPath"`
+		ResponseStatusCode json.RawMessage `json:"responseStatusCode"`
+		ResponseBody       json.RawMessage `json:"responseBody"`
+		Logs               json.RawMessage `json:"logs"`
+		Errors             json.RawMessage `json:"errors"`
+		Duration           json.RawMessage `json:"duration"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.ResourceId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ResourceId); err != nil {
+			return err
+		}
+	}
+	if present.ResourceType == nil {
+		if err := json.Unmarshal([]byte("\"functions\""), &decoded.ResourceType); err != nil {
+			return err
+		}
+	}
+	if present.DeploymentId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.DeploymentId); err != nil {
+			return err
+		}
+	}
+	if present.RequestMethod == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.RequestMethod); err != nil {
+			return err
+		}
+	}
+	if present.RequestPath == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.RequestPath); err != nil {
+			return err
+		}
+	}
+	if present.ResponseStatusCode == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.ResponseStatusCode); err != nil {
+			return err
+		}
+	}
+	if present.ResponseBody == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ResponseBody); err != nil {
+			return err
+		}
+	}
+	if present.Logs == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Logs); err != nil {
+			return err
+		}
+	}
+	if present.Errors == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Errors); err != nil {
+			return err
+		}
+	}
+	if present.Duration == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Duration); err != nil {
+			return err
+		}
+	}
+
+	*model = Execution(decoded)
+	return nil
 }
 
 func (model *Execution) Decode(value interface{}) error {

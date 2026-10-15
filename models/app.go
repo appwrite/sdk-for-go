@@ -80,6 +80,175 @@ func (model App) New(data []byte) *App {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *App) UnmarshalJSON(data []byte) error {
+	type alias App
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id                      json.RawMessage `json:"$id"`
+		CreatedAt               json.RawMessage `json:"$createdAt"`
+		UpdatedAt               json.RawMessage `json:"$updatedAt"`
+		Name                    json.RawMessage `json:"name"`
+		Description             json.RawMessage `json:"description"`
+		ClientUri               json.RawMessage `json:"clientUri"`
+		LogoUri                 json.RawMessage `json:"logoUri"`
+		PrivacyPolicyUrl        json.RawMessage `json:"privacyPolicyUrl"`
+		TermsUrl                json.RawMessage `json:"termsUrl"`
+		Contacts                json.RawMessage `json:"contacts"`
+		Tagline                 json.RawMessage `json:"tagline"`
+		Tags                    json.RawMessage `json:"tags"`
+		Labels                  json.RawMessage `json:"labels"`
+		Images                  json.RawMessage `json:"images"`
+		SupportUrl              json.RawMessage `json:"supportUrl"`
+		DataDeletionUrl         json.RawMessage `json:"dataDeletionUrl"`
+		RedirectUris            json.RawMessage `json:"redirectUris"`
+		PostLogoutRedirectUris  json.RawMessage `json:"postLogoutRedirectUris"`
+		Enabled                 json.RawMessage `json:"enabled"`
+		Type                    json.RawMessage `json:"type"`
+		DeviceFlow              json.RawMessage `json:"deviceFlow"`
+		TeamId                  json.RawMessage `json:"teamId"`
+		UserId                  json.RawMessage `json:"userId"`
+		InstallationScopes      json.RawMessage `json:"installationScopes"`
+		InstallationRedirectUrl json.RawMessage `json:"installationRedirectUrl"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.Name == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
+			return err
+		}
+	}
+	if present.ClientUri == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ClientUri); err != nil {
+			return err
+		}
+	}
+	if present.LogoUri == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LogoUri); err != nil {
+			return err
+		}
+	}
+	if present.PrivacyPolicyUrl == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.PrivacyPolicyUrl); err != nil {
+			return err
+		}
+	}
+	if present.TermsUrl == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.TermsUrl); err != nil {
+			return err
+		}
+	}
+	if present.Contacts == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Contacts); err != nil {
+			return err
+		}
+	}
+	if present.Tagline == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Tagline); err != nil {
+			return err
+		}
+	}
+	if present.Tags == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Tags); err != nil {
+			return err
+		}
+	}
+	if present.Labels == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Labels); err != nil {
+			return err
+		}
+	}
+	if present.Images == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Images); err != nil {
+			return err
+		}
+	}
+	if present.SupportUrl == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SupportUrl); err != nil {
+			return err
+		}
+	}
+	if present.DataDeletionUrl == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.DataDeletionUrl); err != nil {
+			return err
+		}
+	}
+	if present.RedirectUris == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.RedirectUris); err != nil {
+			return err
+		}
+	}
+	if present.PostLogoutRedirectUris == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.PostLogoutRedirectUris); err != nil {
+			return err
+		}
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.Type == nil {
+		if err := json.Unmarshal([]byte("\"confidential\""), &decoded.Type); err != nil {
+			return err
+		}
+	}
+	if present.DeviceFlow == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.DeviceFlow); err != nil {
+			return err
+		}
+	}
+	if present.TeamId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.TeamId); err != nil {
+			return err
+		}
+	}
+	if present.UserId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UserId); err != nil {
+			return err
+		}
+	}
+	if present.InstallationScopes == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.InstallationScopes); err != nil {
+			return err
+		}
+	}
+	if present.InstallationRedirectUrl == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.InstallationRedirectUrl); err != nil {
+			return err
+		}
+	}
+
+	*model = App(decoded)
+	return nil
+}
+
 func (model *App) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

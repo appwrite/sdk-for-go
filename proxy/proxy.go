@@ -390,6 +390,72 @@ func (srv *Proxy) CreateSiteRule(Domain string, SiteId string, optionalSetters .
 
 }
 
+type CreateSMTPRuleOptions struct {
+	Branch         string
+	enabledSetters map[string]bool
+}
+
+func (options CreateSMTPRuleOptions) New() *CreateSMTPRuleOptions {
+	options.enabledSetters = map[string]bool{"Branch": false}
+	return &options
+}
+
+type CreateSMTPRuleOption func(*CreateSMTPRuleOptions)
+
+func (srv *Proxy) WithCreateSMTPRuleBranch(v string) CreateSMTPRuleOption {
+	return func(o *CreateSMTPRuleOptions) {
+		o.Branch = v
+		o.enabledSetters["Branch"] = true
+	}
+}
+
+// CreateSMTPRule create an SMTP ingress rule that asynchronously executes an
+// Appwrite Function for incoming email.
+func (srv *Proxy) CreateSMTPRule(Domain string, FunctionId string, optionalSetters ...CreateSMTPRuleOption) (*models.ProxyRule, error) {
+	path := "/proxy/rules/smtp"
+	options := CreateSMTPRuleOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["domain"] = Domain
+	params["functionId"] = FunctionId
+	if options.enabledSetters["Branch"] {
+		params["branch"] = options.Branch
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.ProxyRule{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ProxyRule
+	parsed, ok := resp.Result.(models.ProxyRule)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // GetRule get a proxy rule by its unique ID.
 func (srv *Proxy) GetRule(RuleId string) (*models.ProxyRule, error) {
 	if RuleId == "" {

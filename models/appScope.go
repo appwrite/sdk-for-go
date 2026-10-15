@@ -29,6 +29,55 @@ func (model AppScope) New(data []byte) *AppScope {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *AppScope) UnmarshalJSON(data []byte) error {
+	type alias AppScope
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Value       json.RawMessage `json:"value"`
+		Description json.RawMessage `json:"description"`
+		Type        json.RawMessage `json:"type"`
+		Category    json.RawMessage `json:"category"`
+		Deprecated  json.RawMessage `json:"deprecated"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Value == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Value); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
+			return err
+		}
+	}
+	if present.Type == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Type); err != nil {
+			return err
+		}
+	}
+	if present.Category == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Category); err != nil {
+			return err
+		}
+	}
+	if present.Deprecated == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Deprecated); err != nil {
+			return err
+		}
+	}
+
+	*model = AppScope(decoded)
+	return nil
+}
+
 func (model *AppScope) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

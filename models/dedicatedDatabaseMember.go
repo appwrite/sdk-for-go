@@ -43,6 +43,43 @@ func (model DedicatedDatabaseMember) New(data []byte) *DedicatedDatabaseMember {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DedicatedDatabaseMember) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabaseMember
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id     json.RawMessage `json:"$id"`
+		Role   json.RawMessage `json:"role"`
+		Status json.RawMessage `json:"status"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.Role == nil {
+		if err := json.Unmarshal([]byte("\"unknown\""), &decoded.Role); err != nil {
+			return err
+		}
+	}
+	if present.Status == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Status); err != nil {
+			return err
+		}
+	}
+
+	*model = DedicatedDatabaseMember(decoded)
+	return nil
+}
+
 func (model *DedicatedDatabaseMember) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

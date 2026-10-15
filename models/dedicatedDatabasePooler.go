@@ -50,6 +50,85 @@ func (model DedicatedDatabasePooler) New(data []byte) *DedicatedDatabasePooler {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DedicatedDatabasePooler) UnmarshalJSON(data []byte) error {
+	type alias DedicatedDatabasePooler
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Enabled             json.RawMessage `json:"enabled"`
+		Mode                json.RawMessage `json:"mode"`
+		MaxConnections      json.RawMessage `json:"maxConnections"`
+		DefaultPoolSize     json.RawMessage `json:"defaultPoolSize"`
+		Port                json.RawMessage `json:"port"`
+		ReadWriteSplitting  json.RawMessage `json:"readWriteSplitting"`
+		PoolerCpuRequest    json.RawMessage `json:"poolerCpuRequest"`
+		PoolerCpuLimit      json.RawMessage `json:"poolerCpuLimit"`
+		PoolerMemoryRequest json.RawMessage `json:"poolerMemoryRequest"`
+		PoolerMemoryLimit   json.RawMessage `json:"poolerMemoryLimit"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Enabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.Mode == nil {
+		if err := json.Unmarshal([]byte("\"transaction\""), &decoded.Mode); err != nil {
+			return err
+		}
+	}
+	if present.MaxConnections == nil {
+		if err := json.Unmarshal([]byte("100"), &decoded.MaxConnections); err != nil {
+			return err
+		}
+	}
+	if present.DefaultPoolSize == nil {
+		if err := json.Unmarshal([]byte("20"), &decoded.DefaultPoolSize); err != nil {
+			return err
+		}
+	}
+	if present.Port == nil {
+		if err := json.Unmarshal([]byte("6432"), &decoded.Port); err != nil {
+			return err
+		}
+	}
+	if present.ReadWriteSplitting == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.ReadWriteSplitting); err != nil {
+			return err
+		}
+	}
+	if present.PoolerCpuRequest == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.PoolerCpuRequest); err != nil {
+			return err
+		}
+	}
+	if present.PoolerCpuLimit == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.PoolerCpuLimit); err != nil {
+			return err
+		}
+	}
+	if present.PoolerMemoryRequest == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.PoolerMemoryRequest); err != nil {
+			return err
+		}
+	}
+	if present.PoolerMemoryLimit == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.PoolerMemoryLimit); err != nil {
+			return err
+		}
+	}
+
+	*model = DedicatedDatabasePooler(decoded)
+	return nil
+}
+
 func (model *DedicatedDatabasePooler) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

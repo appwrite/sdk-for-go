@@ -37,6 +37,43 @@ func (model DatabaseStatusReplica) New(data []byte) *DatabaseStatusReplica {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DatabaseStatusReplica) UnmarshalJSON(data []byte) error {
+	type alias DatabaseStatusReplica
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Index   json.RawMessage `json:"index"`
+		Role    json.RawMessage `json:"role"`
+		Healthy json.RawMessage `json:"healthy"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Index == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Index); err != nil {
+			return err
+		}
+	}
+	if present.Role == nil {
+		if err := json.Unmarshal([]byte("\"unknown\""), &decoded.Role); err != nil {
+			return err
+		}
+	}
+	if present.Healthy == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Healthy); err != nil {
+			return err
+		}
+	}
+
+	*model = DatabaseStatusReplica(decoded)
+	return nil
+}
+
 func (model *DatabaseStatusReplica) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

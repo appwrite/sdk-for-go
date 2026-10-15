@@ -22,7 +22,6 @@ func main() {
 		"<NAME>",
 		service.WithCreatePropertyDomain("<DOMAIN>"),
 		service.WithCreatePropertyEnabled(false),
-		service.WithCreatePropertyPublic(false),
 		service.WithCreatePropertyAllowedOrigins([]string{"example"}),
 	)
 	fmt.Println(response, err)

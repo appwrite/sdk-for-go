@@ -61,6 +61,79 @@ func (model DatabaseStatus) New(data []byte) *DatabaseStatus {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DatabaseStatus) UnmarshalJSON(data []byte) error {
+	type alias DatabaseStatus
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Health               json.RawMessage `json:"health"`
+		Ready                json.RawMessage `json:"ready"`
+		Engine               json.RawMessage `json:"engine"`
+		Version              json.RawMessage `json:"version"`
+		Uptime               json.RawMessage `json:"uptime"`
+		SyncMode             json.RawMessage `json:"syncMode"`
+		SyncDegraded         json.RawMessage `json:"syncDegraded"`
+		SyncAcknowledgements json.RawMessage `json:"syncAcknowledgements"`
+		SyncStandbyCount     json.RawMessage `json:"syncStandbyCount"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Health == nil {
+		if err := json.Unmarshal([]byte("\"unknown\""), &decoded.Health); err != nil {
+			return err
+		}
+	}
+	if present.Ready == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Ready); err != nil {
+			return err
+		}
+	}
+	if present.Engine == nil {
+		if err := json.Unmarshal([]byte("\"postgresql\""), &decoded.Engine); err != nil {
+			return err
+		}
+	}
+	if present.Version == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Version); err != nil {
+			return err
+		}
+	}
+	if present.Uptime == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Uptime); err != nil {
+			return err
+		}
+	}
+	if present.SyncMode == nil {
+		if err := json.Unmarshal([]byte("\"async\""), &decoded.SyncMode); err != nil {
+			return err
+		}
+	}
+	if present.SyncDegraded == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.SyncDegraded); err != nil {
+			return err
+		}
+	}
+	if present.SyncAcknowledgements == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.SyncAcknowledgements); err != nil {
+			return err
+		}
+	}
+	if present.SyncStandbyCount == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.SyncStandbyCount); err != nil {
+			return err
+		}
+	}
+
+	*model = DatabaseStatus(decoded)
+	return nil
+}
+
 func (model *DatabaseStatus) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

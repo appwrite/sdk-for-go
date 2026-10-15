@@ -30,6 +30,55 @@ func (model PasskeyChallenge) New(data []byte) *PasskeyChallenge {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *PasskeyChallenge) UnmarshalJSON(data []byte) error {
+	type alias PasskeyChallenge
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id        json.RawMessage `json:"$id"`
+		CreatedAt json.RawMessage `json:"$createdAt"`
+		PasskeyId json.RawMessage `json:"passkeyId"`
+		Expire    json.RawMessage `json:"expire"`
+		PublicKey json.RawMessage `json:"publicKey"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.PasskeyId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.PasskeyId); err != nil {
+			return err
+		}
+	}
+	if present.Expire == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Expire); err != nil {
+			return err
+		}
+	}
+	if present.PublicKey == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.PublicKey); err != nil {
+			return err
+		}
+	}
+
+	*model = PasskeyChallenge(decoded)
+	return nil
+}
+
 func (model *PasskeyChallenge) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -31,6 +31,67 @@ func (model PolicyMembershipPrivacy) New(data []byte) *PolicyMembershipPrivacy {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *PolicyMembershipPrivacy) UnmarshalJSON(data []byte) error {
+	type alias PolicyMembershipPrivacy
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id             json.RawMessage `json:"$id"`
+		UserId         json.RawMessage `json:"userId"`
+		UserEmail      json.RawMessage `json:"userEmail"`
+		UserPhone      json.RawMessage `json:"userPhone"`
+		UserName       json.RawMessage `json:"userName"`
+		UserMFA        json.RawMessage `json:"userMFA"`
+		UserAccessedAt json.RawMessage `json:"userAccessedAt"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.UserId == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.UserId); err != nil {
+			return err
+		}
+	}
+	if present.UserEmail == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.UserEmail); err != nil {
+			return err
+		}
+	}
+	if present.UserPhone == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.UserPhone); err != nil {
+			return err
+		}
+	}
+	if present.UserName == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.UserName); err != nil {
+			return err
+		}
+	}
+	if present.UserMFA == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.UserMFA); err != nil {
+			return err
+		}
+	}
+	if present.UserAccessedAt == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.UserAccessedAt); err != nil {
+			return err
+		}
+	}
+
+	*model = PolicyMembershipPrivacy(decoded)
+	return nil
+}
+
 func (model *PolicyMembershipPrivacy) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

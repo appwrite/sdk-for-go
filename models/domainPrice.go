@@ -35,6 +35,61 @@ func (model DomainPrice) New(data []byte) *DomainPrice {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *DomainPrice) UnmarshalJSON(data []byte) error {
+	type alias DomainPrice
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Domain             json.RawMessage `json:"domain"`
+		Tld                json.RawMessage `json:"tld"`
+		Available          json.RawMessage `json:"available"`
+		PeriodYears        json.RawMessage `json:"periodYears"`
+		Premium            json.RawMessage `json:"premium"`
+		RenewalPeriodYears json.RawMessage `json:"renewalPeriodYears"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Domain == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Domain); err != nil {
+			return err
+		}
+	}
+	if present.Tld == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Tld); err != nil {
+			return err
+		}
+	}
+	if present.Available == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Available); err != nil {
+			return err
+		}
+	}
+	if present.PeriodYears == nil {
+		if err := json.Unmarshal([]byte("1"), &decoded.PeriodYears); err != nil {
+			return err
+		}
+	}
+	if present.Premium == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Premium); err != nil {
+			return err
+		}
+	}
+	if present.RenewalPeriodYears == nil {
+		if err := json.Unmarshal([]byte("1"), &decoded.RenewalPeriodYears); err != nil {
+			return err
+		}
+	}
+
+	*model = DomainPrice(decoded)
+	return nil
+}
+
 func (model *DomainPrice) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

@@ -128,6 +128,157 @@ func (model Project) New(data []byte) *Project {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *Project) UnmarshalJSON(data []byte) error {
+	type alias Project
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Id                json.RawMessage `json:"$id"`
+		CreatedAt         json.RawMessage `json:"$createdAt"`
+		UpdatedAt         json.RawMessage `json:"$updatedAt"`
+		Name              json.RawMessage `json:"name"`
+		TeamId            json.RawMessage `json:"teamId"`
+		Region            json.RawMessage `json:"region"`
+		SmtpEnabled       json.RawMessage `json:"smtpEnabled"`
+		SmtpSenderName    json.RawMessage `json:"smtpSenderName"`
+		SmtpSenderEmail   json.RawMessage `json:"smtpSenderEmail"`
+		SmtpReplyToName   json.RawMessage `json:"smtpReplyToName"`
+		SmtpReplyToEmail  json.RawMessage `json:"smtpReplyToEmail"`
+		SmtpHost          json.RawMessage `json:"smtpHost"`
+		SmtpPort          json.RawMessage `json:"smtpPort"`
+		SmtpUsername      json.RawMessage `json:"smtpUsername"`
+		SmtpPassword      json.RawMessage `json:"smtpPassword"`
+		SmtpSecure        json.RawMessage `json:"smtpSecure"`
+		PingCount         json.RawMessage `json:"pingCount"`
+		PingedAt          json.RawMessage `json:"pingedAt"`
+		Labels            json.RawMessage `json:"labels"`
+		Status            json.RawMessage `json:"status"`
+		Onboarding        json.RawMessage `json:"onboarding"`
+		ConsoleAccessedAt json.RawMessage `json:"consoleAccessedAt"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Id == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Id); err != nil {
+			return err
+		}
+	}
+	if present.CreatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CreatedAt); err != nil {
+			return err
+		}
+	}
+	if present.UpdatedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UpdatedAt); err != nil {
+			return err
+		}
+	}
+	if present.Name == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.TeamId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.TeamId); err != nil {
+			return err
+		}
+	}
+	if present.Region == nil {
+		if err := json.Unmarshal([]byte("\"fra\""), &decoded.Region); err != nil {
+			return err
+		}
+	}
+	if present.SmtpEnabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.SmtpEnabled); err != nil {
+			return err
+		}
+	}
+	if present.SmtpSenderName == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SmtpSenderName); err != nil {
+			return err
+		}
+	}
+	if present.SmtpSenderEmail == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SmtpSenderEmail); err != nil {
+			return err
+		}
+	}
+	if present.SmtpReplyToName == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SmtpReplyToName); err != nil {
+			return err
+		}
+	}
+	if present.SmtpReplyToEmail == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SmtpReplyToEmail); err != nil {
+			return err
+		}
+	}
+	if present.SmtpHost == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SmtpHost); err != nil {
+			return err
+		}
+	}
+	if present.SmtpPort == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.SmtpPort); err != nil {
+			return err
+		}
+	}
+	if present.SmtpUsername == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SmtpUsername); err != nil {
+			return err
+		}
+	}
+	if present.SmtpPassword == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SmtpPassword); err != nil {
+			return err
+		}
+	}
+	if present.SmtpSecure == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.SmtpSecure); err != nil {
+			return err
+		}
+	}
+	if present.PingCount == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.PingCount); err != nil {
+			return err
+		}
+	}
+	if present.PingedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.PingedAt); err != nil {
+			return err
+		}
+	}
+	if present.Labels == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Labels); err != nil {
+			return err
+		}
+	}
+	if present.Status == nil {
+		if err := json.Unmarshal([]byte("\"active\""), &decoded.Status); err != nil {
+			return err
+		}
+	}
+	if present.Onboarding == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.Onboarding); err != nil {
+			return err
+		}
+	}
+	if present.ConsoleAccessedAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ConsoleAccessedAt); err != nil {
+			return err
+		}
+	}
+
+	*model = Project(decoded)
+	return nil
+}
+
 func (model *Project) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

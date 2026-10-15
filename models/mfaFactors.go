@@ -27,6 +27,55 @@ func (model MfaFactors) New(data []byte) *MfaFactors {
 	return &model
 }
 
+// UnmarshalJSON decodes a response into a fresh model: present keys keep their
+// value, and required keys the response omits take their documented default.
+func (model *MfaFactors) UnmarshalJSON(data []byte) error {
+	type alias MfaFactors
+	decoded := alias{data: model.data}
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+
+	var present struct {
+		Totp         json.RawMessage `json:"totp"`
+		Phone        json.RawMessage `json:"phone"`
+		Email        json.RawMessage `json:"email"`
+		RecoveryCode json.RawMessage `json:"recoveryCode"`
+		Custom       json.RawMessage `json:"custom"`
+	}
+	if err := json.Unmarshal(data, &present); err != nil {
+		return err
+	}
+	if present.Totp == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Totp); err != nil {
+			return err
+		}
+	}
+	if present.Phone == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Phone); err != nil {
+			return err
+		}
+	}
+	if present.Email == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Email); err != nil {
+			return err
+		}
+	}
+	if present.RecoveryCode == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.RecoveryCode); err != nil {
+			return err
+		}
+	}
+	if present.Custom == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.Custom); err != nil {
+			return err
+		}
+	}
+
+	*model = MfaFactors(decoded)
+	return nil
+}
+
 func (model *MfaFactors) Decode(value interface{}) error {
 	if len(model.data) <= 0 {
 		return errors.New("method Decode() cannot be used on nested struct")

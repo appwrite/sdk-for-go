@@ -5820,7 +5820,9 @@ func (srv *Databases) WithCreateIndexLengths(v []int) CreateIndexOption {
 
 // CreateIndex creates an index on the attributes listed. Your index should
 // include all the attributes you will query in a single request.
-// Attributes can be `key`, `fulltext`, and `unique`.
+// Attributes can be `key`, `fulltext`, `unique`, `spatial`, and `trigram`.
+// `trigram` is only available on PostgreSQL and lets `contains`,
+// `startsWith`, and `endsWith` queries on string attributes use an index.
 //
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createIndex` instead.
 func (srv *Databases) CreateIndex(DatabaseId string, CollectionId string, Key string, Type string, Attributes []string, optionalSetters ...CreateIndexOption) (*models.Index, error) {
