@@ -2640,6 +2640,43 @@ func TestTablesDB(t *testing.T) {
 		}
 	})
 
+	t.Run("Test CreateQuery", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "rows": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$sequence": "1",
+            "$tableId": "5e5ea5c15117e",
+            "$databaseId": "5e5ea5c15117e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "$permissions": []
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateQuery("<DATABASE_ID>", "<TABLE_ID>")
+		if err != nil {
+			t.Errorf("Method CreateQuery failed: %v", err)
+		}
+	})
+
 	t.Run("Test GetRow", func(t *testing.T) {
 		mockResponse := `
 {

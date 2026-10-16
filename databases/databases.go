@@ -4672,6 +4672,14 @@ func (srv *Databases) WithListDocumentsTtl(v int) ListDocumentsOption {
 // ListDocuments get a list of all the user's documents in a given collection.
 // You can use the query params to filter your results.
 //
+// Documents returned by aggregate, groupBy or distinct queries hold only the
+// attributes they select, group or aggregate, typed as a document types them,
+// with a joined attribute named by its join alias (`alias.attribute`). They
+// have no `$id`, `$sequence`, `$createdAt`, `$updatedAt`, `$permissions`,
+// `$databaseId` or `$collectionId` unless they select or group it, and
+// neither does a right or full join document that no document of this
+// collection matched.
+//
 // Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.listRows` instead.
 func (srv *Databases) ListDocuments(DatabaseId string, CollectionId string, optionalSetters ...ListDocumentsOption) (*models.DocumentList, error) {
 	if DatabaseId == "" {
@@ -5126,6 +5134,112 @@ func (srv *Databases) DeleteDocuments(DatabaseId string, CollectionId string, op
 	headers["accept"] = "application/json"
 
 	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.DocumentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DocumentList
+	parsed, ok := resp.Result.(models.DocumentList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreateQueryOptions struct {
+	Queries        []string
+	TransactionId  string
+	Total          bool
+	Ttl            int
+	enabledSetters map[string]bool
+}
+
+func (options CreateQueryOptions) New() *CreateQueryOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "TransactionId": false, "Total": false, "Ttl": false}
+	return &options
+}
+
+type CreateQueryOption func(*CreateQueryOptions)
+
+func (srv *Databases) WithCreateQueryQueries(v []string) CreateQueryOption {
+	return func(o *CreateQueryOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Databases) WithCreateQueryTransactionId(v string) CreateQueryOption {
+	return func(o *CreateQueryOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
+	}
+}
+func (srv *Databases) WithCreateQueryTotal(v bool) CreateQueryOption {
+	return func(o *CreateQueryOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+func (srv *Databases) WithCreateQueryTtl(v int) CreateQueryOption {
+	return func(o *CreateQueryOptions) {
+		o.Ttl = v
+		o.enabledSetters["Ttl"] = true
+	}
+}
+
+// CreateQuery get a list of all the user's documents in a given collection
+// using a POST request. This behaves identically to the list documents
+// endpoint but accepts the queries in the request body, allowing much larger
+// `queries` arrays than can fit in a URL query string.
+//
+// Deprecated: This API has been deprecated since 1.8.0. Please use `TablesDB.createQuery` instead.
+func (srv *Databases) CreateQuery(DatabaseId string, CollectionId string, optionalSetters ...CreateQueryOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
+	path := r.Replace("/databases/{databaseId}/collections/{collectionId}/documents/query")
+	options := CreateQueryOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	if options.enabledSetters["Ttl"] {
+		params["ttl"] = options.Ttl
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
 	if err != nil {
 		return nil, err
 	}

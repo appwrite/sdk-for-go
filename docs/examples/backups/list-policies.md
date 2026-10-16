@@ -19,6 +19,7 @@ func main() {
 
 	response, err := service.ListPolicies(
 		service.WithListPoliciesQueries([]string{"example"}),
+		service.WithListPoliciesTotal(false),
 	)
 	fmt.Println(response, err)
 }

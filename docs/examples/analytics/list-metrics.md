@@ -26,6 +26,7 @@ func main() {
 		service.WithListMetricsStartAt("2020-10-15T06:38:00.000+00:00"),
 		service.WithListMetricsEndAt("2020-10-15T06:38:00.000+00:00"),
 		service.WithListMetricsLimit(1),
+		service.WithListMetricsTotal(false),
 	)
 	fmt.Println(response, err)
 }

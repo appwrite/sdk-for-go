@@ -1678,6 +1678,110 @@ func (srv *DocumentsDB) DeleteDocuments(DatabaseId string, CollectionId string, 
 
 }
 
+type CreateQueryOptions struct {
+	Queries        []string
+	TransactionId  string
+	Total          bool
+	Ttl            int
+	enabledSetters map[string]bool
+}
+
+func (options CreateQueryOptions) New() *CreateQueryOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "TransactionId": false, "Total": false, "Ttl": false}
+	return &options
+}
+
+type CreateQueryOption func(*CreateQueryOptions)
+
+func (srv *DocumentsDB) WithCreateQueryQueries(v []string) CreateQueryOption {
+	return func(o *CreateQueryOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *DocumentsDB) WithCreateQueryTransactionId(v string) CreateQueryOption {
+	return func(o *CreateQueryOptions) {
+		o.TransactionId = v
+		o.enabledSetters["TransactionId"] = true
+	}
+}
+func (srv *DocumentsDB) WithCreateQueryTotal(v bool) CreateQueryOption {
+	return func(o *CreateQueryOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+func (srv *DocumentsDB) WithCreateQueryTtl(v int) CreateQueryOption {
+	return func(o *CreateQueryOptions) {
+		o.Ttl = v
+		o.enabledSetters["Ttl"] = true
+	}
+}
+
+// CreateQuery get a list of all the user's documents in a given collection
+// using a POST request. This behaves identically to the list documents
+// endpoint but accepts the queries in the request body, allowing much larger
+// `queries` arrays than can fit in a URL query string.
+func (srv *DocumentsDB) CreateQuery(DatabaseId string, CollectionId string, optionalSetters ...CreateQueryOption) (*models.DocumentList, error) {
+	if DatabaseId == "" {
+		return nil, errors.New("Missing required parameter: \"databaseId\"")
+	}
+	if CollectionId == "" {
+		return nil, errors.New("Missing required parameter: \"collectionId\"")
+	}
+
+	r := strings.NewReplacer("{databaseId}", client.EncodePath(DatabaseId), "{collectionId}", client.EncodePath(CollectionId))
+	path := r.Replace("/documentsdb/{databaseId}/collections/{collectionId}/documents/query")
+	options := CreateQueryOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["TransactionId"] {
+		params["transactionId"] = options.TransactionId
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	if options.enabledSetters["Ttl"] {
+		params["ttl"] = options.Ttl
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.DocumentList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.DocumentList
+	parsed, ok := resp.Result.(models.DocumentList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type GetDocumentOptions struct {
 	Queries        []string
 	TransactionId  string

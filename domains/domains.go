@@ -23,11 +23,12 @@ func New(clt client.Client) *Domains {
 type ListOptions struct {
 	Queries        []string
 	Search         string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListOptions) New() *ListOptions {
-	options.enabledSetters = map[string]bool{"Queries": false, "Search": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Search": false, "Total": false}
 	return &options
 }
 
@@ -45,6 +46,12 @@ func (srv *Domains) WithListSearch(v string) ListOption {
 		o.enabledSetters["Search"] = true
 	}
 }
+func (srv *Domains) WithListTotal(v bool) ListOption {
+	return func(o *ListOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
 
 // List list all domains registered for this project. This endpoint supports
 // pagination.
@@ -60,6 +67,9 @@ func (srv *Domains) List(optionalSetters ...ListOption) (*models.DomainsList, er
 	}
 	if options.enabledSetters["Search"] {
 		params["search"] = options.Search
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1003,11 +1013,12 @@ func (srv *Domains) CreatePresetZoho(DomainId string) (*models.DnsRecordsList, e
 
 type ListRecordsOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListRecordsOptions) New() *ListRecordsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -1017,6 +1028,12 @@ func (srv *Domains) WithListRecordsQueries(v []string) ListRecordsOption {
 	return func(o *ListRecordsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Domains) WithListRecordsTotal(v bool) ListRecordsOption {
+	return func(o *ListRecordsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -1037,6 +1054,9 @@ func (srv *Domains) ListRecords(DomainId string, optionalSetters ...ListRecordsO
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
