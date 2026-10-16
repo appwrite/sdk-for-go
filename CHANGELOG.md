@@ -1,5 +1,11 @@
 # Change Log
 
+## v7.13.0
+
+* Added: `CreateQuery` on `Databases`, `DocumentsDB` and `TablesDB` to send list queries in the request body
+* Added: `Total` list options on `Activities`, `Analytics`, `Backups`, `Domains`, `Mongo`, `Mysql` and `Postgresql`
+* Added: `WithCreateEmailEmails` and `WithUpdateEmailEmails` to email addresses without an Appwrite target
+
 ## v7.12.0
 
 * Breaking: removed `AnalyticsProperty.Public` and the `WithCreatePropertyPublic` and `WithUpdatePropertyPublic` options

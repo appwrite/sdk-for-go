@@ -22,11 +22,12 @@ func New(clt client.Client) *Activities {
 
 type ListEventsOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListEventsOptions) New() *ListEventsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -36,6 +37,12 @@ func (srv *Activities) WithListEventsQueries(v []string) ListEventsOption {
 	return func(o *ListEventsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Activities) WithListEventsTotal(v bool) ListEventsOption {
+	return func(o *ListEventsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -49,6 +56,9 @@ func (srv *Activities) ListEvents(optionalSetters ...ListEventsOption) (*models.
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

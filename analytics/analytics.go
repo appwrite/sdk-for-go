@@ -538,11 +538,12 @@ type ListMetricsOptions struct {
 	StartAt        string
 	EndAt          string
 	Limit          int
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListMetricsOptions) New() *ListMetricsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false, "Interval": false, "Dimensions": false, "DateRange": false, "StartAt": false, "EndAt": false, "Limit": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Interval": false, "Dimensions": false, "DateRange": false, "StartAt": false, "EndAt": false, "Limit": false, "Total": false}
 	return &options
 }
 
@@ -588,6 +589,12 @@ func (srv *Analytics) WithListMetricsLimit(v int) ListMetricsOption {
 	return func(o *ListMetricsOptions) {
 		o.Limit = v
 		o.enabledSetters["Limit"] = true
+	}
+}
+func (srv *Analytics) WithListMetricsTotal(v bool) ListMetricsOption {
+	return func(o *ListMetricsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -637,6 +644,9 @@ func (srv *Analytics) ListMetrics(PropertyId string, optionalSetters ...ListMetr
 	}
 	if options.enabledSetters["Limit"] {
 		params["limit"] = options.Limit
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

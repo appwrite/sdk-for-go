@@ -114,11 +114,12 @@ type CreateEmailOptions struct {
 	ScheduledAt    string
 	ReplyToEmail   string
 	ReplyToName    string
+	Emails         []string
 	enabledSetters map[string]bool
 }
 
 func (options CreateEmailOptions) New() *CreateEmailOptions {
-	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Cc": false, "Bcc": false, "Attachments": false, "Draft": false, "Html": false, "ScheduledAt": false, "ReplyToEmail": false, "ReplyToName": false}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Cc": false, "Bcc": false, "Attachments": false, "Draft": false, "Html": false, "ScheduledAt": false, "ReplyToEmail": false, "ReplyToName": false, "Emails": false}
 	return &options
 }
 
@@ -190,6 +191,12 @@ func (srv *Messaging) WithCreateEmailReplyToName(v string) CreateEmailOption {
 		o.enabledSetters["ReplyToName"] = true
 	}
 }
+func (srv *Messaging) WithCreateEmailEmails(v []string) CreateEmailOption {
+	return func(o *CreateEmailOptions) {
+		o.Emails = v
+		o.enabledSetters["Emails"] = true
+	}
+}
 
 // CreateEmail create a new email message.
 func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content string, optionalSetters ...CreateEmailOption) (*models.Message, error) {
@@ -234,6 +241,9 @@ func (srv *Messaging) CreateEmail(MessageId string, Subject string, Content stri
 	}
 	if options.enabledSetters["ReplyToName"] {
 		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["Emails"] {
+		params["emails"] = options.Emails
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -282,11 +292,12 @@ type UpdateEmailOptions struct {
 	Attachments    []string
 	ReplyToEmail   string
 	ReplyToName    string
+	Emails         []string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateEmailOptions) New() *UpdateEmailOptions {
-	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Subject": false, "Content": false, "Draft": false, "Html": false, "Cc": false, "Bcc": false, "ScheduledAt": false, "Attachments": false, "ReplyToEmail": false, "ReplyToName": false}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Subject": false, "Content": false, "Draft": false, "Html": false, "Cc": false, "Bcc": false, "ScheduledAt": false, "Attachments": false, "ReplyToEmail": false, "ReplyToName": false, "Emails": false}
 	return &options
 }
 
@@ -370,6 +381,12 @@ func (srv *Messaging) WithUpdateEmailReplyToName(v string) UpdateEmailOption {
 		o.enabledSetters["ReplyToName"] = true
 	}
 }
+func (srv *Messaging) WithUpdateEmailEmails(v []string) UpdateEmailOption {
+	return func(o *UpdateEmailOptions) {
+		o.Emails = v
+		o.enabledSetters["Emails"] = true
+	}
+}
 
 // UpdateEmail update an email message by its unique ID. This endpoint only
 // works on messages that are in draft status. Messages that are already
@@ -424,6 +441,9 @@ func (srv *Messaging) UpdateEmail(MessageId string, optionalSetters ...UpdateEma
 	}
 	if options.enabledSetters["ReplyToName"] {
 		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["Emails"] {
+		params["emails"] = options.Emails
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

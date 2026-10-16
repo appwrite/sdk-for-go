@@ -22,11 +22,12 @@ func New(clt client.Client) *Backups {
 
 type ListArchivesOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListArchivesOptions) New() *ListArchivesOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -36,6 +37,12 @@ func (srv *Backups) WithListArchivesQueries(v []string) ListArchivesOption {
 	return func(o *ListArchivesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Backups) WithListArchivesTotal(v bool) ListArchivesOption {
+	return func(o *ListArchivesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -49,6 +56,9 @@ func (srv *Backups) ListArchives(optionalSetters ...ListArchivesOption) (*models
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -230,11 +240,12 @@ func (srv *Backups) DeleteArchive(ArchiveId string) (*interface{}, error) {
 
 type ListPoliciesOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListPoliciesOptions) New() *ListPoliciesOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -244,6 +255,12 @@ func (srv *Backups) WithListPoliciesQueries(v []string) ListPoliciesOption {
 	return func(o *ListPoliciesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Backups) WithListPoliciesTotal(v bool) ListPoliciesOption {
+	return func(o *ListPoliciesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -257,6 +274,9 @@ func (srv *Backups) ListPolicies(optionalSetters ...ListPoliciesOption) (*models
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -665,11 +685,12 @@ func (srv *Backups) CreateRestoration(ArchiveId string, Services []string, optio
 
 type ListRestorationsOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListRestorationsOptions) New() *ListRestorationsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -679,6 +700,12 @@ func (srv *Backups) WithListRestorationsQueries(v []string) ListRestorationsOpti
 	return func(o *ListRestorationsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Backups) WithListRestorationsTotal(v bool) ListRestorationsOption {
+	return func(o *ListRestorationsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -692,6 +719,9 @@ func (srv *Backups) ListRestorations(optionalSetters ...ListRestorationsOption) 
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

@@ -22,11 +22,12 @@ func New(clt client.Client) *Mongo {
 
 type ListOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListOptions) New() *ListOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -36,6 +37,12 @@ func (srv *Mongo) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Mongo) WithListTotal(v bool) ListOption {
+	return func(o *ListOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -49,6 +56,9 @@ func (srv *Mongo) List(optionalSetters ...ListOption) (*models.DedicatedDatabase
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -645,11 +655,12 @@ func (srv *Mongo) Delete(DatabaseId string) (*interface{}, error) {
 
 type ListBackupsOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListBackupsOptions) New() *ListBackupsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -659,6 +670,12 @@ func (srv *Mongo) WithListBackupsQueries(v []string) ListBackupsOption {
 	return func(o *ListBackupsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Mongo) WithListBackupsTotal(v bool) ListBackupsOption {
+	return func(o *ListBackupsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -678,6 +695,9 @@ func (srv *Mongo) ListBackups(DatabaseId string, optionalSetters ...ListBackupsO
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -783,11 +803,12 @@ func (srv *Mongo) CreateBackup(DatabaseId string, optionalSetters ...CreateBacku
 
 type ListBackupPoliciesOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListBackupPoliciesOptions) New() *ListBackupPoliciesOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -797,6 +818,12 @@ func (srv *Mongo) WithListBackupPoliciesQueries(v []string) ListBackupPoliciesOp
 	return func(o *ListBackupPoliciesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Mongo) WithListBackupPoliciesTotal(v bool) ListBackupPoliciesOption {
+	return func(o *ListBackupPoliciesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -815,6 +842,9 @@ func (srv *Mongo) ListBackupPolicies(DatabaseId string, optionalSetters ...ListB
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

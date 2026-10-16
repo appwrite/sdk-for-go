@@ -22,11 +22,12 @@ func New(clt client.Client) *Postgresql {
 
 type ListOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListOptions) New() *ListOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -36,6 +37,12 @@ func (srv *Postgresql) WithListQueries(v []string) ListOption {
 	return func(o *ListOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Postgresql) WithListTotal(v bool) ListOption {
+	return func(o *ListOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -49,6 +56,9 @@ func (srv *Postgresql) List(optionalSetters ...ListOption) (*models.DedicatedDat
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -645,11 +655,12 @@ func (srv *Postgresql) Delete(DatabaseId string) (*interface{}, error) {
 
 type ListBackupsOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListBackupsOptions) New() *ListBackupsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -659,6 +670,12 @@ func (srv *Postgresql) WithListBackupsQueries(v []string) ListBackupsOption {
 	return func(o *ListBackupsOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Postgresql) WithListBackupsTotal(v bool) ListBackupsOption {
+	return func(o *ListBackupsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -678,6 +695,9 @@ func (srv *Postgresql) ListBackups(DatabaseId string, optionalSetters ...ListBac
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -783,11 +803,12 @@ func (srv *Postgresql) CreateBackup(DatabaseId string, optionalSetters ...Create
 
 type ListBackupPoliciesOptions struct {
 	Queries        []string
+	Total          bool
 	enabledSetters map[string]bool
 }
 
 func (options ListBackupPoliciesOptions) New() *ListBackupPoliciesOptions {
-	options.enabledSetters = map[string]bool{"Queries": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
 	return &options
 }
 
@@ -797,6 +818,12 @@ func (srv *Postgresql) WithListBackupPoliciesQueries(v []string) ListBackupPolic
 	return func(o *ListBackupPoliciesOptions) {
 		o.Queries = v
 		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Postgresql) WithListBackupPoliciesTotal(v bool) ListBackupPoliciesOption {
+	return func(o *ListBackupPoliciesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
 	}
 }
 
@@ -815,6 +842,9 @@ func (srv *Postgresql) ListBackupPolicies(DatabaseId string, optionalSetters ...
 	params := map[string]interface{}{}
 	if options.enabledSetters["Queries"] {
 		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

@@ -19,6 +19,7 @@ func main() {
 
 	response, err := service.ListArchives(
 		service.WithListArchivesQueries([]string{"example"}),
+		service.WithListArchivesTotal(false),
 	)
 	fmt.Println(response, err)
 }

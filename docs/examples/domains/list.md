@@ -20,6 +20,7 @@ func main() {
 	response, err := service.List(
 		service.WithListQueries([]string{"example"}),
 		service.WithListSearch("<SEARCH>"),
+		service.WithListTotal(false),
 	)
 	fmt.Println(response, err)
 }

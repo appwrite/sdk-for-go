@@ -32,6 +32,7 @@ func main() {
 		service.WithCreateEmailScheduledAt("2020-10-15T06:38:00.000+00:00"),
 		service.WithCreateEmailReplyToEmail("email@example.com"),
 		service.WithCreateEmailReplyToName("<REPLY_TO_NAME>"),
+		service.WithCreateEmailEmails([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

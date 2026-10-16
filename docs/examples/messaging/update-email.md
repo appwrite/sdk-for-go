@@ -32,6 +32,7 @@ func main() {
 		service.WithUpdateEmailAttachments([]string{"example"}),
 		service.WithUpdateEmailReplyToEmail("email@example.com"),
 		service.WithUpdateEmailReplyToName("<REPLY_TO_NAME>"),
+		service.WithUpdateEmailEmails([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }
