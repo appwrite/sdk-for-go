@@ -1,9 +1,8 @@
 # Appwrite Go SDK
 
-![License](https://img.shields.io/github/license/appwrite/sdk-for-go.svg?style=flat-square)
+![License](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg?style=flat-square)
 ![Version](https://img.shields.io/badge/api%20version-2.5.0-blue.svg?style=flat-square)
-[![Build Status](https://img.shields.io/travis/com/appwrite/sdk-generator?style=flat-square)](https://travis-ci.com/appwrite/sdk-generator)
-[![Twitter Account](https://img.shields.io/twitter/follow/appwrite?color=00acee&label=twitter&style=flat-square)](https://twitter.com/appwrite)
+[![X Account](https://img.shields.io/badge/follow-%40appwrite-000000?logo=x&style=flat-square)](https://x.com/appwrite)
 [![Discord](https://img.shields.io/discord/564160730845151244?label=discord&style=flat-square)](https://appwrite.io/discord)
 
 **This SDK targets Appwrite server version 2.5.x as shipped on Appwrite Cloud.** Self-hosted releases can lag behind Cloud — if you run an older self-hosted build, use a matching older SDK from [previous releases](https://github.com/appwrite/sdk-for-go/releases) when APIs differ.
@@ -14,89 +13,116 @@ Appwrite is an open-source backend as a service server that abstracts and simpli
 
 ## Installation
 
-Initialize your go module if you haven't already:
-
-```bash
-go mod init <YOUR_MODULE_NAME>
-```
-
-To install using `go get`:
+Add the SDK to your Go module:
 
 ```bash
 go get github.com/appwrite/sdk-for-go/v7
 ```
 
-## Testing the SDK
+If you don't have a module yet, create one first with `go mod init <YOUR_MODULE_NAME>`.
 
-* Clone this repo.
-* Create a project and within this project a collection.
-* Configure the documents in the collection to have a attribute `key` = `hello`.
-* Then inject these environment variables:
+## Getting Started
 
-  ```bash
-  export YOUR_ENDPOINT=https://<REGION>.cloud.appwrite.io/v1
-  export YOUR_PROJECT_ID=616a09..0180
-  export YOUR_KEY=7055781..cd95
-  export DATABASE_ID=616a09..0180
-  export COLLECTION_ID=616a09..20180
-  ```
+### Init your SDK
 
-* Create `main.go` file with:
+Create a client with your Appwrite API endpoint, project ID and an API key. You can find the project ID in your project settings, and create an API key with the scopes you need in your project's API keys section.
 
-	```go
-	package main
+```go
+client := appwrite.NewClient(
+	appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+	appwrite.WithProject("<YOUR_PROJECT_ID>"),
+	appwrite.WithKey("<YOUR_API_KEY>"),
+)
+```
 
-	import (
-		"log"
-		"os"
-		"time"
+If you self-host Appwrite, use your own endpoint, such as `https://<HOSTNAME_OR_IP>/v1`. Add `appwrite.WithSelfSigned(true)` only in development, when your server uses a self-signed certificate.
 
-		"github.com/appwrite/sdk-for-go/v7/appwrite"
-		"github.com/appwrite/sdk-for-go/v7/id"
+### Make your first request
+
+Create a service from the client and call any of its methods. Required parameters are positional; optional parameters are passed with the service's `With<Method><Param>` options.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/id"
+)
+
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
-	func main() {
-		client := appwrite.NewClient(
-			appwrite.WithEndpoint(os.Getenv("YOUR_ENDPOINT")),
-			appwrite.WithProject(os.Getenv("YOUR_PROJECT_ID")),
-			appwrite.WithKey(os.Getenv("YOUR_KEY")),
-		)
+	users := appwrite.NewUsers(client)
 
-		databases := appwrite.NewDatabases(client)
-
-		data := map[string]interface{}{
-			"hello": "world",
-		}
-		doc, err := databases.CreateDocument(
-			os.Getenv("DATABASE_ID"),
-			os.Getenv("COLLECTION_ID"),
-			id.Unique(),
-			data,
-		)
-		if err != nil {
-			log.Printf("Error creating document: %v", err)
-		}
-
-		log.Printf("Created document: %v", doc)
+	user, err := users.Create(
+		id.Unique(),
+		users.WithCreateEmail("email@example.com"),
+		users.WithCreatePassword("password"),
+		users.WithCreateName("Walter O'Brien"),
+	)
+	if err != nil {
+		log.Fatal(err)
 	}
-	```
 
-* After that, run the following
+	fmt.Println(user.Id, user.Name, user.Email)
+}
+```
 
-  ```bash
-  go run main.go
-  ```
+### Error handling
 
-* You should see the following output:
+Failed requests return a `*client.AppwriteError` with the HTTP status code, the error message and the raw response body. Use `errors.As` to read them.
 
-  ```bash
-  2021/10/16 03:41:17 Created document: map[$collection:616a095b20180 $id:616a2dbd4df16 $permissions:map[read:[] write:[]] hello:world]
-  ```
+```go
+package main
 
+import (
+	"errors"
+	"fmt"
+	"log"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/id"
+)
+
+func main() {
+	users := appwrite.NewUsers(appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	))
+
+	user, err := users.Create(id.Unique(), users.WithCreateEmail("email@example.com"))
+	if err != nil {
+		var appwriteError *client.AppwriteError
+		if errors.As(err, &appwriteError) {
+			log.Fatalf("Appwrite error %d: %s", appwriteError.GetStatusCode(), appwriteError.GetMessage())
+		}
+		log.Fatal(err)
+	}
+
+	fmt.Println(user.Name)
+}
+```
+
+### Learn more
+
+- [Go quick start](https://appwrite.io/docs/quick-starts/go)
+- [Go API reference](https://appwrite.io/docs/references/cloud/server-go)
+- [Package documentation](https://pkg.go.dev/github.com/appwrite/sdk-for-go/v7)
+- [Appwrite docs](https://appwrite.io/docs)
+- [Discord community](https://appwrite.io/discord)
 
 ## Contribution
 
-This library is auto-generated by Appwrite custom [SDK Generator](https://github.com/appwrite/sdk-generator). To learn more about how you can help us improve this SDK, please check the [contribution guide](https://github.com/appwrite/sdk-generator/blob/master/CONTRIBUTING.md) before sending a pull-request.
+This library is auto-generated by Appwrite custom [SDK Generator](https://github.com/appwrite/sdk-generator). To learn more about how you can help us improve this SDK, please check the [contribution guide](https://github.com/appwrite/sdk-generator/blob/main/CONTRIBUTING.md) before sending a pull-request.
 
 ## License
 
