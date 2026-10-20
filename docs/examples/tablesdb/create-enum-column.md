@@ -25,6 +25,7 @@ func main() {
 		false,
 		service.WithCreateEnumColumnDefault("active"),
 		service.WithCreateEnumColumnArray(false),
+		service.WithCreateEnumColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

@@ -19,6 +19,7 @@ func main() {
 
 	response, err := service.UpdatePasswordDictionaryPolicy(
 		false,
+		service.WithUpdatePasswordDictionaryPolicyDenyList([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

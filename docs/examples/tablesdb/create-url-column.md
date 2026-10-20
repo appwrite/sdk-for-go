@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithCreateUrlColumnDefault("https://example.com"),
 		service.WithCreateUrlColumnArray(false),
+		service.WithCreateUrlColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

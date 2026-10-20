@@ -23,6 +23,7 @@ func main() {
 		"<KEY>",
 		false,
 		service.WithCreatePolygonColumnDefault([][]interface{}{[]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}, []interface{}{1, 2}}}),
+		service.WithCreatePolygonColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

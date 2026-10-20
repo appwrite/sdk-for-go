@@ -23,6 +23,7 @@ func main() {
 		"<KEY>",
 		false,
 		service.WithCreatePolygonAttributeDefault([][]interface{}{[]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}, []interface{}{1, 2}}}),
+		service.WithCreatePolygonAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

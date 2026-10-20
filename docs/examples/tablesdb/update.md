@@ -21,6 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		service.WithUpdateName("<NAME>"),
 		service.WithUpdateEnabled(false),
+		service.WithUpdateDescription("<DESCRIPTION>"),
 		service.WithUpdateSpecification("serverless"),
 		service.WithUpdateReplicas(0),
 		service.WithUpdateSyncMode("async"),

@@ -24,6 +24,7 @@ func main() {
 		false,
 		false,
 		service.WithUpdateBooleanAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdateBooleanAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

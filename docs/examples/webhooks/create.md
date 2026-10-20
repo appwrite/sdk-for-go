@@ -27,6 +27,7 @@ func main() {
 		service.WithCreateAuthUsername("<AUTH_USERNAME>"),
 		service.WithCreateAuthPassword("password"),
 		service.WithCreateSecret("<SECRET>"),
+		service.WithCreateDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

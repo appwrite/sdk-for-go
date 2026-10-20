@@ -11,6 +11,8 @@ type PolicyPasswordPersonalData struct {
 	Id string `json:"$id"`
 	// Whether password personal data policy is enabled.
 	Enabled bool `json:"enabled"`
+	// Custom terms blocked by case-insensitive substring matching when enabled.
+	DenyList []string `json:"denyList"`
 
 	// Used by Decode() method
 	data []byte
@@ -31,8 +33,9 @@ func (model *PolicyPasswordPersonalData) UnmarshalJSON(data []byte) error {
 	}
 
 	var present struct {
-		Id      json.RawMessage `json:"$id"`
-		Enabled json.RawMessage `json:"enabled"`
+		Id       json.RawMessage `json:"$id"`
+		Enabled  json.RawMessage `json:"enabled"`
+		DenyList json.RawMessage `json:"denyList"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -44,6 +47,11 @@ func (model *PolicyPasswordPersonalData) UnmarshalJSON(data []byte) error {
 	}
 	if present.Enabled == nil {
 		if err := json.Unmarshal([]byte("false"), &decoded.Enabled); err != nil {
+			return err
+		}
+	}
+	if present.DenyList == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.DenyList); err != nil {
 			return err
 		}
 	}

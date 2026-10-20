@@ -26,6 +26,7 @@ func main() {
 		service.WithUpdateBigIntAttributeMin(0),
 		service.WithUpdateBigIntAttributeMax(1000000),
 		service.WithUpdateBigIntAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdateBigIntAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

@@ -23,6 +23,7 @@ func main() {
 		service.WithUpdateVariableKey("<KEY>"),
 		service.WithUpdateVariableValue("<VALUE>"),
 		service.WithUpdateVariableSecret(false),
+		service.WithUpdateVariableDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

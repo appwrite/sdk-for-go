@@ -26,6 +26,7 @@ func main() {
 		service.WithUpdateBigIntColumnMin(0),
 		service.WithUpdateBigIntColumnMax(1000000),
 		service.WithUpdateBigIntColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateBigIntColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

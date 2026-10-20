@@ -7,7 +7,7 @@ import (
 )
 
 func TestVariableModel(t *testing.T) {
-	model := Variable{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "API_KEY", Value: "myPa$$word1", Secret: true, ResourceType: "function", ResourceId: "myAwesomeFunction"}
+	model := Variable{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "API_KEY", Description: "Stripe secret key used at checkout.", Value: "myPa$$word1", Secret: true, ResourceType: "function", ResourceId: "myAwesomeFunction"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -30,6 +30,9 @@ func TestVariableModel(t *testing.T) {
 	}
 	if result.Key != model.Key {
 		t.Errorf("Expected Key %v, got %v", model.Key, result.Key)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.Value != model.Value {
 		t.Errorf("Expected Value %v, got %v", model.Value, result.Value)
@@ -119,6 +122,22 @@ func TestVariableModelDefaults(t *testing.T) {
 		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
 			t.Fatal(err)
 		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
 		encoded, err := json.Marshal(fresh.Value)
 		if err != nil {
 			t.Fatal(err)
@@ -179,7 +198,7 @@ func TestVariableModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := Variable{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "API_KEY", Value: "myPa$$word1", Secret: true, ResourceType: "function", ResourceId: "myAwesomeFunction"}
+	reused := Variable{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "API_KEY", Description: "Stripe secret key used at checkout.", Value: "myPa$$word1", Secret: true, ResourceType: "function", ResourceId: "myAwesomeFunction"}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

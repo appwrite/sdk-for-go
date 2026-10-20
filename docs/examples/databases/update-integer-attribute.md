@@ -26,6 +26,7 @@ func main() {
 		service.WithUpdateIntegerAttributeMin(0),
 		service.WithUpdateIntegerAttributeMax(100),
 		service.WithUpdateIntegerAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdateIntegerAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

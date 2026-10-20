@@ -7,7 +7,7 @@ import (
 )
 
 func TestKeyListModel(t *testing.T) {
-	model := KeyList{Total: 5, Keys: []Key{Key{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My API Key", Expire: "2020-10-15T06:38:00.000+00:00", Scopes: []string{"test"}, Secret: "919c2d18fb5d4...a2ae413da83346ad2", AccessedAt: "2020-10-15T06:38:00.000+00:00", Sdks: []string{"test"}}}}
+	model := KeyList{Total: 5, Keys: []Key{Key{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My API Key", Description: "Used by the nightly backup job.", Expire: "2020-10-15T06:38:00.000+00:00", Scopes: []string{"test"}, Secret: "919c2d18fb5d4...a2ae413da83346ad2", AccessedAt: "2020-10-15T06:38:00.000+00:00", Sdks: []string{"test"}}}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -46,7 +46,7 @@ func TestKeyListModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := KeyList{Total: 5, Keys: []Key{Key{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My API Key", Expire: "2020-10-15T06:38:00.000+00:00", Scopes: []string{"test"}, Secret: "919c2d18fb5d4...a2ae413da83346ad2", AccessedAt: "2020-10-15T06:38:00.000+00:00", Sdks: []string{"test"}}}}
+	reused := KeyList{Total: 5, Keys: []Key{Key{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My API Key", Description: "Used by the nightly backup job.", Expire: "2020-10-15T06:38:00.000+00:00", Scopes: []string{"test"}, Secret: "919c2d18fb5d4...a2ae413da83346ad2", AccessedAt: "2020-10-15T06:38:00.000+00:00", Sdks: []string{"test"}}}}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

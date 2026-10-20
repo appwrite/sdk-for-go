@@ -15,6 +15,8 @@ type Site struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// Site name.
 	Name string `json:"name"`
+	// Optional description for the site.
+	Description string `json:"description"`
 	// Site enabled.
 	Enabled bool `json:"enabled"`
 	// Is the site deployed with the latest configuration? This is set to false if
@@ -112,6 +114,7 @@ func (model *Site) UnmarshalJSON(data []byte) error {
 		CreatedAt                 json.RawMessage `json:"$createdAt"`
 		UpdatedAt                 json.RawMessage `json:"$updatedAt"`
 		Name                      json.RawMessage `json:"name"`
+		Description               json.RawMessage `json:"description"`
 		Enabled                   json.RawMessage `json:"enabled"`
 		Live                      json.RawMessage `json:"live"`
 		Logging                   json.RawMessage `json:"logging"`
@@ -161,6 +164,11 @@ func (model *Site) UnmarshalJSON(data []byte) error {
 	}
 	if present.Name == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

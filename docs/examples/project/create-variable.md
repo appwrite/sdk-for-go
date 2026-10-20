@@ -22,6 +22,7 @@ func main() {
 		"<KEY>",
 		"<VALUE>",
 		service.WithCreateVariableSecret(false),
+		service.WithCreateVariableDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

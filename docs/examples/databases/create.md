@@ -21,6 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<NAME>",
 		service.WithCreateEnabled(false),
+		service.WithCreateDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

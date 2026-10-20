@@ -23,6 +23,7 @@ func main() {
 		"<KEY>",
 		false,
 		service.WithCreatePointAttributeDefault([]float64{1, 2}),
+		service.WithCreatePointAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

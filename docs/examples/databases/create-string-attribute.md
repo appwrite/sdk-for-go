@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateStringAttributeDefault("Hello World"),
 		service.WithCreateStringAttributeArray(false),
 		service.WithCreateStringAttributeEncrypt(false),
+		service.WithCreateStringAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

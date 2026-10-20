@@ -7,7 +7,7 @@ import (
 )
 
 func TestVectorsdbCollectionListModel(t *testing.T) {
-	model := VectorsdbCollectionList{Total: 5, Collections: []VectorsdbCollection{VectorsdbCollection{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Collection", Enabled: true, DocumentSecurity: true, Attributes: []map[string]any{}, Indexes: []Index{Index{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Type: "primary", Status: "available", Error: "string", Attributes: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500, Dimension: 1536}}}
+	model := VectorsdbCollectionList{Total: 5, Collections: []VectorsdbCollection{VectorsdbCollection{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Collection", Description: "Movies available in the catalog.", Enabled: true, DocumentSecurity: true, Attributes: []map[string]any{}, Indexes: []Index{Index{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Description: "Speeds up lookups by email.", Type: "primary", Status: "available", Error: "string", Attributes: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500, Dimension: 1536}}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -46,7 +46,7 @@ func TestVectorsdbCollectionListModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := VectorsdbCollectionList{Total: 5, Collections: []VectorsdbCollection{VectorsdbCollection{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Collection", Enabled: true, DocumentSecurity: true, Attributes: []map[string]any{}, Indexes: []Index{Index{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Type: "primary", Status: "available", Error: "string", Attributes: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500, Dimension: 1536}}}
+	reused := VectorsdbCollectionList{Total: 5, Collections: []VectorsdbCollection{VectorsdbCollection{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Collection", Description: "Movies available in the catalog.", Enabled: true, DocumentSecurity: true, Attributes: []map[string]any{}, Indexes: []Index{Index{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Description: "Speeds up lookups by email.", Type: "primary", Status: "available", Error: "string", Attributes: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500, Dimension: 1536}}}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

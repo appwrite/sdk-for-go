@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithUpdateLineColumnDefault([][]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}}),
 		service.WithUpdateLineColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateLineColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

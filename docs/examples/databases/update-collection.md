@@ -25,6 +25,7 @@ func main() {
 		service.WithUpdateCollectionDocumentSecurity(false),
 		service.WithUpdateCollectionEnabled(false),
 		service.WithUpdateCollectionPurge(false),
+		service.WithUpdateCollectionDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

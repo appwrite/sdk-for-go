@@ -20,6 +20,8 @@ type Table struct {
 	DatabaseId string `json:"databaseId"`
 	// Table name.
 	Name string `json:"name"`
+	// Optional description for the table.
+	Description string `json:"description"`
 	// Table enabled. Can be 'enabled' or 'disabled'. When disabled, the table is
 	// inaccessible to users, but remains accessible to Server SDKs using API
 	// keys.
@@ -60,6 +62,7 @@ func (model *Table) UnmarshalJSON(data []byte) error {
 		UpdatedAt   json.RawMessage `json:"$updatedAt"`
 		DatabaseId  json.RawMessage `json:"databaseId"`
 		Name        json.RawMessage `json:"name"`
+		Description json.RawMessage `json:"description"`
 		Enabled     json.RawMessage `json:"enabled"`
 		RowSecurity json.RawMessage `json:"rowSecurity"`
 		BytesMax    json.RawMessage `json:"bytesMax"`
@@ -90,6 +93,11 @@ func (model *Table) UnmarshalJSON(data []byte) error {
 	}
 	if present.Name == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

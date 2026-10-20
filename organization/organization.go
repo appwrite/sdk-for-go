@@ -1190,11 +1190,12 @@ func (srv *Organization) GetProjectKey(ProjectId string, KeyId string) (*models.
 
 type UpdateProjectKeyOptions struct {
 	Expire         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateProjectKeyOptions) New() *UpdateProjectKeyOptions {
-	options.enabledSetters = map[string]bool{"Expire": false}
+	options.enabledSetters = map[string]bool{"Expire": false, "Description": false}
 	return &options
 }
 
@@ -1204,6 +1205,12 @@ func (srv *Organization) WithUpdateProjectKeyExpire(v string) UpdateProjectKeyOp
 	return func(o *UpdateProjectKeyOptions) {
 		o.Expire = v
 		o.enabledSetters["Expire"] = true
+	}
+}
+func (srv *Organization) WithUpdateProjectKeyDescription(v string) UpdateProjectKeyOption {
+	return func(o *UpdateProjectKeyOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -1228,6 +1235,9 @@ func (srv *Organization) UpdateProjectKey(ProjectId string, KeyId string, Name s
 	params["scopes"] = Scopes
 	if options.enabledSetters["Expire"] {
 		params["expire"] = options.Expire
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

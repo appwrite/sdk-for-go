@@ -24,6 +24,7 @@ func main() {
 		false,
 		"2020-10-15T06:38:00.000+00:00",
 		service.WithUpdateDatetimeAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdateDatetimeAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

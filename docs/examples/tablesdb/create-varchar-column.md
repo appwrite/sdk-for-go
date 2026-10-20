@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateVarcharColumnDefault("Hello World"),
 		service.WithCreateVarcharColumnArray(false),
 		service.WithCreateVarcharColumnEncrypt(false),
+		service.WithCreateVarcharColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

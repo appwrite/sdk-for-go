@@ -25,6 +25,7 @@ func main() {
 		false,
 		service.WithCreateEnumAttributeDefault("active"),
 		service.WithCreateEnumAttributeArray(false),
+		service.WithCreateEnumAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

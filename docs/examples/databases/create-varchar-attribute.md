@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateVarcharAttributeDefault("Hello World"),
 		service.WithCreateVarcharAttributeArray(false),
 		service.WithCreateVarcharAttributeEncrypt(false),
+		service.WithCreateVarcharAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

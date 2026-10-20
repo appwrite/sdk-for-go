@@ -15,6 +15,8 @@ type EphemeralKey struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// Key name.
 	Name string `json:"name"`
+	// Optional description for the key.
+	Description string `json:"description"`
 	// Key expiration date in ISO 8601 format.
 	Expire string `json:"expire"`
 	// Allowed permission scopes.
@@ -46,14 +48,15 @@ func (model *EphemeralKey) UnmarshalJSON(data []byte) error {
 	}
 
 	var present struct {
-		Id         json.RawMessage `json:"$id"`
-		CreatedAt  json.RawMessage `json:"$createdAt"`
-		UpdatedAt  json.RawMessage `json:"$updatedAt"`
-		Name       json.RawMessage `json:"name"`
-		Expire     json.RawMessage `json:"expire"`
-		Scopes     json.RawMessage `json:"scopes"`
-		Secret     json.RawMessage `json:"secret"`
-		AccessedAt json.RawMessage `json:"accessedAt"`
+		Id          json.RawMessage `json:"$id"`
+		CreatedAt   json.RawMessage `json:"$createdAt"`
+		UpdatedAt   json.RawMessage `json:"$updatedAt"`
+		Name        json.RawMessage `json:"name"`
+		Description json.RawMessage `json:"description"`
+		Expire      json.RawMessage `json:"expire"`
+		Scopes      json.RawMessage `json:"scopes"`
+		Secret      json.RawMessage `json:"secret"`
+		AccessedAt  json.RawMessage `json:"accessedAt"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -75,6 +78,11 @@ func (model *EphemeralKey) UnmarshalJSON(data []byte) error {
 	}
 	if present.Name == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateIntegerColumnMax(100),
 		service.WithCreateIntegerColumnDefault(10),
 		service.WithCreateIntegerColumnArray(false),
+		service.WithCreateIntegerColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

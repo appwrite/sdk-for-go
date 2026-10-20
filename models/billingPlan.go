@@ -151,6 +151,8 @@ type BillingPlan struct {
 	// Shortest function schedule interval allowed, in minutes. 0 allows every
 	// interval.
 	FunctionsIntervalMinimum int `json:"functionsIntervalMinimum"`
+	// Does the plan allow cron function schedules or only intervals.
+	FunctionsAllowCron bool `json:"functionsAllowCron"`
 	// Does the plan support encrypted string attributes or not.
 	DatabasesAllowEncrypt bool `json:"databasesAllowEncrypt"`
 	// Plan specific limits
@@ -243,6 +245,7 @@ func (model *BillingPlan) UnmarshalJSON(data []byte) error {
 		DeploymentSize                    json.RawMessage `json:"deploymentSize"`
 		BuildSize                         json.RawMessage `json:"buildSize"`
 		FunctionsIntervalMinimum          json.RawMessage `json:"functionsIntervalMinimum"`
+		FunctionsAllowCron                json.RawMessage `json:"functionsAllowCron"`
 		DatabasesAllowEncrypt             json.RawMessage `json:"databasesAllowEncrypt"`
 		DatabaseComputeCredit             json.RawMessage `json:"databaseComputeCredit"`
 	}
@@ -541,6 +544,11 @@ func (model *BillingPlan) UnmarshalJSON(data []byte) error {
 	}
 	if present.FunctionsIntervalMinimum == nil {
 		if err := json.Unmarshal([]byte("0"), &decoded.FunctionsIntervalMinimum); err != nil {
+			return err
+		}
+	}
+	if present.FunctionsAllowCron == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.FunctionsAllowCron); err != nil {
 			return err
 		}
 	}

@@ -26,6 +26,7 @@ func main() {
 		service.WithUpdateTls(false),
 		service.WithUpdateAuthUsername("<AUTH_USERNAME>"),
 		service.WithUpdateAuthPassword("password"),
+		service.WithUpdateDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

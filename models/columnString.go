@@ -9,6 +9,8 @@ import (
 type ColumnString struct {
 	// Column Key.
 	Key string `json:"key"`
+	// Optional description for the column.
+	Description string `json:"description"`
 	// Column type.
 	Type string `json:"type"`
 	// Column status. Possible values: `available`, `processing`, `deleting`,
@@ -52,19 +54,25 @@ func (model *ColumnString) UnmarshalJSON(data []byte) error {
 	}
 
 	var present struct {
-		Key       json.RawMessage `json:"key"`
-		Type      json.RawMessage `json:"type"`
-		Error     json.RawMessage `json:"error"`
-		Required  json.RawMessage `json:"required"`
-		CreatedAt json.RawMessage `json:"$createdAt"`
-		UpdatedAt json.RawMessage `json:"$updatedAt"`
-		Size      json.RawMessage `json:"size"`
+		Key         json.RawMessage `json:"key"`
+		Description json.RawMessage `json:"description"`
+		Type        json.RawMessage `json:"type"`
+		Error       json.RawMessage `json:"error"`
+		Required    json.RawMessage `json:"required"`
+		CreatedAt   json.RawMessage `json:"$createdAt"`
+		UpdatedAt   json.RawMessage `json:"$updatedAt"`
+		Size        json.RawMessage `json:"size"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
 	}
 	if present.Key == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Key); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

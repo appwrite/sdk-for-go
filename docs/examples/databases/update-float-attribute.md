@@ -26,6 +26,7 @@ func main() {
 		service.WithUpdateFloatAttributeMin(0),
 		service.WithUpdateFloatAttributeMax(100),
 		service.WithUpdateFloatAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdateFloatAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

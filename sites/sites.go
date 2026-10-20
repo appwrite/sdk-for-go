@@ -126,11 +126,12 @@ type CreateOptions struct {
 	RuntimeSpecification  string
 	DeploymentRetention   int
 	Scopes                []string
+	Description           string
 	enabledSetters        map[string]bool
 }
 
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{"Enabled": false, "Logging": false, "Timeout": false, "InstallCommand": false, "BuildCommand": false, "StartCommand": false, "OutputDirectory": false, "Adapter": false, "InstallationId": false, "FallbackFile": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Scopes": false}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Logging": false, "Timeout": false, "InstallCommand": false, "BuildCommand": false, "StartCommand": false, "OutputDirectory": false, "Adapter": false, "InstallationId": false, "FallbackFile": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Scopes": false, "Description": false}
 	return &options
 }
 
@@ -256,6 +257,12 @@ func (srv *Sites) WithCreateScopes(v []string) CreateOption {
 		o.enabledSetters["Scopes"] = true
 	}
 }
+func (srv *Sites) WithCreateDescription(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
 
 // Create create a new site.
 func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRuntime string, optionalSetters ...CreateOption) (*models.Site, error) {
@@ -328,6 +335,9 @@ func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRunt
 	}
 	if options.enabledSetters["Scopes"] {
 		params["scopes"] = options.Scopes
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -560,11 +570,12 @@ type UpdateOptions struct {
 	RuntimeSpecification  string
 	DeploymentRetention   int
 	Scopes                []string
+	Description           string
 	enabledSetters        map[string]bool
 }
 
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{"Enabled": false, "Logging": false, "Timeout": false, "InstallCommand": false, "BuildCommand": false, "StartCommand": false, "OutputDirectory": false, "BuildRuntime": false, "Adapter": false, "FallbackFile": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Scopes": false}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Logging": false, "Timeout": false, "InstallCommand": false, "BuildCommand": false, "StartCommand": false, "OutputDirectory": false, "BuildRuntime": false, "Adapter": false, "FallbackFile": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Scopes": false, "Description": false}
 	return &options
 }
 
@@ -696,6 +707,12 @@ func (srv *Sites) WithUpdateScopes(v []string) UpdateOption {
 		o.enabledSetters["Scopes"] = true
 	}
 }
+func (srv *Sites) WithUpdateDescription(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
 
 // Update update site by its unique ID.
 func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalSetters ...UpdateOption) (*models.Site, error) {
@@ -774,6 +791,9 @@ func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalS
 	}
 	if options.enabledSetters["Scopes"] {
 		params["scopes"] = options.Scopes
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1780,11 +1800,12 @@ func (srv *Sites) ListVariables(SiteId string, optionalSetters ...ListVariablesO
 
 type CreateVariableOptions struct {
 	Secret         bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateVariableOptions) New() *CreateVariableOptions {
-	options.enabledSetters = map[string]bool{"Secret": false}
+	options.enabledSetters = map[string]bool{"Secret": false, "Description": false}
 	return &options
 }
 
@@ -1794,6 +1815,12 @@ func (srv *Sites) WithCreateVariableSecret(v bool) CreateVariableOption {
 	return func(o *CreateVariableOptions) {
 		o.Secret = v
 		o.enabledSetters["Secret"] = true
+	}
+}
+func (srv *Sites) WithCreateVariableDescription(v string) CreateVariableOption {
+	return func(o *CreateVariableOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -1816,6 +1843,9 @@ func (srv *Sites) CreateVariable(SiteId string, VariableId string, Key string, V
 	params["value"] = Value
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1898,11 +1928,12 @@ type UpdateVariableOptions struct {
 	Key            string
 	Value          string
 	Secret         bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateVariableOptions) New() *UpdateVariableOptions {
-	options.enabledSetters = map[string]bool{"Key": false, "Value": false, "Secret": false}
+	options.enabledSetters = map[string]bool{"Key": false, "Value": false, "Secret": false, "Description": false}
 	return &options
 }
 
@@ -1924,6 +1955,12 @@ func (srv *Sites) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 	return func(o *UpdateVariableOptions) {
 		o.Secret = v
 		o.enabledSetters["Secret"] = true
+	}
+}
+func (srv *Sites) WithUpdateVariableDescription(v string) UpdateVariableOption {
+	return func(o *UpdateVariableOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -1951,6 +1988,9 @@ func (srv *Sites) UpdateVariable(SiteId string, VariableId string, optionalSette
 	}
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

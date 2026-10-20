@@ -7,7 +7,7 @@ import (
 )
 
 func TestEphemeralKeyModel(t *testing.T) {
-	model := EphemeralKey{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My API Key", Expire: "2020-10-15T06:38:00.000+00:00", Scopes: []string{"test"}, Secret: "919c2d18fb5d4...a2ae413da83346ad2", AccessedAt: "2020-10-15T06:38:00.000+00:00", Sdks: []string{"test"}}
+	model := EphemeralKey{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My API Key", Description: "Used by the nightly backup job.", Expire: "2020-10-15T06:38:00.000+00:00", Scopes: []string{"test"}, Secret: "919c2d18fb5d4...a2ae413da83346ad2", AccessedAt: "2020-10-15T06:38:00.000+00:00", Sdks: []string{"test"}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -30,6 +30,9 @@ func TestEphemeralKeyModel(t *testing.T) {
 	}
 	if result.Name != model.Name {
 		t.Errorf("Expected Name %v, got %v", model.Name, result.Name)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.Expire != model.Expire {
 		t.Errorf("Expected Expire %v, got %v", model.Expire, result.Expire)
@@ -116,6 +119,22 @@ func TestEphemeralKeyModelDefaults(t *testing.T) {
 		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
 			t.Fatal(err)
 		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
 		encoded, err := json.Marshal(fresh.Expire)
 		if err != nil {
 			t.Fatal(err)
@@ -176,7 +195,7 @@ func TestEphemeralKeyModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := EphemeralKey{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My API Key", Expire: "2020-10-15T06:38:00.000+00:00", Scopes: []string{"test"}, Secret: "919c2d18fb5d4...a2ae413da83346ad2", AccessedAt: "2020-10-15T06:38:00.000+00:00", Sdks: []string{"test"}}
+	reused := EphemeralKey{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My API Key", Description: "Used by the nightly backup job.", Expire: "2020-10-15T06:38:00.000+00:00", Scopes: []string{"test"}, Secret: "919c2d18fb5d4...a2ae413da83346ad2", AccessedAt: "2020-10-15T06:38:00.000+00:00", Sdks: []string{"test"}}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

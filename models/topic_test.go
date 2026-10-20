@@ -7,7 +7,7 @@ import (
 )
 
 func TestTopicModel(t *testing.T) {
-	model := Topic{Id: "259125845563242502", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "events", EmailTotal: 100, SmsTotal: 100, PushTotal: 100, Subscribe: []string{"test"}}
+	model := Topic{Id: "259125845563242502", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "events", Description: "Order status updates sent to customers.", EmailTotal: 100, SmsTotal: 100, PushTotal: 100, Subscribe: []string{"test"}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -30,6 +30,9 @@ func TestTopicModel(t *testing.T) {
 	}
 	if result.Name != model.Name {
 		t.Errorf("Expected Name %v, got %v", model.Name, result.Name)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.EmailTotal != model.EmailTotal {
 		t.Errorf("Expected EmailTotal %v, got %v", model.EmailTotal, result.EmailTotal)
@@ -113,6 +116,22 @@ func TestTopicModelDefaults(t *testing.T) {
 	}
 	{
 		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
 		if err := json.Unmarshal([]byte("0"), &want); err != nil {
 			t.Fatal(err)
 		}
@@ -176,7 +195,7 @@ func TestTopicModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := Topic{Id: "259125845563242502", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "events", EmailTotal: 100, SmsTotal: 100, PushTotal: 100, Subscribe: []string{"test"}}
+	reused := Topic{Id: "259125845563242502", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "events", Description: "Order status updates sent to customers.", EmailTotal: 100, SmsTotal: 100, PushTotal: 100, Subscribe: []string{"test"}}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

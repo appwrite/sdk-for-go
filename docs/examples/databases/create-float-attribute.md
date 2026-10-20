@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateFloatAttributeMax(100),
 		service.WithCreateFloatAttributeDefault(10.5),
 		service.WithCreateFloatAttributeArray(false),
+		service.WithCreateFloatAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

@@ -11,6 +11,8 @@ type Database struct {
 	Id string `json:"$id"`
 	// Database name.
 	Name string `json:"name"`
+	// Optional description for the database.
+	Description string `json:"description"`
 	// Database creation date in ISO 8601 format.
 	CreatedAt string `json:"$createdAt"`
 	// Database update date in ISO 8601 format.
@@ -70,12 +72,13 @@ func (model *Database) UnmarshalJSON(data []byte) error {
 	}
 
 	var present struct {
-		Id        json.RawMessage `json:"$id"`
-		Name      json.RawMessage `json:"name"`
-		CreatedAt json.RawMessage `json:"$createdAt"`
-		UpdatedAt json.RawMessage `json:"$updatedAt"`
-		Enabled   json.RawMessage `json:"enabled"`
-		Type      json.RawMessage `json:"type"`
+		Id          json.RawMessage `json:"$id"`
+		Name        json.RawMessage `json:"name"`
+		Description json.RawMessage `json:"description"`
+		CreatedAt   json.RawMessage `json:"$createdAt"`
+		UpdatedAt   json.RawMessage `json:"$updatedAt"`
+		Enabled     json.RawMessage `json:"enabled"`
+		Type        json.RawMessage `json:"type"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -87,6 +90,11 @@ func (model *Database) UnmarshalJSON(data []byte) error {
 	}
 	if present.Name == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

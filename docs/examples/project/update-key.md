@@ -22,6 +22,7 @@ func main() {
 		"<NAME>",
 		[]string{"users.read"},
 		service.WithUpdateKeyExpire("2020-10-15T06:38:00.000+00:00"),
+		service.WithUpdateKeyDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

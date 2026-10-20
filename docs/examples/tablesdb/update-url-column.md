@@ -24,6 +24,7 @@ func main() {
 		false,
 		"https://example.com",
 		service.WithUpdateUrlColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateUrlColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

@@ -25,6 +25,7 @@ func main() {
 		service.WithUpdateTableRowSecurity(false),
 		service.WithUpdateTableEnabled(false),
 		service.WithUpdateTablePurge(false),
+		service.WithUpdateTableDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

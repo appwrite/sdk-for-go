@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateCollectionEnabled(false),
 		service.WithCreateCollectionAttributes([]interface{}{}),
 		service.WithCreateCollectionIndexes([]interface{}{}),
+		service.WithCreateCollectionDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

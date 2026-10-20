@@ -23,6 +23,7 @@ func main() {
 		"<KEY>",
 		false,
 		service.WithCreatePointColumnDefault([]float64{1, 2}),
+		service.WithCreatePointColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }
