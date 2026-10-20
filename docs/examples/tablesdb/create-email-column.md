@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithCreateEmailColumnDefault("email@example.com"),
 		service.WithCreateEmailColumnArray(false),
+		service.WithCreateEmailColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

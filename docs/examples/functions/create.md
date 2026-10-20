@@ -41,6 +41,7 @@ func main() {
 		service.WithCreateRuntimeSpecification("s-1vcpu-512mb"),
 		service.WithCreateDeploymentRetention(0),
 		service.WithCreateInterval(0),
+		service.WithCreateDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

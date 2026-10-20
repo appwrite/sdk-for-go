@@ -7,7 +7,7 @@ import (
 )
 
 func TestPolicyPasswordPersonalDataModel(t *testing.T) {
-	model := PolicyPasswordPersonalData{Id: "password-dictionary", Enabled: true}
+	model := PolicyPasswordPersonalData{Id: "password-dictionary", Enabled: true, DenyList: []string{"test"}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -64,8 +64,24 @@ func TestPolicyPasswordPersonalDataModelDefaults(t *testing.T) {
 			t.Errorf("Expected missing enabled to default to %v, got %v", want, got)
 		}
 	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("[]"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.DenyList)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing denyList to default to %v, got %v", want, got)
+		}
+	}
 
-	reused := PolicyPasswordPersonalData{Id: "password-dictionary", Enabled: true}
+	reused := PolicyPasswordPersonalData{Id: "password-dictionary", Enabled: true, DenyList: []string{"test"}}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

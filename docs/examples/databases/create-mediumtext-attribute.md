@@ -25,6 +25,7 @@ func main() {
 		service.WithCreateMediumtextAttributeDefault("Hello World"),
 		service.WithCreateMediumtextAttributeArray(false),
 		service.WithCreateMediumtextAttributeEncrypt(false),
+		service.WithCreateMediumtextAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

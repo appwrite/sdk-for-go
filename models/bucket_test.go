@@ -7,7 +7,7 @@ import (
 )
 
 func TestBucketModel(t *testing.T) {
-	model := Bucket{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, FileSecurity: true, Name: "Documents", Enabled: true, MaximumFileSize: 100, AllowedFileExtensions: []string{"test"}, Compression: "gzip", Encryption: true, Antivirus: true, Transformations: true, TotalSize: 128}
+	model := Bucket{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, FileSecurity: true, Name: "Documents", Description: "Invoices and receipts uploaded by customers.", Enabled: true, MaximumFileSize: 100, AllowedFileExtensions: []string{"test"}, Compression: "gzip", Encryption: true, Antivirus: true, Transformations: true, TotalSize: 128}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -33,6 +33,9 @@ func TestBucketModel(t *testing.T) {
 	}
 	if result.Name != model.Name {
 		t.Errorf("Expected Name %v, got %v", model.Name, result.Name)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.Enabled != model.Enabled {
 		t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)
@@ -156,6 +159,22 @@ func TestBucketModelDefaults(t *testing.T) {
 		}
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("Expected missing name to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
 		}
 	}
 	{
@@ -287,7 +306,7 @@ func TestBucketModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := Bucket{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, FileSecurity: true, Name: "Documents", Enabled: true, MaximumFileSize: 100, AllowedFileExtensions: []string{"test"}, Compression: "gzip", Encryption: true, Antivirus: true, Transformations: true, TotalSize: 128}
+	reused := Bucket{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, FileSecurity: true, Name: "Documents", Description: "Invoices and receipts uploaded by customers.", Enabled: true, MaximumFileSize: 100, AllowedFileExtensions: []string{"test"}, Compression: "gzip", Encryption: true, Antivirus: true, Transformations: true, TotalSize: 128}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

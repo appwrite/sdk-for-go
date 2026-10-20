@@ -24,6 +24,7 @@ func main() {
 		false,
 		"192.0.2.0",
 		service.WithUpdateIpColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateIpColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

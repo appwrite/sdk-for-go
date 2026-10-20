@@ -24,6 +24,7 @@ func main() {
 		false,
 		"Hello World",
 		service.WithUpdateMediumtextColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateMediumtextColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

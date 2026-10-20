@@ -25,6 +25,7 @@ func main() {
 		[]string{"embeddings"},
 		service.WithCreateIndexOrders([]string{"example"}),
 		service.WithCreateIndexLengths([]int{0}),
+		service.WithCreateIndexDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

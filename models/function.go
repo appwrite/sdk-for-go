@@ -17,6 +17,8 @@ type Function struct {
 	Execute []string `json:"execute"`
 	// Function name.
 	Name string `json:"name"`
+	// Optional description for the function.
+	Description string `json:"description"`
 	// Function enabled.
 	Enabled bool `json:"enabled"`
 	// Is the function deployed with the latest configuration? This is set to
@@ -111,6 +113,7 @@ func (model *Function) UnmarshalJSON(data []byte) error {
 		UpdatedAt                 json.RawMessage `json:"$updatedAt"`
 		Execute                   json.RawMessage `json:"execute"`
 		Name                      json.RawMessage `json:"name"`
+		Description               json.RawMessage `json:"description"`
 		Enabled                   json.RawMessage `json:"enabled"`
 		Live                      json.RawMessage `json:"live"`
 		Logging                   json.RawMessage `json:"logging"`
@@ -164,6 +167,11 @@ func (model *Function) UnmarshalJSON(data []byte) error {
 	}
 	if present.Name == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

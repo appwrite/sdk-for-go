@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithUpdatePolygonAttributeDefault([][]interface{}{[]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}, []interface{}{1, 2}}}),
 		service.WithUpdatePolygonAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdatePolygonAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

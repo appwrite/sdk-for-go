@@ -15,6 +15,8 @@ type Variable struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// Variable key.
 	Key string `json:"key"`
+	// Optional description for the variable.
+	Description string `json:"description"`
 	// Variable value.
 	Value string `json:"value"`
 	// Variable secret flag. Secret variables can only be updated or deleted, but
@@ -50,6 +52,7 @@ func (model *Variable) UnmarshalJSON(data []byte) error {
 		CreatedAt    json.RawMessage `json:"$createdAt"`
 		UpdatedAt    json.RawMessage `json:"$updatedAt"`
 		Key          json.RawMessage `json:"key"`
+		Description  json.RawMessage `json:"description"`
 		Value        json.RawMessage `json:"value"`
 		Secret       json.RawMessage `json:"secret"`
 		ResourceType json.RawMessage `json:"resourceType"`
@@ -75,6 +78,11 @@ func (model *Variable) UnmarshalJSON(data []byte) error {
 	}
 	if present.Key == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Key); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

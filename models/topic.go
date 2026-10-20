@@ -15,6 +15,8 @@ type Topic struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// The name of the topic.
 	Name string `json:"name"`
+	// Optional description for the topic.
+	Description string `json:"description"`
 	// Total count of email subscribers subscribed to the topic.
 	EmailTotal int `json:"emailTotal"`
 	// Total count of SMS subscribers subscribed to the topic.
@@ -50,14 +52,15 @@ func (model *Topic) UnmarshalJSON(data []byte) error {
 	}
 
 	var present struct {
-		Id         json.RawMessage `json:"$id"`
-		CreatedAt  json.RawMessage `json:"$createdAt"`
-		UpdatedAt  json.RawMessage `json:"$updatedAt"`
-		Name       json.RawMessage `json:"name"`
-		EmailTotal json.RawMessage `json:"emailTotal"`
-		SmsTotal   json.RawMessage `json:"smsTotal"`
-		PushTotal  json.RawMessage `json:"pushTotal"`
-		Subscribe  json.RawMessage `json:"subscribe"`
+		Id          json.RawMessage `json:"$id"`
+		CreatedAt   json.RawMessage `json:"$createdAt"`
+		UpdatedAt   json.RawMessage `json:"$updatedAt"`
+		Name        json.RawMessage `json:"name"`
+		Description json.RawMessage `json:"description"`
+		EmailTotal  json.RawMessage `json:"emailTotal"`
+		SmsTotal    json.RawMessage `json:"smsTotal"`
+		PushTotal   json.RawMessage `json:"pushTotal"`
+		Subscribe   json.RawMessage `json:"subscribe"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -79,6 +82,11 @@ func (model *Topic) UnmarshalJSON(data []byte) error {
 	}
 	if present.Name == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

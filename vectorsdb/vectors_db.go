@@ -95,6 +95,7 @@ func (srv *VectorsDB) List(optionalSetters ...ListOption) (*models.DatabaseList,
 
 type CreateOptions struct {
 	Enabled        bool
+	Description    string
 	Specification  string
 	Replicas       int
 	SyncMode       string
@@ -102,7 +103,7 @@ type CreateOptions struct {
 }
 
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{"Enabled": false, "Specification": false, "Replicas": false, "SyncMode": false}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Description": false, "Specification": false, "Replicas": false, "SyncMode": false}
 	return &options
 }
 
@@ -112,6 +113,12 @@ func (srv *VectorsDB) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *VectorsDB) WithCreateDescription(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 func (srv *VectorsDB) WithCreateSpecification(v string) CreateOption {
@@ -145,6 +152,9 @@ func (srv *VectorsDB) Create(DatabaseId string, Name string, optionalSetters ...
 	params["name"] = Name
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	if options.enabledSetters["Specification"] {
 		params["specification"] = options.Specification
@@ -634,6 +644,7 @@ func (srv *VectorsDB) Get(DatabaseId string) (*models.Database, error) {
 
 type UpdateOptions struct {
 	Enabled        bool
+	Description    string
 	Specification  string
 	Replicas       int
 	SyncMode       string
@@ -641,7 +652,7 @@ type UpdateOptions struct {
 }
 
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{"Enabled": false, "Specification": false, "Replicas": false, "SyncMode": false}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Description": false, "Specification": false, "Replicas": false, "SyncMode": false}
 	return &options
 }
 
@@ -651,6 +662,12 @@ func (srv *VectorsDB) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *VectorsDB) WithUpdateDescription(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 func (srv *VectorsDB) WithUpdateSpecification(v string) UpdateOption {
@@ -688,6 +705,9 @@ func (srv *VectorsDB) Update(DatabaseId string, Name string, optionalSetters ...
 	params["name"] = Name
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	if options.enabledSetters["Specification"] {
 		params["specification"] = options.Specification
@@ -865,11 +885,12 @@ type CreateCollectionOptions struct {
 	Permissions      []string
 	DocumentSecurity bool
 	Enabled          bool
+	Description      string
 	enabledSetters   map[string]bool
 }
 
 func (options CreateCollectionOptions) New() *CreateCollectionOptions {
-	options.enabledSetters = map[string]bool{"Permissions": false, "DocumentSecurity": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"Permissions": false, "DocumentSecurity": false, "Enabled": false, "Description": false}
 	return &options
 }
 
@@ -891,6 +912,12 @@ func (srv *VectorsDB) WithCreateCollectionEnabled(v bool) CreateCollectionOption
 	return func(o *CreateCollectionOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *VectorsDB) WithCreateCollectionDescription(v string) CreateCollectionOption {
+	return func(o *CreateCollectionOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -921,6 +948,9 @@ func (srv *VectorsDB) CreateCollection(DatabaseId string, CollectionId string, N
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1005,11 +1035,12 @@ type UpdateCollectionOptions struct {
 	Permissions      []string
 	DocumentSecurity bool
 	Enabled          bool
+	Description      string
 	enabledSetters   map[string]bool
 }
 
 func (options UpdateCollectionOptions) New() *UpdateCollectionOptions {
-	options.enabledSetters = map[string]bool{"Dimension": false, "Permissions": false, "DocumentSecurity": false, "Enabled": false}
+	options.enabledSetters = map[string]bool{"Dimension": false, "Permissions": false, "DocumentSecurity": false, "Enabled": false, "Description": false}
 	return &options
 }
 
@@ -1037,6 +1068,12 @@ func (srv *VectorsDB) WithUpdateCollectionEnabled(v bool) UpdateCollectionOption
 	return func(o *UpdateCollectionOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *VectorsDB) WithUpdateCollectionDescription(v string) UpdateCollectionOption {
+	return func(o *UpdateCollectionOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -1068,6 +1105,9 @@ func (srv *VectorsDB) UpdateCollection(DatabaseId string, CollectionId string, N
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2195,11 +2235,12 @@ func (srv *VectorsDB) ListIndexes(DatabaseId string, CollectionId string, option
 type CreateIndexOptions struct {
 	Orders         []string
 	Lengths        []int
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateIndexOptions) New() *CreateIndexOptions {
-	options.enabledSetters = map[string]bool{"Orders": false, "Lengths": false}
+	options.enabledSetters = map[string]bool{"Orders": false, "Lengths": false, "Description": false}
 	return &options
 }
 
@@ -2215,6 +2256,12 @@ func (srv *VectorsDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 	return func(o *CreateIndexOptions) {
 		o.Lengths = v
 		o.enabledSetters["Lengths"] = true
+	}
+}
+func (srv *VectorsDB) WithCreateIndexDescription(v string) CreateIndexOption {
+	return func(o *CreateIndexOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2244,6 +2291,9 @@ func (srv *VectorsDB) CreateIndex(DatabaseId string, CollectionId string, Key st
 	}
 	if options.enabledSetters["Lengths"] {
 		params["lengths"] = options.Lengths
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

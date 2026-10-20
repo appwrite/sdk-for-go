@@ -7,7 +7,7 @@ import (
 )
 
 func TestColumnUrlModel(t *testing.T) {
-	model := ColumnUrl{Key: "githubUrl", Type: "string", Status: "available", Error: "string", Required: true, CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Format: "url"}
+	model := ColumnUrl{Key: "githubUrl", Description: "Name shown on the public profile.", Type: "string", Status: "available", Error: "string", Required: true, CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Format: "url"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -21,6 +21,9 @@ func TestColumnUrlModel(t *testing.T) {
 	}
 	if result.Key != model.Key {
 		t.Errorf("Expected Key %v, got %v", model.Key, result.Key)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.Type != model.Type {
 		t.Errorf("Expected Type %v, got %v", model.Type, result.Type)
@@ -64,6 +67,22 @@ func TestColumnUrlModelDefaults(t *testing.T) {
 		}
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("Expected missing key to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
 		}
 	}
 	{
@@ -163,7 +182,7 @@ func TestColumnUrlModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := ColumnUrl{Key: "githubUrl", Type: "string", Status: "available", Error: "string", Required: true, CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Format: "url"}
+	reused := ColumnUrl{Key: "githubUrl", Description: "Name shown on the public profile.", Type: "string", Status: "available", Error: "string", Required: true, CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Format: "url"}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

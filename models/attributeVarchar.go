@@ -9,6 +9,8 @@ import (
 type AttributeVarchar struct {
 	// Attribute Key.
 	Key string `json:"key"`
+	// Optional description for the attribute.
+	Description string `json:"description"`
 	// Attribute type.
 	Type string `json:"type"`
 	// Attribute status. Possible values: `available`, `processing`, `deleting`,
@@ -52,19 +54,25 @@ func (model *AttributeVarchar) UnmarshalJSON(data []byte) error {
 	}
 
 	var present struct {
-		Key       json.RawMessage `json:"key"`
-		Type      json.RawMessage `json:"type"`
-		Error     json.RawMessage `json:"error"`
-		Required  json.RawMessage `json:"required"`
-		CreatedAt json.RawMessage `json:"$createdAt"`
-		UpdatedAt json.RawMessage `json:"$updatedAt"`
-		Size      json.RawMessage `json:"size"`
+		Key         json.RawMessage `json:"key"`
+		Description json.RawMessage `json:"description"`
+		Type        json.RawMessage `json:"type"`
+		Error       json.RawMessage `json:"error"`
+		Required    json.RawMessage `json:"required"`
+		CreatedAt   json.RawMessage `json:"$createdAt"`
+		UpdatedAt   json.RawMessage `json:"$updatedAt"`
+		Size        json.RawMessage `json:"size"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
 	}
 	if present.Key == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Key); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

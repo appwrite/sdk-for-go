@@ -24,6 +24,7 @@ func main() {
 		false,
 		false,
 		service.WithUpdateBooleanColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateBooleanColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

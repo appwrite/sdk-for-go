@@ -26,6 +26,7 @@ func main() {
 		service.WithUpdateFloatColumnMin(0),
 		service.WithUpdateFloatColumnMax(100),
 		service.WithUpdateFloatColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateFloatColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

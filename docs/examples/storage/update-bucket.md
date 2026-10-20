@@ -29,6 +29,7 @@ func main() {
 		service.WithUpdateBucketEncryption(false),
 		service.WithUpdateBucketAntivirus(false),
 		service.WithUpdateBucketTransformations(false),
+		service.WithUpdateBucketDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

@@ -99,11 +99,12 @@ type CreateOptions struct {
 	AuthUsername   string
 	AuthPassword   string
 	Secret         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{"Enabled": false, "Tls": false, "AuthUsername": false, "AuthPassword": false, "Secret": false}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Tls": false, "AuthUsername": false, "AuthPassword": false, "Secret": false, "Description": false}
 	return &options
 }
 
@@ -139,6 +140,12 @@ func (srv *Webhooks) WithCreateSecret(v string) CreateOption {
 		o.enabledSetters["Secret"] = true
 	}
 }
+func (srv *Webhooks) WithCreateDescription(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
 
 // Create create a new webhook. Use this endpoint to configure a URL that will
 // receive events from Appwrite when specific events occur.
@@ -167,6 +174,9 @@ func (srv *Webhooks) Create(WebhookId string, Url string, Name string, Events []
 	}
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -248,11 +258,12 @@ type UpdateOptions struct {
 	Tls            bool
 	AuthUsername   string
 	AuthPassword   string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{"Enabled": false, "Tls": false, "AuthUsername": false, "AuthPassword": false}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Tls": false, "AuthUsername": false, "AuthPassword": false, "Description": false}
 	return &options
 }
 
@@ -280,6 +291,12 @@ func (srv *Webhooks) WithUpdateAuthPassword(v string) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.AuthPassword = v
 		o.enabledSetters["AuthPassword"] = true
+	}
+}
+func (srv *Webhooks) WithUpdateDescription(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -311,6 +328,9 @@ func (srv *Webhooks) Update(WebhookId string, Name string, Url string, Events []
 	}
 	if options.enabledSetters["AuthPassword"] {
 		params["authPassword"] = options.AuthPassword
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

@@ -29,6 +29,7 @@ func main() {
 		service.WithCreateBucketEncryption(false),
 		service.WithCreateBucketAntivirus(false),
 		service.WithCreateBucketTransformations(false),
+		service.WithCreateBucketDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

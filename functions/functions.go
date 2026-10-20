@@ -126,11 +126,12 @@ type CreateOptions struct {
 	RuntimeSpecification  string
 	DeploymentRetention   int
 	Interval              int
+	Description           string
 	enabledSetters        map[string]bool
 }
 
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{"Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false}
+	options.enabledSetters = map[string]bool{"Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false, "Description": false}
 	return &options
 }
 
@@ -256,6 +257,12 @@ func (srv *Functions) WithCreateInterval(v int) CreateOption {
 		o.enabledSetters["Interval"] = true
 	}
 }
+func (srv *Functions) WithCreateDescription(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
 
 // Create create a new function. You can pass a list of
 // [permissions](https://appwrite.io/docs/permissions) to allow different
@@ -330,6 +337,9 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 	}
 	if options.enabledSetters["Interval"] {
 		params["interval"] = options.Interval
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -562,12 +572,13 @@ type UpdateOptions struct {
 	RuntimeSpecification  string
 	DeploymentRetention   int
 	Interval              int
+	Description           string
 	EmailEnabled          bool
 	enabledSetters        map[string]bool
 }
 
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{"Runtime": false, "Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false, "EmailEnabled": false}
+	options.enabledSetters = map[string]bool{"Runtime": false, "Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false, "Description": false, "EmailEnabled": false}
 	return &options
 }
 
@@ -699,6 +710,12 @@ func (srv *Functions) WithUpdateInterval(v int) UpdateOption {
 		o.enabledSetters["Interval"] = true
 	}
 }
+func (srv *Functions) WithUpdateDescription(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
 func (srv *Functions) WithUpdateEmailEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.EmailEnabled = v
@@ -782,6 +799,9 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	}
 	if options.enabledSetters["Interval"] {
 		params["interval"] = options.Interval
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	if options.enabledSetters["EmailEnabled"] {
 		params["emailEnabled"] = options.EmailEnabled
@@ -1927,11 +1947,12 @@ func (srv *Functions) ListVariables(FunctionId string, optionalSetters ...ListVa
 
 type CreateVariableOptions struct {
 	Secret         bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateVariableOptions) New() *CreateVariableOptions {
-	options.enabledSetters = map[string]bool{"Secret": false}
+	options.enabledSetters = map[string]bool{"Secret": false, "Description": false}
 	return &options
 }
 
@@ -1941,6 +1962,12 @@ func (srv *Functions) WithCreateVariableSecret(v bool) CreateVariableOption {
 	return func(o *CreateVariableOptions) {
 		o.Secret = v
 		o.enabledSetters["Secret"] = true
+	}
+}
+func (srv *Functions) WithCreateVariableDescription(v string) CreateVariableOption {
+	return func(o *CreateVariableOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -1963,6 +1990,9 @@ func (srv *Functions) CreateVariable(FunctionId string, VariableId string, Key s
 	params["value"] = Value
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2045,11 +2075,12 @@ type UpdateVariableOptions struct {
 	Key            string
 	Value          string
 	Secret         bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateVariableOptions) New() *UpdateVariableOptions {
-	options.enabledSetters = map[string]bool{"Key": false, "Value": false, "Secret": false}
+	options.enabledSetters = map[string]bool{"Key": false, "Value": false, "Secret": false, "Description": false}
 	return &options
 }
 
@@ -2071,6 +2102,12 @@ func (srv *Functions) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 	return func(o *UpdateVariableOptions) {
 		o.Secret = v
 		o.enabledSetters["Secret"] = true
+	}
+}
+func (srv *Functions) WithUpdateVariableDescription(v string) UpdateVariableOption {
+	return func(o *UpdateVariableOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2098,6 +2135,9 @@ func (srv *Functions) UpdateVariable(FunctionId string, VariableId string, optio
 	}
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

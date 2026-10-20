@@ -25,6 +25,7 @@ func main() {
 		service.WithCreateMediumtextColumnDefault("Hello World"),
 		service.WithCreateMediumtextColumnArray(false),
 		service.WithCreateMediumtextColumnEncrypt(false),
+		service.WithCreateMediumtextColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

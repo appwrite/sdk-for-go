@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithCreateIpColumnDefault("192.0.2.0"),
 		service.WithCreateIpColumnArray(false),
+		service.WithCreateIpColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

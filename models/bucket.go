@@ -21,6 +21,8 @@ type Bucket struct {
 	FileSecurity bool `json:"fileSecurity"`
 	// Bucket name.
 	Name string `json:"name"`
+	// Optional description for the bucket.
+	Description string `json:"description"`
 	// Bucket enabled.
 	Enabled bool `json:"enabled"`
 	// Maximum file size supported.
@@ -65,6 +67,7 @@ func (model *Bucket) UnmarshalJSON(data []byte) error {
 		Permissions           json.RawMessage `json:"$permissions"`
 		FileSecurity          json.RawMessage `json:"fileSecurity"`
 		Name                  json.RawMessage `json:"name"`
+		Description           json.RawMessage `json:"description"`
 		Enabled               json.RawMessage `json:"enabled"`
 		MaximumFileSize       json.RawMessage `json:"maximumFileSize"`
 		AllowedFileExtensions json.RawMessage `json:"allowedFileExtensions"`
@@ -104,6 +107,11 @@ func (model *Bucket) UnmarshalJSON(data []byte) error {
 	}
 	if present.Name == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

@@ -41,6 +41,7 @@ func main() {
 		service.WithUpdateRuntimeSpecification("s-1vcpu-512mb"),
 		service.WithUpdateDeploymentRetention(0),
 		service.WithUpdateInterval(0),
+		service.WithUpdateDescription("<DESCRIPTION>"),
 		service.WithUpdateEmailEnabled(false),
 	)
 	fmt.Println(response, err)

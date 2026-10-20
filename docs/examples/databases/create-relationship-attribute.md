@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateRelationshipAttributeKey("<KEY>"),
 		service.WithCreateRelationshipAttributeTwoWayKey("<TWO_WAY_KEY>"),
 		service.WithCreateRelationshipAttributeOnDelete("cascade"),
+		service.WithCreateRelationshipAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

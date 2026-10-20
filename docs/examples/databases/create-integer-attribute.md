@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateIntegerAttributeMax(100),
 		service.WithCreateIntegerAttributeDefault(10),
 		service.WithCreateIntegerAttributeArray(false),
+		service.WithCreateIntegerAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

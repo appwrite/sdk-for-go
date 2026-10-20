@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithCreateUrlAttributeDefault("https://example.com"),
 		service.WithCreateUrlAttributeArray(false),
+		service.WithCreateUrlAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

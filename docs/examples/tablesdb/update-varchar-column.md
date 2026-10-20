@@ -25,6 +25,7 @@ func main() {
 		"Hello World",
 		service.WithUpdateVarcharColumnSize(1),
 		service.WithUpdateVarcharColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateVarcharColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

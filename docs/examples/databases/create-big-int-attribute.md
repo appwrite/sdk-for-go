@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateBigIntAttributeMax(1000000),
 		service.WithCreateBigIntAttributeDefault(0),
 		service.WithCreateBigIntAttributeArray(false),
+		service.WithCreateBigIntAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

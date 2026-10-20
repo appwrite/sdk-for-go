@@ -15,6 +15,8 @@ type Webhook struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// Webhook name.
 	Name string `json:"name"`
+	// Optional description for the webhook.
+	Description string `json:"description"`
 	// Webhook URL endpoint.
 	Url string `json:"url"`
 	// Webhook trigger events.
@@ -58,6 +60,7 @@ func (model *Webhook) UnmarshalJSON(data []byte) error {
 		CreatedAt    json.RawMessage `json:"$createdAt"`
 		UpdatedAt    json.RawMessage `json:"$updatedAt"`
 		Name         json.RawMessage `json:"name"`
+		Description  json.RawMessage `json:"description"`
 		Url          json.RawMessage `json:"url"`
 		Events       json.RawMessage `json:"events"`
 		Tls          json.RawMessage `json:"tls"`
@@ -88,6 +91,11 @@ func (model *Webhook) UnmarshalJSON(data []byte) error {
 	}
 	if present.Name == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Name); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

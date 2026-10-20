@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithCreateIpAttributeDefault("192.0.2.0"),
 		service.WithCreateIpAttributeArray(false),
+		service.WithCreateIpAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

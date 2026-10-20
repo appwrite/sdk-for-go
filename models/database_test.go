@@ -7,7 +7,7 @@ import (
 )
 
 func TestDatabaseModel(t *testing.T) {
-	model := Database{Id: "5e5ea5c16897e", Name: "My Database", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Enabled: true, Type: "legacy"}
+	model := Database{Id: "5e5ea5c16897e", Name: "My Database", Description: "Customer orders and invoices.", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Enabled: true, Type: "legacy"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -24,6 +24,9 @@ func TestDatabaseModel(t *testing.T) {
 	}
 	if result.Name != model.Name {
 		t.Errorf("Expected Name %v, got %v", model.Name, result.Name)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.CreatedAt != model.CreatedAt {
 		t.Errorf("Expected CreatedAt %v, got %v", model.CreatedAt, result.CreatedAt)
@@ -74,6 +77,22 @@ func TestDatabaseModelDefaults(t *testing.T) {
 		}
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("Expected missing name to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
 		}
 	}
 	{
@@ -141,7 +160,7 @@ func TestDatabaseModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := Database{Id: "5e5ea5c16897e", Name: "My Database", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Enabled: true, Type: "legacy"}
+	reused := Database{Id: "5e5ea5c16897e", Name: "My Database", Description: "Customer orders and invoices.", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Enabled: true, Type: "legacy"}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

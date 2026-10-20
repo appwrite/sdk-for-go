@@ -23,6 +23,7 @@ func main() {
 		"<KEY>",
 		service.WithUpdateRelationshipAttributeOnDelete("cascade"),
 		service.WithUpdateRelationshipAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdateRelationshipAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func TestWebhookModel(t *testing.T) {
-	model := Webhook{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Webhook", Url: "https://example.com/webhook", Events: []string{"test"}, Tls: true, AuthUsername: "username", AuthPassword: "webhook-password", Secret: "ad3d581ca230e2b7059c545e5a", Enabled: true, Logs: "Failed to connect to remote server.", Attempts: 10}
+	model := Webhook{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Webhook", Description: "Notifies the billing service about new users.", Url: "https://example.com/webhook", Events: []string{"test"}, Tls: true, AuthUsername: "username", AuthPassword: "webhook-password", Secret: "ad3d581ca230e2b7059c545e5a", Enabled: true, Logs: "Failed to connect to remote server.", Attempts: 10}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -30,6 +30,9 @@ func TestWebhookModel(t *testing.T) {
 	}
 	if result.Name != model.Name {
 		t.Errorf("Expected Name %v, got %v", model.Name, result.Name)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.Url != model.Url {
 		t.Errorf("Expected Url %v, got %v", model.Url, result.Url)
@@ -124,6 +127,22 @@ func TestWebhookModelDefaults(t *testing.T) {
 		}
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("Expected missing name to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
 		}
 	}
 	{
@@ -271,7 +290,7 @@ func TestWebhookModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := Webhook{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Webhook", Url: "https://example.com/webhook", Events: []string{"test"}, Tls: true, AuthUsername: "username", AuthPassword: "webhook-password", Secret: "ad3d581ca230e2b7059c545e5a", Enabled: true, Logs: "Failed to connect to remote server.", Attempts: 10}
+	reused := Webhook{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Webhook", Description: "Notifies the billing service about new users.", Url: "https://example.com/webhook", Events: []string{"test"}, Tls: true, AuthUsername: "username", AuthPassword: "webhook-password", Secret: "ad3d581ca230e2b7059c545e5a", Enabled: true, Logs: "Failed to connect to remote server.", Attempts: 10}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

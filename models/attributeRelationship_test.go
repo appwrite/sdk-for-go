@@ -7,7 +7,7 @@ import (
 )
 
 func TestAttributeRelationshipModel(t *testing.T) {
-	model := AttributeRelationship{Key: "fullName", Type: "string", Status: "available", Error: "string", Required: true, CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", RelatedCollection: "collection", RelationType: "oneToOne|oneToMany|manyToOne|manyToMany", TwoWay: true, TwoWayKey: "string", OnDelete: "restrict|cascade|setNull", Side: "parent|child"}
+	model := AttributeRelationship{Key: "fullName", Description: "Name shown on the public profile.", Type: "string", Status: "available", Error: "string", Required: true, CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", RelatedCollection: "collection", RelationType: "oneToOne|oneToMany|manyToOne|manyToMany", TwoWay: true, TwoWayKey: "string", OnDelete: "restrict|cascade|setNull", Side: "parent|child"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -21,6 +21,9 @@ func TestAttributeRelationshipModel(t *testing.T) {
 	}
 	if result.Key != model.Key {
 		t.Errorf("Expected Key %v, got %v", model.Key, result.Key)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.Type != model.Type {
 		t.Errorf("Expected Type %v, got %v", model.Type, result.Type)
@@ -79,6 +82,22 @@ func TestAttributeRelationshipModelDefaults(t *testing.T) {
 		}
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("Expected missing key to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
 		}
 	}
 	{
@@ -242,7 +261,7 @@ func TestAttributeRelationshipModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := AttributeRelationship{Key: "fullName", Type: "string", Status: "available", Error: "string", Required: true, CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", RelatedCollection: "collection", RelationType: "oneToOne|oneToMany|manyToOne|manyToMany", TwoWay: true, TwoWayKey: "string", OnDelete: "restrict|cascade|setNull", Side: "parent|child"}
+	reused := AttributeRelationship{Key: "fullName", Description: "Name shown on the public profile.", Type: "string", Status: "available", Error: "string", Required: true, CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", RelatedCollection: "collection", RelationType: "oneToOne|oneToMany|manyToOne|manyToMany", TwoWay: true, TwoWayKey: "string", OnDelete: "restrict|cascade|setNull", Side: "parent|child"}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

@@ -23,6 +23,7 @@ func main() {
 		service.WithUpdateTopicSubscribe([]string{"any"}),
 		service.WithUpdateTopicQos(0),
 		service.WithUpdateTopicExpiry(0),
+		service.WithUpdateTopicDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

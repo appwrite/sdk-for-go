@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithUpdateLineAttributeDefault([][]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}}),
 		service.WithUpdateLineAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdateLineAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }
