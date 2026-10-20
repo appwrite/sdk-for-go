@@ -25,6 +25,7 @@ func main() {
 		service.WithUpdateCollectionPermissions([]string{"read(\"any\")"}),
 		service.WithUpdateCollectionDocumentSecurity(false),
 		service.WithUpdateCollectionEnabled(false),
+		service.WithUpdateCollectionDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

@@ -26,6 +26,7 @@ func main() {
 		service.WithUpdateIntegerColumnMin(0),
 		service.WithUpdateIntegerColumnMax(100),
 		service.WithUpdateIntegerColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateIntegerColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

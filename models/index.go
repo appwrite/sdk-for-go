@@ -15,6 +15,8 @@ type Index struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// Index key.
 	Key string `json:"key"`
+	// Optional description for the index.
+	Description string `json:"description"`
 	// Index type.
 	Type string `json:"type"`
 	// Index status. Possible values: `available`, `processing`, `deleting`,
@@ -49,14 +51,15 @@ func (model *Index) UnmarshalJSON(data []byte) error {
 	}
 
 	var present struct {
-		Id         json.RawMessage `json:"$id"`
-		CreatedAt  json.RawMessage `json:"$createdAt"`
-		UpdatedAt  json.RawMessage `json:"$updatedAt"`
-		Key        json.RawMessage `json:"key"`
-		Type       json.RawMessage `json:"type"`
-		Error      json.RawMessage `json:"error"`
-		Attributes json.RawMessage `json:"attributes"`
-		Lengths    json.RawMessage `json:"lengths"`
+		Id          json.RawMessage `json:"$id"`
+		CreatedAt   json.RawMessage `json:"$createdAt"`
+		UpdatedAt   json.RawMessage `json:"$updatedAt"`
+		Key         json.RawMessage `json:"key"`
+		Description json.RawMessage `json:"description"`
+		Type        json.RawMessage `json:"type"`
+		Error       json.RawMessage `json:"error"`
+		Attributes  json.RawMessage `json:"attributes"`
+		Lengths     json.RawMessage `json:"lengths"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -78,6 +81,11 @@ func (model *Index) UnmarshalJSON(data []byte) error {
 	}
 	if present.Key == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Key); err != nil {
+			return err
+		}
+	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
 			return err
 		}
 	}

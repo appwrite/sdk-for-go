@@ -24,6 +24,7 @@ func main() {
 		false,
 		"email@example.com",
 		service.WithUpdateEmailColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateEmailColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

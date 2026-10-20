@@ -24,6 +24,7 @@ func main() {
 		false,
 		"2020-10-15T06:38:00.000+00:00",
 		service.WithUpdateDatetimeColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateDatetimeColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

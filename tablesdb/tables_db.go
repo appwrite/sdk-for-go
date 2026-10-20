@@ -106,6 +106,7 @@ func (srv *TablesDB) List(optionalSetters ...ListOption) (*models.DatabaseList, 
 
 type CreateOptions struct {
 	Enabled        bool
+	Description    string
 	Specification  string
 	Replicas       int
 	SyncMode       string
@@ -113,7 +114,7 @@ type CreateOptions struct {
 }
 
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{"Enabled": false, "Specification": false, "Replicas": false, "SyncMode": false}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Description": false, "Specification": false, "Replicas": false, "SyncMode": false}
 	return &options
 }
 
@@ -123,6 +124,12 @@ func (srv *TablesDB) WithCreateEnabled(v bool) CreateOption {
 	return func(o *CreateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *TablesDB) WithCreateDescription(v string) CreateOption {
+	return func(o *CreateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 func (srv *TablesDB) WithCreateSpecification(v string) CreateOption {
@@ -156,6 +163,9 @@ func (srv *TablesDB) Create(DatabaseId string, Name string, optionalSetters ...C
 	params["name"] = Name
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	if options.enabledSetters["Specification"] {
 		params["specification"] = options.Specification
@@ -646,6 +656,7 @@ func (srv *TablesDB) Get(DatabaseId string) (*models.Database, error) {
 type UpdateOptions struct {
 	Name           string
 	Enabled        bool
+	Description    string
 	Specification  string
 	Replicas       int
 	SyncMode       string
@@ -653,7 +664,7 @@ type UpdateOptions struct {
 }
 
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "Specification": false, "Replicas": false, "SyncMode": false}
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "Description": false, "Specification": false, "Replicas": false, "SyncMode": false}
 	return &options
 }
 
@@ -669,6 +680,12 @@ func (srv *TablesDB) WithUpdateEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.Enabled = v
 		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateDescription(v string) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 func (srv *TablesDB) WithUpdateSpecification(v string) UpdateOption {
@@ -708,6 +725,9 @@ func (srv *TablesDB) Update(DatabaseId string, optionalSetters ...UpdateOption) 
 	}
 	if options.enabledSetters["Enabled"] {
 		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	if options.enabledSetters["Specification"] {
 		params["specification"] = options.Specification
@@ -1400,11 +1420,12 @@ type CreateTableOptions struct {
 	Enabled        bool
 	Columns        []interface{}
 	Indexes        []interface{}
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateTableOptions) New() *CreateTableOptions {
-	options.enabledSetters = map[string]bool{"Permissions": false, "RowSecurity": false, "Enabled": false, "Columns": false, "Indexes": false}
+	options.enabledSetters = map[string]bool{"Permissions": false, "RowSecurity": false, "Enabled": false, "Columns": false, "Indexes": false, "Description": false}
 	return &options
 }
 
@@ -1440,6 +1461,12 @@ func (srv *TablesDB) WithCreateTableIndexes(v []interface{}) CreateTableOption {
 		o.enabledSetters["Indexes"] = true
 	}
 }
+func (srv *TablesDB) WithCreateTableDescription(v string) CreateTableOption {
+	return func(o *CreateTableOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
 
 // CreateTable create a new Table. Before using this route, you should create
 // a new database resource using either a [server
@@ -1473,6 +1500,9 @@ func (srv *TablesDB) CreateTable(DatabaseId string, TableId string, Name string,
 	}
 	if options.enabledSetters["Indexes"] {
 		params["indexes"] = options.Indexes
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1558,11 +1588,12 @@ type UpdateTableOptions struct {
 	RowSecurity    bool
 	Enabled        bool
 	Purge          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateTableOptions) New() *UpdateTableOptions {
-	options.enabledSetters = map[string]bool{"Name": false, "Permissions": false, "RowSecurity": false, "Enabled": false, "Purge": false}
+	options.enabledSetters = map[string]bool{"Name": false, "Permissions": false, "RowSecurity": false, "Enabled": false, "Purge": false, "Description": false}
 	return &options
 }
 
@@ -1598,6 +1629,12 @@ func (srv *TablesDB) WithUpdateTablePurge(v bool) UpdateTableOption {
 		o.enabledSetters["Purge"] = true
 	}
 }
+func (srv *TablesDB) WithUpdateTableDescription(v string) UpdateTableOption {
+	return func(o *UpdateTableOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
 
 // UpdateTable update a table by its unique ID.
 func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSetters ...UpdateTableOption) (*models.Table, error) {
@@ -1629,6 +1666,9 @@ func (srv *TablesDB) UpdateTable(DatabaseId string, TableId string, optionalSett
 	}
 	if options.enabledSetters["Purge"] {
 		params["purge"] = options.Purge
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1793,11 +1833,12 @@ type CreateBigIntColumnOptions struct {
 	Max            int
 	Default        int
 	Array          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateBigIntColumnOptions) New() *CreateBigIntColumnOptions {
-	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "Default": false, "Array": false}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "Default": false, "Array": false, "Description": false}
 	return &options
 }
 
@@ -1825,6 +1866,12 @@ func (srv *TablesDB) WithCreateBigIntColumnArray(v bool) CreateBigIntColumnOptio
 	return func(o *CreateBigIntColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateBigIntColumnDescription(v string) CreateBigIntColumnOption {
+	return func(o *CreateBigIntColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -1858,6 +1905,9 @@ func (srv *TablesDB) CreateBigIntColumn(DatabaseId string, TableId string, Key s
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1896,11 +1946,12 @@ type UpdateBigIntColumnOptions struct {
 	Min            int
 	Max            int
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateBigIntColumnOptions) New() *UpdateBigIntColumnOptions {
-	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "NewKey": false}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "NewKey": false, "Description": false}
 	return &options
 }
 
@@ -1922,6 +1973,12 @@ func (srv *TablesDB) WithUpdateBigIntColumnNewKey(v string) UpdateBigIntColumnOp
 	return func(o *UpdateBigIntColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateBigIntColumnDescription(v string) UpdateBigIntColumnOption {
+	return func(o *UpdateBigIntColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -1955,6 +2012,9 @@ func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key s
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1992,11 +2052,12 @@ func (srv *TablesDB) UpdateBigIntColumn(DatabaseId string, TableId string, Key s
 type CreateBooleanColumnOptions struct {
 	Default        bool
 	Array          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateBooleanColumnOptions) New() *CreateBooleanColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Description": false}
 	return &options
 }
 
@@ -2012,6 +2073,12 @@ func (srv *TablesDB) WithCreateBooleanColumnArray(v bool) CreateBooleanColumnOpt
 	return func(o *CreateBooleanColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateBooleanColumnDescription(v string) CreateBooleanColumnOption {
+	return func(o *CreateBooleanColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2038,6 +2105,9 @@ func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key 
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2074,11 +2144,12 @@ func (srv *TablesDB) CreateBooleanColumn(DatabaseId string, TableId string, Key 
 
 type UpdateBooleanColumnOptions struct {
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateBooleanColumnOptions) New() *UpdateBooleanColumnOptions {
-	options.enabledSetters = map[string]bool{"NewKey": false}
+	options.enabledSetters = map[string]bool{"NewKey": false, "Description": false}
 	return &options
 }
 
@@ -2088,6 +2159,12 @@ func (srv *TablesDB) WithUpdateBooleanColumnNewKey(v string) UpdateBooleanColumn
 	return func(o *UpdateBooleanColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateBooleanColumnDescription(v string) UpdateBooleanColumnOption {
+	return func(o *UpdateBooleanColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2115,6 +2192,9 @@ func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key 
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2152,11 +2232,12 @@ func (srv *TablesDB) UpdateBooleanColumn(DatabaseId string, TableId string, Key 
 type CreateDatetimeColumnOptions struct {
 	Default        string
 	Array          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateDatetimeColumnOptions) New() *CreateDatetimeColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Description": false}
 	return &options
 }
 
@@ -2172,6 +2253,12 @@ func (srv *TablesDB) WithCreateDatetimeColumnArray(v bool) CreateDatetimeColumnO
 	return func(o *CreateDatetimeColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateDatetimeColumnDescription(v string) CreateDatetimeColumnOption {
+	return func(o *CreateDatetimeColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2199,6 +2286,9 @@ func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2235,11 +2325,12 @@ func (srv *TablesDB) CreateDatetimeColumn(DatabaseId string, TableId string, Key
 
 type UpdateDatetimeColumnOptions struct {
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateDatetimeColumnOptions) New() *UpdateDatetimeColumnOptions {
-	options.enabledSetters = map[string]bool{"NewKey": false}
+	options.enabledSetters = map[string]bool{"NewKey": false, "Description": false}
 	return &options
 }
 
@@ -2249,6 +2340,12 @@ func (srv *TablesDB) WithUpdateDatetimeColumnNewKey(v string) UpdateDatetimeColu
 	return func(o *UpdateDatetimeColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateDatetimeColumnDescription(v string) UpdateDatetimeColumnOption {
+	return func(o *UpdateDatetimeColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2276,6 +2373,9 @@ func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2313,11 +2413,12 @@ func (srv *TablesDB) UpdateDatetimeColumn(DatabaseId string, TableId string, Key
 type CreateEmailColumnOptions struct {
 	Default        string
 	Array          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateEmailColumnOptions) New() *CreateEmailColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Description": false}
 	return &options
 }
 
@@ -2333,6 +2434,12 @@ func (srv *TablesDB) WithCreateEmailColumnArray(v bool) CreateEmailColumnOption 
 	return func(o *CreateEmailColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateEmailColumnDescription(v string) CreateEmailColumnOption {
+	return func(o *CreateEmailColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2359,6 +2466,9 @@ func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key st
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2395,11 +2505,12 @@ func (srv *TablesDB) CreateEmailColumn(DatabaseId string, TableId string, Key st
 
 type UpdateEmailColumnOptions struct {
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateEmailColumnOptions) New() *UpdateEmailColumnOptions {
-	options.enabledSetters = map[string]bool{"NewKey": false}
+	options.enabledSetters = map[string]bool{"NewKey": false, "Description": false}
 	return &options
 }
 
@@ -2409,6 +2520,12 @@ func (srv *TablesDB) WithUpdateEmailColumnNewKey(v string) UpdateEmailColumnOpti
 	return func(o *UpdateEmailColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateEmailColumnDescription(v string) UpdateEmailColumnOption {
+	return func(o *UpdateEmailColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2436,6 +2553,9 @@ func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key st
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2473,11 +2593,12 @@ func (srv *TablesDB) UpdateEmailColumn(DatabaseId string, TableId string, Key st
 type CreateEnumColumnOptions struct {
 	Default        string
 	Array          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateEnumColumnOptions) New() *CreateEnumColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Description": false}
 	return &options
 }
 
@@ -2493,6 +2614,12 @@ func (srv *TablesDB) WithCreateEnumColumnArray(v bool) CreateEnumColumnOption {
 	return func(o *CreateEnumColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateEnumColumnDescription(v string) CreateEnumColumnOption {
+	return func(o *CreateEnumColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2521,6 +2648,9 @@ func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key str
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2557,11 +2687,12 @@ func (srv *TablesDB) CreateEnumColumn(DatabaseId string, TableId string, Key str
 
 type UpdateEnumColumnOptions struct {
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateEnumColumnOptions) New() *UpdateEnumColumnOptions {
-	options.enabledSetters = map[string]bool{"NewKey": false}
+	options.enabledSetters = map[string]bool{"NewKey": false, "Description": false}
 	return &options
 }
 
@@ -2571,6 +2702,12 @@ func (srv *TablesDB) WithUpdateEnumColumnNewKey(v string) UpdateEnumColumnOption
 	return func(o *UpdateEnumColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateEnumColumnDescription(v string) UpdateEnumColumnOption {
+	return func(o *UpdateEnumColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2599,6 +2736,9 @@ func (srv *TablesDB) UpdateEnumColumn(DatabaseId string, TableId string, Key str
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2638,11 +2778,12 @@ type CreateFloatColumnOptions struct {
 	Max            float64
 	Default        float64
 	Array          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateFloatColumnOptions) New() *CreateFloatColumnOptions {
-	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "Default": false, "Array": false}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "Default": false, "Array": false, "Description": false}
 	return &options
 }
 
@@ -2670,6 +2811,12 @@ func (srv *TablesDB) WithCreateFloatColumnArray(v bool) CreateFloatColumnOption 
 	return func(o *CreateFloatColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateFloatColumnDescription(v string) CreateFloatColumnOption {
+	return func(o *CreateFloatColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2703,6 +2850,9 @@ func (srv *TablesDB) CreateFloatColumn(DatabaseId string, TableId string, Key st
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2741,11 +2891,12 @@ type UpdateFloatColumnOptions struct {
 	Min            float64
 	Max            float64
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateFloatColumnOptions) New() *UpdateFloatColumnOptions {
-	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "NewKey": false}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "NewKey": false, "Description": false}
 	return &options
 }
 
@@ -2767,6 +2918,12 @@ func (srv *TablesDB) WithUpdateFloatColumnNewKey(v string) UpdateFloatColumnOpti
 	return func(o *UpdateFloatColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateFloatColumnDescription(v string) UpdateFloatColumnOption {
+	return func(o *UpdateFloatColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2800,6 +2957,9 @@ func (srv *TablesDB) UpdateFloatColumn(DatabaseId string, TableId string, Key st
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2839,11 +2999,12 @@ type CreateIntegerColumnOptions struct {
 	Max            int
 	Default        int
 	Array          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateIntegerColumnOptions) New() *CreateIntegerColumnOptions {
-	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "Default": false, "Array": false}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "Default": false, "Array": false, "Description": false}
 	return &options
 }
 
@@ -2871,6 +3032,12 @@ func (srv *TablesDB) WithCreateIntegerColumnArray(v bool) CreateIntegerColumnOpt
 	return func(o *CreateIntegerColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateIntegerColumnDescription(v string) CreateIntegerColumnOption {
+	return func(o *CreateIntegerColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -2904,6 +3071,9 @@ func (srv *TablesDB) CreateIntegerColumn(DatabaseId string, TableId string, Key 
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2942,11 +3112,12 @@ type UpdateIntegerColumnOptions struct {
 	Min            int
 	Max            int
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateIntegerColumnOptions) New() *UpdateIntegerColumnOptions {
-	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "NewKey": false}
+	options.enabledSetters = map[string]bool{"Min": false, "Max": false, "NewKey": false, "Description": false}
 	return &options
 }
 
@@ -2968,6 +3139,12 @@ func (srv *TablesDB) WithUpdateIntegerColumnNewKey(v string) UpdateIntegerColumn
 	return func(o *UpdateIntegerColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateIntegerColumnDescription(v string) UpdateIntegerColumnOption {
+	return func(o *UpdateIntegerColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3001,6 +3178,9 @@ func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key 
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3038,11 +3218,12 @@ func (srv *TablesDB) UpdateIntegerColumn(DatabaseId string, TableId string, Key 
 type CreateIpColumnOptions struct {
 	Default        string
 	Array          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateIpColumnOptions) New() *CreateIpColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Description": false}
 	return &options
 }
 
@@ -3058,6 +3239,12 @@ func (srv *TablesDB) WithCreateIpColumnArray(v bool) CreateIpColumnOption {
 	return func(o *CreateIpColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateIpColumnDescription(v string) CreateIpColumnOption {
+	return func(o *CreateIpColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3084,6 +3271,9 @@ func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key strin
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3120,11 +3310,12 @@ func (srv *TablesDB) CreateIpColumn(DatabaseId string, TableId string, Key strin
 
 type UpdateIpColumnOptions struct {
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateIpColumnOptions) New() *UpdateIpColumnOptions {
-	options.enabledSetters = map[string]bool{"NewKey": false}
+	options.enabledSetters = map[string]bool{"NewKey": false, "Description": false}
 	return &options
 }
 
@@ -3134,6 +3325,12 @@ func (srv *TablesDB) WithUpdateIpColumnNewKey(v string) UpdateIpColumnOption {
 	return func(o *UpdateIpColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateIpColumnDescription(v string) UpdateIpColumnOption {
+	return func(o *UpdateIpColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3161,6 +3358,9 @@ func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key strin
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3197,11 +3397,12 @@ func (srv *TablesDB) UpdateIpColumn(DatabaseId string, TableId string, Key strin
 
 type CreateLineColumnOptions struct {
 	Default        [][]interface{}
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateLineColumnOptions) New() *CreateLineColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Description": false}
 	return &options
 }
 
@@ -3211,6 +3412,12 @@ func (srv *TablesDB) WithCreateLineColumnDefault(v [][]interface{}) CreateLineCo
 	return func(o *CreateLineColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithCreateLineColumnDescription(v string) CreateLineColumnOption {
+	return func(o *CreateLineColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3234,6 +3441,9 @@ func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key str
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
 		params["default"] = options.Default
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3271,11 +3481,12 @@ func (srv *TablesDB) CreateLineColumn(DatabaseId string, TableId string, Key str
 type UpdateLineColumnOptions struct {
 	Default        [][]interface{}
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateLineColumnOptions) New() *UpdateLineColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "NewKey": false}
+	options.enabledSetters = map[string]bool{"Default": false, "NewKey": false, "Description": false}
 	return &options
 }
 
@@ -3291,6 +3502,12 @@ func (srv *TablesDB) WithUpdateLineColumnNewKey(v string) UpdateLineColumnOption
 	return func(o *UpdateLineColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateLineColumnDescription(v string) UpdateLineColumnOption {
+	return func(o *UpdateLineColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3320,6 +3537,9 @@ func (srv *TablesDB) UpdateLineColumn(DatabaseId string, TableId string, Key str
 	}
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3358,11 +3578,12 @@ type CreateLongtextColumnOptions struct {
 	Default        string
 	Array          bool
 	Encrypt        bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateLongtextColumnOptions) New() *CreateLongtextColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false, "Description": false}
 	return &options
 }
 
@@ -3384,6 +3605,12 @@ func (srv *TablesDB) WithCreateLongtextColumnEncrypt(v bool) CreateLongtextColum
 	return func(o *CreateLongtextColumnOptions) {
 		o.Encrypt = v
 		o.enabledSetters["Encrypt"] = true
+	}
+}
+func (srv *TablesDB) WithCreateLongtextColumnDescription(v string) CreateLongtextColumnOption {
+	return func(o *CreateLongtextColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3413,6 +3640,9 @@ func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key
 	}
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3449,11 +3679,12 @@ func (srv *TablesDB) CreateLongtextColumn(DatabaseId string, TableId string, Key
 
 type UpdateLongtextColumnOptions struct {
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateLongtextColumnOptions) New() *UpdateLongtextColumnOptions {
-	options.enabledSetters = map[string]bool{"NewKey": false}
+	options.enabledSetters = map[string]bool{"NewKey": false, "Description": false}
 	return &options
 }
 
@@ -3463,6 +3694,12 @@ func (srv *TablesDB) WithUpdateLongtextColumnNewKey(v string) UpdateLongtextColu
 	return func(o *UpdateLongtextColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateLongtextColumnDescription(v string) UpdateLongtextColumnOption {
+	return func(o *UpdateLongtextColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3490,6 +3727,9 @@ func (srv *TablesDB) UpdateLongtextColumn(DatabaseId string, TableId string, Key
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3528,11 +3768,12 @@ type CreateMediumtextColumnOptions struct {
 	Default        string
 	Array          bool
 	Encrypt        bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateMediumtextColumnOptions) New() *CreateMediumtextColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false, "Description": false}
 	return &options
 }
 
@@ -3554,6 +3795,12 @@ func (srv *TablesDB) WithCreateMediumtextColumnEncrypt(v bool) CreateMediumtextC
 	return func(o *CreateMediumtextColumnOptions) {
 		o.Encrypt = v
 		o.enabledSetters["Encrypt"] = true
+	}
+}
+func (srv *TablesDB) WithCreateMediumtextColumnDescription(v string) CreateMediumtextColumnOption {
+	return func(o *CreateMediumtextColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3583,6 +3830,9 @@ func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, K
 	}
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3619,11 +3869,12 @@ func (srv *TablesDB) CreateMediumtextColumn(DatabaseId string, TableId string, K
 
 type UpdateMediumtextColumnOptions struct {
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateMediumtextColumnOptions) New() *UpdateMediumtextColumnOptions {
-	options.enabledSetters = map[string]bool{"NewKey": false}
+	options.enabledSetters = map[string]bool{"NewKey": false, "Description": false}
 	return &options
 }
 
@@ -3633,6 +3884,12 @@ func (srv *TablesDB) WithUpdateMediumtextColumnNewKey(v string) UpdateMediumtext
 	return func(o *UpdateMediumtextColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateMediumtextColumnDescription(v string) UpdateMediumtextColumnOption {
+	return func(o *UpdateMediumtextColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3660,6 +3917,9 @@ func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, K
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3696,11 +3956,12 @@ func (srv *TablesDB) UpdateMediumtextColumn(DatabaseId string, TableId string, K
 
 type CreatePointColumnOptions struct {
 	Default        []float64
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreatePointColumnOptions) New() *CreatePointColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Description": false}
 	return &options
 }
 
@@ -3710,6 +3971,12 @@ func (srv *TablesDB) WithCreatePointColumnDefault(v []float64) CreatePointColumn
 	return func(o *CreatePointColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithCreatePointColumnDescription(v string) CreatePointColumnOption {
+	return func(o *CreatePointColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3733,6 +4000,9 @@ func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key st
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
 		params["default"] = options.Default
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3770,11 +4040,12 @@ func (srv *TablesDB) CreatePointColumn(DatabaseId string, TableId string, Key st
 type UpdatePointColumnOptions struct {
 	Default        []float64
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdatePointColumnOptions) New() *UpdatePointColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "NewKey": false}
+	options.enabledSetters = map[string]bool{"Default": false, "NewKey": false, "Description": false}
 	return &options
 }
 
@@ -3790,6 +4061,12 @@ func (srv *TablesDB) WithUpdatePointColumnNewKey(v string) UpdatePointColumnOpti
 	return func(o *UpdatePointColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdatePointColumnDescription(v string) UpdatePointColumnOption {
+	return func(o *UpdatePointColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3819,6 +4096,9 @@ func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key st
 	}
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3855,11 +4135,12 @@ func (srv *TablesDB) UpdatePointColumn(DatabaseId string, TableId string, Key st
 
 type CreatePolygonColumnOptions struct {
 	Default        [][]interface{}
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreatePolygonColumnOptions) New() *CreatePolygonColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Description": false}
 	return &options
 }
 
@@ -3869,6 +4150,12 @@ func (srv *TablesDB) WithCreatePolygonColumnDefault(v [][]interface{}) CreatePol
 	return func(o *CreatePolygonColumnOptions) {
 		o.Default = v
 		o.enabledSetters["Default"] = true
+	}
+}
+func (srv *TablesDB) WithCreatePolygonColumnDescription(v string) CreatePolygonColumnOption {
+	return func(o *CreatePolygonColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3892,6 +4179,9 @@ func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key 
 	params["required"] = Required
 	if options.enabledSetters["Default"] {
 		params["default"] = options.Default
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -3929,11 +4219,12 @@ func (srv *TablesDB) CreatePolygonColumn(DatabaseId string, TableId string, Key 
 type UpdatePolygonColumnOptions struct {
 	Default        [][]interface{}
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdatePolygonColumnOptions) New() *UpdatePolygonColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "NewKey": false}
+	options.enabledSetters = map[string]bool{"Default": false, "NewKey": false, "Description": false}
 	return &options
 }
 
@@ -3949,6 +4240,12 @@ func (srv *TablesDB) WithUpdatePolygonColumnNewKey(v string) UpdatePolygonColumn
 	return func(o *UpdatePolygonColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdatePolygonColumnDescription(v string) UpdatePolygonColumnOption {
+	return func(o *UpdatePolygonColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -3978,6 +4275,9 @@ func (srv *TablesDB) UpdatePolygonColumn(DatabaseId string, TableId string, Key 
 	}
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4017,11 +4317,12 @@ type CreateRelationshipColumnOptions struct {
 	Key            string
 	TwoWayKey      string
 	OnDelete       string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateRelationshipColumnOptions) New() *CreateRelationshipColumnOptions {
-	options.enabledSetters = map[string]bool{"TwoWay": false, "Key": false, "TwoWayKey": false, "OnDelete": false}
+	options.enabledSetters = map[string]bool{"TwoWay": false, "Key": false, "TwoWayKey": false, "OnDelete": false, "Description": false}
 	return &options
 }
 
@@ -4049,6 +4350,12 @@ func (srv *TablesDB) WithCreateRelationshipColumnOnDelete(v string) CreateRelati
 	return func(o *CreateRelationshipColumnOptions) {
 		o.OnDelete = v
 		o.enabledSetters["OnDelete"] = true
+	}
+}
+func (srv *TablesDB) WithCreateRelationshipColumnDescription(v string) CreateRelationshipColumnOption {
+	return func(o *CreateRelationshipColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4083,6 +4390,9 @@ func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string,
 	}
 	if options.enabledSetters["OnDelete"] {
 		params["onDelete"] = options.OnDelete
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4120,11 +4430,12 @@ func (srv *TablesDB) CreateRelationshipColumn(DatabaseId string, TableId string,
 type UpdateRelationshipColumnOptions struct {
 	OnDelete       string
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateRelationshipColumnOptions) New() *UpdateRelationshipColumnOptions {
-	options.enabledSetters = map[string]bool{"OnDelete": false, "NewKey": false}
+	options.enabledSetters = map[string]bool{"OnDelete": false, "NewKey": false, "Description": false}
 	return &options
 }
 
@@ -4140,6 +4451,12 @@ func (srv *TablesDB) WithUpdateRelationshipColumnNewKey(v string) UpdateRelation
 	return func(o *UpdateRelationshipColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateRelationshipColumnDescription(v string) UpdateRelationshipColumnOption {
+	return func(o *UpdateRelationshipColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4169,6 +4486,9 @@ func (srv *TablesDB) UpdateRelationshipColumn(DatabaseId string, TableId string,
 	}
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4207,11 +4527,12 @@ type CreateStringColumnOptions struct {
 	Default        string
 	Array          bool
 	Encrypt        bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateStringColumnOptions) New() *CreateStringColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false, "Description": false}
 	return &options
 }
 
@@ -4233,6 +4554,12 @@ func (srv *TablesDB) WithCreateStringColumnEncrypt(v bool) CreateStringColumnOpt
 	return func(o *CreateStringColumnOptions) {
 		o.Encrypt = v
 		o.enabledSetters["Encrypt"] = true
+	}
+}
+func (srv *TablesDB) WithCreateStringColumnDescription(v string) CreateStringColumnOption {
+	return func(o *CreateStringColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4265,6 +4592,9 @@ func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key s
 	}
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4302,11 +4632,12 @@ func (srv *TablesDB) CreateStringColumn(DatabaseId string, TableId string, Key s
 type UpdateStringColumnOptions struct {
 	Size           int
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateStringColumnOptions) New() *UpdateStringColumnOptions {
-	options.enabledSetters = map[string]bool{"Size": false, "NewKey": false}
+	options.enabledSetters = map[string]bool{"Size": false, "NewKey": false, "Description": false}
 	return &options
 }
 
@@ -4322,6 +4653,12 @@ func (srv *TablesDB) WithUpdateStringColumnNewKey(v string) UpdateStringColumnOp
 	return func(o *UpdateStringColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateStringColumnDescription(v string) UpdateStringColumnOption {
+	return func(o *UpdateStringColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4354,6 +4691,9 @@ func (srv *TablesDB) UpdateStringColumn(DatabaseId string, TableId string, Key s
 	}
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4392,11 +4732,12 @@ type CreateTextColumnOptions struct {
 	Default        string
 	Array          bool
 	Encrypt        bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateTextColumnOptions) New() *CreateTextColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false, "Description": false}
 	return &options
 }
 
@@ -4418,6 +4759,12 @@ func (srv *TablesDB) WithCreateTextColumnEncrypt(v bool) CreateTextColumnOption 
 	return func(o *CreateTextColumnOptions) {
 		o.Encrypt = v
 		o.enabledSetters["Encrypt"] = true
+	}
+}
+func (srv *TablesDB) WithCreateTextColumnDescription(v string) CreateTextColumnOption {
+	return func(o *CreateTextColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4447,6 +4794,9 @@ func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key str
 	}
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4483,11 +4833,12 @@ func (srv *TablesDB) CreateTextColumn(DatabaseId string, TableId string, Key str
 
 type UpdateTextColumnOptions struct {
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateTextColumnOptions) New() *UpdateTextColumnOptions {
-	options.enabledSetters = map[string]bool{"NewKey": false}
+	options.enabledSetters = map[string]bool{"NewKey": false, "Description": false}
 	return &options
 }
 
@@ -4497,6 +4848,12 @@ func (srv *TablesDB) WithUpdateTextColumnNewKey(v string) UpdateTextColumnOption
 	return func(o *UpdateTextColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateTextColumnDescription(v string) UpdateTextColumnOption {
+	return func(o *UpdateTextColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4524,6 +4881,9 @@ func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key str
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4561,11 +4921,12 @@ func (srv *TablesDB) UpdateTextColumn(DatabaseId string, TableId string, Key str
 type CreateUrlColumnOptions struct {
 	Default        string
 	Array          bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateUrlColumnOptions) New() *CreateUrlColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Description": false}
 	return &options
 }
 
@@ -4581,6 +4942,12 @@ func (srv *TablesDB) WithCreateUrlColumnArray(v bool) CreateUrlColumnOption {
 	return func(o *CreateUrlColumnOptions) {
 		o.Array = v
 		o.enabledSetters["Array"] = true
+	}
+}
+func (srv *TablesDB) WithCreateUrlColumnDescription(v string) CreateUrlColumnOption {
+	return func(o *CreateUrlColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4607,6 +4974,9 @@ func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key stri
 	}
 	if options.enabledSetters["Array"] {
 		params["array"] = options.Array
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4643,11 +5013,12 @@ func (srv *TablesDB) CreateUrlColumn(DatabaseId string, TableId string, Key stri
 
 type UpdateUrlColumnOptions struct {
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateUrlColumnOptions) New() *UpdateUrlColumnOptions {
-	options.enabledSetters = map[string]bool{"NewKey": false}
+	options.enabledSetters = map[string]bool{"NewKey": false, "Description": false}
 	return &options
 }
 
@@ -4657,6 +5028,12 @@ func (srv *TablesDB) WithUpdateUrlColumnNewKey(v string) UpdateUrlColumnOption {
 	return func(o *UpdateUrlColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateUrlColumnDescription(v string) UpdateUrlColumnOption {
+	return func(o *UpdateUrlColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4684,6 +5061,9 @@ func (srv *TablesDB) UpdateUrlColumn(DatabaseId string, TableId string, Key stri
 	params["default"] = Default
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4722,11 +5102,12 @@ type CreateVarcharColumnOptions struct {
 	Default        string
 	Array          bool
 	Encrypt        bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateVarcharColumnOptions) New() *CreateVarcharColumnOptions {
-	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false}
+	options.enabledSetters = map[string]bool{"Default": false, "Array": false, "Encrypt": false, "Description": false}
 	return &options
 }
 
@@ -4748,6 +5129,12 @@ func (srv *TablesDB) WithCreateVarcharColumnEncrypt(v bool) CreateVarcharColumnO
 	return func(o *CreateVarcharColumnOptions) {
 		o.Encrypt = v
 		o.enabledSetters["Encrypt"] = true
+	}
+}
+func (srv *TablesDB) WithCreateVarcharColumnDescription(v string) CreateVarcharColumnOption {
+	return func(o *CreateVarcharColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4778,6 +5165,9 @@ func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key 
 	}
 	if options.enabledSetters["Encrypt"] {
 		params["encrypt"] = options.Encrypt
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -4815,11 +5205,12 @@ func (srv *TablesDB) CreateVarcharColumn(DatabaseId string, TableId string, Key 
 type UpdateVarcharColumnOptions struct {
 	Size           int
 	NewKey         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateVarcharColumnOptions) New() *UpdateVarcharColumnOptions {
-	options.enabledSetters = map[string]bool{"Size": false, "NewKey": false}
+	options.enabledSetters = map[string]bool{"Size": false, "NewKey": false, "Description": false}
 	return &options
 }
 
@@ -4835,6 +5226,12 @@ func (srv *TablesDB) WithUpdateVarcharColumnNewKey(v string) UpdateVarcharColumn
 	return func(o *UpdateVarcharColumnOptions) {
 		o.NewKey = v
 		o.enabledSetters["NewKey"] = true
+	}
+}
+func (srv *TablesDB) WithUpdateVarcharColumnDescription(v string) UpdateVarcharColumnOption {
+	return func(o *UpdateVarcharColumnOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -4865,6 +5262,9 @@ func (srv *TablesDB) UpdateVarcharColumn(DatabaseId string, TableId string, Key 
 	}
 	if options.enabledSetters["NewKey"] {
 		params["newKey"] = options.NewKey
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -5217,11 +5617,12 @@ func (srv *TablesDB) ListIndexes(DatabaseId string, TableId string, optionalSett
 type CreateIndexOptions struct {
 	Orders         []string
 	Lengths        []int
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateIndexOptions) New() *CreateIndexOptions {
-	options.enabledSetters = map[string]bool{"Orders": false, "Lengths": false}
+	options.enabledSetters = map[string]bool{"Orders": false, "Lengths": false, "Description": false}
 	return &options
 }
 
@@ -5237,6 +5638,12 @@ func (srv *TablesDB) WithCreateIndexLengths(v []int) CreateIndexOption {
 	return func(o *CreateIndexOptions) {
 		o.Lengths = v
 		o.enabledSetters["Lengths"] = true
+	}
+}
+func (srv *TablesDB) WithCreateIndexDescription(v string) CreateIndexOption {
+	return func(o *CreateIndexOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -5268,6 +5675,9 @@ func (srv *TablesDB) CreateIndex(DatabaseId string, TableId string, Key string, 
 	}
 	if options.enabledSetters["Lengths"] {
 		params["lengths"] = options.Lengths
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -5441,10 +5851,11 @@ func (srv *TablesDB) WithListRowsTtl(v int) ListRowsOption {
 //
 // Rows returned by aggregate, groupBy or distinct queries hold only the
 // columns they select, group or aggregate, typed as a row types them, with a
-// joined column named by its join alias (`alias.column`). They have no `$id`,
-// `$sequence`, `$createdAt`, `$updatedAt`, `$permissions`, `$databaseId` or
-// `$tableId` unless they select or group it, and neither does a right or full
-// join row that no row of this table matched.
+// joined column named by its join alias (`alias.column`). The response omits
+// their `$id`, `$sequence`, `$createdAt`, `$updatedAt`, `$permissions`,
+// `$databaseId` and `$tableId` unless they select or group it, and those of a
+// right or full join row that no row of this table matched. SDK row models
+// fill omitted system columns with empty values.
 func (srv *TablesDB) ListRows(DatabaseId string, TableId string, optionalSetters ...ListRowsOption) (*models.RowList, error) {
 	if DatabaseId == "" {
 		return nil, errors.New("Missing required parameter: \"databaseId\"")

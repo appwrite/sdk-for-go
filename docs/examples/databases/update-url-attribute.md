@@ -24,6 +24,7 @@ func main() {
 		false,
 		"https://example.com",
 		service.WithUpdateUrlAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdateUrlAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

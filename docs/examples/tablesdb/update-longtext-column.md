@@ -24,6 +24,7 @@ func main() {
 		false,
 		"Hello World",
 		service.WithUpdateLongtextColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateLongtextColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

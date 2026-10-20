@@ -23,6 +23,7 @@ func main() {
 		"<KEY>",
 		false,
 		service.WithCreateLineColumnDefault([][]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}}),
+		service.WithCreateLineColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

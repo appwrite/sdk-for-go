@@ -1,5 +1,14 @@
 # Change Log
 
+## v7.14.0
+
+* Added: `Description` options on create and update for databases, collections, tables, attributes, columns, indexes, buckets, functions, sites, variables, topics, webhooks and keys
+* Added: `Description` on the matching models
+* Added: `Account.ListMemberships`
+* Added: `WithUpdatePasswordDictionaryPolicyDenyList`, `WithUpdatePasswordPersonalDataPolicyDenyList` and `DenyList` on their policy models
+* Added: `BillingPlan.FunctionsAllowCron`
+* Added: `WithCreateBucketStripMetadata`, `WithUpdateBucketStripMetadata` and `StripMetadata` on the `Bucket` model
+
 ## v7.13.0
 
 * Added: `CreateQuery` on `Databases`, `DocumentsDB` and `TablesDB` to send list queries in the request body

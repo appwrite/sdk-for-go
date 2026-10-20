@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithCreateBooleanColumnDefault(false),
 		service.WithCreateBooleanColumnArray(false),
+		service.WithCreateBooleanColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

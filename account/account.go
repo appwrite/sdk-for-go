@@ -614,6 +614,78 @@ func (srv *Account) DeleteIdentity(IdentityId string) (*interface{}, error) {
 
 }
 
+type ListMembershipsOptions struct {
+	Queries        []string
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListMembershipsOptions) New() *ListMembershipsOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
+	return &options
+}
+
+type ListMembershipsOption func(*ListMembershipsOptions)
+
+func (srv *Account) WithListMembershipsQueries(v []string) ListMembershipsOption {
+	return func(o *ListMembershipsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Account) WithListMembershipsTotal(v bool) ListMembershipsOption {
+	return func(o *ListMembershipsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
+// ListMemberships get the team memberships of the currently logged in user.
+func (srv *Account) ListMemberships(optionalSetters ...ListMembershipsOption) (*models.MembershipList, error) {
+	path := "/account/memberships"
+	options := ListMembershipsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.MembershipList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.MembershipList
+	parsed, ok := resp.Result.(models.MembershipList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // UpdateMFA enable or disable MFA on an account.
 func (srv *Account) UpdateMFA(Mfa bool) (*models.User, error) {
 	path := "/account/mfa"
@@ -2006,6 +2078,14 @@ func (srv *Account) CreateRecovery(Email string, Url string) (*models.Token, err
 // Attack](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
 // the only valid redirect URLs are the ones from domains you have set when
 // adding your platforms in the console interface.
+//
+// The new password must satisfy the project's enabled password policies,
+// including custom deny lists. Dictionary entries match the entire password
+// case-sensitively; personal-data terms match substrings case-insensitively.
+// Personal-data validation runs after token verification against the
+// recovered user's ID, name, email, and phone, closing the previous recovery
+// gap for profile-based checks. A rejected password leaves the existing
+// credentials unchanged and the recovery token usable.
 func (srv *Account) UpdateRecovery(UserId string, Secret string, Password string) (*models.Token, error) {
 	path := "/account/recovery"
 	params := map[string]interface{}{}
@@ -2127,6 +2207,14 @@ func (srv *Account) CreateRecoveryOTP(Email string, optionalSetters ...CreateRec
 // Pass the **userId** of the user along with the **secret** code from the
 // email and the new **password** to set. If confirmed, this route will return
 // a 200 status code, the code is consumed and the user's password is updated.
+//
+// The new password must satisfy the project's enabled password policies,
+// including custom deny lists. Dictionary entries match the entire password
+// case-sensitively; personal-data terms match substrings case-insensitively.
+// Personal-data validation runs after token verification against the
+// recovered user's ID, name, email, and phone, closing the previous recovery
+// gap for profile-based checks. A rejected password leaves the existing
+// credentials unchanged and the recovery token usable.
 func (srv *Account) UpdateRecoveryOTP(UserId string, Secret string, Password string) (*models.Token, error) {
 	path := "/account/recovery/otp"
 	params := map[string]interface{}{}

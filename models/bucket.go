@@ -21,6 +21,8 @@ type Bucket struct {
 	FileSecurity bool `json:"fileSecurity"`
 	// Bucket name.
 	Name string `json:"name"`
+	// Optional description for the bucket.
+	Description string `json:"description"`
 	// Bucket enabled.
 	Enabled bool `json:"enabled"`
 	// Maximum file size supported.
@@ -37,6 +39,9 @@ type Bucket struct {
 	Antivirus bool `json:"antivirus"`
 	// Image transformations are enabled.
 	Transformations bool `json:"transformations"`
+	// Metadata such as location, device and capture time is removed from uploaded
+	// images.
+	StripMetadata bool `json:"stripMetadata"`
 	// Total size of this bucket in bytes.
 	TotalSize int `json:"totalSize"`
 
@@ -65,6 +70,7 @@ func (model *Bucket) UnmarshalJSON(data []byte) error {
 		Permissions           json.RawMessage `json:"$permissions"`
 		FileSecurity          json.RawMessage `json:"fileSecurity"`
 		Name                  json.RawMessage `json:"name"`
+		Description           json.RawMessage `json:"description"`
 		Enabled               json.RawMessage `json:"enabled"`
 		MaximumFileSize       json.RawMessage `json:"maximumFileSize"`
 		AllowedFileExtensions json.RawMessage `json:"allowedFileExtensions"`
@@ -72,6 +78,7 @@ func (model *Bucket) UnmarshalJSON(data []byte) error {
 		Encryption            json.RawMessage `json:"encryption"`
 		Antivirus             json.RawMessage `json:"antivirus"`
 		Transformations       json.RawMessage `json:"transformations"`
+		StripMetadata         json.RawMessage `json:"stripMetadata"`
 		TotalSize             json.RawMessage `json:"totalSize"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
@@ -107,6 +114,11 @@ func (model *Bucket) UnmarshalJSON(data []byte) error {
 			return err
 		}
 	}
+	if present.Description == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Description); err != nil {
+			return err
+		}
+	}
 	if present.Enabled == nil {
 		if err := json.Unmarshal([]byte("true"), &decoded.Enabled); err != nil {
 			return err
@@ -139,6 +151,11 @@ func (model *Bucket) UnmarshalJSON(data []byte) error {
 	}
 	if present.Transformations == nil {
 		if err := json.Unmarshal([]byte("true"), &decoded.Transformations); err != nil {
+			return err
+		}
+	}
+	if present.StripMetadata == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.StripMetadata); err != nil {
 			return err
 		}
 	}

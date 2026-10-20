@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithCreateEmailAttributeDefault("email@example.com"),
 		service.WithCreateEmailAttributeArray(false),
+		service.WithCreateEmailAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

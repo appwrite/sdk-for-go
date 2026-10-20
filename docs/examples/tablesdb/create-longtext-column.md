@@ -25,6 +25,7 @@ func main() {
 		service.WithCreateLongtextColumnDefault("Hello World"),
 		service.WithCreateLongtextColumnArray(false),
 		service.WithCreateLongtextColumnEncrypt(false),
+		service.WithCreateLongtextColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

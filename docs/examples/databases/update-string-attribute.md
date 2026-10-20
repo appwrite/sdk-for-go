@@ -25,6 +25,7 @@ func main() {
 		"Hello World",
 		service.WithUpdateStringAttributeSize(1),
 		service.WithUpdateStringAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdateStringAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

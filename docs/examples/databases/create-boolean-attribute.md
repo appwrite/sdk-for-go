@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithCreateBooleanAttributeDefault(false),
 		service.WithCreateBooleanAttributeArray(false),
+		service.WithCreateBooleanAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

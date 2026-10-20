@@ -7,7 +7,7 @@ import (
 )
 
 func TestDatabaseListModel(t *testing.T) {
-	model := DatabaseList{Total: 5, Databases: []Database{Database{Id: "5e5ea5c16897e", Name: "My Database", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Enabled: true, Type: "legacy"}}}
+	model := DatabaseList{Total: 5, Databases: []Database{Database{Id: "5e5ea5c16897e", Name: "My Database", Description: "Customer orders and invoices.", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Enabled: true, Type: "legacy"}}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -46,7 +46,7 @@ func TestDatabaseListModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := DatabaseList{Total: 5, Databases: []Database{Database{Id: "5e5ea5c16897e", Name: "My Database", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Enabled: true, Type: "legacy"}}}
+	reused := DatabaseList{Total: 5, Databases: []Database{Database{Id: "5e5ea5c16897e", Name: "My Database", Description: "Customer orders and invoices.", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Enabled: true, Type: "legacy"}}}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

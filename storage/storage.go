@@ -115,11 +115,13 @@ type CreateBucketOptions struct {
 	Encryption            bool
 	Antivirus             bool
 	Transformations       bool
+	Description           string
+	StripMetadata         bool
 	enabledSetters        map[string]bool
 }
 
 func (options CreateBucketOptions) New() *CreateBucketOptions {
-	options.enabledSetters = map[string]bool{"Permissions": false, "FileSecurity": false, "Enabled": false, "MaximumFileSize": false, "AllowedFileExtensions": false, "Compression": false, "Encryption": false, "Antivirus": false, "Transformations": false}
+	options.enabledSetters = map[string]bool{"Permissions": false, "FileSecurity": false, "Enabled": false, "MaximumFileSize": false, "AllowedFileExtensions": false, "Compression": false, "Encryption": false, "Antivirus": false, "Transformations": false, "Description": false, "StripMetadata": false}
 	return &options
 }
 
@@ -179,6 +181,18 @@ func (srv *Storage) WithCreateBucketTransformations(v bool) CreateBucketOption {
 		o.enabledSetters["Transformations"] = true
 	}
 }
+func (srv *Storage) WithCreateBucketDescription(v string) CreateBucketOption {
+	return func(o *CreateBucketOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
+func (srv *Storage) WithCreateBucketStripMetadata(v bool) CreateBucketOption {
+	return func(o *CreateBucketOptions) {
+		o.StripMetadata = v
+		o.enabledSetters["StripMetadata"] = true
+	}
+}
 
 // CreateBucket create a new storage bucket.
 func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters ...CreateBucketOption) (*models.Bucket, error) {
@@ -216,6 +230,12 @@ func (srv *Storage) CreateBucket(BucketId string, Name string, optionalSetters .
 	}
 	if options.enabledSetters["Transformations"] {
 		params["transformations"] = options.Transformations
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
+	}
+	if options.enabledSetters["StripMetadata"] {
+		params["stripMetadata"] = options.StripMetadata
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -302,11 +322,13 @@ type UpdateBucketOptions struct {
 	Encryption            bool
 	Antivirus             bool
 	Transformations       bool
+	Description           string
+	StripMetadata         bool
 	enabledSetters        map[string]bool
 }
 
 func (options UpdateBucketOptions) New() *UpdateBucketOptions {
-	options.enabledSetters = map[string]bool{"Permissions": false, "FileSecurity": false, "Enabled": false, "MaximumFileSize": false, "AllowedFileExtensions": false, "Compression": false, "Encryption": false, "Antivirus": false, "Transformations": false}
+	options.enabledSetters = map[string]bool{"Permissions": false, "FileSecurity": false, "Enabled": false, "MaximumFileSize": false, "AllowedFileExtensions": false, "Compression": false, "Encryption": false, "Antivirus": false, "Transformations": false, "Description": false, "StripMetadata": false}
 	return &options
 }
 
@@ -366,6 +388,18 @@ func (srv *Storage) WithUpdateBucketTransformations(v bool) UpdateBucketOption {
 		o.enabledSetters["Transformations"] = true
 	}
 }
+func (srv *Storage) WithUpdateBucketDescription(v string) UpdateBucketOption {
+	return func(o *UpdateBucketOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
+func (srv *Storage) WithUpdateBucketStripMetadata(v bool) UpdateBucketOption {
+	return func(o *UpdateBucketOptions) {
+		o.StripMetadata = v
+		o.enabledSetters["StripMetadata"] = true
+	}
+}
 
 // UpdateBucket update a storage bucket by its unique ID.
 func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters ...UpdateBucketOption) (*models.Bucket, error) {
@@ -407,6 +441,12 @@ func (srv *Storage) UpdateBucket(BucketId string, Name string, optionalSetters .
 	}
 	if options.enabledSetters["Transformations"] {
 		params["transformations"] = options.Transformations
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
+	}
+	if options.enabledSetters["StripMetadata"] {
+		params["stripMetadata"] = options.StripMetadata
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

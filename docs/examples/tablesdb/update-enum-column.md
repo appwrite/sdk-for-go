@@ -25,6 +25,7 @@ func main() {
 		false,
 		"active",
 		service.WithUpdateEnumColumnNewKey("<NEW_KEY>"),
+		service.WithUpdateEnumColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

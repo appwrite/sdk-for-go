@@ -37,6 +37,7 @@ func TestStorage(t *testing.T) {
             "$permissions": [],
             "fileSecurity": true,
             "name": "Documents",
+            "description": "Invoices and receipts uploaded by customers.",
             "enabled": true,
             "maximumFileSize": 100,
             "allowedFileExtensions": [],
@@ -44,6 +45,7 @@ func TestStorage(t *testing.T) {
             "encryption": true,
             "antivirus": true,
             "transformations": true,
+            "stripMetadata": true,
             "totalSize": 128
         }
     ]
@@ -78,6 +80,7 @@ func TestStorage(t *testing.T) {
     "$permissions": [],
     "fileSecurity": true,
     "name": "Documents",
+    "description": "Invoices and receipts uploaded by customers.",
     "enabled": true,
     "maximumFileSize": 100,
     "allowedFileExtensions": [],
@@ -85,6 +88,7 @@ func TestStorage(t *testing.T) {
     "encryption": true,
     "antivirus": true,
     "transformations": true,
+    "stripMetadata": true,
     "totalSize": 128
 }
 `
@@ -117,6 +121,7 @@ func TestStorage(t *testing.T) {
     "$permissions": [],
     "fileSecurity": true,
     "name": "Documents",
+    "description": "Invoices and receipts uploaded by customers.",
     "enabled": true,
     "maximumFileSize": 100,
     "allowedFileExtensions": [],
@@ -124,6 +129,7 @@ func TestStorage(t *testing.T) {
     "encryption": true,
     "antivirus": true,
     "transformations": true,
+    "stripMetadata": true,
     "totalSize": 128
 }
 `
@@ -156,6 +162,7 @@ func TestStorage(t *testing.T) {
     "$permissions": [],
     "fileSecurity": true,
     "name": "Documents",
+    "description": "Invoices and receipts uploaded by customers.",
     "enabled": true,
     "maximumFileSize": 100,
     "allowedFileExtensions": [],
@@ -163,6 +170,7 @@ func TestStorage(t *testing.T) {
     "encryption": true,
     "antivirus": true,
     "transformations": true,
+    "stripMetadata": true,
     "totalSize": 128
 }
 `

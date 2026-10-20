@@ -24,6 +24,7 @@ func main() {
 		false,
 		service.WithUpdatePointAttributeDefault([]float64{1, 2}),
 		service.WithUpdatePointAttributeNewKey("<NEW_KEY>"),
+		service.WithUpdatePointAttributeDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

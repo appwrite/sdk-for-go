@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateFloatColumnMax(100),
 		service.WithCreateFloatColumnDefault(10.5),
 		service.WithCreateFloatColumnArray(false),
+		service.WithCreateFloatColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

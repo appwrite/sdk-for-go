@@ -7,7 +7,7 @@ import (
 )
 
 func TestVectorsdbCollectionModel(t *testing.T) {
-	model := VectorsdbCollection{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Collection", Enabled: true, DocumentSecurity: true, Attributes: []map[string]any{}, Indexes: []Index{Index{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Type: "primary", Status: "available", Error: "string", Attributes: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500, Dimension: 1536}
+	model := VectorsdbCollection{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Collection", Description: "Movies available in the catalog.", Enabled: true, DocumentSecurity: true, Attributes: []map[string]any{}, Indexes: []Index{Index{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Description: "Speeds up lookups by email.", Type: "primary", Status: "available", Error: "string", Attributes: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500, Dimension: 1536}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -33,6 +33,9 @@ func TestVectorsdbCollectionModel(t *testing.T) {
 	}
 	if result.Name != model.Name {
 		t.Errorf("Expected Name %v, got %v", model.Name, result.Name)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.Enabled != model.Enabled {
 		t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)
@@ -138,6 +141,22 @@ func TestVectorsdbCollectionModelDefaults(t *testing.T) {
 	}
 	{
 		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
 		if err := json.Unmarshal([]byte("true"), &want); err != nil {
 			t.Fatal(err)
 		}
@@ -217,7 +236,7 @@ func TestVectorsdbCollectionModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := VectorsdbCollection{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Collection", Enabled: true, DocumentSecurity: true, Attributes: []map[string]any{}, Indexes: []Index{Index{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Type: "primary", Status: "available", Error: "string", Attributes: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500, Dimension: 1536}
+	reused := VectorsdbCollection{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Collection", Description: "Movies available in the catalog.", Enabled: true, DocumentSecurity: true, Attributes: []map[string]any{}, Indexes: []Index{Index{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Description: "Speeds up lookups by email.", Type: "primary", Status: "available", Error: "string", Attributes: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500, Dimension: 1536}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

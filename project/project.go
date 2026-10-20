@@ -532,11 +532,12 @@ func (srv *Project) GetKey(KeyId string) (*models.Key, error) {
 
 type UpdateKeyOptions struct {
 	Expire         string
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateKeyOptions) New() *UpdateKeyOptions {
-	options.enabledSetters = map[string]bool{"Expire": false}
+	options.enabledSetters = map[string]bool{"Expire": false, "Description": false}
 	return &options
 }
 
@@ -546,6 +547,12 @@ func (srv *Project) WithUpdateKeyExpire(v string) UpdateKeyOption {
 	return func(o *UpdateKeyOptions) {
 		o.Expire = v
 		o.enabledSetters["Expire"] = true
+	}
+}
+func (srv *Project) WithUpdateKeyDescription(v string) UpdateKeyOption {
+	return func(o *UpdateKeyOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -567,6 +574,9 @@ func (srv *Project) UpdateKey(KeyId string, Name string, Scopes []string, option
 	params["scopes"] = Scopes
 	if options.enabledSetters["Expire"] {
 		params["expire"] = options.Expire
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -7137,14 +7147,48 @@ func (srv *Project) UpdatePasskeyPolicy(RpId string) (*models.Project, error) {
 
 }
 
+type UpdatePasswordDictionaryPolicyOptions struct {
+	DenyList       []string
+	enabledSetters map[string]bool
+}
+
+func (options UpdatePasswordDictionaryPolicyOptions) New() *UpdatePasswordDictionaryPolicyOptions {
+	options.enabledSetters = map[string]bool{"DenyList": false}
+	return &options
+}
+
+type UpdatePasswordDictionaryPolicyOption func(*UpdatePasswordDictionaryPolicyOptions)
+
+func (srv *Project) WithUpdatePasswordDictionaryPolicyDenyList(v []string) UpdatePasswordDictionaryPolicyOption {
+	return func(o *UpdatePasswordDictionaryPolicyOptions) {
+		o.DenyList = v
+		o.enabledSetters["DenyList"] = true
+	}
+}
+
 // UpdatePasswordDictionaryPolicy updating this policy allows you to control
 // if new passwords are checked against most common passwords dictionary. When
 // enabled, and user changes their password, password must not be contained in
 // the dictionary.
-func (srv *Project) UpdatePasswordDictionaryPolicy(Enabled bool) (*models.Project, error) {
+//
+// Custom denyList entries use case-sensitive equality and apply only while
+// this policy is enabled. Omit denyList or pass null to preserve it, pass an
+// array to replace it, or pass [] to clear it. Entries are stored without
+// trimming or deduplication. Existing passwords remain valid for sign-in and
+// password confirmation. The combined serialized project authentication
+// configuration must fit within 16,384 characters, even when each list meets
+// its entry limits.
+func (srv *Project) UpdatePasswordDictionaryPolicy(Enabled bool, optionalSetters ...UpdatePasswordDictionaryPolicyOption) (*models.Project, error) {
 	path := "/project/policies/password-dictionary"
+	options := UpdatePasswordDictionaryPolicyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["enabled"] = Enabled
+	if options.enabledSetters["DenyList"] {
+		params["denyList"] = options.DenyList
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -7225,14 +7269,50 @@ func (srv *Project) UpdatePasswordHistoryPolicy(Total int) (*models.Project, err
 
 }
 
+type UpdatePasswordPersonalDataPolicyOptions struct {
+	DenyList       []string
+	enabledSetters map[string]bool
+}
+
+func (options UpdatePasswordPersonalDataPolicyOptions) New() *UpdatePasswordPersonalDataPolicyOptions {
+	options.enabledSetters = map[string]bool{"DenyList": false}
+	return &options
+}
+
+type UpdatePasswordPersonalDataPolicyOption func(*UpdatePasswordPersonalDataPolicyOptions)
+
+func (srv *Project) WithUpdatePasswordPersonalDataPolicyDenyList(v []string) UpdatePasswordPersonalDataPolicyOption {
+	return func(o *UpdatePasswordPersonalDataPolicyOptions) {
+		o.DenyList = v
+		o.enabledSetters["DenyList"] = true
+	}
+}
+
 // UpdatePasswordPersonalDataPolicy updating this policy allows you to control
 // if password strength is checked against personal data. When enabled, and
 // user sets or changes their password, the password must not contain user ID,
 // name, email or phone number.
-func (srv *Project) UpdatePasswordPersonalDataPolicy(Enabled bool) (*models.Project, error) {
+//
+// Custom denyList entries use case-insensitive substring matching and apply
+// only while this policy is enabled. Omit denyList or pass null to preserve
+// it, pass an array to replace it, or pass [] to clear it. Entries are stored
+// without trimming or deduplication. Existing passwords remain valid for
+// sign-in and password confirmation. The combined serialized project
+// authentication configuration must fit within 16,384 characters, even when
+// each list meets its entry limits.
+// Password recovery also checks the recovered user profile, closing the
+// previous gap in profile-based personal-data validation.
+func (srv *Project) UpdatePasswordPersonalDataPolicy(Enabled bool, optionalSetters ...UpdatePasswordPersonalDataPolicyOption) (*models.Project, error) {
 	path := "/project/policies/password-personal-data"
+	options := UpdatePasswordPersonalDataPolicyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
 	params := map[string]interface{}{}
 	params["enabled"] = Enabled
+	if options.enabledSetters["DenyList"] {
+		params["denyList"] = options.DenyList
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -8527,11 +8607,12 @@ func (srv *Project) ListVariables(optionalSetters ...ListVariablesOption) (*mode
 
 type CreateVariableOptions struct {
 	Secret         bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateVariableOptions) New() *CreateVariableOptions {
-	options.enabledSetters = map[string]bool{"Secret": false}
+	options.enabledSetters = map[string]bool{"Secret": false, "Description": false}
 	return &options
 }
 
@@ -8541,6 +8622,12 @@ func (srv *Project) WithCreateVariableSecret(v bool) CreateVariableOption {
 	return func(o *CreateVariableOptions) {
 		o.Secret = v
 		o.enabledSetters["Secret"] = true
+	}
+}
+func (srv *Project) WithCreateVariableDescription(v string) CreateVariableOption {
+	return func(o *CreateVariableOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -8558,6 +8645,9 @@ func (srv *Project) CreateVariable(VariableId string, Key string, Value string, 
 	params["value"] = Value
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -8637,11 +8727,12 @@ type UpdateVariableOptions struct {
 	Key            string
 	Value          string
 	Secret         bool
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateVariableOptions) New() *UpdateVariableOptions {
-	options.enabledSetters = map[string]bool{"Key": false, "Value": false, "Secret": false}
+	options.enabledSetters = map[string]bool{"Key": false, "Value": false, "Secret": false, "Description": false}
 	return &options
 }
 
@@ -8663,6 +8754,12 @@ func (srv *Project) WithUpdateVariableSecret(v bool) UpdateVariableOption {
 	return func(o *UpdateVariableOptions) {
 		o.Secret = v
 		o.enabledSetters["Secret"] = true
+	}
+}
+func (srv *Project) WithUpdateVariableDescription(v string) UpdateVariableOption {
+	return func(o *UpdateVariableOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
 	}
 }
 
@@ -8687,6 +8784,9 @@ func (srv *Project) UpdateVariable(VariableId string, optionalSetters ...UpdateV
 	}
 	if options.enabledSetters["Secret"] {
 		params["secret"] = options.Secret
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

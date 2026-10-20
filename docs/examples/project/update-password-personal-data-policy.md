@@ -19,6 +19,7 @@ func main() {
 
 	response, err := service.UpdatePasswordPersonalDataPolicy(
 		false,
+		service.WithUpdatePasswordPersonalDataPolicyDenyList([]string{"example"}),
 	)
 	fmt.Println(response, err)
 }

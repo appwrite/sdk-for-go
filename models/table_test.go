@@ -7,7 +7,7 @@ import (
 )
 
 func TestTableModel(t *testing.T) {
-	model := Table{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Table", Enabled: true, RowSecurity: true, Columns: []interface{}{}, Indexes: []ColumnIndex{ColumnIndex{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Type: "primary", Status: "available", Error: "string", Columns: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500}
+	model := Table{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Table", Description: "Movies available in the catalog.", Enabled: true, RowSecurity: true, Columns: []interface{}{}, Indexes: []ColumnIndex{ColumnIndex{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Description: "Speeds up lookups by email.", Type: "primary", Status: "available", Error: "string", Columns: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -33,6 +33,9 @@ func TestTableModel(t *testing.T) {
 	}
 	if result.Name != model.Name {
 		t.Errorf("Expected Name %v, got %v", model.Name, result.Name)
+	}
+	if result.Description != model.Description {
+		t.Errorf("Expected Description %v, got %v", model.Description, result.Description)
 	}
 	if result.Enabled != model.Enabled {
 		t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)
@@ -135,6 +138,22 @@ func TestTableModelDefaults(t *testing.T) {
 	}
 	{
 		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Description)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing description to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
 		if err := json.Unmarshal([]byte("true"), &want); err != nil {
 			t.Fatal(err)
 		}
@@ -198,7 +217,7 @@ func TestTableModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := Table{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Table", Enabled: true, RowSecurity: true, Columns: []interface{}{}, Indexes: []ColumnIndex{ColumnIndex{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Type: "primary", Status: "available", Error: "string", Columns: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500}
+	reused := Table{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Permissions: []string{"test"}, DatabaseId: "5e5ea5c16897e", Name: "My Table", Description: "Movies available in the catalog.", Enabled: true, RowSecurity: true, Columns: []interface{}{}, Indexes: []ColumnIndex{ColumnIndex{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "index1", Description: "Speeds up lookups by email.", Type: "primary", Status: "available", Error: "string", Columns: []string{"test"}, Lengths: []int{1}}}, BytesMax: 65535, BytesUsed: 1500}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

@@ -5623,11 +5623,12 @@ type CreateTopicOptions struct {
 	Subscribe      []string
 	Qos            int
 	Expiry         int
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options CreateTopicOptions) New() *CreateTopicOptions {
-	options.enabledSetters = map[string]bool{"Subscribe": false, "Qos": false, "Expiry": false}
+	options.enabledSetters = map[string]bool{"Subscribe": false, "Qos": false, "Expiry": false, "Description": false}
 	return &options
 }
 
@@ -5651,6 +5652,12 @@ func (srv *Messaging) WithCreateTopicExpiry(v int) CreateTopicOption {
 		o.enabledSetters["Expiry"] = true
 	}
 }
+func (srv *Messaging) WithCreateTopicDescription(v string) CreateTopicOption {
+	return func(o *CreateTopicOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
 
 // CreateTopic create a new topic.
 func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters ...CreateTopicOption) (*models.Topic, error) {
@@ -5670,6 +5677,9 @@ func (srv *Messaging) CreateTopic(TopicId string, Name string, optionalSetters .
 	}
 	if options.enabledSetters["Expiry"] {
 		params["expiry"] = options.Expiry
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -5750,11 +5760,12 @@ type UpdateTopicOptions struct {
 	Subscribe      []string
 	Qos            int
 	Expiry         int
+	Description    string
 	enabledSetters map[string]bool
 }
 
 func (options UpdateTopicOptions) New() *UpdateTopicOptions {
-	options.enabledSetters = map[string]bool{"Name": false, "Subscribe": false, "Qos": false, "Expiry": false}
+	options.enabledSetters = map[string]bool{"Name": false, "Subscribe": false, "Qos": false, "Expiry": false, "Description": false}
 	return &options
 }
 
@@ -5784,6 +5795,12 @@ func (srv *Messaging) WithUpdateTopicExpiry(v int) UpdateTopicOption {
 		o.enabledSetters["Expiry"] = true
 	}
 }
+func (srv *Messaging) WithUpdateTopicDescription(v string) UpdateTopicOption {
+	return func(o *UpdateTopicOptions) {
+		o.Description = v
+		o.enabledSetters["Description"] = true
+	}
+}
 
 // UpdateTopic update a topic by its unique ID.
 func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopicOption) (*models.Topic, error) {
@@ -5809,6 +5826,9 @@ func (srv *Messaging) UpdateTopic(TopicId string, optionalSetters ...UpdateTopic
 	}
 	if options.enabledSetters["Expiry"] {
 		params["expiry"] = options.Expiry
+	}
+	if options.enabledSetters["Description"] {
+		params["description"] = options.Description
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateTableEnabled(false),
 		service.WithCreateTableColumns([]interface{}{}),
 		service.WithCreateTableIndexes([]interface{}{}),
+		service.WithCreateTableDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }

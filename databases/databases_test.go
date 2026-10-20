@@ -25,6 +25,7 @@ func TestDatabases(t *testing.T) {
         {
             "$id": "5e5ea5c16897e",
             "name": "My Database",
+            "description": "Customer orders and invoices.",
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
             "enabled": true,
@@ -58,6 +59,7 @@ func TestDatabases(t *testing.T) {
 {
     "$id": "5e5ea5c16897e",
     "name": "My Database",
+    "description": "Customer orders and invoices.",
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "enabled": true,
@@ -275,6 +277,7 @@ func TestDatabases(t *testing.T) {
 {
     "$id": "5e5ea5c16897e",
     "name": "My Database",
+    "description": "Customer orders and invoices.",
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "enabled": true,
@@ -306,6 +309,7 @@ func TestDatabases(t *testing.T) {
 {
     "$id": "5e5ea5c16897e",
     "name": "My Database",
+    "description": "Customer orders and invoices.",
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "enabled": true,
@@ -370,6 +374,7 @@ func TestDatabases(t *testing.T) {
             "$permissions": [],
             "databaseId": "5e5ea5c16897e",
             "name": "My Collection",
+            "description": "Movies available in the catalog.",
             "enabled": true,
             "documentSecurity": true,
             "attributes": [],
@@ -379,6 +384,7 @@ func TestDatabases(t *testing.T) {
                     "$createdAt": "2020-10-15T06:38:00.000+00:00",
                     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
                     "key": "index1",
+                    "description": "Speeds up lookups by email.",
                     "type": "primary",
                     "status": "available",
                     "error": "string",
@@ -421,6 +427,7 @@ func TestDatabases(t *testing.T) {
     "$permissions": [],
     "databaseId": "5e5ea5c16897e",
     "name": "My Collection",
+    "description": "Movies available in the catalog.",
     "enabled": true,
     "documentSecurity": true,
     "attributes": [],
@@ -430,6 +437,7 @@ func TestDatabases(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
             "key": "index1",
+            "description": "Speeds up lookups by email.",
             "type": "primary",
             "status": "available",
             "error": "string",
@@ -470,6 +478,7 @@ func TestDatabases(t *testing.T) {
     "$permissions": [],
     "databaseId": "5e5ea5c16897e",
     "name": "My Collection",
+    "description": "Movies available in the catalog.",
     "enabled": true,
     "documentSecurity": true,
     "attributes": [],
@@ -479,6 +488,7 @@ func TestDatabases(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
             "key": "index1",
+            "description": "Speeds up lookups by email.",
             "type": "primary",
             "status": "available",
             "error": "string",
@@ -519,6 +529,7 @@ func TestDatabases(t *testing.T) {
     "$permissions": [],
     "databaseId": "5e5ea5c16897e",
     "name": "My Collection",
+    "description": "Movies available in the catalog.",
     "enabled": true,
     "documentSecurity": true,
     "attributes": [],
@@ -528,6 +539,7 @@ func TestDatabases(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
             "key": "index1",
+            "description": "Speeds up lookups by email.",
             "type": "primary",
             "status": "available",
             "error": "string",
@@ -616,6 +628,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "count",
+    "description": "Name shown on the public profile.",
     "type": "bigint",
     "status": "available",
     "error": "string",
@@ -648,6 +661,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "count",
+    "description": "Name shown on the public profile.",
     "type": "bigint",
     "status": "available",
     "error": "string",
@@ -680,6 +694,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "isEnabled",
+    "description": "Name shown on the public profile.",
     "type": "boolean",
     "status": "available",
     "error": "string",
@@ -712,6 +727,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "isEnabled",
+    "description": "Name shown on the public profile.",
     "type": "boolean",
     "status": "available",
     "error": "string",
@@ -744,6 +760,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "birthDay",
+    "description": "Name shown on the public profile.",
     "type": "datetime",
     "status": "available",
     "error": "string",
@@ -777,6 +794,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "birthDay",
+    "description": "Name shown on the public profile.",
     "type": "datetime",
     "status": "available",
     "error": "string",
@@ -810,6 +828,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "userEmail",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -843,6 +862,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "userEmail",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -876,6 +896,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "status",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -910,6 +931,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "status",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -944,6 +966,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "percentageCompleted",
+    "description": "Name shown on the public profile.",
     "type": "double",
     "status": "available",
     "error": "string",
@@ -976,6 +999,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "percentageCompleted",
+    "description": "Name shown on the public profile.",
     "type": "double",
     "status": "available",
     "error": "string",
@@ -1008,6 +1032,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "count",
+    "description": "Name shown on the public profile.",
     "type": "integer",
     "status": "available",
     "error": "string",
@@ -1040,6 +1065,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "count",
+    "description": "Name shown on the public profile.",
     "type": "integer",
     "status": "available",
     "error": "string",
@@ -1072,6 +1098,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "ipAddress",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1105,6 +1132,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "ipAddress",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1138,6 +1166,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1170,6 +1199,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1202,6 +1232,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1234,6 +1265,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1266,6 +1298,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1298,6 +1331,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1330,6 +1364,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1362,6 +1397,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1394,6 +1430,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1426,6 +1463,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1458,6 +1496,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1496,6 +1535,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1534,6 +1574,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1567,6 +1608,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1600,6 +1642,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1632,6 +1675,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1664,6 +1708,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "githubUrl",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1697,6 +1742,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "githubUrl",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1730,6 +1776,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1763,6 +1810,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -1796,6 +1844,7 @@ func TestDatabases(t *testing.T) {
 		mockResponse := `
 {
     "key": "fullName",
+    "description": "Name shown on the public profile.",
     "type": "string",
     "status": "available",
     "error": "string",
@@ -2304,6 +2353,7 @@ func TestDatabases(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
             "key": "index1",
+            "description": "Speeds up lookups by email.",
             "type": "primary",
             "status": "available",
             "error": "string",
@@ -2340,6 +2390,7 @@ func TestDatabases(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "key": "index1",
+    "description": "Speeds up lookups by email.",
     "type": "primary",
     "status": "available",
     "error": "string",
@@ -2374,6 +2425,7 @@ func TestDatabases(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "key": "index1",
+    "description": "Speeds up lookups by email.",
     "type": "primary",
     "status": "available",
     "error": "string",

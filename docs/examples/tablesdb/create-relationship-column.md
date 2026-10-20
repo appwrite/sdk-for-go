@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateRelationshipColumnKey("<KEY>"),
 		service.WithCreateRelationshipColumnTwoWayKey("<TWO_WAY_KEY>"),
 		service.WithCreateRelationshipColumnOnDelete("cascade"),
+		service.WithCreateRelationshipColumnDescription("<DESCRIPTION>"),
 	)
 	fmt.Println(response, err)
 }
