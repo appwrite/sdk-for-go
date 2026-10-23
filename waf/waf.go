@@ -153,9 +153,9 @@ func (srv *Waf) WithCreateBypassRuleConditions(v []string) CreateBypassRuleOptio
 // CreateBypassRule create a bypass WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
 // `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-// DB addon.
+// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
+// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
+// on `city` and `state` require the premium Geo DB addon.
 func (srv *Waf) CreateBypassRule(RuleId string, ResourceType string, Name string, optionalSetters ...CreateBypassRuleOption) (*models.WafRuleBypass, error) {
 	path := "/waf/rules/bypass"
 	options := CreateBypassRuleOptions{}.New()
@@ -278,9 +278,9 @@ func (srv *Waf) WithUpdateBypassRuleConditions(v []string) UpdateBypassRuleOptio
 // UpdateBypassRule update a bypass WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
 // `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-// DB addon.
+// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
+// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
+// on `city` and `state` require the premium Geo DB addon.
 func (srv *Waf) UpdateBypassRule(RuleId string, optionalSetters ...UpdateBypassRuleOption) (*models.WafRuleBypass, error) {
 	if RuleId == "" {
 		return nil, errors.New("Missing required parameter: \"ruleId\"")
@@ -421,9 +421,9 @@ func (srv *Waf) WithCreateChallengeRuleTtl(v int) CreateChallengeRuleOption {
 // challenge before being challenged again. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
 // `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-// DB addon.
+// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
+// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
+// on `city` and `state` require the premium Geo DB addon.
 func (srv *Waf) CreateChallengeRule(RuleId string, ResourceType string, Name string, optionalSetters ...CreateChallengeRuleOption) (*models.WafRuleChallenge, error) {
 	path := "/waf/rules/challenge"
 	options := CreateChallengeRuleOptions{}.New()
@@ -579,9 +579,9 @@ func (srv *Waf) WithUpdateChallengeRuleTtl(v int) UpdateChallengeRuleOption {
 // challenge before being challenged again. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
 // `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-// DB addon.
+// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
+// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
+// on `city` and `state` require the premium Geo DB addon.
 func (srv *Waf) UpdateChallengeRule(RuleId string, optionalSetters ...UpdateChallengeRuleOption) (*models.WafRuleChallenge, error) {
 	if RuleId == "" {
 		return nil, errors.New("Missing required parameter: \"ruleId\"")
@@ -707,9 +707,19 @@ func (srv *Waf) WithCreateDenyRuleConditions(v []string) CreateDenyRuleOption {
 // CreateDenyRule create a deny WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
 // `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-// DB addon.
+// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
+// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
+// on `city` and `state` require the premium Geo DB addon. `sessionAge` and
+// `mfaAge` hold the seconds since the request's session was created and since
+// its last MFA challenge. Both are null for requests without a session, such
+// as guests and API keys, while a request authenticated with the
+// `x-appwrite-jwt` header carries the age of the session its token is bound
+// to; on `functions` rules the session comes from the `x-appwrite-user-jwt`
+// header, and `mfaAge` is null when the session never completed MFA. A deny
+// matching on `mfaAge` returns `user_challenge_required` and one matching on
+// `sessionAge` returns `user_reauthentication_required`, both with status
+// 401, so the user can sign in again and retry. To also deny requests without
+// a session, combine `isNull` and `greaterThan` in an `or` condition.
 func (srv *Waf) CreateDenyRule(RuleId string, ResourceType string, Name string, optionalSetters ...CreateDenyRuleOption) (*models.WafRuleDeny, error) {
 	path := "/waf/rules/deny"
 	options := CreateDenyRuleOptions{}.New()
@@ -832,9 +842,19 @@ func (srv *Waf) WithUpdateDenyRuleConditions(v []string) UpdateDenyRuleOption {
 // UpdateDenyRule update a deny WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
 // `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-// DB addon.
+// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
+// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
+// on `city` and `state` require the premium Geo DB addon. `sessionAge` and
+// `mfaAge` hold the seconds since the request's session was created and since
+// its last MFA challenge. Both are null for requests without a session, such
+// as guests and API keys, while a request authenticated with the
+// `x-appwrite-jwt` header carries the age of the session its token is bound
+// to; on `functions` rules the session comes from the `x-appwrite-user-jwt`
+// header, and `mfaAge` is null when the session never completed MFA. A deny
+// matching on `mfaAge` returns `user_challenge_required` and one matching on
+// `sessionAge` returns `user_reauthentication_required`, both with status
+// 401, so the user can sign in again and retry. To also deny requests without
+// a session, combine `isNull` and `greaterThan` in an `or` condition.
 func (srv *Waf) UpdateDenyRule(RuleId string, optionalSetters ...UpdateDenyRuleOption) (*models.WafRuleDeny, error) {
 	if RuleId == "" {
 		return nil, errors.New("Missing required parameter: \"ruleId\"")
@@ -974,9 +994,10 @@ func (srv *Waf) WithCreateRateLimitRuleConditions(v []string) CreateRateLimitRul
 // user (requests without an authenticated user skip `userId` rules).
 // Conditions can match request attributes including `ip` (plain IPs or CIDR
 // blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`,
-// `continent`, `headers.<name>`, `query.<key>`, `queryKeys`, `userAgent`,
-// `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city`
-// and `state` require the premium Geo DB addon.
+// `continent`, `headers.<name>`, `query.<key>`, `queryKeys`, `accept`,
+// `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and
+// `browserVersion`. Conditions on `city` and `state` require the premium Geo
+// DB addon.
 func (srv *Waf) CreateRateLimitRule(RuleId string, ResourceType string, Name string, Limit int, Interval int, optionalSetters ...CreateRateLimitRuleOption) (*models.WafRuleRateLimit, error) {
 	path := "/waf/rules/rate-limit"
 	options := CreateRateLimitRuleOptions{}.New()
@@ -1140,9 +1161,10 @@ func (srv *Waf) WithUpdateRateLimitRuleConditions(v []string) UpdateRateLimitRul
 // user (requests without an authenticated user skip `userId` rules).
 // Conditions can match request attributes including `ip` (plain IPs or CIDR
 // blocks like `10.0.0.0/8`), `method`, `path`, `host`, `country`,
-// `continent`, `headers.<name>`, `query.<key>`, `queryKeys`, `userAgent`,
-// `os`, `osVersion`, `browser`, and `browserVersion`. Conditions on `city`
-// and `state` require the premium Geo DB addon.
+// `continent`, `headers.<name>`, `query.<key>`, `queryKeys`, `accept`,
+// `acceptLanguage`, `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and
+// `browserVersion`. Conditions on `city` and `state` require the premium Geo
+// DB addon.
 func (srv *Waf) UpdateRateLimitRule(RuleId string, optionalSetters ...UpdateRateLimitRuleOption) (*models.WafRuleRateLimit, error) {
 	if RuleId == "" {
 		return nil, errors.New("Missing required parameter: \"ruleId\"")
@@ -1271,9 +1293,9 @@ func (srv *Waf) WithCreateRedirectRuleConditions(v []string) CreateRedirectRuleO
 // CreateRedirectRule create a redirect WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
 // `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-// DB addon.
+// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
+// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
+// on `city` and `state` require the premium Geo DB addon.
 func (srv *Waf) CreateRedirectRule(RuleId string, ResourceType string, Name string, Location string, StatusCode int, optionalSetters ...CreateRedirectRuleOption) (*models.WafRuleRedirect, error) {
 	path := "/waf/rules/redirect"
 	options := CreateRedirectRuleOptions{}.New()
@@ -1412,9 +1434,9 @@ func (srv *Waf) WithUpdateRedirectRuleConditions(v []string) UpdateRedirectRuleO
 // UpdateRedirectRule update a redirect WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
 // `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `userAgent`, `os`, `osVersion`, `browser`, and
-// `browserVersion`. Conditions on `city` and `state` require the premium Geo
-// DB addon.
+// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
+// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
+// on `city` and `state` require the premium Geo DB addon.
 func (srv *Waf) UpdateRedirectRule(RuleId string, optionalSetters ...UpdateRedirectRuleOption) (*models.WafRuleRedirect, error) {
 	if RuleId == "" {
 		return nil, errors.New("Missing required parameter: \"ruleId\"")

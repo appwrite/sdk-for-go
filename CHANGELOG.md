@@ -1,5 +1,12 @@
 # Change Log
 
+## v7.15.0
+
+* Added: `Migrations` service for provider reports, imports, exports, retries, and migration management
+* Added: `BillingPlan.DeploymentRetention`, `DeploymentRetentionMax` and `DeploymentsRetentionCount`
+* Updated: requests sent response format `2.6.1`
+* Updated: WAF documentation covered request content and session age conditions
+
 ## v7.14.0
 
 * Added: `Description` options on create and update for databases, collections, tables, attributes, columns, indexes, buckets, functions, sites, variables, topics, webhooks and keys

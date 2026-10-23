@@ -20,7 +20,7 @@ func main() {
 	response, err := service.UpdateFile(
 		"<BUCKET_ID>",
 		"<FILE_ID>",
-		service.WithUpdateFileName("<NAME>"),
+		service.WithUpdateFileName(""),
 		service.WithUpdateFilePermissions([]string{"read(\"any\")"}),
 	)
 	fmt.Println(response, err)
