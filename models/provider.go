@@ -21,7 +21,7 @@ type Provider struct {
 	Enabled bool `json:"enabled"`
 	// Type of provider.
 	Type string `json:"type"`
-	// Provider credentials.
+	// Provider credentials. Secret values are write-only and never returned.
 	Credentials interface{} `json:"credentials"`
 	// Provider options.
 	Options interface{} `json:"options"`
