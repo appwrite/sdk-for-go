@@ -20,6 +20,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/graphql"
 	"github.com/appwrite/sdk-for-go/v7/locale"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
+	"github.com/appwrite/sdk-for-go/v7/migrations"
 	"github.com/appwrite/sdk-for-go/v7/mongo"
 	"github.com/appwrite/sdk-for-go/v7/mysql"
 	"github.com/appwrite/sdk-for-go/v7/oauth2"
@@ -80,6 +81,9 @@ func NewLocale(clt client.Client) *locale.Locale {
 }
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
+}
+func NewMigrations(clt client.Client) *migrations.Migrations {
+	return migrations.New(clt)
 }
 func NewMongo(clt client.Client) *mongo.Mongo {
 	return mongo.New(clt)
