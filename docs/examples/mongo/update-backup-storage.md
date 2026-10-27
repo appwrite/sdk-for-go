@@ -25,7 +25,7 @@ func main() {
 		"<SECRET_KEY>",
 		service.WithUpdateBackupStorageRegion("<REGION>"),
 		service.WithUpdateBackupStoragePrefix("<PREFIX>"),
-		service.WithUpdateBackupStorageEndpoint("<ENDPOINT>"),
+		service.WithUpdateBackupStorageEndpoint("https://example.com"),
 	)
 	fmt.Println(response, err)
 }

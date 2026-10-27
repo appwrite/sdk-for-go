@@ -113,60 +113,6 @@ func TestMigrations(t *testing.T) {
 		}
 	})
 
-	t.Run("Test GetAppwriteReport", func(t *testing.T) {
-		mockResponse := `
-{
-    "user": 20,
-    "team": 20,
-    "database": 20,
-    "row": 20,
-    "file": 20,
-    "bucket": 20,
-    "function": 20,
-    "platform": 5,
-    "api-key": 5,
-    "project-variable": 5,
-    "webhook": 5,
-    "auth-methods": 1,
-    "project-protocols": 1,
-    "project-labels": 1,
-    "project-services": 1,
-    "policies": 1,
-    "smtp": 1,
-    "rule": 5,
-    "project-email-template": 7,
-    "project-environment": 2,
-    "site": 5,
-    "provider": 5,
-    "topic": 10,
-    "subscriber": 100,
-    "message": 50,
-    "size": 30000,
-    "version": "1.4.0",
-    "oauth2-provider": 5,
-    "backup-policy": 5
-}
-`
-
-		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.Method != "GET" {
-				t.Errorf("Expected method GET, got %s", r.Method)
-			}
-
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			_, _ = w.Write([]byte(mockResponse))
-		}))
-		defer ts.Close()
-
-		srv := New(newTestClient(ts))
-
-		_, err := srv.GetAppwriteReport([]string{}, "https://example.com", "<PROJECT_ID>", "<KEY>")
-		if err != nil {
-			t.Errorf("Method GetAppwriteReport failed: %v", err)
-		}
-	})
-
 	t.Run("Test CreateCSVExport", func(t *testing.T) {
 		mockResponse := `
 {

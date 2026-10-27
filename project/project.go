@@ -6890,6 +6890,47 @@ func (srv *Project) UpdateDenyFreeEmailPolicy(Enabled bool) (*models.Project, er
 
 }
 
+// UpdateDenyRealtimeGuestsPolicy configures if guests, connections without a
+// signed-in user, may subscribe to realtime channels. When enabled, a guest
+// can still connect and sign in over the connection, but cannot subscribe
+// until it does.
+func (srv *Project) UpdateDenyRealtimeGuestsPolicy(Enabled bool) (*models.Project, error) {
+	path := "/project/policies/deny-realtime-guests"
+	params := map[string]interface{}{}
+	params["enabled"] = Enabled
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateMembershipPrivacyPolicyOptions struct {
 	UserId         bool
 	UserEmail      bool
@@ -7978,6 +8019,14 @@ func (srv *Project) GetPolicy(PolicyId string) (models.Model, error) {
 
 			return parsed, nil
 		}
+		if fmt.Sprint(response["$id"]) == "deny-realtime-guests" {
+			parsed := models.PolicyDenyRealtimeGuests{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
 		if fmt.Sprint(response["$id"]) == "passkey" {
 			parsed := models.PolicyPasskey{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
@@ -8070,6 +8119,45 @@ func (srv *Project) UpdateService(ServiceId string, Enabled bool) (*models.Proje
 	}
 	var parsed models.Project
 	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeleteSessions delete all sessions in the project. Any session created
+// before this request will be invalidated immediately: users will be signed
+// out of every active client (web, mobile, server SDKs, JWTs), and will be
+// able to sign in again afterwards. API keys are not affected by this action.
+func (srv *Project) DeleteSessions() (*interface{}, error) {
+	path := "/project/sessions"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}

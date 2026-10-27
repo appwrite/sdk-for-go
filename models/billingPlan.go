@@ -66,12 +66,12 @@ type BillingPlan struct {
 	ExecutionsRetentionCount int `json:"executionsRetentionCount"`
 	// Days non-active deployments are kept when a function or site sets no
 	// retention.
-	DeploymentRetention int `json:"deploymentRetention"`
+	DeploymentRetention *int `json:"deploymentRetention"`
 	// Maximum deployment retention in days a function or site can set. 0 means
 	// unlimited.
-	DeploymentRetentionMax int `json:"deploymentRetentionMax"`
+	DeploymentRetentionMax *int `json:"deploymentRetentionMax"`
 	// Non-active deployments kept per function or site. 0 means unlimited.
-	DeploymentsRetentionCount int `json:"deploymentsRetentionCount"`
+	DeploymentsRetentionCount *int `json:"deploymentsRetentionCount"`
 	// GB hours for functions
 	GBHours int `json:"GBHours"`
 	// Realtime connections
@@ -221,9 +221,6 @@ func (model *BillingPlan) UnmarshalJSON(data []byte) error {
 		Sites                             json.RawMessage `json:"sites"`
 		Executions                        json.RawMessage `json:"executions"`
 		ExecutionsRetentionCount          json.RawMessage `json:"executionsRetentionCount"`
-		DeploymentRetention               json.RawMessage `json:"deploymentRetention"`
-		DeploymentRetentionMax            json.RawMessage `json:"deploymentRetentionMax"`
-		DeploymentsRetentionCount         json.RawMessage `json:"deploymentsRetentionCount"`
 		GBHours                           json.RawMessage `json:"GBHours"`
 		Realtime                          json.RawMessage `json:"realtime"`
 		RealtimeMessages                  json.RawMessage `json:"realtimeMessages"`
@@ -395,21 +392,6 @@ func (model *BillingPlan) UnmarshalJSON(data []byte) error {
 	}
 	if present.ExecutionsRetentionCount == nil {
 		if err := json.Unmarshal([]byte("1000"), &decoded.ExecutionsRetentionCount); err != nil {
-			return err
-		}
-	}
-	if present.DeploymentRetention == nil {
-		if err := json.Unmarshal([]byte("0"), &decoded.DeploymentRetention); err != nil {
-			return err
-		}
-	}
-	if present.DeploymentRetentionMax == nil {
-		if err := json.Unmarshal([]byte("0"), &decoded.DeploymentRetentionMax); err != nil {
-			return err
-		}
-	}
-	if present.DeploymentsRetentionCount == nil {
-		if err := json.Unmarshal([]byte("0"), &decoded.DeploymentsRetentionCount); err != nil {
 			return err
 		}
 	}

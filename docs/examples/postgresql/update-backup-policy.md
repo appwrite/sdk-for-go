@@ -21,7 +21,6 @@ func main() {
 		"<DATABASE_ID>",
 		"<POLICY_ID>",
 		service.WithUpdateBackupPolicyName("<NAME>"),
-		service.WithUpdateBackupPolicySchedule(""),
 		service.WithUpdateBackupPolicyRetention(1),
 		service.WithUpdateBackupPolicyEnabled(false),
 	)

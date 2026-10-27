@@ -15,7 +15,7 @@ type DnsRecord struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// DNS record type (e.g. A, CNAME, MX).
 	Type string `json:"type"`
-	// Record name or subdomain.
+	// Record name relative to the domain, or `@` for the domain itself.
 	Name string `json:"name"`
 	// Value of the record (IP address, domain, etc.).
 	Value string `json:"value"`
