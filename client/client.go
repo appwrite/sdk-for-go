@@ -10,11 +10,11 @@ import (
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
-	"net/http/cookiejar"
 	"net/url"
 	"os"
 	"reflect"
 	"runtime"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -80,12 +80,12 @@ type Client struct {
 // Initialize a new Appwrite client with a given timeout
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{}
-	headers["X-Appwrite-Response-Format"] = "2.6.1"
-	headers["user-agent"] = fmt.Sprintf("AppwriteGoSDK/v7.15.0 (%s; %s)", runtime.GOOS, runtime.GOARCH)
+	headers["X-Appwrite-Response-Format"] = "2.6.2"
+	headers["user-agent"] = fmt.Sprintf("AppwriteGoSDK/v7.16.0 (%s; %s)", runtime.GOOS, runtime.GOARCH)
 	headers["x-sdk-name"] = "Go"
 	headers["x-sdk-platform"] = "server"
 	headers["x-sdk-language"] = "go"
-	headers["x-sdk-version"] = "v7.15.0"
+	headers["x-sdk-version"] = "v7.16.0"
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
 		panic(err)
@@ -119,18 +119,27 @@ func New(optionalSetters ...ClientOption) Client {
 	return client
 }
 
-func (client *Client) String() string {
-	return fmt.Sprintf("%s\n%s\n%v", client.Endpoint, client.Headers, client.Timeout)
+// String describes the client by header name only: the values hold the API
+// key, JWT and session, and String is what %v and %s print.
+func (client Client) String() string {
+	names := make([]string, 0, len(client.Headers))
+	for name := range client.Headers {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+
+	return fmt.Sprintf("%s\n%v\n%v", client.Endpoint, names, client.Timeout)
 }
 
+// GetDefaultClient returns an HTTP client for API calls. It keeps no cookies,
+// so a session one response sets is never sent with a later call, and it does
+// not follow redirects, which would carry the API key to wherever they point.
 func GetDefaultClient(timeout time.Duration) (*http.Client, error) {
-	jar, err := cookiejar.New(nil)
-	if err != nil {
-		return nil, err
-	}
 	return &http.Client{
-		Jar:     jar,
 		Timeout: timeout,
+		CheckRedirect: func(*http.Request, []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
 	}, nil
 }
 
@@ -286,7 +295,7 @@ func (client *Client) FileUpload(url string, headers map[string]interface{}, par
 	}
 	var currentChunk int64 = 0
 	if uploadId != "" {
-		resp, err := client.Call("GET", url+"/"+uploadId, nil, nil)
+		resp, err := client.Call("GET", url+"/"+EncodePath(uploadId), nil, nil)
 		if err == nil {
 			result = resp
 			var result map[string]interface{}
@@ -505,6 +514,12 @@ func (client *Client) Call(method string, path string, headers map[string]interf
 		}
 	}
 
+	for _, segment := range strings.Split(strings.SplitN(path, "?", 2)[0], "/") {
+		if segment == "." || segment == ".." {
+			return nil, errors.New(`Path parameter cannot be "." or ".."`)
+		}
+	}
+
 	urlPath := client.Endpoint + path
 	isGet := strings.ToUpper(method) == "GET"
 	isJsonRequest := headers["content-type"] == "application/json"
@@ -609,6 +624,15 @@ func (client *Client) Call(method string, path string, headers map[string]interf
 	responseData, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
+	}
+
+	// The API answers calls without redirecting; a redirect is reported, not followed.
+	if resp.StatusCode >= 300 && resp.StatusCode < 400 {
+		return nil, &AppwriteError{
+			statusCode: resp.StatusCode,
+			message:    "Redirect to " + resp.Header.Get("location") + " not followed",
+			response:   string(responseData),
+		}
 	}
 
 	contentType := resp.Header.Get("content-type")

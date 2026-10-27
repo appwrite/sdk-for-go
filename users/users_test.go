@@ -174,7 +174,7 @@ func TestUsers(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateArgon2User("<USER_ID>", "email@example.com", "password")
+		_, err := srv.CreateArgon2User("<USER_ID>", "email@example.com", "$argon2id$v=19$m=65536,t=4,p=1$NC8xaW1CVXlIZXFSQi9FRg$0bd4pLo1ytyqvCwl5NSijpm5OIe8J6CjZ1vFemKAg+o")
 		if err != nil {
 			t.Errorf("Method CreateArgon2User failed: %v", err)
 		}
@@ -227,7 +227,7 @@ func TestUsers(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreateBcryptUser("<USER_ID>", "email@example.com", "password")
+		_, err := srv.CreateBcryptUser("<USER_ID>", "email@example.com", "$2y$10$vBiMe4NOvlbYL1iJUNdqkO.QJy17fvslZQ5oiqKq1G4uwyRWvdrXC")
 		if err != nil {
 			t.Errorf("Method CreateBcryptUser failed: %v", err)
 		}
@@ -400,7 +400,7 @@ func TestUsers(t *testing.T) {
 
 		srv := New(newTestClient(ts))
 
-		_, err := srv.CreatePHPassUser("<USER_ID>", "email@example.com", "password")
+		_, err := srv.CreatePHPassUser("<USER_ID>", "email@example.com", "$P$BrOEFP1YR5W1yHpvvGuoeVUDPmw9ra/")
 		if err != nil {
 			t.Errorf("Method CreatePHPassUser failed: %v", err)
 		}

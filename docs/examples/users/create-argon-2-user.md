@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateArgon2User(
 		"<USER_ID>",
 		"email@example.com",
-		"password",
+		"$argon2id$v=19$m=65536,t=4,p=1$NC8xaW1CVXlIZXFSQi9FRg$0bd4pLo1ytyqvCwl5NSijpm5OIe8J6CjZ1vFemKAg+o",
 		service.WithCreateArgon2UserName("<NAME>"),
 	)
 	fmt.Println(response, err)

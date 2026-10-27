@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/appwrite/sdk-for-go/v7/appwrite"
-	"github.com/appwrite/sdk-for-go/v7/migrations"
+	"github.com/appwrite/sdk-for-go/v7/project"
 )
 
 func main() {
@@ -15,13 +15,10 @@ func main() {
 		appwrite.WithKey("<YOUR_API_KEY>"),
 	)
 
-	service := migrations.New(client)
+	service := project.New(client)
 
-	response, err := service.GetAppwriteReport(
-		[]string{"example"},
-		"https://example.com",
-		"<PROJECT_ID>",
-		"<KEY>",
+	response, err := service.UpdateDenyRealtimeGuestsPolicy(
+		false,
 	)
 	fmt.Println(response, err)
 }

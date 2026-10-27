@@ -1,5 +1,19 @@
 # Change Log
 
+## v7.16.0
+
+* Breaking: removed `Migrations.GetAppwriteReport`
+* Breaking: `BillingPlan.DeploymentRetention`, `DeploymentRetentionMax` and `DeploymentsRetentionCount` are now `*int`
+* Added: `Project.UpdateDenyRealtimeGuestsPolicy` and the `PolicyDenyRealtimeGuests` model
+* Added: `Project.DeleteSessions` to sign out every user in the project
+* Updated: requests send response format `2.6.2`
+* Updated: the default HTTP client no longer follows redirects; a 3xx returns an `AppwriteError` naming the `Location`
+* Updated: the default HTTP client no longer keeps cookies between requests
+* Updated: `AnalyticsMetric.Pageviews` counts screen views and is returned on time-series rows
+* Fixed: `Client.String()` lists header names only, so `%v` no longer prints API keys or sessions
+* Fixed: path parameters `.` and `..` return an error instead of changing the request URL
+* Fixed: the chunked-upload resume lookup percent-encodes the upload ID
+
 ## v7.15.0
 
 * Added: `Migrations` service for provider reports, imports, exports, retries, and migration management

@@ -3204,6 +3204,79 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateDenyRealtimeGuestsPolicy", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "New Project",
+    "teamId": "1592981250",
+    "region": "fra",
+    "smtpEnabled": true,
+    "smtpSenderName": "John Appwrite",
+    "smtpSenderEmail": "john@appwrite.io",
+    "smtpReplyToName": "Support Team",
+    "smtpReplyToEmail": "support@appwrite.io",
+    "smtpHost": "mail.appwrite.io",
+    "smtpPort": 25,
+    "smtpUsername": "emailuser",
+    "smtpPassword": "smtp-password",
+    "smtpSecure": "tls",
+    "pingCount": 1,
+    "pingedAt": "2020-10-15T06:38:00.000+00:00",
+    "labels": [],
+    "status": "active",
+    "onboarding": {},
+    "authMethods": [
+        {
+            "$id": "email-password",
+            "enabled": true
+        }
+    ],
+    "services": [
+        {
+            "$id": "sites",
+            "enabled": true
+        }
+    ],
+    "protocols": [
+        {
+            "$id": "graphql",
+            "enabled": true
+        }
+    ],
+    "blocks": [
+        {
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "resourceType": "project",
+            "resourceId": "5e5ea5c16897e",
+            "mode": "readOnly"
+        }
+    ],
+    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateDenyRealtimeGuestsPolicy(true)
+		if err != nil {
+			t.Errorf("Method UpdateDenyRealtimeGuestsPolicy failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateMembershipPrivacyPolicy", func(t *testing.T) {
 		mockResponse := `
 {
@@ -4358,6 +4431,32 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateService("account", true)
 		if err != nil {
 			t.Errorf("Method UpdateService failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteSessions", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteSessions()
+		if err != nil {
+			t.Errorf("Method DeleteSessions failed: %v", err)
 		}
 	})
 

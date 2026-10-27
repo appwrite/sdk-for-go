@@ -20,7 +20,6 @@ func main() {
 	response, err := service.Authorize(
 		service.WithAuthorizeClientId("<CLIENT_ID>"),
 		service.WithAuthorizeRedirectUri("https://example.com"),
-		service.WithAuthorizeResponseType(""),
 		service.WithAuthorizeScope("<SCOPE>"),
 		service.WithAuthorizeState("<STATE>"),
 		service.WithAuthorizeNonce("<NONCE>"),

@@ -21,7 +21,6 @@ func main() {
 		"<POLICY_ID>",
 		service.WithUpdatePolicyName("<NAME>"),
 		service.WithUpdatePolicyRetention(1),
-		service.WithUpdatePolicySchedule(""),
 		service.WithUpdatePolicyEnabled(false),
 	)
 	fmt.Println(response, err)

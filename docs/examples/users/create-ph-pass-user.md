@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreatePHPassUser(
 		"<USER_ID>",
 		"email@example.com",
-		"password",
+		"$P$BrOEFP1YR5W1yHpvvGuoeVUDPmw9ra/",
 		service.WithCreatePHPassUserName("<NAME>"),
 	)
 	fmt.Println(response, err)

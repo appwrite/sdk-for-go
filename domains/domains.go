@@ -2859,8 +2859,8 @@ func (srv *Domains) GetZone(DomainId string) (*string, error) {
 
 // UpdateZone update the DNS zone for the given domain using the provided zone
 // file content.
-// All parsed records are imported and then the main domain document is
-// returned.
+// All parsed records the domain does not already have are imported and then
+// the main domain document is returned.
 func (srv *Domains) UpdateZone(DomainId string, Content string) (*models.Domain, error) {
 	if DomainId == "" {
 		return nil, errors.New("Missing required parameter: \"domainId\"")

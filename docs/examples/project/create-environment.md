@@ -20,6 +20,7 @@ func main() {
 	response, err := service.CreateEnvironment(
 		"<ENVIRONMENT_ID>",
 		"<NAME>",
+		service.WithCreateEnvironmentResources([]string{"database", "table", "column", "index", "bucket", "team", "function", "environment-variable"}),
 	)
 	fmt.Println(response, err)
 }
