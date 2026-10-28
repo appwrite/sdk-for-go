@@ -17,17 +17,21 @@ type AnalyticsMetric struct {
 	Visitors int `json:"visitors"`
 	// Unique sessions in the requested range.
 	Sessions int `json:"sessions"`
-	// Total pageview events (events with name="pageview") in the requested range.
-	// Only the flat aggregate computes it; null on breakdown and time-series
-	// rows.
+	// Total page and screen view events (events named "pageview" or
+	// "screen_view") in the requested range. The flat aggregate and the time
+	// series compute it; null on breakdown rows.
 	Pageviews *int `json:"pageviews"`
 	// Total events in the requested range.
 	Events int `json:"events"`
 	// Total sessions with activity in the requested range. Only the flat
 	// aggregate computes it; null on breakdown and time-series rows.
 	Visits *int `json:"visits"`
-	// Share of single-event sessions, as a percentage. Only the flat aggregate
-	// computes it; null on breakdown and time-series rows.
+	// Share of bounced visits, as a percentage; a visit is a bounce unless it
+	// records two or more page or screen views, at least one interaction, or ten
+	// seconds or more of activity. An interaction is any event that is neither a
+	// view nor automatic measurement such as "app_foregrounded",
+	// "engagement_time" or "scroll_depth". Only the flat aggregate computes it;
+	// null on breakdown and time-series rows.
 	BounceRate *float64 `json:"bounceRate"`
 	// Average session length in seconds, measured first event to last event.
 	// Single-event sessions count as 0. Only the flat aggregate computes it; null

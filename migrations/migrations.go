@@ -174,48 +174,6 @@ func (srv *Migrations) CreateAppwriteMigration(Resources []string, Endpoint stri
 
 }
 
-// GetAppwriteReport generate a report of the data in an Appwrite project
-// before migrating. This endpoint analyzes the source project and returns
-// information about the resources that can be migrated.
-func (srv *Migrations) GetAppwriteReport(Resources []string, Endpoint string, ProjectID string, Key string) (*models.MigrationReport, error) {
-	path := "/migrations/appwrite/report"
-	params := map[string]interface{}{}
-	params["resources"] = Resources
-	params["endpoint"] = Endpoint
-	params["projectID"] = ProjectID
-	params["key"] = Key
-	headers := map[string]interface{}{}
-	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["accept"] = "application/json"
-
-	resp, err := srv.client.Call("GET", path, headers, params)
-	if err != nil {
-		return nil, err
-	}
-	if strings.HasPrefix(resp.Type, "application/json") {
-		bytes, err := client.ResponseBody(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		parsed := models.MigrationReport{}.New(bytes)
-
-		err = json.Unmarshal(bytes, parsed)
-		if err != nil {
-			return nil, err
-		}
-
-		return parsed, nil
-	}
-	var parsed models.MigrationReport
-	parsed, ok := resp.Result.(models.MigrationReport)
-	if !ok {
-		return nil, errors.New("unexpected response type")
-	}
-	return &parsed, nil
-
-}
-
 type CreateCSVExportOptions struct {
 	Columns        []string
 	Queries        []string

@@ -603,12 +603,15 @@ func (srv *Analytics) WithListMetricsTotal(v bool) ListMetricsOption {
 //
 // **Three response shapes**, chosen by `dimensions[]` and `interval`:
 // - Neither: one row aggregating the whole window, with `value` and `date`
-// null. Only this shape carries `pageviews`, `visits`, `bounceRate`,
-// `visitDuration`, `viewsPerVisit`, `scrollDepth` and `engagementTime`.
+// null. Only this shape carries `visits`, `bounceRate`, `visitDuration`,
+// `viewsPerVisit`, `scrollDepth` and `engagementTime`.
 // - `dimensions[]`: one row per dimension value, ranked by visitors, with
 // `value` set and `date` null.
 // - `interval`: one row per time bucket in chronological order, with `date`
 // set and `value` null.
+//
+// `pageviews` is carried by the flat aggregate and by `interval`, but not by
+// a breakdown.
 //
 // Combining `dimensions[]` with `interval` is not supported yet. `queries[]`
 // filters the underlying events using standard Utopia query syntax.

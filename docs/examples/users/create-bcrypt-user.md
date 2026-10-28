@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateBcryptUser(
 		"<USER_ID>",
 		"email@example.com",
-		"password",
+		"$2y$10$vBiMe4NOvlbYL1iJUNdqkO.QJy17fvslZQ5oiqKq1G4uwyRWvdrXC",
 		service.WithCreateBcryptUserName("<NAME>"),
 	)
 	fmt.Println(response, err)
