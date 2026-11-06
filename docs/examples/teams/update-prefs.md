@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.UpdatePrefs(
 		"<TEAM_ID>",
-		[]interface{}{},
+		map[string]interface{}{},
 	)
 	fmt.Println(response, err)
 }

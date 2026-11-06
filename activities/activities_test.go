@@ -50,7 +50,8 @@ func TestActivities(t *testing.T) {
             "teamId": "610fc2f985ee0",
             "hostname": "appwrite.io",
             "sdk": "web",
-            "sdkVersion": "14.0.0"
+            "sdkVersion": "14.0.0",
+            "reason": "Reported as spam by 25 users in the last 24 hours"
         }
     ]
 }
@@ -106,7 +107,8 @@ func TestActivities(t *testing.T) {
     "teamId": "610fc2f985ee0",
     "hostname": "appwrite.io",
     "sdk": "web",
-    "sdkVersion": "14.0.0"
+    "sdkVersion": "14.0.0",
+    "reason": "Reported as spam by 25 users in the last 24 hours"
 }
 `
 

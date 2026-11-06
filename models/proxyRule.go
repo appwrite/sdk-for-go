@@ -42,6 +42,17 @@ type ProxyRule struct {
 	Logs string `json:"logs"`
 	// Certificate auto-renewal date in ISO 8601 format.
 	RenewAt string `json:"renewAt"`
+	// Certificate expiry date in ISO 8601 format. Empty when unknown or not
+	// checked yet.
+	ExpireAt string `json:"expireAt"`
+	// Certificate status, as last reported by the certificate provider. Possible
+	// values are "pending", "processing", "issued", "renewing", "expiring",
+	// "blocked", "failed", or "unknown". "expiring" means the certificate expires
+	// soon, or has already expired, and the provider has not renewed it yet,
+	// "blocked" means the provider waits on a DNS record from the domain owner,
+	// and "failed" means the provider stopped trying or the last issuance or
+	// renewal attempt failed. Empty until the certificate is next checked.
+	CertificateStatus string `json:"certificateStatus"`
 	// Ingress protocol for the rule.
 	Protocol string `json:"protocol"`
 
@@ -77,6 +88,8 @@ func (model *ProxyRule) UnmarshalJSON(data []byte) error {
 		DeploymentVcsProviderBranch json.RawMessage `json:"deploymentVcsProviderBranch"`
 		Status                      json.RawMessage `json:"status"`
 		Logs                        json.RawMessage `json:"logs"`
+		ExpireAt                    json.RawMessage `json:"expireAt"`
+		CertificateStatus           json.RawMessage `json:"certificateStatus"`
 		Protocol                    json.RawMessage `json:"protocol"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
@@ -144,6 +157,16 @@ func (model *ProxyRule) UnmarshalJSON(data []byte) error {
 	}
 	if present.Logs == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.Logs); err != nil {
+			return err
+		}
+	}
+	if present.ExpireAt == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.ExpireAt); err != nil {
+			return err
+		}
+	}
+	if present.CertificateStatus == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.CertificateStatus); err != nil {
 			return err
 		}
 	}

@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateExecution(
 		"<DATABASE_ID>",
 		"<SQL>",
-		service.WithCreateExecutionBindings([]interface{}{}),
+		service.WithCreateExecutionBindings(map[string]interface{}{}),
 		service.WithCreateExecutionTimeoutSeconds(1),
 	)
 	fmt.Println(response, err)

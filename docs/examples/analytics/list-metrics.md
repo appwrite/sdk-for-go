@@ -22,6 +22,7 @@ func main() {
 		service.WithListMetricsQueries([]string{"example"}),
 		service.WithListMetricsInterval("1h"),
 		service.WithListMetricsDimensions([]string{"example"}),
+		service.WithListMetricsPropKey("<PROP_KEY>"),
 		service.WithListMetricsDateRange("<DATE_RANGE>"),
 		service.WithListMetricsStartAt("2020-10-15T06:38:00.000+00:00"),
 		service.WithListMetricsEndAt("2020-10-15T06:38:00.000+00:00"),

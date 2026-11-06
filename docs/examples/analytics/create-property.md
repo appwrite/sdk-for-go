@@ -23,6 +23,8 @@ func main() {
 		service.WithCreatePropertyDomain("<DOMAIN>"),
 		service.WithCreatePropertyEnabled(false),
 		service.WithCreatePropertyAllowedOrigins([]string{"example"}),
+		service.WithCreatePropertyIdentifyUsers(false),
+		service.WithCreatePropertyType("web"),
 	)
 	fmt.Println(response, err)
 }

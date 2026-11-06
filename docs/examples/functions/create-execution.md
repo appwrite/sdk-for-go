@@ -23,7 +23,7 @@ func main() {
 		service.WithCreateExecutionAsync(false),
 		service.WithCreateExecutionPath("<PATH>"),
 		service.WithCreateExecutionMethod("GET"),
-		service.WithCreateExecutionHeaders([]interface{}{}),
+		service.WithCreateExecutionHeaders(map[string]interface{}{}),
 		service.WithCreateExecutionScheduledAt("<SCHEDULED_AT>"),
 	)
 	fmt.Println(response, err)

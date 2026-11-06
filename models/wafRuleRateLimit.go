@@ -35,6 +35,9 @@ type WafRuleRateLimit struct {
 	Conditions []interface{} `json:"conditions"`
 	// Action specific configuration.
 	Config interface{} `json:"config"`
+	// When the rule is active: mode, days, interval, anchor, startTime, endTime
+	// and timezone. Null when the rule is always active.
+	Schedule interface{} `json:"schedule"`
 	// Maximum number of matching requests allowed for the given interval.
 	Limit int `json:"limit"`
 	// Interval in seconds for the rate limit window.

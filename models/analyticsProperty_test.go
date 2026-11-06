@@ -7,7 +7,7 @@ import (
 )
 
 func TestAnalyticsPropertyModel(t *testing.T) {
-	model := AnalyticsProperty{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Website", Domain: "example.com", Enabled: true, AllowedOrigins: []string{"test"}, AccessedAt: "2020-10-15T06:38:00.000+00:00", FirstAccessedAt: "2020-10-15T06:38:00.000+00:00"}
+	model := AnalyticsProperty{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Website", Domain: "example.com", Enabled: true, AllowedOrigins: []string{"test"}, Type: "web", IdentifyUsers: true, AccessedAt: "2020-10-15T06:38:00.000+00:00", FirstAccessedAt: "2020-10-15T06:38:00.000+00:00"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -36,6 +36,12 @@ func TestAnalyticsPropertyModel(t *testing.T) {
 	}
 	if result.Enabled != model.Enabled {
 		t.Errorf("Expected Enabled %v, got %v", model.Enabled, result.Enabled)
+	}
+	if result.Type != model.Type {
+		t.Errorf("Expected Type %v, got %v", model.Type, result.Type)
+	}
+	if result.IdentifyUsers != model.IdentifyUsers {
+		t.Errorf("Expected IdentifyUsers %v, got %v", model.IdentifyUsers, result.IdentifyUsers)
 	}
 	if result.AccessedAt != model.AccessedAt {
 		t.Errorf("Expected AccessedAt %v, got %v", model.AccessedAt, result.AccessedAt)
@@ -164,6 +170,38 @@ func TestAnalyticsPropertyModelDefaults(t *testing.T) {
 	}
 	{
 		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"web\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Type)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing type to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("false"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.IdentifyUsers)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing identifyUsers to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
 		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
 			t.Fatal(err)
 		}
@@ -195,7 +233,7 @@ func TestAnalyticsPropertyModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := AnalyticsProperty{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Website", Domain: "example.com", Enabled: true, AllowedOrigins: []string{"test"}, AccessedAt: "2020-10-15T06:38:00.000+00:00", FirstAccessedAt: "2020-10-15T06:38:00.000+00:00"}
+	reused := AnalyticsProperty{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Website", Domain: "example.com", Enabled: true, AllowedOrigins: []string{"test"}, Type: "web", IdentifyUsers: true, AccessedAt: "2020-10-15T06:38:00.000+00:00", FirstAccessedAt: "2020-10-15T06:38:00.000+00:00"}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

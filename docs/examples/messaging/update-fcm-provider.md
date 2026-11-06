@@ -21,7 +21,7 @@ func main() {
 		"<PROVIDER_ID>",
 		service.WithUpdateFCMProviderName("<NAME>"),
 		service.WithUpdateFCMProviderEnabled(false),
-		service.WithUpdateFCMProviderServiceAccountJSON([]interface{}{}),
+		service.WithUpdateFCMProviderServiceAccountJSON(map[string]interface{}{}),
 	)
 	fmt.Println(response, err)
 }

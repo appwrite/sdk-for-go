@@ -256,6 +256,7 @@ func TestMigrations(t *testing.T) {
 {
     "user": 20,
     "team": 20,
+    "membership": 20,
     "database": 20,
     "row": 20,
     "file": 20,
@@ -268,6 +269,7 @@ func TestMigrations(t *testing.T) {
     "auth-methods": 1,
     "project-protocols": 1,
     "project-labels": 1,
+    "project-preferences": 1,
     "project-services": 1,
     "policies": 1,
     "smtp": 1,
@@ -448,6 +450,7 @@ func TestMigrations(t *testing.T) {
 {
     "user": 20,
     "team": 20,
+    "membership": 20,
     "database": 20,
     "row": 20,
     "file": 20,
@@ -460,6 +463,7 @@ func TestMigrations(t *testing.T) {
     "auth-methods": 1,
     "project-protocols": 1,
     "project-labels": 1,
+    "project-preferences": 1,
     "project-services": 1,
     "policies": 1,
     "smtp": 1,
@@ -548,6 +552,7 @@ func TestMigrations(t *testing.T) {
 {
     "user": 20,
     "team": 20,
+    "membership": 20,
     "database": 20,
     "row": 20,
     "file": 20,
@@ -560,6 +565,7 @@ func TestMigrations(t *testing.T) {
     "auth-methods": 1,
     "project-protocols": 1,
     "project-labels": 1,
+    "project-preferences": 1,
     "project-services": 1,
     "policies": 1,
     "smtp": 1,

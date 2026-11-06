@@ -23,6 +23,9 @@ type AnalyticsMetric struct {
 	Pageviews *int `json:"pageviews"`
 	// Total events in the requested range.
 	Events int `json:"events"`
+	// Unique identified users in the requested range. Anonymous events are not
+	// counted. Null on entry and exit page breakdown rows.
+	Users *int `json:"users"`
 	// Total sessions with activity in the requested range. Only the flat
 	// aggregate computes it; null on breakdown and time-series rows.
 	Visits *int `json:"visits"`

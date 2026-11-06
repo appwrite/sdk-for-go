@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateFCMProvider(
 		"<PROVIDER_ID>",
 		"<NAME>",
-		service.WithCreateFCMProviderServiceAccountJSON([]interface{}{}),
+		service.WithCreateFCMProviderServiceAccountJSON(map[string]interface{}{}),
 		service.WithCreateFCMProviderEnabled(false),
 	)
 	fmt.Println(response, err)

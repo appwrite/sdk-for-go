@@ -7,7 +7,7 @@ import (
 )
 
 func TestProxyRuleModel(t *testing.T) {
-	model := ProxyRule{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Domain: "appwrite.company.com", Type: "deployment", Trigger: "manual", RedirectUrl: "https://appwrite.io/docs", RedirectStatusCode: 301, DeploymentId: "n3u9feiwmf", DeploymentResourceId: "n3u9feiwmf", DeploymentVcsProviderBranch: "main", Status: "verified", Logs: "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.", RenewAt: "datetime", Protocol: "http"}
+	model := ProxyRule{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Domain: "appwrite.company.com", Type: "deployment", Trigger: "manual", RedirectUrl: "https://appwrite.io/docs", RedirectStatusCode: 301, DeploymentId: "n3u9feiwmf", DeploymentResourceId: "n3u9feiwmf", DeploymentVcsProviderBranch: "main", Status: "verified", Logs: "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.", RenewAt: "datetime", ExpireAt: "2020-10-15T06:38:00.000+00:00", CertificateStatus: "issued", Protocol: "http"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -60,6 +60,12 @@ func TestProxyRuleModel(t *testing.T) {
 	}
 	if result.RenewAt != model.RenewAt {
 		t.Errorf("Expected RenewAt %v, got %v", model.RenewAt, result.RenewAt)
+	}
+	if result.ExpireAt != model.ExpireAt {
+		t.Errorf("Expected ExpireAt %v, got %v", model.ExpireAt, result.ExpireAt)
+	}
+	if result.CertificateStatus != model.CertificateStatus {
+		t.Errorf("Expected CertificateStatus %v, got %v", model.CertificateStatus, result.CertificateStatus)
 	}
 	if result.Protocol != model.Protocol {
 		t.Errorf("Expected Protocol %v, got %v", model.Protocol, result.Protocol)
@@ -281,6 +287,38 @@ func TestProxyRuleModelDefaults(t *testing.T) {
 	}
 	{
 		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.ExpireAt)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing expireAt to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.CertificateStatus)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing certificateStatus to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
 		if err := json.Unmarshal([]byte("\"http\""), &want); err != nil {
 			t.Fatal(err)
 		}
@@ -296,7 +334,7 @@ func TestProxyRuleModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := ProxyRule{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Domain: "appwrite.company.com", Type: "deployment", Trigger: "manual", RedirectUrl: "https://appwrite.io/docs", RedirectStatusCode: 301, DeploymentId: "n3u9feiwmf", DeploymentResourceId: "n3u9feiwmf", DeploymentVcsProviderBranch: "main", Status: "verified", Logs: "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.", RenewAt: "datetime", Protocol: "http"}
+	reused := ProxyRule{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Domain: "appwrite.company.com", Type: "deployment", Trigger: "manual", RedirectUrl: "https://appwrite.io/docs", RedirectStatusCode: 301, DeploymentId: "n3u9feiwmf", DeploymentResourceId: "n3u9feiwmf", DeploymentVcsProviderBranch: "main", Status: "verified", Logs: "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.", RenewAt: "datetime", ExpireAt: "2020-10-15T06:38:00.000+00:00", CertificateStatus: "issued", Protocol: "http"}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

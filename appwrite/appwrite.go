@@ -249,6 +249,17 @@ func WithLocale(value string) client.ClientOption {
 
 // Helper method to construct NewClient()
 //
+// The ID of the project environment to act in, alongside the project ID. Used with Appwrite Cloud projects that have environments.
+func WithEnvironment(value string) client.ClientOption {
+	return func(clt *client.Client) error {
+		clt.Config["environment"] = value
+		clt.Headers["X-Appwrite-Environment"] = value
+		return nil
+	}
+}
+
+// Helper method to construct NewClient()
+//
 // The user session to authenticate with
 func WithSession(value string) client.ClientOption {
 	return func(clt *client.Client) error {
