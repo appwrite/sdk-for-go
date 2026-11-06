@@ -65,6 +65,8 @@ func TestProxy(t *testing.T) {
             "status": "verified",
             "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
             "renewAt": "datetime",
+            "expireAt": "2020-10-15T06:38:00.000+00:00",
+            "certificateStatus": "issued",
             "protocol": "http"
         }
     ]
@@ -107,6 +109,8 @@ func TestProxy(t *testing.T) {
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
     "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
     "protocol": "http"
 }
 `
@@ -147,6 +151,8 @@ func TestProxy(t *testing.T) {
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
     "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
     "protocol": "http"
 }
 `
@@ -187,6 +193,8 @@ func TestProxy(t *testing.T) {
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
     "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
     "protocol": "http"
 }
 `
@@ -227,6 +235,8 @@ func TestProxy(t *testing.T) {
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
     "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
     "protocol": "http"
 }
 `
@@ -267,6 +277,8 @@ func TestProxy(t *testing.T) {
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
     "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
     "protocol": "http"
 }
 `
@@ -307,6 +319,8 @@ func TestProxy(t *testing.T) {
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
     "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
     "protocol": "http"
 }
 `
@@ -356,6 +370,132 @@ func TestProxy(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateFunctionRule", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "domain": "appwrite.company.com",
+    "type": "deployment",
+    "trigger": "manual",
+    "redirectUrl": "https://appwrite.io/docs",
+    "redirectStatusCode": 301,
+    "deploymentId": "n3u9feiwmf",
+    "deploymentResourceId": "n3u9feiwmf",
+    "deploymentVcsProviderBranch": "main",
+    "status": "verified",
+    "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
+    "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
+    "protocol": "http"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateFunctionRule("<RULE_ID>", "<FUNCTION_ID>")
+		if err != nil {
+			t.Errorf("Method UpdateFunctionRule failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateRedirectRule", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "domain": "appwrite.company.com",
+    "type": "deployment",
+    "trigger": "manual",
+    "redirectUrl": "https://appwrite.io/docs",
+    "redirectStatusCode": 301,
+    "deploymentId": "n3u9feiwmf",
+    "deploymentResourceId": "n3u9feiwmf",
+    "deploymentVcsProviderBranch": "main",
+    "status": "verified",
+    "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
+    "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
+    "protocol": "http"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateRedirectRule("<RULE_ID>", "https://example.com", "301", "<RESOURCE_ID>", "site")
+		if err != nil {
+			t.Errorf("Method UpdateRedirectRule failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateSiteRule", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "domain": "appwrite.company.com",
+    "type": "deployment",
+    "trigger": "manual",
+    "redirectUrl": "https://appwrite.io/docs",
+    "redirectStatusCode": 301,
+    "deploymentId": "n3u9feiwmf",
+    "deploymentResourceId": "n3u9feiwmf",
+    "deploymentVcsProviderBranch": "main",
+    "status": "verified",
+    "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
+    "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
+    "protocol": "http"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateSiteRule("<RULE_ID>", "<SITE_ID>")
+		if err != nil {
+			t.Errorf("Method UpdateSiteRule failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateRuleStatus", func(t *testing.T) {
 		mockResponse := `
 {
@@ -373,6 +513,8 @@ func TestProxy(t *testing.T) {
     "status": "verified",
     "logs": "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.",
     "renewAt": "datetime",
+    "expireAt": "2020-10-15T06:38:00.000+00:00",
+    "certificateStatus": "issued",
     "protocol": "http"
 }
 `

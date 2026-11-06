@@ -24,7 +24,7 @@ func main() {
 		service.WithCreatePushTopics([]string{"example"}),
 		service.WithCreatePushUsers([]string{"example"}),
 		service.WithCreatePushTargets([]string{"example"}),
-		service.WithCreatePushData([]interface{}{}),
+		service.WithCreatePushData(map[string]interface{}{}),
 		service.WithCreatePushAction("<ACTION>"),
 		service.WithCreatePushImage("<ID1:ID2>"),
 		service.WithCreatePushIcon("<ICON>"),

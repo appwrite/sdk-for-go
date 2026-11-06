@@ -21,7 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<DOCUMENT_ID>",
-		service.WithUpsertDocumentData([]interface{}{}),
+		service.WithUpsertDocumentData(map[string]interface{}{}),
 		service.WithUpsertDocumentPermissions([]string{"read(\"any\")"}),
 		service.WithUpsertDocumentTransactionId("<TRANSACTION_ID>"),
 	)

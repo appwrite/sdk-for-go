@@ -23,7 +23,7 @@ func main() {
 		"<STATUS>",
 		service.WithUpsertPermissions([]string{"read(\"any\")"}),
 		service.WithUpsertExpiresAt("2020-10-15T06:38:00.000+00:00"),
-		service.WithUpsertMetadata([]interface{}{}),
+		service.WithUpsertMetadata(map[string]interface{}{}),
 	)
 	fmt.Println(response, err)
 }

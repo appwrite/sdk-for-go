@@ -538,10 +538,200 @@ func (srv *Proxy) DeleteRule(RuleId string) (*interface{}, error) {
 
 }
 
+type UpdateFunctionRuleOptions struct {
+	Branch         string
+	enabledSetters map[string]bool
+}
+
+func (options UpdateFunctionRuleOptions) New() *UpdateFunctionRuleOptions {
+	options.enabledSetters = map[string]bool{"Branch": false}
+	return &options
+}
+
+type UpdateFunctionRuleOption func(*UpdateFunctionRuleOptions)
+
+func (srv *Proxy) WithUpdateFunctionRuleBranch(v string) UpdateFunctionRuleOption {
+	return func(o *UpdateFunctionRuleOptions) {
+		o.Branch = v
+		o.enabledSetters["Branch"] = true
+	}
+}
+
+// UpdateFunctionRule update the function and VCS branch a function proxy rule
+// executes. The rule domain cannot be changed.
+func (srv *Proxy) UpdateFunctionRule(RuleId string, FunctionId string, optionalSetters ...UpdateFunctionRuleOption) (*models.ProxyRule, error) {
+	if RuleId == "" {
+		return nil, errors.New("Missing required parameter: \"ruleId\"")
+	}
+
+	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
+	path := r.Replace("/proxy/rules/{ruleId}/function")
+	options := UpdateFunctionRuleOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["functionId"] = FunctionId
+	if options.enabledSetters["Branch"] {
+		params["branch"] = options.Branch
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.ProxyRule{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ProxyRule
+	parsed, ok := resp.Result.(models.ProxyRule)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// UpdateRedirectRule update the target URL, status code and parent resource
+// of a redirect proxy rule. The rule domain cannot be changed.
+func (srv *Proxy) UpdateRedirectRule(RuleId string, Url string, StatusCode string, ResourceId string, ResourceType string) (*models.ProxyRule, error) {
+	if RuleId == "" {
+		return nil, errors.New("Missing required parameter: \"ruleId\"")
+	}
+
+	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
+	path := r.Replace("/proxy/rules/{ruleId}/redirect")
+	params := map[string]interface{}{}
+	params["url"] = Url
+	params["statusCode"] = StatusCode
+	params["resourceId"] = ResourceId
+	params["resourceType"] = ResourceType
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.ProxyRule{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ProxyRule
+	parsed, ok := resp.Result.(models.ProxyRule)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateSiteRuleOptions struct {
+	Branch         string
+	enabledSetters map[string]bool
+}
+
+func (options UpdateSiteRuleOptions) New() *UpdateSiteRuleOptions {
+	options.enabledSetters = map[string]bool{"Branch": false}
+	return &options
+}
+
+type UpdateSiteRuleOption func(*UpdateSiteRuleOptions)
+
+func (srv *Proxy) WithUpdateSiteRuleBranch(v string) UpdateSiteRuleOption {
+	return func(o *UpdateSiteRuleOptions) {
+		o.Branch = v
+		o.enabledSetters["Branch"] = true
+	}
+}
+
+// UpdateSiteRule update the site and VCS branch a site proxy rule serves. The
+// rule domain cannot be changed.
+func (srv *Proxy) UpdateSiteRule(RuleId string, SiteId string, optionalSetters ...UpdateSiteRuleOption) (*models.ProxyRule, error) {
+	if RuleId == "" {
+		return nil, errors.New("Missing required parameter: \"ruleId\"")
+	}
+
+	r := strings.NewReplacer("{ruleId}", client.EncodePath(RuleId))
+	path := r.Replace("/proxy/rules/{ruleId}/site")
+	options := UpdateSiteRuleOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["siteId"] = SiteId
+	if options.enabledSetters["Branch"] {
+		params["branch"] = options.Branch
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.ProxyRule{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.ProxyRule
+	parsed, ok := resp.Result.(models.ProxyRule)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // UpdateRuleStatus if not succeeded yet, retry verification process of a
 // proxy rule domain. This endpoint triggers domain verification by checking
 // DNS records. If verification is successful, a TLS certificate will be
 // automatically provisioned for the domain asynchronously in the background.
+// A verified rule whose certificate renewal failed or is blocked, or whose
+// certificate expired, is checked the same way, and its certificate renewed
+// in the background.
 func (srv *Proxy) UpdateRuleStatus(RuleId string) (*models.ProxyRule, error) {
 	if RuleId == "" {
 		return nil, errors.New("Missing required parameter: \"ruleId\"")

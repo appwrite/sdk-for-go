@@ -21,7 +21,7 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<DOCUMENT_ID>",
-		service.WithUpdateDocumentData([]interface{}{}),
+		service.WithUpdateDocumentData(map[string]interface{}{}),
 		service.WithUpdateDocumentPermissions([]string{"read(\"any\")"}),
 		service.WithUpdateDocumentTransactionId("<TRANSACTION_ID>"),
 	)

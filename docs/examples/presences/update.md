@@ -22,7 +22,7 @@ func main() {
 		"<USER_ID>",
 		service.WithUpdateStatus("<STATUS>"),
 		service.WithUpdateExpiresAt("2020-10-15T06:38:00.000+00:00"),
-		service.WithUpdateMetadata([]interface{}{}),
+		service.WithUpdateMetadata(map[string]interface{}{}),
 		service.WithUpdatePermissions([]string{"read(\"any\")"}),
 		service.WithUpdatePurge(false),
 	)

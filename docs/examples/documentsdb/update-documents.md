@@ -20,7 +20,7 @@ func main() {
 	response, err := service.UpdateDocuments(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		service.WithUpdateDocumentsData([]interface{}{}),
+		service.WithUpdateDocumentsData(map[string]interface{}{}),
 		service.WithUpdateDocumentsQueries([]string{"example"}),
 		service.WithUpdateDocumentsTransactionId("<TRANSACTION_ID>"),
 	)

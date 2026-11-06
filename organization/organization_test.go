@@ -27,6 +27,8 @@ func TestOrganization(t *testing.T) {
     "prefs": {
     },
     "budgetAlerts": [],
+    "budgetNotify": [],
+    "budgetCritical": [],
     "billingPlan": "tier-1",
     "billingPlanId": "tier-1",
     "billingPlanDetails": {
@@ -139,6 +141,8 @@ func TestOrganization(t *testing.T) {
     "prefs": {
     },
     "budgetAlerts": [],
+    "budgetNotify": [],
+    "budgetCritical": [],
     "billingPlan": "tier-1",
     "billingPlanId": "tier-1",
     "billingPlanDetails": {

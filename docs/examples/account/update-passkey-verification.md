@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.UpdatePasskeyVerification(
 		"<PASSKEY_ID>",
-		[]interface{}{},
+		map[string]interface{}{},
 	)
 	fmt.Println(response, err)
 }

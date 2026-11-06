@@ -30,6 +30,7 @@ func main() {
 		service.WithUpdateRateLimitRulePriority(-100000),
 		service.WithUpdateRateLimitRuleEnabled(false),
 		service.WithUpdateRateLimitRuleConditions([]string{"example"}),
+		service.WithUpdateRateLimitRuleSchedule(map[string]interface{}{}),
 	)
 	fmt.Println(response, err)
 }

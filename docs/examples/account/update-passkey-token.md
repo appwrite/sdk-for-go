@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.UpdatePasskeyToken(
 		"<CHALLENGE_ID>",
-		[]interface{}{},
+		map[string]interface{}{},
 	)
 	fmt.Println(response, err)
 }

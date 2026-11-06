@@ -11,6 +11,8 @@ type MigrationReport struct {
 	User int `json:"user"`
 	// Number of teams to be migrated.
 	Team int `json:"team"`
+	// Number of memberships to be migrated.
+	Membership int `json:"membership"`
 	// Number of databases to be migrated.
 	Database int `json:"database"`
 	// Number of rows to be migrated.
@@ -38,6 +40,8 @@ type MigrationReport struct {
 	// Number of label sets to be migrated (always 0 or 1 — the project-level
 	// RBAC label array).
 	ProjectLabels int `json:"project-labels"`
+	// Number of project preference sets to be migrated (always 0 or 1).
+	ProjectPreferences int `json:"project-preferences"`
 	// Number of service configs to be migrated (always 0 or 1 — the
 	// project-level enable/disable flags for all 17 services).
 	ProjectServices int `json:"project-services"`
@@ -101,6 +105,7 @@ func (model *MigrationReport) UnmarshalJSON(data []byte) error {
 	var present struct {
 		User                 json.RawMessage `json:"user"`
 		Team                 json.RawMessage `json:"team"`
+		Membership           json.RawMessage `json:"membership"`
 		Database             json.RawMessage `json:"database"`
 		Row                  json.RawMessage `json:"row"`
 		File                 json.RawMessage `json:"file"`
@@ -113,6 +118,7 @@ func (model *MigrationReport) UnmarshalJSON(data []byte) error {
 		AuthMethods          json.RawMessage `json:"auth-methods"`
 		ProjectProtocols     json.RawMessage `json:"project-protocols"`
 		ProjectLabels        json.RawMessage `json:"project-labels"`
+		ProjectPreferences   json.RawMessage `json:"project-preferences"`
 		ProjectServices      json.RawMessage `json:"project-services"`
 		Policies             json.RawMessage `json:"policies"`
 		Smtp                 json.RawMessage `json:"smtp"`
@@ -139,6 +145,11 @@ func (model *MigrationReport) UnmarshalJSON(data []byte) error {
 	}
 	if present.Team == nil {
 		if err := json.Unmarshal([]byte("0"), &decoded.Team); err != nil {
+			return err
+		}
+	}
+	if present.Membership == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Membership); err != nil {
 			return err
 		}
 	}
@@ -199,6 +210,11 @@ func (model *MigrationReport) UnmarshalJSON(data []byte) error {
 	}
 	if present.ProjectLabels == nil {
 		if err := json.Unmarshal([]byte("0"), &decoded.ProjectLabels); err != nil {
+			return err
+		}
+	}
+	if present.ProjectPreferences == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.ProjectPreferences); err != nil {
 			return err
 		}
 	}

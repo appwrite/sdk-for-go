@@ -65,6 +65,9 @@ type ActivityEvent struct {
 	Sdk string `json:"sdk"`
 	// Version of the SDK that triggered the event.
 	SdkVersion string `json:"sdkVersion"`
+	// Why the actor made the request, as sent in the `X-Appwrite-Reason` header.
+	// Empty when no reason was given.
+	Reason string `json:"reason"`
 
 	// Used by Decode() method
 	data []byte
@@ -114,6 +117,7 @@ func (model *ActivityEvent) UnmarshalJSON(data []byte) error {
 		Hostname                     json.RawMessage `json:"hostname"`
 		Sdk                          json.RawMessage `json:"sdk"`
 		SdkVersion                   json.RawMessage `json:"sdkVersion"`
+		Reason                       json.RawMessage `json:"reason"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -260,6 +264,11 @@ func (model *ActivityEvent) UnmarshalJSON(data []byte) error {
 	}
 	if present.SdkVersion == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.SdkVersion); err != nil {
+			return err
+		}
+	}
+	if present.Reason == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.Reason); err != nil {
 			return err
 		}
 	}

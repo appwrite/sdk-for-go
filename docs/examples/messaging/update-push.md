@@ -24,7 +24,7 @@ func main() {
 		service.WithUpdatePushTargets([]string{"example"}),
 		service.WithUpdatePushTitle("<TITLE>"),
 		service.WithUpdatePushBody("<BODY>"),
-		service.WithUpdatePushData([]interface{}{}),
+		service.WithUpdatePushData(map[string]interface{}{}),
 		service.WithUpdatePushAction("<ACTION>"),
 		service.WithUpdatePushImage("<ID1:ID2>"),
 		service.WithUpdatePushIcon("<ICON>"),
