@@ -23,6 +23,11 @@ type Organization struct {
 	BillingBudget *int `json:"billingBudget"`
 	// Project budget limit
 	BudgetAlerts []int `json:"budgetAlerts"`
+	// Organization roles whose confirmed members are emailed when a budget alert
+	// fires.
+	BudgetNotify []string `json:"budgetNotify"`
+	// Budget alert percentages whose push notifications are critical.
+	BudgetCritical []int `json:"budgetCritical"`
 	// Organization's billing plan ID.
 	BillingPlan string `json:"billingPlan"`
 	// Organization's billing plan ID.
@@ -65,6 +70,8 @@ type Organization struct {
 	ProgramDiscordChannelName *string `json:"programDiscordChannelName"`
 	// Program's discord channel URL.
 	ProgramDiscordChannelUrl *string `json:"programDiscordChannelUrl"`
+	// When the education plan ends, for an organization on it.
+	EducationExpiresAt *string `json:"educationExpiresAt"`
 	// Billing limits reached
 	BillingLimits BillingLimits `json:"billingLimits"`
 	// Billing plan selected for downgrade.
@@ -103,6 +110,8 @@ func (model *Organization) UnmarshalJSON(data []byte) error {
 		Name              json.RawMessage `json:"name"`
 		Total             json.RawMessage `json:"total"`
 		BudgetAlerts      json.RawMessage `json:"budgetAlerts"`
+		BudgetNotify      json.RawMessage `json:"budgetNotify"`
+		BudgetCritical    json.RawMessage `json:"budgetCritical"`
 		BillingPlan       json.RawMessage `json:"billingPlan"`
 		BillingPlanId     json.RawMessage `json:"billingPlanId"`
 		BillingEmail      json.RawMessage `json:"billingEmail"`
@@ -141,6 +150,16 @@ func (model *Organization) UnmarshalJSON(data []byte) error {
 	}
 	if present.BudgetAlerts == nil {
 		if err := json.Unmarshal([]byte("[75]"), &decoded.BudgetAlerts); err != nil {
+			return err
+		}
+	}
+	if present.BudgetNotify == nil {
+		if err := json.Unmarshal([]byte("[\"owner\",\"billing\"]"), &decoded.BudgetNotify); err != nil {
+			return err
+		}
+	}
+	if present.BudgetCritical == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.BudgetCritical); err != nil {
 			return err
 		}
 	}

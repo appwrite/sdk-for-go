@@ -1,5 +1,16 @@
 # Change Log
 
+## v7.17.0
+
+* Added: `Project.UpdateOAuth2Vipps` and `UpdateOAuth2VippsSandbox`
+* Added: `Project.GetPrefs` and `UpdatePrefs`
+* Added: `Proxy.UpdateFunctionRule`, `UpdateRedirectRule` and `UpdateSiteRule`
+* Added: `Schedule` option on `Waf` rule create and update methods
+* Added: `Type` and `IdentifyUsers` on analytics properties, `Interactive` on events, `PropKey` on metrics
+* Updated: `Project.ListEnvironments`, `CreateEnvironment`, `GetEnvironment` and `UpdateEnvironment` return `Environment` models
+* Updated: requests send response format `2.7.1`
+* Fixed: `Project.GetOAuth2Provider` resolves `paypal`, `tradeshift` and `vipps`, not only their sandbox IDs
+
 ## v7.16.0
 
 * Breaking: removed `Migrations.GetAppwriteReport`

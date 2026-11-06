@@ -26,6 +26,7 @@ func main() {
 		service.WithCreateDenyRulePriority(-100000),
 		service.WithCreateDenyRuleEnabled(false),
 		service.WithCreateDenyRuleConditions([]string{"example"}),
+		service.WithCreateDenyRuleSchedule([]interface{}{}),
 	)
 	fmt.Println(response, err)
 }

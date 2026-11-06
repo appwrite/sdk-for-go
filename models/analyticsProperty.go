@@ -15,13 +15,17 @@ type AnalyticsProperty struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// Human-readable name of the tracked website or application.
 	Name string `json:"name"`
-	// Primary domain being tracked (e.g. example.com). May be empty for native
-	// apps.
+	// Primary domain being tracked (e.g. example.com). May be empty for mobile
+	// and agent properties.
 	Domain string `json:"domain"`
 	// Whether tracking is currently active.
 	Enabled bool `json:"enabled"`
 	// List of origins allowed to send tracking events. Use ["*"] to allow all.
 	AllowedOrigins []string `json:"allowedOrigins"`
+	// Kind of product this property tracks. Decides which dashboard panels apply.
+	Type string `json:"type"`
+	// Whether events sent from a signed-in client session record that user's ID.
+	IdentifyUsers bool `json:"identifyUsers"`
 	// Most recent event date in ISO 8601 format. This attribute is only updated
 	// again after 24 hours.
 	AccessedAt string `json:"accessedAt"`
@@ -55,6 +59,8 @@ func (model *AnalyticsProperty) UnmarshalJSON(data []byte) error {
 		Domain          json.RawMessage `json:"domain"`
 		Enabled         json.RawMessage `json:"enabled"`
 		AllowedOrigins  json.RawMessage `json:"allowedOrigins"`
+		Type            json.RawMessage `json:"type"`
+		IdentifyUsers   json.RawMessage `json:"identifyUsers"`
 		AccessedAt      json.RawMessage `json:"accessedAt"`
 		FirstAccessedAt json.RawMessage `json:"firstAccessedAt"`
 	}
@@ -93,6 +99,16 @@ func (model *AnalyticsProperty) UnmarshalJSON(data []byte) error {
 	}
 	if present.AllowedOrigins == nil {
 		if err := json.Unmarshal([]byte("[\"*\"]"), &decoded.AllowedOrigins); err != nil {
+			return err
+		}
+	}
+	if present.Type == nil {
+		if err := json.Unmarshal([]byte("\"web\""), &decoded.Type); err != nil {
+			return err
+		}
+	}
+	if present.IdentifyUsers == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.IdentifyUsers); err != nil {
 			return err
 		}
 	}

@@ -35,6 +35,9 @@ type WafRuleDeny struct {
 	Conditions []interface{} `json:"conditions"`
 	// Action specific configuration.
 	Config interface{} `json:"config"`
+	// When the rule is active: mode, days, interval, anchor, startTime, endTime
+	// and timezone. Null when the rule is always active.
+	Schedule interface{} `json:"schedule"`
 
 	// Used by Decode() method
 	data []byte

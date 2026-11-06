@@ -23,6 +23,8 @@ func main() {
 		service.WithUpdatePropertyDomain("<DOMAIN>"),
 		service.WithUpdatePropertyEnabled(false),
 		service.WithUpdatePropertyAllowedOrigins([]string{"example"}),
+		service.WithUpdatePropertyIdentifyUsers(false),
+		service.WithUpdatePropertyType("web"),
 	)
 	fmt.Println(response, err)
 }

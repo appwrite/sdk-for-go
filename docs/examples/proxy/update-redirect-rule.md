@@ -1,0 +1,29 @@
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/proxy"
+)
+
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithKey("<YOUR_API_KEY>"),
+	)
+
+	service := proxy.New(client)
+
+	response, err := service.UpdateRedirectRule(
+		"<RULE_ID>",
+		"https://example.com",
+		"301",
+		"<RESOURCE_ID>",
+		"site",
+	)
+	fmt.Println(response, err)
+}
+```
