@@ -7,7 +7,7 @@ import (
 )
 
 func TestMigrationReportModel(t *testing.T) {
-	model := MigrationReport{User: 20, Team: 20, Database: 20, Row: 20, File: 20, Bucket: 20, Function: 20, Platform: 5, ApiKey: 5, ProjectVariable: 5, Webhook: 5, AuthMethods: 1, ProjectProtocols: 1, ProjectLabels: 1, ProjectServices: 1, Policies: 1, Smtp: 1, Rule: 5, ProjectEmailTemplate: 7, ProjectEnvironment: 2, Site: 5, Provider: 5, Topic: 10, Subscriber: 100, Message: 50, Size: 30000, Version: "1.4.0", Oauth2Provider: 5, BackupPolicy: 5}
+	model := MigrationReport{User: 20, Team: 20, Membership: 20, Database: 20, Row: 20, File: 20, Bucket: 20, Function: 20, Platform: 5, ApiKey: 5, ProjectVariable: 5, Webhook: 5, AuthMethods: 1, ProjectProtocols: 1, ProjectLabels: 1, ProjectPreferences: 1, ProjectServices: 1, Policies: 1, Smtp: 1, Rule: 5, ProjectEmailTemplate: 7, ProjectEnvironment: 2, Site: 5, Provider: 5, Topic: 10, Subscriber: 100, Message: 50, Size: 30000, Version: "1.4.0", Oauth2Provider: 5, BackupPolicy: 5}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -24,6 +24,9 @@ func TestMigrationReportModel(t *testing.T) {
 	}
 	if result.Team != model.Team {
 		t.Errorf("Expected Team %v, got %v", model.Team, result.Team)
+	}
+	if result.Membership != model.Membership {
+		t.Errorf("Expected Membership %v, got %v", model.Membership, result.Membership)
 	}
 	if result.Database != model.Database {
 		t.Errorf("Expected Database %v, got %v", model.Database, result.Database)
@@ -60,6 +63,9 @@ func TestMigrationReportModel(t *testing.T) {
 	}
 	if result.ProjectLabels != model.ProjectLabels {
 		t.Errorf("Expected ProjectLabels %v, got %v", model.ProjectLabels, result.ProjectLabels)
+	}
+	if result.ProjectPreferences != model.ProjectPreferences {
+		t.Errorf("Expected ProjectPreferences %v, got %v", model.ProjectPreferences, result.ProjectPreferences)
 	}
 	if result.ProjectServices != model.ProjectServices {
 		t.Errorf("Expected ProjectServices %v, got %v", model.ProjectServices, result.ProjectServices)
@@ -143,6 +149,22 @@ func TestMigrationReportModelDefaults(t *testing.T) {
 		}
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("Expected missing team to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Membership)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing membership to default to %v, got %v", want, got)
 		}
 	}
 	{
@@ -335,6 +357,22 @@ func TestMigrationReportModelDefaults(t *testing.T) {
 		}
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("Expected missing project-labels to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.ProjectPreferences)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing project-preferences to default to %v, got %v", want, got)
 		}
 	}
 	{
@@ -578,7 +616,7 @@ func TestMigrationReportModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := MigrationReport{User: 20, Team: 20, Database: 20, Row: 20, File: 20, Bucket: 20, Function: 20, Platform: 5, ApiKey: 5, ProjectVariable: 5, Webhook: 5, AuthMethods: 1, ProjectProtocols: 1, ProjectLabels: 1, ProjectServices: 1, Policies: 1, Smtp: 1, Rule: 5, ProjectEmailTemplate: 7, ProjectEnvironment: 2, Site: 5, Provider: 5, Topic: 10, Subscriber: 100, Message: 50, Size: 30000, Version: "1.4.0", Oauth2Provider: 5, BackupPolicy: 5}
+	reused := MigrationReport{User: 20, Team: 20, Membership: 20, Database: 20, Row: 20, File: 20, Bucket: 20, Function: 20, Platform: 5, ApiKey: 5, ProjectVariable: 5, Webhook: 5, AuthMethods: 1, ProjectProtocols: 1, ProjectLabels: 1, ProjectPreferences: 1, ProjectServices: 1, Policies: 1, Smtp: 1, Rule: 5, ProjectEmailTemplate: 7, ProjectEnvironment: 2, Site: 5, Provider: 5, Topic: 10, Subscriber: 100, Message: 50, Size: 30000, Version: "1.4.0", Oauth2Provider: 5, BackupPolicy: 5}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

@@ -29,6 +29,7 @@ func main() {
 		service.WithUpdateChallengeRuleConditions([]string{"example"}),
 		service.WithUpdateChallengeRuleDifficulty(1),
 		service.WithUpdateChallengeRuleTtl(900),
+		service.WithUpdateChallengeRuleSchedule([]interface{}{}),
 	)
 	fmt.Println(response, err)
 }

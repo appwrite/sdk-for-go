@@ -46,6 +46,8 @@ type Project struct {
 	PingedAt string `json:"pingedAt"`
 	// Labels for the project.
 	Labels []string `json:"labels"`
+	// Project preferences as a key-value object
+	Prefs Preferences `json:"prefs"`
 	// Project status
 	Status string `json:"status"`
 	// Stage progress (completed or skipped) with timestamps and actor types,
@@ -67,6 +69,10 @@ type Project struct {
 	// ID of the project this environment belongs to. Null when the project is not
 	// an environment.
 	ParentId *string `json:"parentId"`
+	// ID of the environment, as passed in the X-Appwrite-Environment header, when
+	// the project is accessed as one. Null when the project is not an
+	// environment.
+	EnvironmentId *string `json:"environmentId"`
 	// Billing limits reached
 	BillingLimits BillingLimits `json:"billingLimits"`
 	// First time the project received a non-console API request. Empty until the

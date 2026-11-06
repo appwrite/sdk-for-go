@@ -106,11 +106,13 @@ type CreatePropertyOptions struct {
 	Domain         string
 	Enabled        bool
 	AllowedOrigins []string
+	IdentifyUsers  bool
+	Type           string
 	enabledSetters map[string]bool
 }
 
 func (options CreatePropertyOptions) New() *CreatePropertyOptions {
-	options.enabledSetters = map[string]bool{"Domain": false, "Enabled": false, "AllowedOrigins": false}
+	options.enabledSetters = map[string]bool{"Domain": false, "Enabled": false, "AllowedOrigins": false, "IdentifyUsers": false, "Type": false}
 	return &options
 }
 
@@ -134,6 +136,18 @@ func (srv *Analytics) WithCreatePropertyAllowedOrigins(v []string) CreatePropert
 		o.enabledSetters["AllowedOrigins"] = true
 	}
 }
+func (srv *Analytics) WithCreatePropertyIdentifyUsers(v bool) CreatePropertyOption {
+	return func(o *CreatePropertyOptions) {
+		o.IdentifyUsers = v
+		o.enabledSetters["IdentifyUsers"] = true
+	}
+}
+func (srv *Analytics) WithCreatePropertyType(v string) CreatePropertyOption {
+	return func(o *CreatePropertyOptions) {
+		o.Type = v
+		o.enabledSetters["Type"] = true
+	}
+}
 
 // CreateProperty create a new analytics property to track a website or
 // application.
@@ -154,6 +168,12 @@ func (srv *Analytics) CreateProperty(PropertyId string, Name string, optionalSet
 	}
 	if options.enabledSetters["AllowedOrigins"] {
 		params["allowedOrigins"] = options.AllowedOrigins
+	}
+	if options.enabledSetters["IdentifyUsers"] {
+		params["identifyUsers"] = options.IdentifyUsers
+	}
+	if options.enabledSetters["Type"] {
+		params["type"] = options.Type
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -234,11 +254,13 @@ type UpdatePropertyOptions struct {
 	Domain         string
 	Enabled        bool
 	AllowedOrigins []string
+	IdentifyUsers  bool
+	Type           string
 	enabledSetters map[string]bool
 }
 
 func (options UpdatePropertyOptions) New() *UpdatePropertyOptions {
-	options.enabledSetters = map[string]bool{"Name": false, "Domain": false, "Enabled": false, "AllowedOrigins": false}
+	options.enabledSetters = map[string]bool{"Name": false, "Domain": false, "Enabled": false, "AllowedOrigins": false, "IdentifyUsers": false, "Type": false}
 	return &options
 }
 
@@ -268,6 +290,18 @@ func (srv *Analytics) WithUpdatePropertyAllowedOrigins(v []string) UpdatePropert
 		o.enabledSetters["AllowedOrigins"] = true
 	}
 }
+func (srv *Analytics) WithUpdatePropertyIdentifyUsers(v bool) UpdatePropertyOption {
+	return func(o *UpdatePropertyOptions) {
+		o.IdentifyUsers = v
+		o.enabledSetters["IdentifyUsers"] = true
+	}
+}
+func (srv *Analytics) WithUpdatePropertyType(v string) UpdatePropertyOption {
+	return func(o *UpdatePropertyOptions) {
+		o.Type = v
+		o.enabledSetters["Type"] = true
+	}
+}
 
 // UpdateProperty update an analytics property. Only the attributes you pass
 // are changed; omitted attributes keep their current value.
@@ -294,6 +328,12 @@ func (srv *Analytics) UpdateProperty(PropertyId string, optionalSetters ...Updat
 	}
 	if options.enabledSetters["AllowedOrigins"] {
 		params["allowedOrigins"] = options.AllowedOrigins
+	}
+	if options.enabledSetters["IdentifyUsers"] {
+		params["identifyUsers"] = options.IdentifyUsers
+	}
+	if options.enabledSetters["Type"] {
+		params["type"] = options.Type
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -381,11 +421,12 @@ type CreateEventOptions struct {
 	UserId         string
 	Ip             string
 	UserAgent      string
+	Interactive    bool
 	enabledSetters map[string]bool
 }
 
 func (options CreateEventOptions) New() *CreateEventOptions {
-	options.enabledSetters = map[string]bool{"Domain": false, "Referrer": false, "ScreenWidth": false, "SessionHash": false, "ScrollDepth": false, "EngagementTime": false, "Props": false, "UserId": false, "Ip": false, "UserAgent": false}
+	options.enabledSetters = map[string]bool{"Domain": false, "Referrer": false, "ScreenWidth": false, "SessionHash": false, "ScrollDepth": false, "EngagementTime": false, "Props": false, "UserId": false, "Ip": false, "UserAgent": false, "Interactive": false}
 	return &options
 }
 
@@ -451,6 +492,12 @@ func (srv *Analytics) WithCreateEventUserAgent(v string) CreateEventOption {
 		o.enabledSetters["UserAgent"] = true
 	}
 }
+func (srv *Analytics) WithCreateEventInteractive(v bool) CreateEventOption {
+	return func(o *CreateEventOptions) {
+		o.Interactive = v
+		o.enabledSetters["Interactive"] = true
+	}
+}
 
 // CreateEvent send a tracking event from a browser, native app, or
 // server-side SDK.
@@ -498,6 +545,9 @@ func (srv *Analytics) CreateEvent(PropertyId string, Name string, Url string, op
 	if options.enabledSetters["UserAgent"] {
 		params["userAgent"] = options.UserAgent
 	}
+	if options.enabledSetters["Interactive"] {
+		params["interactive"] = options.Interactive
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -534,6 +584,7 @@ type ListMetricsOptions struct {
 	Queries        []string
 	Interval       string
 	Dimensions     []string
+	PropKey        string
 	DateRange      string
 	StartAt        string
 	EndAt          string
@@ -543,7 +594,7 @@ type ListMetricsOptions struct {
 }
 
 func (options ListMetricsOptions) New() *ListMetricsOptions {
-	options.enabledSetters = map[string]bool{"Queries": false, "Interval": false, "Dimensions": false, "DateRange": false, "StartAt": false, "EndAt": false, "Limit": false, "Total": false}
+	options.enabledSetters = map[string]bool{"Queries": false, "Interval": false, "Dimensions": false, "PropKey": false, "DateRange": false, "StartAt": false, "EndAt": false, "Limit": false, "Total": false}
 	return &options
 }
 
@@ -565,6 +616,12 @@ func (srv *Analytics) WithListMetricsDimensions(v []string) ListMetricsOption {
 	return func(o *ListMetricsOptions) {
 		o.Dimensions = v
 		o.enabledSetters["Dimensions"] = true
+	}
+}
+func (srv *Analytics) WithListMetricsPropKey(v string) ListMetricsOption {
+	return func(o *ListMetricsOptions) {
+		o.PropKey = v
+		o.enabledSetters["PropKey"] = true
 	}
 }
 func (srv *Analytics) WithListMetricsDateRange(v string) ListMetricsOption {
@@ -613,6 +670,16 @@ func (srv *Analytics) WithListMetricsTotal(v bool) ListMetricsOption {
 // `pageviews` is carried by the flat aggregate and by `interval`, but not by
 // a breakdown.
 //
+// `userId` and `users` cover identified traffic only: events sent with an API
+// key's `userId`, or from a signed-in session on a property with
+// `identifyUsers` on. A `userId` breakdown leaves out anonymous events;
+// returned values are the project's user IDs.
+//
+// Custom event props: `dimensions[]=props` ranks the prop keys seen in the
+// window, and adding `propKey` ranks the values of that one key. `queries[]`
+// filters on a prop's value with the `props.<key>` attribute, e.g.
+// `equal("props.plan", ["pro"])`.
+//
 // Combining `dimensions[]` with `interval` is not supported yet. `queries[]`
 // filters the underlying events using standard Utopia query syntax.
 func (srv *Analytics) ListMetrics(PropertyId string, optionalSetters ...ListMetricsOption) (*models.AnalyticsMetricList, error) {
@@ -635,6 +702,9 @@ func (srv *Analytics) ListMetrics(PropertyId string, optionalSetters ...ListMetr
 	}
 	if options.enabledSetters["Dimensions"] {
 		params["dimensions"] = options.Dimensions
+	}
+	if options.enabledSetters["PropKey"] {
+		params["propKey"] = options.PropKey
 	}
 	if options.enabledSetters["DateRange"] {
 		params["dateRange"] = options.DateRange

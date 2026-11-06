@@ -7,7 +7,7 @@ import (
 )
 
 func TestProxyRuleListModel(t *testing.T) {
-	model := ProxyRuleList{Total: 5, Rules: []ProxyRule{ProxyRule{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Domain: "appwrite.company.com", Type: "deployment", Trigger: "manual", RedirectUrl: "https://appwrite.io/docs", RedirectStatusCode: 301, DeploymentId: "n3u9feiwmf", DeploymentResourceId: "n3u9feiwmf", DeploymentVcsProviderBranch: "main", Status: "verified", Logs: "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.", RenewAt: "datetime", Protocol: "http"}}}
+	model := ProxyRuleList{Total: 5, Rules: []ProxyRule{ProxyRule{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Domain: "appwrite.company.com", Type: "deployment", Trigger: "manual", RedirectUrl: "https://appwrite.io/docs", RedirectStatusCode: 301, DeploymentId: "n3u9feiwmf", DeploymentResourceId: "n3u9feiwmf", DeploymentVcsProviderBranch: "main", Status: "verified", Logs: "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.", RenewAt: "datetime", ExpireAt: "2020-10-15T06:38:00.000+00:00", CertificateStatus: "issued", Protocol: "http"}}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -46,7 +46,7 @@ func TestProxyRuleListModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := ProxyRuleList{Total: 5, Rules: []ProxyRule{ProxyRule{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Domain: "appwrite.company.com", Type: "deployment", Trigger: "manual", RedirectUrl: "https://appwrite.io/docs", RedirectStatusCode: 301, DeploymentId: "n3u9feiwmf", DeploymentResourceId: "n3u9feiwmf", DeploymentVcsProviderBranch: "main", Status: "verified", Logs: "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.", RenewAt: "datetime", Protocol: "http"}}}
+	reused := ProxyRuleList{Total: 5, Rules: []ProxyRule{ProxyRule{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Domain: "appwrite.company.com", Type: "deployment", Trigger: "manual", RedirectUrl: "https://appwrite.io/docs", RedirectStatusCode: 301, DeploymentId: "n3u9feiwmf", DeploymentResourceId: "n3u9feiwmf", DeploymentVcsProviderBranch: "main", Status: "verified", Logs: "Verification of DNS records failed with DNS resolver 8.8.8.8. Domain stage.myapp.com does not have DNS record.", RenewAt: "datetime", ExpireAt: "2020-10-15T06:38:00.000+00:00", CertificateStatus: "issued", Protocol: "http"}}}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

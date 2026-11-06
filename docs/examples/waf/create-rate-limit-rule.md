@@ -31,6 +31,7 @@ func main() {
 		service.WithCreateRateLimitRulePriority(-100000),
 		service.WithCreateRateLimitRuleEnabled(false),
 		service.WithCreateRateLimitRuleConditions([]string{"example"}),
+		service.WithCreateRateLimitRuleSchedule([]interface{}{}),
 	)
 	fmt.Println(response, err)
 }

@@ -35,6 +35,9 @@ type WafRuleChallenge struct {
 	Conditions []interface{} `json:"conditions"`
 	// Action specific configuration.
 	Config interface{} `json:"config"`
+	// When the rule is active: mode, days, interval, anchor, startTime, endTime
+	// and timezone. Null when the rule is always active.
+	Schedule interface{} `json:"schedule"`
 	// Challenge type enforced when the rule matches.
 	ChallengeType string `json:"challengeType"`
 	// Challenge difficulty from 1 (easiest) to 5 (hardest) enforced when the rule

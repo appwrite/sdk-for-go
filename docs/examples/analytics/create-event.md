@@ -31,6 +31,7 @@ func main() {
 		service.WithCreateEventUserId("<USER_ID>"),
 		service.WithCreateEventIp("<IP>"),
 		service.WithCreateEventUserAgent("<USER_AGENT>"),
+		service.WithCreateEventInteractive(false),
 	)
 	fmt.Println(response, err)
 }

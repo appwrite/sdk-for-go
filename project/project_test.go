@@ -193,56 +193,13 @@ func TestProject(t *testing.T) {
 		mockResponse := `
 {
     "total": 5,
-    "projects": [
+    "environments": [
         {
-            "$id": "5e5ea5c16897e",
+            "$id": "staging",
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-            "name": "New Project",
-            "teamId": "1592981250",
-            "region": "fra",
-            "smtpEnabled": true,
-            "smtpSenderName": "John Appwrite",
-            "smtpSenderEmail": "john@appwrite.io",
-            "smtpReplyToName": "Support Team",
-            "smtpReplyToEmail": "support@appwrite.io",
-            "smtpHost": "mail.appwrite.io",
-            "smtpPort": 25,
-            "smtpUsername": "emailuser",
-            "smtpPassword": "smtp-password",
-            "smtpSecure": "tls",
-            "pingCount": 1,
-            "pingedAt": "2020-10-15T06:38:00.000+00:00",
-            "labels": [],
-            "status": "active",
-            "onboarding": {},
-            "authMethods": [
-                {
-                    "$id": "email-password",
-                    "enabled": true
-                }
-            ],
-            "services": [
-                {
-                    "$id": "sites",
-                    "enabled": true
-                }
-            ],
-            "protocols": [
-                {
-                    "$id": "graphql",
-                    "enabled": true
-                }
-            ],
-            "blocks": [
-                {
-                    "$createdAt": "2020-10-15T06:38:00.000+00:00",
-                    "resourceType": "project",
-                    "resourceId": "5e5ea5c16897e",
-                    "mode": "readOnly"
-                }
-            ],
-            "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+            "projectId": "5e5ea5c16897e",
+            "name": "Staging"
         }
     ]
 }
@@ -270,54 +227,11 @@ func TestProject(t *testing.T) {
 	t.Run("Test CreateEnvironment", func(t *testing.T) {
 		mockResponse := `
 {
-    "$id": "5e5ea5c16897e",
+    "$id": "staging",
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-    "name": "New Project",
-    "teamId": "1592981250",
-    "region": "fra",
-    "smtpEnabled": true,
-    "smtpSenderName": "John Appwrite",
-    "smtpSenderEmail": "john@appwrite.io",
-    "smtpReplyToName": "Support Team",
-    "smtpReplyToEmail": "support@appwrite.io",
-    "smtpHost": "mail.appwrite.io",
-    "smtpPort": 25,
-    "smtpUsername": "emailuser",
-    "smtpPassword": "smtp-password",
-    "smtpSecure": "tls",
-    "pingCount": 1,
-    "pingedAt": "2020-10-15T06:38:00.000+00:00",
-    "labels": [],
-    "status": "active",
-    "onboarding": {},
-    "authMethods": [
-        {
-            "$id": "email-password",
-            "enabled": true
-        }
-    ],
-    "services": [
-        {
-            "$id": "sites",
-            "enabled": true
-        }
-    ],
-    "protocols": [
-        {
-            "$id": "graphql",
-            "enabled": true
-        }
-    ],
-    "blocks": [
-        {
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "resourceType": "project",
-            "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly"
-        }
-    ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "projectId": "5e5ea5c16897e",
+    "name": "Staging"
 }
 `
 
@@ -343,54 +257,11 @@ func TestProject(t *testing.T) {
 	t.Run("Test GetEnvironment", func(t *testing.T) {
 		mockResponse := `
 {
-    "$id": "5e5ea5c16897e",
+    "$id": "staging",
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-    "name": "New Project",
-    "teamId": "1592981250",
-    "region": "fra",
-    "smtpEnabled": true,
-    "smtpSenderName": "John Appwrite",
-    "smtpSenderEmail": "john@appwrite.io",
-    "smtpReplyToName": "Support Team",
-    "smtpReplyToEmail": "support@appwrite.io",
-    "smtpHost": "mail.appwrite.io",
-    "smtpPort": 25,
-    "smtpUsername": "emailuser",
-    "smtpPassword": "smtp-password",
-    "smtpSecure": "tls",
-    "pingCount": 1,
-    "pingedAt": "2020-10-15T06:38:00.000+00:00",
-    "labels": [],
-    "status": "active",
-    "onboarding": {},
-    "authMethods": [
-        {
-            "$id": "email-password",
-            "enabled": true
-        }
-    ],
-    "services": [
-        {
-            "$id": "sites",
-            "enabled": true
-        }
-    ],
-    "protocols": [
-        {
-            "$id": "graphql",
-            "enabled": true
-        }
-    ],
-    "blocks": [
-        {
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "resourceType": "project",
-            "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly"
-        }
-    ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "projectId": "5e5ea5c16897e",
+    "name": "Staging"
 }
 `
 
@@ -416,54 +287,11 @@ func TestProject(t *testing.T) {
 	t.Run("Test UpdateEnvironment", func(t *testing.T) {
 		mockResponse := `
 {
-    "$id": "5e5ea5c16897e",
+    "$id": "staging",
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
-    "name": "New Project",
-    "teamId": "1592981250",
-    "region": "fra",
-    "smtpEnabled": true,
-    "smtpSenderName": "John Appwrite",
-    "smtpSenderEmail": "john@appwrite.io",
-    "smtpReplyToName": "Support Team",
-    "smtpReplyToEmail": "support@appwrite.io",
-    "smtpHost": "mail.appwrite.io",
-    "smtpPort": 25,
-    "smtpUsername": "emailuser",
-    "smtpPassword": "smtp-password",
-    "smtpSecure": "tls",
-    "pingCount": 1,
-    "pingedAt": "2020-10-15T06:38:00.000+00:00",
-    "labels": [],
-    "status": "active",
-    "onboarding": {},
-    "authMethods": [
-        {
-            "$id": "email-password",
-            "enabled": true
-        }
-    ],
-    "services": [
-        {
-            "$id": "sites",
-            "enabled": true
-        }
-    ],
-    "protocols": [
-        {
-            "$id": "graphql",
-            "enabled": true
-        }
-    ],
-    "blocks": [
-        {
-            "$createdAt": "2020-10-15T06:38:00.000+00:00",
-            "resourceType": "project",
-            "resourceId": "5e5ea5c16897e",
-            "mode": "readOnly"
-        }
-    ],
-    "consoleAccessedAt": "2020-10-15T06:38:00.000+00:00"
+    "projectId": "5e5ea5c16897e",
+    "name": "Staging"
 }
 `
 
@@ -2249,6 +2077,64 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Vipps", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "9a3a4b3e-0000-0000-0000-0f1a6d1c3b2e",
+    "clientSecret": "Ay1jb000000000000000000000000000000Vx3k"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Vipps()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Vipps failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2VippsSandbox", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "9a3a4b3e-0000-0000-0000-0f1a6d1c3b2e",
+    "clientSecret": "Ay1jb000000000000000000000000000000Vx3k"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2VippsSandbox()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2VippsSandbox failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Webflow", func(t *testing.T) {
 		mockResponse := `
 {
@@ -2456,11 +2342,10 @@ func TestProject(t *testing.T) {
 	t.Run("Test GetOAuth2Provider", func(t *testing.T) {
 		mockResponse := `
 {
-    "$id": "kakao",
+    "$id": "vippsSandbox",
     "enabled": true,
-    "clientId": "839ff5000000000000000000013206de",
-    "clientSecret": "jLNVOK00000000000000000000yJebea",
-    "prompt": []
+    "clientId": "9a3a4b3e-0000-0000-0000-0f1a6d1c3b2e",
+    "clientSecret": "Ay1jb000000000000000000000000000000Vx3k"
 }
 `
 
@@ -2481,8 +2366,8 @@ func TestProject(t *testing.T) {
 		if err != nil {
 			t.Errorf("Method GetOAuth2Provider failed: %v", err)
 		}
-		if _, ok := response.(*models.OAuth2Kakao); !ok {
-			t.Errorf("Expected response type *models.OAuth2Kakao, got %T", response)
+		if _, ok := response.(*models.OAuth2Vipps); !ok {
+			t.Errorf("Expected response type *models.OAuth2Vipps, got %T", response)
 		}
 	})
 
@@ -4285,6 +4170,56 @@ func TestProject(t *testing.T) {
 		}
 		if _, ok := response.(*models.PolicyPasskey); !ok {
 			t.Errorf("Expected response type *models.PolicyPasskey, got %T", response)
+		}
+	})
+
+	t.Run("Test GetPrefs", func(t *testing.T) {
+		mockResponse := `
+{
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetPrefs()
+		if err != nil {
+			t.Errorf("Method GetPrefs failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdatePrefs", func(t *testing.T) {
+		mockResponse := `
+{
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PUT" {
+				t.Errorf("Expected method PUT, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdatePrefs(map[string]interface{}{})
+		if err != nil {
+			t.Errorf("Method UpdatePrefs failed: %v", err)
 		}
 	})
 

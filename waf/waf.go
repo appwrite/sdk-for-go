@@ -109,11 +109,12 @@ type CreateBypassRuleOptions struct {
 	Priority       int
 	Enabled        bool
 	Conditions     []string
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options CreateBypassRuleOptions) New() *CreateBypassRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false}
+	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false, "Schedule": false}
 	return &options
 }
 
@@ -149,6 +150,12 @@ func (srv *Waf) WithCreateBypassRuleConditions(v []string) CreateBypassRuleOptio
 		o.enabledSetters["Conditions"] = true
 	}
 }
+func (srv *Waf) WithCreateBypassRuleSchedule(v interface{}) CreateBypassRuleOption {
+	return func(o *CreateBypassRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
+	}
+}
 
 // CreateBypassRule create a bypass WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
@@ -180,6 +187,9 @@ func (srv *Waf) CreateBypassRule(RuleId string, ResourceType string, Name string
 	}
 	if options.enabledSetters["Conditions"] {
 		params["conditions"] = options.Conditions
+	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -222,11 +232,12 @@ type UpdateBypassRuleOptions struct {
 	Priority       int
 	Enabled        bool
 	Conditions     []string
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options UpdateBypassRuleOptions) New() *UpdateBypassRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false}
+	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false, "Schedule": false}
 	return &options
 }
 
@@ -274,6 +285,12 @@ func (srv *Waf) WithUpdateBypassRuleConditions(v []string) UpdateBypassRuleOptio
 		o.enabledSetters["Conditions"] = true
 	}
 }
+func (srv *Waf) WithUpdateBypassRuleSchedule(v interface{}) UpdateBypassRuleOption {
+	return func(o *UpdateBypassRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
+	}
+}
 
 // UpdateBypassRule update a bypass WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
@@ -313,6 +330,9 @@ func (srv *Waf) UpdateBypassRule(RuleId string, optionalSetters ...UpdateBypassR
 	}
 	if options.enabledSetters["Conditions"] {
 		params["conditions"] = options.Conditions
+	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -356,11 +376,12 @@ type CreateChallengeRuleOptions struct {
 	Conditions     []string
 	Difficulty     int
 	Ttl            int
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options CreateChallengeRuleOptions) New() *CreateChallengeRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "ChallengeType": false, "Priority": false, "Enabled": false, "Conditions": false, "Difficulty": false, "Ttl": false}
+	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "ChallengeType": false, "Priority": false, "Enabled": false, "Conditions": false, "Difficulty": false, "Ttl": false, "Schedule": false}
 	return &options
 }
 
@@ -414,6 +435,12 @@ func (srv *Waf) WithCreateChallengeRuleTtl(v int) CreateChallengeRuleOption {
 		o.enabledSetters["Ttl"] = true
 	}
 }
+func (srv *Waf) WithCreateChallengeRuleSchedule(v interface{}) CreateChallengeRuleOption {
+	return func(o *CreateChallengeRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
+	}
+}
 
 // CreateChallengeRule create a challenge WAF rule. Use `difficulty` (1
 // easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl`
@@ -457,6 +484,9 @@ func (srv *Waf) CreateChallengeRule(RuleId string, ResourceType string, Name str
 	}
 	if options.enabledSetters["Ttl"] {
 		params["ttl"] = options.Ttl
+	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -502,11 +532,12 @@ type UpdateChallengeRuleOptions struct {
 	Conditions     []string
 	Difficulty     int
 	Ttl            int
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options UpdateChallengeRuleOptions) New() *UpdateChallengeRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "ChallengeType": false, "Priority": false, "Enabled": false, "Conditions": false, "Difficulty": false, "Ttl": false}
+	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "ChallengeType": false, "Priority": false, "Enabled": false, "Conditions": false, "Difficulty": false, "Ttl": false, "Schedule": false}
 	return &options
 }
 
@@ -572,6 +603,12 @@ func (srv *Waf) WithUpdateChallengeRuleTtl(v int) UpdateChallengeRuleOption {
 		o.enabledSetters["Ttl"] = true
 	}
 }
+func (srv *Waf) WithUpdateChallengeRuleSchedule(v interface{}) UpdateChallengeRuleOption {
+	return func(o *UpdateChallengeRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
+	}
+}
 
 // UpdateChallengeRule update a challenge WAF rule. Use `difficulty` (1
 // easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl`
@@ -624,6 +661,9 @@ func (srv *Waf) UpdateChallengeRule(RuleId string, optionalSetters ...UpdateChal
 	if options.enabledSetters["Ttl"] {
 		params["ttl"] = options.Ttl
 	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -663,11 +703,12 @@ type CreateDenyRuleOptions struct {
 	Priority       int
 	Enabled        bool
 	Conditions     []string
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options CreateDenyRuleOptions) New() *CreateDenyRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false}
+	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false, "Schedule": false}
 	return &options
 }
 
@@ -701,6 +742,12 @@ func (srv *Waf) WithCreateDenyRuleConditions(v []string) CreateDenyRuleOption {
 	return func(o *CreateDenyRuleOptions) {
 		o.Conditions = v
 		o.enabledSetters["Conditions"] = true
+	}
+}
+func (srv *Waf) WithCreateDenyRuleSchedule(v interface{}) CreateDenyRuleOption {
+	return func(o *CreateDenyRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
 	}
 }
 
@@ -745,6 +792,9 @@ func (srv *Waf) CreateDenyRule(RuleId string, ResourceType string, Name string, 
 	if options.enabledSetters["Conditions"] {
 		params["conditions"] = options.Conditions
 	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -786,11 +836,12 @@ type UpdateDenyRuleOptions struct {
 	Priority       int
 	Enabled        bool
 	Conditions     []string
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options UpdateDenyRuleOptions) New() *UpdateDenyRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false}
+	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false, "Schedule": false}
 	return &options
 }
 
@@ -836,6 +887,12 @@ func (srv *Waf) WithUpdateDenyRuleConditions(v []string) UpdateDenyRuleOption {
 	return func(o *UpdateDenyRuleOptions) {
 		o.Conditions = v
 		o.enabledSetters["Conditions"] = true
+	}
+}
+func (srv *Waf) WithUpdateDenyRuleSchedule(v interface{}) UpdateDenyRuleOption {
+	return func(o *UpdateDenyRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
 	}
 }
 
@@ -888,6 +945,9 @@ func (srv *Waf) UpdateDenyRule(RuleId string, optionalSetters ...UpdateDenyRuleO
 	if options.enabledSetters["Conditions"] {
 		params["conditions"] = options.Conditions
 	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -930,11 +990,12 @@ type CreateRateLimitRuleOptions struct {
 	Priority       int
 	Enabled        bool
 	Conditions     []string
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options CreateRateLimitRuleOptions) New() *CreateRateLimitRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "Key": false, "Strategy": false, "MaxBucketSize": false, "Priority": false, "Enabled": false, "Conditions": false}
+	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "Key": false, "Strategy": false, "MaxBucketSize": false, "Priority": false, "Enabled": false, "Conditions": false, "Schedule": false}
 	return &options
 }
 
@@ -988,6 +1049,12 @@ func (srv *Waf) WithCreateRateLimitRuleConditions(v []string) CreateRateLimitRul
 		o.enabledSetters["Conditions"] = true
 	}
 }
+func (srv *Waf) WithCreateRateLimitRuleSchedule(v interface{}) CreateRateLimitRuleOption {
+	return func(o *CreateRateLimitRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
+	}
+}
 
 // CreateRateLimitRule create a rate limit WAF rule. Use `key` to choose the
 // counter: `ip` limits per client IP, while `userId` limits per authenticated
@@ -1034,6 +1101,9 @@ func (srv *Waf) CreateRateLimitRule(RuleId string, ResourceType string, Name str
 	if options.enabledSetters["Conditions"] {
 		params["conditions"] = options.Conditions
 	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -1079,11 +1149,12 @@ type UpdateRateLimitRuleOptions struct {
 	Priority       int
 	Enabled        bool
 	Conditions     []string
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options UpdateRateLimitRuleOptions) New() *UpdateRateLimitRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "Limit": false, "Interval": false, "Key": false, "MaxBucketSize": false, "Priority": false, "Enabled": false, "Conditions": false}
+	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "Limit": false, "Interval": false, "Key": false, "MaxBucketSize": false, "Priority": false, "Enabled": false, "Conditions": false, "Schedule": false}
 	return &options
 }
 
@@ -1155,6 +1226,12 @@ func (srv *Waf) WithUpdateRateLimitRuleConditions(v []string) UpdateRateLimitRul
 		o.enabledSetters["Conditions"] = true
 	}
 }
+func (srv *Waf) WithUpdateRateLimitRuleSchedule(v interface{}) UpdateRateLimitRuleOption {
+	return func(o *UpdateRateLimitRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
+	}
+}
 
 // UpdateRateLimitRule update a rate limit WAF rule. Use `key` to choose the
 // counter: `ip` limits per client IP, while `userId` limits per authenticated
@@ -1210,6 +1287,9 @@ func (srv *Waf) UpdateRateLimitRule(RuleId string, optionalSetters ...UpdateRate
 	if options.enabledSetters["Conditions"] {
 		params["conditions"] = options.Conditions
 	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -1249,11 +1329,12 @@ type CreateRedirectRuleOptions struct {
 	Priority       int
 	Enabled        bool
 	Conditions     []string
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options CreateRedirectRuleOptions) New() *CreateRedirectRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false}
+	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "Priority": false, "Enabled": false, "Conditions": false, "Schedule": false}
 	return &options
 }
 
@@ -1289,6 +1370,12 @@ func (srv *Waf) WithCreateRedirectRuleConditions(v []string) CreateRedirectRuleO
 		o.enabledSetters["Conditions"] = true
 	}
 }
+func (srv *Waf) WithCreateRedirectRuleSchedule(v interface{}) CreateRedirectRuleOption {
+	return func(o *CreateRedirectRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
+	}
+}
 
 // CreateRedirectRule create a redirect WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
@@ -1322,6 +1409,9 @@ func (srv *Waf) CreateRedirectRule(RuleId string, ResourceType string, Name stri
 	}
 	if options.enabledSetters["Conditions"] {
 		params["conditions"] = options.Conditions
+	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -1366,11 +1456,12 @@ type UpdateRedirectRuleOptions struct {
 	Priority       int
 	Enabled        bool
 	Conditions     []string
+	Schedule       interface{}
 	enabledSetters map[string]bool
 }
 
 func (options UpdateRedirectRuleOptions) New() *UpdateRedirectRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "Location": false, "StatusCode": false, "Priority": false, "Enabled": false, "Conditions": false}
+	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "Location": false, "StatusCode": false, "Priority": false, "Enabled": false, "Conditions": false, "Schedule": false}
 	return &options
 }
 
@@ -1430,6 +1521,12 @@ func (srv *Waf) WithUpdateRedirectRuleConditions(v []string) UpdateRedirectRuleO
 		o.enabledSetters["Conditions"] = true
 	}
 }
+func (srv *Waf) WithUpdateRedirectRuleSchedule(v interface{}) UpdateRedirectRuleOption {
+	return func(o *UpdateRedirectRuleOptions) {
+		o.Schedule = v
+		o.enabledSetters["Schedule"] = true
+	}
+}
 
 // UpdateRedirectRule update a redirect WAF rule. Conditions can match request
 // attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
@@ -1475,6 +1572,9 @@ func (srv *Waf) UpdateRedirectRule(RuleId string, optionalSetters ...UpdateRedir
 	}
 	if options.enabledSetters["Conditions"] {
 		params["conditions"] = options.Conditions
+	}
+	if options.enabledSetters["Schedule"] {
+		params["schedule"] = options.Schedule
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

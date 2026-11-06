@@ -160,8 +160,9 @@ func (srv *Project) WithListEnvironmentsTotal(v bool) ListEnvironmentsOption {
 }
 
 // ListEnvironments get a list of all environments of the project. You can use
-// the query params to filter your results.
-func (srv *Project) ListEnvironments(optionalSetters ...ListEnvironmentsOption) (*models.ProjectList, error) {
+// the query params to filter your results. An environment is listed by its
+// ID, the one passed in the `X-Appwrite-Environment` header to act in it.
+func (srv *Project) ListEnvironments(optionalSetters ...ListEnvironmentsOption) (*models.EnvironmentList, error) {
 	path := "/project/environments"
 	options := ListEnvironmentsOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -188,7 +189,7 @@ func (srv *Project) ListEnvironments(optionalSetters ...ListEnvironmentsOption) 
 			return nil, err
 		}
 
-		parsed := models.ProjectList{}.New(bytes)
+		parsed := models.EnvironmentList{}.New(bytes)
 
 		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
@@ -197,8 +198,8 @@ func (srv *Project) ListEnvironments(optionalSetters ...ListEnvironmentsOption) 
 
 		return parsed, nil
 	}
-	var parsed models.ProjectList
-	parsed, ok := resp.Result.(models.ProjectList)
+	var parsed models.EnvironmentList
+	parsed, ok := resp.Result.(models.EnvironmentList)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -228,6 +229,10 @@ func (srv *Project) WithCreateEnvironmentResources(v []string) CreateEnvironment
 // CreateEnvironment create a new environment of the project. An environment
 // is a separate project in the same organization and region, with its own
 // resources and users. Its usage is billed under the project it belongs to.
+// Requests act in the environment when they carry the project's ID in the
+// `X-Appwrite-Project` header and the environment's ID in the
+// `X-Appwrite-Environment` header; the environment has no project ID of its
+// own to pass.
 //
 // Pass `resources` to copy the project into the environment. The environment
 // is returned at once and the copy runs as a migration of the environment,
@@ -236,7 +241,7 @@ func (srv *Project) WithCreateEnvironmentResources(v []string) CreateEnvironment
 // copied newest first and at most 90 of them, so the environment keeps room
 // under its limit of 100 users for test accounts, and the memberships of
 // users left behind are not copied.
-func (srv *Project) CreateEnvironment(EnvironmentId string, Name string, optionalSetters ...CreateEnvironmentOption) (*models.Project, error) {
+func (srv *Project) CreateEnvironment(EnvironmentId string, Name string, optionalSetters ...CreateEnvironmentOption) (*models.Environment, error) {
 	path := "/project/environments"
 	options := CreateEnvironmentOptions{}.New()
 	for _, opt := range optionalSetters {
@@ -263,7 +268,7 @@ func (srv *Project) CreateEnvironment(EnvironmentId string, Name string, optiona
 			return nil, err
 		}
 
-		parsed := models.Project{}.New(bytes)
+		parsed := models.Environment{}.New(bytes)
 
 		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
@@ -272,8 +277,8 @@ func (srv *Project) CreateEnvironment(EnvironmentId string, Name string, optiona
 
 		return parsed, nil
 	}
-	var parsed models.Project
-	parsed, ok := resp.Result.(models.Project)
+	var parsed models.Environment
+	parsed, ok := resp.Result.(models.Environment)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -281,8 +286,9 @@ func (srv *Project) CreateEnvironment(EnvironmentId string, Name string, optiona
 
 }
 
-// GetEnvironment get an environment of the project by its unique ID.
-func (srv *Project) GetEnvironment(EnvironmentId string) (*models.Project, error) {
+// GetEnvironment get an environment of the project by its ID, the one passed
+// in the `X-Appwrite-Environment` header to act in it.
+func (srv *Project) GetEnvironment(EnvironmentId string) (*models.Environment, error) {
 	if EnvironmentId == "" {
 		return nil, errors.New("Missing required parameter: \"environmentId\"")
 	}
@@ -304,7 +310,7 @@ func (srv *Project) GetEnvironment(EnvironmentId string) (*models.Project, error
 			return nil, err
 		}
 
-		parsed := models.Project{}.New(bytes)
+		parsed := models.Environment{}.New(bytes)
 
 		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
@@ -313,8 +319,8 @@ func (srv *Project) GetEnvironment(EnvironmentId string) (*models.Project, error
 
 		return parsed, nil
 	}
-	var parsed models.Project
-	parsed, ok := resp.Result.(models.Project)
+	var parsed models.Environment
+	parsed, ok := resp.Result.(models.Environment)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -322,8 +328,9 @@ func (srv *Project) GetEnvironment(EnvironmentId string) (*models.Project, error
 
 }
 
-// UpdateEnvironment update the name of an environment of the project.
-func (srv *Project) UpdateEnvironment(EnvironmentId string, Name string) (*models.Project, error) {
+// UpdateEnvironment update the name of an environment of the project. The
+// environment ID cannot be changed.
+func (srv *Project) UpdateEnvironment(EnvironmentId string, Name string) (*models.Environment, error) {
 	if EnvironmentId == "" {
 		return nil, errors.New("Missing required parameter: \"environmentId\"")
 	}
@@ -347,7 +354,7 @@ func (srv *Project) UpdateEnvironment(EnvironmentId string, Name string) (*model
 			return nil, err
 		}
 
-		parsed := models.Project{}.New(bytes)
+		parsed := models.Environment{}.New(bytes)
 
 		err = json.Unmarshal(bytes, parsed)
 		if err != nil {
@@ -356,8 +363,8 @@ func (srv *Project) UpdateEnvironment(EnvironmentId string, Name string) (*model
 
 		return parsed, nil
 	}
-	var parsed models.Project
-	parsed, ok := resp.Result.(models.Project)
+	var parsed models.Environment
+	parsed, ok := resp.Result.(models.Environment)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -5016,6 +5023,173 @@ func (srv *Project) UpdateOAuth2Twitch(optionalSetters ...UpdateOAuth2TwitchOpti
 
 }
 
+type UpdateOAuth2VippsOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2VippsOptions) New() *UpdateOAuth2VippsOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2VippsOption func(*UpdateOAuth2VippsOptions)
+
+func (srv *Project) WithUpdateOAuth2VippsClientId(v string) UpdateOAuth2VippsOption {
+	return func(o *UpdateOAuth2VippsOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2VippsClientSecret(v string) UpdateOAuth2VippsOption {
+	return func(o *UpdateOAuth2VippsOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2VippsEnabled(v bool) UpdateOAuth2VippsOption {
+	return func(o *UpdateOAuth2VippsOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Vipps update the project OAuth2 Vipps MobilePay configuration.
+func (srv *Project) UpdateOAuth2Vipps(optionalSetters ...UpdateOAuth2VippsOption) (*models.OAuth2Vipps, error) {
+	path := "/project/oauth2/vipps"
+	options := UpdateOAuth2VippsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Vipps{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Vipps
+	parsed, ok := resp.Result.(models.OAuth2Vipps)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateOAuth2VippsSandboxOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2VippsSandboxOptions) New() *UpdateOAuth2VippsSandboxOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2VippsSandboxOption func(*UpdateOAuth2VippsSandboxOptions)
+
+func (srv *Project) WithUpdateOAuth2VippsSandboxClientId(v string) UpdateOAuth2VippsSandboxOption {
+	return func(o *UpdateOAuth2VippsSandboxOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2VippsSandboxClientSecret(v string) UpdateOAuth2VippsSandboxOption {
+	return func(o *UpdateOAuth2VippsSandboxOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2VippsSandboxEnabled(v bool) UpdateOAuth2VippsSandboxOption {
+	return func(o *UpdateOAuth2VippsSandboxOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2VippsSandbox update the project OAuth2 Vipps MobilePay Sandbox
+// configuration.
+func (srv *Project) UpdateOAuth2VippsSandbox(optionalSetters ...UpdateOAuth2VippsSandboxOption) (*models.OAuth2Vipps, error) {
+	path := "/project/oauth2/vippsSandbox"
+	options := UpdateOAuth2VippsSandboxOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Vipps{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Vipps
+	parsed, ok := resp.Result.(models.OAuth2Vipps)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2WebflowOptions struct {
 	ClientId       string
 	ClientSecret   string
@@ -5994,6 +6168,14 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "kakao" {
 			parsed := models.OAuth2Kakao{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "vippsSandbox" {
+			parsed := models.OAuth2Vipps{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}
@@ -8077,6 +8259,83 @@ func (srv *Project) GetPolicy(PolicyId string) (models.Model, error) {
 		return nil, errors.New("unexpected response type")
 	}
 	return parsed, nil
+
+}
+
+// GetPrefs get the project preferences. Preferences are a key-value object
+// stored on the project for anyone working on it.
+func (srv *Project) GetPrefs() (*models.Preferences, error) {
+	path := "/project/prefs"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Preferences{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Preferences
+	parsed, ok := resp.Result.(models.Preferences)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// UpdatePrefs update the project preferences. The object you pass is stored
+// as is and replaces any previous value. The maximum allowed prefs size is
+// 64kB and throws an error if exceeded.
+func (srv *Project) UpdatePrefs(Prefs interface{}) (*models.Preferences, error) {
+	path := "/project/prefs"
+	params := map[string]interface{}{}
+	params["prefs"] = Prefs
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PUT", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Preferences{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Preferences
+	parsed, ok := resp.Result.(models.Preferences)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
 
 }
 

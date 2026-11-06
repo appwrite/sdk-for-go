@@ -28,6 +28,7 @@ func main() {
 		service.WithCreateRedirectRulePriority(-100000),
 		service.WithCreateRedirectRuleEnabled(false),
 		service.WithCreateRedirectRuleConditions([]string{"example"}),
+		service.WithCreateRedirectRuleSchedule([]interface{}{}),
 	)
 	fmt.Println(response, err)
 }
