@@ -6972,6 +6972,48 @@ func (srv *Project) ListPolicies(optionalSetters ...ListPoliciesOption) (*models
 
 }
 
+// UpdateAccountDevicesPolicy update whether account devices are enabled for
+// the project. When enabled, a browser can create an account device that
+// holds multiple sessions and switch between them. When disabled, account
+// devices can no longer be created, so each browser is limited to a single
+// active session.
+func (srv *Project) UpdateAccountDevicesPolicy(Enabled bool) (*models.Project, error) {
+	path := "/project/policies/account-devices"
+	params := map[string]interface{}{}
+	params["enabled"] = Enabled
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // UpdateDenyAliasedEmailPolicy configures if aliased emails such as
 // subaddresses and emails with suffixes are denied during new users sign-ups
 // and email updates.
@@ -8269,6 +8311,14 @@ func (srv *Project) GetPolicy(PolicyId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "passkey" {
 			parsed := models.PolicyPasskey{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "account-devices" {
+			parsed := models.PolicyAccountDevices{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}
