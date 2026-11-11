@@ -1,5 +1,11 @@
 # Change Log
 
+## v7.18.0
+
+* Added: `Account.CreateDevice`, `GetDevice`, `DeleteDevice` and `UpdateDeviceSession`, and the `Device` model
+* Added: `Project.UpdateAccountDevicesPolicy` and the `PolicyAccountDevices` model
+* Added: `UserName` on the `Session` model
+
 ## v7.17.0
 
 * Added: `Project.UpdateOAuth2Vipps` and `UpdateOAuth2VippsSandbox`

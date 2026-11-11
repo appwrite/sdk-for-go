@@ -326,6 +326,217 @@ func TestAccount(t *testing.T) {
 		}
 	})
 
+	t.Run("Test CreateDevice", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "activeSessionId": "5e5bb8c16897e",
+    "sessions": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "userId": "5e5bb8c16897e",
+            "userName": "John Doe",
+            "expire": "2020-10-15T06:38:00.000+00:00",
+            "provider": "email",
+            "providerUid": "user@example.com",
+            "providerAccessToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+            "providerAccessTokenExpiry": "2020-10-15T06:38:00.000+00:00",
+            "providerRefreshToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+            "ip": "127.0.0.1",
+            "osCode": "Mac",
+            "osName": "Mac",
+            "osVersion": "Mac",
+            "clientType": "browser",
+            "clientCode": "CM",
+            "clientName": "Chrome Mobile iOS",
+            "clientVersion": "84.0",
+            "clientEngine": "WebKit",
+            "clientEngineVersion": "605.1.15",
+            "deviceName": "smartphone",
+            "deviceBrand": "Google",
+            "deviceModel": "Nexus 5",
+            "countryCode": "US",
+            "countryName": "United States",
+            "current": true,
+            "factors": [],
+            "secret": "5e5bb8c16897e",
+            "mfaUpdatedAt": "2020-10-15T06:38:00.000+00:00"
+        }
+    ],
+    "secret": "5e5bb8c16897e"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateDevice()
+		if err != nil {
+			t.Errorf("Method CreateDevice failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetDevice", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "activeSessionId": "5e5bb8c16897e",
+    "sessions": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "userId": "5e5bb8c16897e",
+            "userName": "John Doe",
+            "expire": "2020-10-15T06:38:00.000+00:00",
+            "provider": "email",
+            "providerUid": "user@example.com",
+            "providerAccessToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+            "providerAccessTokenExpiry": "2020-10-15T06:38:00.000+00:00",
+            "providerRefreshToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+            "ip": "127.0.0.1",
+            "osCode": "Mac",
+            "osName": "Mac",
+            "osVersion": "Mac",
+            "clientType": "browser",
+            "clientCode": "CM",
+            "clientName": "Chrome Mobile iOS",
+            "clientVersion": "84.0",
+            "clientEngine": "WebKit",
+            "clientEngineVersion": "605.1.15",
+            "deviceName": "smartphone",
+            "deviceBrand": "Google",
+            "deviceModel": "Nexus 5",
+            "countryCode": "US",
+            "countryName": "United States",
+            "current": true,
+            "factors": [],
+            "secret": "5e5bb8c16897e",
+            "mfaUpdatedAt": "2020-10-15T06:38:00.000+00:00"
+        }
+    ],
+    "secret": "5e5bb8c16897e"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetDevice("<DEVICE_ID>")
+		if err != nil {
+			t.Errorf("Method GetDevice failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteDevice", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteDevice("<DEVICE_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteDevice failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateDeviceSession", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
+    "expire": "2020-10-15T06:38:00.000+00:00",
+    "provider": "email",
+    "providerUid": "user@example.com",
+    "providerAccessToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+    "providerAccessTokenExpiry": "2020-10-15T06:38:00.000+00:00",
+    "providerRefreshToken": "MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+    "ip": "127.0.0.1",
+    "osCode": "Mac",
+    "osName": "Mac",
+    "osVersion": "Mac",
+    "clientType": "browser",
+    "clientCode": "CM",
+    "clientName": "Chrome Mobile iOS",
+    "clientVersion": "84.0",
+    "clientEngine": "WebKit",
+    "clientEngineVersion": "605.1.15",
+    "deviceName": "smartphone",
+    "deviceBrand": "Google",
+    "deviceModel": "Nexus 5",
+    "countryCode": "US",
+    "countryName": "United States",
+    "current": true,
+    "factors": [],
+    "secret": "5e5bb8c16897e",
+    "mfaUpdatedAt": "2020-10-15T06:38:00.000+00:00"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateDeviceSession("<DEVICE_ID>", "<SESSION_ID>")
+		if err != nil {
+			t.Errorf("Method UpdateDeviceSession failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateEmail", func(t *testing.T) {
 		mockResponse := `
 {
@@ -821,6 +1032,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
@@ -875,6 +1087,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
@@ -1690,6 +1903,7 @@ func TestAccount(t *testing.T) {
             "$createdAt": "2020-10-15T06:38:00.000+00:00",
             "$updatedAt": "2020-10-15T06:38:00.000+00:00",
             "userId": "5e5bb8c16897e",
+            "userName": "John Doe",
             "expire": "2020-10-15T06:38:00.000+00:00",
             "provider": "email",
             "providerUid": "user@example.com",
@@ -1772,6 +1986,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
@@ -1826,6 +2041,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
@@ -1880,6 +2096,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
@@ -1934,6 +2151,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
@@ -1988,6 +2206,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
@@ -2042,6 +2261,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
@@ -2096,6 +2316,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
@@ -2150,6 +2371,7 @@ func TestAccount(t *testing.T) {
     "$createdAt": "2020-10-15T06:38:00.000+00:00",
     "$updatedAt": "2020-10-15T06:38:00.000+00:00",
     "userId": "5e5bb8c16897e",
+    "userName": "John Doe",
     "expire": "2020-10-15T06:38:00.000+00:00",
     "provider": "email",
     "providerUid": "user@example.com",
