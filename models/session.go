@@ -15,6 +15,9 @@ type Session struct {
 	UpdatedAt string `json:"$updatedAt"`
 	// User ID.
 	UserId string `json:"userId"`
+	// Name of the user the session belongs to. Lets a client label the account,
+	// for example in an account switcher.
+	UserName string `json:"userName"`
 	// Session expiration date in ISO 8601 format.
 	Expire string `json:"expire"`
 	// Session Provider.
@@ -93,6 +96,7 @@ func (model *Session) UnmarshalJSON(data []byte) error {
 		CreatedAt                 json.RawMessage `json:"$createdAt"`
 		UpdatedAt                 json.RawMessage `json:"$updatedAt"`
 		UserId                    json.RawMessage `json:"userId"`
+		UserName                  json.RawMessage `json:"userName"`
 		Expire                    json.RawMessage `json:"expire"`
 		Provider                  json.RawMessage `json:"provider"`
 		ProviderUid               json.RawMessage `json:"providerUid"`
@@ -139,6 +143,11 @@ func (model *Session) UnmarshalJSON(data []byte) error {
 	}
 	if present.UserId == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.UserId); err != nil {
+			return err
+		}
+	}
+	if present.UserName == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.UserName); err != nil {
 			return err
 		}
 	}
