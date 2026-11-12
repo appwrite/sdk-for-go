@@ -1633,6 +1633,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Naver", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "jK8pQ0000000000000Zv",
+    "clientSecret": "9f42A0000000000c1dEb"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Naver()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Naver failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Notion", func(t *testing.T) {
 		mockResponse := `
 {
@@ -2368,6 +2397,32 @@ func TestProject(t *testing.T) {
 		}
 		if _, ok := response.(*models.OAuth2Vipps); !ok {
 			t.Errorf("Expected response type *models.OAuth2Vipps, got %T", response)
+		}
+	})
+
+	t.Run("Test DeletePasswords", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeletePasswords()
+		if err != nil {
+			t.Errorf("Method DeletePasswords failed: %v", err)
 		}
 	})
 

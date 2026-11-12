@@ -1,5 +1,12 @@
 # Change Log
 
+## v7.19.0
+
+* Added: `Project.UpdateOAuth2Naver` and the `OAuth2Naver` model
+* Added: `Project.DeletePasswords` to force every user to reset their password
+* Added: `auto` output on `Storage.GetFilePreview` and the avatar endpoints, serving avif or webp when the `Accept` header supports it
+* Updated: requests send `X-Appwrite-Response-Format: 2.7.2`
+
 ## v7.18.0
 
 * Added: `Account.CreateDevice`, `GetDevice`, `DeleteDevice` and `UpdateDeviceSession`, and the `Device` model
