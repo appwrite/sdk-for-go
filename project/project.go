@@ -3676,6 +3676,89 @@ func (srv *Project) UpdateOAuth2Microsoft(optionalSetters ...UpdateOAuth2Microso
 
 }
 
+type UpdateOAuth2NaverOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2NaverOptions) New() *UpdateOAuth2NaverOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2NaverOption func(*UpdateOAuth2NaverOptions)
+
+func (srv *Project) WithUpdateOAuth2NaverClientId(v string) UpdateOAuth2NaverOption {
+	return func(o *UpdateOAuth2NaverOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2NaverClientSecret(v string) UpdateOAuth2NaverOption {
+	return func(o *UpdateOAuth2NaverOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2NaverEnabled(v bool) UpdateOAuth2NaverOption {
+	return func(o *UpdateOAuth2NaverOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Naver update the project OAuth2 Naver configuration.
+func (srv *Project) UpdateOAuth2Naver(optionalSetters ...UpdateOAuth2NaverOption) (*models.OAuth2Naver, error) {
+	path := "/project/oauth2/naver"
+	options := UpdateOAuth2NaverOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Naver{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Naver
+	parsed, ok := resp.Result.(models.OAuth2Naver)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2NotionOptions struct {
 	OauthClientId     string
 	OauthClientSecret string
@@ -6190,6 +6273,14 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 
 			return parsed, nil
 		}
+		if fmt.Sprint(response["$id"]) == "naver" {
+			parsed := models.OAuth2Naver{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
 		if fmt.Sprint(response["$id"]) == "vipps" {
 			parsed := models.OAuth2Vipps{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
@@ -6214,6 +6305,49 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 		return nil, errors.New("unexpected response type")
 	}
 	return parsed, nil
+
+}
+
+// DeletePasswords delete all passwords in the project, forcing every user to
+// reset their password. Any password set before this request stops working
+// for email and password sign-in immediately: signing in returns a
+// `user_password_reset_required` error until the user sets a new password
+// through password recovery, or until a new password is set for them with the
+// Users API. Existing sessions are not affected; call the delete sessions
+// endpoint to sign users out as well. Users without a password and API keys
+// are not affected by this action.
+func (srv *Project) DeletePasswords() (*interface{}, error) {
+	path := "/project/passwords"
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
 
 }
 
