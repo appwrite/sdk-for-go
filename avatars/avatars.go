@@ -1309,12 +1309,15 @@ func (srv *Avatars) getScreenshotParams(Url string, optionalSetters ...GetScreen
 // When width and height are specified, the image is resized accordingly. If
 // both dimensions are 0, the API provides an image at original size. If
 // dimensions are not specified, the default viewport size is 1280x720px.
+//
+// Set `output` to `auto` to receive avif or webp when the `Accept` header of
+// your request supports it, falling back to png.
 func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOption) (*[]byte, error) {
 	path := "/avatars/screenshots"
 	params := srv.getScreenshotParams(Url, optionalSetters...)
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
-	headers["accept"] = "image/png"
+	headers["accept"] = "image/*"
 
 	resp, err := srv.client.Call("GET", path, headers, params)
 	if err != nil {
@@ -1354,6 +1357,9 @@ func (srv *Avatars) GetScreenshot(Url string, optionalSetters ...GetScreenshotOp
 // When width and height are specified, the image is resized accordingly. If
 // both dimensions are 0, the API provides an image at original size. If
 // dimensions are not specified, the default viewport size is 1280x720px.
+//
+// Set `output` to `auto` to receive avif or webp when the `Accept` header of
+// your request supports it, falling back to png.
 // Returns the URL for the resource instead of the content.
 func (srv *Avatars) GetScreenshotURL(Url string, optionalSetters ...GetScreenshotOption) (*string, error) {
 	path := "/avatars/screenshots"

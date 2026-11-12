@@ -80,12 +80,12 @@ type Client struct {
 // Initialize a new Appwrite client with a given timeout
 func New(optionalSetters ...ClientOption) Client {
 	headers := map[string]string{}
-	headers["X-Appwrite-Response-Format"] = "2.7.1"
-	headers["user-agent"] = fmt.Sprintf("AppwriteGoSDK/v7.18.0 (%s; %s)", runtime.GOOS, runtime.GOARCH)
+	headers["X-Appwrite-Response-Format"] = "2.7.2"
+	headers["user-agent"] = fmt.Sprintf("AppwriteGoSDK/v7.19.0 (%s; %s)", runtime.GOOS, runtime.GOARCH)
 	headers["x-sdk-name"] = "Go"
 	headers["x-sdk-platform"] = "server"
 	headers["x-sdk-language"] = "go"
-	headers["x-sdk-version"] = "v7.18.0"
+	headers["x-sdk-version"] = "v7.19.0"
 	httpClient, err := GetDefaultClient(defaultTimeout)
 	if err != nil {
 		panic(err)

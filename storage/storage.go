@@ -1130,7 +1130,9 @@ func (srv *Storage) getFilePreviewParams(optionalSetters ...GetFilePreviewOption
 // preview for image files (jpg, png, and gif), other supported formats, like
 // pdf, docs, slides, and spreadsheets, will return the file icon image. You
 // can also pass query string arguments for cutting and resizing your preview
-// image. Preview is supported only for image files smaller than 10MB.
+// image. Set `output` to `auto` to receive avif or webp when the client's
+// `Accept` header supports it, falling back to the original image format.
+// Preview is supported only for image files smaller than 10MB.
 func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption) (*[]byte, error) {
 	if BucketId == "" {
 		return nil, errors.New("Missing required parameter: \"bucketId\"")
@@ -1177,7 +1179,9 @@ func (srv *Storage) GetFilePreview(BucketId string, FileId string, optionalSette
 // preview for image files (jpg, png, and gif), other supported formats, like
 // pdf, docs, slides, and spreadsheets, will return the file icon image. You
 // can also pass query string arguments for cutting and resizing your preview
-// image. Preview is supported only for image files smaller than 10MB.
+// image. Set `output` to `auto` to receive avif or webp when the client's
+// `Accept` header supports it, falling back to the original image format.
+// Preview is supported only for image files smaller than 10MB.
 // Returns the URL for the resource instead of the content.
 func (srv *Storage) GetFilePreviewURL(BucketId string, FileId string, optionalSetters ...GetFilePreviewOption) (*string, error) {
 	if BucketId == "" {
