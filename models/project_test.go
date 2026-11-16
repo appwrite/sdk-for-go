@@ -7,7 +7,7 @@ import (
 )
 
 func TestProjectModel(t *testing.T) {
-	model := Project{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "New Project", TeamId: "1592981250", Region: "fra", SmtpEnabled: true, SmtpSenderName: "John Appwrite", SmtpSenderEmail: "john@appwrite.io", SmtpReplyToName: "Support Team", SmtpReplyToEmail: "support@appwrite.io", SmtpHost: "mail.appwrite.io", SmtpPort: 25, SmtpUsername: "emailuser", SmtpPassword: "smtp-password", SmtpSecure: "tls", PingCount: 1, PingedAt: "2020-10-15T06:38:00.000+00:00", Labels: []string{"test"}, Status: "active", Onboarding: map[string]interface{}{}, AuthMethods: []ProjectAuthMethod{ProjectAuthMethod{Id: "email-password", Enabled: true}}, Services: []ProjectService{ProjectService{Id: "sites", Enabled: true}}, Protocols: []ProjectProtocol{ProjectProtocol{Id: "graphql", Enabled: true}}, Blocks: []Block{Block{CreatedAt: "2020-10-15T06:38:00.000+00:00", ResourceType: "project", ResourceId: "5e5ea5c16897e", Mode: "readOnly"}}, ConsoleAccessedAt: "2020-10-15T06:38:00.000+00:00"}
+	model := Project{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "New Project", TeamId: "1592981250", Region: "fra", SmtpEnabled: true, SmtpSenderName: "John Appwrite", SmtpSenderEmail: "john@appwrite.io", SmtpReplyToName: "Support Team", SmtpReplyToEmail: "support@appwrite.io", SmtpHost: "mail.appwrite.io", SmtpPort: 25, SmtpUsername: "emailuser", SmtpPassword: "smtp-password", SmtpSecure: "tls", LdapEnabled: true, LdapHosts: []string{"test"}, LdapPort: 636, LdapEncryption: "ldaps", LdapVerification: true, LdapCertificate: "string", LdapTimeout: 10, LdapBaseDn: "ou=people,dc=example,dc=com", LdapBindDn: "cn=appwrite,ou=services,dc=example,dc=com", LdapBindPassword: "ldap-password", LdapUserFilter: "(uid={username})", LdapRequiredGroupDn: "cn=staff,ou=groups,dc=example,dc=com", LdapIdAttribute: "entryUUID", LdapEmailAttribute: "mail", LdapNameAttribute: "cn", LdapPhoneAttribute: "mobile", PingCount: 1, PingedAt: "2020-10-15T06:38:00.000+00:00", Labels: []string{"test"}, Status: "active", Onboarding: map[string]interface{}{}, AuthMethods: []ProjectAuthMethod{ProjectAuthMethod{Id: "email-password", Enabled: true}}, Services: []ProjectService{ProjectService{Id: "sites", Enabled: true}}, Protocols: []ProjectProtocol{ProjectProtocol{Id: "graphql", Enabled: true}}, Blocks: []Block{Block{CreatedAt: "2020-10-15T06:38:00.000+00:00", ResourceType: "project", ResourceId: "5e5ea5c16897e", Mode: "readOnly"}}, ConsoleAccessedAt: "2020-10-15T06:38:00.000+00:00"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -66,6 +66,51 @@ func TestProjectModel(t *testing.T) {
 	}
 	if result.SmtpSecure != model.SmtpSecure {
 		t.Errorf("Expected SmtpSecure %v, got %v", model.SmtpSecure, result.SmtpSecure)
+	}
+	if result.LdapEnabled != model.LdapEnabled {
+		t.Errorf("Expected LdapEnabled %v, got %v", model.LdapEnabled, result.LdapEnabled)
+	}
+	if result.LdapPort != model.LdapPort {
+		t.Errorf("Expected LdapPort %v, got %v", model.LdapPort, result.LdapPort)
+	}
+	if result.LdapEncryption != model.LdapEncryption {
+		t.Errorf("Expected LdapEncryption %v, got %v", model.LdapEncryption, result.LdapEncryption)
+	}
+	if result.LdapVerification != model.LdapVerification {
+		t.Errorf("Expected LdapVerification %v, got %v", model.LdapVerification, result.LdapVerification)
+	}
+	if result.LdapCertificate != model.LdapCertificate {
+		t.Errorf("Expected LdapCertificate %v, got %v", model.LdapCertificate, result.LdapCertificate)
+	}
+	if result.LdapTimeout != model.LdapTimeout {
+		t.Errorf("Expected LdapTimeout %v, got %v", model.LdapTimeout, result.LdapTimeout)
+	}
+	if result.LdapBaseDn != model.LdapBaseDn {
+		t.Errorf("Expected LdapBaseDn %v, got %v", model.LdapBaseDn, result.LdapBaseDn)
+	}
+	if result.LdapBindDn != model.LdapBindDn {
+		t.Errorf("Expected LdapBindDn %v, got %v", model.LdapBindDn, result.LdapBindDn)
+	}
+	if result.LdapBindPassword != model.LdapBindPassword {
+		t.Errorf("Expected LdapBindPassword %v, got %v", model.LdapBindPassword, result.LdapBindPassword)
+	}
+	if result.LdapUserFilter != model.LdapUserFilter {
+		t.Errorf("Expected LdapUserFilter %v, got %v", model.LdapUserFilter, result.LdapUserFilter)
+	}
+	if result.LdapRequiredGroupDn != model.LdapRequiredGroupDn {
+		t.Errorf("Expected LdapRequiredGroupDn %v, got %v", model.LdapRequiredGroupDn, result.LdapRequiredGroupDn)
+	}
+	if result.LdapIdAttribute != model.LdapIdAttribute {
+		t.Errorf("Expected LdapIdAttribute %v, got %v", model.LdapIdAttribute, result.LdapIdAttribute)
+	}
+	if result.LdapEmailAttribute != model.LdapEmailAttribute {
+		t.Errorf("Expected LdapEmailAttribute %v, got %v", model.LdapEmailAttribute, result.LdapEmailAttribute)
+	}
+	if result.LdapNameAttribute != model.LdapNameAttribute {
+		t.Errorf("Expected LdapNameAttribute %v, got %v", model.LdapNameAttribute, result.LdapNameAttribute)
+	}
+	if result.LdapPhoneAttribute != model.LdapPhoneAttribute {
+		t.Errorf("Expected LdapPhoneAttribute %v, got %v", model.LdapPhoneAttribute, result.LdapPhoneAttribute)
 	}
 	if result.PingCount != model.PingCount {
 		t.Errorf("Expected PingCount %v, got %v", model.PingCount, result.PingCount)
@@ -344,6 +389,262 @@ func TestProjectModelDefaults(t *testing.T) {
 	}
 	{
 		var want, got interface{}
+		if err := json.Unmarshal([]byte("false"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapEnabled)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapEnabled to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("[]"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapHosts)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapHosts to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("636"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapPort)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapPort to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"ldaps\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapEncryption)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapEncryption to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("true"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapVerification)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapVerification to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapCertificate)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapCertificate to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("10"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapTimeout)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapTimeout to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapBaseDn)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapBaseDn to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapBindDn)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapBindDn to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapBindPassword)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapBindPassword to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"(uid={username})\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapUserFilter)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapUserFilter to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapRequiredGroupDn)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapRequiredGroupDn to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"entryUUID\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapIdAttribute)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapIdAttribute to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"mail\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapEmailAttribute)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapEmailAttribute to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"cn\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapNameAttribute)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapNameAttribute to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.LdapPhoneAttribute)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing ldapPhoneAttribute to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
 		if err := json.Unmarshal([]byte("0"), &want); err != nil {
 			t.Fatal(err)
 		}
@@ -439,7 +740,7 @@ func TestProjectModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := Project{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "New Project", TeamId: "1592981250", Region: "fra", SmtpEnabled: true, SmtpSenderName: "John Appwrite", SmtpSenderEmail: "john@appwrite.io", SmtpReplyToName: "Support Team", SmtpReplyToEmail: "support@appwrite.io", SmtpHost: "mail.appwrite.io", SmtpPort: 25, SmtpUsername: "emailuser", SmtpPassword: "smtp-password", SmtpSecure: "tls", PingCount: 1, PingedAt: "2020-10-15T06:38:00.000+00:00", Labels: []string{"test"}, Status: "active", Onboarding: map[string]interface{}{}, AuthMethods: []ProjectAuthMethod{ProjectAuthMethod{Id: "email-password", Enabled: true}}, Services: []ProjectService{ProjectService{Id: "sites", Enabled: true}}, Protocols: []ProjectProtocol{ProjectProtocol{Id: "graphql", Enabled: true}}, Blocks: []Block{Block{CreatedAt: "2020-10-15T06:38:00.000+00:00", ResourceType: "project", ResourceId: "5e5ea5c16897e", Mode: "readOnly"}}, ConsoleAccessedAt: "2020-10-15T06:38:00.000+00:00"}
+	reused := Project{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "New Project", TeamId: "1592981250", Region: "fra", SmtpEnabled: true, SmtpSenderName: "John Appwrite", SmtpSenderEmail: "john@appwrite.io", SmtpReplyToName: "Support Team", SmtpReplyToEmail: "support@appwrite.io", SmtpHost: "mail.appwrite.io", SmtpPort: 25, SmtpUsername: "emailuser", SmtpPassword: "smtp-password", SmtpSecure: "tls", LdapEnabled: true, LdapHosts: []string{"test"}, LdapPort: 636, LdapEncryption: "ldaps", LdapVerification: true, LdapCertificate: "string", LdapTimeout: 10, LdapBaseDn: "ou=people,dc=example,dc=com", LdapBindDn: "cn=appwrite,ou=services,dc=example,dc=com", LdapBindPassword: "ldap-password", LdapUserFilter: "(uid={username})", LdapRequiredGroupDn: "cn=staff,ou=groups,dc=example,dc=com", LdapIdAttribute: "entryUUID", LdapEmailAttribute: "mail", LdapNameAttribute: "cn", LdapPhoneAttribute: "mobile", PingCount: 1, PingedAt: "2020-10-15T06:38:00.000+00:00", Labels: []string{"test"}, Status: "active", Onboarding: map[string]interface{}{}, AuthMethods: []ProjectAuthMethod{ProjectAuthMethod{Id: "email-password", Enabled: true}}, Services: []ProjectService{ProjectService{Id: "sites", Enabled: true}}, Protocols: []ProjectProtocol{ProjectProtocol{Id: "graphql", Enabled: true}}, Blocks: []Block{Block{CreatedAt: "2020-10-15T06:38:00.000+00:00", ResourceType: "project", ResourceId: "5e5ea5c16897e", Mode: "readOnly"}}, ConsoleAccessedAt: "2020-10-15T06:38:00.000+00:00"}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

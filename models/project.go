@@ -40,6 +40,44 @@ type Project struct {
 	SmtpPassword string `json:"smtpPassword"`
 	// SMTP server secure protocol
 	SmtpSecure string `json:"smtpSecure"`
+	// Status for LDAP sign-in
+	LdapEnabled bool `json:"ldapEnabled"`
+	// LDAP directory hosts, tried in order.
+	LdapHosts []string `json:"ldapHosts"`
+	// LDAP directory port.
+	LdapPort int `json:"ldapPort"`
+	// LDAP transport encryption: none, ldaps or starttls.
+	LdapEncryption string `json:"ldapEncryption"`
+	// Whether the LDAP directory certificate is verified.
+	LdapVerification bool `json:"ldapVerification"`
+	// Certificate in PEM format of the authority that signed the LDAP directory
+	// certificate, or the directory certificate itself when it is self-signed.
+	// Empty for the system trust store.
+	LdapCertificate string `json:"ldapCertificate"`
+	// Seconds to wait for the LDAP directory to connect and answer.
+	LdapTimeout int `json:"ldapTimeout"`
+	// LDAP subtree the user search starts from.
+	LdapBaseDn string `json:"ldapBaseDn"`
+	// LDAP service account used to search for users, empty for anonymous search.
+	LdapBindDn string `json:"ldapBindDn"`
+	// LDAP service account password. This property is write-only and always
+	// returned empty.
+	LdapBindPassword string `json:"ldapBindPassword"`
+	// LDAP filter that finds the user signing in, with {username} where the
+	// username they enter goes.
+	LdapUserFilter string `json:"ldapUserFilter"`
+	// LDAP group a user must belong to in order to sign in, empty to allow every
+	// user.
+	LdapRequiredGroupDn string `json:"ldapRequiredGroupDn"`
+	// LDAP attribute holding the identifier that stays the same when an entry is
+	// renamed or moved.
+	LdapIdAttribute string `json:"ldapIdAttribute"`
+	// LDAP attribute holding the email address.
+	LdapEmailAttribute string `json:"ldapEmailAttribute"`
+	// LDAP attribute holding the display name.
+	LdapNameAttribute string `json:"ldapNameAttribute"`
+	// LDAP attribute holding the phone number, empty when unmapped.
+	LdapPhoneAttribute string `json:"ldapPhoneAttribute"`
 	// Number of times the ping was received for this project.
 	PingCount int `json:"pingCount"`
 	// Last ping datetime in ISO 8601 format.
@@ -144,28 +182,44 @@ func (model *Project) UnmarshalJSON(data []byte) error {
 	}
 
 	var present struct {
-		Id                json.RawMessage `json:"$id"`
-		CreatedAt         json.RawMessage `json:"$createdAt"`
-		UpdatedAt         json.RawMessage `json:"$updatedAt"`
-		Name              json.RawMessage `json:"name"`
-		TeamId            json.RawMessage `json:"teamId"`
-		Region            json.RawMessage `json:"region"`
-		SmtpEnabled       json.RawMessage `json:"smtpEnabled"`
-		SmtpSenderName    json.RawMessage `json:"smtpSenderName"`
-		SmtpSenderEmail   json.RawMessage `json:"smtpSenderEmail"`
-		SmtpReplyToName   json.RawMessage `json:"smtpReplyToName"`
-		SmtpReplyToEmail  json.RawMessage `json:"smtpReplyToEmail"`
-		SmtpHost          json.RawMessage `json:"smtpHost"`
-		SmtpPort          json.RawMessage `json:"smtpPort"`
-		SmtpUsername      json.RawMessage `json:"smtpUsername"`
-		SmtpPassword      json.RawMessage `json:"smtpPassword"`
-		SmtpSecure        json.RawMessage `json:"smtpSecure"`
-		PingCount         json.RawMessage `json:"pingCount"`
-		PingedAt          json.RawMessage `json:"pingedAt"`
-		Labels            json.RawMessage `json:"labels"`
-		Status            json.RawMessage `json:"status"`
-		Onboarding        json.RawMessage `json:"onboarding"`
-		ConsoleAccessedAt json.RawMessage `json:"consoleAccessedAt"`
+		Id                  json.RawMessage `json:"$id"`
+		CreatedAt           json.RawMessage `json:"$createdAt"`
+		UpdatedAt           json.RawMessage `json:"$updatedAt"`
+		Name                json.RawMessage `json:"name"`
+		TeamId              json.RawMessage `json:"teamId"`
+		Region              json.RawMessage `json:"region"`
+		SmtpEnabled         json.RawMessage `json:"smtpEnabled"`
+		SmtpSenderName      json.RawMessage `json:"smtpSenderName"`
+		SmtpSenderEmail     json.RawMessage `json:"smtpSenderEmail"`
+		SmtpReplyToName     json.RawMessage `json:"smtpReplyToName"`
+		SmtpReplyToEmail    json.RawMessage `json:"smtpReplyToEmail"`
+		SmtpHost            json.RawMessage `json:"smtpHost"`
+		SmtpPort            json.RawMessage `json:"smtpPort"`
+		SmtpUsername        json.RawMessage `json:"smtpUsername"`
+		SmtpPassword        json.RawMessage `json:"smtpPassword"`
+		SmtpSecure          json.RawMessage `json:"smtpSecure"`
+		LdapEnabled         json.RawMessage `json:"ldapEnabled"`
+		LdapHosts           json.RawMessage `json:"ldapHosts"`
+		LdapPort            json.RawMessage `json:"ldapPort"`
+		LdapEncryption      json.RawMessage `json:"ldapEncryption"`
+		LdapVerification    json.RawMessage `json:"ldapVerification"`
+		LdapCertificate     json.RawMessage `json:"ldapCertificate"`
+		LdapTimeout         json.RawMessage `json:"ldapTimeout"`
+		LdapBaseDn          json.RawMessage `json:"ldapBaseDn"`
+		LdapBindDn          json.RawMessage `json:"ldapBindDn"`
+		LdapBindPassword    json.RawMessage `json:"ldapBindPassword"`
+		LdapUserFilter      json.RawMessage `json:"ldapUserFilter"`
+		LdapRequiredGroupDn json.RawMessage `json:"ldapRequiredGroupDn"`
+		LdapIdAttribute     json.RawMessage `json:"ldapIdAttribute"`
+		LdapEmailAttribute  json.RawMessage `json:"ldapEmailAttribute"`
+		LdapNameAttribute   json.RawMessage `json:"ldapNameAttribute"`
+		LdapPhoneAttribute  json.RawMessage `json:"ldapPhoneAttribute"`
+		PingCount           json.RawMessage `json:"pingCount"`
+		PingedAt            json.RawMessage `json:"pingedAt"`
+		Labels              json.RawMessage `json:"labels"`
+		Status              json.RawMessage `json:"status"`
+		Onboarding          json.RawMessage `json:"onboarding"`
+		ConsoleAccessedAt   json.RawMessage `json:"consoleAccessedAt"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -247,6 +301,86 @@ func (model *Project) UnmarshalJSON(data []byte) error {
 	}
 	if present.SmtpSecure == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.SmtpSecure); err != nil {
+			return err
+		}
+	}
+	if present.LdapEnabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.LdapEnabled); err != nil {
+			return err
+		}
+	}
+	if present.LdapHosts == nil {
+		if err := json.Unmarshal([]byte("[]"), &decoded.LdapHosts); err != nil {
+			return err
+		}
+	}
+	if present.LdapPort == nil {
+		if err := json.Unmarshal([]byte("636"), &decoded.LdapPort); err != nil {
+			return err
+		}
+	}
+	if present.LdapEncryption == nil {
+		if err := json.Unmarshal([]byte("\"ldaps\""), &decoded.LdapEncryption); err != nil {
+			return err
+		}
+	}
+	if present.LdapVerification == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.LdapVerification); err != nil {
+			return err
+		}
+	}
+	if present.LdapCertificate == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LdapCertificate); err != nil {
+			return err
+		}
+	}
+	if present.LdapTimeout == nil {
+		if err := json.Unmarshal([]byte("10"), &decoded.LdapTimeout); err != nil {
+			return err
+		}
+	}
+	if present.LdapBaseDn == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LdapBaseDn); err != nil {
+			return err
+		}
+	}
+	if present.LdapBindDn == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LdapBindDn); err != nil {
+			return err
+		}
+	}
+	if present.LdapBindPassword == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LdapBindPassword); err != nil {
+			return err
+		}
+	}
+	if present.LdapUserFilter == nil {
+		if err := json.Unmarshal([]byte("\"(uid={username})\""), &decoded.LdapUserFilter); err != nil {
+			return err
+		}
+	}
+	if present.LdapRequiredGroupDn == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LdapRequiredGroupDn); err != nil {
+			return err
+		}
+	}
+	if present.LdapIdAttribute == nil {
+		if err := json.Unmarshal([]byte("\"entryUUID\""), &decoded.LdapIdAttribute); err != nil {
+			return err
+		}
+	}
+	if present.LdapEmailAttribute == nil {
+		if err := json.Unmarshal([]byte("\"mail\""), &decoded.LdapEmailAttribute); err != nil {
+			return err
+		}
+	}
+	if present.LdapNameAttribute == nil {
+		if err := json.Unmarshal([]byte("\"cn\""), &decoded.LdapNameAttribute); err != nil {
+			return err
+		}
+	}
+	if present.LdapPhoneAttribute == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.LdapPhoneAttribute); err != nil {
 			return err
 		}
 	}

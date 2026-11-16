@@ -733,6 +733,300 @@ func (srv *Project) UpdateLabels(Labels []string) (*models.Project, error) {
 
 }
 
+type UpdateLDAPOptions struct {
+	Enabled         bool
+	Hosts           []string
+	Port            int
+	Encryption      string
+	Verification    bool
+	Certificate     string
+	Timeout         int
+	BaseDn          string
+	BindDn          string
+	BindPassword    string
+	UserFilter      string
+	RequiredGroupDn string
+	IdAttribute     string
+	EmailAttribute  string
+	NameAttribute   string
+	PhoneAttribute  string
+	enabledSetters  map[string]bool
+}
+
+func (options UpdateLDAPOptions) New() *UpdateLDAPOptions {
+	options.enabledSetters = map[string]bool{"Enabled": false, "Hosts": false, "Port": false, "Encryption": false, "Verification": false, "Certificate": false, "Timeout": false, "BaseDn": false, "BindDn": false, "BindPassword": false, "UserFilter": false, "RequiredGroupDn": false, "IdAttribute": false, "EmailAttribute": false, "NameAttribute": false, "PhoneAttribute": false}
+	return &options
+}
+
+type UpdateLDAPOption func(*UpdateLDAPOptions)
+
+func (srv *Project) WithUpdateLDAPEnabled(v bool) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPHosts(v []string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.Hosts = v
+		o.enabledSetters["Hosts"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPPort(v int) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.Port = v
+		o.enabledSetters["Port"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPEncryption(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.Encryption = v
+		o.enabledSetters["Encryption"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPVerification(v bool) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.Verification = v
+		o.enabledSetters["Verification"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPCertificate(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.Certificate = v
+		o.enabledSetters["Certificate"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPTimeout(v int) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.Timeout = v
+		o.enabledSetters["Timeout"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPBaseDn(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.BaseDn = v
+		o.enabledSetters["BaseDn"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPBindDn(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.BindDn = v
+		o.enabledSetters["BindDn"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPBindPassword(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.BindPassword = v
+		o.enabledSetters["BindPassword"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPUserFilter(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.UserFilter = v
+		o.enabledSetters["UserFilter"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPRequiredGroupDn(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.RequiredGroupDn = v
+		o.enabledSetters["RequiredGroupDn"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPIdAttribute(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.IdAttribute = v
+		o.enabledSetters["IdAttribute"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPEmailAttribute(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.EmailAttribute = v
+		o.enabledSetters["EmailAttribute"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPNameAttribute(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.NameAttribute = v
+		o.enabledSetters["NameAttribute"] = true
+	}
+}
+func (srv *Project) WithUpdateLDAPPhoneAttribute(v string) UpdateLDAPOption {
+	return func(o *UpdateLDAPOptions) {
+		o.PhoneAttribute = v
+		o.enabledSetters["PhoneAttribute"] = true
+	}
+}
+
+// UpdateLDAP update the LDAP configuration for your project. Use this
+// endpoint to connect your project to an LDAP directory, such as OpenLDAP or
+// Active Directory, so users can sign in with their directory credentials.
+// Omitted parameters keep their stored value. Enabling LDAP connects to the
+// directory and binds as the service account, so a project cannot be left
+// enabled with a configuration that cannot sign anyone in.
+func (srv *Project) UpdateLDAP(optionalSetters ...UpdateLDAPOption) (*models.Project, error) {
+	path := "/project/ldap"
+	options := UpdateLDAPOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["Hosts"] {
+		params["hosts"] = options.Hosts
+	}
+	if options.enabledSetters["Port"] {
+		params["port"] = options.Port
+	}
+	if options.enabledSetters["Encryption"] {
+		params["encryption"] = options.Encryption
+	}
+	if options.enabledSetters["Verification"] {
+		params["verification"] = options.Verification
+	}
+	if options.enabledSetters["Certificate"] {
+		params["certificate"] = options.Certificate
+	}
+	if options.enabledSetters["Timeout"] {
+		params["timeout"] = options.Timeout
+	}
+	if options.enabledSetters["BaseDn"] {
+		params["baseDn"] = options.BaseDn
+	}
+	if options.enabledSetters["BindDn"] {
+		params["bindDn"] = options.BindDn
+	}
+	if options.enabledSetters["BindPassword"] {
+		params["bindPassword"] = options.BindPassword
+	}
+	if options.enabledSetters["UserFilter"] {
+		params["userFilter"] = options.UserFilter
+	}
+	if options.enabledSetters["RequiredGroupDn"] {
+		params["requiredGroupDn"] = options.RequiredGroupDn
+	}
+	if options.enabledSetters["IdAttribute"] {
+		params["idAttribute"] = options.IdAttribute
+	}
+	if options.enabledSetters["EmailAttribute"] {
+		params["emailAttribute"] = options.EmailAttribute
+	}
+	if options.enabledSetters["NameAttribute"] {
+		params["nameAttribute"] = options.NameAttribute
+	}
+	if options.enabledSetters["PhoneAttribute"] {
+		params["phoneAttribute"] = options.PhoneAttribute
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Project{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Project
+	parsed, ok := resp.Result.(models.Project)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreateLDAPTestOptions struct {
+	Username       string
+	Password       string
+	enabledSetters map[string]bool
+}
+
+func (options CreateLDAPTestOptions) New() *CreateLDAPTestOptions {
+	options.enabledSetters = map[string]bool{"Username": false, "Password": false}
+	return &options
+}
+
+type CreateLDAPTestOption func(*CreateLDAPTestOptions)
+
+func (srv *Project) WithCreateLDAPTestUsername(v string) CreateLDAPTestOption {
+	return func(o *CreateLDAPTestOptions) {
+		o.Username = v
+		o.enabledSetters["Username"] = true
+	}
+}
+func (srv *Project) WithCreateLDAPTestPassword(v string) CreateLDAPTestOption {
+	return func(o *CreateLDAPTestOptions) {
+		o.Password = v
+		o.enabledSetters["Password"] = true
+	}
+}
+
+// CreateLDAPTest test the stored LDAP configuration against the directory
+// without signing anyone in. Connects to the directory, binds as the service
+// account and reads the base DN. Pass a username to also look the user up and
+// check the required group, and a password to also verify it. The error names
+// the step that failed.
+func (srv *Project) CreateLDAPTest(optionalSetters ...CreateLDAPTestOption) (*interface{}, error) {
+	path := "/project/ldap/tests"
+	options := CreateLDAPTestOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Username"] {
+		params["username"] = options.Username
+	}
+	if options.enabledSetters["Password"] {
+		params["password"] = options.Password
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type ListMockPhonesOptions struct {
 	Queries        []string
 	Total          bool

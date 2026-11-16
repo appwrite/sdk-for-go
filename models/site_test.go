@@ -7,7 +7,7 @@ import (
 )
 
 func TestSiteModel(t *testing.T) {
-	model := Site{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Site", Description: "Marketing site for the spring launch.", Enabled: true, Live: true, Logging: true, Framework: "react", DeploymentRetention: 7, DeploymentId: "5e5ea5c16897e", DeploymentCreatedAt: "2020-10-15T06:38:00.000+00:00", DeploymentScreenshotLight: "5e5ea5c16897e", DeploymentScreenshotDark: "5e5ea5c16897e", LatestDeploymentId: "5e5ea5c16897e", LatestDeploymentCreatedAt: "2020-10-15T06:38:00.000+00:00", LatestDeploymentStatus: "ready", Scopes: []string{"test"}, Vars: []Variable{Variable{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "API_KEY", Description: "Stripe secret key used at checkout.", Value: "myPa$$word1", Secret: true, ResourceType: "function", ResourceId: "myAwesomeFunction"}}, Timeout: 300, InstallCommand: "npm install", BuildCommand: "npm run build", StartCommand: "node custom-server.mjs", OutputDirectory: "build", InstallationId: "6m40at4ejk5h2u9s1hboo", ProviderRepositoryId: "appwrite", ProviderBranch: "main", ProviderRootDirectory: "sites/helloWorld", ProviderSilentMode: true, ProviderBranches: []string{"test"}, ProviderPaths: []string{"test"}, BuildSpecification: "s-1vcpu-512mb", RuntimeSpecification: "s-1vcpu-512mb", BuildRuntime: "node-22", Adapter: "static", FallbackFile: "index.html"}
+	model := Site{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Site", Description: "Marketing site for the spring launch.", Enabled: true, Live: true, Logging: true, Framework: "react", DeploymentRetention: 7, DeploymentId: "5e5ea5c16897e", DeploymentCreatedAt: "2020-10-15T06:38:00.000+00:00", DeploymentScreenshotLight: "5e5ea5c16897e", DeploymentScreenshotDark: "5e5ea5c16897e", LatestDeploymentId: "5e5ea5c16897e", LatestDeploymentCreatedAt: "2020-10-15T06:38:00.000+00:00", LatestDeploymentStatus: "ready", Scopes: []string{"test"}, Vars: []Variable{Variable{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "API_KEY", Description: "Stripe secret key used at checkout.", Value: "myPa$$word1", Secret: true, ResourceType: "function", ResourceId: "myAwesomeFunction"}}, Timeout: 300, InstallCommand: "npm install", BuildCommand: "npm run build", StartCommand: "node custom-server.mjs", OutputDirectory: "build", InstallationId: "6m40at4ejk5h2u9s1hboo", ProviderRepositoryId: "appwrite", ProviderBranch: "main", ProviderRootDirectory: "sites/helloWorld", ProviderSilentMode: true, ProviderBranches: []string{"test"}, ProviderPaths: []string{"test"}, BuildSpecification: "s-1vcpu-512mb", RuntimeSpecification: "s-1vcpu-512mb", BuildRuntime: "node-22", Adapter: "static", FallbackFile: "index.html", AnalyticsEnabled: true, AnalyticsPropertyId: "5e5ea5c16897e"}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -114,6 +114,12 @@ func TestSiteModel(t *testing.T) {
 	}
 	if result.FallbackFile != model.FallbackFile {
 		t.Errorf("Expected FallbackFile %v, got %v", model.FallbackFile, result.FallbackFile)
+	}
+	if result.AnalyticsEnabled != model.AnalyticsEnabled {
+		t.Errorf("Expected AnalyticsEnabled %v, got %v", model.AnalyticsEnabled, result.AnalyticsEnabled)
+	}
+	if result.AnalyticsPropertyId != model.AnalyticsPropertyId {
+		t.Errorf("Expected AnalyticsPropertyId %v, got %v", model.AnalyticsPropertyId, result.AnalyticsPropertyId)
 	}
 }
 
@@ -650,8 +656,40 @@ func TestSiteModelDefaults(t *testing.T) {
 			t.Errorf("Expected missing buildRuntime to default to %v, got %v", want, got)
 		}
 	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("false"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.AnalyticsEnabled)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing analyticsEnabled to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("\"\""), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.AnalyticsPropertyId)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing analyticsPropertyId to default to %v, got %v", want, got)
+		}
+	}
 
-	reused := Site{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Site", Description: "Marketing site for the spring launch.", Enabled: true, Live: true, Logging: true, Framework: "react", DeploymentRetention: 7, DeploymentId: "5e5ea5c16897e", DeploymentCreatedAt: "2020-10-15T06:38:00.000+00:00", DeploymentScreenshotLight: "5e5ea5c16897e", DeploymentScreenshotDark: "5e5ea5c16897e", LatestDeploymentId: "5e5ea5c16897e", LatestDeploymentCreatedAt: "2020-10-15T06:38:00.000+00:00", LatestDeploymentStatus: "ready", Scopes: []string{"test"}, Vars: []Variable{Variable{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "API_KEY", Description: "Stripe secret key used at checkout.", Value: "myPa$$word1", Secret: true, ResourceType: "function", ResourceId: "myAwesomeFunction"}}, Timeout: 300, InstallCommand: "npm install", BuildCommand: "npm run build", StartCommand: "node custom-server.mjs", OutputDirectory: "build", InstallationId: "6m40at4ejk5h2u9s1hboo", ProviderRepositoryId: "appwrite", ProviderBranch: "main", ProviderRootDirectory: "sites/helloWorld", ProviderSilentMode: true, ProviderBranches: []string{"test"}, ProviderPaths: []string{"test"}, BuildSpecification: "s-1vcpu-512mb", RuntimeSpecification: "s-1vcpu-512mb", BuildRuntime: "node-22", Adapter: "static", FallbackFile: "index.html"}
+	reused := Site{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Site", Description: "Marketing site for the spring launch.", Enabled: true, Live: true, Logging: true, Framework: "react", DeploymentRetention: 7, DeploymentId: "5e5ea5c16897e", DeploymentCreatedAt: "2020-10-15T06:38:00.000+00:00", DeploymentScreenshotLight: "5e5ea5c16897e", DeploymentScreenshotDark: "5e5ea5c16897e", LatestDeploymentId: "5e5ea5c16897e", LatestDeploymentCreatedAt: "2020-10-15T06:38:00.000+00:00", LatestDeploymentStatus: "ready", Scopes: []string{"test"}, Vars: []Variable{Variable{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Key: "API_KEY", Description: "Stripe secret key used at checkout.", Value: "myPa$$word1", Secret: true, ResourceType: "function", ResourceId: "myAwesomeFunction"}}, Timeout: 300, InstallCommand: "npm install", BuildCommand: "npm run build", StartCommand: "node custom-server.mjs", OutputDirectory: "build", InstallationId: "6m40at4ejk5h2u9s1hboo", ProviderRepositoryId: "appwrite", ProviderBranch: "main", ProviderRootDirectory: "sites/helloWorld", ProviderSilentMode: true, ProviderBranches: []string{"test"}, ProviderPaths: []string{"test"}, BuildSpecification: "s-1vcpu-512mb", RuntimeSpecification: "s-1vcpu-512mb", BuildRuntime: "node-22", Adapter: "static", FallbackFile: "index.html", AnalyticsEnabled: true, AnalyticsPropertyId: "5e5ea5c16897e"}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

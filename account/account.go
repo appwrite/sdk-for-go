@@ -2827,6 +2827,78 @@ func (srv *Account) CreateIdTokenSession(Provider string, IdToken string, option
 
 }
 
+type CreateLDAPSessionOptions struct {
+	Duration       int
+	enabledSetters map[string]bool
+}
+
+func (options CreateLDAPSessionOptions) New() *CreateLDAPSessionOptions {
+	options.enabledSetters = map[string]bool{"Duration": false}
+	return &options
+}
+
+type CreateLDAPSessionOption func(*CreateLDAPSessionOptions)
+
+func (srv *Account) WithCreateLDAPSessionDuration(v int) CreateLDAPSessionOption {
+	return func(o *CreateLDAPSessionOptions) {
+		o.Duration = v
+		o.enabledSetters["Duration"] = true
+	}
+}
+
+// CreateLDAPSession allow the user to login into their account by providing
+// the username and password they use in the project's LDAP directory. The
+// directory verifies the password; on the first sign-in an account is created
+// from the directory entry, and on later sign-ins the name, email and phone
+// follow the directory. This endpoint requires LDAP to be configured and
+// enabled for the project. A user is limited to 10 active sessions at a time
+// by default. [Learn more about session
+// limits](https://appwrite.io/docs/authentication-security#limits).
+func (srv *Account) CreateLDAPSession(Username string, Password string, optionalSetters ...CreateLDAPSessionOption) (*models.Session, error) {
+	path := "/account/sessions/ldap"
+	options := CreateLDAPSessionOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["username"] = Username
+	params["password"] = Password
+	if options.enabledSetters["Duration"] {
+		params["duration"] = options.Duration
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Session{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Session
+	parsed, ok := resp.Result.(models.Session)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // UpdateMagicURLSession use this endpoint to create a session from token.
 // Provide the **userId** and **secret** parameters from the successful
 // response of authentication flows initiated by token creation. For example,

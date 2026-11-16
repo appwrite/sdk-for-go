@@ -21,6 +21,8 @@ type AnalyticsProperty struct {
 	// Whether tracking is currently active.
 	Enabled bool `json:"enabled"`
 	// List of origins allowed to send tracking events. Use ["*"] to allow all.
+	// Managed by Appwrite for a property linked to a site, following the site's
+	// production domains.
 	AllowedOrigins []string `json:"allowedOrigins"`
 	// Kind of product this property tracks. Decides which dashboard panels apply.
 	Type string `json:"type"`

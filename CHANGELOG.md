@@ -1,5 +1,12 @@
 # Change Log
 
+## v7.20.0
+
+* Added: `Account.CreateLDAPSession` for LDAP sign-in
+* Added: `Project.UpdateLDAP` and `Project.CreateLDAPTest` to configure and test a project's LDAP directory, and `Ldap*` fields on `Project`
+* Added: `Sites.UpdateAnalytics` and `AnalyticsEnabled` and `AnalyticsPropertyId` on `Site`
+* Added: `Reason` on `DomainPrice`, set when a domain was not priced for the requested registration type
+
 ## v7.19.0
 
 * Added: `Project.UpdateOAuth2Naver` and the `OAuth2Naver` model

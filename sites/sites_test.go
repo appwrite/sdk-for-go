@@ -78,7 +78,9 @@ func TestSites(t *testing.T) {
             "runtimeSpecification": "s-1vcpu-512mb",
             "buildRuntime": "node-22",
             "adapter": "static",
-            "fallbackFile": "index.html"
+            "fallbackFile": "index.html",
+            "analyticsEnabled": true,
+            "analyticsPropertyId": "5e5ea5c16897e"
         }
     ]
 }
@@ -153,7 +155,9 @@ func TestSites(t *testing.T) {
     "runtimeSpecification": "s-1vcpu-512mb",
     "buildRuntime": "node-22",
     "adapter": "static",
-    "fallbackFile": "index.html"
+    "fallbackFile": "index.html",
+    "analyticsEnabled": true,
+    "analyticsPropertyId": "5e5ea5c16897e"
 }
 `
 
@@ -302,7 +306,9 @@ func TestSites(t *testing.T) {
     "runtimeSpecification": "s-1vcpu-512mb",
     "buildRuntime": "node-22",
     "adapter": "static",
-    "fallbackFile": "index.html"
+    "fallbackFile": "index.html",
+    "analyticsEnabled": true,
+    "analyticsPropertyId": "5e5ea5c16897e"
 }
 `
 
@@ -375,7 +381,9 @@ func TestSites(t *testing.T) {
     "runtimeSpecification": "s-1vcpu-512mb",
     "buildRuntime": "node-22",
     "adapter": "static",
-    "fallbackFile": "index.html"
+    "fallbackFile": "index.html",
+    "analyticsEnabled": true,
+    "analyticsPropertyId": "5e5ea5c16897e"
 }
 `
 
@@ -421,6 +429,81 @@ func TestSites(t *testing.T) {
 		_, err := srv.Delete("<SITE_ID>")
 		if err != nil {
 			t.Errorf("Method Delete failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateAnalytics", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "My Site",
+    "description": "Marketing site for the spring launch.",
+    "enabled": true,
+    "live": true,
+    "logging": true,
+    "framework": "react",
+    "deploymentRetention": 7,
+    "deploymentId": "5e5ea5c16897e",
+    "deploymentCreatedAt": "2020-10-15T06:38:00.000+00:00",
+    "deploymentScreenshotLight": "5e5ea5c16897e",
+    "deploymentScreenshotDark": "5e5ea5c16897e",
+    "latestDeploymentId": "5e5ea5c16897e",
+    "latestDeploymentCreatedAt": "2020-10-15T06:38:00.000+00:00",
+    "latestDeploymentStatus": "ready",
+    "scopes": [],
+    "vars": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "key": "API_KEY",
+            "description": "Stripe secret key used at checkout.",
+            "value": "myPa$$word1",
+            "secret": true,
+            "resourceType": "function",
+            "resourceId": "myAwesomeFunction"
+        }
+    ],
+    "timeout": 300,
+    "installCommand": "npm install",
+    "buildCommand": "npm run build",
+    "startCommand": "node custom-server.mjs",
+    "outputDirectory": "build",
+    "installationId": "6m40at4ejk5h2u9s1hboo",
+    "providerRepositoryId": "appwrite",
+    "providerBranch": "main",
+    "providerRootDirectory": "sites/helloWorld",
+    "providerSilentMode": true,
+    "providerBranches": [],
+    "providerPaths": [],
+    "buildSpecification": "s-1vcpu-512mb",
+    "runtimeSpecification": "s-1vcpu-512mb",
+    "buildRuntime": "node-22",
+    "adapter": "static",
+    "fallbackFile": "index.html",
+    "analyticsEnabled": true,
+    "analyticsPropertyId": "5e5ea5c16897e"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateAnalytics("<SITE_ID>", true)
+		if err != nil {
+			t.Errorf("Method UpdateAnalytics failed: %v", err)
 		}
 	})
 
@@ -474,7 +557,9 @@ func TestSites(t *testing.T) {
     "runtimeSpecification": "s-1vcpu-512mb",
     "buildRuntime": "node-22",
     "adapter": "static",
-    "fallbackFile": "index.html"
+    "fallbackFile": "index.html",
+    "analyticsEnabled": true,
+    "analyticsPropertyId": "5e5ea5c16897e"
 }
 `
 

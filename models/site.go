@@ -90,6 +90,12 @@ type Site struct {
 	// Name of fallback file to use instead of 404 page. If null, Appwrite 404
 	// page will be displayed.
 	FallbackFile string `json:"fallbackFile"`
+	// Whether the analytics tracker is injected into pages served on the site's
+	// production domains.
+	AnalyticsEnabled bool `json:"analyticsEnabled"`
+	// ID of the analytics property the site reports to. Kept when analytics is
+	// turned off, so turning it back on resumes the same property.
+	AnalyticsPropertyId string `json:"analyticsPropertyId"`
 
 	// Used by Decode() method
 	data []byte
@@ -143,6 +149,8 @@ func (model *Site) UnmarshalJSON(data []byte) error {
 		BuildSpecification        json.RawMessage `json:"buildSpecification"`
 		RuntimeSpecification      json.RawMessage `json:"runtimeSpecification"`
 		BuildRuntime              json.RawMessage `json:"buildRuntime"`
+		AnalyticsEnabled          json.RawMessage `json:"analyticsEnabled"`
+		AnalyticsPropertyId       json.RawMessage `json:"analyticsPropertyId"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -309,6 +317,16 @@ func (model *Site) UnmarshalJSON(data []byte) error {
 	}
 	if present.BuildRuntime == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.BuildRuntime); err != nil {
+			return err
+		}
+	}
+	if present.AnalyticsEnabled == nil {
+		if err := json.Unmarshal([]byte("false"), &decoded.AnalyticsEnabled); err != nil {
+			return err
+		}
+	}
+	if present.AnalyticsPropertyId == nil {
+		if err := json.Unmarshal([]byte("\"\""), &decoded.AnalyticsPropertyId); err != nil {
 			return err
 		}
 	}
