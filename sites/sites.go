@@ -869,6 +869,53 @@ func (srv *Sites) Delete(SiteId string) (*interface{}, error) {
 
 }
 
+// UpdateAnalytics turn analytics on or off for a site. Turning it on links an
+// analytics property named after the site, creating one on first use, and
+// injects the tracker into pages served on the site's production domains.
+// Turning it on also needs the `analytics.write` scope. Turning it off stops
+// the injection and keeps the property and its data.
+func (srv *Sites) UpdateAnalytics(SiteId string, Enabled bool) (*models.Site, error) {
+	if SiteId == "" {
+		return nil, errors.New("Missing required parameter: \"siteId\"")
+	}
+
+	r := strings.NewReplacer("{siteId}", client.EncodePath(SiteId))
+	path := r.Replace("/sites/{siteId}/analytics")
+	params := map[string]interface{}{}
+	params["enabled"] = Enabled
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Site{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Site
+	parsed, ok := resp.Result.(models.Site)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 // UpdateSiteDeployment update the site active deployment. Use this endpoint
 // to switch the code deployment that should be used when visitor opens your
 // site.

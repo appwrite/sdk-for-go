@@ -25,6 +25,9 @@ type DomainPrice struct {
 	RenewalPrice *float64 `json:"renewalPrice"`
 	// Renewal price period in years.
 	RenewalPeriodYears int `json:"renewalPeriodYears"`
+	// Why the domain was not priced for the requested registration type, for
+	// example a transfer of an unregistered domain. Empty otherwise.
+	Reason *string `json:"reason"`
 
 	// Used by Decode() method
 	data []byte
