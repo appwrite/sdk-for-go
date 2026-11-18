@@ -42,6 +42,9 @@ func main() {
 		service.WithUpdateDeploymentRetention(0),
 		service.WithUpdateInterval(0),
 		service.WithUpdateDescription("<DESCRIPTION>"),
+		service.WithUpdateProviderComments(false),
+		service.WithUpdateProviderDeployments(false),
+		service.WithUpdateProviderStatuses(false),
 		service.WithUpdateEmailEnabled(false),
 	)
 	fmt.Println(response, err)

@@ -1826,6 +1826,89 @@ func (srv *Project) UpdateOAuth2Appwrite(optionalSetters ...UpdateOAuth2Appwrite
 
 }
 
+type UpdateOAuth2AtlassianOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2AtlassianOptions) New() *UpdateOAuth2AtlassianOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2AtlassianOption func(*UpdateOAuth2AtlassianOptions)
+
+func (srv *Project) WithUpdateOAuth2AtlassianClientId(v string) UpdateOAuth2AtlassianOption {
+	return func(o *UpdateOAuth2AtlassianOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2AtlassianClientSecret(v string) UpdateOAuth2AtlassianOption {
+	return func(o *UpdateOAuth2AtlassianOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2AtlassianEnabled(v bool) UpdateOAuth2AtlassianOption {
+	return func(o *UpdateOAuth2AtlassianOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Atlassian update the project OAuth2 Atlassian configuration.
+func (srv *Project) UpdateOAuth2Atlassian(optionalSetters ...UpdateOAuth2AtlassianOption) (*models.OAuth2Atlassian, error) {
+	path := "/project/oauth2/atlassian"
+	options := UpdateOAuth2AtlassianOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Atlassian{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Atlassian
+	parsed, ok := resp.Result.(models.OAuth2Atlassian)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2Auth0Options struct {
 	ClientId       string
 	ClientSecret   string
@@ -3505,6 +3588,89 @@ func (srv *Project) UpdateOAuth2HuggingFace(optionalSetters ...UpdateOAuth2Huggi
 
 }
 
+type UpdateOAuth2InstagramOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2InstagramOptions) New() *UpdateOAuth2InstagramOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2InstagramOption func(*UpdateOAuth2InstagramOptions)
+
+func (srv *Project) WithUpdateOAuth2InstagramClientId(v string) UpdateOAuth2InstagramOption {
+	return func(o *UpdateOAuth2InstagramOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2InstagramClientSecret(v string) UpdateOAuth2InstagramOption {
+	return func(o *UpdateOAuth2InstagramOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2InstagramEnabled(v bool) UpdateOAuth2InstagramOption {
+	return func(o *UpdateOAuth2InstagramOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Instagram update the project OAuth2 Instagram configuration.
+func (srv *Project) UpdateOAuth2Instagram(optionalSetters ...UpdateOAuth2InstagramOption) (*models.OAuth2Instagram, error) {
+	path := "/project/oauth2/instagram"
+	options := UpdateOAuth2InstagramOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Instagram{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Instagram
+	parsed, ok := resp.Result.(models.OAuth2Instagram)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2KakaoOptions struct {
 	ClientId       string
 	ClientSecret   string
@@ -3784,6 +3950,172 @@ func (srv *Project) UpdateOAuth2Kick(optionalSetters ...UpdateOAuth2KickOption) 
 
 }
 
+type UpdateOAuth2LineOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2LineOptions) New() *UpdateOAuth2LineOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2LineOption func(*UpdateOAuth2LineOptions)
+
+func (srv *Project) WithUpdateOAuth2LineClientId(v string) UpdateOAuth2LineOption {
+	return func(o *UpdateOAuth2LineOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2LineClientSecret(v string) UpdateOAuth2LineOption {
+	return func(o *UpdateOAuth2LineOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2LineEnabled(v bool) UpdateOAuth2LineOption {
+	return func(o *UpdateOAuth2LineOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Line update the project OAuth2 LINE configuration.
+func (srv *Project) UpdateOAuth2Line(optionalSetters ...UpdateOAuth2LineOption) (*models.OAuth2Line, error) {
+	path := "/project/oauth2/line"
+	options := UpdateOAuth2LineOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Line{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Line
+	parsed, ok := resp.Result.(models.OAuth2Line)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateOAuth2LinearOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2LinearOptions) New() *UpdateOAuth2LinearOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2LinearOption func(*UpdateOAuth2LinearOptions)
+
+func (srv *Project) WithUpdateOAuth2LinearClientId(v string) UpdateOAuth2LinearOption {
+	return func(o *UpdateOAuth2LinearOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2LinearClientSecret(v string) UpdateOAuth2LinearOption {
+	return func(o *UpdateOAuth2LinearOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2LinearEnabled(v bool) UpdateOAuth2LinearOption {
+	return func(o *UpdateOAuth2LinearOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Linear update the project OAuth2 Linear configuration.
+func (srv *Project) UpdateOAuth2Linear(optionalSetters ...UpdateOAuth2LinearOption) (*models.OAuth2Linear, error) {
+	path := "/project/oauth2/linear"
+	options := UpdateOAuth2LinearOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Linear{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Linear
+	parsed, ok := resp.Result.(models.OAuth2Linear)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2LinkedinOptions struct {
 	ClientId            string
 	PrimaryClientSecret string
@@ -4046,6 +4378,89 @@ func (srv *Project) UpdateOAuth2Naver(optionalSetters ...UpdateOAuth2NaverOption
 	}
 	var parsed models.OAuth2Naver
 	parsed, ok := resp.Result.(models.OAuth2Naver)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateOAuth2NetlifyOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2NetlifyOptions) New() *UpdateOAuth2NetlifyOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2NetlifyOption func(*UpdateOAuth2NetlifyOptions)
+
+func (srv *Project) WithUpdateOAuth2NetlifyClientId(v string) UpdateOAuth2NetlifyOption {
+	return func(o *UpdateOAuth2NetlifyOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2NetlifyClientSecret(v string) UpdateOAuth2NetlifyOption {
+	return func(o *UpdateOAuth2NetlifyOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2NetlifyEnabled(v bool) UpdateOAuth2NetlifyOption {
+	return func(o *UpdateOAuth2NetlifyOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Netlify update the project OAuth2 Netlify configuration.
+func (srv *Project) UpdateOAuth2Netlify(optionalSetters ...UpdateOAuth2NetlifyOption) (*models.OAuth2Netlify, error) {
+	path := "/project/oauth2/netlify"
+	options := UpdateOAuth2NetlifyOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Netlify{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Netlify
+	parsed, ok := resp.Result.(models.OAuth2Netlify)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -4392,6 +4807,89 @@ func (srv *Project) UpdateOAuth2Okta(optionalSetters ...UpdateOAuth2OktaOption) 
 
 }
 
+type UpdateOAuth2PatreonOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2PatreonOptions) New() *UpdateOAuth2PatreonOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2PatreonOption func(*UpdateOAuth2PatreonOptions)
+
+func (srv *Project) WithUpdateOAuth2PatreonClientId(v string) UpdateOAuth2PatreonOption {
+	return func(o *UpdateOAuth2PatreonOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2PatreonClientSecret(v string) UpdateOAuth2PatreonOption {
+	return func(o *UpdateOAuth2PatreonOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2PatreonEnabled(v bool) UpdateOAuth2PatreonOption {
+	return func(o *UpdateOAuth2PatreonOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Patreon update the project OAuth2 Patreon configuration.
+func (srv *Project) UpdateOAuth2Patreon(optionalSetters ...UpdateOAuth2PatreonOption) (*models.OAuth2Patreon, error) {
+	path := "/project/oauth2/patreon"
+	options := UpdateOAuth2PatreonOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Patreon{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Patreon
+	parsed, ok := resp.Result.(models.OAuth2Patreon)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2PaypalOptions struct {
 	ClientId       string
 	SecretKey      string
@@ -4642,6 +5140,172 @@ func (srv *Project) UpdateOAuth2Podio(optionalSetters ...UpdateOAuth2PodioOption
 
 }
 
+type UpdateOAuth2RailwayOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2RailwayOptions) New() *UpdateOAuth2RailwayOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2RailwayOption func(*UpdateOAuth2RailwayOptions)
+
+func (srv *Project) WithUpdateOAuth2RailwayClientId(v string) UpdateOAuth2RailwayOption {
+	return func(o *UpdateOAuth2RailwayOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2RailwayClientSecret(v string) UpdateOAuth2RailwayOption {
+	return func(o *UpdateOAuth2RailwayOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2RailwayEnabled(v bool) UpdateOAuth2RailwayOption {
+	return func(o *UpdateOAuth2RailwayOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Railway update the project OAuth2 Railway configuration.
+func (srv *Project) UpdateOAuth2Railway(optionalSetters ...UpdateOAuth2RailwayOption) (*models.OAuth2Railway, error) {
+	path := "/project/oauth2/railway"
+	options := UpdateOAuth2RailwayOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Railway{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Railway
+	parsed, ok := resp.Result.(models.OAuth2Railway)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateOAuth2RedditOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2RedditOptions) New() *UpdateOAuth2RedditOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2RedditOption func(*UpdateOAuth2RedditOptions)
+
+func (srv *Project) WithUpdateOAuth2RedditClientId(v string) UpdateOAuth2RedditOption {
+	return func(o *UpdateOAuth2RedditOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2RedditClientSecret(v string) UpdateOAuth2RedditOption {
+	return func(o *UpdateOAuth2RedditOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2RedditEnabled(v bool) UpdateOAuth2RedditOption {
+	return func(o *UpdateOAuth2RedditOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Reddit update the project OAuth2 Reddit configuration.
+func (srv *Project) UpdateOAuth2Reddit(optionalSetters ...UpdateOAuth2RedditOption) (*models.OAuth2Reddit, error) {
+	path := "/project/oauth2/reddit"
+	options := UpdateOAuth2RedditOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Reddit{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Reddit
+	parsed, ok := resp.Result.(models.OAuth2Reddit)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2ResendOptions struct {
 	ClientId       string
 	ClientSecret   string
@@ -4718,6 +5382,89 @@ func (srv *Project) UpdateOAuth2Resend(optionalSetters ...UpdateOAuth2ResendOpti
 	}
 	var parsed models.OAuth2Resend
 	parsed, ok := resp.Result.(models.OAuth2Resend)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateOAuth2RobloxOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2RobloxOptions) New() *UpdateOAuth2RobloxOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2RobloxOption func(*UpdateOAuth2RobloxOptions)
+
+func (srv *Project) WithUpdateOAuth2RobloxClientId(v string) UpdateOAuth2RobloxOption {
+	return func(o *UpdateOAuth2RobloxOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2RobloxClientSecret(v string) UpdateOAuth2RobloxOption {
+	return func(o *UpdateOAuth2RobloxOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2RobloxEnabled(v bool) UpdateOAuth2RobloxOption {
+	return func(o *UpdateOAuth2RobloxOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Roblox update the project OAuth2 Roblox configuration.
+func (srv *Project) UpdateOAuth2Roblox(optionalSetters ...UpdateOAuth2RobloxOption) (*models.OAuth2Roblox, error) {
+	path := "/project/oauth2/roblox"
+	options := UpdateOAuth2RobloxOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Roblox{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Roblox
+	parsed, ok := resp.Result.(models.OAuth2Roblox)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -4977,6 +5724,89 @@ func (srv *Project) UpdateOAuth2Spotify(optionalSetters ...UpdateOAuth2SpotifyOp
 	}
 	var parsed models.OAuth2Spotify
 	parsed, ok := resp.Result.(models.OAuth2Spotify)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateOAuth2StravaOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2StravaOptions) New() *UpdateOAuth2StravaOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2StravaOption func(*UpdateOAuth2StravaOptions)
+
+func (srv *Project) WithUpdateOAuth2StravaClientId(v string) UpdateOAuth2StravaOption {
+	return func(o *UpdateOAuth2StravaOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2StravaClientSecret(v string) UpdateOAuth2StravaOption {
+	return func(o *UpdateOAuth2StravaOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2StravaEnabled(v bool) UpdateOAuth2StravaOption {
+	return func(o *UpdateOAuth2StravaOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Strava update the project OAuth2 Strava configuration.
+func (srv *Project) UpdateOAuth2Strava(optionalSetters ...UpdateOAuth2StravaOption) (*models.OAuth2Strava, error) {
+	path := "/project/oauth2/strava"
+	options := UpdateOAuth2StravaOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Strava{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Strava
+	parsed, ok := resp.Result.(models.OAuth2Strava)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -5400,6 +6230,89 @@ func (srv *Project) UpdateOAuth2Twitch(optionalSetters ...UpdateOAuth2TwitchOpti
 
 }
 
+type UpdateOAuth2VercelOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2VercelOptions) New() *UpdateOAuth2VercelOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2VercelOption func(*UpdateOAuth2VercelOptions)
+
+func (srv *Project) WithUpdateOAuth2VercelClientId(v string) UpdateOAuth2VercelOption {
+	return func(o *UpdateOAuth2VercelOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2VercelClientSecret(v string) UpdateOAuth2VercelOption {
+	return func(o *UpdateOAuth2VercelOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2VercelEnabled(v bool) UpdateOAuth2VercelOption {
+	return func(o *UpdateOAuth2VercelOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Vercel update the project OAuth2 Vercel configuration.
+func (srv *Project) UpdateOAuth2Vercel(optionalSetters ...UpdateOAuth2VercelOption) (*models.OAuth2Vercel, error) {
+	path := "/project/oauth2/vercel"
+	options := UpdateOAuth2VercelOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Vercel{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Vercel
+	parsed, ok := resp.Result.(models.OAuth2Vercel)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2VippsOptions struct {
 	ClientId       string
 	ClientSecret   string
@@ -5567,6 +6480,89 @@ func (srv *Project) UpdateOAuth2VippsSandbox(optionalSetters ...UpdateOAuth2Vipp
 
 }
 
+type UpdateOAuth2VKOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2VKOptions) New() *UpdateOAuth2VKOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2VKOption func(*UpdateOAuth2VKOptions)
+
+func (srv *Project) WithUpdateOAuth2VKClientId(v string) UpdateOAuth2VKOption {
+	return func(o *UpdateOAuth2VKOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2VKClientSecret(v string) UpdateOAuth2VKOption {
+	return func(o *UpdateOAuth2VKOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2VKEnabled(v bool) UpdateOAuth2VKOption {
+	return func(o *UpdateOAuth2VKOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2VK update the project OAuth2 VK configuration.
+func (srv *Project) UpdateOAuth2VK(optionalSetters ...UpdateOAuth2VKOption) (*models.OAuth2VK, error) {
+	path := "/project/oauth2/vk"
+	options := UpdateOAuth2VKOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2VK{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2VK
+	parsed, ok := resp.Result.(models.OAuth2VK)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2WebflowOptions struct {
 	ClientId       string
 	ClientSecret   string
@@ -5726,6 +6722,89 @@ func (srv *Project) UpdateOAuth2WordPress(optionalSetters ...UpdateOAuth2WordPre
 	}
 	var parsed models.OAuth2WordPress
 	parsed, ok := resp.Result.(models.OAuth2WordPress)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateOAuth2WorkOSOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2WorkOSOptions) New() *UpdateOAuth2WorkOSOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2WorkOSOption func(*UpdateOAuth2WorkOSOptions)
+
+func (srv *Project) WithUpdateOAuth2WorkOSClientId(v string) UpdateOAuth2WorkOSOption {
+	return func(o *UpdateOAuth2WorkOSOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2WorkOSClientSecret(v string) UpdateOAuth2WorkOSOption {
+	return func(o *UpdateOAuth2WorkOSOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2WorkOSEnabled(v bool) UpdateOAuth2WorkOSOption {
+	return func(o *UpdateOAuth2WorkOSOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2WorkOS update the project OAuth2 WorkOS configuration.
+func (srv *Project) UpdateOAuth2WorkOS(optionalSetters ...UpdateOAuth2WorkOSOption) (*models.OAuth2WorkOS, error) {
+	path := "/project/oauth2/workos"
+	options := UpdateOAuth2WorkOSOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2WorkOS{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2WorkOS
+	parsed, ok := resp.Result.(models.OAuth2WorkOS)
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
@@ -6377,6 +7456,110 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "huggingface" {
 			parsed := models.OAuth2HuggingFace{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "instagram" {
+			parsed := models.OAuth2Instagram{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "patreon" {
+			parsed := models.OAuth2Patreon{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "strava" {
+			parsed := models.OAuth2Strava{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "vk" {
+			parsed := models.OAuth2VK{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "netlify" {
+			parsed := models.OAuth2Netlify{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "railway" {
+			parsed := models.OAuth2Railway{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "reddit" {
+			parsed := models.OAuth2Reddit{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "vercel" {
+			parsed := models.OAuth2Vercel{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "atlassian" {
+			parsed := models.OAuth2Atlassian{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "line" {
+			parsed := models.OAuth2Line{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "linear" {
+			parsed := models.OAuth2Linear{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "roblox" {
+			parsed := models.OAuth2Roblox{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "workos" {
+			parsed := models.OAuth2WorkOS{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}

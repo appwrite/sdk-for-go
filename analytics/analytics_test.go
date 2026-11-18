@@ -191,6 +191,165 @@ func TestAnalytics(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ListAnnotations", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "annotations": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "propertyId": "5e5ea5c16897e",
+            "date": "2020-10-15T06:38:00.000+00:00",
+            "content": "Launched the new pricing page",
+            "userId": "5e5ea5c16897e"
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListAnnotations("<PROPERTY_ID>")
+		if err != nil {
+			t.Errorf("Method ListAnnotations failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateAnnotation", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "propertyId": "5e5ea5c16897e",
+    "date": "2020-10-15T06:38:00.000+00:00",
+    "content": "Launched the new pricing page",
+    "userId": "5e5ea5c16897e"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateAnnotation("<PROPERTY_ID>", "<ANNOTATION_ID>", "2020-10-15T06:38:00.000+00:00", "<CONTENT>")
+		if err != nil {
+			t.Errorf("Method CreateAnnotation failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetAnnotation", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "propertyId": "5e5ea5c16897e",
+    "date": "2020-10-15T06:38:00.000+00:00",
+    "content": "Launched the new pricing page",
+    "userId": "5e5ea5c16897e"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetAnnotation("<PROPERTY_ID>", "<ANNOTATION_ID>")
+		if err != nil {
+			t.Errorf("Method GetAnnotation failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateAnnotation", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "propertyId": "5e5ea5c16897e",
+    "date": "2020-10-15T06:38:00.000+00:00",
+    "content": "Launched the new pricing page",
+    "userId": "5e5ea5c16897e"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateAnnotation("<PROPERTY_ID>", "<ANNOTATION_ID>")
+		if err != nil {
+			t.Errorf("Method UpdateAnnotation failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteAnnotation", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteAnnotation("<PROPERTY_ID>", "<ANNOTATION_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteAnnotation failed: %v", err)
+		}
+	})
+
 	t.Run("Test CreateEvent", func(t *testing.T) {
 		mockResponse := `
 {

@@ -75,6 +75,14 @@ type Function struct {
 	// silence mode, no comments will be posted on the repository pull or merge
 	// requests
 	ProviderSilentMode bool `json:"providerSilentMode"`
+	// Whether a build summary is posted on pull requests. Commit statuses are
+	// still reported when disabled.
+	ProviderComments bool `json:"providerComments"`
+	// Whether pushes that match the branch and path rules are deployed
+	// automatically.
+	ProviderDeployments bool `json:"providerDeployments"`
+	// Whether the build status is reported on each commit.
+	ProviderStatuses bool `json:"providerStatuses"`
 	// List of branch name patterns that trigger automatic deployments. Supports
 	// glob wildcards. Empty list deploys on all branches.
 	ProviderBranches []string `json:"providerBranches"`
@@ -136,6 +144,9 @@ func (model *Function) UnmarshalJSON(data []byte) error {
 		ProviderBranch            json.RawMessage `json:"providerBranch"`
 		ProviderRootDirectory     json.RawMessage `json:"providerRootDirectory"`
 		ProviderSilentMode        json.RawMessage `json:"providerSilentMode"`
+		ProviderComments          json.RawMessage `json:"providerComments"`
+		ProviderDeployments       json.RawMessage `json:"providerDeployments"`
+		ProviderStatuses          json.RawMessage `json:"providerStatuses"`
 		ProviderBranches          json.RawMessage `json:"providerBranches"`
 		ProviderPaths             json.RawMessage `json:"providerPaths"`
 		BuildSpecification        json.RawMessage `json:"buildSpecification"`
@@ -282,6 +293,21 @@ func (model *Function) UnmarshalJSON(data []byte) error {
 	}
 	if present.ProviderSilentMode == nil {
 		if err := json.Unmarshal([]byte("false"), &decoded.ProviderSilentMode); err != nil {
+			return err
+		}
+	}
+	if present.ProviderComments == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.ProviderComments); err != nil {
+			return err
+		}
+	}
+	if present.ProviderDeployments == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.ProviderDeployments); err != nil {
+			return err
+		}
+	}
+	if present.ProviderStatuses == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.ProviderStatuses); err != nil {
 			return err
 		}
 	}

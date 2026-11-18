@@ -732,6 +732,11 @@ func (srv *Proxy) UpdateSiteRule(RuleId string, SiteId string, optionalSetters .
 // A verified rule whose certificate renewal failed or is blocked, or whose
 // certificate expired, is checked the same way, and its certificate renewed
 // in the background.
+//
+// A domain may also be assigned to a project with a TXT record at
+// `_appwrite.<domain>` holding the project ID. The record is optional, but a
+// domain assigned to another project never verifies here, and publishing it
+// lets this project claim a domain another one holds.
 func (srv *Proxy) UpdateRuleStatus(RuleId string) (*models.ProxyRule, error) {
 	if RuleId == "" {
 		return nil, errors.New("Missing required parameter: \"ruleId\"")

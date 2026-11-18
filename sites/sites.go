@@ -127,11 +127,14 @@ type CreateOptions struct {
 	DeploymentRetention   int
 	Scopes                []string
 	Description           string
+	ProviderComments      bool
+	ProviderDeployments   bool
+	ProviderStatuses      bool
 	enabledSetters        map[string]bool
 }
 
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{"Enabled": false, "Logging": false, "Timeout": false, "InstallCommand": false, "BuildCommand": false, "StartCommand": false, "OutputDirectory": false, "Adapter": false, "InstallationId": false, "FallbackFile": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Scopes": false, "Description": false}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Logging": false, "Timeout": false, "InstallCommand": false, "BuildCommand": false, "StartCommand": false, "OutputDirectory": false, "Adapter": false, "InstallationId": false, "FallbackFile": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Scopes": false, "Description": false, "ProviderComments": false, "ProviderDeployments": false, "ProviderStatuses": false}
 	return &options
 }
 
@@ -263,6 +266,24 @@ func (srv *Sites) WithCreateDescription(v string) CreateOption {
 		o.enabledSetters["Description"] = true
 	}
 }
+func (srv *Sites) WithCreateProviderComments(v bool) CreateOption {
+	return func(o *CreateOptions) {
+		o.ProviderComments = v
+		o.enabledSetters["ProviderComments"] = true
+	}
+}
+func (srv *Sites) WithCreateProviderDeployments(v bool) CreateOption {
+	return func(o *CreateOptions) {
+		o.ProviderDeployments = v
+		o.enabledSetters["ProviderDeployments"] = true
+	}
+}
+func (srv *Sites) WithCreateProviderStatuses(v bool) CreateOption {
+	return func(o *CreateOptions) {
+		o.ProviderStatuses = v
+		o.enabledSetters["ProviderStatuses"] = true
+	}
+}
 
 // Create create a new site.
 func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRuntime string, optionalSetters ...CreateOption) (*models.Site, error) {
@@ -338,6 +359,15 @@ func (srv *Sites) Create(SiteId string, Name string, Framework string, BuildRunt
 	}
 	if options.enabledSetters["Description"] {
 		params["description"] = options.Description
+	}
+	if options.enabledSetters["ProviderComments"] {
+		params["providerComments"] = options.ProviderComments
+	}
+	if options.enabledSetters["ProviderDeployments"] {
+		params["providerDeployments"] = options.ProviderDeployments
+	}
+	if options.enabledSetters["ProviderStatuses"] {
+		params["providerStatuses"] = options.ProviderStatuses
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -571,11 +601,14 @@ type UpdateOptions struct {
 	DeploymentRetention   int
 	Scopes                []string
 	Description           string
+	ProviderComments      bool
+	ProviderDeployments   bool
+	ProviderStatuses      bool
 	enabledSetters        map[string]bool
 }
 
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{"Enabled": false, "Logging": false, "Timeout": false, "InstallCommand": false, "BuildCommand": false, "StartCommand": false, "OutputDirectory": false, "BuildRuntime": false, "Adapter": false, "FallbackFile": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Scopes": false, "Description": false}
+	options.enabledSetters = map[string]bool{"Enabled": false, "Logging": false, "Timeout": false, "InstallCommand": false, "BuildCommand": false, "StartCommand": false, "OutputDirectory": false, "BuildRuntime": false, "Adapter": false, "FallbackFile": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Scopes": false, "Description": false, "ProviderComments": false, "ProviderDeployments": false, "ProviderStatuses": false}
 	return &options
 }
 
@@ -713,6 +746,24 @@ func (srv *Sites) WithUpdateDescription(v string) UpdateOption {
 		o.enabledSetters["Description"] = true
 	}
 }
+func (srv *Sites) WithUpdateProviderComments(v bool) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.ProviderComments = v
+		o.enabledSetters["ProviderComments"] = true
+	}
+}
+func (srv *Sites) WithUpdateProviderDeployments(v bool) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.ProviderDeployments = v
+		o.enabledSetters["ProviderDeployments"] = true
+	}
+}
+func (srv *Sites) WithUpdateProviderStatuses(v bool) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.ProviderStatuses = v
+		o.enabledSetters["ProviderStatuses"] = true
+	}
+}
 
 // Update update site by its unique ID.
 func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalSetters ...UpdateOption) (*models.Site, error) {
@@ -794,6 +845,15 @@ func (srv *Sites) Update(SiteId string, Name string, Framework string, optionalS
 	}
 	if options.enabledSetters["Description"] {
 		params["description"] = options.Description
+	}
+	if options.enabledSetters["ProviderComments"] {
+		params["providerComments"] = options.ProviderComments
+	}
+	if options.enabledSetters["ProviderDeployments"] {
+		params["providerDeployments"] = options.ProviderDeployments
+	}
+	if options.enabledSetters["ProviderStatuses"] {
+		params["providerStatuses"] = options.ProviderStatuses
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

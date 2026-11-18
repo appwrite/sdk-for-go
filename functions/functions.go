@@ -127,11 +127,14 @@ type CreateOptions struct {
 	DeploymentRetention   int
 	Interval              int
 	Description           string
+	ProviderComments      bool
+	ProviderDeployments   bool
+	ProviderStatuses      bool
 	enabledSetters        map[string]bool
 }
 
 func (options CreateOptions) New() *CreateOptions {
-	options.enabledSetters = map[string]bool{"Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false, "Description": false}
+	options.enabledSetters = map[string]bool{"Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false, "Description": false, "ProviderComments": false, "ProviderDeployments": false, "ProviderStatuses": false}
 	return &options
 }
 
@@ -263,6 +266,24 @@ func (srv *Functions) WithCreateDescription(v string) CreateOption {
 		o.enabledSetters["Description"] = true
 	}
 }
+func (srv *Functions) WithCreateProviderComments(v bool) CreateOption {
+	return func(o *CreateOptions) {
+		o.ProviderComments = v
+		o.enabledSetters["ProviderComments"] = true
+	}
+}
+func (srv *Functions) WithCreateProviderDeployments(v bool) CreateOption {
+	return func(o *CreateOptions) {
+		o.ProviderDeployments = v
+		o.enabledSetters["ProviderDeployments"] = true
+	}
+}
+func (srv *Functions) WithCreateProviderStatuses(v bool) CreateOption {
+	return func(o *CreateOptions) {
+		o.ProviderStatuses = v
+		o.enabledSetters["ProviderStatuses"] = true
+	}
+}
 
 // Create create a new function. You can pass a list of
 // [permissions](https://appwrite.io/docs/permissions) to allow different
@@ -340,6 +361,15 @@ func (srv *Functions) Create(FunctionId string, Name string, Runtime string, opt
 	}
 	if options.enabledSetters["Description"] {
 		params["description"] = options.Description
+	}
+	if options.enabledSetters["ProviderComments"] {
+		params["providerComments"] = options.ProviderComments
+	}
+	if options.enabledSetters["ProviderDeployments"] {
+		params["providerDeployments"] = options.ProviderDeployments
+	}
+	if options.enabledSetters["ProviderStatuses"] {
+		params["providerStatuses"] = options.ProviderStatuses
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -573,12 +603,15 @@ type UpdateOptions struct {
 	DeploymentRetention   int
 	Interval              int
 	Description           string
+	ProviderComments      bool
+	ProviderDeployments   bool
+	ProviderStatuses      bool
 	EmailEnabled          bool
 	enabledSetters        map[string]bool
 }
 
 func (options UpdateOptions) New() *UpdateOptions {
-	options.enabledSetters = map[string]bool{"Runtime": false, "Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false, "Description": false, "EmailEnabled": false}
+	options.enabledSetters = map[string]bool{"Runtime": false, "Execute": false, "Events": false, "Schedule": false, "Timeout": false, "Enabled": false, "Logging": false, "Entrypoint": false, "Commands": false, "Scopes": false, "InstallationId": false, "ProviderRepositoryId": false, "ProviderBranch": false, "ProviderSilentMode": false, "ProviderRootDirectory": false, "ProviderBranches": false, "ProviderPaths": false, "BuildSpecification": false, "RuntimeSpecification": false, "DeploymentRetention": false, "Interval": false, "Description": false, "ProviderComments": false, "ProviderDeployments": false, "ProviderStatuses": false, "EmailEnabled": false}
 	return &options
 }
 
@@ -716,6 +749,24 @@ func (srv *Functions) WithUpdateDescription(v string) UpdateOption {
 		o.enabledSetters["Description"] = true
 	}
 }
+func (srv *Functions) WithUpdateProviderComments(v bool) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.ProviderComments = v
+		o.enabledSetters["ProviderComments"] = true
+	}
+}
+func (srv *Functions) WithUpdateProviderDeployments(v bool) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.ProviderDeployments = v
+		o.enabledSetters["ProviderDeployments"] = true
+	}
+}
+func (srv *Functions) WithUpdateProviderStatuses(v bool) UpdateOption {
+	return func(o *UpdateOptions) {
+		o.ProviderStatuses = v
+		o.enabledSetters["ProviderStatuses"] = true
+	}
+}
 func (srv *Functions) WithUpdateEmailEnabled(v bool) UpdateOption {
 	return func(o *UpdateOptions) {
 		o.EmailEnabled = v
@@ -802,6 +853,15 @@ func (srv *Functions) Update(FunctionId string, Name string, optionalSetters ...
 	}
 	if options.enabledSetters["Description"] {
 		params["description"] = options.Description
+	}
+	if options.enabledSetters["ProviderComments"] {
+		params["providerComments"] = options.ProviderComments
+	}
+	if options.enabledSetters["ProviderDeployments"] {
+		params["providerDeployments"] = options.ProviderDeployments
+	}
+	if options.enabledSetters["ProviderStatuses"] {
+		params["providerStatuses"] = options.ProviderStatuses
 	}
 	if options.enabledSetters["EmailEnabled"] {
 		params["emailEnabled"] = options.EmailEnabled

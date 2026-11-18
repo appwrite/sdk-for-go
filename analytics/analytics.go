@@ -410,6 +410,300 @@ func (srv *Analytics) DeleteProperty(PropertyId string) (*interface{}, error) {
 
 }
 
+type ListAnnotationsOptions struct {
+	Queries        []string
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListAnnotationsOptions) New() *ListAnnotationsOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
+	return &options
+}
+
+type ListAnnotationsOption func(*ListAnnotationsOptions)
+
+func (srv *Analytics) WithListAnnotationsQueries(v []string) ListAnnotationsOption {
+	return func(o *ListAnnotationsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Analytics) WithListAnnotationsTotal(v bool) ListAnnotationsOption {
+	return func(o *ListAnnotationsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
+// ListAnnotations list the annotations of an analytics property. Filter on
+// `date` to fetch the annotations inside a chart's time range.
+func (srv *Analytics) ListAnnotations(PropertyId string, optionalSetters ...ListAnnotationsOption) (*models.AnalyticsAnnotationList, error) {
+	if PropertyId == "" {
+		return nil, errors.New("Missing required parameter: \"propertyId\"")
+	}
+
+	r := strings.NewReplacer("{propertyId}", client.EncodePath(PropertyId))
+	path := r.Replace("/analytics/properties/{propertyId}/annotations")
+	options := ListAnnotationsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.AnalyticsAnnotationList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AnalyticsAnnotationList
+	parsed, ok := resp.Result.(models.AnalyticsAnnotationList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// CreateAnnotation create an annotation that marks a point in time on an
+// analytics property's charts.
+func (srv *Analytics) CreateAnnotation(PropertyId string, AnnotationId string, Date string, Content string) (*models.AnalyticsAnnotation, error) {
+	if PropertyId == "" {
+		return nil, errors.New("Missing required parameter: \"propertyId\"")
+	}
+
+	r := strings.NewReplacer("{propertyId}", client.EncodePath(PropertyId))
+	path := r.Replace("/analytics/properties/{propertyId}/annotations")
+	params := map[string]interface{}{}
+	params["annotationId"] = AnnotationId
+	params["date"] = Date
+	params["content"] = Content
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.AnalyticsAnnotation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AnalyticsAnnotation
+	parsed, ok := resp.Result.(models.AnalyticsAnnotation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetAnnotation get an analytics annotation by ID.
+func (srv *Analytics) GetAnnotation(PropertyId string, AnnotationId string) (*models.AnalyticsAnnotation, error) {
+	if PropertyId == "" {
+		return nil, errors.New("Missing required parameter: \"propertyId\"")
+	}
+	if AnnotationId == "" {
+		return nil, errors.New("Missing required parameter: \"annotationId\"")
+	}
+
+	r := strings.NewReplacer("{propertyId}", client.EncodePath(PropertyId), "{annotationId}", client.EncodePath(AnnotationId))
+	path := r.Replace("/analytics/properties/{propertyId}/annotations/{annotationId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.AnalyticsAnnotation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AnalyticsAnnotation
+	parsed, ok := resp.Result.(models.AnalyticsAnnotation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateAnnotationOptions struct {
+	Date           string
+	Content        string
+	enabledSetters map[string]bool
+}
+
+func (options UpdateAnnotationOptions) New() *UpdateAnnotationOptions {
+	options.enabledSetters = map[string]bool{"Date": false, "Content": false}
+	return &options
+}
+
+type UpdateAnnotationOption func(*UpdateAnnotationOptions)
+
+func (srv *Analytics) WithUpdateAnnotationDate(v string) UpdateAnnotationOption {
+	return func(o *UpdateAnnotationOptions) {
+		o.Date = v
+		o.enabledSetters["Date"] = true
+	}
+}
+func (srv *Analytics) WithUpdateAnnotationContent(v string) UpdateAnnotationOption {
+	return func(o *UpdateAnnotationOptions) {
+		o.Content = v
+		o.enabledSetters["Content"] = true
+	}
+}
+
+// UpdateAnnotation update an analytics annotation. Only the attributes you
+// pass are changed; omitted attributes keep their current value.
+func (srv *Analytics) UpdateAnnotation(PropertyId string, AnnotationId string, optionalSetters ...UpdateAnnotationOption) (*models.AnalyticsAnnotation, error) {
+	if PropertyId == "" {
+		return nil, errors.New("Missing required parameter: \"propertyId\"")
+	}
+	if AnnotationId == "" {
+		return nil, errors.New("Missing required parameter: \"annotationId\"")
+	}
+
+	r := strings.NewReplacer("{propertyId}", client.EncodePath(PropertyId), "{annotationId}", client.EncodePath(AnnotationId))
+	path := r.Replace("/analytics/properties/{propertyId}/annotations/{annotationId}")
+	options := UpdateAnnotationOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Date"] {
+		params["date"] = options.Date
+	}
+	if options.enabledSetters["Content"] {
+		params["content"] = options.Content
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.AnalyticsAnnotation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.AnalyticsAnnotation
+	parsed, ok := resp.Result.(models.AnalyticsAnnotation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeleteAnnotation delete an analytics annotation.
+func (srv *Analytics) DeleteAnnotation(PropertyId string, AnnotationId string) (*interface{}, error) {
+	if PropertyId == "" {
+		return nil, errors.New("Missing required parameter: \"propertyId\"")
+	}
+	if AnnotationId == "" {
+		return nil, errors.New("Missing required parameter: \"annotationId\"")
+	}
+
+	r := strings.NewReplacer("{propertyId}", client.EncodePath(PropertyId), "{annotationId}", client.EncodePath(AnnotationId))
+	path := r.Replace("/analytics/properties/{propertyId}/annotations/{annotationId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type CreateEventOptions struct {
 	Domain         string
 	Referrer       string
