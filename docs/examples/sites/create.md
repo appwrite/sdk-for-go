@@ -43,6 +43,9 @@ func main() {
 		service.WithCreateDeploymentRetention(0),
 		service.WithCreateScopes([]string{"example"}),
 		service.WithCreateDescription("<DESCRIPTION>"),
+		service.WithCreateProviderComments(false),
+		service.WithCreateProviderDeployments(false),
+		service.WithCreateProviderStatuses(false),
 	)
 	fmt.Println(response, err)
 }

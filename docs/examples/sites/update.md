@@ -43,6 +43,9 @@ func main() {
 		service.WithUpdateDeploymentRetention(0),
 		service.WithUpdateScopes([]string{"example"}),
 		service.WithUpdateDescription("<DESCRIPTION>"),
+		service.WithUpdateProviderComments(false),
+		service.WithUpdateProviderDeployments(false),
+		service.WithUpdateProviderStatuses(false),
 	)
 	fmt.Println(response, err)
 }

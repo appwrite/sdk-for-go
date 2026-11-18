@@ -42,6 +42,9 @@ func main() {
 		service.WithCreateDeploymentRetention(0),
 		service.WithCreateInterval(0),
 		service.WithCreateDescription("<DESCRIPTION>"),
+		service.WithCreateProviderComments(false),
+		service.WithCreateProviderDeployments(false),
+		service.WithCreateProviderStatuses(false),
 	)
 	fmt.Println(response, err)
 }

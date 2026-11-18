@@ -1101,6 +1101,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Atlassian", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "uQ7mZ3s0000000000000000000000000",
+    "clientSecret": "ATOA0000000000000000000000000000000000000000000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Atlassian()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Atlassian failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Auth0", func(t *testing.T) {
 		mockResponse := `
 {
@@ -1662,6 +1691,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Instagram", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "00000000000000000000000000000000",
+    "clientSecret": "00000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Instagram()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Instagram failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Kakao", func(t *testing.T) {
 		mockResponse := `
 {
@@ -1752,6 +1810,64 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Line", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "1650000000",
+    "clientSecret": "a1b2c3d4e5f600000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Line()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Line failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2Linear", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "5e1c0000000000000000000000000000",
+    "clientSecret": "9f8e7d6c5b4a00000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Linear()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Linear failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Linkedin", func(t *testing.T) {
 		mockResponse := `
 {
@@ -1838,6 +1954,35 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateOAuth2Naver()
 		if err != nil {
 			t.Errorf("Method UpdateOAuth2Naver failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2Netlify", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "00000000000000000000000000000000",
+    "clientSecret": "00000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Netlify()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Netlify failed: %v", err)
 		}
 	})
 
@@ -1936,6 +2081,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Patreon", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "00000000000000000000000000000000",
+    "clientSecret": "00000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Patreon()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Patreon failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Paypal", func(t *testing.T) {
 		mockResponse := `
 {
@@ -2023,6 +2197,64 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Railway", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "00000000000000000000000000000000",
+    "clientSecret": "00000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Railway()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Railway failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2Reddit", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "aBcD0000000000000000aB",
+    "clientSecret": "xYz00000000000000000000000000a"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Reddit()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Reddit failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Resend", func(t *testing.T) {
 		mockResponse := `
 {
@@ -2049,6 +2281,35 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateOAuth2Resend()
 		if err != nil {
 			t.Errorf("Method UpdateOAuth2Resend failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2Roblox", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "1234567890123456789",
+    "clientSecret": "RBX-0000000000000000000000000000000000000000000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Roblox()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Roblox failed: %v", err)
 		}
 	})
 
@@ -2137,6 +2398,35 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateOAuth2Spotify()
 		if err != nil {
 			t.Errorf("Method UpdateOAuth2Spotify failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2Strava", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "00000000000000000000000000000000",
+    "clientSecret": "00000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Strava()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Strava failed: %v", err)
 		}
 	})
 
@@ -2285,6 +2575,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Vercel", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "cl_0000000000000000000000000000000",
+    "clientSecret": "vc_0000000000000000000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Vercel()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Vercel failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Vipps", func(t *testing.T) {
 		mockResponse := `
 {
@@ -2343,6 +2662,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2VK", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "00000000000000000000000000000000",
+    "clientSecret": "00000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2VK()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2VK failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Webflow", func(t *testing.T) {
 		mockResponse := `
 {
@@ -2398,6 +2746,35 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateOAuth2WordPress()
 		if err != nil {
 			t.Errorf("Method UpdateOAuth2WordPress failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2WorkOS", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "client_01H0000000000000000000000",
+    "clientSecret": "wos0000000000000000000000000000000000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2WorkOS()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2WorkOS failed: %v", err)
 		}
 	})
 

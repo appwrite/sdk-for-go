@@ -1,5 +1,12 @@
 # Change Log
 
+## v7.21.0
+
+* Added: `ProviderComments`, `ProviderDeployments` and `ProviderStatuses` options on function and site create and update, and fields on `Function` and `Site`
+* Added: `Teams.GetPhoto`, `Teams.UpdatePhoto` and `Teams.DeletePhoto`
+* Added: `Analytics` annotation methods to list, create, get, update and delete annotations
+* Added: `Project` OAuth2 settings for Atlassian, Instagram, LINE, Linear, Netlify, Patreon, Railway, Reddit, Roblox, Strava, Vercel, VK and WorkOS
+
 ## v7.20.0
 
 * Added: `Account.CreateLDAPSession` for LDAP sign-in

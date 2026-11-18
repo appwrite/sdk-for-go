@@ -3,9 +3,11 @@ package teams
 import (
 	"encoding/json"
 	"errors"
+	"net/url"
 	"strings"
 
 	"github.com/appwrite/sdk-for-go/v7/client"
+	"github.com/appwrite/sdk-for-go/v7/file"
 	"github.com/appwrite/sdk-for-go/v7/models"
 )
 
@@ -1024,6 +1026,223 @@ func (srv *Teams) UpdateMembershipStatus(TeamId string, MembershipId string, Use
 	}
 	var parsed models.Membership
 	parsed, ok := resp.Result.(models.Membership)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type GetPhotoOptions struct {
+	Width          int
+	Height         int
+	Quality        int
+	Output         string
+	enabledSetters map[string]bool
+}
+
+func (options GetPhotoOptions) New() *GetPhotoOptions {
+	options.enabledSetters = map[string]bool{"Width": false, "Height": false, "Quality": false, "Output": false}
+	return &options
+}
+
+type GetPhotoOption func(*GetPhotoOptions)
+
+func (srv *Teams) WithGetPhotoWidth(v int) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Width = v
+		o.enabledSetters["Width"] = true
+	}
+}
+func (srv *Teams) WithGetPhotoHeight(v int) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Height = v
+		o.enabledSetters["Height"] = true
+	}
+}
+func (srv *Teams) WithGetPhotoQuality(v int) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Quality = v
+		o.enabledSetters["Quality"] = true
+	}
+}
+func (srv *Teams) WithGetPhotoOutput(v string) GetPhotoOption {
+	return func(o *GetPhotoOptions) {
+		o.Output = v
+		o.enabledSetters["Output"] = true
+	}
+}
+
+func (srv *Teams) getPhotoParams(optionalSetters ...GetPhotoOption) map[string]interface{} {
+	options := GetPhotoOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Width"] {
+		params["width"] = options.Width
+	}
+	if options.enabledSetters["Height"] {
+		params["height"] = options.Height
+	}
+	if options.enabledSetters["Quality"] {
+		params["quality"] = options.Quality
+	}
+	if options.enabledSetters["Output"] {
+		params["output"] = options.Output
+	}
+	return params
+}
+
+// GetPhoto returns the photo of a team: the uploaded photo (see
+// teams.updatePhoto), else the initials of the team name, else a built-in
+// static placeholder.
+func (srv *Teams) GetPhoto(TeamId string, optionalSetters ...GetPhotoOption) (*[]byte, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
+	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
+	path := r.Replace("/teams/{teamId}/photo")
+	params := srv.getPhotoParams(optionalSetters...)
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "image/*"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed []byte
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed []byte
+	parsed, ok := resp.Result.([]byte)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetPhotoURL returns the photo of a team: the uploaded photo (see
+// teams.updatePhoto), else the initials of the team name, else a built-in
+// static placeholder.
+// Returns the URL for the resource instead of the content.
+func (srv *Teams) GetPhotoURL(TeamId string, optionalSetters ...GetPhotoOption) (*string, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
+	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
+	path := r.Replace("/teams/{teamId}/photo")
+	params := srv.getPhotoParams(optionalSetters...)
+	u, err := url.Parse(srv.client.Endpoint + path)
+	if err != nil {
+		return nil, err
+	}
+	q := u.Query()
+	for key, value := range params {
+		client.AddQueryParam(q, key, value)
+	}
+	u.RawQuery = q.Encode()
+	result := u.String()
+	return &result, nil
+}
+
+// UpdatePhoto update the photo of a team. Updating an already customized
+// photo replaces it. The image must be at most 5MB and is sent in a single
+// request.
+func (srv *Teams) UpdatePhoto(TeamId string, File file.InputFile) (*models.Team, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
+	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
+	path := r.Replace("/teams/{teamId}/photo")
+	params := map[string]interface{}{}
+	params["file"] = File
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "multipart/form-data"
+	headers["accept"] = "application/json"
+
+	paramName := "file"
+
+	uploadId := ""
+
+	resp, err := srv.client.FileUpload(path, headers, params, paramName, uploadId, "PUT")
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+		parsed := models.Team{}.New(bytes)
+		if err := json.Unmarshal(bytes, parsed); err != nil {
+			return nil, err
+		}
+		return parsed, nil
+	}
+	var parsed models.Team
+	parsed, ok := resp.Result.(models.Team)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeletePhoto delete the photo of a team and store the built-in static
+// placeholder in its place. The placeholder is the team's photo from then on,
+// so it takes priority over the initials of the team name until a new photo
+// is uploaded with teams.updatePhoto.
+func (srv *Teams) DeletePhoto(TeamId string) (*interface{}, error) {
+	if TeamId == "" {
+		return nil, errors.New("Missing required parameter: \"teamId\"")
+	}
+
+	r := strings.NewReplacer("{teamId}", client.EncodePath(TeamId))
+	path := r.Replace("/teams/{teamId}/photo")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
 	if !ok {
 		return nil, errors.New("unexpected response type")
 	}
