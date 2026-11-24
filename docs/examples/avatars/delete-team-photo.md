@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/appwrite/sdk-for-go/v7/appwrite"
-	"github.com/appwrite/sdk-for-go/v7/teams"
+	"github.com/appwrite/sdk-for-go/v7/avatars"
 )
 
 func main() {
@@ -15,9 +15,9 @@ func main() {
 		appwrite.WithSession(""),
 	)
 
-	service := teams.New(client)
+	service := avatars.New(client)
 
-	response, err := service.DeletePhoto(
+	response, err := service.DeleteTeamPhoto(
 		"<TEAM_ID>",
 	)
 	fmt.Println(response, err)

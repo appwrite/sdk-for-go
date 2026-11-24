@@ -68,6 +68,8 @@ type App struct {
 	// URL users are redirected to after creating or updating an installation of
 	// this application. Empty for no redirect.
 	InstallationRedirectUrl string `json:"installationRedirectUrl"`
+	// Number of teams that have this application installed.
+	Installs int `json:"installs"`
 	// List of application secrets.
 	Secrets []AppSecret `json:"secrets"`
 
@@ -115,6 +117,7 @@ func (model *App) UnmarshalJSON(data []byte) error {
 		UserId                  json.RawMessage `json:"userId"`
 		InstallationScopes      json.RawMessage `json:"installationScopes"`
 		InstallationRedirectUrl json.RawMessage `json:"installationRedirectUrl"`
+		Installs                json.RawMessage `json:"installs"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -241,6 +244,11 @@ func (model *App) UnmarshalJSON(data []byte) error {
 	}
 	if present.InstallationRedirectUrl == nil {
 		if err := json.Unmarshal([]byte("\"\""), &decoded.InstallationRedirectUrl); err != nil {
+			return err
+		}
+	}
+	if present.Installs == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Installs); err != nil {
 			return err
 		}
 	}

@@ -7,7 +7,7 @@ import (
 )
 
 func TestBillingPlanModel(t *testing.T) {
-	model := BillingPlan{Id: "tier-0", Name: "Hobby", Desc: "Hobby plan", Order: 0, Price: 25, Trial: 14, Bandwidth: 25, Storage: 25, ImageTransformations: 100, ScreenshotsGenerated: 50, Webhooks: 25, WafRules: 2, Environments: 3, Projects: 2, Platforms: 3, Users: 25, Teams: 25, Databases: 25, DatabasesReads: 500000, DatabasesWrites: 250000, DatabasesBatchSize: 100, Buckets: 25, FileSize: 25, Functions: 25, Sites: 1, Executions: 25, ExecutionsRetentionCount: 10000, GBHours: 100, Realtime: 25, RealtimeMessages: 100000, Messages: 1000, Topics: 1, AuthPhone: 10, Domains: 5, UsageLogs: 30, ProjectInactivityDays: 7, AlertLimit: 80, Addons: BillingPlanAddon{}, BudgetCapEnabled: true, CustomSmtp: true, EmailBranding: true, RequiresPaymentMethod: true, RequiresBillingAddress: true, IsAvailable: true, SelfService: true, PremiumSupport: true, Budgeting: true, SupportsMockNumbers: true, SupportsOrganizationRoles: true, SupportsCredits: true, SupportsDedicatedDatabases: true, SupportsDisposableEmailValidation: true, SupportsCanonicalEmailValidation: true, SupportsFreeEmailValidation: true, SupportsCorporateEmailValidation: true, SupportsProjectSpecificRoles: true, UsagePerProject: true, SupportedAddons: BillingPlanSupportedAddons{Baa: true, PremiumGeoDB: true, PremiumGeoDBOrg: true}, DeploymentSize: 30, BuildSize: 2000, FunctionsIntervalMinimum: 60, FunctionsAllowCron: true, DatabasesAllowEncrypt: true, Group: "pro", DatabaseComputeCredit: 10}
+	model := BillingPlan{Id: "tier-0", Name: "Hobby", Desc: "Hobby plan", Order: 0, Price: 25, Trial: 14, Bandwidth: 25, Storage: 25, ImageTransformations: 100, ScreenshotsGenerated: 50, ReviewCredits: 2000, Webhooks: 25, WafRules: 2, Environments: 3, Projects: 2, Platforms: 3, Users: 25, Teams: 25, Databases: 25, DatabasesReads: 500000, DatabasesWrites: 250000, DatabasesBatchSize: 100, Buckets: 25, FileSize: 25, Functions: 25, Sites: 1, Executions: 25, ExecutionsRetentionCount: 10000, GBHours: 100, Realtime: 25, RealtimeMessages: 100000, Messages: 1000, Topics: 1, AuthPhone: 10, Domains: 5, AnalyticsProperties: 5, UsageLogs: 30, ProjectInactivityDays: 7, AlertLimit: 80, Monitors: 25, Probes: 1, AlertInterval: 60, ProbeInterval: 60, Escalations: 10, EscalationSteps: 10, AlertRetention: 90, Addons: BillingPlanAddon{}, BudgetCapEnabled: true, CustomSmtp: true, EmailBranding: true, RequiresPaymentMethod: true, RequiresBillingAddress: true, IsAvailable: true, SelfService: true, PremiumSupport: true, Budgeting: true, SupportsMockNumbers: true, SupportsOrganizationRoles: true, SupportsCredits: true, SupportsDedicatedDatabases: true, SupportsDisposableEmailValidation: true, SupportsCanonicalEmailValidation: true, SupportsFreeEmailValidation: true, SupportsCorporateEmailValidation: true, SupportsProjectSpecificRoles: true, UsagePerProject: true, SupportedAddons: BillingPlanSupportedAddons{Baa: true, PremiumGeoDB: true, PremiumGeoDBOrg: true}, DeploymentSize: 30, BuildSize: 2000, FunctionsIntervalMinimum: 60, FunctionsAllowCron: true, DatabasesAllowEncrypt: true, Group: "pro", DatabaseComputeCredit: 10}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -48,6 +48,9 @@ func TestBillingPlanModel(t *testing.T) {
 	}
 	if result.ScreenshotsGenerated != model.ScreenshotsGenerated {
 		t.Errorf("Expected ScreenshotsGenerated %v, got %v", model.ScreenshotsGenerated, result.ScreenshotsGenerated)
+	}
+	if result.ReviewCredits != model.ReviewCredits {
+		t.Errorf("Expected ReviewCredits %v, got %v", model.ReviewCredits, result.ReviewCredits)
 	}
 	if result.Webhooks != model.Webhooks {
 		t.Errorf("Expected Webhooks %v, got %v", model.Webhooks, result.Webhooks)
@@ -121,6 +124,9 @@ func TestBillingPlanModel(t *testing.T) {
 	if result.Domains != model.Domains {
 		t.Errorf("Expected Domains %v, got %v", model.Domains, result.Domains)
 	}
+	if result.AnalyticsProperties != model.AnalyticsProperties {
+		t.Errorf("Expected AnalyticsProperties %v, got %v", model.AnalyticsProperties, result.AnalyticsProperties)
+	}
 	if result.UsageLogs != model.UsageLogs {
 		t.Errorf("Expected UsageLogs %v, got %v", model.UsageLogs, result.UsageLogs)
 	}
@@ -129,6 +135,27 @@ func TestBillingPlanModel(t *testing.T) {
 	}
 	if result.AlertLimit != model.AlertLimit {
 		t.Errorf("Expected AlertLimit %v, got %v", model.AlertLimit, result.AlertLimit)
+	}
+	if result.Monitors != model.Monitors {
+		t.Errorf("Expected Monitors %v, got %v", model.Monitors, result.Monitors)
+	}
+	if result.Probes != model.Probes {
+		t.Errorf("Expected Probes %v, got %v", model.Probes, result.Probes)
+	}
+	if result.AlertInterval != model.AlertInterval {
+		t.Errorf("Expected AlertInterval %v, got %v", model.AlertInterval, result.AlertInterval)
+	}
+	if result.ProbeInterval != model.ProbeInterval {
+		t.Errorf("Expected ProbeInterval %v, got %v", model.ProbeInterval, result.ProbeInterval)
+	}
+	if result.Escalations != model.Escalations {
+		t.Errorf("Expected Escalations %v, got %v", model.Escalations, result.Escalations)
+	}
+	if result.EscalationSteps != model.EscalationSteps {
+		t.Errorf("Expected EscalationSteps %v, got %v", model.EscalationSteps, result.EscalationSteps)
+	}
+	if result.AlertRetention != model.AlertRetention {
+		t.Errorf("Expected AlertRetention %v, got %v", model.AlertRetention, result.AlertRetention)
 	}
 	if result.BudgetCapEnabled != model.BudgetCapEnabled {
 		t.Errorf("Expected BudgetCapEnabled %v, got %v", model.BudgetCapEnabled, result.BudgetCapEnabled)
@@ -373,6 +400,22 @@ func TestBillingPlanModelDefaults(t *testing.T) {
 		}
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("Expected missing screenshotsGenerated to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.ReviewCredits)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing reviewCredits to default to %v, got %v", want, got)
 		}
 	}
 	{
@@ -764,6 +807,22 @@ func TestBillingPlanModelDefaults(t *testing.T) {
 		if err := json.Unmarshal([]byte("0"), &want); err != nil {
 			t.Fatal(err)
 		}
+		encoded, err := json.Marshal(fresh.AnalyticsProperties)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing analyticsProperties to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
 		encoded, err := json.Marshal(fresh.UsageLogs)
 		if err != nil {
 			t.Fatal(err)
@@ -805,6 +864,118 @@ func TestBillingPlanModelDefaults(t *testing.T) {
 		}
 		if !reflect.DeepEqual(want, got) {
 			t.Errorf("Expected missing alertLimit to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Monitors)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing monitors to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Probes)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing probes to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.AlertInterval)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing alertInterval to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.ProbeInterval)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing probeInterval to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Escalations)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing escalations to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.EscalationSteps)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing escalationSteps to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.AlertRetention)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing alertRetention to default to %v, got %v", want, got)
 		}
 	}
 	{
@@ -1208,7 +1379,7 @@ func TestBillingPlanModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := BillingPlan{Id: "tier-0", Name: "Hobby", Desc: "Hobby plan", Order: 0, Price: 25, Trial: 14, Bandwidth: 25, Storage: 25, ImageTransformations: 100, ScreenshotsGenerated: 50, Webhooks: 25, WafRules: 2, Environments: 3, Projects: 2, Platforms: 3, Users: 25, Teams: 25, Databases: 25, DatabasesReads: 500000, DatabasesWrites: 250000, DatabasesBatchSize: 100, Buckets: 25, FileSize: 25, Functions: 25, Sites: 1, Executions: 25, ExecutionsRetentionCount: 10000, GBHours: 100, Realtime: 25, RealtimeMessages: 100000, Messages: 1000, Topics: 1, AuthPhone: 10, Domains: 5, UsageLogs: 30, ProjectInactivityDays: 7, AlertLimit: 80, Addons: BillingPlanAddon{}, BudgetCapEnabled: true, CustomSmtp: true, EmailBranding: true, RequiresPaymentMethod: true, RequiresBillingAddress: true, IsAvailable: true, SelfService: true, PremiumSupport: true, Budgeting: true, SupportsMockNumbers: true, SupportsOrganizationRoles: true, SupportsCredits: true, SupportsDedicatedDatabases: true, SupportsDisposableEmailValidation: true, SupportsCanonicalEmailValidation: true, SupportsFreeEmailValidation: true, SupportsCorporateEmailValidation: true, SupportsProjectSpecificRoles: true, UsagePerProject: true, SupportedAddons: BillingPlanSupportedAddons{Baa: true, PremiumGeoDB: true, PremiumGeoDBOrg: true}, DeploymentSize: 30, BuildSize: 2000, FunctionsIntervalMinimum: 60, FunctionsAllowCron: true, DatabasesAllowEncrypt: true, Group: "pro", DatabaseComputeCredit: 10}
+	reused := BillingPlan{Id: "tier-0", Name: "Hobby", Desc: "Hobby plan", Order: 0, Price: 25, Trial: 14, Bandwidth: 25, Storage: 25, ImageTransformations: 100, ScreenshotsGenerated: 50, ReviewCredits: 2000, Webhooks: 25, WafRules: 2, Environments: 3, Projects: 2, Platforms: 3, Users: 25, Teams: 25, Databases: 25, DatabasesReads: 500000, DatabasesWrites: 250000, DatabasesBatchSize: 100, Buckets: 25, FileSize: 25, Functions: 25, Sites: 1, Executions: 25, ExecutionsRetentionCount: 10000, GBHours: 100, Realtime: 25, RealtimeMessages: 100000, Messages: 1000, Topics: 1, AuthPhone: 10, Domains: 5, AnalyticsProperties: 5, UsageLogs: 30, ProjectInactivityDays: 7, AlertLimit: 80, Monitors: 25, Probes: 1, AlertInterval: 60, ProbeInterval: 60, Escalations: 10, EscalationSteps: 10, AlertRetention: 90, Addons: BillingPlanAddon{}, BudgetCapEnabled: true, CustomSmtp: true, EmailBranding: true, RequiresPaymentMethod: true, RequiresBillingAddress: true, IsAvailable: true, SelfService: true, PremiumSupport: true, Budgeting: true, SupportsMockNumbers: true, SupportsOrganizationRoles: true, SupportsCredits: true, SupportsDedicatedDatabases: true, SupportsDisposableEmailValidation: true, SupportsCanonicalEmailValidation: true, SupportsFreeEmailValidation: true, SupportsCorporateEmailValidation: true, SupportsProjectSpecificRoles: true, UsagePerProject: true, SupportedAddons: BillingPlanSupportedAddons{Baa: true, PremiumGeoDB: true, PremiumGeoDBOrg: true}, DeploymentSize: 30, BuildSize: 2000, FunctionsIntervalMinimum: 60, FunctionsAllowCron: true, DatabasesAllowEncrypt: true, Group: "pro", DatabaseComputeCredit: 10}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

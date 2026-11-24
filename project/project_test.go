@@ -1220,6 +1220,35 @@ func TestProject(t *testing.T) {
 		}
 	})
 
+	t.Run("Test UpdateOAuth2Bird", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "oac_01m7sv000000000000008r9qt6",
+    "clientSecret": "D6XGgt0000000000000000000000000000000l7JvQ8"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Bird()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Bird failed: %v", err)
+		}
+	})
+
 	t.Run("Test UpdateOAuth2Bitbucket", func(t *testing.T) {
 		mockResponse := `
 {
@@ -2456,6 +2485,35 @@ func TestProject(t *testing.T) {
 		_, err := srv.UpdateOAuth2Stripe()
 		if err != nil {
 			t.Errorf("Method UpdateOAuth2Stripe failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateOAuth2Supabase", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "github",
+    "enabled": true,
+    "clientId": "00000000-0000-0000-0000-000000000000",
+    "clientSecret": "00000000000000000000000000000000"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateOAuth2Supabase()
+		if err != nil {
+			t.Errorf("Method UpdateOAuth2Supabase failed: %v", err)
 		}
 	})
 

@@ -2188,6 +2188,89 @@ func (srv *Project) UpdateOAuth2Autodesk(optionalSetters ...UpdateOAuth2Autodesk
 
 }
 
+type UpdateOAuth2BirdOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2BirdOptions) New() *UpdateOAuth2BirdOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2BirdOption func(*UpdateOAuth2BirdOptions)
+
+func (srv *Project) WithUpdateOAuth2BirdClientId(v string) UpdateOAuth2BirdOption {
+	return func(o *UpdateOAuth2BirdOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2BirdClientSecret(v string) UpdateOAuth2BirdOption {
+	return func(o *UpdateOAuth2BirdOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2BirdEnabled(v bool) UpdateOAuth2BirdOption {
+	return func(o *UpdateOAuth2BirdOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Bird update the project OAuth2 Bird configuration.
+func (srv *Project) UpdateOAuth2Bird(optionalSetters ...UpdateOAuth2BirdOption) (*models.OAuth2Bird, error) {
+	path := "/project/oauth2/bird"
+	options := UpdateOAuth2BirdOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Bird{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Bird
+	parsed, ok := resp.Result.(models.OAuth2Bird)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2BitbucketOptions struct {
 	Key            string
 	Secret         string
@@ -5897,6 +5980,89 @@ func (srv *Project) UpdateOAuth2Stripe(optionalSetters ...UpdateOAuth2StripeOpti
 
 }
 
+type UpdateOAuth2SupabaseOptions struct {
+	ClientId       string
+	ClientSecret   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options UpdateOAuth2SupabaseOptions) New() *UpdateOAuth2SupabaseOptions {
+	options.enabledSetters = map[string]bool{"ClientId": false, "ClientSecret": false, "Enabled": false}
+	return &options
+}
+
+type UpdateOAuth2SupabaseOption func(*UpdateOAuth2SupabaseOptions)
+
+func (srv *Project) WithUpdateOAuth2SupabaseClientId(v string) UpdateOAuth2SupabaseOption {
+	return func(o *UpdateOAuth2SupabaseOptions) {
+		o.ClientId = v
+		o.enabledSetters["ClientId"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2SupabaseClientSecret(v string) UpdateOAuth2SupabaseOption {
+	return func(o *UpdateOAuth2SupabaseOptions) {
+		o.ClientSecret = v
+		o.enabledSetters["ClientSecret"] = true
+	}
+}
+func (srv *Project) WithUpdateOAuth2SupabaseEnabled(v bool) UpdateOAuth2SupabaseOption {
+	return func(o *UpdateOAuth2SupabaseOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// UpdateOAuth2Supabase update the project OAuth2 Supabase configuration.
+func (srv *Project) UpdateOAuth2Supabase(optionalSetters ...UpdateOAuth2SupabaseOption) (*models.OAuth2Supabase, error) {
+	path := "/project/oauth2/supabase"
+	options := UpdateOAuth2SupabaseOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["ClientId"] {
+		params["clientId"] = options.ClientId
+	}
+	if options.enabledSetters["ClientSecret"] {
+		params["clientSecret"] = options.ClientSecret
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.OAuth2Supabase{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.OAuth2Supabase
+	parsed, ok := resp.Result.(models.OAuth2Supabase)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type UpdateOAuth2TikTokOptions struct {
 	ClientId       string
 	ClientSecret   string
@@ -7502,6 +7668,14 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 
 			return parsed, nil
 		}
+		if fmt.Sprint(response["$id"]) == "supabase" {
+			parsed := models.OAuth2Supabase{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
 		if fmt.Sprint(response["$id"]) == "railway" {
 			parsed := models.OAuth2Railway{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
@@ -7568,6 +7742,14 @@ func (srv *Project) GetOAuth2Provider(ProviderId string) (models.Model, error) {
 		}
 		if fmt.Sprint(response["$id"]) == "resend" {
 			parsed := models.OAuth2Resend{}.New(bytes)
+			if err := json.Unmarshal(bytes, parsed); err != nil {
+				return nil, err
+			}
+
+			return parsed, nil
+		}
+		if fmt.Sprint(response["$id"]) == "bird" {
+			parsed := models.OAuth2Bird{}.New(bytes)
 			if err := json.Unmarshal(bytes, parsed); err != nil {
 				return nil, err
 			}

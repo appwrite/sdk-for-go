@@ -671,6 +671,138 @@ func TestMessaging(t *testing.T) {
 		}
 	})
 
+	t.Run("Test CreateBirdEmailProvider", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "Mailgun",
+    "provider": "mailgun",
+    "enabled": true,
+    "type": "sms",
+    "credentials": {}
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateBirdEmailProvider("<PROVIDER_ID>", "<NAME>")
+		if err != nil {
+			t.Errorf("Method CreateBirdEmailProvider failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateBirdEmailProvider", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "Mailgun",
+    "provider": "mailgun",
+    "enabled": true,
+    "type": "sms",
+    "credentials": {}
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateBirdEmailProvider("<PROVIDER_ID>")
+		if err != nil {
+			t.Errorf("Method UpdateBirdEmailProvider failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateBirdSMSProvider", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "Mailgun",
+    "provider": "mailgun",
+    "enabled": true,
+    "type": "sms",
+    "credentials": {}
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateBirdSMSProvider("<PROVIDER_ID>", "<NAME>")
+		if err != nil {
+			t.Errorf("Method CreateBirdSMSProvider failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateBirdSMSProvider", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "Mailgun",
+    "provider": "mailgun",
+    "enabled": true,
+    "type": "sms",
+    "credentials": {}
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateBirdSMSProvider("<PROVIDER_ID>")
+		if err != nil {
+			t.Errorf("Method UpdateBirdSMSProvider failed: %v", err)
+		}
+	})
+
 	t.Run("Test CreateFcmProvider", func(t *testing.T) {
 		mockResponse := `
 {

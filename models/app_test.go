@@ -7,7 +7,7 @@ import (
 )
 
 func TestAppModel(t *testing.T) {
-	model := App{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Application", Description: "Connect your workspace to My Application.", ClientUri: "https://example.com", LogoUri: "https://example.com/logo.png", PrivacyPolicyUrl: "https://example.com/privacy", TermsUrl: "https://example.com/terms", Contacts: []string{"test"}, Tagline: "Automate your workspace.", Tags: []string{"test"}, Labels: []string{"test"}, Images: []string{"test"}, SupportUrl: "https://example.com/support", DataDeletionUrl: "https://example.com/data-deletion", RedirectUris: []string{"test"}, PostLogoutRedirectUris: []string{"test"}, Enabled: true, Type: "confidential", DeviceFlow: true, TeamId: "5e5ea5c16897e", UserId: "5e5ea5c16897e", InstallationScopes: []string{"test"}, InstallationRedirectUrl: "https://example.com/setup", Secrets: []AppSecret{AppSecret{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", AppId: "5e5ea5c16897e", Secret: "string", Hint: "f5c6c7", CreatedById: "5e5ea5c16897e", CreatedByName: "Walter White"}}}
+	model := App{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Application", Description: "Connect your workspace to My Application.", ClientUri: "https://example.com", LogoUri: "https://example.com/logo.png", PrivacyPolicyUrl: "https://example.com/privacy", TermsUrl: "https://example.com/terms", Contacts: []string{"test"}, Tagline: "Automate your workspace.", Tags: []string{"test"}, Labels: []string{"test"}, Images: []string{"test"}, SupportUrl: "https://example.com/support", DataDeletionUrl: "https://example.com/data-deletion", RedirectUris: []string{"test"}, PostLogoutRedirectUris: []string{"test"}, Enabled: true, Type: "confidential", DeviceFlow: true, TeamId: "5e5ea5c16897e", UserId: "5e5ea5c16897e", InstallationScopes: []string{"test"}, InstallationRedirectUrl: "https://example.com/setup", Installs: 12, Secrets: []AppSecret{AppSecret{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", AppId: "5e5ea5c16897e", Secret: "string", Hint: "f5c6c7", CreatedById: "5e5ea5c16897e", CreatedByName: "Walter White"}}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -72,6 +72,9 @@ func TestAppModel(t *testing.T) {
 	}
 	if result.InstallationRedirectUrl != model.InstallationRedirectUrl {
 		t.Errorf("Expected InstallationRedirectUrl %v, got %v", model.InstallationRedirectUrl, result.InstallationRedirectUrl)
+	}
+	if result.Installs != model.Installs {
+		t.Errorf("Expected Installs %v, got %v", model.Installs, result.Installs)
 	}
 }
 
@@ -480,8 +483,24 @@ func TestAppModelDefaults(t *testing.T) {
 			t.Errorf("Expected missing installationRedirectUrl to default to %v, got %v", want, got)
 		}
 	}
+	{
+		var want, got interface{}
+		if err := json.Unmarshal([]byte("0"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.Installs)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing installs to default to %v, got %v", want, got)
+		}
+	}
 
-	reused := App{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Application", Description: "Connect your workspace to My Application.", ClientUri: "https://example.com", LogoUri: "https://example.com/logo.png", PrivacyPolicyUrl: "https://example.com/privacy", TermsUrl: "https://example.com/terms", Contacts: []string{"test"}, Tagline: "Automate your workspace.", Tags: []string{"test"}, Labels: []string{"test"}, Images: []string{"test"}, SupportUrl: "https://example.com/support", DataDeletionUrl: "https://example.com/data-deletion", RedirectUris: []string{"test"}, PostLogoutRedirectUris: []string{"test"}, Enabled: true, Type: "confidential", DeviceFlow: true, TeamId: "5e5ea5c16897e", UserId: "5e5ea5c16897e", InstallationScopes: []string{"test"}, InstallationRedirectUrl: "https://example.com/setup", Secrets: []AppSecret{AppSecret{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", AppId: "5e5ea5c16897e", Secret: "string", Hint: "f5c6c7", CreatedById: "5e5ea5c16897e", CreatedByName: "Walter White"}}}
+	reused := App{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "My Application", Description: "Connect your workspace to My Application.", ClientUri: "https://example.com", LogoUri: "https://example.com/logo.png", PrivacyPolicyUrl: "https://example.com/privacy", TermsUrl: "https://example.com/terms", Contacts: []string{"test"}, Tagline: "Automate your workspace.", Tags: []string{"test"}, Labels: []string{"test"}, Images: []string{"test"}, SupportUrl: "https://example.com/support", DataDeletionUrl: "https://example.com/data-deletion", RedirectUris: []string{"test"}, PostLogoutRedirectUris: []string{"test"}, Enabled: true, Type: "confidential", DeviceFlow: true, TeamId: "5e5ea5c16897e", UserId: "5e5ea5c16897e", InstallationScopes: []string{"test"}, InstallationRedirectUrl: "https://example.com/setup", Installs: 12, Secrets: []AppSecret{AppSecret{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", AppId: "5e5ea5c16897e", Secret: "string", Hint: "f5c6c7", CreatedById: "5e5ea5c16897e", CreatedByName: "Walter White"}}}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

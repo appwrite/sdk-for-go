@@ -5,8 +5,7 @@ import (
 	"fmt"
 
 	"github.com/appwrite/sdk-for-go/v7/appwrite"
-	"github.com/appwrite/sdk-for-go/v7/file"
-	"github.com/appwrite/sdk-for-go/v7/teams"
+	"github.com/appwrite/sdk-for-go/v7/avatars"
 )
 
 func main() {
@@ -16,11 +15,14 @@ func main() {
 		appwrite.WithSession(""),
 	)
 
-	service := teams.New(client)
+	service := avatars.New(client)
 
-	response, err := service.UpdatePhoto(
+	response, err := service.GetTeamPhoto(
 		"<TEAM_ID>",
-		file.NewInputFile("/path/to/file.png", "file.png"),
+		service.WithGetTeamPhotoWidth(0),
+		service.WithGetTeamPhotoHeight(0),
+		service.WithGetTeamPhotoQuality(0),
+		service.WithGetTeamPhotoOutput("png"),
 	)
 	fmt.Println(response, err)
 }

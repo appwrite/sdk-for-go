@@ -19,6 +19,8 @@ type BillingLimits struct {
 	GBHours *int `json:"GBHours"`
 	// Image transformations limit
 	ImageTransformations *int `json:"imageTransformations"`
+	// Code review credits limit
+	ReviewCredits *int `json:"reviewCredits"`
 	// Auth phone limit
 	AuthPhone *int `json:"authPhone"`
 	// Budget limit percentage

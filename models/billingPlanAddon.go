@@ -11,6 +11,10 @@ type BillingPlanAddon struct {
 	Seats BillingPlanAddonDetails `json:"seats"`
 	// Addon projects
 	Projects BillingPlanAddonDetails `json:"projects"`
+	// Addon synthetic checks
+	Probes BillingPlanAddonDetails `json:"probes"`
+	// Addon on-call responders
+	Responders BillingPlanAddonDetails `json:"responders"`
 
 	// Used by Decode() method
 	data []byte
