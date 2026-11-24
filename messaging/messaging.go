@@ -498,11 +498,12 @@ type CreatePushOptions struct {
 	Critical         bool
 	Priority         string
 	ChannelId        string
+	MutableContent   bool
 	enabledSetters   map[string]bool
 }
 
 func (options CreatePushOptions) New() *CreatePushOptions {
-	options.enabledSetters = map[string]bool{"Title": false, "Body": false, "Topics": false, "Users": false, "Targets": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false, "ChannelId": false}
+	options.enabledSetters = map[string]bool{"Title": false, "Body": false, "Topics": false, "Users": false, "Targets": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false, "ChannelId": false, "MutableContent": false}
 	return &options
 }
 
@@ -622,6 +623,12 @@ func (srv *Messaging) WithCreatePushChannelId(v string) CreatePushOption {
 		o.enabledSetters["ChannelId"] = true
 	}
 }
+func (srv *Messaging) WithCreatePushMutableContent(v bool) CreatePushOption {
+	return func(o *CreatePushOptions) {
+		o.MutableContent = v
+		o.enabledSetters["MutableContent"] = true
+	}
+}
 
 // CreatePush create a new push notification.
 func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePushOption) (*models.Message, error) {
@@ -689,6 +696,9 @@ func (srv *Messaging) CreatePush(MessageId string, optionalSetters ...CreatePush
 	if options.enabledSetters["ChannelId"] {
 		params["channelId"] = options.ChannelId
 	}
+	if options.enabledSetters["MutableContent"] {
+		params["mutableContent"] = options.MutableContent
+	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
 	headers["content-type"] = "application/json"
@@ -742,11 +752,12 @@ type UpdatePushOptions struct {
 	Critical         bool
 	Priority         string
 	ChannelId        string
+	MutableContent   bool
 	enabledSetters   map[string]bool
 }
 
 func (options UpdatePushOptions) New() *UpdatePushOptions {
-	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Title": false, "Body": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false, "ChannelId": false}
+	options.enabledSetters = map[string]bool{"Topics": false, "Users": false, "Targets": false, "Title": false, "Body": false, "Data": false, "Action": false, "Image": false, "Icon": false, "Sound": false, "Color": false, "Tag": false, "Badge": false, "Draft": false, "ScheduledAt": false, "ContentAvailable": false, "Critical": false, "Priority": false, "ChannelId": false, "MutableContent": false}
 	return &options
 }
 
@@ -866,6 +877,12 @@ func (srv *Messaging) WithUpdatePushChannelId(v string) UpdatePushOption {
 		o.enabledSetters["ChannelId"] = true
 	}
 }
+func (srv *Messaging) WithUpdatePushMutableContent(v bool) UpdatePushOption {
+	return func(o *UpdatePushOptions) {
+		o.MutableContent = v
+		o.enabledSetters["MutableContent"] = true
+	}
+}
 
 // UpdatePush update a push notification by its unique ID. This endpoint only
 // works on messages that are in draft status. Messages that are already
@@ -938,6 +955,9 @@ func (srv *Messaging) UpdatePush(MessageId string, optionalSetters ...UpdatePush
 	}
 	if options.enabledSetters["ChannelId"] {
 		params["channelId"] = options.ChannelId
+	}
+	if options.enabledSetters["MutableContent"] {
+		params["mutableContent"] = options.MutableContent
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]
@@ -2310,6 +2330,435 @@ func (srv *Messaging) UpdateAppwriteProvider(ProviderId string, optionalSetters 
 	}
 	if options.enabledSetters["Expiry"] {
 		params["expiry"] = options.Expiry
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreateBirdEmailProviderOptions struct {
+	ApiKey         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options CreateBirdEmailProviderOptions) New() *CreateBirdEmailProviderOptions {
+	options.enabledSetters = map[string]bool{"ApiKey": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false, "Enabled": false}
+	return &options
+}
+
+type CreateBirdEmailProviderOption func(*CreateBirdEmailProviderOptions)
+
+func (srv *Messaging) WithCreateBirdEmailProviderApiKey(v string) CreateBirdEmailProviderOption {
+	return func(o *CreateBirdEmailProviderOptions) {
+		o.ApiKey = v
+		o.enabledSetters["ApiKey"] = true
+	}
+}
+func (srv *Messaging) WithCreateBirdEmailProviderFromName(v string) CreateBirdEmailProviderOption {
+	return func(o *CreateBirdEmailProviderOptions) {
+		o.FromName = v
+		o.enabledSetters["FromName"] = true
+	}
+}
+func (srv *Messaging) WithCreateBirdEmailProviderFromEmail(v string) CreateBirdEmailProviderOption {
+	return func(o *CreateBirdEmailProviderOptions) {
+		o.FromEmail = v
+		o.enabledSetters["FromEmail"] = true
+	}
+}
+func (srv *Messaging) WithCreateBirdEmailProviderReplyToName(v string) CreateBirdEmailProviderOption {
+	return func(o *CreateBirdEmailProviderOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
+	}
+}
+func (srv *Messaging) WithCreateBirdEmailProviderReplyToEmail(v string) CreateBirdEmailProviderOption {
+	return func(o *CreateBirdEmailProviderOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+func (srv *Messaging) WithCreateBirdEmailProviderEnabled(v bool) CreateBirdEmailProviderOption {
+	return func(o *CreateBirdEmailProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// CreateBirdEmailProvider create a new Bird email provider. It sends email
+// through Bird's email API with a workspace API key that holds the
+// `emails:write` scope.
+func (srv *Messaging) CreateBirdEmailProvider(ProviderId string, Name string, optionalSetters ...CreateBirdEmailProviderOption) (*models.Provider, error) {
+	path := "/messaging/providers/bird-email"
+	options := CreateBirdEmailProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	params["name"] = Name
+	if options.enabledSetters["ApiKey"] {
+		params["apiKey"] = options.ApiKey
+	}
+	if options.enabledSetters["FromName"] {
+		params["fromName"] = options.FromName
+	}
+	if options.enabledSetters["FromEmail"] {
+		params["fromEmail"] = options.FromEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateBirdEmailProviderOptions struct {
+	Name           string
+	Enabled        bool
+	ApiKey         string
+	FromName       string
+	FromEmail      string
+	ReplyToName    string
+	ReplyToEmail   string
+	enabledSetters map[string]bool
+}
+
+func (options UpdateBirdEmailProviderOptions) New() *UpdateBirdEmailProviderOptions {
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "ApiKey": false, "FromName": false, "FromEmail": false, "ReplyToName": false, "ReplyToEmail": false}
+	return &options
+}
+
+type UpdateBirdEmailProviderOption func(*UpdateBirdEmailProviderOptions)
+
+func (srv *Messaging) WithUpdateBirdEmailProviderName(v string) UpdateBirdEmailProviderOption {
+	return func(o *UpdateBirdEmailProviderOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Messaging) WithUpdateBirdEmailProviderEnabled(v bool) UpdateBirdEmailProviderOption {
+	return func(o *UpdateBirdEmailProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Messaging) WithUpdateBirdEmailProviderApiKey(v string) UpdateBirdEmailProviderOption {
+	return func(o *UpdateBirdEmailProviderOptions) {
+		o.ApiKey = v
+		o.enabledSetters["ApiKey"] = true
+	}
+}
+func (srv *Messaging) WithUpdateBirdEmailProviderFromName(v string) UpdateBirdEmailProviderOption {
+	return func(o *UpdateBirdEmailProviderOptions) {
+		o.FromName = v
+		o.enabledSetters["FromName"] = true
+	}
+}
+func (srv *Messaging) WithUpdateBirdEmailProviderFromEmail(v string) UpdateBirdEmailProviderOption {
+	return func(o *UpdateBirdEmailProviderOptions) {
+		o.FromEmail = v
+		o.enabledSetters["FromEmail"] = true
+	}
+}
+func (srv *Messaging) WithUpdateBirdEmailProviderReplyToName(v string) UpdateBirdEmailProviderOption {
+	return func(o *UpdateBirdEmailProviderOptions) {
+		o.ReplyToName = v
+		o.enabledSetters["ReplyToName"] = true
+	}
+}
+func (srv *Messaging) WithUpdateBirdEmailProviderReplyToEmail(v string) UpdateBirdEmailProviderOption {
+	return func(o *UpdateBirdEmailProviderOptions) {
+		o.ReplyToEmail = v
+		o.enabledSetters["ReplyToEmail"] = true
+	}
+}
+
+// UpdateBirdEmailProvider update a Bird email provider by its unique ID.
+func (srv *Messaging) UpdateBirdEmailProvider(ProviderId string, optionalSetters ...UpdateBirdEmailProviderOption) (*models.Provider, error) {
+	if ProviderId == "" {
+		return nil, errors.New("Missing required parameter: \"providerId\"")
+	}
+
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
+	path := r.Replace("/messaging/providers/bird-email/{providerId}")
+	options := UpdateBirdEmailProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["ApiKey"] {
+		params["apiKey"] = options.ApiKey
+	}
+	if options.enabledSetters["FromName"] {
+		params["fromName"] = options.FromName
+	}
+	if options.enabledSetters["FromEmail"] {
+		params["fromEmail"] = options.FromEmail
+	}
+	if options.enabledSetters["ReplyToName"] {
+		params["replyToName"] = options.ReplyToName
+	}
+	if options.enabledSetters["ReplyToEmail"] {
+		params["replyToEmail"] = options.ReplyToEmail
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreateBirdSMSProviderOptions struct {
+	From           string
+	ApiKey         string
+	Enabled        bool
+	enabledSetters map[string]bool
+}
+
+func (options CreateBirdSMSProviderOptions) New() *CreateBirdSMSProviderOptions {
+	options.enabledSetters = map[string]bool{"From": false, "ApiKey": false, "Enabled": false}
+	return &options
+}
+
+type CreateBirdSMSProviderOption func(*CreateBirdSMSProviderOptions)
+
+func (srv *Messaging) WithCreateBirdSMSProviderFrom(v string) CreateBirdSMSProviderOption {
+	return func(o *CreateBirdSMSProviderOptions) {
+		o.From = v
+		o.enabledSetters["From"] = true
+	}
+}
+func (srv *Messaging) WithCreateBirdSMSProviderApiKey(v string) CreateBirdSMSProviderOption {
+	return func(o *CreateBirdSMSProviderOptions) {
+		o.ApiKey = v
+		o.enabledSetters["ApiKey"] = true
+	}
+}
+func (srv *Messaging) WithCreateBirdSMSProviderEnabled(v bool) CreateBirdSMSProviderOption {
+	return func(o *CreateBirdSMSProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+
+// CreateBirdSMSProvider create a new Bird SMS provider. It sends SMS through
+// Bird with a workspace API key that holds the `sms:write` scope.
+func (srv *Messaging) CreateBirdSMSProvider(ProviderId string, Name string, optionalSetters ...CreateBirdSMSProviderOption) (*models.Provider, error) {
+	path := "/messaging/providers/bird-sms"
+	options := CreateBirdSMSProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["providerId"] = ProviderId
+	params["name"] = Name
+	if options.enabledSetters["From"] {
+		params["from"] = options.From
+	}
+	if options.enabledSetters["ApiKey"] {
+		params["apiKey"] = options.ApiKey
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Provider{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Provider
+	parsed, ok := resp.Result.(models.Provider)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateBirdSMSProviderOptions struct {
+	Name           string
+	Enabled        bool
+	ApiKey         string
+	From           string
+	enabledSetters map[string]bool
+}
+
+func (options UpdateBirdSMSProviderOptions) New() *UpdateBirdSMSProviderOptions {
+	options.enabledSetters = map[string]bool{"Name": false, "Enabled": false, "ApiKey": false, "From": false}
+	return &options
+}
+
+type UpdateBirdSMSProviderOption func(*UpdateBirdSMSProviderOptions)
+
+func (srv *Messaging) WithUpdateBirdSMSProviderName(v string) UpdateBirdSMSProviderOption {
+	return func(o *UpdateBirdSMSProviderOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Messaging) WithUpdateBirdSMSProviderEnabled(v bool) UpdateBirdSMSProviderOption {
+	return func(o *UpdateBirdSMSProviderOptions) {
+		o.Enabled = v
+		o.enabledSetters["Enabled"] = true
+	}
+}
+func (srv *Messaging) WithUpdateBirdSMSProviderApiKey(v string) UpdateBirdSMSProviderOption {
+	return func(o *UpdateBirdSMSProviderOptions) {
+		o.ApiKey = v
+		o.enabledSetters["ApiKey"] = true
+	}
+}
+func (srv *Messaging) WithUpdateBirdSMSProviderFrom(v string) UpdateBirdSMSProviderOption {
+	return func(o *UpdateBirdSMSProviderOptions) {
+		o.From = v
+		o.enabledSetters["From"] = true
+	}
+}
+
+// UpdateBirdSMSProvider update a Bird SMS provider by its unique ID.
+func (srv *Messaging) UpdateBirdSMSProvider(ProviderId string, optionalSetters ...UpdateBirdSMSProviderOption) (*models.Provider, error) {
+	if ProviderId == "" {
+		return nil, errors.New("Missing required parameter: \"providerId\"")
+	}
+
+	r := strings.NewReplacer("{providerId}", client.EncodePath(ProviderId))
+	path := r.Replace("/messaging/providers/bird-sms/{providerId}")
+	options := UpdateBirdSMSProviderOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["Enabled"] {
+		params["enabled"] = options.Enabled
+	}
+	if options.enabledSetters["ApiKey"] {
+		params["apiKey"] = options.ApiKey
+	}
+	if options.enabledSetters["From"] {
+		params["from"] = options.From
 	}
 	headers := map[string]interface{}{}
 	headers["X-Appwrite-Project"] = srv.client.Config["project"]

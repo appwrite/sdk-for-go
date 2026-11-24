@@ -1492,9 +1492,10 @@ func (srv *Account) GetMFARecoveryCodes() (*models.MfaRecoveryCodes, error) {
 }
 
 // CreateMfaRecoveryCodes generate recovery codes as backup for MFA flow. It's
-// recommended to generate and show then immediately after user successfully
-// adds their authehticator. Recovery codes can be used as a MFA verification
-// type in
+// recommended to generate and show them immediately after the user
+// successfully adds their authenticator. Once MFA is enabled on the account,
+// a recent MFA challenge is required to generate them. Recovery codes can be
+// used as a MFA verification type in
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method.
 //
@@ -1536,9 +1537,10 @@ func (srv *Account) CreateMfaRecoveryCodes() (*models.MfaRecoveryCodes, error) {
 }
 
 // CreateMFARecoveryCodes generate recovery codes as backup for MFA flow. It's
-// recommended to generate and show then immediately after user successfully
-// adds their authehticator. Recovery codes can be used as a MFA verification
-// type in
+// recommended to generate and show them immediately after the user
+// successfully adds their authenticator. Once MFA is enabled on the account,
+// a recent MFA challenge is required to generate them. Recovery codes can be
+// used as a MFA verification type in
 // [createMfaChallenge](/docs/references/cloud/client-web/account#createMfaChallenge)
 // method.
 func (srv *Account) CreateMFARecoveryCodes() (*models.MfaRecoveryCodes, error) {

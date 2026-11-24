@@ -308,4 +308,91 @@ func TestAvatars(t *testing.T) {
 			t.Errorf("Method GetScreenshot failed: %v", err)
 		}
 	})
+
+	t.Run("Test GetTeamPhoto", func(t *testing.T) {
+		mockData := []byte("image_data")
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "image/png")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write(mockData)
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetTeamPhoto("<TEAM_ID>")
+		if err != nil {
+			t.Errorf("Method GetTeamPhoto failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateTeamPhoto", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "VIP",
+    "total": 7,
+    "prefs": {
+    }
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method == "GET" && "PUT" != "GET" {
+				// Handle file upload resume check
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusOK)
+				_, _ = w.Write([]byte(`{"chunksUploaded": 0}`))
+				return
+			}
+			if r.Method != "PUT" {
+				t.Errorf("Expected method PUT, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateTeamPhoto("<TEAM_ID>", file.NewInputFile(tmpFile.Name(), "test.txt"))
+		if err != nil {
+			t.Errorf("Method UpdateTeamPhoto failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteTeamPhoto", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteTeamPhoto("<TEAM_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteTeamPhoto failed: %v", err)
+		}
+	})
 }

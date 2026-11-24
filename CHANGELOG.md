@@ -1,5 +1,15 @@
 # Change Log
 
+## v7.22.0
+
+* Breaking: `Teams.GetPhoto`, `UpdatePhoto` and `DeletePhoto` moved to `Avatars.GetTeamPhoto`, `UpdateTeamPhoto` and `DeleteTeamPhoto`
+* Added: `Logs` service with `List` and `Get`, and the `RuntimeLog` and `RuntimeLogList` models
+* Added: Bird email and SMS providers on `Messaging`, created and updated with `CreateBirdEmailProvider` and its siblings
+* Added: `MutableContent` option on `Messaging.CreatePush` and `Messaging.UpdatePush`
+* Added: `Project.UpdateOAuth2Bird` and `Project.UpdateOAuth2Supabase`, with the `OAuth2Bird` and `OAuth2Supabase` models
+* Added: `WithForwardedIP` client option to forward the end user's IP address
+* Added: `Records` on `ProxyRule`, `Installs` on `App`, and review credit and monitoring limits on billing models
+
 ## v7.21.0
 
 * Added: `ProviderComments`, `ProviderDeployments` and `ProviderStatuses` options on function and site create and update, and fields on `Function` and `Site`

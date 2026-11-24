@@ -7,7 +7,7 @@ import (
 )
 
 func TestOrganizationModel(t *testing.T) {
-	model := Organization{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "VIP", Total: 7, Prefs: Preferences{}, BudgetAlerts: []int{1}, BudgetNotify: []string{"test"}, BudgetCritical: []int{1}, BillingPlan: "tier-1", BillingPlanId: "tier-1", BillingPlanDetails: BillingPlan{Id: "tier-0", Name: "Hobby", Desc: "Hobby plan", Order: 0, Price: 25, Trial: 14, Bandwidth: 25, Storage: 25, ImageTransformations: 100, ScreenshotsGenerated: 50, Webhooks: 25, WafRules: 2, Environments: 3, Projects: 2, Platforms: 3, Users: 25, Teams: 25, Databases: 25, DatabasesReads: 500000, DatabasesWrites: 250000, DatabasesBatchSize: 100, Buckets: 25, FileSize: 25, Functions: 25, Sites: 1, Executions: 25, ExecutionsRetentionCount: 10000, GBHours: 100, Realtime: 25, RealtimeMessages: 100000, Messages: 1000, Topics: 1, AuthPhone: 10, Domains: 5, UsageLogs: 30, ProjectInactivityDays: 7, AlertLimit: 80, Addons: BillingPlanAddon{}, BudgetCapEnabled: true, CustomSmtp: true, EmailBranding: true, RequiresPaymentMethod: true, RequiresBillingAddress: true, IsAvailable: true, SelfService: true, PremiumSupport: true, Budgeting: true, SupportsMockNumbers: true, SupportsOrganizationRoles: true, SupportsCredits: true, SupportsDedicatedDatabases: true, SupportsDisposableEmailValidation: true, SupportsCanonicalEmailValidation: true, SupportsFreeEmailValidation: true, SupportsCorporateEmailValidation: true, SupportsProjectSpecificRoles: true, UsagePerProject: true, SupportedAddons: BillingPlanSupportedAddons{Baa: true, PremiumGeoDB: true, PremiumGeoDBOrg: true}, DeploymentSize: 30, BuildSize: 2000, FunctionsIntervalMinimum: 60, FunctionsAllowCron: true, DatabasesAllowEncrypt: true, Group: "pro", DatabaseComputeCredit: 10}, BillingEmail: "billing@org.example", Status: "active", MarkedForDeletion: true, Platform: "imagine", Projects: []string{"test"}}
+	model := Organization{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "VIP", Total: 7, Prefs: Preferences{}, BudgetAlerts: []int{1}, BudgetNotify: []string{"test"}, BudgetCritical: []int{1}, ReviewCreditsOverage: true, BillingPlan: "tier-1", BillingPlanId: "tier-1", BillingPlanDetails: BillingPlan{Id: "tier-0", Name: "Hobby", Desc: "Hobby plan", Order: 0, Price: 25, Trial: 14, Bandwidth: 25, Storage: 25, ImageTransformations: 100, ScreenshotsGenerated: 50, ReviewCredits: 2000, Webhooks: 25, WafRules: 2, Environments: 3, Projects: 2, Platforms: 3, Users: 25, Teams: 25, Databases: 25, DatabasesReads: 500000, DatabasesWrites: 250000, DatabasesBatchSize: 100, Buckets: 25, FileSize: 25, Functions: 25, Sites: 1, Executions: 25, ExecutionsRetentionCount: 10000, GBHours: 100, Realtime: 25, RealtimeMessages: 100000, Messages: 1000, Topics: 1, AuthPhone: 10, Domains: 5, AnalyticsProperties: 5, UsageLogs: 30, ProjectInactivityDays: 7, AlertLimit: 80, Monitors: 25, Probes: 1, AlertInterval: 60, ProbeInterval: 60, Escalations: 10, EscalationSteps: 10, AlertRetention: 90, Addons: BillingPlanAddon{}, BudgetCapEnabled: true, CustomSmtp: true, EmailBranding: true, RequiresPaymentMethod: true, RequiresBillingAddress: true, IsAvailable: true, SelfService: true, PremiumSupport: true, Budgeting: true, SupportsMockNumbers: true, SupportsOrganizationRoles: true, SupportsCredits: true, SupportsDedicatedDatabases: true, SupportsDisposableEmailValidation: true, SupportsCanonicalEmailValidation: true, SupportsFreeEmailValidation: true, SupportsCorporateEmailValidation: true, SupportsProjectSpecificRoles: true, UsagePerProject: true, SupportedAddons: BillingPlanSupportedAddons{Baa: true, PremiumGeoDB: true, PremiumGeoDBOrg: true}, DeploymentSize: 30, BuildSize: 2000, FunctionsIntervalMinimum: 60, FunctionsAllowCron: true, DatabasesAllowEncrypt: true, Group: "pro", DatabaseComputeCredit: 10}, BillingEmail: "billing@org.example", Status: "active", MarkedForDeletion: true, Platform: "imagine", Projects: []string{"test"}}
 
 	data, err := json.Marshal(model)
 	if err != nil {
@@ -33,6 +33,9 @@ func TestOrganizationModel(t *testing.T) {
 	}
 	if result.Total != model.Total {
 		t.Errorf("Expected Total %v, got %v", model.Total, result.Total)
+	}
+	if result.ReviewCreditsOverage != model.ReviewCreditsOverage {
+		t.Errorf("Expected ReviewCreditsOverage %v, got %v", model.ReviewCreditsOverage, result.ReviewCreditsOverage)
 	}
 	if result.BillingPlan != model.BillingPlan {
 		t.Errorf("Expected BillingPlan %v, got %v", model.BillingPlan, result.BillingPlan)
@@ -189,6 +192,22 @@ func TestOrganizationModelDefaults(t *testing.T) {
 	}
 	{
 		var want, got interface{}
+		if err := json.Unmarshal([]byte("true"), &want); err != nil {
+			t.Fatal(err)
+		}
+		encoded, err := json.Marshal(fresh.ReviewCreditsOverage)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.Unmarshal(encoded, &got); err != nil {
+			t.Fatal(err)
+		}
+		if !reflect.DeepEqual(want, got) {
+			t.Errorf("Expected missing reviewCreditsOverage to default to %v, got %v", want, got)
+		}
+	}
+	{
+		var want, got interface{}
 		if err := json.Unmarshal([]byte("\"tier-0\""), &want); err != nil {
 			t.Fatal(err)
 		}
@@ -300,7 +319,7 @@ func TestOrganizationModelDefaults(t *testing.T) {
 		}
 	}
 
-	reused := Organization{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "VIP", Total: 7, Prefs: Preferences{}, BudgetAlerts: []int{1}, BudgetNotify: []string{"test"}, BudgetCritical: []int{1}, BillingPlan: "tier-1", BillingPlanId: "tier-1", BillingPlanDetails: BillingPlan{Id: "tier-0", Name: "Hobby", Desc: "Hobby plan", Order: 0, Price: 25, Trial: 14, Bandwidth: 25, Storage: 25, ImageTransformations: 100, ScreenshotsGenerated: 50, Webhooks: 25, WafRules: 2, Environments: 3, Projects: 2, Platforms: 3, Users: 25, Teams: 25, Databases: 25, DatabasesReads: 500000, DatabasesWrites: 250000, DatabasesBatchSize: 100, Buckets: 25, FileSize: 25, Functions: 25, Sites: 1, Executions: 25, ExecutionsRetentionCount: 10000, GBHours: 100, Realtime: 25, RealtimeMessages: 100000, Messages: 1000, Topics: 1, AuthPhone: 10, Domains: 5, UsageLogs: 30, ProjectInactivityDays: 7, AlertLimit: 80, Addons: BillingPlanAddon{}, BudgetCapEnabled: true, CustomSmtp: true, EmailBranding: true, RequiresPaymentMethod: true, RequiresBillingAddress: true, IsAvailable: true, SelfService: true, PremiumSupport: true, Budgeting: true, SupportsMockNumbers: true, SupportsOrganizationRoles: true, SupportsCredits: true, SupportsDedicatedDatabases: true, SupportsDisposableEmailValidation: true, SupportsCanonicalEmailValidation: true, SupportsFreeEmailValidation: true, SupportsCorporateEmailValidation: true, SupportsProjectSpecificRoles: true, UsagePerProject: true, SupportedAddons: BillingPlanSupportedAddons{Baa: true, PremiumGeoDB: true, PremiumGeoDBOrg: true}, DeploymentSize: 30, BuildSize: 2000, FunctionsIntervalMinimum: 60, FunctionsAllowCron: true, DatabasesAllowEncrypt: true, Group: "pro", DatabaseComputeCredit: 10}, BillingEmail: "billing@org.example", Status: "active", MarkedForDeletion: true, Platform: "imagine", Projects: []string{"test"}}
+	reused := Organization{Id: "5e5ea5c16897e", CreatedAt: "2020-10-15T06:38:00.000+00:00", UpdatedAt: "2020-10-15T06:38:00.000+00:00", Name: "VIP", Total: 7, Prefs: Preferences{}, BudgetAlerts: []int{1}, BudgetNotify: []string{"test"}, BudgetCritical: []int{1}, ReviewCreditsOverage: true, BillingPlan: "tier-1", BillingPlanId: "tier-1", BillingPlanDetails: BillingPlan{Id: "tier-0", Name: "Hobby", Desc: "Hobby plan", Order: 0, Price: 25, Trial: 14, Bandwidth: 25, Storage: 25, ImageTransformations: 100, ScreenshotsGenerated: 50, ReviewCredits: 2000, Webhooks: 25, WafRules: 2, Environments: 3, Projects: 2, Platforms: 3, Users: 25, Teams: 25, Databases: 25, DatabasesReads: 500000, DatabasesWrites: 250000, DatabasesBatchSize: 100, Buckets: 25, FileSize: 25, Functions: 25, Sites: 1, Executions: 25, ExecutionsRetentionCount: 10000, GBHours: 100, Realtime: 25, RealtimeMessages: 100000, Messages: 1000, Topics: 1, AuthPhone: 10, Domains: 5, AnalyticsProperties: 5, UsageLogs: 30, ProjectInactivityDays: 7, AlertLimit: 80, Monitors: 25, Probes: 1, AlertInterval: 60, ProbeInterval: 60, Escalations: 10, EscalationSteps: 10, AlertRetention: 90, Addons: BillingPlanAddon{}, BudgetCapEnabled: true, CustomSmtp: true, EmailBranding: true, RequiresPaymentMethod: true, RequiresBillingAddress: true, IsAvailable: true, SelfService: true, PremiumSupport: true, Budgeting: true, SupportsMockNumbers: true, SupportsOrganizationRoles: true, SupportsCredits: true, SupportsDedicatedDatabases: true, SupportsDisposableEmailValidation: true, SupportsCanonicalEmailValidation: true, SupportsFreeEmailValidation: true, SupportsCorporateEmailValidation: true, SupportsProjectSpecificRoles: true, UsagePerProject: true, SupportedAddons: BillingPlanSupportedAddons{Baa: true, PremiumGeoDB: true, PremiumGeoDBOrg: true}, DeploymentSize: 30, BuildSize: 2000, FunctionsIntervalMinimum: 60, FunctionsAllowCron: true, DatabasesAllowEncrypt: true, Group: "pro", DatabaseComputeCredit: 10}, BillingEmail: "billing@org.example", Status: "active", MarkedForDeletion: true, Platform: "imagine", Projects: []string{"test"}}
 	if err := json.Unmarshal([]byte("{}"), &reused); err != nil {
 		t.Fatal(err)
 	}

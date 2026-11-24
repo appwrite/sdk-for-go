@@ -28,6 +28,10 @@ type Organization struct {
 	BudgetNotify []string `json:"budgetNotify"`
 	// Budget alert percentages whose push notifications are critical.
 	BudgetCritical []int `json:"budgetCritical"`
+	// Whether code reviews keep running past the included review credits and bill
+	// the extra. When false, reviews stop at the allowance and no extra credits
+	// are billed.
+	ReviewCreditsOverage bool `json:"reviewCreditsOverage"`
 	// Organization's billing plan ID.
 	BillingPlan string `json:"billingPlan"`
 	// Organization's billing plan ID.
@@ -104,21 +108,22 @@ func (model *Organization) UnmarshalJSON(data []byte) error {
 	}
 
 	var present struct {
-		Id                json.RawMessage `json:"$id"`
-		CreatedAt         json.RawMessage `json:"$createdAt"`
-		UpdatedAt         json.RawMessage `json:"$updatedAt"`
-		Name              json.RawMessage `json:"name"`
-		Total             json.RawMessage `json:"total"`
-		BudgetAlerts      json.RawMessage `json:"budgetAlerts"`
-		BudgetNotify      json.RawMessage `json:"budgetNotify"`
-		BudgetCritical    json.RawMessage `json:"budgetCritical"`
-		BillingPlan       json.RawMessage `json:"billingPlan"`
-		BillingPlanId     json.RawMessage `json:"billingPlanId"`
-		BillingEmail      json.RawMessage `json:"billingEmail"`
-		Status            json.RawMessage `json:"status"`
-		MarkedForDeletion json.RawMessage `json:"markedForDeletion"`
-		Platform          json.RawMessage `json:"platform"`
-		Projects          json.RawMessage `json:"projects"`
+		Id                   json.RawMessage `json:"$id"`
+		CreatedAt            json.RawMessage `json:"$createdAt"`
+		UpdatedAt            json.RawMessage `json:"$updatedAt"`
+		Name                 json.RawMessage `json:"name"`
+		Total                json.RawMessage `json:"total"`
+		BudgetAlerts         json.RawMessage `json:"budgetAlerts"`
+		BudgetNotify         json.RawMessage `json:"budgetNotify"`
+		BudgetCritical       json.RawMessage `json:"budgetCritical"`
+		ReviewCreditsOverage json.RawMessage `json:"reviewCreditsOverage"`
+		BillingPlan          json.RawMessage `json:"billingPlan"`
+		BillingPlanId        json.RawMessage `json:"billingPlanId"`
+		BillingEmail         json.RawMessage `json:"billingEmail"`
+		Status               json.RawMessage `json:"status"`
+		MarkedForDeletion    json.RawMessage `json:"markedForDeletion"`
+		Platform             json.RawMessage `json:"platform"`
+		Projects             json.RawMessage `json:"projects"`
 	}
 	if err := json.Unmarshal(data, &present); err != nil {
 		return err
@@ -160,6 +165,11 @@ func (model *Organization) UnmarshalJSON(data []byte) error {
 	}
 	if present.BudgetCritical == nil {
 		if err := json.Unmarshal([]byte("[]"), &decoded.BudgetCritical); err != nil {
+			return err
+		}
+	}
+	if present.ReviewCreditsOverage == nil {
+		if err := json.Unmarshal([]byte("true"), &decoded.ReviewCreditsOverage); err != nil {
 			return err
 		}
 	}

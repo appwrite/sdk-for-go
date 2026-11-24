@@ -47,6 +47,7 @@ func TestApps(t *testing.T) {
             "userId": "5e5ea5c16897e",
             "installationScopes": [],
             "installationRedirectUrl": "https://example.com/setup",
+            "installs": 12,
             "secrets": [
                 {
                     "$id": "5e5ea5c16897e",
@@ -111,6 +112,7 @@ func TestApps(t *testing.T) {
     "userId": "5e5ea5c16897e",
     "installationScopes": [],
     "installationRedirectUrl": "https://example.com/setup",
+    "installs": 12,
     "secrets": [
         {
             "$id": "5e5ea5c16897e",
@@ -243,6 +245,7 @@ func TestApps(t *testing.T) {
     "userId": "5e5ea5c16897e",
     "installationScopes": [],
     "installationRedirectUrl": "https://example.com/setup",
+    "installs": 12,
     "secrets": [
         {
             "$id": "5e5ea5c16897e",
@@ -305,6 +308,7 @@ func TestApps(t *testing.T) {
     "userId": "5e5ea5c16897e",
     "installationScopes": [],
     "installationRedirectUrl": "https://example.com/setup",
+    "installs": 12,
     "secrets": [
         {
             "$id": "5e5ea5c16897e",
@@ -652,6 +656,7 @@ func TestApps(t *testing.T) {
     "userId": "5e5ea5c16897e",
     "installationScopes": [],
     "installationRedirectUrl": "https://example.com/setup",
+    "installs": 12,
     "secrets": [
         {
             "$id": "5e5ea5c16897e",
@@ -844,6 +849,7 @@ func TestApps(t *testing.T) {
     "userId": "5e5ea5c16897e",
     "installationScopes": [],
     "installationRedirectUrl": "https://example.com/setup",
+    "installs": 12,
     "secrets": [
         {
             "$id": "5e5ea5c16897e",

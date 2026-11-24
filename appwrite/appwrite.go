@@ -19,6 +19,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/functions"
 	"github.com/appwrite/sdk-for-go/v7/graphql"
 	"github.com/appwrite/sdk-for-go/v7/locale"
+	"github.com/appwrite/sdk-for-go/v7/logs"
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 	"github.com/appwrite/sdk-for-go/v7/migrations"
 	"github.com/appwrite/sdk-for-go/v7/mongo"
@@ -78,6 +79,9 @@ func NewGraphql(clt client.Client) *graphql.Graphql {
 }
 func NewLocale(clt client.Client) *locale.Locale {
 	return locale.New(clt)
+}
+func NewLogs(clt client.Client) *logs.Logs {
+	return logs.New(clt)
 }
 func NewMessaging(clt client.Client) *messaging.Messaging {
 	return messaging.New(clt)
@@ -276,6 +280,17 @@ func WithForwardedUserAgent(value string) client.ClientOption {
 	return func(clt *client.Client) error {
 		clt.Config["forwardeduseragent"] = value
 		clt.Headers["X-Forwarded-User-Agent"] = value
+		return nil
+	}
+}
+
+// Helper method to construct NewClient()
+//
+// The IP address of the client that made the request
+func WithForwardedIP(value string) client.ClientOption {
+	return func(clt *client.Client) error {
+		clt.Config["forwardedip"] = value
+		clt.Headers["X-Forwarded-IP"] = value
 		return nil
 	}
 }

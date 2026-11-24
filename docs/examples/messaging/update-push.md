@@ -38,6 +38,7 @@ func main() {
 		service.WithUpdatePushCritical(false),
 		service.WithUpdatePushPriority("normal"),
 		service.WithUpdatePushChannelId("<CHANNEL_ID>"),
+		service.WithUpdatePushMutableContent(false),
 	)
 	fmt.Println(response, err)
 }

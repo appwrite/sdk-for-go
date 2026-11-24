@@ -27,6 +27,8 @@ type BillingPlan struct {
 	ImageTransformations int `json:"imageTransformations"`
 	// Screenshots generated
 	ScreenshotsGenerated int `json:"screenshotsGenerated"`
+	// Code review credits included per month
+	ReviewCredits int `json:"reviewCredits"`
 	// Members
 	Members *int `json:"members"`
 	// Webhooks
@@ -86,6 +88,8 @@ type BillingPlan struct {
 	AuthPhone int `json:"authPhone"`
 	// Custom domains
 	Domains int `json:"domains"`
+	// Analytics properties per project. 0 means unlimited.
+	AnalyticsProperties int `json:"analyticsProperties"`
 	// Activity log days
 	ActivityLogs *int `json:"activityLogs"`
 	// Usage history days
@@ -101,6 +105,26 @@ type BillingPlan struct {
 	ProjectInactivityDays int `json:"projectInactivityDays"`
 	// Alert threshold percentage
 	AlertLimit int `json:"alertLimit"`
+	// Maximum usage monitors per project. 0 means unlimited.
+	Monitors int `json:"monitors"`
+	// Maximum synthetic checks (HTTP, DNS, TCP and SMTP monitors) per
+	// organization. 0 means unlimited; checks past the included ones are billed
+	// through the probes addon.
+	Probes int `json:"probes"`
+	// Seconds between usage monitor evaluations.
+	AlertInterval int `json:"alertInterval"`
+	// Shortest seconds between two checks of a synthetic check. 0 means the plan
+	// sets no minimum.
+	ProbeInterval int `json:"probeInterval"`
+	// Maximum escalations per organization. 0 means unlimited.
+	Escalations int `json:"escalations"`
+	// Maximum steps per escalation. 0 means unlimited.
+	EscalationSteps int `json:"escalationSteps"`
+	// Most times an escalation's steps run again. Null when the plan does not cap
+	// repeats.
+	EscalationRepeat *int `json:"escalationRepeat"`
+	// Days resolved alerts are kept. 0 means they are kept indefinitely.
+	AlertRetention int `json:"alertRetention"`
 	// Additional resources. Null when the plan does not support usage billing.
 	Usage UsageBillingPlan `json:"usage"`
 	// Addons
@@ -204,6 +228,7 @@ func (model *BillingPlan) UnmarshalJSON(data []byte) error {
 		Storage                           json.RawMessage `json:"storage"`
 		ImageTransformations              json.RawMessage `json:"imageTransformations"`
 		ScreenshotsGenerated              json.RawMessage `json:"screenshotsGenerated"`
+		ReviewCredits                     json.RawMessage `json:"reviewCredits"`
 		Webhooks                          json.RawMessage `json:"webhooks"`
 		WafRules                          json.RawMessage `json:"wafRules"`
 		Environments                      json.RawMessage `json:"environments"`
@@ -228,9 +253,17 @@ func (model *BillingPlan) UnmarshalJSON(data []byte) error {
 		Topics                            json.RawMessage `json:"topics"`
 		AuthPhone                         json.RawMessage `json:"authPhone"`
 		Domains                           json.RawMessage `json:"domains"`
+		AnalyticsProperties               json.RawMessage `json:"analyticsProperties"`
 		UsageLogs                         json.RawMessage `json:"usageLogs"`
 		ProjectInactivityDays             json.RawMessage `json:"projectInactivityDays"`
 		AlertLimit                        json.RawMessage `json:"alertLimit"`
+		Monitors                          json.RawMessage `json:"monitors"`
+		Probes                            json.RawMessage `json:"probes"`
+		AlertInterval                     json.RawMessage `json:"alertInterval"`
+		ProbeInterval                     json.RawMessage `json:"probeInterval"`
+		Escalations                       json.RawMessage `json:"escalations"`
+		EscalationSteps                   json.RawMessage `json:"escalationSteps"`
+		AlertRetention                    json.RawMessage `json:"alertRetention"`
 		BudgetCapEnabled                  json.RawMessage `json:"budgetCapEnabled"`
 		CustomSmtp                        json.RawMessage `json:"customSmtp"`
 		EmailBranding                     json.RawMessage `json:"emailBranding"`
@@ -307,6 +340,11 @@ func (model *BillingPlan) UnmarshalJSON(data []byte) error {
 	}
 	if present.ScreenshotsGenerated == nil {
 		if err := json.Unmarshal([]byte("0"), &decoded.ScreenshotsGenerated); err != nil {
+			return err
+		}
+	}
+	if present.ReviewCredits == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.ReviewCredits); err != nil {
 			return err
 		}
 	}
@@ -430,6 +468,11 @@ func (model *BillingPlan) UnmarshalJSON(data []byte) error {
 			return err
 		}
 	}
+	if present.AnalyticsProperties == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.AnalyticsProperties); err != nil {
+			return err
+		}
+	}
 	if present.UsageLogs == nil {
 		if err := json.Unmarshal([]byte("0"), &decoded.UsageLogs); err != nil {
 			return err
@@ -442,6 +485,41 @@ func (model *BillingPlan) UnmarshalJSON(data []byte) error {
 	}
 	if present.AlertLimit == nil {
 		if err := json.Unmarshal([]byte("80"), &decoded.AlertLimit); err != nil {
+			return err
+		}
+	}
+	if present.Monitors == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Monitors); err != nil {
+			return err
+		}
+	}
+	if present.Probes == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Probes); err != nil {
+			return err
+		}
+	}
+	if present.AlertInterval == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.AlertInterval); err != nil {
+			return err
+		}
+	}
+	if present.ProbeInterval == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.ProbeInterval); err != nil {
+			return err
+		}
+	}
+	if present.Escalations == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.Escalations); err != nil {
+			return err
+		}
+	}
+	if present.EscalationSteps == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.EscalationSteps); err != nil {
+			return err
+		}
+	}
+	if present.AlertRetention == nil {
+		if err := json.Unmarshal([]byte("0"), &decoded.AlertRetention); err != nil {
 			return err
 		}
 	}

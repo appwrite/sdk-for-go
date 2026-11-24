@@ -53,6 +53,11 @@ type ProxyRule struct {
 	// and "failed" means the provider stopped trying or the last issuance or
 	// renewal attempt failed. Empty until the certificate is next checked.
 	CertificateStatus string `json:"certificateStatus"`
+	// DNS records the domain was last verified against, with what DNS returned
+	// for each. The CAA record, when listed, is required. CNAME, A and AAAA
+	// records are alternatives: the domain is verified when any one of them is.
+	// Empty until the domain is first checked.
+	Records []ProxyRuleRecord `json:"records"`
 	// Ingress protocol for the rule.
 	Protocol string `json:"protocol"`
 
