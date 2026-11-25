@@ -8,6 +8,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/account"
 	"github.com/appwrite/sdk-for-go/v7/activities"
 	"github.com/appwrite/sdk-for-go/v7/advisor"
+	"github.com/appwrite/sdk-for-go/v7/alerts"
 	"github.com/appwrite/sdk-for-go/v7/analytics"
 	"github.com/appwrite/sdk-for-go/v7/apps"
 	"github.com/appwrite/sdk-for-go/v7/avatars"
@@ -23,6 +24,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/messaging"
 	"github.com/appwrite/sdk-for-go/v7/migrations"
 	"github.com/appwrite/sdk-for-go/v7/mongo"
+	"github.com/appwrite/sdk-for-go/v7/monitors"
 	"github.com/appwrite/sdk-for-go/v7/mysql"
 	"github.com/appwrite/sdk-for-go/v7/oauth2"
 	"github.com/appwrite/sdk-for-go/v7/organization"
@@ -46,6 +48,9 @@ func NewAccount(clt client.Client) *account.Account {
 }
 func NewActivities(clt client.Client) *activities.Activities {
 	return activities.New(clt)
+}
+func NewAlerts(clt client.Client) *alerts.Alerts {
+	return alerts.New(clt)
 }
 func NewAnalytics(clt client.Client) *analytics.Analytics {
 	return analytics.New(clt)
@@ -91,6 +96,9 @@ func NewMigrations(clt client.Client) *migrations.Migrations {
 }
 func NewMongo(clt client.Client) *mongo.Mongo {
 	return mongo.New(clt)
+}
+func NewMonitors(clt client.Client) *monitors.Monitors {
+	return monitors.New(clt)
 }
 func NewMysql(clt client.Client) *mysql.Mysql {
 	return mysql.New(clt)
