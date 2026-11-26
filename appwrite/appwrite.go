@@ -39,6 +39,7 @@ import (
 	"github.com/appwrite/sdk-for-go/v7/tokens"
 	"github.com/appwrite/sdk-for-go/v7/users"
 	"github.com/appwrite/sdk-for-go/v7/vectorsdb"
+	"github.com/appwrite/sdk-for-go/v7/videos"
 	"github.com/appwrite/sdk-for-go/v7/waf"
 	"github.com/appwrite/sdk-for-go/v7/webhooks"
 )
@@ -144,6 +145,9 @@ func NewUsers(clt client.Client) *users.Users {
 }
 func NewVectorsDB(clt client.Client) *vectorsdb.VectorsDB {
 	return vectorsdb.New(clt)
+}
+func NewVideos(clt client.Client) *videos.Videos {
+	return videos.New(clt)
 }
 func NewWaf(clt client.Client) *waf.Waf {
 	return waf.New(clt)

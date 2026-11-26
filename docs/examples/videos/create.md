@@ -1,0 +1,29 @@
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/appwrite/sdk-for-go/v7/appwrite"
+	"github.com/appwrite/sdk-for-go/v7/videos"
+)
+
+func main() {
+	client := appwrite.NewClient(
+		appwrite.WithEndpoint("https://<REGION>.cloud.appwrite.io/v1"),
+		appwrite.WithProject("<YOUR_PROJECT_ID>"),
+		appwrite.WithSession(""),
+	)
+
+	service := videos.New(client)
+
+	response, err := service.Create(
+		"<VIDEO_ID>",
+		"<BUCKET_ID>",
+		"<FILE_ID>",
+		service.WithCreateName("<NAME>"),
+		service.WithCreatePermissions([]string{"read(\"any\")"}),
+	)
+	fmt.Println(response, err)
+}
+```

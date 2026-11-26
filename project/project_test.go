@@ -5857,4 +5857,171 @@ func TestProject(t *testing.T) {
 			t.Errorf("Method DeleteVariable failed: %v", err)
 		}
 	})
+
+	t.Run("Test ListVideoProfiles", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "profiles": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "360p",
+            "codec": "h264",
+            "videoBitRate": 890000,
+            "audioBitRate": 64000,
+            "width": 640,
+            "height": 360
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListVideoProfiles()
+		if err != nil {
+			t.Errorf("Method ListVideoProfiles failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateVideoProfile", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "360p",
+    "codec": "h264",
+    "videoBitRate": 890000,
+    "audioBitRate": 64000,
+    "width": 640,
+    "height": 360
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateVideoProfile("<PROFILE_ID>", "<NAME>", 1, 1, 1, 1)
+		if err != nil {
+			t.Errorf("Method CreateVideoProfile failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetVideoProfile", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "360p",
+    "codec": "h264",
+    "videoBitRate": 890000,
+    "audioBitRate": 64000,
+    "width": 640,
+    "height": 360
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetVideoProfile("<PROFILE_ID>")
+		if err != nil {
+			t.Errorf("Method GetVideoProfile failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateVideoProfile", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "360p",
+    "codec": "h264",
+    "videoBitRate": 890000,
+    "audioBitRate": 64000,
+    "width": 640,
+    "height": 360
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateVideoProfile("<PROFILE_ID>")
+		if err != nil {
+			t.Errorf("Method UpdateVideoProfile failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteVideoProfile", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteVideoProfile("<PROFILE_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteVideoProfile failed: %v", err)
+		}
+	})
 }
