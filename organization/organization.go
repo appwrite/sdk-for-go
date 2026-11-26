@@ -131,6 +131,326 @@ func (srv *Organization) Delete() (*interface{}, error) {
 
 }
 
+type ListEscalationsOptions struct {
+	Queries        []string
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListEscalationsOptions) New() *ListEscalationsOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
+	return &options
+}
+
+type ListEscalationsOption func(*ListEscalationsOptions)
+
+func (srv *Organization) WithListEscalationsQueries(v []string) ListEscalationsOption {
+	return func(o *ListEscalationsOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Organization) WithListEscalationsTotal(v bool) ListEscalationsOption {
+	return func(o *ListEscalationsOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
+// ListEscalations get a list of your organization's escalations. Use
+// `Query.search('search', term)` to search escalation IDs and names.
+func (srv *Organization) ListEscalations(optionalSetters ...ListEscalationsOption) (*models.EscalationList, error) {
+	path := "/organization/escalations"
+	options := ListEscalationsOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.EscalationList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.EscalationList
+	parsed, ok := resp.Result.(models.EscalationList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreateEscalationOptions struct {
+	Repeat         int
+	enabledSetters map[string]bool
+}
+
+func (options CreateEscalationOptions) New() *CreateEscalationOptions {
+	options.enabledSetters = map[string]bool{"Repeat": false}
+	return &options
+}
+
+type CreateEscalationOption func(*CreateEscalationOptions)
+
+func (srv *Organization) WithCreateEscalationRepeat(v int) CreateEscalationOption {
+	return func(o *CreateEscalationOptions) {
+		o.Repeat = v
+		o.enabledSetters["Repeat"] = true
+	}
+}
+
+// CreateEscalation create an escalation for your organization. A monitor
+// using it notifies the escalation's steps one after another while its alert
+// fires, each by email, push and in the console, until a member acknowledges
+// the alert or it resolves. Each step waits its `delay` in seconds, after the
+// alert fires for the first step and after the previous step for the others,
+// then notifies the members holding its `roles` and those named in `userIds`.
+// With `repeat`, the steps run again from the first, a monitor's cooldown
+// after the last step.
+func (srv *Organization) CreateEscalation(EscalationId string, Name string, Steps []interface{}, optionalSetters ...CreateEscalationOption) (*models.Escalation, error) {
+	path := "/organization/escalations"
+	options := CreateEscalationOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["escalationId"] = EscalationId
+	params["name"] = Name
+	params["steps"] = Steps
+	if options.enabledSetters["Repeat"] {
+		params["repeat"] = options.Repeat
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Escalation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Escalation
+	parsed, ok := resp.Result.(models.Escalation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetEscalation get one of your organization's escalations by its ID.
+func (srv *Organization) GetEscalation(EscalationId string) (*models.Escalation, error) {
+	if EscalationId == "" {
+		return nil, errors.New("Missing required parameter: \"escalationId\"")
+	}
+
+	r := strings.NewReplacer("{escalationId}", client.EncodePath(EscalationId))
+	path := r.Replace("/organization/escalations/{escalationId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Escalation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Escalation
+	parsed, ok := resp.Result.(models.Escalation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateEscalationOptions struct {
+	Name           string
+	Steps          []interface{}
+	Repeat         int
+	enabledSetters map[string]bool
+}
+
+func (options UpdateEscalationOptions) New() *UpdateEscalationOptions {
+	options.enabledSetters = map[string]bool{"Name": false, "Steps": false, "Repeat": false}
+	return &options
+}
+
+type UpdateEscalationOption func(*UpdateEscalationOptions)
+
+func (srv *Organization) WithUpdateEscalationName(v string) UpdateEscalationOption {
+	return func(o *UpdateEscalationOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Organization) WithUpdateEscalationSteps(v []interface{}) UpdateEscalationOption {
+	return func(o *UpdateEscalationOptions) {
+		o.Steps = v
+		o.enabledSetters["Steps"] = true
+	}
+}
+func (srv *Organization) WithUpdateEscalationRepeat(v int) UpdateEscalationOption {
+	return func(o *UpdateEscalationOptions) {
+		o.Repeat = v
+		o.enabledSetters["Repeat"] = true
+	}
+}
+
+// UpdateEscalation update an escalation's name, steps or repeats; what you
+// leave out stays as it is. Alerts already escalating keep the steps they
+// started with; the next alert uses the new ones.
+func (srv *Organization) UpdateEscalation(EscalationId string, optionalSetters ...UpdateEscalationOption) (*models.Escalation, error) {
+	if EscalationId == "" {
+		return nil, errors.New("Missing required parameter: \"escalationId\"")
+	}
+
+	r := strings.NewReplacer("{escalationId}", client.EncodePath(EscalationId))
+	path := r.Replace("/organization/escalations/{escalationId}")
+	options := UpdateEscalationOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["Steps"] {
+		params["steps"] = options.Steps
+	}
+	if options.enabledSetters["Repeat"] {
+		params["repeat"] = options.Repeat
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.Escalation{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.Escalation
+	parsed, ok := resp.Result.(models.Escalation)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeleteEscalation delete an escalation. An escalation that a monitor uses
+// cannot be deleted: move the monitor to another escalation or to `notify`
+// roles first. Open alerts keep the steps they started with.
+func (srv *Organization) DeleteEscalation(EscalationId string) (*interface{}, error) {
+	if EscalationId == "" {
+		return nil, errors.New("Missing required parameter: \"escalationId\"")
+	}
+
+	r := strings.NewReplacer("{escalationId}", client.EncodePath(EscalationId))
+	path := r.Replace("/organization/escalations/{escalationId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
 type ListInstallationsOptions struct {
 	Queries        []string
 	Total          bool

@@ -290,6 +290,185 @@ func TestOrganization(t *testing.T) {
 		}
 	})
 
+	t.Run("Test ListEscalations", func(t *testing.T) {
+		mockResponse := `
+{
+    "total": 5,
+    "escalations": [
+        {
+            "$id": "5e5ea5c16897e",
+            "$createdAt": "2020-10-15T06:38:00.000+00:00",
+            "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+            "name": "Platform",
+            "steps": [
+                {
+                    "delay": 600,
+                    "roles": [],
+                    "userIds": []
+                }
+            ],
+            "repeat": 2
+        }
+    ]
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.ListEscalations()
+		if err != nil {
+			t.Errorf("Method ListEscalations failed: %v", err)
+		}
+	})
+
+	t.Run("Test CreateEscalation", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "Platform",
+    "steps": [
+        {
+            "delay": 600,
+            "roles": [],
+            "userIds": []
+        }
+    ],
+    "repeat": 2
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "POST" {
+				t.Errorf("Expected method POST, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.CreateEscalation("<ESCALATION_ID>", "<NAME>", []interface{}{})
+		if err != nil {
+			t.Errorf("Method CreateEscalation failed: %v", err)
+		}
+	})
+
+	t.Run("Test GetEscalation", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "Platform",
+    "steps": [
+        {
+            "delay": 600,
+            "roles": [],
+            "userIds": []
+        }
+    ],
+    "repeat": 2
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "GET" {
+				t.Errorf("Expected method GET, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.GetEscalation("<ESCALATION_ID>")
+		if err != nil {
+			t.Errorf("Method GetEscalation failed: %v", err)
+		}
+	})
+
+	t.Run("Test UpdateEscalation", func(t *testing.T) {
+		mockResponse := `
+{
+    "$id": "5e5ea5c16897e",
+    "$createdAt": "2020-10-15T06:38:00.000+00:00",
+    "$updatedAt": "2020-10-15T06:38:00.000+00:00",
+    "name": "Platform",
+    "steps": [
+        {
+            "delay": 600,
+            "roles": [],
+            "userIds": []
+        }
+    ],
+    "repeat": 2
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "PATCH" {
+				t.Errorf("Expected method PATCH, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.UpdateEscalation("<ESCALATION_ID>")
+		if err != nil {
+			t.Errorf("Method UpdateEscalation failed: %v", err)
+		}
+	})
+
+	t.Run("Test DeleteEscalation", func(t *testing.T) {
+		mockResponse := `
+{
+    "message": "success"
+}
+`
+
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Method != "DELETE" {
+				t.Errorf("Expected method DELETE, got %s", r.Method)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(mockResponse))
+		}))
+		defer ts.Close()
+
+		srv := New(newTestClient(ts))
+
+		_, err := srv.DeleteEscalation("<ESCALATION_ID>")
+		if err != nil {
+			t.Errorf("Method DeleteEscalation failed: %v", err)
+		}
+	})
+
 	t.Run("Test ListInstallations", func(t *testing.T) {
 		mockResponse := `
 {
