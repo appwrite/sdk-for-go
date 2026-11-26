@@ -11109,3 +11109,351 @@ func (srv *Project) DeleteVariable(VariableId string) (*interface{}, error) {
 	return &parsed, nil
 
 }
+
+type ListVideoProfilesOptions struct {
+	Queries        []string
+	Total          bool
+	enabledSetters map[string]bool
+}
+
+func (options ListVideoProfilesOptions) New() *ListVideoProfilesOptions {
+	options.enabledSetters = map[string]bool{"Queries": false, "Total": false}
+	return &options
+}
+
+type ListVideoProfilesOption func(*ListVideoProfilesOptions)
+
+func (srv *Project) WithListVideoProfilesQueries(v []string) ListVideoProfilesOption {
+	return func(o *ListVideoProfilesOptions) {
+		o.Queries = v
+		o.enabledSetters["Queries"] = true
+	}
+}
+func (srv *Project) WithListVideoProfilesTotal(v bool) ListVideoProfilesOption {
+	return func(o *ListVideoProfilesOptions) {
+		o.Total = v
+		o.enabledSetters["Total"] = true
+	}
+}
+
+// ListVideoProfiles get a list of video profiles in the current project (`GET
+// /v1/project/videos/profiles`). Every profile is returned regardless of
+// codec. Filter with `queries`, for example `Query.equal('codec', ['h264'])`
+// for one encode ladder, or on `name`, `width`, `height`, `videoBitRate` and
+// `audioBitRate`. Search with `Query.search()` on the `search` attribute.
+func (srv *Project) ListVideoProfiles(optionalSetters ...ListVideoProfilesOption) (*models.VideoProfileList, error) {
+	path := "/project/videos/profiles"
+	options := ListVideoProfilesOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Queries"] {
+		params["queries"] = options.Queries
+	}
+	if options.enabledSetters["Total"] {
+		params["total"] = options.Total
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.VideoProfileList{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.VideoProfileList
+	parsed, ok := resp.Result.(models.VideoProfileList)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type CreateVideoProfileOptions struct {
+	Codec          string
+	enabledSetters map[string]bool
+}
+
+func (options CreateVideoProfileOptions) New() *CreateVideoProfileOptions {
+	options.enabledSetters = map[string]bool{"Codec": false}
+	return &options
+}
+
+type CreateVideoProfileOption func(*CreateVideoProfileOptions)
+
+func (srv *Project) WithCreateVideoProfileCodec(v string) CreateVideoProfileOption {
+	return func(o *CreateVideoProfileOptions) {
+		o.Codec = v
+		o.enabledSetters["Codec"] = true
+	}
+}
+
+// CreateVideoProfile create a video profile (`POST
+// /v1/project/videos/profiles`) describing an encoding target: output
+// dimensions, video/audio bitrates, and encode codec. Only codecs enabled on
+// this instance are accepted; the default is `h264`. A disabled codec is
+// rejected. Creating a profile with the same width, height, bitrates, and
+// codec fails with `video_profile_already_exists`. Bitrates are in bits per
+// second and must be multiples of 1000. Renditions are encoded against a
+// profile.
+func (srv *Project) CreateVideoProfile(ProfileId string, Name string, VideoBitRate int, AudioBitRate int, Width int, Height int, optionalSetters ...CreateVideoProfileOption) (*models.VideoProfile, error) {
+	path := "/project/videos/profiles"
+	options := CreateVideoProfileOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	params["profileId"] = ProfileId
+	params["name"] = Name
+	params["videoBitRate"] = VideoBitRate
+	params["audioBitRate"] = AudioBitRate
+	params["width"] = Width
+	params["height"] = Height
+	if options.enabledSetters["Codec"] {
+		params["codec"] = options.Codec
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("POST", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.VideoProfile{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.VideoProfile
+	parsed, ok := resp.Result.(models.VideoProfile)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// GetVideoProfile get a video profile by its unique ID (`GET
+// /v1/project/videos/profiles/:profileId`).
+func (srv *Project) GetVideoProfile(ProfileId string) (*models.VideoProfile, error) {
+	if ProfileId == "" {
+		return nil, errors.New("Missing required parameter: \"profileId\"")
+	}
+
+	r := strings.NewReplacer("{profileId}", client.EncodePath(ProfileId))
+	path := r.Replace("/project/videos/profiles/{profileId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("GET", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.VideoProfile{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.VideoProfile
+	parsed, ok := resp.Result.(models.VideoProfile)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+type UpdateVideoProfileOptions struct {
+	Name           string
+	VideoBitRate   int
+	AudioBitRate   int
+	Width          int
+	Height         int
+	enabledSetters map[string]bool
+}
+
+func (options UpdateVideoProfileOptions) New() *UpdateVideoProfileOptions {
+	options.enabledSetters = map[string]bool{"Name": false, "VideoBitRate": false, "AudioBitRate": false, "Width": false, "Height": false}
+	return &options
+}
+
+type UpdateVideoProfileOption func(*UpdateVideoProfileOptions)
+
+func (srv *Project) WithUpdateVideoProfileName(v string) UpdateVideoProfileOption {
+	return func(o *UpdateVideoProfileOptions) {
+		o.Name = v
+		o.enabledSetters["Name"] = true
+	}
+}
+func (srv *Project) WithUpdateVideoProfileVideoBitRate(v int) UpdateVideoProfileOption {
+	return func(o *UpdateVideoProfileOptions) {
+		o.VideoBitRate = v
+		o.enabledSetters["VideoBitRate"] = true
+	}
+}
+func (srv *Project) WithUpdateVideoProfileAudioBitRate(v int) UpdateVideoProfileOption {
+	return func(o *UpdateVideoProfileOptions) {
+		o.AudioBitRate = v
+		o.enabledSetters["AudioBitRate"] = true
+	}
+}
+func (srv *Project) WithUpdateVideoProfileWidth(v int) UpdateVideoProfileOption {
+	return func(o *UpdateVideoProfileOptions) {
+		o.Width = v
+		o.enabledSetters["Width"] = true
+	}
+}
+func (srv *Project) WithUpdateVideoProfileHeight(v int) UpdateVideoProfileOption {
+	return func(o *UpdateVideoProfileOptions) {
+		o.Height = v
+		o.enabledSetters["Height"] = true
+	}
+}
+
+// UpdateVideoProfile update a video profile by its unique ID (`PATCH
+// /v1/project/videos/profiles/:profileId`). Existing renditions are not
+// re-encoded. Changing the profile onto the same width, height, bitrates, and
+// codec as another profile fails with `video_profile_already_exists`.
+func (srv *Project) UpdateVideoProfile(ProfileId string, optionalSetters ...UpdateVideoProfileOption) (*models.VideoProfile, error) {
+	if ProfileId == "" {
+		return nil, errors.New("Missing required parameter: \"profileId\"")
+	}
+
+	r := strings.NewReplacer("{profileId}", client.EncodePath(ProfileId))
+	path := r.Replace("/project/videos/profiles/{profileId}")
+	options := UpdateVideoProfileOptions{}.New()
+	for _, opt := range optionalSetters {
+		opt(options)
+	}
+	params := map[string]interface{}{}
+	if options.enabledSetters["Name"] {
+		params["name"] = options.Name
+	}
+	if options.enabledSetters["VideoBitRate"] {
+		params["videoBitRate"] = options.VideoBitRate
+	}
+	if options.enabledSetters["AudioBitRate"] {
+		params["audioBitRate"] = options.AudioBitRate
+	}
+	if options.enabledSetters["Width"] {
+		params["width"] = options.Width
+	}
+	if options.enabledSetters["Height"] {
+		params["height"] = options.Height
+	}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("PATCH", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		parsed := models.VideoProfile{}.New(bytes)
+
+		err = json.Unmarshal(bytes, parsed)
+		if err != nil {
+			return nil, err
+		}
+
+		return parsed, nil
+	}
+	var parsed models.VideoProfile
+	parsed, ok := resp.Result.(models.VideoProfile)
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
+
+// DeleteVideoProfile delete a video profile by its unique ID (`DELETE
+// /v1/project/videos/profiles/:profileId`). Renditions already encoded
+// against it are left in place.
+func (srv *Project) DeleteVideoProfile(ProfileId string) (*interface{}, error) {
+	if ProfileId == "" {
+		return nil, errors.New("Missing required parameter: \"profileId\"")
+	}
+
+	r := strings.NewReplacer("{profileId}", client.EncodePath(ProfileId))
+	path := r.Replace("/project/videos/profiles/{profileId}")
+	params := map[string]interface{}{}
+	headers := map[string]interface{}{}
+	headers["X-Appwrite-Project"] = srv.client.Config["project"]
+	headers["content-type"] = "application/json"
+	headers["accept"] = "application/json"
+
+	resp, err := srv.client.Call("DELETE", path, headers, params)
+	if err != nil {
+		return nil, err
+	}
+	if strings.HasPrefix(resp.Type, "application/json") {
+		bytes, err := client.ResponseBody(resp)
+		if err != nil {
+			return nil, err
+		}
+
+		var parsed interface{}
+
+		err = json.Unmarshal(bytes, &parsed)
+		if err != nil {
+			return nil, err
+		}
+		return &parsed, nil
+	}
+	var parsed interface{}
+	parsed, ok := resp.Result.(interface{})
+	if !ok {
+		return nil, errors.New("unexpected response type")
+	}
+	return &parsed, nil
+
+}
