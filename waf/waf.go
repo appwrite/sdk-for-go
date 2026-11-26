@@ -368,20 +368,23 @@ func (srv *Waf) UpdateBypassRule(RuleId string, optionalSetters ...UpdateBypassR
 }
 
 type CreateChallengeRuleOptions struct {
-	ResourceId     string
-	Description    string
-	ChallengeType  string
-	Priority       int
-	Enabled        bool
-	Conditions     []string
-	Difficulty     int
-	Ttl            int
-	Schedule       interface{}
-	enabledSetters map[string]bool
+	ResourceId       string
+	Description      string
+	ChallengeType    string
+	Priority         int
+	Enabled          bool
+	Conditions       []string
+	Difficulty       int
+	Ttl              int
+	Password         string
+	Attempts         int
+	AttemptsInterval int
+	Schedule         interface{}
+	enabledSetters   map[string]bool
 }
 
 func (options CreateChallengeRuleOptions) New() *CreateChallengeRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "ChallengeType": false, "Priority": false, "Enabled": false, "Conditions": false, "Difficulty": false, "Ttl": false, "Schedule": false}
+	options.enabledSetters = map[string]bool{"ResourceId": false, "Description": false, "ChallengeType": false, "Priority": false, "Enabled": false, "Conditions": false, "Difficulty": false, "Ttl": false, "Password": false, "Attempts": false, "AttemptsInterval": false, "Schedule": false}
 	return &options
 }
 
@@ -435,6 +438,24 @@ func (srv *Waf) WithCreateChallengeRuleTtl(v int) CreateChallengeRuleOption {
 		o.enabledSetters["Ttl"] = true
 	}
 }
+func (srv *Waf) WithCreateChallengeRulePassword(v string) CreateChallengeRuleOption {
+	return func(o *CreateChallengeRuleOptions) {
+		o.Password = v
+		o.enabledSetters["Password"] = true
+	}
+}
+func (srv *Waf) WithCreateChallengeRuleAttempts(v int) CreateChallengeRuleOption {
+	return func(o *CreateChallengeRuleOptions) {
+		o.Attempts = v
+		o.enabledSetters["Attempts"] = true
+	}
+}
+func (srv *Waf) WithCreateChallengeRuleAttemptsInterval(v int) CreateChallengeRuleOption {
+	return func(o *CreateChallengeRuleOptions) {
+		o.AttemptsInterval = v
+		o.enabledSetters["AttemptsInterval"] = true
+	}
+}
 func (srv *Waf) WithCreateChallengeRuleSchedule(v interface{}) CreateChallengeRuleOption {
 	return func(o *CreateChallengeRuleOptions) {
 		o.Schedule = v
@@ -445,12 +466,19 @@ func (srv *Waf) WithCreateChallengeRuleSchedule(v interface{}) CreateChallengeRu
 // CreateChallengeRule create a challenge WAF rule. Use `difficulty` (1
 // easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl`
 // to control how long, in seconds, a visitor stays cleared after passing the
-// challenge before being challenged again. Conditions can match request
-// attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
-// `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
-// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
-// on `city` and `state` require the premium Geo DB addon.
+// challenge before being challenged again. Set `challengeType` to `password`
+// and pass `password` (8 to 256 characters) to ask visitors for a password
+// instead. On a password challenge, `attempts` (1 to 100) sets how many wrong
+// passwords one visitor (per IP) may try before waiting, and
+// `attemptsInterval` (60 to 86400) sets the window, in seconds, those
+// attempts are counted over. They default to 10 attempts per 300 seconds.
+// Password challenges apply to sites and functions only, not the API. Only a
+// hash of the password is stored, and responses never include it. Conditions
+// can match request attributes including `ip` (plain IPs or CIDR blocks like
+// `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`,
+// `headers.<name>`, `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`,
+// `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`.
+// Conditions on `city` and `state` require the premium Geo DB addon.
 func (srv *Waf) CreateChallengeRule(RuleId string, ResourceType string, Name string, optionalSetters ...CreateChallengeRuleOption) (*models.WafRuleChallenge, error) {
 	path := "/waf/rules/challenge"
 	options := CreateChallengeRuleOptions{}.New()
@@ -484,6 +512,15 @@ func (srv *Waf) CreateChallengeRule(RuleId string, ResourceType string, Name str
 	}
 	if options.enabledSetters["Ttl"] {
 		params["ttl"] = options.Ttl
+	}
+	if options.enabledSetters["Password"] {
+		params["password"] = options.Password
+	}
+	if options.enabledSetters["Attempts"] {
+		params["attempts"] = options.Attempts
+	}
+	if options.enabledSetters["AttemptsInterval"] {
+		params["attemptsInterval"] = options.AttemptsInterval
 	}
 	if options.enabledSetters["Schedule"] {
 		params["schedule"] = options.Schedule
@@ -522,22 +559,25 @@ func (srv *Waf) CreateChallengeRule(RuleId string, ResourceType string, Name str
 }
 
 type UpdateChallengeRuleOptions struct {
-	ResourceType   string
-	ResourceId     string
-	Name           string
-	Description    string
-	ChallengeType  string
-	Priority       int
-	Enabled        bool
-	Conditions     []string
-	Difficulty     int
-	Ttl            int
-	Schedule       interface{}
-	enabledSetters map[string]bool
+	ResourceType     string
+	ResourceId       string
+	Name             string
+	Description      string
+	ChallengeType    string
+	Priority         int
+	Enabled          bool
+	Conditions       []string
+	Difficulty       int
+	Ttl              int
+	Password         string
+	Attempts         int
+	AttemptsInterval int
+	Schedule         interface{}
+	enabledSetters   map[string]bool
 }
 
 func (options UpdateChallengeRuleOptions) New() *UpdateChallengeRuleOptions {
-	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "ChallengeType": false, "Priority": false, "Enabled": false, "Conditions": false, "Difficulty": false, "Ttl": false, "Schedule": false}
+	options.enabledSetters = map[string]bool{"ResourceType": false, "ResourceId": false, "Name": false, "Description": false, "ChallengeType": false, "Priority": false, "Enabled": false, "Conditions": false, "Difficulty": false, "Ttl": false, "Password": false, "Attempts": false, "AttemptsInterval": false, "Schedule": false}
 	return &options
 }
 
@@ -603,6 +643,24 @@ func (srv *Waf) WithUpdateChallengeRuleTtl(v int) UpdateChallengeRuleOption {
 		o.enabledSetters["Ttl"] = true
 	}
 }
+func (srv *Waf) WithUpdateChallengeRulePassword(v string) UpdateChallengeRuleOption {
+	return func(o *UpdateChallengeRuleOptions) {
+		o.Password = v
+		o.enabledSetters["Password"] = true
+	}
+}
+func (srv *Waf) WithUpdateChallengeRuleAttempts(v int) UpdateChallengeRuleOption {
+	return func(o *UpdateChallengeRuleOptions) {
+		o.Attempts = v
+		o.enabledSetters["Attempts"] = true
+	}
+}
+func (srv *Waf) WithUpdateChallengeRuleAttemptsInterval(v int) UpdateChallengeRuleOption {
+	return func(o *UpdateChallengeRuleOptions) {
+		o.AttemptsInterval = v
+		o.enabledSetters["AttemptsInterval"] = true
+	}
+}
 func (srv *Waf) WithUpdateChallengeRuleSchedule(v interface{}) UpdateChallengeRuleOption {
 	return func(o *UpdateChallengeRuleOptions) {
 		o.Schedule = v
@@ -613,12 +671,21 @@ func (srv *Waf) WithUpdateChallengeRuleSchedule(v interface{}) UpdateChallengeRu
 // UpdateChallengeRule update a challenge WAF rule. Use `difficulty` (1
 // easiest to 5 hardest) to tune the client-side proof-of-work cost, and `ttl`
 // to control how long, in seconds, a visitor stays cleared after passing the
-// challenge before being challenged again. Conditions can match request
-// attributes including `ip` (plain IPs or CIDR blocks like `10.0.0.0/8`),
-// `method`, `path`, `host`, `country`, `continent`, `headers.<name>`,
-// `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`, `cookie`,
-// `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`. Conditions
-// on `city` and `state` require the premium Geo DB addon.
+// challenge before being challenged again. Set `challengeType` to `password`
+// and pass `password` (8 to 256 characters) to ask visitors for a password
+// instead. On a password challenge, leave `password` out to keep the current
+// one or send a new one to replace it. `attempts` (1 to 100) sets how many
+// wrong passwords one visitor (per IP) may try before waiting, and
+// `attemptsInterval` (60 to 86400) sets the window, in seconds, those
+// attempts are counted over. Leave them out to keep the current values; a
+// rule switched to `password` without them gets 10 attempts per 300 seconds.
+// Password challenges apply to sites and functions only, not the API. Only a
+// hash of the password is stored, and responses never include it. Conditions
+// can match request attributes including `ip` (plain IPs or CIDR blocks like
+// `10.0.0.0/8`), `method`, `path`, `host`, `country`, `continent`,
+// `headers.<name>`, `query.<key>`, `queryKeys`, `accept`, `acceptLanguage`,
+// `cookie`, `userAgent`, `os`, `osVersion`, `browser`, and `browserVersion`.
+// Conditions on `city` and `state` require the premium Geo DB addon.
 func (srv *Waf) UpdateChallengeRule(RuleId string, optionalSetters ...UpdateChallengeRuleOption) (*models.WafRuleChallenge, error) {
 	if RuleId == "" {
 		return nil, errors.New("Missing required parameter: \"ruleId\"")
@@ -660,6 +727,15 @@ func (srv *Waf) UpdateChallengeRule(RuleId string, optionalSetters ...UpdateChal
 	}
 	if options.enabledSetters["Ttl"] {
 		params["ttl"] = options.Ttl
+	}
+	if options.enabledSetters["Password"] {
+		params["password"] = options.Password
+	}
+	if options.enabledSetters["Attempts"] {
+		params["attempts"] = options.Attempts
+	}
+	if options.enabledSetters["AttemptsInterval"] {
+		params["attemptsInterval"] = options.AttemptsInterval
 	}
 	if options.enabledSetters["Schedule"] {
 		params["schedule"] = options.Schedule
