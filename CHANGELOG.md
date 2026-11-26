@@ -7,7 +7,7 @@
 * Added: `videos.createCaption`, `listCaptions`, `updateCaption` and `deleteCaption` for subtitle tracks
 * Added: `getHlsManifest`, `getDashManifest`, `getCmafHlsManifest`, `getCmafDashManifest`, `getCaptionManifest`, `getThumbnail` and `getTimeline` playback URLs, and `listCodecs`
 * Added: `project.listVideoProfiles`, `createVideoProfile`, `getVideoProfile`, `updateVideoProfile` and `deleteVideoProfile`
-* Added: `Video`, `VideoCodec`, `VideoProfile`, `VideoRendition` and `VideoCaption` models, their list models, and the `VideoCodecId`, `VideoOutput`, `VideoRenditionStatus`, `VideoCaptionStatus` and `VideoTimelineStatus` enums
+* Added: `Video`, `VideoCodec`, `VideoProfile`, `VideoRendition` and `VideoCaption` models and their list models
 
 ## v7.24.0
 
