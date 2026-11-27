@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListRecords(
 		"<DOMAIN_ID>",
-		service.WithListRecordsQueries([]string{"example"}),
+		service.WithListRecordsQueries([]string{}),
 		service.WithListRecordsTotal(false),
 	)
 	fmt.Println(response, err)

@@ -18,7 +18,7 @@ func main() {
 	service := presences.New(client)
 
 	response, err := service.List(
-		service.WithListQueries([]string{"example"}),
+		service.WithListQueries([]string{}),
 		service.WithListTotal(false),
 		service.WithListTtl(0),
 	)

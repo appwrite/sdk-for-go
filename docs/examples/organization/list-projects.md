@@ -18,7 +18,7 @@ func main() {
 	service := organization.New(client)
 
 	response, err := service.ListProjects(
-		service.WithListProjectsQueries([]string{"example"}),
+		service.WithListProjectsQueries([]string{}),
 		service.WithListProjectsSearch("<SEARCH>"),
 		service.WithListProjectsTotal(false),
 	)

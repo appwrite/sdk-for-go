@@ -18,7 +18,7 @@ func main() {
 	service := account.New(client)
 
 	response, err := service.ListConsents(
-		service.WithListConsentsQueries([]string{"example"}),
+		service.WithListConsentsQueries([]string{}),
 		service.WithListConsentsTotal(false),
 	)
 	fmt.Println(response, err)

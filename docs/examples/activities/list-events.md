@@ -18,7 +18,7 @@ func main() {
 	service := activities.New(client)
 
 	response, err := service.ListEvents(
-		service.WithListEventsQueries([]string{"example"}),
+		service.WithListEventsQueries([]string{}),
 		service.WithListEventsTotal(false),
 	)
 	fmt.Println(response, err)

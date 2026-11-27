@@ -29,7 +29,7 @@ func main() {
 		service.WithUpdateRateLimitRuleMaxBucketSize(1),
 		service.WithUpdateRateLimitRulePriority(-100000),
 		service.WithUpdateRateLimitRuleEnabled(false),
-		service.WithUpdateRateLimitRuleConditions([]string{"example"}),
+		service.WithUpdateRateLimitRuleConditions([]string{}),
 		service.WithUpdateRateLimitRuleSchedule(map[string]interface{}{}),
 	)
 	fmt.Println(response, err)

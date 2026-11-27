@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.ListVideoProfiles(
-		service.WithListVideoProfilesQueries([]string{"example"}),
+		service.WithListVideoProfilesQueries([]string{}),
 		service.WithListVideoProfilesTotal(false),
 	)
 	fmt.Println(response, err)

@@ -25,7 +25,7 @@ func main() {
 		service.WithCreateBypassRuleDescription("<DESCRIPTION>"),
 		service.WithCreateBypassRulePriority(-100000),
 		service.WithCreateBypassRuleEnabled(false),
-		service.WithCreateBypassRuleConditions([]string{"example"}),
+		service.WithCreateBypassRuleConditions([]string{}),
 		service.WithCreateBypassRuleSchedule(map[string]interface{}{}),
 	)
 	fmt.Println(response, err)

@@ -26,7 +26,7 @@ func main() {
 		service.WithUpdateChallengeRuleChallengeType("compute"),
 		service.WithUpdateChallengeRulePriority(-100000),
 		service.WithUpdateChallengeRuleEnabled(false),
-		service.WithUpdateChallengeRuleConditions([]string{"example"}),
+		service.WithUpdateChallengeRuleConditions([]string{}),
 		service.WithUpdateChallengeRuleDifficulty(1),
 		service.WithUpdateChallengeRuleTtl(900),
 		service.WithUpdateChallengeRulePassword("password"),

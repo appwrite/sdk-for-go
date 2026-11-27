@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.ListEnvironments(
-		service.WithListEnvironmentsQueries([]string{"example"}),
+		service.WithListEnvironmentsQueries([]string{}),
 		service.WithListEnvironmentsTotal(false),
 	)
 	fmt.Println(response, err)

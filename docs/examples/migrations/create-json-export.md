@@ -21,8 +21,8 @@ func main() {
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
 		"<FILENAME>",
-		service.WithCreateJSONExportColumns([]string{"example"}),
-		service.WithCreateJSONExportQueries([]string{"example"}),
+		service.WithCreateJSONExportColumns([]string{}),
+		service.WithCreateJSONExportQueries([]string{}),
 		service.WithCreateJSONExportNotify(false),
 	)
 	fmt.Println(response, err)

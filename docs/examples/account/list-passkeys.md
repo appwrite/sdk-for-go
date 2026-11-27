@@ -18,7 +18,7 @@ func main() {
 	service := account.New(client)
 
 	response, err := service.ListPasskeys(
-		service.WithListPasskeysQueries([]string{"example"}),
+		service.WithListPasskeysQueries([]string{}),
 		service.WithListPasskeysTotal(false),
 	)
 	fmt.Println(response, err)

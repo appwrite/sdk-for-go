@@ -18,7 +18,7 @@ func main() {
 	service := waf.New(client)
 
 	response, err := service.ListRules(
-		service.WithListRulesQueries([]string{"example"}),
+		service.WithListRulesQueries([]string{}),
 		service.WithListRulesSearch("<SEARCH>"),
 		service.WithListRulesTotal(false),
 	)

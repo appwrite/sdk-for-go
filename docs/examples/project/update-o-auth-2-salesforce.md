@@ -21,7 +21,7 @@ func main() {
 		service.WithUpdateOAuth2SalesforceCustomerKey("<CUSTOMER_KEY>"),
 		service.WithUpdateOAuth2SalesforceCustomerSecret("<CUSTOMER_SECRET>"),
 		service.WithUpdateOAuth2SalesforceEnabled(false),
-		service.WithUpdateOAuth2SalesforcePrompt([]string{"example"}),
+		service.WithUpdateOAuth2SalesforcePrompt([]string{}),
 	)
 	fmt.Println(response, err)
 }

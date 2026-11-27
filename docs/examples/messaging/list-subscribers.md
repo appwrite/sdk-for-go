@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListSubscribers(
 		"<TOPIC_ID>",
-		service.WithListSubscribersQueries([]string{"example"}),
+		service.WithListSubscribersQueries([]string{}),
 		service.WithListSubscribersSearch("<SEARCH>"),
 		service.WithListSubscribersTotal(false),
 	)

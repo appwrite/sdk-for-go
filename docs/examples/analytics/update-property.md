@@ -22,7 +22,7 @@ func main() {
 		service.WithUpdatePropertyName("<NAME>"),
 		service.WithUpdatePropertyDomain("<DOMAIN>"),
 		service.WithUpdatePropertyEnabled(false),
-		service.WithUpdatePropertyAllowedOrigins([]string{"example"}),
+		service.WithUpdatePropertyAllowedOrigins([]string{}),
 		service.WithUpdatePropertyIdentifyUsers(false),
 		service.WithUpdatePropertyType("web"),
 	)

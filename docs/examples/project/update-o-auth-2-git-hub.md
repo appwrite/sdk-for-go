@@ -21,7 +21,7 @@ func main() {
 		service.WithUpdateOAuth2GitHubClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2GitHubClientSecret("<CLIENT_SECRET>"),
 		service.WithUpdateOAuth2GitHubEnabled(false),
-		service.WithUpdateOAuth2GitHubPrompt([]string{"example"}),
+		service.WithUpdateOAuth2GitHubPrompt([]string{}),
 	)
 	fmt.Println(response, err)
 }

@@ -23,7 +23,7 @@ func main() {
 		"<KEY>",
 		"hnsw_euclidean",
 		[]string{"embeddings"},
-		service.WithCreateIndexOrders([]string{"example"}),
+		service.WithCreateIndexOrders([]string{}),
 		service.WithCreateIndexLengths([]int{0}),
 		service.WithCreateIndexDescription("<DESCRIPTION>"),
 	)

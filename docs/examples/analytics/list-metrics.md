@@ -19,9 +19,9 @@ func main() {
 
 	response, err := service.ListMetrics(
 		"<PROPERTY_ID>",
-		service.WithListMetricsQueries([]string{"example"}),
+		service.WithListMetricsQueries([]string{}),
 		service.WithListMetricsInterval("1h"),
-		service.WithListMetricsDimensions([]string{"example"}),
+		service.WithListMetricsDimensions([]string{}),
 		service.WithListMetricsPropKey("<PROP_KEY>"),
 		service.WithListMetricsDateRange("<DATE_RANGE>"),
 		service.WithListMetricsStartAt("2020-10-15T06:38:00.000+00:00"),

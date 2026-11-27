@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListMemberships(
 		"<TEAM_ID>",
-		service.WithListMembershipsQueries([]string{"example"}),
+		service.WithListMembershipsQueries([]string{}),
 		service.WithListMembershipsSearch("<SEARCH>"),
 		service.WithListMembershipsTotal(false),
 	)

@@ -24,7 +24,7 @@ func main() {
 		service.WithCreateBucketFileSecurity(false),
 		service.WithCreateBucketEnabled(false),
 		service.WithCreateBucketMaximumFileSize(1),
-		service.WithCreateBucketAllowedFileExtensions([]string{"example"}),
+		service.WithCreateBucketAllowedFileExtensions([]string{}),
 		service.WithCreateBucketCompression("none"),
 		service.WithCreateBucketEncryption(false),
 		service.WithCreateBucketAntivirus(false),

@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListCaptions(
 		"<VIDEO_ID>",
-		service.WithListCaptionsQueries([]string{"example"}),
+		service.WithListCaptionsQueries([]string{}),
 		service.WithListCaptionsTotal(false),
 	)
 	fmt.Println(response, err)

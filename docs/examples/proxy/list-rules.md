@@ -18,7 +18,7 @@ func main() {
 	service := proxy.New(client)
 
 	response, err := service.ListRules(
-		service.WithListRulesQueries([]string{"example"}),
+		service.WithListRulesQueries([]string{}),
 		service.WithListRulesTotal(false),
 	)
 	fmt.Println(response, err)

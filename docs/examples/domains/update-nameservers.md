@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.UpdateNameservers(
 		"<DOMAIN_ID>",
-		service.WithUpdateNameserversNameservers([]string{"example"}),
+		service.WithUpdateNameserversNameservers([]string{}),
 	)
 	fmt.Println(response, err)
 }

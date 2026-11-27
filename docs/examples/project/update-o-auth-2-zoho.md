@@ -21,7 +21,7 @@ func main() {
 		service.WithUpdateOAuth2ZohoClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2ZohoClientSecret("<CLIENT_SECRET>"),
 		service.WithUpdateOAuth2ZohoEnabled(false),
-		service.WithUpdateOAuth2ZohoPrompt([]string{"example"}),
+		service.WithUpdateOAuth2ZohoPrompt([]string{}),
 	)
 	fmt.Println(response, err)
 }

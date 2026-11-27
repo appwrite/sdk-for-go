@@ -22,7 +22,7 @@ func main() {
 		service.WithUpdateOAuth2MicrosoftApplicationSecret("<APPLICATION_SECRET>"),
 		service.WithUpdateOAuth2MicrosoftTenant("<TENANT>"),
 		service.WithUpdateOAuth2MicrosoftEnabled(false),
-		service.WithUpdateOAuth2MicrosoftPrompt([]string{"example"}),
+		service.WithUpdateOAuth2MicrosoftPrompt([]string{}),
 	)
 	fmt.Println(response, err)
 }
