@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListAnnotations(
 		"<PROPERTY_ID>",
-		service.WithListAnnotationsQueries([]string{"example"}),
+		service.WithListAnnotationsQueries([]string{}),
 		service.WithListAnnotationsTotal(false),
 	)
 	fmt.Println(response, err)

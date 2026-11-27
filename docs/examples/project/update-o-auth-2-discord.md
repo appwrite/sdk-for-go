@@ -21,7 +21,7 @@ func main() {
 		service.WithUpdateOAuth2DiscordClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2DiscordClientSecret("<CLIENT_SECRET>"),
 		service.WithUpdateOAuth2DiscordEnabled(false),
-		service.WithUpdateOAuth2DiscordPrompt([]string{"example"}),
+		service.WithUpdateOAuth2DiscordPrompt([]string{}),
 	)
 	fmt.Println(response, err)
 }

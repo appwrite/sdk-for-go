@@ -18,7 +18,7 @@ func main() {
 	service := organization.New(client)
 
 	response, err := service.ListInstallations(
-		service.WithListInstallationsQueries([]string{"example"}),
+		service.WithListInstallationsQueries([]string{}),
 		service.WithListInstallationsTotal(false),
 	)
 	fmt.Println(response, err)

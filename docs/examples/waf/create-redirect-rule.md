@@ -27,7 +27,7 @@ func main() {
 		service.WithCreateRedirectRuleDescription("<DESCRIPTION>"),
 		service.WithCreateRedirectRulePriority(-100000),
 		service.WithCreateRedirectRuleEnabled(false),
-		service.WithCreateRedirectRuleConditions([]string{"example"}),
+		service.WithCreateRedirectRuleConditions([]string{}),
 		service.WithCreateRedirectRuleSchedule(map[string]interface{}{}),
 	)
 	fmt.Println(response, err)

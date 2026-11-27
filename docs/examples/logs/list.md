@@ -20,7 +20,7 @@ func main() {
 	response, err := service.List(
 		service.WithListResourceType("functions"),
 		service.WithListResourceId("<RESOURCE_ID>"),
-		service.WithListQueries([]string{"example"}),
+		service.WithListQueries([]string{}),
 		service.WithListTotal(false),
 	)
 	fmt.Println(response, err)

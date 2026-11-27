@@ -20,7 +20,7 @@ func main() {
 	response, err := service.ListIndexes(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		service.WithListIndexesQueries([]string{"example"}),
+		service.WithListIndexesQueries([]string{}),
 		service.WithListIndexesTotal(false),
 	)
 	fmt.Println(response, err)

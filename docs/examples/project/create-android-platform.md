@@ -21,7 +21,7 @@ func main() {
 		"<PLATFORM_ID>",
 		"<NAME>",
 		"<APPLICATION_ID>",
-		service.WithCreateAndroidPlatformFingerprints([]string{"example"}),
+		service.WithCreateAndroidPlatformFingerprints([]string{}),
 	)
 	fmt.Println(response, err)
 }

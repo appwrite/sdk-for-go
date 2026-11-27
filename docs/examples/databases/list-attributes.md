@@ -20,7 +20,7 @@ func main() {
 	response, err := service.ListAttributes(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		service.WithListAttributesQueries([]string{"example"}),
+		service.WithListAttributesQueries([]string{}),
 		service.WithListAttributesTotal(false),
 	)
 	fmt.Println(response, err)

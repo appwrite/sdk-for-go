@@ -28,7 +28,7 @@ func main() {
 		service.WithAuthorizePostPrompt("<PROMPT>"),
 		service.WithAuthorizePostMaxAge(0),
 		service.WithAuthorizePostAuthorizationDetails("<AUTHORIZATION_DETAILS>"),
-		service.WithAuthorizePostResource([]string{"example"}),
+		service.WithAuthorizePostResource([]string{}),
 		service.WithAuthorizePostAudience("<AUDIENCE>"),
 		service.WithAuthorizePostRequestUri("<REQUEST_URI>"),
 	)

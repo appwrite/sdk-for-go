@@ -21,7 +21,7 @@ func main() {
 		service.WithUpdateOAuth2KakaoClientId("<CLIENT_ID>"),
 		service.WithUpdateOAuth2KakaoClientSecret("<CLIENT_SECRET>"),
 		service.WithUpdateOAuth2KakaoEnabled(false),
-		service.WithUpdateOAuth2KakaoPrompt([]string{"example"}),
+		service.WithUpdateOAuth2KakaoPrompt([]string{}),
 	)
 	fmt.Println(response, err)
 }

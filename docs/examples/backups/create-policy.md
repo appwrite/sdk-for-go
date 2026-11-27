@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.CreatePolicy(
 		"<POLICY_ID>",
-		[]string{"example"},
+		[]string{},
 		1,
 		"",
 		service.WithCreatePolicyName("<NAME>"),

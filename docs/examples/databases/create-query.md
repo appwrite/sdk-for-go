@@ -20,7 +20,7 @@ func main() {
 	response, err := service.CreateQuery(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		service.WithCreateQueryQueries([]string{"example"}),
+		service.WithCreateQueryQueries([]string{}),
 		service.WithCreateQueryTransactionId("<TRANSACTION_ID>"),
 		service.WithCreateQueryTotal(false),
 		service.WithCreateQueryTtl(0),

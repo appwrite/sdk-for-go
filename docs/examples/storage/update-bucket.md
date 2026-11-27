@@ -24,7 +24,7 @@ func main() {
 		service.WithUpdateBucketFileSecurity(false),
 		service.WithUpdateBucketEnabled(false),
 		service.WithUpdateBucketMaximumFileSize(1),
-		service.WithUpdateBucketAllowedFileExtensions([]string{"example"}),
+		service.WithUpdateBucketAllowedFileExtensions([]string{}),
 		service.WithUpdateBucketCompression("none"),
 		service.WithUpdateBucketEncryption(false),
 		service.WithUpdateBucketAntivirus(false),

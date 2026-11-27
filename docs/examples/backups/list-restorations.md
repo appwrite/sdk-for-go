@@ -18,7 +18,7 @@ func main() {
 	service := backups.New(client)
 
 	response, err := service.ListRestorations(
-		service.WithListRestorationsQueries([]string{"example"}),
+		service.WithListRestorationsQueries([]string{}),
 		service.WithListRestorationsTotal(false),
 	)
 	fmt.Println(response, err)

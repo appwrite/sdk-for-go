@@ -26,7 +26,7 @@ func main() {
 		service.WithCreateTokenClientSecret("<CLIENT_SECRET>"),
 		service.WithCreateTokenCodeVerifier("<CODE_VERIFIER>"),
 		service.WithCreateTokenRedirectUri("https://example.com"),
-		service.WithCreateTokenResource([]string{"example"}),
+		service.WithCreateTokenResource([]string{}),
 		service.WithCreateTokenAudience("<AUDIENCE>"),
 	)
 	fmt.Println(response, err)

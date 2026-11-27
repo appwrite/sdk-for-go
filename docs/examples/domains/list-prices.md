@@ -18,7 +18,7 @@ func main() {
 	service := domains.New(client)
 
 	response, err := service.ListPrices(
-		[]string{"example"},
+		[]string{},
 		service.WithListPricesPeriodYears(0),
 		service.WithListPricesRegistrationType("new"),
 	)

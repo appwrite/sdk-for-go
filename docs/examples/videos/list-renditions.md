@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListRenditions(
 		"<VIDEO_ID>",
-		service.WithListRenditionsQueries([]string{"example"}),
+		service.WithListRenditionsQueries([]string{}),
 		service.WithListRenditionsTotal(false),
 	)
 	fmt.Println(response, err)

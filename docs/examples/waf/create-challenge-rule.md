@@ -26,7 +26,7 @@ func main() {
 		service.WithCreateChallengeRuleChallengeType("compute"),
 		service.WithCreateChallengeRulePriority(-100000),
 		service.WithCreateChallengeRuleEnabled(false),
-		service.WithCreateChallengeRuleConditions([]string{"example"}),
+		service.WithCreateChallengeRuleConditions([]string{}),
 		service.WithCreateChallengeRuleDifficulty(1),
 		service.WithCreateChallengeRuleTtl(900),
 		service.WithCreateChallengeRulePassword("password"),

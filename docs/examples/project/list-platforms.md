@@ -18,7 +18,7 @@ func main() {
 	service := project.New(client)
 
 	response, err := service.ListPlatforms(
-		service.WithListPlatformsQueries([]string{"example"}),
+		service.WithListPlatformsQueries([]string{}),
 		service.WithListPlatformsTotal(false),
 	)
 	fmt.Println(response, err)

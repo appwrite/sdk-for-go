@@ -18,7 +18,7 @@ func main() {
 	service := tablesdb.New(client)
 
 	response, err := service.ListTransactions(
-		service.WithListTransactionsQueries([]string{"example"}),
+		service.WithListTransactionsQueries([]string{}),
 		service.WithListTransactionsTotal(false),
 	)
 	fmt.Println(response, err)

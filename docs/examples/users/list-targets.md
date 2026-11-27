@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListTargets(
 		"<USER_ID>",
-		service.WithListTargetsQueries([]string{"example"}),
+		service.WithListTargetsQueries([]string{}),
 		service.WithListTargetsTotal(false),
 	)
 	fmt.Println(response, err)

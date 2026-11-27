@@ -22,7 +22,7 @@ func main() {
 		"<NAME>",
 		service.WithCreatePropertyDomain("<DOMAIN>"),
 		service.WithCreatePropertyEnabled(false),
-		service.WithCreatePropertyAllowedOrigins([]string{"example"}),
+		service.WithCreatePropertyAllowedOrigins([]string{}),
 		service.WithCreatePropertyIdentifyUsers(false),
 		service.WithCreatePropertyType("web"),
 	)

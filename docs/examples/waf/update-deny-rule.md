@@ -25,7 +25,7 @@ func main() {
 		service.WithUpdateDenyRuleDescription("<DESCRIPTION>"),
 		service.WithUpdateDenyRulePriority(-100000),
 		service.WithUpdateDenyRuleEnabled(false),
-		service.WithUpdateDenyRuleConditions([]string{"example"}),
+		service.WithUpdateDenyRuleConditions([]string{}),
 		service.WithUpdateDenyRuleSchedule(map[string]interface{}{}),
 	)
 	fmt.Println(response, err)

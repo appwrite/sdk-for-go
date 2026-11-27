@@ -18,7 +18,7 @@ func main() {
 	service := organization.New(client)
 
 	response, err := service.ListEscalations(
-		service.WithListEscalationsQueries([]string{"example"}),
+		service.WithListEscalationsQueries([]string{}),
 		service.WithListEscalationsTotal(false),
 	)
 	fmt.Println(response, err)

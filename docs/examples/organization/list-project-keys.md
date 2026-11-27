@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListProjectKeys(
 		"<PROJECT_ID>",
-		service.WithListProjectKeysQueries([]string{"example"}),
+		service.WithListProjectKeysQueries([]string{}),
 		service.WithListProjectKeysTotal(false),
 	)
 	fmt.Println(response, err)

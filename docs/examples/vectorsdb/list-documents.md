@@ -20,7 +20,7 @@ func main() {
 	response, err := service.ListDocuments(
 		"<DATABASE_ID>",
 		"<COLLECTION_ID>",
-		service.WithListDocumentsQueries([]string{"example"}),
+		service.WithListDocumentsQueries([]string{}),
 		service.WithListDocumentsTransactionId("<TRANSACTION_ID>"),
 		service.WithListDocumentsTotal(false),
 		service.WithListDocumentsTtl(0),

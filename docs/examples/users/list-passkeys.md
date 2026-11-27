@@ -19,7 +19,7 @@ func main() {
 
 	response, err := service.ListPasskeys(
 		"<USER_ID>",
-		service.WithListPasskeysQueries([]string{"example"}),
+		service.WithListPasskeysQueries([]string{}),
 		service.WithListPasskeysTotal(false),
 	)
 	fmt.Println(response, err)

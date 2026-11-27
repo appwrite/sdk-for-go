@@ -18,7 +18,7 @@ func main() {
 	service := analytics.New(client)
 
 	response, err := service.ListProperties(
-		service.WithListPropertiesQueries([]string{"example"}),
+		service.WithListPropertiesQueries([]string{}),
 		service.WithListPropertiesSearch("<SEARCH>"),
 		service.WithListPropertiesTotal(false),
 	)

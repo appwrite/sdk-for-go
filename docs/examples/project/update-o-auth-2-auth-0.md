@@ -22,7 +22,7 @@ func main() {
 		service.WithUpdateOAuth2Auth0ClientSecret("<CLIENT_SECRET>"),
 		service.WithUpdateOAuth2Auth0Endpoint("<ENDPOINT>"),
 		service.WithUpdateOAuth2Auth0Enabled(false),
-		service.WithUpdateOAuth2Auth0Prompt([]string{"example"}),
+		service.WithUpdateOAuth2Auth0Prompt([]string{}),
 	)
 	fmt.Println(response, err)
 }

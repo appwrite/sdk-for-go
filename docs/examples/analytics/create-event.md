@@ -27,7 +27,7 @@ func main() {
 		service.WithCreateEventSessionHash("<SESSION_HASH>"),
 		service.WithCreateEventScrollDepth(0),
 		service.WithCreateEventEngagementTime(0),
-		service.WithCreateEventProps([]string{"example"}),
+		service.WithCreateEventProps([]string{}),
 		service.WithCreateEventUserId("<USER_ID>"),
 		service.WithCreateEventIp("<IP>"),
 		service.WithCreateEventUserAgent("<USER_AGENT>"),

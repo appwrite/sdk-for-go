@@ -20,7 +20,7 @@ func main() {
 	response, err := service.Create(
 		"<TEAM_ID>",
 		"<NAME>",
-		service.WithCreateRoles([]string{"example"}),
+		service.WithCreateRoles([]string{}),
 	)
 	fmt.Println(response, err)
 }
